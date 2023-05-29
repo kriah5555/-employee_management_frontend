@@ -1,1 +1,72 @@
 /* common css starts here */
+
+/* Common colours */
+.text-color {
+    color: #073763;
+}
+.dark-color {
+    color: #292929;
+}
+
+
+/* Icons styles */
+.logo {
+    width: 102px;
+    height: 29px;
+}
+.header-icon{
+    width: 23px;
+    height: 23px;
+}
+.profile-icon {
+    width: 45px;
+    height: 45px;
+}
+.cancel-icon{
+    width: 16px;
+    height: 16px;
+    margin-left: 80px !important;
+}
+.shortcut-icon{
+    width: 30px;
+    height: 30px;
+}
+
+
+/* Navbar css */
+.navbar-brand {
+    margin-right: 1.8rem !important;
+}
+
+
+/* Language dropdown css */
+#language-font {
+    font-size: 1.2rem;
+    margin-bottom: 6px !important;
+}
+.language-dropdown div{
+    border: 0;
+    margin-bottom: 2px;
+    font-size: 1.25rem;
+}
+.language-dropdown div div{
+    padding-right: 0 !important;
+}
+
+
+/* Content menu css */
+.account-menu{
+    position: absolute;
+    right: 12px;
+    top: 75%;
+}
+.shortcut-menu{
+    position: absolute;
+    right: 30%;
+    top: 75%;
+}
+.notification-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+}
