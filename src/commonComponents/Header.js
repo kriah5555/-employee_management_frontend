@@ -87,7 +87,7 @@ export default function Header() {
 
     return (
         <section>
-            <nav className="navbar navbar-expand-sm bg-white navbar-light px-5 mx-auto shadow-sm border-bottom py-3 justify-content-between">
+            <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
                 <div className="d-flex">
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>

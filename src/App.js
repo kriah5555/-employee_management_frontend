@@ -4,7 +4,8 @@ import { AppContext } from "./routes/ContextLib";
 import * as React from 'react';
 import './App.css';
 import "./static/common.css";
-import Header from './commonComponents/header';
+import Header from './commonComponents/Header';
+import Sidebar from './commonComponents/Sidebar';
 
 function App() {
 
@@ -16,7 +17,10 @@ function App() {
                   {/* Display the contents with base routes */}
                   {/* Common layout with header and sidebar */}
                   <Header></Header>
-                  <BaseRouter></BaseRouter>
+                  <div className='col-md-12 p-0 d-flex'>
+                     <Sidebar></Sidebar>
+                     <BaseRouter></BaseRouter>
+                  </div>
                </Router>
             </AppContext.Provider>
          </div>  

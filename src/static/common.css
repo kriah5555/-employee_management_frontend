@@ -38,6 +38,32 @@
     margin-right: 1.8rem !important;
 }
 
+/* Sidebar css */
+.side-bar {
+    min-width: 5% !important;
+    height: 900px;
+    overflow: hidden;
+}
+.side-bar-open {
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    /* transition: right 100s ease-in-out; */
+}
+.no-padd {
+    padding: 0px !important;
+}
+
+.sidebar-moving {
+    /* transition: right 100s ease-in-out; */
+    animation: mymove 1s alternate;
+    /* animation-timing-function: ease-out;
+    animation-iteration-count: 1; */
+}
+@keyframes mymove {
+    from {margin-left: -100px;}
+    to {margin-left: 2px;}
+  }
 
 /* Language dropdown css */
 #language-font {
