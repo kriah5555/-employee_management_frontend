@@ -7,6 +7,27 @@
 .dark-color {
     color: #292929;
 }
+.background-indii-blue {
+    background-color: #073763;
+}
+.background-green {
+    background-color: #73ab4e;
+}
+.background-red {
+    background-color: #FF0000;
+}
+.background-blue {
+    background-color: #0070C0;
+}
+.text-blue {
+    color: #0070C0;
+}
+.text-green {
+    color: #73ab4e;
+}
+.text-red {
+    color: #FF0000;
+}
 
 
 /* Icons styles */
@@ -28,8 +49,30 @@
     margin-left: 80px !important;
 }
 .shortcut-icon{
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
+}
+.dashboard-icon {
+    width: 5rem;
+    height: 8rem;
+}
+.box{
+    width: 20px;
+    height: 20px;
+}
+
+
+/* Dynamic content part */
+.right-container{
+    width: 93%;
+    display: inline-flex;
+    justify-content: center;
+}
+
+
+/* Dashboard css */
+.display-linebreak {
+    white-space: pre-line;
 }
 
 
@@ -38,10 +81,12 @@
     margin-right: 1.8rem !important;
 }
 
+
+
 /* Sidebar css */
 .side-bar {
-    min-width: 5% !important;
-    height: 900px;
+    min-width: 7% !important;
+    height: 91vh;
     overflow: hidden;
 }
 .side-bar-open {
@@ -53,7 +98,6 @@
 .no-padd {
     padding: 0px !important;
 }
-
 .sidebar-moving {
     /* transition: right 100s ease-in-out; */
     animation: mymove 1s alternate;
@@ -63,7 +107,9 @@
 @keyframes mymove {
     from {margin-left: -100px;}
     to {margin-left: 2px;}
-  }
+}
+
+
 
 /* Language dropdown css */
 #language-font {
@@ -85,14 +131,29 @@
     position: absolute;
     right: 12px;
     top: 75%;
+    z-index: 1;
 }
 .shortcut-menu{
     position: absolute;
     right: 30%;
     top: 75%;
+    z-index: 1;
 }
 .notification-menu {
     position: absolute;
     right: 0;
     top: 100%;
+    z-index: 1;
+}
+
+
+/* Message board css */
+.employee-message {
+    background-color: #73ab4e38;
+}
+.dimona-message {
+    background-color: #FF000038;
+}
+.indii-message {
+    background-color: #0070C038;
 }

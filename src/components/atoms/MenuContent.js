@@ -10,10 +10,12 @@ export default function MenuContent({content, MenuName, setMenuclose, IdName}) {
     return (
         <div>
             <ul className="list-group shadow" id={IdName}>
-                {MenuName && <li className="list-group-item d-flex justify-content-between text-dark">
-                    <h4 className="my-1">{MenuName} </h4>
-                    <img alt={t("CLOSE")}className="ml-5 mb-1 mt-2 cancel-icon" src={CloseIcon} onClick={setMenuclose}></img>
-                </li>}
+                {MenuName &&
+                    <li className="list-group-item d-flex justify-content-between text-dark">
+                        <h4 className="my-1">{MenuName} </h4>
+                        <img alt={t("CLOSE")} className="ml-5 mb-1 mt-2 cancel-icon" src={CloseIcon} onClick={setMenuclose}></img>
+                    </li>
+                }
                 {content.map((val, index) => {
                     return(
                         <a key={val.title} className="list-group-item text-decoration-none border-bottom-0 text-dark" href={val.url}>
