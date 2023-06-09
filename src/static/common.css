@@ -7,6 +7,12 @@
 .dark-color {
     color: #292929;
 }
+#text-indii-blue {
+    color: #80CBC3;
+}
+.bg-right-container {
+    background-color: #F3F3F3;
+}
 .background-indii-blue {
     background-color: #073763;
 }
@@ -28,6 +34,7 @@
 .text-red {
     color: #FF0000;
 }
+
 
 
 /* Icons styles */
@@ -62,11 +69,13 @@
 }
 
 
+
 /* Dynamic content part */
 .right-container{
     width: 93%;
     display: inline-flex;
     justify-content: center;
+    background-color: #F3F3F3;
 }
 
 
@@ -126,6 +135,7 @@
 }
 
 
+
 /* Content menu css */
 .account-menu{
     position: absolute;
@@ -156,4 +166,42 @@
 }
 .indii-message {
     background-color: #0070C038;
+}
+
+
+
+/* Company overview css */
+
+/* React Tabs css*/
+.react-tabs__tab-list {
+    margin: 0px !important;
+    border-bottom: none;
+}
+.company-tab-width {
+    width: 98%;
+    border-radius: 5px;
+}
+.react-tabs__tab--selected {
+    background: #80CBC3;
+}
+.react-tabs__tab{
+    border: 3px solid #F3F3F3;
+    border-width: 0px 1px 0px 1px !important;
+    color: black;
+    border-radius: 0px;
+    bottom: 1px;
+    padding: 12px 56px;
+}
+.react-tabs__tab-panel--selected {
+    border: 5px solid #F3F3F3;
+    border-width: 3px 0px 0px 0px;
+}
+
+/* Table css */
+.MuiTableHead-root {
+    z-index: 0 !important;
+}
+
+.right-end-tab {
+    padding: 12px 0px 12px 22%;
 }

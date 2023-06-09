@@ -34,4 +34,11 @@ export const GET_CONSTANTS = {
     'DIMONA':'Dimona',
     'DEVICE_ACTIVATE':'Device activate',
 
+    // Companies overview constants
+    'COMPANY': 'Company',
+    'LOCATIONS': 'Locations',
+    'WORKSTATION': 'Workstations',
+    'CONTRACTS': 'Contracts',
+    'RULES': 'Rules',
+
 };
