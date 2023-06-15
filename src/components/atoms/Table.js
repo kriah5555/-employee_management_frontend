@@ -23,7 +23,7 @@ export default function Table({ columns, rows, tableName }) {
             // Actions
             renderRowActions={({ row }) => (
                 <>
-                    <img className="shortcut-icon" src={EyeIcon} onClick={() => console.log(row)}></img>
+                    {tableName !== 'function' &&<img className="shortcut-icon" src={EyeIcon} onClick={() => console.log(row)}></img>}
                     {tableName !== 'company' && <img className="header-icon ml-3" src={EditIcon} onClick={() => console.log(row)}></img>}
                 </>
             )}

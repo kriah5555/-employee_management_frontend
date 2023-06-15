@@ -41,4 +41,16 @@ export const GET_CONSTANTS = {
     'CONTRACTS': 'Contracts',
     'RULES': 'Rules',
 
+    // Settings constants
+    'ADD_FUNCTION': 'Add function',
+    'ADD_EMPLOYEE_TYPE': 'Add employee type',
+    'ADD_SECTOR':'Add sector',
+    'ADD_GROUP_FUNCTION' : 'Add group function',
+    'ADD_MIN_SALARY': 'Add minimum salaries',
+
+    'FUNCTIONS': 'Functions',
+    'EMPLOYEE_TYPES': 'Employee types',
+    'SECTORS':'Sectors',
+    'GROUP_FUNCTIONS' : 'Group functions',
+    'MIN_SALARY': 'Minimum salaries',
 };

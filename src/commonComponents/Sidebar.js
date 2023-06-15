@@ -39,7 +39,7 @@ export default function Sidebar() {
 
 
     return (
-        <div className={"side-bar shadow" + (displaySidebar ? "" : " d-flex justify-content-center")} onMouseLeave={() => setSidebardOpen(false)} onMouseEnter={() => setSidebardOpen(true)} >
+        <div className={"side-bar shadow border-right" + (displaySidebar ? "" : " d-flex justify-content-center")} onMouseLeave={() => setSidebardOpen(false)} onMouseEnter={() => setSidebardOpen(true)} >
             <ul className={displaySidebar ? "side-bar shadow side-bar-open " : "no-padd"}>
                 {sideBarData.map((val, index) => {
                     return (

@@ -4,33 +4,55 @@
 .text-color {
     color: #073763;
 }
+
 .dark-color {
     color: #292929;
 }
+
 #text-indii-blue {
-    color: #80CBC3;
+    color: #61bfb5;
+    font-weight: bolder !important;
 }
+#text-indii-dark-blue {
+    color: #073763;
+    font-weight: bolder !important;
+}
+li {
+    cursor: pointer;
+}
+.pointer {
+    cursor: pointer;
+}
+
+
 .bg-right-container {
     background-color: #F3F3F3;
 }
+
 .background-indii-blue {
     background-color: #073763;
 }
+
 .background-green {
     background-color: #73ab4e;
 }
+
 .background-red {
     background-color: #FF0000;
 }
+
 .background-blue {
     background-color: #0070C0;
 }
+
 .text-blue {
     color: #0070C0;
 }
+
 .text-green {
     color: #73ab4e;
 }
+
 .text-red {
     color: #FF0000;
 }
@@ -42,36 +64,50 @@
     width: 102px;
     height: 29px;
 }
-.header-icon{
+
+.header-icon {
     width: 23px;
     height: 23px;
 }
+
 .profile-icon {
     width: 45px;
     height: 45px;
 }
-.cancel-icon{
+
+.cancel-icon {
     width: 16px;
     height: 16px;
     margin-left: 80px !important;
 }
-.shortcut-icon{
+
+.shortcut-icon {
     width: 35px;
     height: 35px;
 }
+
 .dashboard-icon {
     width: 5rem;
     height: 8rem;
 }
-.box{
+
+.box {
     width: 20px;
     height: 20px;
 }
 
 
+/* Buttons css */
+.button-style{
+    color: #fff;
+    font-weight: 600;
+    background-color: #61bfb5;
+    border: #61bfb5;
+}
+
 
 /* Dynamic content part */
-.right-container{
+.right-container {
     width: 93%;
     display: inline-flex;
     justify-content: center;
@@ -98,24 +134,33 @@
     height: 91vh;
     overflow: hidden;
 }
+
 .side-bar-open {
     position: absolute;
     background-color: white;
     z-index: 1;
     /* transition: right 100s ease-in-out; */
 }
+
 .no-padd {
     padding: 0px !important;
 }
+
 .sidebar-moving {
     /* transition: right 100s ease-in-out; */
     animation: mymove 1s alternate;
     /* animation-timing-function: ease-out;
     animation-iteration-count: 1; */
 }
+
 @keyframes mymove {
-    from {margin-left: -100px;}
-    to {margin-left: 2px;}
+    from {
+        margin-left: -100px;
+    }
+
+    to {
+        margin-left: 2px;
+    }
 }
 
 
@@ -125,30 +170,34 @@
     font-size: 1.2rem;
     margin-bottom: 6px !important;
 }
-.language-dropdown div{
+
+.language-dropdown div {
     border: 0;
     margin-bottom: 2px;
     font-size: 1.25rem;
 }
-.language-dropdown div div{
+
+.language-dropdown div div {
     padding-right: 0 !important;
 }
 
 
 
 /* Content menu css */
-.account-menu{
+.account-menu {
     position: absolute;
     right: 12px;
     top: 75%;
     z-index: 1;
 }
-.shortcut-menu{
+
+.shortcut-menu {
     position: absolute;
     right: 30%;
     top: 75%;
     z-index: 1;
 }
+
 .notification-menu {
     position: absolute;
     right: 0;
@@ -161,9 +210,11 @@
 .employee-message {
     background-color: #73ab4e38;
 }
+
 .dimona-message {
     background-color: #FF000038;
 }
+
 .indii-message {
     background-color: #0070C038;
 }
@@ -177,14 +228,17 @@
     margin: 0px !important;
     border-bottom: none;
 }
+
 .company-tab-width {
     width: 98%;
     border-radius: 5px;
 }
+
 .react-tabs__tab--selected {
-    background: #80CBC3;
+    background: #61bfb5;
 }
-.react-tabs__tab{
+
+.react-tabs__tab {
     border: 3px solid #F3F3F3;
     border-width: 0px 1px 0px 1px !important;
     color: black;
@@ -192,16 +246,49 @@
     bottom: 1px;
     padding: 12px 56px;
 }
+
 .react-tabs__tab-panel--selected {
     border: 5px solid #F3F3F3;
     border-width: 3px 0px 0px 0px;
 }
 
 /* Table css */
-.MuiTableHead-root {
+.MuiTableHead-root,
+.MuiToolbar-root {
     z-index: 0 !important;
 }
 
 .right-end-tab {
     padding: 12px 0px 12px 22%;
+}
+
+/* Settings css */
+.card:hover {
+    box-shadow: 0px 0px 0px grey;
+    transform: scale(1.02);
+}
+.form input, textarea{
+ border: 1px solid #61bfb5 !important;
+}
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    border-color: #61bfb5;
+    background-color: #61bfb5;
+}
+.custom-control-input{
+    z-index: 999 !important;
+    width: 2rem;
+}
+.custom-control{
+    z-index: 0 !important;
+}
+
+  
+.border-bottom-only {
+    border-bottom: 1px solid rgba(0,0,0,.125) !important;
+    border-width: 0px 0px 1px 0px !important;
+}
+.list-group-item:hover {
+    color: #073763;
+    font-weight: bold;
 }
