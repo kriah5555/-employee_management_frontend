@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Logo from "../static/icons/Logo.png"
 import SearchIcon from "../static/icons/Search.svg"
 import DimonaIcon from "../static/icons/Dimona.svg"
@@ -20,12 +20,22 @@ export default function Header() {
 
     const Company = "Company 01";
     const UserName = "Jessica";
-    const Time = new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit'})
-
+    const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit'}));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
     const [activeLanguage, setActiveLanguage] = useState({value:'en', label:'EN'})
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
+
+    useEffect(() => {
+        //Implementing the setInterval method for displaying current belgium time
+        const interval = setInterval(() => {
+            let current_time = new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit'})
+            setTime(current_time);
+        }, 100);
+  
+        //Clearing the interval
+        return () => clearInterval(interval);
+    }, [Time]);
 
     //Dummy data for menu content
     const MenuData = [

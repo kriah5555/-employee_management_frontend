@@ -67,8 +67,8 @@ export default function ConfigurationOverviews({ overviewContent }) {
         { title: 'Normal employee', status: 'Active', id: '1' },
         { title: 'Interim', status: 'Active', id: '2' },
         { title: 'Student', status: 'Active', id: '3' },
-        { title: 'Flex employee - 04', status: 'Active', id: '4' },
-        { title: 'Freelancer - 05', status: 'Active', id: '5' },
+        { title: 'Flex employee', status: 'Active', id: '4' },
+        { title: 'Freelancer', status: 'Active', id: '5' },
         { title: 'Intern', status: 'Active', id: '6' },
     ];
 

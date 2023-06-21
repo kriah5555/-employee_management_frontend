@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../atoms/formFields/TextInput";
+import TextArea from "../atoms/formFields/TextArea";
+import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 
 export default function AddFunction() {
 
@@ -18,38 +21,35 @@ export default function AddFunction() {
         }
     }
 
+
+    const checkboxList = [
+        {
+            name: 'Active',
+            key: 'active',
+            checked: active,
+        },
+        {
+            name: 'Inactive',
+            key: 'inactive',
+            checked: inactive,
+        }
+    ]
+
     return (
         <div className="right-container d-inline">
             <div className="m-5 p-5 bg-white">
                 <h2 id="text-indii-blue">Add Function</h2>
                 <form className="form">
                     <div className="row pt-5">
-                        <div className="col font-weight-bold">
-                            <label className="row m-0 mb-1">{('Function title')} <p className="text-danger mb-0">&nbsp;*</p> </label>
-                            <input type="text" className="form-control" placeholder="Enter function title " name="function_title" />
-                        </div>
-                        <div className="col font-weight-bold">
-                            <label className="row m-0 mb-1">{('Function code')} <p className="text-danger mb-0">&nbsp;*</p> </label>
-                            <input type="text" className="form-control" placeholder="Enter function code" name="function_code" />
-                        </div>
+                        <TextInput title={('Function title')} name={"function_title"} placeholder={"Enter function title"} required={true}></TextInput>
+                        <TextInput title={('Function code')} name={"function_code"} placeholder={"Enter function code"} required={true}></TextInput>
+                    </div>
+                    <div className="row pt-5">
+                        <TextArea title={('Function description')} name={'function_description'} required={true}></TextArea>
                     </div>
                     <div className="row pt-5">
                         <div className="col font-weight-bold">
-                            <label className="row m-0 mb-1">{('Function description')} <p className="text-danger mb-0">&nbsp;*</p> </label>
-                            <textarea className="form-control" name="function_title" rows={4} />
-                        </div>
-                    </div>
-                    <div className="row pt-5">
-                        <div className="col font-weight-bold">
-                            <label className="row m-0 mb-1">{('Status')} <p className="text-danger mb-0">&nbsp;*</p> </label>
-                            <div className={"custom-control custom-checkbox mt-2 top-mar"}>
-                                <input type="checkbox" className="custom-control-input" id="active" name="active" checked={active} onChange={() => changeCheckbox('active')} />
-                                <label className="custom-control-label font-weight-normal" for="active">{("Active")}</label>
-                            </div>
-                            <div className={"custom-control custom-checkbox mt-2 top-mar"}>
-                                <input type="checkbox" className="custom-control-input" id="inactive" name="inactive" checked={inactive} onChange={() => changeCheckbox('inactive')} />
-                                <label className="custom-control-label font-weight-normal" for="inactive">{("Inactive")}</label>
-                            </div>
+                            <CustomCheckBox title={('status')} checkboxList={checkboxList} changeCheckbox={changeCheckbox} required={true}></CustomCheckBox>
                         </div>
                     </div>
                 </form>
