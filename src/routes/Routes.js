@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard';
 import Companies from '../pages/Companies';
 import Settings from '../pages/Settings';
 import AddFunction from '../components/molecules/AddFunction';
+import Login from '../pages/Login';
 
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
@@ -13,6 +14,7 @@ const BaseRouter = () => (
         {/* route starts here */}
         {/* <Route exact path={active language}  element={<Component name />} /> */}
         <Route exact path="/"  element={<Dashboard></Dashboard>} />
+        <Route exact path="/login"  element={<Login></Login>} />
         <Route exact path="/manage-companies"  element={<Companies></Companies>} />
         <Route exact path='/settings' element={<Settings></Settings>} ></Route>
 

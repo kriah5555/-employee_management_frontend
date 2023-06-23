@@ -42,7 +42,7 @@ export default function Header() {
         {title: 'My account', icon: '', url: '/my-account'},
         {title: 'Change company', icon: '', url: '/change-company'},
         {title: 'Change password', icon: '', url: '/change-password'},
-        {title: 'Logout', icon: '', url: '/logout'},
+        {title: 'Logout', icon: '', url: '/login'},
     ]
 
     const shortcutData = [

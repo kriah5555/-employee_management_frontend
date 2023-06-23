@@ -13,17 +13,11 @@
     color: #61bfb5;
     font-weight: bolder !important;
 }
+
 #text-indii-dark-blue {
     color: #073763;
     font-weight: bolder !important;
 }
-li {
-    cursor: pointer;
-}
-.pointer {
-    cursor: pointer;
-}
-
 
 .bg-right-container {
     background-color: #F3F3F3;
@@ -59,10 +53,37 @@ li {
 
 
 
+
+/* Message board css */
+.employee-message {
+    background-color: #73ab4e38;
+}
+
+.dimona-message {
+    background-color: #FF000038;
+}
+
+.indii-message {
+    background-color: #0070C038;
+}
+
+
+
+
 /* Icons styles */
+.banner-style {
+    width: 100%;
+    height: 100%;
+}
+
 .logo {
     width: 102px;
     height: 29px;
+}
+
+.login-logo {
+    width: 135px;
+    height: 40px;
 }
 
 .header-icon {
@@ -96,14 +117,40 @@ li {
     height: 20px;
 }
 
+.full-page-height {
+    height: 100vh;
+}
+
+
+
+
+/* Common styles */
+li,
+.pointer {
+    cursor: pointer;
+}
+
+.no-padd {
+    padding: 0px !important;
+}
+
+.border-bottom-only {
+    border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
+    border-width: 0px 0px 1px 0px !important;
+}
+
+
+
 
 /* Buttons css */
-.button-style{
+.button-style {
     color: #fff;
     font-weight: 600;
     background-color: #61bfb5;
     border: #61bfb5;
 }
+
+
 
 
 /* Dynamic content part */
@@ -115,10 +162,14 @@ li {
 }
 
 
+
+
 /* Dashboard css */
 .display-linebreak {
     white-space: pre-line;
 }
+
+
 
 
 /* Navbar css */
@@ -142,10 +193,6 @@ li {
     /* transition: right 100s ease-in-out; */
 }
 
-.no-padd {
-    padding: 0px !important;
-}
-
 .sidebar-moving {
     /* transition: right 100s ease-in-out; */
     animation: mymove 1s alternate;
@@ -165,6 +212,7 @@ li {
 
 
 
+
 /* Language dropdown css */
 #language-font {
     font-size: 1.2rem;
@@ -180,6 +228,7 @@ li {
 .language-dropdown div div {
     padding-right: 0 !important;
 }
+
 
 
 
@@ -205,19 +254,6 @@ li {
     z-index: 1;
 }
 
-
-/* Message board css */
-.employee-message {
-    background-color: #73ab4e38;
-}
-
-.dimona-message {
-    background-color: #FF000038;
-}
-
-.indii-message {
-    background-color: #0070C038;
-}
 
 
 
@@ -252,6 +288,8 @@ li {
     border-width: 3px 0px 0px 0px;
 }
 
+
+
 /* Table css */
 .MuiTableHead-root,
 .MuiToolbar-root {
@@ -262,33 +300,58 @@ li {
     padding: 12px 0px 12px 22%;
 }
 
+
+
 /* Settings css */
 .card:hover {
     box-shadow: 0px 0px 0px grey;
     transform: scale(1.02);
 }
-.form input, textarea{
- border: 1px solid #61bfb5 !important;
+
+
+
+/* Forms Style */
+.form input,
+textarea {
+    border: 1px solid #61bfb5 !important;
 }
+
 .custom-control-input:checked~.custom-control-label::before {
     color: #fff;
     border-color: #61bfb5;
     background-color: #61bfb5;
 }
-.custom-control-input{
+
+.custom-control-input {
     z-index: 999 !important;
     width: 2rem;
 }
-.custom-control{
+
+.custom-control {
     z-index: 0 !important;
 }
 
-  
-.border-bottom-only {
-    border-bottom: 1px solid rgba(0,0,0,.125) !important;
-    border-width: 0px 0px 1px 0px !important;
-}
 .list-group-item:hover {
     color: #073763;
     font-weight: bold;
 }
+
+
+/* .open-icon {
+    position: absolute;
+    left: 6%;
+    top: 45%;
+    border: 1px solid #073763;
+    border-radius: 50%;
+    background: white;
+}
+
+.open-wide-icon{
+    position: absolute;
+    left: 14%;
+    top: 45%;
+    border: 1px solid #073763;
+    border-radius: 50%;
+    background: white;
+    z-index: 2;
+} */

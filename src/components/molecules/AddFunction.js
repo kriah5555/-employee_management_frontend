@@ -41,8 +41,8 @@ export default function AddFunction() {
                 <h2 id="text-indii-blue">Add Function</h2>
                 <form className="form">
                     <div className="row pt-5">
-                        <TextInput title={('Function title')} name={"function_title"} placeholder={"Enter function title"} required={true}></TextInput>
-                        <TextInput title={('Function code')} name={"function_code"} placeholder={"Enter function code"} required={true}></TextInput>
+                        <TextInput title={('Function title')} name={"function_title"} placeholder={"Enter function title"} CustomStyle={"col"} required={true}></TextInput>
+                        <TextInput title={('Function code')} name={"function_code"} placeholder={"Enter function code"} CustomStyle={"col"} required={true}></TextInput>
                     </div>
                     <div className="row pt-5">
                         <TextArea title={('Function description')} name={'function_description'} required={true}></TextArea>
