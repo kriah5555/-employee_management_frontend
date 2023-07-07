@@ -5,7 +5,7 @@ import { t } from "../../translations/Translation";
 
 export default function Messageboard({Messages}) {
     return (
-        <div className="col-md-3 p-0 border-left">
+        <div className="col-md-3 p-0 border-left font-12">
                 <h4 className="m-3 mt-4">{t("MESSAGE_BOARD")}</h4>
                 <div className="row m-0">
                     <Legend title={t('EMPLOYEE_MESSAGE_TITLE')} styleClass1={"col-md-7"} styleClass2={"box background-green"}></Legend>

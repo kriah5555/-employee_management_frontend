@@ -10,18 +10,18 @@ export default function ConfigurationOverviews({ overviewContent }) {
     // Header data for Function overview
     const function_headers = [
         {
-            header: 'Title',
-            accessorKey: 'title',
+            title: 'Title',
+            field: 'title',
             size: 200,
         },
         // {
         //     header: 'Function code',
-        //     accessorKey: 'code',
+        //     field: 'code',
         //     size: 250,
         // },
         {
-            header: 'Status',
-            accessorKey: 'status',
+            title: 'Status',
+            field: 'status',
             size: 200,
         },
     ];
@@ -29,13 +29,13 @@ export default function ConfigurationOverviews({ overviewContent }) {
     // Header data for employee and sector overview
     const emp_type_sector_headers = [
         {
-            header: 'Title',
-            accessorKey: 'title',
+            title: 'Title',
+            field: 'title',
             size: 200,
         },
         {
-            header: 'Status',
-            accessorKey: 'status',
+            title: 'Status',
+            field: 'status',
             size: 200,
         },
     ];
@@ -45,18 +45,18 @@ export default function ConfigurationOverviews({ overviewContent }) {
     // Header data for Group function overview
     const group_function_headers = [
         {
-            header: 'Sector',
-            accessorKey: 'title',
+            title: 'Sector',
+            field: 'title',
             size: 200,
         },
         // {
         //     header: 'Function title',
-        //     accessorKey: 'code',
+        //     field: 'code',
         //     size: 250,
         // },
         {
-            header: 'Status',
-            accessorKey: 'status',
+            title: 'Status',
+            field: 'status',
             size: 200,
         },
     ];
@@ -113,6 +113,8 @@ export default function ConfigurationOverviews({ overviewContent }) {
                 setAddTitle('Add sector');
             } else {
                 setListData(emp_type_data)
+                setTitle('Manage employee types');
+                setAddTitle('Add employee type');
             }
         } else if (overviewContent === 'functions') {
             setHeaders(function_headers);
@@ -124,17 +126,29 @@ export default function ConfigurationOverviews({ overviewContent }) {
             setListData(group_function_data);
             setTitle('Manage group functions')
             setAddTitle('Add group function');
+        } else {
+            setHeaders([]);
+            setListData([]);
+            setTitle('')
+            setAddTitle('');
         }
     }, [overviewContent])
+
+    
+    const viewAction = (data) => {
+        console.log(data);
+    }
 
 
     return (
         <>
-            <div className="d-flex col-md-12 p-0 my-4 justify-content-between">
+            <div className="d-flex col-md-12 p-0 my-2 justify-content-between">
                 <h4 className="text-color mb-0">{title}</h4>
-                <h5 className="text-color mb-0 pointer" onClick={() => navigate('/add-function')}><img src={AddIcon} className="shortcut-icon mr-2"></img>{addTitle}</h5>
+                <h5 className="text-color mb-0 pointer" onClick={() => navigate(overviewContent === 'functions' ? '/add-function': '')}>
+                    <img src={AddIcon} className="shortcut-icon mr-2"></img>{addTitle}
+                </h5>
             </div>
-            <Table columns={headers} rows={listData} tableName="function"></Table>
+            <Table columns={headers} rows={listData} tableName="function" viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>
         </>
 
     )

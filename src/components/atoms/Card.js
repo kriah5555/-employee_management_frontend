@@ -10,7 +10,7 @@ export default function Card({title, icon, styleClass, actionLink}) {
             <div className={"card " + styleClass} onClick={() => navigate(actionLink)}>
                 <div className="card-body">
                     <img className="dashboard-icon" src={icon}></img>
-                    <h4>{title}</h4><h4></h4>
+                    <h5 className="card-title">{title}</h5>
                 </div>
             </div>
             <br></br>

@@ -53,7 +53,6 @@
 
 
 
-
 /* Message board css */
 .employee-message {
     background-color: #73ab4e38;
@@ -66,7 +65,6 @@
 .indii-message {
     background-color: #0070C038;
 }
-
 
 
 
@@ -108,7 +106,7 @@
 }
 
 .dashboard-icon {
-    width: 5rem;
+    width: 3.5rem;
     height: 8rem;
 }
 
@@ -121,6 +119,10 @@
     height: 100vh;
 }
 
+.employee-icon {
+    width: 50px;
+    height: 50px;
+}
 
 
 
@@ -129,17 +131,19 @@ li,
 .pointer {
     cursor: pointer;
 }
-
 .no-padd {
     padding: 0px !important;
 }
-
 .border-bottom-only {
     border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
     border-width: 0px 0px 1px 0px !important;
 }
-
-
+.font-12 {
+    font-size: 12px;
+}
+.font-inherit {
+    font-size: inherit;
+}
 
 
 /* Buttons css */
@@ -152,7 +156,6 @@ li,
 
 
 
-
 /* Dynamic content part */
 .right-container {
     width: 93%;
@@ -162,14 +165,10 @@ li,
 }
 
 
-
-
 /* Dashboard css */
 .display-linebreak {
     white-space: pre-line;
 }
-
-
 
 
 /* Navbar css */
@@ -182,14 +181,14 @@ li,
 /* Sidebar css */
 .side-bar {
     min-width: 7% !important;
-    height: 91vh;
+    height: 89.5vh;
     overflow: hidden;
 }
 
 .side-bar-open {
     position: absolute;
     background-color: white;
-    z-index: 1;
+    z-index: 2;
     /* transition: right 100s ease-in-out; */
 }
 
@@ -280,12 +279,20 @@ li,
     color: black;
     border-radius: 0px;
     bottom: 1px;
-    padding: 12px 56px;
+    padding: 12px 12px;
+    text-align: center;
+    width: 12% !important;
 }
 
 .react-tabs__tab-panel--selected {
     border: 5px solid #F3F3F3;
     border-width: 3px 0px 0px 0px;
+}
+
+.right-end-tab {
+    padding: 0px;
+    width: 24% !important;
+    padding-left: 4%;
 }
 
 
@@ -296,16 +303,21 @@ li,
     z-index: 0 !important;
 }
 
-.right-end-tab {
-    padding: 12px 0px 12px 22%;
+.MuiToolbar-gutters {
+    padding: 0px !important;
+    background-color: #61BFB5;
 }
 
 
 
-/* Settings css */
+/* Cards css */
 .card:hover {
     box-shadow: 0px 0px 0px grey;
     transform: scale(1.02);
+}
+
+.card-body {
+    padding: 0rem;
 }
 
 
@@ -337,21 +349,58 @@ textarea {
 }
 
 
-/* .open-icon {
-    position: absolute;
-    left: 6%;
-    top: 45%;
-    border: 1px solid #073763;
-    border-radius: 50%;
-    background: white;
+
+/* Custom scroll css */
+.customscroll, .tablescroll div div div div {
+    top: 0;
+    right: 0;
 }
 
-.open-wide-icon{
-    position: absolute;
-    left: 14%;
-    top: 45%;
-    border: 1px solid #073763;
-    border-radius: 50%;
-    background: white;
-    z-index: 2;
-} */
+.customscroll, .tablescroll div div div div::-webkit-scrollbar {
+    width: 10px;
+}
+
+.customscroll, .tablescroll div div div div::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.customscroll, .tablescroll div div div div::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.customscroll, .tablescroll div div div div::-webkit-scrollbar-thumb:hover {
+    background: #073763;
+    padding-top: 20px;
+}
+
+
+
+/* Media query css for bigger screens */
+@media screen and (min-width: 1590px) {
+    .font-12 {
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .dashboard-icon {
+        width: 5rem;
+        height: 8rem;
+    }
+
+    .side-bar {
+        height: 91vh !important;
+    }
+
+    .font-inherit {
+        font-size: 1rem;
+    }
+}

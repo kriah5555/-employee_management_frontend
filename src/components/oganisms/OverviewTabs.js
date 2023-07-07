@@ -53,7 +53,7 @@ export default function OverviewTabs() {
                     )
                 })}
                 {addIcon && <div className="react-tabs__tab border-0 right-end-tab">
-                    <div className="d-flex">
+                    <div className="d-flex justify-content-end">
                         <p className="mb-0 mr-3"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>
                         <img src={FilterIcon} className="header-icon ml-4"></img>
                         <img src={ExportIcon} className="header-icon ml-4"></img>
@@ -62,15 +62,15 @@ export default function OverviewTabs() {
             </TabList>
 
             <TabPanel>
-                <CompanyOverview></CompanyOverview>
+                <div className="tablescroll"><CompanyOverview></CompanyOverview></div>
             </TabPanel>
 
             <TabPanel>
-                <LocationOverview></LocationOverview>
+                <div className="tablescroll"><LocationOverview></LocationOverview></div>
             </TabPanel>
 
             <TabPanel>
-                <WorkstationOverview></WorkstationOverview>
+                <div className="tablescroll"><WorkstationOverview></WorkstationOverview></div>
             </TabPanel>
 
             <TabPanel>

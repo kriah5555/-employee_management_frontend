@@ -6,23 +6,23 @@ export default function WorkstationOverview() {
     // Header data for workstation overview
     const headers = [
         {
-            header: 'Workstation',
-            accessorKey: 'workstation',
+            title: 'Workstation',
+            field: 'workstation',
             size: 200,
         },
         {
-            header: 'Blocked?',
-            accessorKey: 'blocked_workstation',
+            title: 'Blocked?',
+            field: 'blocked_workstation',
             size: 150,
         },
         {
-            header: 'Sequence',
-            accessorKey: 'sequence',
+            title: 'Sequence',
+            field: 'sequence',
             size: 200,
         },
         {
-            header: 'Added functions',
-            accessorKey: 'function',
+            title: 'Added functions',
+            field: 'function',
             size: 250,
         }
     ];
@@ -49,8 +49,12 @@ export default function WorkstationOverview() {
         { workstation: 'Workstation - 06', blocked_workstation: 'No',  sequence: 'Sequence-01', function: getFunctions(6), id: '6' },
     ];
 
+    const viewAction = (data) => {
+        console.log(data);
+    }
+
 
     return (
-        <Table columns={headers} rows={listData} tableName="workstation"></Table>
+        <Table columns={headers} rows={listData} tableName="workstation" viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
     )
 }
