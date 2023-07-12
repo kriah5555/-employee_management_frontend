@@ -10,7 +10,7 @@ export default function EmployeeListWithDetails({ showDetails, setShowDetails })
                 <EmployeesOverview setShowDetails={setShowDetails} showDetails={showDetails}></EmployeesOverview>
             </div>
             {showDetails &&
-                <div className="col-md-10 border">
+                <div className="col-md-10 px-0 border">
                     <EmployeeDetails ></EmployeeDetails>
                 </div>
             }

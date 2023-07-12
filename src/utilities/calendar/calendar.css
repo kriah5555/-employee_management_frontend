@@ -1,0 +1,134 @@
+.react-calendar {
+    width: 100% !important;
+    /* background-color: ; */
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    background-color: #EAEAEA;
+    color: black;
+    border: 0.5px solid #E8F8F3;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+.react-calendar__month-view__weekNumbers div {
+    border: 1px solid #fff;
+    background-color: #29292980;
+    color: black;
+}
+
+.react-calendar__month-view__days button {
+    border: 1px solid #efede2;
+}
+
+.react-calendar__tile--active {
+    background-color: #EAEAEA;
+    color: black;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile--active:enabled:focus,
+.react-calendar__navigation__arrow:hover,
+.react-calendar__navigation__label:hover {
+    background-color: #EAEAEA !important;
+}
+
+.react-calendar__tile--now {
+    background-color: white;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+    border: 1px solid #fff;
+    background-color: #29292980;
+    color: black;
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: black;
+}
+
+.react-calendar__navigation {
+    margin-bottom: 2px !important;
+    position: absolute;
+    top: -50px;
+    left: -4px;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth p {
+    display: none;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth div {
+    display: none;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575 !important;
+}
+
+.react-calendar__tile,
+.react-calendar__month-view__days__day {
+    position: relative;
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 15px;
+    height: 15px;
+}
+
+.remark-icon {
+    /* margin-top: 30px !important; */
+    position: absolute;
+    bottom: 2px;
+    right: 6px;
+    width: 15px;
+    height: 15px;
+}
+
+.react-calendar__tile {
+    padding: 18px 6.6667px;
+}
+
+.react-calendar__navigation__label,
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next-button,
+.navigate {
+    font-size: 22px;
+}
+
+.react-calendar__navigation__label__labelText {
+    text-transform: capitalize;
+}
+
+.react-calendar__navigation__label {
+    pointer-events: none;
+}
+
+@media screen and (min-width: 1590px) {
+    .react-calendar__tile {
+        padding: 30px 6.6667px;
+    }
+
+    .calendar-icon {
+        position: absolute;
+        top: 4px;
+        right: 6px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .remark-icon {
+        margin-top: 30px !important;
+        position: absolute;
+        bottom: 4px;
+        right: 6px;
+        width: 18px;
+        height: 18px;
+    }
+}
