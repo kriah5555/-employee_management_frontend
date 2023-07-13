@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
-import { useNavigate } from "react-router-dom";
+import ConfigurationIcon from "../../static/icons/Configuration.svg";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function ConfigurationOverviews({ overviewContent }) {
+export default function ConfigurationOverviews() {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    let params = useParams();
+    let overviewContent = params.type
 
     // Header data for Function overview
     const function_headers = [
@@ -14,11 +17,6 @@ export default function ConfigurationOverviews({ overviewContent }) {
             field: 'title',
             size: 200,
         },
-        // {
-        //     header: 'Function code',
-        //     field: 'code',
-        //     size: 250,
-        // },
         {
             title: 'Status',
             field: 'status',
@@ -49,11 +47,6 @@ export default function ConfigurationOverviews({ overviewContent }) {
             field: 'title',
             size: 200,
         },
-        // {
-        //     header: 'Function title',
-        //     field: 'code',
-        //     size: 250,
-        // },
         {
             title: 'Status',
             field: 'status',
@@ -134,22 +127,31 @@ export default function ConfigurationOverviews({ overviewContent }) {
         }
     }, [overviewContent])
 
-    
+
     const viewAction = (data) => {
         console.log(data);
     }
 
 
     return (
-        <>
-            <div className="d-flex col-md-12 p-0 my-2 justify-content-between">
-                <h4 className="text-color mb-0">{title}</h4>
-                <h5 className="text-color mb-0 pointer" onClick={() => navigate(overviewContent === 'functions' ? '/add-function': '')}>
-                    <img src={AddIcon} className="shortcut-icon mr-2"></img>{addTitle}
-                </h5>
+        <div className="right-container">
+            <div className="company-tab-width mt-3 border bg-white">
+                <div className="d-flex col-md-12 my-2 justify-content-between">
+                    <h4 className="text-color mb-0">{title}</h4>
+                    <div className="row m-0">
+                        <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
+                            <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>
+                        </p>
+                        <p className="text-color mb-0 pointer" onClick={() => navigate(overviewContent === 'functions' ? '/add-function' : '')}>
+                            <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
+                        </p>
+                    </div>
+                </div>
+                <div className="tablescroll">
+                    <Table columns={headers} rows={listData} tableName="function" viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>
+                </div>
             </div>
-            <Table columns={headers} rows={listData} tableName="function" viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>
-        </>
+        </div>
 
     )
 }

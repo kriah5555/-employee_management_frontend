@@ -7,6 +7,8 @@ import AddFunction from '../components/molecules/AddFunction';
 import Login from '../pages/Login';
 import Employees from '../pages/Employees';
 import Logout from '../components/atoms/Logout';
+import Configurations from '../pages/Configurations';
+import ConfigurationOverviews from '../components/oganisms/ConfigurationOverviews';
 
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
@@ -20,9 +22,11 @@ const BaseRouter = () => (
 
         <Route exact path="/manage-employees"  element={<Employees></Employees>} />
         <Route exact path="/manage-companies"  element={<Companies></Companies>} />
-        <Route exact path='/settings' element={<Settings></Settings>} ></Route>
+        <Route exact path='/configurations' element={<Configurations></Configurations>} />
+        <Route exact path='/settings' element={<Settings></Settings>} />
 
-        <Route exact path='/add-function' element={<AddFunction></AddFunction>} ></Route>
+        <Route exact path='/manage-configurations/:type' element={<ConfigurationOverviews></ConfigurationOverviews>} />
+        <Route exact path='/add-function' element={<AddFunction></AddFunction>} />
 
 
     </Routes>

@@ -31,7 +31,7 @@ export default function Dashboard() {
 
     // Messages to display in message board (API will be called to fetch this data)
     const messages = [
-        {message: "Happy New Year!!",   styleClass:"indii-message text-blue"},
+        {message: "Happy New Year!!", styleClass:"indii-message text-blue"},
         {message: "Don't forget to check who can work as flex next quarter.",   styleClass:"indii-message text-blue"},
         {message: "Dimona failure code 00000-000 server government offline.",   styleClass:"dimona-message text-red"},
         {message: "Dimona failure code 90378-460 Laatijdige aangifte.",   styleClass:"dimona-message text-red"},
@@ -48,7 +48,7 @@ export default function Dashboard() {
                 {
                     dashboardTabs.map((val, index) => {
                         return (
-                            <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass}></Card>
+                            <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} view={'dashboard'}></Card>
                         )
                     })
                 }

@@ -15,6 +15,7 @@ import ActiveUurrosterIcon from "../static/icons/UurroosterActive.svg"
 import ActivePlanningIcon from "../static/icons/PlanningActive.svg"
 import ActiveEmployeesIcon from "../static/icons/EmployeesActive.svg"
 import ActiveCompaniesIcon from "../static/icons/CompanyInfoActive.svg"
+import ActiveConfigurationIcon from "../static/icons/ConfigurationActive.svg"
 
 
 export default function Sidebar() {
@@ -32,7 +33,7 @@ export default function Sidebar() {
         { title: t('MANAGE_PLANNINGS'), icon: (location.pathname === '/manage-plannings' ? ActivePlanningIcon : PlanningIcon), url: '/manage-plannings' },
         { title: t('EMPLOYEES'), icon: (location.pathname === '/manage-employees' ? ActiveEmployeesIcon : EmployeesIcon), url: '/manage-employees' },
         { title: t('COMPANIES'), icon: (location.pathname === '/manage-companies' ? ActiveCompaniesIcon : CompaniesIcon), url: '/manage-companies' },
-        { title: t('CONFIGURATIONS'), icon: ConfigurationIcon, url: '/configurations' },
+        { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
         { title: t('SETTINGS'), icon: SettingIcon, url: '/settings' },
         { title: t('REPORTING'), icon: ReportingIcon, url: '/reporting' },
     ]

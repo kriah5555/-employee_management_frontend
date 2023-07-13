@@ -9,7 +9,7 @@ export default function CustomCheckBox({ title, checkboxList, required, changeCh
                 return (
                     <div key={val.key} className={"custom-control custom-checkbox mt-2"}>
                         <input type="checkbox" className="custom-control-input" id={val.key} name={val.key} checked={val.checked} onChange={() => changeCheckbox(val.key)} />
-                        <label className="custom-control-label font-weight-normal" for={val.key}>{val.name} </label>
+                        <label className="custom-control-label font-weight-normal" htmlFor={val.key}>{val.name} </label>
                     </div>
                 )
             })}

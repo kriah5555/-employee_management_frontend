@@ -54,8 +54,8 @@ export default function AddFunction() {
                     </div>
                 </form>
                 <div className="row float-right">
-                    <CustomButton buttonName={'Save'} ActionFunction={() => navigate('/settings')}></CustomButton>
-                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/settings')}></CustomButton>
+                    <CustomButton buttonName={'Save'} ActionFunction={() => navigate('/manage-configurations/functions')}></CustomButton>
+                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-configurations/functions')}></CustomButton>
                 </div>
             </div>
         </div>

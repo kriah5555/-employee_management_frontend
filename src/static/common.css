@@ -110,6 +110,11 @@
     height: 8rem;
 }
 
+.configuration-icon {
+    width: 3rem;
+    height: 4rem;
+}
+
 .box {
     width: 20px;
     height: 20px;
@@ -345,6 +350,14 @@ li,
     padding: 0rem;
 }
 
+.card-height {
+    height: fit-content;
+}
+
+.card-height div {
+    padding: 1.25rem;
+}
+
 
 
 /* Forms Style */
@@ -419,6 +432,11 @@ textarea {
     .dashboard-icon {
         width: 5rem;
         height: 8rem;
+    }
+
+    .configuration-icon {
+        width: 3rem;
+        height: 4rem;
     }
 
     .side-bar {

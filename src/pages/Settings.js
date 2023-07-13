@@ -3,7 +3,7 @@ import EmployeeTypeIcon from "../static/icons/EmployeeType.png";
 import NotificationIcon from "../static/icons/notifications.png";
 import ConfigurationIcon from "../static/icons/setting.png";
 import { t } from "../translations/Translation";
-import ConfigurationOverviews from "../components/molecules/ConfigurationOverviews";
+import ConfigurationOverviews from "../components/oganisms/ConfigurationOverviews";
 
 export default function Settings() {
 
@@ -34,11 +34,6 @@ export default function Settings() {
 
 
     const settingTabs = [
-        { title: t('EMPLOYEE_TYPES'), icon: EmployeeTypeIcon, styleClass: subTabStyle, url: '/add-employee-type', type: 'employee_type' },
-        { title: t('SECTORS'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-sector', type: 'sectors' },
-        { title: t('FUNCTIONS'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-function', type: 'functions' },
-        { title: t('GROUP_FUNCTIONS'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-sector', type: 'group_functions' },
-        { title: t('MIN_SALARY'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-sector', type: 'min_salary' },
         { title: t('NOTIFICATIONS'), icon: NotificationIcon, styleClass: subTabStyle, url: '/notifications', type: 'notifications' },
     ]
 
@@ -65,7 +60,8 @@ export default function Settings() {
                 </ul>
             </div>
             <div className="col-md-9 bg-white">
-                <div><ConfigurationOverviews overviewContent={overviewContent}></ConfigurationOverviews></div>
+                {/* <p>Notification</p> */}
+                {/* <div><ConfigurationOverviews overviewContent={overviewContent}></ConfigurationOverviews></div> */}
             </div>
         </div>
     )
