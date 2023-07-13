@@ -1,7 +1,7 @@
+import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from "./routes/Routes";
 import { AppContext } from "./routes/ContextLib";
-import * as React from 'react';
 import './App.css';
 import "./static/common.css";
 import Header from './commonComponents/Header';
@@ -10,9 +10,9 @@ import Login from './pages/Login';
 
 function App() {
 
-   const [auth, setAuth] = React.useState(localStorage.getItem('auth'));
+   const [auth, setAuth] = useState(localStorage.getItem('auth'));
 
-   React.useEffect(() => {
+   useEffect(() => {
       if (localStorage.getItem('auth') === null){
          localStorage.setItem('auth', false);
       }

@@ -37,7 +37,7 @@ export default function Login() {
                 <TextInput title={('Password')} name={"password"} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                 <p className="mt-3 font-weight-bold text-right col-md-8 mx-auto">Forgot password?</p>
                 <div className="col-md-8 mx-auto">
-                    <CustomButton buttonName={'Login'} ActionFunction={() => Authenticate()} CustomStyle={"col-md-12 mx-auto"}></CustomButton>
+                    <CustomButton buttonName={'Login'} ActionFunction={() => Authenticate()} redirectURL='/' CustomStyle={"col-md-12 mx-auto"}></CustomButton>
                 </div>
             </div>
         </div>
