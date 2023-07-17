@@ -1,5 +1,5 @@
 import React from "react";
-import OverviewTabs from "../components/oganisms/OverviewTabs";
+import OverviewTabs from "../components/organisms/OverviewTabs";
 
 
 

@@ -58,7 +58,6 @@ export default function AddEmployeeTypes() {
     // 3: Active status
 
     const SetValues = (value, type) => {
-        console.log(value, type);
         if (type === 1) {
             setEmployeeType(value)
         } else {

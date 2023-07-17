@@ -48,6 +48,11 @@ export default function ConfigurationOverviews() {
             size: 200,
         },
         {
+            title: 'Function titles',
+            field: 'code',
+            size: 200,
+        },
+        {
             title: 'Status',
             field: 'status',
             size: 200,

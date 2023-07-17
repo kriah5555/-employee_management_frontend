@@ -3,7 +3,7 @@ import EmployeeTypeIcon from "../static/icons/EmployeeType.png";
 import NotificationIcon from "../static/icons/notifications.png";
 import ConfigurationIcon from "../static/icons/setting.png";
 import { t } from "../translations/Translation";
-import ConfigurationOverviews from "../components/oganisms/ConfigurationOverviews";
+import ConfigurationOverviews from "../components/organisms/ConfigurationOverviews";
 
 export default function Settings() {
 

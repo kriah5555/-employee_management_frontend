@@ -70,7 +70,6 @@ export default function AddFunction() {
     // 4: Active status
 
     const SetValues = (value, type) => {
-        console.log(value, type);
         if (type === 1) {
             setFunctionTitle(value)
         } else if (type === 2) {

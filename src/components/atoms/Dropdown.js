@@ -1,7 +1,7 @@
 import React from "react";
 import Select from 'react-select';
 
-export default function Dropdown({options, selectedOptions, onSelectFunction, styleClass}) {
+export default function Dropdown({options, selectedOptions, onSelectFunction, styleClass, CustomStyle, title, required, isMulti}) {
 
 
     const customStyle = {
@@ -22,9 +22,11 @@ export default function Dropdown({options, selectedOptions, onSelectFunction, st
       };
 
     return (
-        <section>
+        <div className={CustomStyle}>
+            {title && <label className="font-weight-bold row m-0 mb-1">{title} {required && <p className="text-danger mb-0">&nbsp;*</p>} </label>}
             <Select
                 options = {options}
+                isMulti = {isMulti}
                 value={selectedOptions}
                 onChange={onSelectFunction}
                 className={styleClass}
@@ -41,6 +43,6 @@ export default function Dropdown({options, selectedOptions, onSelectFunction, st
                     }
                 })}
             />
-        </section>
+        </div>
     )
 }

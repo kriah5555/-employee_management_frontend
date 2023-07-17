@@ -3,7 +3,7 @@ import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
 import EmailForwardersIcon from "../static/icons/EmailForwarders.svg"
 import FilterIcon from "../static/icons/Filter.svg"
 import ExportIcon from "../static/icons/Export.svg"
-import EmployeeListWithDetails from "../components/oganisms/EmployeeListWithDetails";
+import EmployeeListWithDetails from "../components/organisms/EmployeeListWithDetails";
 
 export default function Employees() {
 

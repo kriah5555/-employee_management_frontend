@@ -1,0 +1,159 @@
+import React, { useState } from "react";
+import Forms from "../molecules/Forms";
+
+export default function AddSector() {
+
+    const [active, setActive] = useState(true);
+    const [inactive, setInactive] = useState(false);
+
+    const [sectorName, setSectorName] = useState('');
+    const [paritairCommittee, setParitairCommittee] = useState('');
+    const [description, setDescription] = useState('');
+    const [employeeType, setEmployeeType] = useState('');
+    const [categoryNumber, setCategoryNumber] = useState('');
+
+
+    const changeCheckbox = (type) => {
+        if (type === 'active') {
+            setActive(true);
+            setInactive(false);
+        } else {
+            setActive(false);
+            setInactive(true);
+        }
+    }
+
+    const checkboxList = [
+        {
+            name: 'Active',
+            key: 'active',
+            checked: active,
+        },
+        {
+            name: 'Inactive',
+            key: 'inactive',
+            checked: inactive,
+        }
+    ]
+
+    const employeeTypeList = [
+        //employee type options
+        {value: 'normal_employee' , label: 'Normal employee'},
+        {value: 'interim' , label: 'Interim'},
+        {value: 'student' , label: 'Student'},
+    ]
+
+    const categoriesList = []
+    let count = 1
+    while (count <= 20) {
+        categoriesList.push({value: count , label: count})
+        count = count + 1
+    }
+    
+    
+
+    const sector_name = {
+        title: 'Sector name',
+        name: 'sector_name',
+        placeholder: 'Enter sector name',
+        required: true,
+        value: sectorName,
+    }
+
+    const paritair_committee = {
+        title: 'Paritair committee',
+        name: 'paritair_committee',
+        placeholder: 'Enter paritair committee',
+        required: true,
+        value: paritairCommittee
+    }
+
+    const sector_desc = {
+        title: 'Description',
+        name: 'sector_desc',
+        required: false,
+        value: description
+    }
+
+    const employee_type = {
+        title: 'Employee type',
+        name: 'emp_type',
+        required: true,
+        options: employeeTypeList,
+        value: employeeType,
+        isMulti: true
+    }
+
+    const category_number = {
+        title: 'Number of categories',
+        name: 'cat_num',
+        required: true,
+        options: categoriesList,
+        value: categoryNumber,
+        isMulti: false
+    }
+
+    const sector_status = {
+        title: 'Status',
+        required: true
+    }
+
+
+    // Type:
+    // 1: Sector name
+    // 2: Paritair committee
+    // 3: sector description
+    // 4: employee type
+    // 5: category number
+    // 6: Active status
+
+    const SetValues = (value, type) => {
+        if (type === 1) {
+            setSectorName(value)
+        } else if (type === 2) {
+            setParitairCommittee(value)
+        } else if (type === 3) {
+            setDescription(value)
+        } else if (type === 4) {
+            setEmployeeType(value)
+        } else {
+            setCategoryNumber(value)
+        }
+    }
+
+
+    const OnSave = () => {
+        let status = true
+        if (inactive){ status = false }
+
+        let data = {
+            'sector_name': sectorName,
+            'paritair_committee': paritairCommittee,
+            'sector_description': description,
+            'employee_type':employeeType,
+            'category_number': categoryNumber,
+            'status':status
+        }
+        console.log(data);
+    }
+
+    return (
+        <div className="right-container">
+            <Forms 
+                formTitle={'Add Sector'}
+                redirectURL={'/manage-configurations/sectors'}
+                changeCheckbox={changeCheckbox}
+                checkboxList={checkboxList}
+                field1={sector_name}
+                field2={paritair_committee}
+                field3={sector_desc}
+                field4={sector_status}
+                field5={employee_type}
+                field6={category_number}
+                SetValues={SetValues}
+                onSave={OnSave}
+                view={'sectors'}
+            ></Forms>
+        </div>
+    )
+}
