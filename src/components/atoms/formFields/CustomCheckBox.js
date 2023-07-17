@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function CustomCheckBox({ title, checkboxList, required, changeCheckbox }) {
+export default function CustomCheckBox({ title, checkboxList, required, changeCheckbox, CustomStyle }) {
     return (
-        <div className="col font-weight-bold">
+        <div className={"font-weight-bold " + CustomStyle}>
             <label className="row m-0 mb-1">{title} {required && <p className="text-danger mb-0">&nbsp;*</p>} </label>
 
             {checkboxList.map((val, index) => {

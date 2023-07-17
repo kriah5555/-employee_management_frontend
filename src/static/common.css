@@ -385,6 +385,10 @@ textarea {
     color: #073763;
     font-weight: bold;
 }
+.form-container {
+    width: 94%;
+    border-radius: 5px;
+}
 
 
 

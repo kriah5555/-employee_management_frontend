@@ -92,6 +92,7 @@ export default function ConfigurationOverviews() {
     const [listData, setListData] = useState(emp_type_data);
     const [title, setTitle] = useState('Manage employee types');
     const [addTitle, setAddTitle] = useState('Add employee type');
+    const [addUrl, setAddUrl] = useState('/add_employee_type')
 
 
 
@@ -104,21 +105,25 @@ export default function ConfigurationOverviews() {
                 setListData(sector_data)
                 setTitle('Manage sectors');
                 setAddTitle('Add sector');
+                setAddUrl('/add-sector');
             } else {
                 setListData(emp_type_data)
                 setTitle('Manage employee types');
                 setAddTitle('Add employee type');
+                setAddUrl('/add-employee-type');
             }
         } else if (overviewContent === 'functions') {
             setHeaders(function_headers);
             setListData(function_data);
             setTitle('Manage functions');
             setAddTitle('Add function');
+            setAddUrl('/add-function');
         } else if (overviewContent === 'group_functions') {
             setHeaders(group_function_headers);
             setListData(group_function_data);
             setTitle('Manage group functions')
             setAddTitle('Add group function');
+            setAddUrl('/add-group-function');
         } else {
             setHeaders([]);
             setListData([]);
@@ -142,7 +147,7 @@ export default function ConfigurationOverviews() {
                         <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
                             <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>
                         </p>
-                        <p className="text-color mb-0 pointer" onClick={() => navigate(overviewContent === 'functions' ? '/add-function' : '')}>
+                        <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
                         </p>
                     </div>
