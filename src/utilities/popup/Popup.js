@@ -1,33 +1,39 @@
 import React from 'react';
-import { Modal, Button } from "react-bootstrap";
-import { t } from '../../Translation/Translation'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { t } from '../../translations/Translation';
+import "./popup.css";
 
 
-const modelPopup = (props) => {
+const ModalPopup = (props) => {
+    
     return (
         <Modal
-            show={props.show}
+            show={true}
             onHide={props.onHide}
-            size={props.size ? props.size : "lg"}
+            size="sm"
+            className=""
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            dialogClassName="desktoppopup"
         >
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {t(props.title)}
+                    {(props.title)}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <p>{props.body}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide}>
-                    {t('Close')}
+                {props.deleteTableRows && <Button className='button-style float-left' onClick={() => props.deleteTableRows(0,0,1,0)}>
+                    {t('YES_DELETE')}
+                </Button>}
+                <Button className='button-style' onClick={props.onHide}>
+                    {props.buttonName ? (props.buttonName) : t('CLOSE')}
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default modelPopup
+export default ModalPopup

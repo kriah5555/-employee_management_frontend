@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
+import { EmployeeTypeApiUrl } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+import ModalPopup from "../../utilities/popup/Popup";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 export default function AddEmployeeTypes() {
 
@@ -8,6 +13,26 @@ export default function AddEmployeeTypes() {
 
     const [employeeType, setEmployeeType] = useState('');
     const [description, setDescription] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate();
+    const params = useParams();
+
+    useEffect(() => {
+        let editApiUrl = EmployeeTypeApiUrl+ '/' + params.id
+        // Api call to get detail data
+        AXIOS.service(editApiUrl, 'GET')
+            .then((result) => {
+                setEmployeeType(result.name);
+                setDescription(result.description);
+                if (result.status) {setActive(true)} else{setInactive(true)}
+                // setListData(result)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    },[])
+
 
     const changeCheckbox = (type) => {
         if (type === 'active') {
@@ -66,20 +91,43 @@ export default function AddEmployeeTypes() {
     }
 
     const OnSave = () => {
-        let status = true
-        if (inactive){ status = false }
+        let status = 1
+        if (inactive) { status = 0 }
+        let url = EmployeeTypeApiUrl
+        let method = 'POST'
 
         let data = {
-            'employee_type': employeeType,
+            'name': employeeType,
             'description': description,
-            'status':status
+            'status': status
         }
-        console.log(data);
+
+        if (params.id !== undefined) {
+            url = EmployeeTypeApiUrl + '/' + params.id
+            method = 'PUT'
+        }
+
+        AXIOS.service(url, method, data)
+            .then((result) => {
+                if (result && result.status === 200) {
+                    console.log(result.message);
+                } else {
+                    setSuccessMessage(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
         <div className="right-container">
-            <Forms 
+            {successMessage && <ModalPopup
+                title={('SUCCESS')}
+                body={(successMessage)}
+                onHide={() => navigate('/manage-configurations/employee_type')}
+            ></ModalPopup>}
+            <Forms
                 formTitle={'Add Employee type'}
                 redirectURL={'/manage-configurations/employee_type'}
                 changeCheckbox={changeCheckbox}

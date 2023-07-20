@@ -32,6 +32,7 @@ const BaseRouter = () => (
         <Route exact path='/manage-configurations/:type' element={<ConfigurationOverviews></ConfigurationOverviews>} />
         <Route exact path='/add-function' element={<AddFunction></AddFunction>} />
         <Route exact path='/add-employee-type' element={<AddEmployeeTypes></AddEmployeeTypes>} />
+        <Route exact path='/add-employee-type/:id' element={<AddEmployeeTypes></AddEmployeeTypes>} />
         <Route exact path='/add-sector' element={<AddSector></AddSector>} />
         <Route exact path='/add-group-function' element={<AddGroupFunction></AddGroupFunction>} />
 

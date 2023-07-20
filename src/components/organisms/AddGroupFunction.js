@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
+import { FunctionApiUrl, GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+import ModalPopup from "../../utilities/popup/Popup";
+import { useNavigate } from "react-router-dom";
 
 export default function AddGroupFunction() {
 
@@ -10,6 +14,10 @@ export default function AddGroupFunction() {
     const [functionTitle, setFunctionTitle] = useState('');
     const [description, setDescription] = useState('');
     const [functionCategory, setFunctionCategory] = useState('');
+    const [groupName, setGroupName] = useState('')
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate();
 
 
     const changeCheckbox = (type) => {
@@ -35,27 +43,31 @@ export default function AddGroupFunction() {
         }
     ]
 
-    const sectorList = [
-        //sector options
-        {value: 'sector1' , label: 'Sector1'},
-        {value: 'sector2' , label: 'Sector2'},
-        {value: 'sector3' , label: 'Sector3'},
-    ]
+    const[sectorList, setSectorList] = useState([])
 
-    const FunctionsList = [
-        //functions options
-        {value: 'function1' , label: 'Function1'},
-        {value: 'function2' , label: 'Function2'},
-        {value: 'function3' , label: 'Function3'},
-    ]
+    useEffect(() => {
+        AXIOS.service(SectorApiUrl, 'GET')
+            .then((result) => {
+                console.log(result);
+                if (result.length !== sectorList.length){
+                    result.map((val, index) => {
+                        sectorList.push({ value: val.id, label: val.name })
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }, [])
 
     const categoriesList = []
     let count = 1
-    while (count <= 5) {
-        categoriesList.push({value: count , label: count})
+    while (count <= 20) {
+        categoriesList.push({ value: count, label: count })
         count = count + 1
     }
-    
+
     // Fields data
     const sector_title = {
         title: 'Sector',
@@ -67,6 +79,22 @@ export default function AddGroupFunction() {
         isMulti: false
     }
 
+    const group_function_name = {
+        title: 'Group function name',
+        name: 'function_name',
+        placeholder: 'Enter function name',
+        required: true,
+        value: groupName,
+    }
+
+    // const function_title = {
+    //     title: 'Function code',
+    //     name: 'function_code',
+    //     placeholder: 'Enter function code',
+    //     required: true,
+    //     value: functionTitle,
+    // }
+
     const function_category = {
         title: 'Function category',
         name: 'function_category',
@@ -77,14 +105,14 @@ export default function AddGroupFunction() {
         isMulti: false
     }
 
-    const function_title = {
-        title: 'Function title',
-        name: 'function_title',
-        required: true,
-        options: FunctionsList,
-        value: functionTitle,
-        isMulti: true
-    }
+    // const function_title = {
+    //     title: 'Function title',
+    //     name: 'function_title',
+    //     required: true,
+    //     options: FunctionsList,
+    //     value: functionTitle,
+    //     isMulti: false
+    // }
 
     const group_function_desc = {
         title: 'Description',
@@ -106,12 +134,12 @@ export default function AddGroupFunction() {
     // 5: Function category
 
     const SetValues = (value, type) => {
-        if (type === 2) {
-            setFunctionTitle(value)
+        if (type === 1){
+            setGroupName(value)
         } else if (type === 3) {
             setDescription(value)
         } else if (type === 4) {
-            setSector(value)
+            setSector(value);
         } else {
             setFunctionCategory(value)
         }
@@ -119,28 +147,43 @@ export default function AddGroupFunction() {
 
     // On submit function
     const OnSave = () => {
-        let status = true
-        if (inactive){ status = false }
+        let status = 1
+        if (inactive) { status = 0 }
 
         let data = {
-            'sector': sector,
-            'function_category': functionCategory,
-            'function_title': functionTitle,
-            'description':description,
-            'status':status
+            'name': groupName,
+            'category': functionCategory.value,
+            'description': description,
+            'sector_id': sector.value,
+            'status': status
         }
-        console.log(data);
+        AXIOS.service(GroupFunctionApiUrl, 'POST', data)
+            .then((result) => {
+                if (result && result.status === 200) {
+                    console.log(result.message);
+                } else {
+                    setSuccessMessage(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
         <div className="right-container">
-            <Forms 
+            {successMessage && <ModalPopup
+                title={('SUCCESS')}
+                body={(successMessage)}
+                onHide={() => navigate('/manage-configurations/group_functions')}
+            ></ModalPopup>}
+            <Forms
                 formTitle={'Add Group Function'}
                 redirectURL={'/manage-configurations/group_functions'}
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}
-                field1=''
-                field2={function_title}
+                field1={group_function_name}
+                // field2={function_title}
                 field3={group_function_desc}
                 field4={group_function_status}
                 field5={sector_title}

@@ -19,11 +19,11 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
             <div className="d-flex px-5">
                 <form className="col-md-12 px-0">
                     {/* Text input field */}
-                    {view !== 'group_function' && <TextInput
+                    { <TextInput
                         title={field1.title}
                         name={field1.name}
                         placeholder={field1.placeholder}
-                        CustomStyle={"col-md-6 float-left"}
+                        CustomStyle={"col-md-6 float-left" + (view === 'group_function' ? ' mt-4' : '') }
                         required={field1.required}
                         value={field1.value}
                         setValue={(e) => SetValues(e, 1)}
@@ -40,7 +40,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         ></TextInput>
                     }
 
-                    {view === "sectors" || view === 'group_function' &&
+                    {!!(view === "sectors" || view === 'group_function') &&
                         <Dropdown
                             options={field5.options}
                             selectedOptions={field5.value}
@@ -52,7 +52,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         ></Dropdown>
                     }
 
-                    {view === "sectors" || view === 'group_function' &&
+                    {!!(view === "sectors" || view === 'functions') &&
                         <Dropdown
                             options={field6.options}
                             selectedOptions={field6.value}
@@ -60,19 +60,19 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                             CustomStyle="col-md-6 mt-4 float-left"
                             title={field6.title}
                             required={field6.required}
-                            isMulti={field5.isMulti}
+                            isMulti={field6.isMulti}
                         ></Dropdown>
                     }
 
                     {view === 'group_function' &&
                         <Dropdown
-                            options={field2.options}
-                            selectedOptions={field2.value}
+                            options={field6.options}
+                            selectedOptions={field6.value}
                             onSelectFunction={(e) => SetValues(e, 2)}
                             CustomStyle="col-md-6 mt-4 float-left"
-                            title={field2.title}
-                            required={field2.required}
-                            isMulti={field2.isMulti}
+                            title={field6.title}
+                            required={field6.required}
+                            isMulti={field6.isMulti}
                         ></Dropdown>
                     }
 

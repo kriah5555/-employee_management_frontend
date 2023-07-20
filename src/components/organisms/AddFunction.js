@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
+import { FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+import ModalPopup from "../../utilities/popup/Popup";
+import { useNavigate } from "react-router-dom";
 
 export default function AddFunction() {
 
@@ -9,6 +13,10 @@ export default function AddFunction() {
     const [functionTitle, setFunctionTitle] = useState('');
     const [functionCode, setFunctionCode] = useState('');
     const [functionDesc, setFunctionDesc] = useState('');
+    const [functionCategory, setFunctionCategory] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate();
 
 
     const changeCheckbox = (type) => {
@@ -34,6 +42,22 @@ export default function AddFunction() {
         }
     ]
 
+    const [FunctionsList, setFunctionList] = useState([])
+        
+
+    useEffect(() => {
+        AXIOS.service(GroupFunctionApiUrl, 'GET')
+            .then((result) => {
+                console.log(result);
+                result.map((val, index) => {
+                    FunctionsList.push({value: val.id, label: val.name})
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
     const function_title = {
         title: 'Function title',
         name: 'function_title',
@@ -48,6 +72,15 @@ export default function AddFunction() {
         placeholder: 'Enter function code',
         required: true,
         value: functionCode
+    }
+
+    const function_group = {
+        title: 'Function categories',
+        name: 'function_group',
+        required: true,
+        options: FunctionsList,
+        // value: functionTitle,
+        isMulti: false
     }
 
     const function_desc = {
@@ -74,6 +107,8 @@ export default function AddFunction() {
             setFunctionTitle(value)
         } else if (type === 2) {
             setFunctionCode(value)
+        }else if (type === 5){
+            setFunctionCategory(value)
         } else {
             setFunctionDesc(value)
         }
@@ -81,21 +116,38 @@ export default function AddFunction() {
 
 
     const OnSave = () => {
-        let status = true
-        if (inactive){ status = false }
+        let status = 1
+        if (inactive) { status = 0 }
 
         let data = {
-            'function_title': functionTitle,
+            'name': functionTitle,
             'function_code': functionCode,
-            'function_description': functionDesc,
-            'status':status
+            'function_category_id': functionCategory.value,
+            'description': functionDesc,
+            'status': status
         }
-        console.log(data);
+
+        AXIOS.service(FunctionApiUrl, 'POST', data)
+            .then((result) => {
+                if (result && result.status === 200) {
+                    console.log(result.message);
+                } else {
+                    setSuccessMessage(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
         <div className="right-container">
-            <Forms 
+            {successMessage && <ModalPopup
+                title={('SUCCESS')}
+                body={(successMessage)}
+                onHide={() => navigate('/manage-configurations/functions')}
+            ></ModalPopup>}
+            <Forms
                 formTitle={'Add Function'}
                 redirectURL={'/manage-configurations/functions'}
                 changeCheckbox={changeCheckbox}
@@ -104,6 +156,7 @@ export default function AddFunction() {
                 field2={function_code}
                 field3={function_desc}
                 field4={function_status}
+                field6={function_group}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'functions'}

@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
+import { EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+import ModalPopup from "../../utilities/popup/Popup";
+import { useNavigate } from "react-router-dom";
 
 export default function AddSector() {
 
@@ -11,6 +15,9 @@ export default function AddSector() {
     const [description, setDescription] = useState('');
     const [employeeType, setEmployeeType] = useState('');
     const [categoryNumber, setCategoryNumber] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate();
 
 
     const changeCheckbox = (type) => {
@@ -22,6 +29,8 @@ export default function AddSector() {
             setInactive(true);
         }
     }
+
+    
 
     const checkboxList = [
         {
@@ -36,12 +45,23 @@ export default function AddSector() {
         }
     ]
 
-    const employeeTypeList = [
-        //employee type options
-        {value: 'normal_employee' , label: 'Normal employee'},
-        {value: 'interim' , label: 'Interim'},
-        {value: 'student' , label: 'Student'},
-    ]
+    const [employeeTypeList, setEmployeeList] = useState([])
+
+    useEffect(() => {
+        AXIOS.service(EmployeeTypeApiUrl, 'GET')
+            .then((result) => {
+                console.log(result);
+                if (result.length !== employeeTypeList.length){
+                    result.map((val, index) => {
+                        employeeTypeList.push({ value: val.id, label: val.name })
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }, [])
 
     const categoriesList = []
     let count = 1
@@ -123,22 +143,41 @@ export default function AddSector() {
 
 
     const OnSave = () => {
-        let status = true
-        if (inactive){ status = false }
+        let status = 1
+        if (inactive){ status = 0 }
+        let emp_type = []
+        console.log(employeeType);
+        emp_type.push(employeeType[0].value)
 
         let data = {
-            'sector_name': sectorName,
+            'name': sectorName,
             'paritair_committee': paritairCommittee,
-            'sector_description': description,
-            'employee_type':employeeType,
-            'category_number': categoryNumber,
+            'description': description,
+            'employee_types':emp_type,
+            'category_number': categoryNumber.value,
             'status':status
         }
-        console.log(data);
+        
+        AXIOS.service(SectorApiUrl, 'POST', data)
+            .then((result) => {
+                if (result && result.status === 200) {
+                    console.log(result.message);
+                } else {
+                    setSuccessMessage(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
         <div className="right-container">
+            {successMessage && <ModalPopup
+                title={('SUCCESS')}
+                body={(successMessage)}
+                onHide={() => navigate('/manage-configurations/sectors')}
+            ></ModalPopup>}
             <Forms 
                 formTitle={'Add Sector'}
                 redirectURL={'/manage-configurations/sectors'}

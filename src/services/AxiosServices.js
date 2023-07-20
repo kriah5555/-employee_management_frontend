@@ -81,6 +81,22 @@ async function service(
            }
         return null;
       });
+  } else if (httpmethod === "PUT") {
+    return await axios
+      .put(urlendpoint, data, headers())
+      .then((result) => {
+         if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+           document.getElementById("loading-icon").setAttribute("style", "display:none;");
+         }
+        return file ? result.blob() : result.data;
+      })
+      .catch((error) => {
+        console.log("Error service : ", error);
+           if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+             document.getElementById("loading-icon").setAttribute("style", "display:none;");
+           }
+        return null;
+      });
   } else {
     return await axios
       .get(urlendpoint, headers())
@@ -112,7 +128,7 @@ function headers() {
         // *GET, POST, PUT, DELETE, etc.
       //  method: httpmethod,
         // no-cors, cors, *same-origin
-        mode: "no-cors",
+        // mode: "no-cors",
        // withCredentials: true,
         // *default, no-cache, reload, force-cache, only-if-cached
         //cache: "no-cache",
@@ -121,14 +137,14 @@ function headers() {
         headers: {
             "Content-Type": "application/json",
             // "Authorization": "Bearer aAqbVgy30qDmSqT0m32rB2xON0EE_3OW",
-            'Access-Control-Allow-Origin': '*',
+            // 'Access-Control-Allow-Origin': '*',
             //"Authorization-id": Authorization_id,
             // "Language-id" : reduxState.active_language,
 
             // 'X-Authenticated-Userid': '15000500000@1',
 
             // "Content-Type": "application/x-www-form-urlencoded",
-            'Content-Type': 'multipart/form-data',
+            // 'Content-Type': 'multipart/form-data',
         },
         // manual, *follow, error
 //        redirect: "follow",
