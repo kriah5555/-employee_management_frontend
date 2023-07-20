@@ -1,4 +1,4 @@
-export const ENV_URL = process.env.REACT_APP_TITLE
+export const ENV_URL = 'https://api.test.indii-new.infanion.com/'
 export const REGEX_URL = 'service/masterdata';
 export const BASE_URL = ENV_URL + REGEX_URL;
 export const LogoutLink = '';
