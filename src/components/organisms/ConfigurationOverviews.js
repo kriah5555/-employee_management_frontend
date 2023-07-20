@@ -43,7 +43,7 @@ export default function ConfigurationOverviews() {
     // Header data for Group function overview
     const group_function_headers = [
         {
-            title: 'Sector',
+            title: 'Group function title',
             field: 'name',
             size: 200,
         },

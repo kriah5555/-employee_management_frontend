@@ -19,7 +19,6 @@ export default function AddSector() {
 
     const navigate = useNavigate();
 
-
     const changeCheckbox = (type) => {
         if (type === 'active') {
             setActive(true);
@@ -29,8 +28,6 @@ export default function AddSector() {
             setInactive(true);
         }
     }
-
-    
 
     const checkboxList = [
         {
@@ -45,7 +42,7 @@ export default function AddSector() {
         }
     ]
 
-    const [employeeTypeList, setEmployeeList] = useState([])
+    const employeeTypeList = []
 
     useEffect(() => {
         AXIOS.service(EmployeeTypeApiUrl, 'GET')
@@ -146,8 +143,10 @@ export default function AddSector() {
         let status = 1
         if (inactive){ status = 0 }
         let emp_type = []
-        console.log(employeeType);
-        emp_type.push(employeeType[0].value)
+        employeeType.map((val, index) => {
+            emp_type.push(val.value)
+        })
+        
 
         let data = {
             'name': sectorName,
