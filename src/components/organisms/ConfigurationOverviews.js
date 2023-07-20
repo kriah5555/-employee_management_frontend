@@ -16,7 +16,7 @@ export default function ConfigurationOverviews() {
     const function_headers = [
         {
             title: 'Title',
-            field: 'title',
+            field: 'name',
             size: 200,
         },
         {
@@ -44,12 +44,12 @@ export default function ConfigurationOverviews() {
     const group_function_headers = [
         {
             title: 'Sector',
-            field: 'title',
+            field: 'name',
             size: 200,
         },
         {
-            title: 'Function titles',
-            field: 'code',
+            title: 'Description',
+            field: 'description',
             size: 200,
         },
         {
