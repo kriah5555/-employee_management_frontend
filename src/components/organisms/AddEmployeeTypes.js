@@ -69,7 +69,7 @@ export default function AddEmployeeTypes() {
                 .then((result) => {
                     setEmployeeType(result.name);
                     setDescription(result.description);
-                    if (result.status) { setActive(true) } else { setInactive(true) }
+                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
                 })
                 .catch((error) => {
                     console.log(error);

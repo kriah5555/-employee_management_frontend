@@ -73,7 +73,7 @@ export default function AddFunction() {
                     setFunctionCode(result.function_code);
                     setFunctionDesc(result.description);
                     setFunctionCategory({ value: result.function_category_id, label: FunctionGroupList[result.function_category_id] })
-                    if (result.status) { setActive(true) } else { setInactive(true) }
+                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
                 })
                 .catch((error) => {
                     console.log(error);

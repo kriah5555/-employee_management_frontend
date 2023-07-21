@@ -97,6 +97,22 @@ async function service(
            }
         return null;
       });
+  } else if (httpmethod === "DELETE") {
+    return await axios
+      .delete(urlendpoint, data, headers())
+      .then((result) => {
+         if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+           document.getElementById("loading-icon").setAttribute("style", "display:none;");
+         }
+        return file ? result.blob() : result.data;
+      })
+      .catch((error) => {
+        console.log("Error service : ", error);
+           if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+             document.getElementById("loading-icon").setAttribute("style", "display:none;");
+           }
+        return null;
+      });
   } else {
     return await axios
       .get(urlendpoint, headers())

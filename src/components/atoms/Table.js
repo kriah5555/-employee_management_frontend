@@ -1,6 +1,7 @@
 import React from "react";
 import EyeIcon from "../../static/icons/Eye.png"
 import EditIcon from "../../static/icons/Edit.svg"
+import DeleteIcon from "../../static/icons/Delete.svg"
 
 import MaterialTable from "material-table";
 import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search } from "@material-ui/icons";
@@ -64,8 +65,8 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
 
         //Pagination props
         paging: tableName === 'employee' ? false : true,
-        pageSize: 5,
-        pageSizeOptions: [5, 10],
+        pageSize: 10,
+        pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
         showFirstLastPageButtons:false,
 
@@ -77,34 +78,41 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         addRowPosition: "first",
 
         //Actions props
-        actionsCellStyle: { width: '100px' },
+        actionsCellStyle: { width: '100px', padding: '0px 20px' },
         actionsColumnIndex: -1,
     }
 
 
     const getViewIcon = () => { return(<img className="shortcut-icon" src={EyeIcon}></img>) }
-    const getEditIcon = () => { return(<img className="header-icon ml-3" src={EditIcon}></img>) }
+    const getEditIcon = () => { return(<img className="header-icon " src={EditIcon}></img>) }
+    const getDeleteIcon = () => { return(<img className="header-icon " src={DeleteIcon}></img>) }
+
 
     //Define actions based on requirement (Below actions are for view and edit)
     const actionIconsList = [
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: 'View',
-            onClick: (event, rowData) => viewAction(rowData),
+            onClick: (event, rowData) => viewAction(rowData, 'view'),
             hidden: (!rowData.parentOnly && tableName !== 'function') ? false : true
         }),
         rowData => ({
             icon: () => getEditIcon(),
             tooltip: 'Edit',
-            onClick: (event, rowData) => viewAction(rowData),
+            onClick: (event, rowData) => viewAction(rowData, 'edit'),
             hidden: (!rowData.parentOnly && tableName !== 'company' && tableName !== 'employee') ? false : true
         }),
+        rowData => ({
+            icon: () => getDeleteIcon(),
+            tooltip: 'Delete',
+            onClick: (event, rowData) => viewAction(rowData, 'delete'),
+            hidden: (!rowData.parentOnly && tableName !== 'company' && tableName !== 'employee') ? false : true
+        })
     ]
 
 
     return (
         <MuiThemeProvider theme={theme}>
-
             <MaterialTable
                 title=''
                 style={{ width: "100%", height: tableName !== 'employee' ? height : 'calc(100vh - 156px)' }}

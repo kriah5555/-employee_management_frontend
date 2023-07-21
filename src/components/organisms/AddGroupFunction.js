@@ -77,7 +77,7 @@ export default function AddGroupFunction() {
                             setGroupName(val.name);
                             setDescription(val.description);
                             setFunctionCategory({value: val.category, label:val.category})
-                            if (val.status) { setActive(true) } else { setInactive(true) }
+                            if (val.status) { setActive(true) } else { setInactive(true); setActive(false) }
                             sectorList.map((sector) => {
                                 if (sector.value === val.sector_id) {
                                     setSector(sector);

@@ -87,7 +87,7 @@ export default function AddSector() {
                     setCategoryNumber({ value: 4, label: 4 })
 
 
-                    if (result.status) { setActive(true) } else { setInactive(true) }
+                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
                 })
                 .catch((error) => {
                     console.log(error);

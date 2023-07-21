@@ -11,6 +11,7 @@ export default function ConfigurationOverviews() {
     const navigate = useNavigate();
     let params = useParams();
     let overviewContent = params.type
+    const [dataRefresh, setDataRefresh] = useState(false);
 
     // Header data for Function overview
     const function_headers = [
@@ -104,19 +105,49 @@ export default function ConfigurationOverviews() {
                 console.log(error);
             })
 
-    }, [overviewContent])
+    }, [overviewContent, dataRefresh])
+
+    const DeleteApiCall = (url) => {
+        // APICall for create and updation of employee types
+        AXIOS.service(url, 'DELETE')
+            .then((result) => {
+                if (result && result.status === 200) {
+                    console.log(result.message);
+                } else {
+                    setDataRefresh(!dataRefresh);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
 
     // Function for onclick of actions in the overview tables
-    const viewAction = (data) => {
-        console.log(data);
+    const viewAction = (data, action) => {
         if (overviewContent === 'employee_type') {
-            navigate('/add-employee-type/' + data.id)
+            if (action === 'edit') {
+                navigate('/add-employee-type/' + data.id)
+            } else {
+                DeleteApiCall(EmployeeTypeApiUrl + '/' + data.id)
+            }
         } else if (overviewContent === 'sectors') {
-            navigate('/add-sector/' + data.id)
+            if (action === 'edit') {
+                navigate('/add-sector/' + data.id)
+            } else {
+                DeleteApiCall(SectorApiUrl + '/' + data.id)
+            }
         } else if (overviewContent === 'functions') {
-            navigate('/add-function/' + data.id)
+            if (action === 'edit') {
+                navigate('/add-function/' + data.id)
+            } else {
+                DeleteApiCall(FunctionApiUrl + '/' + data.id)
+            }
         } else if (overviewContent === 'group_functions') {
-            navigate('/add-group-function/' + data.id)
+            if (action === 'edit') {
+                navigate('/add-group-function/' + data.id)
+            } else {
+                DeleteApiCall(GroupFunctionApiUrl + '/' + data.id)
+            }
         }
 
     }
