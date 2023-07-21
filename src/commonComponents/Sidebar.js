@@ -7,6 +7,7 @@ import CompaniesIcon from "../static/icons/CompanyInfo.svg"
 import ConfigurationIcon from "../static/icons/Configuration.svg"
 import SettingIcon from "../static/icons/Settings.svg"
 import ReportingIcon from "../static/icons/Reports.svg"
+import HamburgerIcon from "../static/icons/Hamburger.svg"
 import { t } from "../translations/Translation";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -28,6 +29,7 @@ export default function Sidebar() {
 
     //Constant data for sidebard
     const sideBarData = [
+
         { title: t('DASHBOARD'), icon: (location.pathname === '/' ? ActiveDashboardIcon : DashboardIcon), url: '/' },
         { title: t('UURROOSTER'), icon: (location.pathname === '/uurrooster' ? ActiveUurrosterIcon : UurroosterIcon), url: '/uurrooster' },
         { title: t('MANAGE_PLANNINGS'), icon: (location.pathname === '/manage-plannings' ? ActivePlanningIcon : PlanningIcon), url: '/manage-plannings' },
@@ -40,14 +42,17 @@ export default function Sidebar() {
 
 
     return (
-        <div className={"side-bar shadow border-right" + (displaySidebar ? "" : " d-flex justify-content-center")} onMouseLeave={() => setSidebardOpen(false)} onMouseEnter={() => setSidebardOpen(true)} >
-            <ul className={displaySidebar ? "side-bar shadow side-bar-open " : "no-padd"}>
+        <div className={"side-bar shadow border-right" + (displaySidebar ? " side-bar-open" : " d-flex justify-content-center")} > {/* onMouseLeave={() => setSidebardOpen(false)} onMouseEnter={() => setSidebardOpen(true)} */}
+            <ul className={displaySidebar ? "side-bar shadow" : "no-padd"}>
+                <li className="d-flex my-4" onClick={() => setSidebardOpen(!displaySidebar)}>
+                    <img className="shortcut-icon sidebar-icon" src={HamburgerIcon}></img>
+                </li>
                 {sideBarData.map((val, index) => {
                     return (
                         <li key={val.title} title={val.title} className="d-flex my-4" onClick={() => navigate(val.url)}>
                             <img className="shortcut-icon sidebar-icon" src={val.icon}></img>
                             {displaySidebar &&
-                                <h6 className="mb-0 align-self-center pl-3 pr-5 sidebar-title" id={location.pathname === val.url ? "text-indii-blue" : ''} >{val.title}</h6>
+                                <h6 className="mb-0 align-self-center pl-3 pr-2 sidebar-title" id={location.pathname === val.url ? "text-indii-blue" : ''} >{val.title}</h6>
                             }
                         </li>
                     )

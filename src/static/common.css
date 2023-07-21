@@ -203,9 +203,10 @@ li,
 }
 
 .side-bar-open {
-    position: absolute;
+    /* position: absolute; */
     background-color: white;
     z-index: 2;
+    width: 16%;
     /* transition: right 100s ease-in-out; */
 }
 
