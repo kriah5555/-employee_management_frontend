@@ -3,7 +3,7 @@ import Forms from "../molecules/Forms";
 import { FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddFunction() {
 
@@ -14,11 +14,14 @@ export default function AddFunction() {
     const [functionCode, setFunctionCode] = useState('');
     const [functionDesc, setFunctionDesc] = useState('');
     const [functionCategory, setFunctionCategory] = useState('');
+
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
     const navigate = useNavigate();
+    const params = useParams();
 
-
+    // Checkbox status data
     const changeCheckbox = (type) => {
         if (type === 'active') {
             setActive(true);
@@ -28,7 +31,6 @@ export default function AddFunction() {
             setInactive(true);
         }
     }
-
     const checkboxList = [
         {
             name: 'Active',
@@ -43,21 +45,45 @@ export default function AddFunction() {
     ]
 
     const [FunctionsList, setFunctionList] = useState([])
+    let FunctionGroupList = {}
         
-
+    //Fetch dropdown data of group functions
     useEffect(() => {
         AXIOS.service(GroupFunctionApiUrl, 'GET')
             .then((result) => {
-                console.log(result);
-                result.map((val, index) => {
-                    FunctionsList.push({value: val.id, label: val.name})
-                })
+                if (result.length !== FunctionsList.length) {
+                    result.map((val, index) => {
+                        FunctionsList.push({value: val.id, label: val.name})
+                        FunctionGroupList[val.id] = val.name
+                    })
+                }
             })
             .catch((error) => {
                 console.log(error);
             })
     }, [])
 
+    // Fetch sector data based on param id to add default inputs
+    useEffect(() => {
+        if (params.id) {
+            let editApiUrl = FunctionApiUrl + '/' + params.id
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+                    setFunctionTitle(result.name);
+                    setFunctionCode(result.function_code);
+                    setFunctionDesc(result.description);
+                    setFunctionCategory({ value: result.function_category_id, label: FunctionGroupList[result.function_category_id] })
+                    if (result.status) { setActive(true) } else { setInactive(true) }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
+
+
+
+    // Field data
     const function_title = {
         title: 'Function title',
         name: 'function_title',
@@ -79,7 +105,7 @@ export default function AddFunction() {
         name: 'function_group',
         required: true,
         options: FunctionsList,
-        // value: functionTitle,
+        value: functionCategory,
         isMulti: false
     }
 
@@ -99,15 +125,16 @@ export default function AddFunction() {
     // Type:
     // 1: Function title
     // 2: Function code
-    // 3: Function description
-    // 4: Active status
+    // 3: Function group
+    // 5: Function description
+    // 6: Active status
 
     const SetValues = (value, type) => {
         if (type === 1) {
             setFunctionTitle(value)
         } else if (type === 2) {
             setFunctionCode(value)
-        }else if (type === 5){
+        }else if (type === 3){
             setFunctionCategory(value)
         } else {
             setFunctionDesc(value)
@@ -127,7 +154,17 @@ export default function AddFunction() {
             'status': status
         }
 
-        AXIOS.service(FunctionApiUrl, 'POST', data)
+        // Creation url and method
+        let url = FunctionApiUrl
+        let method = 'POST'
+
+        // Updation url and method
+        if (params.id !== undefined) {
+            url = FunctionApiUrl + '/' + params.id
+            method = 'PUT'
+        }
+
+        AXIOS.service(url, method, data)
             .then((result) => {
                 if (result && result.status === 200) {
                     console.log(result.message);
@@ -147,6 +184,11 @@ export default function AddFunction() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/functions')}
             ></ModalPopup>}
+            {errorMessage && <ModalPopup
+                title={('ERROR')}
+                body={(errorMessage)}
+                onHide={() => setErrorMessage('')}
+            ></ModalPopup>}
             <Forms
                 formTitle={'Add Function'}
                 redirectURL={'/manage-configurations/functions'}
@@ -154,9 +196,9 @@ export default function AddFunction() {
                 checkboxList={checkboxList}
                 field1={function_title}
                 field2={function_code}
-                field3={function_desc}
-                field4={function_status}
-                field6={function_group}
+                field3={function_group}
+                field5={function_desc}
+                field6={function_status}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'functions'}

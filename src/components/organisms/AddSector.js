@@ -3,7 +3,7 @@ import Forms from "../molecules/Forms";
 import { EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddSector() {
 
@@ -13,12 +13,25 @@ export default function AddSector() {
     const [sectorName, setSectorName] = useState('');
     const [paritairCommittee, setParitairCommittee] = useState('');
     const [description, setDescription] = useState('');
-    const [employeeType, setEmployeeType] = useState('');
+    const [employeeType, setEmployeeType] = useState([]);
     const [categoryNumber, setCategoryNumber] = useState('');
+
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const [emp_type_state, setEmpTypeState] = useState(false);
+    const [employeeTypeList, setEmployeeTypeList] = useState([])
+    const categoriesList = []
+    let count = 1
+    while (count <= 20) {
+        categoriesList.push({ value: count, label: count })
+        count = count + 1
+    }
 
     const navigate = useNavigate();
+    const params = useParams();
 
+    // Checkbox status data
     const changeCheckbox = (type) => {
         if (type === 'active') {
             setActive(true);
@@ -28,7 +41,6 @@ export default function AddSector() {
             setInactive(true);
         }
     }
-
     const checkboxList = [
         {
             name: 'Active',
@@ -42,13 +54,11 @@ export default function AddSector() {
         }
     ]
 
-    const employeeTypeList = []
-
+    //Fetch dropdown data of employee types
     useEffect(() => {
         AXIOS.service(EmployeeTypeApiUrl, 'GET')
             .then((result) => {
-                console.log(result);
-                if (result.length !== employeeTypeList.length){
+                if (result.length !== employeeTypeList.length) {
                     result.map((val, index) => {
                         employeeTypeList.push({ value: val.id, label: val.name })
                     })
@@ -57,18 +67,41 @@ export default function AddSector() {
             .catch((error) => {
                 console.log(error);
             })
-
     }, [])
 
-    const categoriesList = []
-    let count = 1
-    while (count <= 20) {
-        categoriesList.push({value: count , label: count})
-        count = count + 1
-    }
-    
-    
+    // Fetch sector data based on param id to add default inputs
+    useEffect(() => {
+        if (params.id) {
+            let editApiUrl = SectorApiUrl + '/' + params.id
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+                    if (result.employee_types.length === 0) { setEmpTypeState(true) }
+                    if (result.employee_types.length !== employeeType.length) {
+                        result.employee_types.map((val) => {
+                            employeeType.push({ value: val.id, label: val.name })
+                        })
+                    }
+                    setSectorName(result.name);
+                    setParitairCommittee(result.paritair_committee);
+                    setDescription(result.description);
+                    setCategoryNumber({ value: 4, label: 4 })
 
+
+                    if (result.status) { setActive(true) } else { setInactive(true) }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
+
+    // Function to stop the rendering till the data gets updated
+    if (params.id && (employeeType.length === 0 && !emp_type_state)) {
+        return
+    }
+
+
+    // Field data
     const sector_name = {
         title: 'Sector name',
         name: 'sector_name',
@@ -119,45 +152,56 @@ export default function AddSector() {
     // Type:
     // 1: Sector name
     // 2: Paritair committee
-    // 3: sector description
-    // 4: employee type
-    // 5: category number
+    // 3: employee type
+    // 4: category number 
+    // 5: sector description
     // 6: Active status
 
     const SetValues = (value, type) => {
         if (type === 1) {
-            setSectorName(value)
+            setSectorName(value);
         } else if (type === 2) {
-            setParitairCommittee(value)
+            setParitairCommittee(value);
         } else if (type === 3) {
-            setDescription(value)
+            setEmployeeType(value);
         } else if (type === 4) {
-            setEmployeeType(value)
+            setCategoryNumber(value);
         } else {
-            setCategoryNumber(value)
+            setDescription(value);
         }
     }
 
-
+    // Function for onSubmit for creating and updating sectors
     const OnSave = () => {
+        // Request params
         let status = 1
-        if (inactive){ status = 0 }
-        let emp_type = []
+        if (inactive) { status = 0 }
+        let emp_type_ids = []
         employeeType.map((val, index) => {
-            emp_type.push(val.value)
+            emp_type_ids.push(val.value)
         })
-        
 
         let data = {
             'name': sectorName,
             'paritair_committee': paritairCommittee,
             'description': description,
-            'employee_types':emp_type,
+            'employee_types': emp_type_ids,
             'category_number': categoryNumber.value,
-            'status':status
+            'status': status
         }
-        
-        AXIOS.service(SectorApiUrl, 'POST', data)
+
+        // Creation url and method
+        let url = SectorApiUrl
+        let method = 'POST'
+
+        // Updation url and method
+        if (params.id !== undefined) {
+            url = SectorApiUrl + '/' + params.id
+            method = 'PUT'
+        }
+
+        // APICall for create and update sectors
+        AXIOS.service(url, method, data)
             .then((result) => {
                 if (result && result.status === 200) {
                     console.log(result.message);
@@ -172,22 +216,28 @@ export default function AddSector() {
 
     return (
         <div className="right-container">
+            {/* Success message popup */}
             {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/sectors')}
             ></ModalPopup>}
-            <Forms 
+            {errorMessage && <ModalPopup
+                title={('ERROR')}
+                body={(errorMessage)}
+                onHide={() => setErrorMessage('')}
+            ></ModalPopup>}
+            <Forms
                 formTitle={'Add Sector'}
                 redirectURL={'/manage-configurations/sectors'}
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}
                 field1={sector_name}
                 field2={paritair_committee}
-                field3={sector_desc}
-                field4={sector_status}
-                field5={employee_type}
-                field6={category_number}
+                field3={employee_type}
+                field4={category_number}
+                field5={sector_desc}
+                field6={sector_status}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'sectors'}

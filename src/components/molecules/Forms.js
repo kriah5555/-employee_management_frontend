@@ -19,15 +19,15 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
             <div className="d-flex px-5">
                 <form className="col-md-12 px-0">
                     {/* Text input field */}
-                    { <TextInput
+                    <TextInput
                         title={field1.title}
                         name={field1.name}
                         placeholder={field1.placeholder}
-                        CustomStyle={"col-md-6 float-left" + (view === 'group_function' ? ' mt-4' : '') }
+                        CustomStyle={"col-md-6 float-left" + (view === 'group_function' ? ' mt-4' : '')}
                         required={field1.required}
                         value={field1.value}
                         setValue={(e) => SetValues(e, 1)}
-                    ></TextInput>}
+                    ></TextInput>
 
                     {view !== 'employee_types' && view !== 'group_function' &&
                         <TextInput title={field2.title}
@@ -39,62 +39,44 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                             setValue={(e) => SetValues(e, 2)}
                         ></TextInput>
                     }
+                    {view !== 'employee_types' && <Dropdown
+                        options={field3.options}
+                        selectedOptions={field3.value}
+                        onSelectFunction={(e) => SetValues(e, 3)}
+                        CustomStyle="col-md-6 mt-4 float-left"
+                        title={field3.title}
+                        required={field3.required}
+                        isMulti={field3.isMulti}
+                    ></Dropdown>}
 
-                    {!!(view === "sectors" || view === 'group_function') &&
-                        <Dropdown
-                            options={field5.options}
-                            selectedOptions={field5.value}
-                            onSelectFunction={(e) => SetValues(e, 4)}
-                            CustomStyle="col-md-6 mt-4 float-left"
-                            title={field5.title}
-                            required={field5.required}
-                            isMulti={field5.isMulti}
-                        ></Dropdown>
-                    }
-
-                    {!!(view === "sectors" || view === 'functions') &&
-                        <Dropdown
-                            options={field6.options}
-                            selectedOptions={field6.value}
-                            onSelectFunction={(e) => SetValues(e, 5)}
-                            CustomStyle="col-md-6 mt-4 float-left"
-                            title={field6.title}
-                            required={field6.required}
-                            isMulti={field6.isMulti}
-                        ></Dropdown>
-                    }
-
-                    {view === 'group_function' &&
-                        <Dropdown
-                            options={field6.options}
-                            selectedOptions={field6.value}
-                            onSelectFunction={(e) => SetValues(e, 2)}
-                            CustomStyle="col-md-6 mt-4 float-left"
-                            title={field6.title}
-                            required={field6.required}
-                            isMulti={field6.isMulti}
-                        ></Dropdown>
-                    }
+                    {view !== 'employee_types' && view !== 'functions' && <Dropdown
+                        options={field4.options}
+                        selectedOptions={field4.value}
+                        onSelectFunction={(e) => SetValues(e, 4)}
+                        CustomStyle="col-md-6 mt-4 float-left"
+                        title={field4.title}
+                        required={field4.required}
+                        isMulti={field4.isMulti}
+                    ></Dropdown>}
 
                     {/* Text area input field */}
                     <TextArea
-                        title={field3.title}
-                        name={field3.name}
-                        required={field3.required}
+                        title={field5.title}
+                        name={field5.name}
+                        required={field5.required}
                         CustomStyle={"col-md-12 mt-4 float-left"}
-                        value={field3.value}
-                        setValue={(e) => SetValues(e, 3)}
+                        value={field5.value}
+                        setValue={(e) => SetValues(e, 5)}
                     ></TextArea>
 
                     {/* Check boxes for status */}
                     <CustomCheckBox
-                        title={field4.title}
+                        title={field6.title}
                         checkboxList={checkboxList}
                         changeCheckbox={changeCheckbox}
-                        required={field4.required}
+                        required={field6.required}
                         CustomStyle={"col-md-12 my-4 float-left"}
                     ></CustomCheckBox>
-
                 </form>
             </div>
             <div className="col-md-12 mt-4 text-right pr-5">

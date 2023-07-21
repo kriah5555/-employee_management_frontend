@@ -106,16 +106,18 @@ export default function ConfigurationOverviews() {
 
     }, [overviewContent])
 
-
+    // Function for onclick of actions in the overview tables
     const viewAction = (data) => {
         console.log(data);
         if (overviewContent === 'employee_type') {
-            navigate('/add-employee-type/'+ data.id)
+            navigate('/add-employee-type/' + data.id)
+        } else if (overviewContent === 'sectors') {
+            navigate('/add-sector/' + data.id)
+        } else if (overviewContent === 'functions') {
+            navigate('/add-function/' + data.id)
+        } else if (overviewContent === 'group_functions') {
+            navigate('/add-group-function/' + data.id)
         }
-        //  else if(overviewContent === 'sectors'){
-        //     navigate('/sectors/'+ data.id)
-        // }
-        
 
     }
 

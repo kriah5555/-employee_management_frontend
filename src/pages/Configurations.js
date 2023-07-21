@@ -1,7 +1,11 @@
 import React from "react";
 import Card from "../components/atoms/Card";
-import EmployeeTypeIcon from "../static/icons/EmployeeType.png";
-import ConfigurationIcon from "../static/icons/setting.png";
+import EmployeeTypeIcon from "../static/icons/EmployeeType.svg";
+import SectorsIcon from "../static/icons/Sectors.svg";
+import FunctionsIcon from "../static/icons/Functions.svg";
+import GroupFunctionsIcon from "../static/icons/GroupFunctions.svg";
+import SalariesIcon from "../static/icons/Salaries.svg";
+
 import { t } from "../translations/Translation";
 
 
@@ -11,10 +15,10 @@ export default function Configurations() {
 
     const ConfigurationTabs = [
         { title: t('EMPLOYEE_TYPES'), icon: EmployeeTypeIcon, styleClass: subTabStyle, url: '/manage-employee-type', type: 'employee_type' },
-        { title: t('SECTORS'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-sector', type: 'sectors' },
-        { title: t('FUNCTIONS'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-function', type: 'functions' },
-        { title: t('GROUP_FUNCTIONS'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-sector', type: 'group_functions' },
-        { title: t('MIN_SALARY'), icon: ConfigurationIcon, styleClass: subTabStyle, url: '/add-sector', type: 'min_salary' },
+        { title: t('SECTORS'), icon: SectorsIcon, styleClass: subTabStyle, url: '/add-sector', type: 'sectors' },
+        { title: t('FUNCTIONS'), icon: FunctionsIcon, styleClass: subTabStyle, url: '/add-function', type: 'functions' },
+        { title: t('GROUP_FUNCTIONS'), icon: GroupFunctionsIcon, styleClass: subTabStyle, url: '/add-sector', type: 'group_functions' },
+        { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, url: '/add-sector', type: 'min_salary' },
     ]
 
     return (

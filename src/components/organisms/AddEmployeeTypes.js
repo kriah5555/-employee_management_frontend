@@ -18,22 +18,7 @@ export default function AddEmployeeTypes() {
     const navigate = useNavigate();
     const params = useParams();
 
-    useEffect(() => {
-        let editApiUrl = EmployeeTypeApiUrl+ '/' + params.id
-        // Api call to get detail data
-        AXIOS.service(editApiUrl, 'GET')
-            .then((result) => {
-                setEmployeeType(result.name);
-                setDescription(result.description);
-                if (result.status) {setActive(true)} else{setInactive(true)}
-                // setListData(result)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    },[])
-
-
+    // Status checkbox data
     const changeCheckbox = (type) => {
         if (type === 'active') {
             setActive(true);
@@ -43,7 +28,6 @@ export default function AddEmployeeTypes() {
             setInactive(true);
         }
     }
-
     const checkboxList = [
         {
             name: 'Active',
@@ -57,6 +41,7 @@ export default function AddEmployeeTypes() {
         }
     ]
 
+    // Form field data
     const employee_type_name = {
         title: 'Employee type name',
         name: 'emp_type_name',
@@ -64,24 +49,41 @@ export default function AddEmployeeTypes() {
         required: true,
         value: employeeType,
     }
-
     const employee_type_desc = {
         title: 'Description',
         name: 'emp_type_desc',
         required: false,
         value: description,
     }
-
     const employee_type_status = {
         title: 'Status',
         required: true
     }
 
-    // Type:
-    // 1: Employee type
-    // 2: Employee type description
-    // 3: Active status
+    // Fetch data of employee type for update
+    useEffect(() => {
+        if (params.id) {
+            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id
+            // Api call to get detail data
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+                    setEmployeeType(result.name);
+                    setDescription(result.description);
+                    if (result.status) { setActive(true) } else { setInactive(true) }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
 
+
+    // Type:
+    // 1: Employee type name
+    // 5: Employee type description
+    // 6: Active status
+
+    // OnChange set field values
     const SetValues = (value, type) => {
         if (type === 1) {
             setEmployeeType(value)
@@ -90,23 +92,28 @@ export default function AddEmployeeTypes() {
         }
     }
 
+    // On submit function for create and update employee type
     const OnSave = () => {
         let status = 1
         if (inactive) { status = 0 }
-        let url = EmployeeTypeApiUrl
-        let method = 'POST'
-
+        // Request data
         let data = {
             'name': employeeType,
             'description': description,
             'status': status
         }
 
+        // Creation url and method
+        let url = EmployeeTypeApiUrl
+        let method = 'POST'
+
+        // Updation url and method
         if (params.id !== undefined) {
             url = EmployeeTypeApiUrl + '/' + params.id
             method = 'PUT'
         }
 
+        // APICall for create and updation of employee types
         AXIOS.service(url, method, data)
             .then((result) => {
                 if (result && result.status === 200) {
@@ -133,8 +140,8 @@ export default function AddEmployeeTypes() {
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}
                 field1={employee_type_name}
-                field3={employee_type_desc}
-                field4={employee_type_status}
+                field5={employee_type_desc}
+                field6={employee_type_status}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'employee_types'}
