@@ -64,72 +64,82 @@ async function service(
             .setAttribute("style", "display:block;");
     }
 
-
-  if (httpmethod === "POST") {
-    return await axios
-      .post(urlendpoint, data, headers())
-      .then((result) => {
-         if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
-           document.getElementById("loading-icon").setAttribute("style", "display:none;");
-         }
-        return file ? result.blob() : result.data;
-      })
-      .catch((error) => {
-        console.log("Error service : ", error);
-           if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
-             document.getElementById("loading-icon").setAttribute("style", "display:none;");
-           }
-        return null;
-      });
-  } else if (httpmethod === "PUT") {
-    return await axios
-      .put(urlendpoint, data, headers())
-      .then((result) => {
-         if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
-           document.getElementById("loading-icon").setAttribute("style", "display:none;");
-         }
-        return file ? result.blob() : result.data;
-      })
-      .catch((error) => {
-        console.log("Error service : ", error);
-           if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
-             document.getElementById("loading-icon").setAttribute("style", "display:none;");
-           }
-        return null;
-      });
-  } else if (httpmethod === "DELETE") {
-    return await axios
-      .delete(urlendpoint, data, headers())
-      .then((result) => {
-         if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
-           document.getElementById("loading-icon").setAttribute("style", "display:none;");
-         }
-        return file ? result.blob() : result.data;
-      })
-      .catch((error) => {
-        console.log("Error service : ", error);
-           if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
-             document.getElementById("loading-icon").setAttribute("style", "display:none;");
-           }
-        return null;
-      });
-  } else {
-    return await axios
-      .get(urlendpoint, headers())
-      .then((result) => {
-        if (loading === 1 && document.getElementById("loading-icon") !== null) {
-            document.getElementById("loading-icon").setAttribute("style", "display:none;");
-        }
-        return file ? result.blob() : result.data;
-      })
-      .catch((error) => {
-        console.log("Error service : ", error);
-          if (loading === 1 && document.getElementById("loading-icon") !== null) {
+      // POST method
+      if (httpmethod === "POST") {
+        return await axios
+          .post(urlendpoint, data, headers())
+          .then((result) => {
+            if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
               document.getElementById("loading-icon").setAttribute("style", "display:none;");
-          }
-        return null;
-      });
-  }
+            }
+            return file ? result.blob() : result.data;
+          })
+          .catch((error) => {
+            console.log("Error service : ", error);
+              if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+                document.getElementById("loading-icon").setAttribute("style", "display:none;");
+              }
+            return null;
+          });
+      }
+      // PUT method
+      else if (httpmethod === "PUT") {
+        return await axios
+          .put(urlendpoint, data, headers())
+          .then((result) => {
+            if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+              document.getElementById("loading-icon").setAttribute("style", "display:none;");
+            }
+            return file ? result.blob() : result.data;
+          })
+          .catch((error) => {
+            console.log("Error service : ", error);
+              if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+                document.getElementById("loading-icon").setAttribute("style", "display:none;");
+              }
+            return null;
+          });
+      }
+      // DELETE method
+      else if (httpmethod === "DELETE") {
+        return await axios
+          .delete(urlendpoint, data, headers())
+          .then((result) => {
+            if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+              document.getElementById("loading-icon").setAttribute("style", "display:none;");
+            }
+            return file ? result.blob() : result.data;
+          })
+          .catch((error) => {
+            console.log("Error service : ", error);
+              if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
+                document.getElementById("loading-icon").setAttribute("style", "display:none;");
+              }
+            return null;
+          });
+      }
+      // GET method
+      else {
+        return await axios
+          .get(urlendpoint, headers())
+          .then((result) => {
+            if (loading === 1 && document.getElementById("loading-icon") !== null) {
+                document.getElementById("loading-icon").setAttribute("style", "display:none;");
+            }
+            return file ? result.blob() : result.data;
+          })
+          .catch((error) => {
+            console.log("Error service : ", error, error.response.status);
+              if (loading === 1 && document.getElementById("loading-icon") !== null) {
+                  document.getElementById("loading-icon").setAttribute("style", "display:none;");
+              }
+              let err = {
+                'error': true,
+                'message': error.response.data.message,
+              }
+            return err;
+          });
+      }
 }
 /*
 *Getting headers for the Ajax

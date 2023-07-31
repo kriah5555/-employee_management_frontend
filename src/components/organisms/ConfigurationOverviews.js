@@ -97,9 +97,8 @@ export default function ConfigurationOverviews() {
 
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
-            .then((result) => {
-                console.log(result);
-                setListData(result)
+            .then((val) => {
+                setListData(val)
             })
             .catch((error) => {
                 console.log(error);

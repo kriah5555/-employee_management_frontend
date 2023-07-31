@@ -18,6 +18,10 @@ export default function AddFunction() {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('')
 
+    const [titleError, SetTitleError] = useState('');
+    const [codeError, setCodeError] = useState('');
+    const [CategoryError, setCategoryError] = useState('');
+
     const navigate = useNavigate();
     const params = useParams();
 
@@ -45,16 +49,14 @@ export default function AddFunction() {
     ]
 
     const [FunctionsList, setFunctionList] = useState([])
-    let FunctionGroupList = {}
-        
+
     //Fetch dropdown data of group functions
     useEffect(() => {
         AXIOS.service(GroupFunctionApiUrl, 'GET')
             .then((result) => {
                 if (result.length !== FunctionsList.length) {
                     result.map((val, index) => {
-                        FunctionsList.push({value: val.id, label: val.name})
-                        FunctionGroupList[val.id] = val.name
+                        FunctionsList.push({ value: val.id, label: val.name })
                     })
                 }
             })
@@ -69,11 +71,15 @@ export default function AddFunction() {
             let editApiUrl = FunctionApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    setFunctionTitle(result.name);
-                    setFunctionCode(result.function_code);
-                    setFunctionDesc(result.description);
-                    setFunctionCategory({ value: result.function_category_id, label: FunctionGroupList[result.function_category_id] })
-                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    if (!result.error) {
+                        setFunctionTitle(result.name);
+                        setFunctionCode(result.function_code);
+                        setFunctionDesc(result.description);
+                        setFunctionCategory({ value: result.function_category['id'], label: result.function_category['name'] })
+                        if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    } else {
+                        console.log(result.message);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -132,10 +138,13 @@ export default function AddFunction() {
     const SetValues = (value, type) => {
         if (type === 1) {
             setFunctionTitle(value)
+            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else if (type === 2) {
             setFunctionCode(value)
-        }else if (type === 3){
+            if (value) { setCodeError(''); } else { setCodeError('Required'); }
+        } else if (type === 3) {
             setFunctionCategory(value)
+            if (value) { setCategoryError(''); } else { setCategoryError('Required'); }
         } else {
             setFunctionDesc(value)
         }
@@ -143,39 +152,52 @@ export default function AddFunction() {
 
 
     const OnSave = () => {
-        let status = 1
-        if (inactive) { status = 0 }
-
-        let data = {
-            'name': functionTitle,
-            'function_code': functionCode,
-            'function_category_id': functionCategory.value,
-            'description': functionDesc,
-            'status': status
+        if (functionTitle === '') {
+            SetTitleError('Required');
+        }
+        if (functionCode === '') {
+            setCodeError('Required');
+        }
+        if (functionCategory === '') {
+            setCategoryError('Required');
         }
 
-        // Creation url and method
-        let url = FunctionApiUrl
-        let method = 'POST'
+        if (functionTitle && functionCode && functionCategory) {
+            let status = 1
+            if (inactive) { status = 0 }
 
-        // Updation url and method
-        if (params.id !== undefined) {
-            url = FunctionApiUrl + '/' + params.id
-            method = 'PUT'
+            let data = {
+                'name': functionTitle,
+                'function_code': functionCode,
+                'function_category_id': functionCategory.value,
+                'description': functionDesc,
+                'status': status
+            }
+
+            // Creation url and method
+            let url = FunctionApiUrl
+            let method = 'POST'
+
+            // Updation url and method
+            if (params.id !== undefined) {
+                url = FunctionApiUrl + '/' + params.id
+                method = 'PUT'
+            }
+
+            AXIOS.service(url, method, data)
+                .then((result) => {
+                    if (result && result.status === 200) {
+                        console.log(result.message);
+                    } else {
+                        setSuccessMessage(result.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
-
-        AXIOS.service(url, method, data)
-            .then((result) => {
-                if (result && result.status === 200) {
-                    console.log(result.message);
-                } else {
-                    setSuccessMessage(result.message);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
+
 
     return (
         <div className="right-container">
@@ -199,6 +221,9 @@ export default function AddFunction() {
                 field3={function_group}
                 field5={function_desc}
                 field6={function_status}
+                error1={titleError}
+                error2={codeError}
+                error3={CategoryError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'functions'}

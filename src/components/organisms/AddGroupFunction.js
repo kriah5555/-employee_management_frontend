@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
-import { FunctionApiUrl, GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,7 +16,11 @@ export default function AddGroupFunction() {
     const [groupName, setGroupName] = useState('')
     const [successMessage, setSuccessMessage] = useState('');
 
-    const[sectorList, setSectorList] = useState([])
+    const [titleError, SetTitleError] = useState('');
+    const [sectorError, setSectorError] = useState('');
+    const [CategoryError, setCategoryError] = useState('');
+
+    const [sectorList, setSectorList] = useState([])
     const categoriesList = []
     let count = 1
     while (count <= 20) {
@@ -55,7 +59,7 @@ export default function AddGroupFunction() {
         AXIOS.service(SectorApiUrl, 'GET')
             .then((result) => {
                 console.log(result);
-                if (result.length !== sectorList.length){
+                if (result.length !== sectorList.length) {
                     result.map((val, index) => {
                         sectorList.push({ value: val.id, label: val.name })
                     })
@@ -66,23 +70,19 @@ export default function AddGroupFunction() {
             })
     }, [])
 
-    // Fetch sector data based on param id to add default inputs
+    // Fetch group function data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = GroupFunctionApiUrl
+            let editApiUrl = GroupFunctionApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    result.map((val) => {
-                        if (val.id === Number(params.id)) {
-                            setGroupName(val.name);
-                            setDescription(val.description);
-                            setFunctionCategory({value: val.category, label:val.category})
-                            if (val.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                            sectorList.map((sector) => {
-                                if (sector.value === val.sector_id) {
-                                    setSector(sector);
-                                }
-                            })
+                    setGroupName(result.name);
+                    setDescription(result.description);
+                    setFunctionCategory({ value: result.category, label: result.category })
+                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    sectorList.map((sector) => {
+                        if (sector.value === result.sector_id) {
+                            setSector(sector);
                         }
                     })
                 })
@@ -135,7 +135,7 @@ export default function AddGroupFunction() {
         required: true
     }
 
-    
+
     // Type:
     // 1: Group function name
     // 3: Sector
@@ -144,12 +144,15 @@ export default function AddGroupFunction() {
     // 6: Active status
 
     const SetValues = (value, type) => {
-        if (type === 1){
+        if (type === 1) {
             setGroupName(value);
+            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else if (type === 3) {
             setSector(value);
+            if (value) { setSectorError(''); } else { setSectorError('Required'); }
         } else if (type === 4) {
             setFunctionCategory(value);
+            if (value) { setCategoryError(''); } else { setCategoryError('Required'); }
         } else {
             setDescription(value);
         }
@@ -158,39 +161,54 @@ export default function AddGroupFunction() {
 
     // On submit function for create and update group function
     const OnSave = () => {
-        let status = 1
-        if (inactive) { status = 0 }
 
-        let data = {
-            'name': groupName,
-            'category': functionCategory.value,
-            'description': description,
-            'sector_id': sector.value,
-            'status': status
+        if (groupName === '') {
+            SetTitleError('Required');
+        }
+        if (sector === '') {
+            setSectorError('Required');
+        }
+        if (functionCategory === '') {
+            setCategoryError('Required');
         }
 
-        // Creation url and method
-        let url = GroupFunctionApiUrl
-        let method = 'POST'
 
-        // Updation url and method
-        if (params.id !== undefined) {
-            url = GroupFunctionApiUrl + '/' + params.id
-            method = 'PUT'
+        if (groupName && sector && functionCategory) {
+
+            let status = 1
+            if (inactive) { status = 0 }
+
+            let data = {
+                'name': groupName,
+                'category': functionCategory.value,
+                'description': description,
+                'sector_id': sector.value,
+                'status': status
+            }
+
+            // Creation url and method
+            let url = GroupFunctionApiUrl
+            let method = 'POST'
+
+            // Updation url and method
+            if (params.id !== undefined) {
+                url = GroupFunctionApiUrl + '/' + params.id
+                method = 'PUT'
+            }
+
+            // APICall for creating and updating group function
+            AXIOS.service(url, method, data)
+                .then((result) => {
+                    if (result && result.status === 200) {
+                        console.log(result.message);
+                    } else {
+                        setSuccessMessage(result.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
-
-        // APICall for creating and updating group function
-        AXIOS.service(url, method, data)
-            .then((result) => {
-                if (result && result.status === 200) {
-                    console.log(result.message);
-                } else {
-                    setSuccessMessage(result.message);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
 
     return (
@@ -210,6 +228,9 @@ export default function AddGroupFunction() {
                 field4={function_category}
                 field5={group_function_desc}
                 field6={group_function_status}
+                error1={titleError}
+                error3={sectorError}
+                error4={CategoryError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'group_function'}

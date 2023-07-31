@@ -7,7 +7,7 @@ import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
 
 
-export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, SetValues, onSave, view }) {
+export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, error1, error2, error3, error4, SetValues, onSave, view }) {
 
     const navigate = useNavigate();
 
@@ -27,6 +27,8 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         required={field1.required}
                         value={field1.value}
                         setValue={(e) => SetValues(e, 1)}
+                        error={error1}
+                        styleMargin={error1 ? '' : (view === 'group_function' ? 'my-2' : 'mt-2 mb-1')}
                     ></TextInput>
 
                     {view !== 'employee_types' && view !== 'group_function' &&
@@ -37,6 +39,8 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                             required={field2.required}
                             value={field2.value}
                             setValue={(e) => SetValues(e, 2)}
+                            error={error2}
+                            styleMargin={error2 ? 'mt-2 mb-1' : 'my-2'}
                         ></TextInput>
                     }
                     {view !== 'employee_types' && <Dropdown
@@ -47,6 +51,8 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         title={field3.title}
                         required={field3.required}
                         isMulti={field3.isMulti}
+                        error={error3}
+                        styleMargin={error2 ? '' : 'my-2'}
                     ></Dropdown>}
 
                     {view !== 'employee_types' && view !== 'functions' && <Dropdown
@@ -57,6 +63,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         title={field4.title}
                         required={field4.required}
                         isMulti={field4.isMulti}
+                        error={error4}
                     ></Dropdown>}
 
                     {/* Text area input field */}

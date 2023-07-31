@@ -17,7 +17,12 @@ export default function AddSector() {
     const [categoryNumber, setCategoryNumber] = useState('');
 
     const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const [titleError, SetTitleError] = useState('');
+    const [codeError, setCodeError] = useState('');
+    const [CategoryError, setCategoryError] = useState('');
+    const [employeeTypeError, setEmployeeTypeError] = useState('');
 
     const [emp_type_state, setEmpTypeState] = useState(false);
     const [employeeTypeList, setEmployeeTypeList] = useState([])
@@ -84,7 +89,7 @@ export default function AddSector() {
                     setSectorName(result.name);
                     setParitairCommittee(result.paritair_committee);
                     setDescription(result.description);
-                    setCategoryNumber({ value: 4, label: 4 })
+                    setCategoryNumber({ value: result.category, label: result.category })
 
 
                     if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -160,12 +165,16 @@ export default function AddSector() {
     const SetValues = (value, type) => {
         if (type === 1) {
             setSectorName(value);
+            if (value === '') { SetTitleError('Required'); } else { SetTitleError(''); }
         } else if (type === 2) {
             setParitairCommittee(value);
+            if (value === '') { setCodeError('Required'); } else { setCodeError(''); }
         } else if (type === 3) {
             setEmployeeType(value);
+            if (value.length === 0) { setEmployeeTypeError('Required'); } else { setEmployeeTypeError(''); }
         } else if (type === 4) {
             setCategoryNumber(value);
+            if (value === '') { setCategoryError('Required'); } else { setCategoryError(''); }
         } else {
             setDescription(value);
         }
@@ -173,45 +182,64 @@ export default function AddSector() {
 
     // Function for onSubmit for creating and updating sectors
     const OnSave = () => {
-        // Request params
-        let status = 1
-        if (inactive) { status = 0 }
-        let emp_type_ids = []
-        employeeType.map((val, index) => {
-            emp_type_ids.push(val.value)
-        })
 
-        let data = {
-            'name': sectorName,
-            'paritair_committee': paritairCommittee,
-            'description': description,
-            'employee_types': emp_type_ids,
-            'category_number': categoryNumber.value,
-            'status': status
+        if (sectorName === '') {
+            SetTitleError('Required');
+        }
+        if (paritairCommittee === '') {
+            setCodeError('Required');
+        }
+        if (employeeType.length === 0) {
+            setEmployeeTypeError('Required');
+            console.log('www');
+        }
+        if (categoryNumber === '') {
+            setCategoryError('Required');
+            console.log('lllllll');
         }
 
-        // Creation url and method
-        let url = SectorApiUrl
-        let method = 'POST'
 
-        // Updation url and method
-        if (params.id !== undefined) {
-            url = SectorApiUrl + '/' + params.id
-            method = 'PUT'
+        if (sectorName && paritairCommittee && categoryNumber && employeeType.length !== 0) {
+            // Request params
+            let status = 1
+            if (inactive) { status = 0 }
+            let emp_type_ids = []
+            employeeType.map((val, index) => {
+                emp_type_ids.push(val.value)
+            })
+
+            let data = {
+                'name': sectorName,
+                'paritair_committee': paritairCommittee,
+                'description': description,
+                'employee_types': emp_type_ids,
+                'category': categoryNumber.value,
+                'status': status
+            }
+
+            // Creation url and method
+            let url = SectorApiUrl
+            let method = 'POST'
+
+            // Updation url and method
+            if (params.id !== undefined) {
+                url = SectorApiUrl + '/' + params.id
+                method = 'PUT'
+            }
+
+            // APICall for create and update sectors
+            AXIOS.service(url, method, data)
+                .then((result) => {
+                    if (result && result.status === 200) {
+                        console.log(result.message);
+                    } else {
+                        setSuccessMessage(result.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
-
-        // APICall for create and update sectors
-        AXIOS.service(url, method, data)
-            .then((result) => {
-                if (result && result.status === 200) {
-                    console.log(result.message);
-                } else {
-                    setSuccessMessage(result.message);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
 
     return (
@@ -238,6 +266,10 @@ export default function AddSector() {
                 field4={category_number}
                 field5={sector_desc}
                 field6={sector_status}
+                error1={titleError}
+                error2={codeError}
+                error3={employeeTypeError}
+                error4={CategoryError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'sectors'}

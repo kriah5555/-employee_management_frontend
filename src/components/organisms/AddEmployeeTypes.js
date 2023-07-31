@@ -15,6 +15,9 @@ export default function AddEmployeeTypes() {
     const [description, setDescription] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
+    const [titleError, SetTitleError] = useState('');
+
+
     const navigate = useNavigate();
     const params = useParams();
 
@@ -87,6 +90,7 @@ export default function AddEmployeeTypes() {
     const SetValues = (value, type) => {
         if (type === 1) {
             setEmployeeType(value)
+            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else {
             setDescription(value)
         }
@@ -94,37 +98,46 @@ export default function AddEmployeeTypes() {
 
     // On submit function for create and update employee type
     const OnSave = () => {
-        let status = 1
-        if (inactive) { status = 0 }
-        // Request data
-        let data = {
-            'name': employeeType,
-            'description': description,
-            'status': status
+
+        if (employeeType === '') {
+            SetTitleError('Required');
+        } else {
+            SetTitleError('');
         }
 
-        // Creation url and method
-        let url = EmployeeTypeApiUrl
-        let method = 'POST'
+        if (employeeType) {
+            let status = 1
+            if (inactive) { status = 0 }
+            // Request data
+            let data = {
+                'name': employeeType,
+                'description': description,
+                'status': status
+            }
 
-        // Updation url and method
-        if (params.id !== undefined) {
-            url = EmployeeTypeApiUrl + '/' + params.id
-            method = 'PUT'
+            // Creation url and method
+            let url = EmployeeTypeApiUrl
+            let method = 'POST'
+
+            // Updation url and method
+            if (params.id !== undefined) {
+                url = EmployeeTypeApiUrl + '/' + params.id
+                method = 'PUT'
+            }
+
+            // APICall for create and updation of employee types
+            AXIOS.service(url, method, data)
+                .then((result) => {
+                    if (result && result.status === 200) {
+                        console.log(result.message);
+                    } else {
+                        setSuccessMessage(result.message);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
-
-        // APICall for create and updation of employee types
-        AXIOS.service(url, method, data)
-            .then((result) => {
-                if (result && result.status === 200) {
-                    console.log(result.message);
-                } else {
-                    setSuccessMessage(result.message);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
 
     return (
@@ -142,6 +155,7 @@ export default function AddEmployeeTypes() {
                 field1={employee_type_name}
                 field5={employee_type_desc}
                 field6={employee_type_status}
+                error1={titleError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'employee_types'}
