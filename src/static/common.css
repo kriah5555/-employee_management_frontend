@@ -35,6 +35,10 @@
     background-color: #FF0000;
 }
 
+.bg-grey {
+    background-color: #EAEAEA;
+}
+
 .background-blue {
     background-color: #0070C0;
 }
@@ -67,6 +71,12 @@
 }
 .required-bg {
     background-color: #FF000015;
+}
+.table-head-bg {
+    background-color: #61bfb5;
+    border: #61bfb5;
+    color: white;
+    font-weight: 700 !important;
 }
 
 

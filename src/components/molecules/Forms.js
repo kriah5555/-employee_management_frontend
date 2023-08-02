@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TextInput from "../atoms/formFields/TextInput";
 import TextArea from "../atoms/formFields/TextArea";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
@@ -10,12 +10,12 @@ import Dropdown from "../atoms/Dropdown";
 export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, error1, error2, error3, error4, SetValues, onSave, view }) {
 
     const navigate = useNavigate();
+    const params = useParams();
 
     // Forms for functions, employee type and sectors
-
     return (
-        <div className="form-container my-5 border bg-white">
-            <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2">{formTitle}</h2>
+        <div className={view !== 'sectors' ? "form-container my-5 border bg-white" : "pt-5 pb-5"}>
+            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2">{formTitle}</h2>}
             <div className="d-flex px-5">
                 <form className="col-md-12 px-0">
                     {/* Text input field */}
@@ -86,10 +86,10 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                     ></CustomCheckBox>
                 </form>
             </div>
-            <div className="col-md-12 mt-4 text-right pr-5">
-                <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
+            {view !== 'sectors' && <div className={"col-md-12 mt-4 text-right pr-5" + (view === 'sectors' ? 'pb-5': '')}>
+                { ((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
                 <CustomButton buttonName={'Back'} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
-            </div>
+            </div>}
         </div>
     )
 }

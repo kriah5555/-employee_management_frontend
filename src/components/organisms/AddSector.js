@@ -4,6 +4,12 @@ import { EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import TextInput from "../atoms/formFields/TextInput";
+import DeleteIcon from "../../static/icons/Delete.svg"
+import AddIcon from "../../static/icons/AddPlusIcon.png";
+import CustomButton from "../atoms/CustomButton";
+
 
 export default function AddSector() {
 
@@ -16,6 +22,9 @@ export default function AddSector() {
     const [employeeType, setEmployeeType] = useState([]);
     const [categoryNumber, setCategoryNumber] = useState('');
 
+    const [experience, setExperience] = useState([{ 'level': 1, 'from': '', 'to': '' }]);
+    const [age, setAge] = useState({ '18': '', '17': '', '16': '', '15': '' })
+
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -27,14 +36,40 @@ export default function AddSector() {
     const [emp_type_state, setEmpTypeState] = useState(false);
     const [employeeTypeList, setEmployeeTypeList] = useState([])
     const categoriesList = []
+    const [selectedTab, setSelectedTab] = useState();
+    const [levelsCount, setLevelsCount] = useState([1]);
+    const MaximumCategoryNumber = 50;
     let count = 1
-    while (count <= 20) {
+    while (count <= MaximumCategoryNumber) {
         categoriesList.push({ value: count, label: count })
         count = count + 1
     }
 
     const navigate = useNavigate();
     const params = useParams();
+
+    // Experience tab table header data
+    const ExperienceHeaders = [
+        { title: 'Level', style: 'col-md-4 pl-3' },
+        { title: 'Experience range (in months)', style: 'col-md-4 text-center' },
+        { title: 'Actions', style: 'col-md-4 text-right pr-5' },
+    ]
+
+    // Sectors tabs
+    const TabsData = [
+        { tabHeading: ("Information"), tabName: 'information' },
+        { tabHeading: ("Experience"), tabName: 'experience' },
+        { tabHeading: ("Age"), tabName: 'age' },
+    ]
+
+    // Age tab data
+    const ageData = [
+        { label: 'Age of 18 will receive their full salary', age: '18' },
+        { label: 'Age of 17 will receive their salary', age: '17' },
+        { label: 'Age of 16 will receive their salary', age: '16' },
+        { label: 'Age of 15 will receive their salary', age: '15' },
+    ]
+
 
     // Checkbox status data
     const changeCheckbox = (type) => {
@@ -162,7 +197,7 @@ export default function AddSector() {
     // 5: sector description
     // 6: Active status
 
-    const SetValues = (value, type) => {
+    const SetValues = (value, type, index) => {
         if (type === 1) {
             setSectorName(value);
             if (value === '') { SetTitleError('Required'); } else { SetTitleError(''); }
@@ -175,6 +210,12 @@ export default function AddSector() {
         } else if (type === 4) {
             setCategoryNumber(value);
             if (value === '') { setCategoryError('Required'); } else { setCategoryError(''); }
+        } else if (type === 'from') {
+            experience[index]['from'] = value
+        } else if (type === 'to') {
+            experience[index]['to'] = value
+        } else if (type === 'age') {
+            age[index] = value
         } else {
             setDescription(value);
         }
@@ -191,15 +232,13 @@ export default function AddSector() {
         }
         if (employeeType.length === 0) {
             setEmployeeTypeError('Required');
-            console.log('www');
         }
         if (categoryNumber === '') {
             setCategoryError('Required');
-            console.log('lllllll');
         }
 
 
-        if (sectorName && paritairCommittee && categoryNumber && employeeType.length !== 0) {
+        // if (sectorName && paritairCommittee && categoryNumber && employeeType.length !== 0) {
             // Request params
             let status = 1
             if (inactive) { status = 0 }
@@ -214,7 +253,9 @@ export default function AddSector() {
                 'description': description,
                 'employee_types': emp_type_ids,
                 'category': categoryNumber.value,
-                'status': status
+                'status': status,
+                'experience': experience,
+                'age': age
             }
 
             // Creation url and method
@@ -239,8 +280,36 @@ export default function AddSector() {
                 .catch((error) => {
                     console.log(error);
                 })
+        // }
+    }
+
+    // Function to add new row in experience tab
+    const AddNewRow = () => {
+        const rowsInput = 1;
+        // Adding empty object for each row on add row click
+        const rowData = {
+            'level': levelsCount.length + 1,
+            'from': '',
+            'to': '',
+        }
+        setExperience([...experience, rowData])
+        if (levelsCount !== undefined) {
+            setLevelsCount([...levelsCount, rowsInput])
         }
     }
+
+    // Function to delete each row in experience tab
+    function DeleteRow(index) {
+        // Remove data from experience data
+        const rows = [...levelsCount];
+        rows.splice(index, 1);
+        setLevelsCount(rows);
+        // Remove row from experience rows array
+        const data = [...experience];
+        data.splice(index, 1);
+        setExperience(data);
+    }
+
 
     return (
         <div className="right-container">
@@ -255,25 +324,116 @@ export default function AddSector() {
                 body={(errorMessage)}
                 onHide={() => setErrorMessage('')}
             ></ModalPopup>}
-            <Forms
-                formTitle={'Add Sector'}
-                redirectURL={'/manage-configurations/sectors'}
-                changeCheckbox={changeCheckbox}
-                checkboxList={checkboxList}
-                field1={sector_name}
-                field2={paritair_committee}
-                field3={employee_type}
-                field4={category_number}
-                field5={sector_desc}
-                field6={sector_status}
-                error1={titleError}
-                error2={codeError}
-                error3={employeeTypeError}
-                error4={CategoryError}
-                SetValues={SetValues}
-                onSave={OnSave}
-                view={'sectors'}
-            ></Forms>
+            <div className="form-container my-5 border bg-white">
+                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2">{('Add Sectors')}</h2>
+
+                <Tabs className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
+                    <TabList>
+                        {TabsData.map((val) => {
+                            return (
+                                <Tab key={val.tabName} >{val.tabHeading}</Tab>
+                            )
+                        })}
+                    </TabList>
+
+                    <TabPanel>
+                        <Forms
+                            formTitle={''}
+                            redirectURL={'/manage-configurations/sectors'}
+                            changeCheckbox={changeCheckbox}
+                            checkboxList={checkboxList}
+                            field1={sector_name}
+                            field2={paritair_committee}
+                            field3={employee_type}
+                            field4={category_number}
+                            field5={sector_desc}
+                            field6={sector_status}
+                            error1={titleError}
+                            error2={codeError}
+                            error3={employeeTypeError}
+                            error4={CategoryError}
+                            SetValues={SetValues}
+                            onSave={OnSave}
+                            view={'sectors'}
+                        ></Forms>
+                    </TabPanel>
+
+                    <TabPanel>
+                        <div className="d-flex">
+                            <div className="col-md-12 px-0 border pb-5">
+                                <div className="row col-md-12 table-head-bg p-2 m-0">
+                                    {ExperienceHeaders.map((head, i) => {
+                                        return (
+                                            <div className={head.style} key={head.title}>
+                                                <p className="mb-0 font-weight-bold">{head.title}</p>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
+                                {levelsCount.map((val, index) => {
+                                    return (
+                                        <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
+                                            <div className="col-md-4 pl-3">
+                                                <p className="mb-0">{index + 1}</p>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="row m-0 justify-content-center">
+                                                    <TextInput
+                                                        title={''}
+                                                        name={'from_range'}
+                                                        CustomStyle={"col-md-4 float-left"}
+                                                        required={false}
+                                                        value={experience[index]['from'] ? experience[index]['from'] : undefined}
+                                                        setValue={(e) => SetValues(e, 'from', index)}
+                                                        error={''}
+                                                    ></TextInput>
+                                                    <TextInput
+                                                        title={''}
+                                                        name={'to_range'}
+                                                        CustomStyle={"col-md-4 float-left"}
+                                                        required={false}
+                                                        value={experience[index]['to'] ? experience[index]['to'] : undefined}
+                                                        setValue={(e) => SetValues(e, 'to', index)}
+                                                        error={''}
+                                                    ></TextInput>
+                                                </div>
+                                            </div>
+                                            {index === levelsCount.length - 1 && <div className="col-md-4 text-right pr-4">
+                                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
+                                                {levelsCount.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow()}></img>}
+                                            </div>}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </TabPanel>
+
+                    <TabPanel>
+                        {ageData.map((ageData, index) => {
+                            return (
+                                <TextInput
+                                    key={ageData.age}
+                                    title={ageData.label}
+                                    name={ageData.age}
+                                    CustomStyle={"col-md-4 my-5 mx-3"}
+                                    required={true}
+                                    value={age[ageData.age] ? age[ageData.age] : undefined}
+                                    setValue={(e) => SetValues(e, 'age', ageData.age)}
+                                    // error={''}
+                                    age={true}
+                                ></TextInput>
+                            )
+                        })}
+                    </TabPanel>
+                </Tabs>
+                <div className={"col-md-12 my-4 text-right pr-2"}>
+                    {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3"></CustomButton>
+                </div>
+            </div>
+
         </div>
     )
 }
