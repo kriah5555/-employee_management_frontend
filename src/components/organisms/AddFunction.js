@@ -48,14 +48,14 @@ export default function AddFunction() {
         }
     ]
 
-    const [FunctionsList, setFunctionList] = useState([])
+    const [FunctionsList] = useState([])
 
     //Fetch dropdown data of group functions
     useEffect(() => {
         AXIOS.service(GroupFunctionApiUrl, 'GET')
             .then((result) => {
-                if (result.length !== FunctionsList.length) {
-                    result.map((val, index) => {
+                if (result?.success && result.data.length !== FunctionsList.length) {
+                    result.data.map((val, index) => {
                         FunctionsList.push({ value: val.id, label: val.name })
                     })
                 }
@@ -71,12 +71,12 @@ export default function AddFunction() {
             let editApiUrl = FunctionApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    if (!result.error) {
-                        setFunctionTitle(result.name);
-                        setFunctionCode(result.function_code);
-                        setFunctionDesc(result.description);
-                        setFunctionCategory({ value: result.function_category['id'], label: result.function_category['name'] })
-                        if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    if (!result.error && result?.success) {
+                        setFunctionTitle(result.data.name);
+                        setFunctionCode(result.data.function_code);
+                        setFunctionDesc(result.data.description);
+                        setFunctionCategory({ value: result.data.function_category['id'], label: result.data.function_category['name'] })
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
                         console.log(result.message);
                     }
@@ -186,9 +186,7 @@ export default function AddFunction() {
 
             AXIOS.service(url, method, data)
                 .then((result) => {
-                    if (result && result.status === 200) {
-                        console.log(result.message);
-                    } else {
+                    if (result?.success) {
                         setSuccessMessage(result.message);
                     }
                 })

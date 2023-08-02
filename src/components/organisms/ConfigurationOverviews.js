@@ -97,8 +97,10 @@ export default function ConfigurationOverviews() {
 
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
-            .then((val) => {
-                setListData(val)
+            .then((result) => {
+                if (result?.success) {
+                    setListData(result.data);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -110,9 +112,7 @@ export default function ConfigurationOverviews() {
         // APICall for create and updation of employee types
         AXIOS.service(url, 'DELETE')
             .then((result) => {
-                if (result && result.status === 200) {
-                    console.log(result.message);
-                } else {
+                if (result?.success) {
                     setDataRefresh(!dataRefresh);
                 }
             })

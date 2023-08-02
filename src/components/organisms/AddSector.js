@@ -98,8 +98,8 @@ export default function AddSector() {
     useEffect(() => {
         AXIOS.service(EmployeeTypeApiUrl, 'GET')
             .then((result) => {
-                if (result.length !== employeeTypeList.length) {
-                    result.map((val, index) => {
+                if (result?.success && result.data.length !== employeeTypeList.length) {
+                    result.data.map((val, index) => {
                         employeeTypeList.push({ value: val.id, label: val.name })
                     })
                 }
@@ -112,22 +112,26 @@ export default function AddSector() {
     // Fetch sector data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = SectorApiUrl + '/' + params.id
+            let editApiUrl = SectorApiUrl + '/' + params.id + '/edit'
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    if (result.employee_types.length === 0) { setEmpTypeState(true) }
-                    if (result.employee_types.length !== employeeType.length) {
-                        result.employee_types.map((val) => {
-                            employeeType.push({ value: val.id, label: val.name })
-                        })
+                    if (result?.success) {
+                        if (result.data.employee_types.length === 0) { setEmpTypeState(true) }
+                        if (result.data.employee_types.length !== employeeType.length) {
+                            result.data.employee_types.map((val) => {
+                                employeeType.push({ value: val.id, label: val.name })
+                            })
+                        }
+                        setSectorName(result.data.name);
+                        setParitairCommittee(result.data.paritair_committee);
+                        setDescription(result.data.description);
+                        setCategoryNumber({ value: result.data.category, label: result.data.category })
+                        setExperience(result.data.salary_config.salary_steps);
+                        setLevelsCount(result.data.salary_config.salary_steps)
+                        setAge(result.data.age);
+
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
-                    setSectorName(result.name);
-                    setParitairCommittee(result.paritair_committee);
-                    setDescription(result.description);
-                    setCategoryNumber({ value: result.category, label: result.category })
-
-
-                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -211,11 +215,17 @@ export default function AddSector() {
             setCategoryNumber(value);
             if (value === '') { setCategoryError('Required'); } else { setCategoryError(''); }
         } else if (type === 'from') {
-            experience[index]['from'] = value
+            const data = [...experience];
+            data[index]['from'] = value
+            setExperience(data);
         } else if (type === 'to') {
-            experience[index]['to'] = value
+            const data = [...experience];
+            data[index]['to'] = value
+            setExperience(data);
         } else if (type === 'age') {
-            age[index] = value
+            const data = { ...age };
+            data[index] = value
+            setAge(data);
         } else {
             setDescription(value);
         }
@@ -239,47 +249,45 @@ export default function AddSector() {
 
 
         // if (sectorName && paritairCommittee && categoryNumber && employeeType.length !== 0) {
-            // Request params
-            let status = 1
-            if (inactive) { status = 0 }
-            let emp_type_ids = []
-            employeeType.map((val, index) => {
-                emp_type_ids.push(val.value)
+        // Request params
+        let status = 1
+        if (inactive) { status = 0 }
+        let emp_type_ids = []
+        employeeType.map((val, index) => {
+            emp_type_ids.push(val.value)
+        })
+
+        let data = {
+            'name': sectorName,
+            'paritair_committee': paritairCommittee,
+            'description': description,
+            'employee_types': emp_type_ids,
+            'category': categoryNumber.value,
+            'status': status,
+            'experience': experience,
+            'age': age
+        }
+
+        // Creation url and method
+        let url = SectorApiUrl
+        let method = 'POST'
+
+        // Updation url and method
+        if (params.id !== undefined) {
+            url = SectorApiUrl + '/' + params.id
+            method = 'PUT'
+        }
+
+        // APICall for create and update sectors
+        AXIOS.service(url, method, data)
+            .then((result) => {
+                if (result?.success) {
+                    setSuccessMessage(result.message);
+                }
             })
-
-            let data = {
-                'name': sectorName,
-                'paritair_committee': paritairCommittee,
-                'description': description,
-                'employee_types': emp_type_ids,
-                'category': categoryNumber.value,
-                'status': status,
-                'experience': experience,
-                'age': age
-            }
-
-            // Creation url and method
-            let url = SectorApiUrl
-            let method = 'POST'
-
-            // Updation url and method
-            if (params.id !== undefined) {
-                url = SectorApiUrl + '/' + params.id
-                method = 'PUT'
-            }
-
-            // APICall for create and update sectors
-            AXIOS.service(url, method, data)
-                .then((result) => {
-                    if (result && result.status === 200) {
-                        console.log(result.message);
-                    } else {
-                        setSuccessMessage(result.message);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            .catch((error) => {
+                console.log(error);
+            })
         // }
     }
 

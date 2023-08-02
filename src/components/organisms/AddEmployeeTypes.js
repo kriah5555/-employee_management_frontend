@@ -70,9 +70,11 @@ export default function AddEmployeeTypes() {
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    setEmployeeType(result.name);
-                    setDescription(result.description);
-                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    if (result?.success) {
+                        setEmployeeType(result.data.name);
+                        setDescription(result.data.description);
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -128,9 +130,7 @@ export default function AddEmployeeTypes() {
             // APICall for create and updation of employee types
             AXIOS.service(url, method, data)
                 .then((result) => {
-                    if (result && result.status === 200) {
-                        console.log(result.message);
-                    } else {
+                    if (result?.success) {
                         setSuccessMessage(result.message);
                     }
                 })

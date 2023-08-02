@@ -58,9 +58,8 @@ export default function AddGroupFunction() {
     useEffect(() => {
         AXIOS.service(SectorApiUrl, 'GET')
             .then((result) => {
-                console.log(result);
-                if (result.length !== sectorList.length) {
-                    result.map((val, index) => {
+                if (result?.success && result.data.length !== sectorList.length) {
+                    result.data.map((val, index) => {
                         sectorList.push({ value: val.id, label: val.name })
                     })
                 }
@@ -76,15 +75,17 @@ export default function AddGroupFunction() {
             let editApiUrl = GroupFunctionApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    setGroupName(result.name);
-                    setDescription(result.description);
-                    setFunctionCategory({ value: result.category, label: result.category })
-                    if (result.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                    sectorList.map((sector) => {
-                        if (sector.value === result.sector_id) {
-                            setSector(sector);
-                        }
-                    })
+                    if (result?.success) {
+                        setGroupName(result.data.name);
+                        setDescription(result.data.description);
+                        setFunctionCategory({ value: result.data.category, label: result.data.category })
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        sectorList.map((sector) => {
+                            if (sector.value === result.data.sector_id) {
+                                setSector(sector);
+                            }
+                        })
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -199,9 +200,7 @@ export default function AddGroupFunction() {
             // APICall for creating and updating group function
             AXIOS.service(url, method, data)
                 .then((result) => {
-                    if (result && result.status === 200) {
-                        console.log(result.message);
-                    } else {
+                    if (result?.success) {
                         setSuccessMessage(result.message);
                     }
                 })
