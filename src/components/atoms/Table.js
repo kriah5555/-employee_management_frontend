@@ -55,7 +55,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             backgroundColor: "#61BFB5",
             color: "#FFF",
             fontSize: "0.875rem",
-            textAlign: "left",
+            textAlign: 'left',
             fontWeight: "bold",
             zIndex: 1,
             display: showDetails ? 'none' : '',
@@ -64,7 +64,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         },
 
         //Pagination props
-        paging: tableName === 'employee' ? false : true,
+        paging: tableName === 'employee' || tableName === 'min_salary' ? false : true,
         pageSize: 10,
         pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
@@ -128,7 +128,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                 options={options}
 
                 //Actions props
-                actions={showDetails ? [] : actionIconsList}
+                actions={showDetails || tableName === 'min_salary' ? [] : actionIconsList}
             />
         </MuiThemeProvider>
 

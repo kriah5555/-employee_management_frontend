@@ -5,6 +5,7 @@ import ConfigurationIcon from "../../static/icons/Configuration.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
+import TextInput from "../atoms/formFields/TextInput";
 
 export default function ConfigurationOverviews() {
 
@@ -60,6 +61,80 @@ export default function ConfigurationOverviews() {
         },
     ];
 
+    // Header data for Salaries overview
+    const salary_header = [
+        {
+            title: 'Level',
+            field: 'level',
+            size: 500,
+        },
+        {
+            title: 'Category 1',
+            field: 'cat1',
+            size: 200,
+        },
+        {
+            title: 'Category 2',
+            field: 'cat2',
+            size: 200,
+        },
+        {
+            title: 'Category 3',
+            field: 'cat3',
+            size: 200,
+        },
+        {
+            title: 'Category 4',
+            field: 'cat4',
+            size: 200,
+        },
+        {
+            title: 'Category 5',
+            field: 'cat5',
+            size: 200,
+        },
+        {
+            title: 'Category 6',
+            field: 'cat6',
+            size: 200,
+        },
+        {
+            title: 'Category 7',
+            field: 'cat7',
+            size: 200,
+        },
+        {
+            title: 'Category 8',
+            field: 'cat8',
+            size: 200,
+        },
+        {
+            title: 'Category 9',
+            field: 'cat9',
+            size: 200,
+        },
+    ];
+
+
+
+    const box = () => {
+        return (
+            <TextInput
+                title={''}
+                name={'box'}
+                CustomStyle={"col-md-8 p-0"}
+            ></TextInput>
+        )
+    }
+
+    const salaryData = [
+        { 'level': '1', 'cat1': box(), 'cat2': box(), 'cat3': box(), 'cat4': box(), 'cat5': box(), 'cat6': box(), 'cat7': box(), 'cat8': box(), 'cat9': box(), id: '1' },
+        { 'level': '1', 'cat1': box(), 'cat2': box(), 'cat3': box(), 'cat4': box(), 'cat5': box(), 'cat6': box(), 'cat7': box(), 'cat8': box(), 'cat9': box(), id: '2' },
+        { 'level': '3', 'cat1': box(), 'cat2': box(), 'cat3': box(), 'cat4': box(), 'cat5': box(), 'cat6': box(), 'cat7': box(), 'cat8': box(), 'cat9': box(), id: '3' },
+        { 'level': '4', 'cat1': box(), 'cat2': box(), 'cat3': box(), 'cat4': box(), 'cat5': box(), 'cat6': box(), 'cat7': box(), 'cat8': box(), 'cat9': box(), id: '4' },
+        { 'level': '5', 'cat1': box(), 'cat2': box(), 'cat3': box(), 'cat4': box(), 'cat5': box(), 'cat6': box(), 'cat7': box(), 'cat8': box(), 'cat9': box(), id: '5' },
+    ]
+
 
     const [headers, setHeaders] = useState(emp_type_sector_headers);
     const [listData, setListData] = useState();
@@ -92,19 +167,21 @@ export default function ConfigurationOverviews() {
 
         } else {
             apiUrl = ''
-            setHeaders([]); setListData([]); setTitle(''); setAddTitle('');
+            setHeaders(salary_header); setListData(salaryData); setTitle('Manage minimum salaries'); setAddTitle('');
         }
 
         // Api call to get list data
-        AXIOS.service(apiUrl, 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    setListData(result.data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (overviewContent !== 'min_salary') {
+            AXIOS.service(apiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setListData(result.data);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
 
     }, [overviewContent, dataRefresh])
 
@@ -154,29 +231,29 @@ export default function ConfigurationOverviews() {
 
     return (
         <div className="right-container">
-            {overviewContent !== 'min_salary' && <div className="company-tab-width mt-3 border bg-white">
+            {<div className="company-tab-width mt-3 border bg-white">
                 <div className="d-flex col-md-12 my-2 justify-content-between">
                     <h4 className="text-color mb-0">{title}</h4>
                     <div className="row m-0">
                         <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
                             <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>
                         </p>
-                        <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
+                        {addTitle &&<p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
-                        </p>
+                        </p>}
                     </div>
                 </div>
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} tableName="function" viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>
+                    <Table columns={headers} rows={listData} tableName={overviewContent !== 'min_salary' ? 'function' : overviewContent} viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>
                 </div>
             </div>}
-            {overviewContent === 'min_salary' && <div className="company-tab-width mt-3 p-5 border bg-white">
+            {/* {overviewContent === 'min_salary' && <div className="company-tab-width mt-3 p-5 border bg-white">
                 <p className="text-color pointer mr-4" onClick={() => navigate('/configurations')}>
                     <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>
                 </p>
                 <h4> Manage minimum salaries </h4>
             </div>
-            }
+            } */}
         </div>
 
     )
