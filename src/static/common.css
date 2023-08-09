@@ -183,8 +183,11 @@ li,
     background-color: #61bfb5;
     border: #61bfb5;
 }
-
-
+/* for add-company form */
+.button-confirm {
+    color: #fff;
+    background-color:#073763;
+}
 
 /* Dynamic content part */
 .right-container {
@@ -402,6 +405,11 @@ textarea {
 .form-container {
     width: 94%;
     border-radius: 5px;
+}
+
+.form-subHeading {
+    text-decoration:#073763 underline;
+    font-size: 1.25rem;
 }
 
 

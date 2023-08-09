@@ -13,7 +13,7 @@ import AddFunction from '../components/organisms/AddFunction';
 import AddEmployeeTypes from '../components/organisms/AddEmployeeTypes';
 import AddSector from '../components/organisms/AddSector';
 import AddGroupFunction from '../components/organisms/AddGroupFunction';
-
+import AddCompany from '../pages/Add_company';
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
 
@@ -26,7 +26,8 @@ const BaseRouter = () => (
 
         <Route exact path="/manage-employees"  element={<Employees></Employees>} />
         <Route exact path="/manage-companies"  element={<Companies></Companies>} />
-        <Route exact path='/configurations' element={<Configurations></Configurations>} />
+        <Route exact path="/manage-companies/add-company" element={<AddCompany/>}/>
+        <Route exact path='/configurations' element={<Configurations></Configurations>} />  
         <Route exact path='/settings' element={<Settings></Settings>} />
 
         <Route exact path='/manage-configurations/:type' element={<ConfigurationOverviews></ConfigurationOverviews>} />

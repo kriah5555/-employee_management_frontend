@@ -94,7 +94,6 @@ export default function Header() {
         {icon : NotificationIcon, url:'#', type:'notification'},
     ]
     
-
     return (
         <section>
             <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
