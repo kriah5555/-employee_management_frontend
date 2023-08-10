@@ -259,6 +259,10 @@ li,
     padding-right: 0 !important;
 }
 
+.css-1nmdiq5-menu {
+    z-index: 3 !important;
+}
+
 
 
 
@@ -347,10 +351,33 @@ li,
     z-index: 0 !important;
 }
 
-.MuiToolbar-gutters {
+.MuiInput-underline:before {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "\00a0";
+    position: absolute;
+    transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.42) !important;
+    pointer-events: none;
+}
+
+.MuiInput-underline:after {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    position: absolute;
+    transform: scaleX(0);
+    transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+    border-bottom: 0px solid black !important;
+    pointer-events: none;
+}
+
+/* .MuiToolbar-gutters {
     padding: 0px !important;
     background-color: #61BFB5;
-}
+} */
 
 
 
@@ -473,4 +500,8 @@ textarea {
     .font-details {
         font-size: 16px;
     }
+}
+
+.border-thick {
+    border-bottom: 12px solid #F3F3F3;
 }
