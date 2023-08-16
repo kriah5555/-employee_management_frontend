@@ -7,7 +7,7 @@ import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
 
 
-export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, error1, error2, error3, error4, SetValues, onSave, view }) {
+export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, field7, error1, error2, error3, error4, error7, SetValues, onSave, view }) {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -31,7 +31,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         styleMargin={error1 ? '' : (view === 'group_function' ? 'my-2' : 'mt-2 mb-1')}
                     ></TextInput>
 
-                    {view !== 'employee_types' && view !== 'group_function' &&
+                    {view !== 'group_function' &&
                         <TextInput title={field2.title}
                             name={field2.name}
                             placeholder={field2.placeholder}
@@ -43,7 +43,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                             styleMargin={error2 ? 'mt-2 mb-1' : 'my-2'}
                         ></TextInput>
                     }
-                    {view !== 'employee_types' && <Dropdown
+                    {<Dropdown
                         options={field3.options}
                         selectedOptions={field3.value}
                         onSelectFunction={(e) => SetValues(e, 3)}
@@ -55,7 +55,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         styleMargin={error2 ? '' : 'my-2'}
                     ></Dropdown>}
 
-                    {view !== 'employee_types' && view !== 'functions' && <Dropdown
+                    {view !== 'functions' && <Dropdown
                         options={field4.options}
                         selectedOptions={field4.value}
                         onSelectFunction={(e) => SetValues(e, 4)}
@@ -64,6 +64,17 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         required={field4.required}
                         isMulti={field4.isMulti}
                         error={error4}
+                    ></Dropdown>}
+
+                    {view === 'employee_types' && <Dropdown
+                        options={field7.options}
+                        selectedOptions={field7.value}
+                        onSelectFunction={(e) => SetValues(e, 7)}
+                        CustomStyle="col-md-6 mt-4 float-left"
+                        title={field7.title}
+                        required={field7.required}
+                        isMulti={field7.isMulti}
+                        error={error7}
                     ></Dropdown>}
 
                     {/* Text area input field */}
@@ -86,8 +97,8 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                     ></CustomCheckBox>
                 </form>
             </div>
-            {view !== 'sectors' && <div className={"col-md-12 mt-4 text-right pr-5" + (view === 'sectors' ? 'pb-5': '')}>
-                { ((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
+            {view !== 'sectors' && <div className={"col-md-12 mt-4 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
+                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
                 <CustomButton buttonName={'Back'} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
             </div>}
         </div>
