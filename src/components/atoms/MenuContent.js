@@ -18,9 +18,14 @@ export default function MenuContent({content, MenuName, setMenuclose, IdName}) {
                 }
                 {content.map((val, index) => {
                     return(
-                        <a key={val.title} className="list-group-item text-decoration-none border-bottom-0 text-dark" href={val.url}>
+                        <>
+                        {val.ActionFunction && <a key={val.title} className="list-group-item text-decoration-none border-bottom-0 text-dark" onClick={() => val.ActionFunction()}>
                             {val.icon ? <img alt={val.title} className="shortcut-icon pr-2" src={val.icon}></img> : ''}{val.title}
-                        </a>
+                        </a>}
+                        {val.url && <a key={val.title} className="list-group-item text-decoration-none border-bottom-0 text-dark" href={val.url} >
+                            {val.icon ? <img alt={val.title} className="shortcut-icon pr-2" src={val.icon}></img> : ''}{val.title}
+                        </a>}
+                        </>
                     )
                 })}
             </ul>

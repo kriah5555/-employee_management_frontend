@@ -15,16 +15,21 @@ import AddHolidayIcon from "../static/icons/ManageHoliday.svg"
 import AddLocation from "../static/icons/AddLocation.svg"
 import DownArrowIcon from "../static/icons/arrow.png"
 import {t} from "../translations/Translation"
+
+import { APICALL as AXIOS } from "../services/AxiosServices";
+import { LogoutApiUrl } from "../routes/ApiEndPoints";
+import { useNavigate } from "react-router-dom"
  
-export default function Header() {
+export default function Header({setAuth}) {
 
     const Company = "Company 01";
-    const UserName = "Jessica";
+    const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit'}));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
     const [activeLanguage, setActiveLanguage] = useState({value:'en', label:'EN'})
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         //Implementing the setInterval method for displaying current belgium time
@@ -37,12 +42,25 @@ export default function Header() {
         return () => clearInterval(interval);
     }, [Time]);
 
+    // Function to call Logout Api call 
+    const Logout = () => {
+        AXIOS.service(LogoutApiUrl, 'GET')
+        .then((result) => {
+            if (result.success) {
+                localStorage.clear();
+                localStorage.setItem('auth', false)
+                setAuth(false);
+                navigate('/login');
+            }
+        })
+    }
+
     //Dummy data for menu content
     const MenuData = [
         {title: 'My account', icon: '', url: '/my-account'},
         {title: 'Change company', icon: '', url: '/change-company'},
         {title: 'Change password', icon: '', url: '/change-password'},
-        {title: 'Logout', icon: '', url: '/login'},
+        {title: 'Logout', icon: '', url: '', ActionFunction:Logout},
     ]
 
     const shortcutData = [
@@ -94,7 +112,6 @@ export default function Header() {
         {icon : NotificationIcon, url:'#', type:'notification'},
     ]
     
-
     return (
         <section>
             <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
