@@ -6,7 +6,6 @@ import Settings from '../pages/Settings';
 
 import Login from '../pages/Login';
 import Employees from '../pages/Employees';
-import Logout from '../components/atoms/Logout';
 import Configurations from '../pages/Configurations';
 import ConfigurationOverviews from '../components/organisms/ConfigurationOverviews';
 import AddFunction from '../components/organisms/AddFunction';

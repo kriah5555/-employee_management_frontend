@@ -163,6 +163,7 @@ function headers() {
         headers: {
             "Content-Type": "application/json",
             // "Authorization": "Bearer aAqbVgy30qDmSqT0m32rB2xON0EE_3OW",
+            "Authorization" : localStorage.getItem('token'),
             // 'Access-Control-Allow-Origin': '*',
             //"Authorization-id": Authorization_id,
             // "Language-id" : reduxState.active_language,

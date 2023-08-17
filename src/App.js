@@ -17,7 +17,7 @@ function App() {
          localStorage.setItem('auth', false);
       }
       setAuth(localStorage.getItem('auth'));
-   }, [localStorage.getItem('auth')])
+   }, [auth])
 
    return (
       <div>
@@ -27,14 +27,14 @@ function App() {
                {/* Display the contents with base routes */}
                {/* Common layout with header and sidebar */}
                {auth === 'true' && <>
-                  <Header></Header>
+                  <Header setAuth={setAuth}></Header>
                   <div className='col-md-12 p-0 d-flex'>
                      <Sidebar></Sidebar>
                      <BaseRouter></BaseRouter>
                   </div>
                </>}
                {auth === 'false' &&
-                  <Login></Login>
+                  <Login setAuth={setAuth}></Login>
                }
             </Router>
          </AppContext.Provider>

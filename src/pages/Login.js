@@ -5,22 +5,39 @@ import Logo from "../static/icons/Logo.png"
 import CustomButton from "../components/atoms/CustomButton";
 import { useNavigate } from "react-router-dom";
 import IndiiBanner from "../static/icons/indii.jpeg";
+import { APICALL as AXIOS } from "../services/AxiosServices";
+import { LoginApiUrl } from "../routes/ApiEndPoints";
 
 
-export default function Login() {
+export default function Login({ setAuth }) {
 
     const navigate = useNavigate();
-    const [auth, setAuth] = useState(false);
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
 
+    // Function to call login Api
     const Authenticate = () => {
-        setAuth(true)
-        localStorage.setItem('auth', true)
-        navigate('/')
-    }
-    useEffect(() => {
-        localStorage.setItem('auth', auth);
-    }, [auth])
 
+        let data = {
+            'username': userName,
+            'password': password
+        }
+
+        AXIOS.service(LoginApiUrl, 'POST', data)
+            .then((result) => {
+                if (result.success) {
+                    let response = result.data
+                    localStorage.setItem('token', 'Bearer ' + response.token);
+                    localStorage.setItem('userId', response.uid);
+                    localStorage.setItem('name', response.username);
+                    setAuth(true)
+                    localStorage.setItem('auth', true)
+                    navigate('/');
+                }
+            })
+    }
+
+    localStorage.setItem('auth', false);
 
     return (
         <div className="col-md-12 d-flex full-page-height align-items-center p-0">
@@ -32,12 +49,12 @@ export default function Login() {
                     <img alt={t("LOGO")} className="login-logo" src={Logo}></img>
                 </div>
                 <br></br>
-                <TextInput title={('Username')} name={"username"} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
+                <TextInput title={('Username')} name={"username"} setValue={setUserName} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                 <br></br>
-                <TextInput title={('Password')} name={"password"} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
+                <TextInput title={('Password')} name={"password"} setValue={setPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                 <p className="mt-3 font-weight-bold text-right col-md-8 mx-auto">Forgot password?</p>
                 <div className="col-md-8 mx-auto">
-                    <CustomButton buttonName={'Login'} ActionFunction={() => Authenticate()} redirectURL='/' CustomStyle={"col-md-12 mx-auto"}></CustomButton>
+                    <CustomButton buttonName={'Login'} ActionFunction={() => Authenticate()} CustomStyle={"col-md-12 mx-auto"}></CustomButton>
                 </div>
             </div>
         </div>

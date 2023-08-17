@@ -34,15 +34,17 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         PreviousPage: NavigateBeforeRounded,
     }
 
+    const searchStyle = showDetails ? {width: ''} : {width: '200%', border:'0.5px solid #ABABAB', borderRadius: '5px'}
+
     //Table options
     const options = {
         filtering: false,
-        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 200px)' : 'calc(100vh - 160px)', //'83.5vh',
+        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
 
         //Search toolbar props
-        toolbar: showDetails ? true : false,
+        toolbar: tableName !== 'min_salary' ? true : false,
         searchFieldAlignment: 'left',
-        searchFieldStyle: { padding: '0px', backgroundColor: "#61BFB5" },
+        searchFieldStyle: searchStyle, //padding: '0px',
 
         //Expand props (Parent and child format/tree data format)
         expanded: true,
@@ -109,6 +111,12 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             hidden: (!rowData.parentOnly && tableName !== 'company' && tableName !== 'employee') ? false : true
         })
     ]
+
+    // const localization = {
+    //     body: {
+    //         emptyDataSourceMessage : 'Please select sector to get the salaries'
+    //     }
+    // }
 
 
     return (

@@ -6,6 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
+import Dropdown from "../atoms/Dropdown";
+import CustomButton from "../atoms/CustomButton";
 
 export default function ConfigurationOverviews() {
 
@@ -13,6 +15,8 @@ export default function ConfigurationOverviews() {
     let params = useParams();
     let overviewContent = params.type
     const [dataRefresh, setDataRefresh] = useState(false);
+    const [selectedSector, setSelectedSector] = useState('');
+    const [noSectorMessage, setNoSectorMessage] = useState(overviewContent === 'min_salary' ? 'Please select sector to get the salaries': '')
 
     // Header data for Function overview
     const function_headers = [
@@ -123,6 +127,7 @@ export default function ConfigurationOverviews() {
                 title={''}
                 name={'box'}
                 CustomStyle={"col-md-8 p-0"}
+                setValue={(e) => console.log(e)}
             ></TextInput>
         )
     }
@@ -140,7 +145,8 @@ export default function ConfigurationOverviews() {
     const [listData, setListData] = useState();
     const [title, setTitle] = useState('Manage employee types');
     const [addTitle, setAddTitle] = useState('Add employee type');
-    const [addUrl, setAddUrl] = useState('/add_employee_type')
+    const [addUrl, setAddUrl] = useState('/add_employee_type');
+    const [sectors, setSectors] = useState([])
 
 
     useEffect(() => {
@@ -166,22 +172,30 @@ export default function ConfigurationOverviews() {
             setHeaders(group_function_headers); setTitle('Manage group functions'); setAddTitle('Add group function'); setAddUrl('/add-group-function');
 
         } else {
-            apiUrl = ''
+            apiUrl = SectorApiUrl
             setHeaders(salary_header); setListData(salaryData); setTitle('Manage minimum salaries'); setAddTitle('');
         }
 
         // Api call to get list data
-        if (overviewContent !== 'min_salary') {
-            AXIOS.service(apiUrl, 'GET')
-                .then((result) => {
-                    if (result?.success) {
+        // if (overviewContent !== 'min_salary') {
+        AXIOS.service(apiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    if (overviewContent === 'min_salary') {
+                        if (sectors.length === 0) {
+                            result.data.map((val, index) => {
+                                sectors.push({ value: val.id, label: val.name })
+                            })
+                        }
+                    } else {
                         setListData(result.data);
                     }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        // }
 
     }, [overviewContent, dataRefresh])
 
@@ -225,6 +239,10 @@ export default function ConfigurationOverviews() {
                 DeleteApiCall(GroupFunctionApiUrl + '/' + data.id)
             }
         }
+    }
+
+    const getSalaries = () => {
+        setNoSectorMessage('')
 
     }
 
@@ -232,19 +250,34 @@ export default function ConfigurationOverviews() {
     return (
         <div className="right-container">
             {<div className="company-tab-width mt-3 border bg-white">
-                <div className="d-flex col-md-12 my-2 justify-content-between">
+                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
                     <h4 className="text-color mb-0">{title}</h4>
                     <div className="row m-0">
                         <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
                             <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>
                         </p>
-                        {addTitle &&<p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
+                        {addTitle && <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
                         </p>}
                     </div>
                 </div>
+                {overviewContent === 'min_salary' && <div className="col-md-12 mb-2 row m-0">
+                    <Dropdown
+                        options={sectors}
+                        selectedOptions={selectedSector}
+                        onSelectFunction={(e) => setSelectedSector(e)}
+                        CustomStyle="my-2 col-md-6"
+                        title={'Sectors'}
+                        required={true}
+                        isMulti={false}
+                    // error={error3}
+                    // styleMargin={error2 ? '' : 'my-2'}
+                    ></Dropdown>
+                    <CustomButton buttonName={'Search'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
+                </div>}
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} tableName={overviewContent !== 'min_salary' ? 'function' : overviewContent} viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>
+                    {noSectorMessage && overviewContent === 'min_salary' && <h5 className="text-danger ml-2 pl-4">{noSectorMessage}</h5>}
+                    {noSectorMessage === '' && <Table columns={headers} rows={listData} tableName={overviewContent !== 'min_salary' ? 'function' : overviewContent} viewAction={viewAction} height={'calc(100vh - 162px)'}></Table>}
                 </div>
             </div>}
             {/* {overviewContent === 'min_salary' && <div className="company-tab-width mt-3 p-5 border bg-white">
