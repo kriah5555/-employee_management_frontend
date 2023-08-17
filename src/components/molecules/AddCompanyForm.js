@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import CustomButton from "../atoms/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 export default function AddCompanyForm() {
 
@@ -25,6 +26,7 @@ export default function AddCompanyForm() {
     const [telephone, setTelephone] = useState("");
     const [error,setErrorMessage] = useState("");
 
+    const navigate = useNavigate();
  
      //data from api
      const options = [{value:1,label:"A"},{value:2,label:"B"},{value:3,label:"C"},{value:4,label:"D"}];
@@ -66,8 +68,8 @@ export default function AddCompanyForm() {
     return (
         
         <form className="container-fluid mt-3">    
-            <span className=" d-block form-subHeading">Add company</span>
-            <div className="row">
+            {/* <span className=" d-block form-subHeading">Add company</span> */}
+            <div className="row" m-0>
             {addCompanyFieldsArray.map((field,index)=>{
                 
                 if(field.type=="input_field") {
@@ -119,6 +121,9 @@ export default function AddCompanyForm() {
                 </div>);
                 })}
             </div>
+            <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="mr-3 float-right mb-2"></CustomButton>
+
           </form>
+          
     );
 }       

@@ -5,7 +5,7 @@ import Dropdown from "../components/atoms/Dropdown";
 import AddIcon from "../static/icons/add.png"
 import CustomButton from "../components/atoms/CustomButton";
 import { Link } from "react-router-dom";
-import  AddLocation from "./Add_location";
+import  AddLocation from "../components/molecules/LocationForm";
 import CompanyForm from "../components/molecules/CompanyForm";
 export default function AddCompany() {
 
