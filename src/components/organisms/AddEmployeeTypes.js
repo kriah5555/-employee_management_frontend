@@ -13,9 +13,9 @@ export default function AddEmployeeTypes() {
 
     const [employeeType, setEmployeeType] = useState('');
     const [coefficient, setCoefficient] = useState('');
-    const [contractType, setContractType] = useState('');
+    const [contractType, setContractType] = useState([]);
     const [dimonaType, setDimonaType] = useState('');
-    const [contractRenewal, setContractRenewal] = useState('');
+    const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
 
     const [successMessage, setSuccessMessage] = useState('');
@@ -23,7 +23,7 @@ export default function AddEmployeeTypes() {
 
     const [contractTypeList, setContractTypeList] = useState([]);
     const [dimonaTypeList, setDimonaTypeList] = useState([]);
-    const [contractRenewalList, setContractRenewalList] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
 
     const navigate = useNavigate();
     const params = useParams();
@@ -58,13 +58,39 @@ export default function AddEmployeeTypes() {
                     let resp = result.data
                     console.log(result.data);
                     setContractTypeList(resp.contract_types);
-                    setContractRenewalList(resp.contract_renewal);
-                    setDimonaTypeList(resp.dimona_type);
+                    setCategoryList(resp.employee_type_categories);
+                    setDimonaTypeList(resp.dimona_types);
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
+    }, [])
+
+    // Fetch data of employee type for update
+    useEffect(() => {
+        if (params.id) {
+            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id
+            // Api call to get detail data
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setEmployeeType(result.data.name);
+                        setDescription(result.data.description);
+                        setCategory({value: result.data.employee_type_category['id'], label: result.data.employee_type_category['name']})
+                        if (result.data.contract_types.length !== contractType.length) {
+                            result.data.contract_types.map((val) => {
+                                contractType.push({ value: val.id, label: val.name })
+                            })
+                        }
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
     }, [])
 
     // Form field data
@@ -76,13 +102,13 @@ export default function AddEmployeeTypes() {
         value: employeeType,
     }
 
-    const Coefficient = {
-        title: 'Coefficient',
-        name: 'coefficient',
-        placeholder: 'Enter coefficient',
-        required: true,
-        value: coefficient,
-    }
+    // const Coefficient = {
+    //     title: 'Coefficient',
+    //     name: 'coefficient',
+    //     placeholder: 'Enter coefficient',
+    //     required: true,
+    //     value: coefficient,
+    // }
 
     const contract_types = {
         title: 'Contract type',
@@ -90,7 +116,7 @@ export default function AddEmployeeTypes() {
         required: true,
         options: contractTypeList,
         value: contractType,
-        isMulti: false
+        isMulti: true,
     }
     const dimona_types = {
         title: 'Dimona type',
@@ -100,12 +126,12 @@ export default function AddEmployeeTypes() {
         value: dimonaType,
         isMulti: false
     }
-    const contract_renewal = {
-        title: 'Contract renewal',
-        name: 'contract_renewal',
+    const employee_type_category = {
+        title: 'Employee type category',
+        name: 'employee_type_category',
         required: true,
-        options: contractRenewalList,
-        value: contractRenewal,
+        options: categoryList,
+        value: category,
         isMulti: false
     }
 
@@ -120,25 +146,7 @@ export default function AddEmployeeTypes() {
         required: true
     }
 
-    // Fetch data of employee type for update
-    useEffect(() => {
-        if (params.id) {
-            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id
-            // Api call to get detail data
-            AXIOS.service(editApiUrl, 'GET')
-                .then((result) => {
-                    if (result?.success) {
-                        setEmployeeType(result.data.name);
-                        setDescription(result.data.description);
-                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
-
-    }, [])
+    
 
 
     // Type:
@@ -148,7 +156,7 @@ export default function AddEmployeeTypes() {
     // 4: dimona type
     // 5: Employee type description
     // 6: Active status
-    // 7: contract renewal
+    // 7: category
 
     // OnChange set field values
     const SetValues = (value, type) => {
@@ -162,7 +170,7 @@ export default function AddEmployeeTypes() {
         } else if (type === 4) {
             setDimonaType(value);
         } else if (type === 7) {
-            setContractRenewal(value);
+            setCategory(value);
         } else {
             setDescription(value);
         }
@@ -180,11 +188,17 @@ export default function AddEmployeeTypes() {
         if (employeeType) {
             let status = 1
             if (inactive) { status = 0 }
+
+            let contract_types_arr = []
+            contractType.map((val, index) => {
+                contract_types_arr.push(val.value)
+            })
             // Request data
             let data = {
                 'name': employeeType,
-                'contract_type_id': contractType.value,
-                'contract_renewal_id': contractRenewal.value,
+                'dimona_type_id': dimonaType.value,
+                'employee_type_category_id': category.value,
+                'contract_types': contract_types_arr,
                 'description': description,
                 'status': status
             }
@@ -227,12 +241,12 @@ export default function AddEmployeeTypes() {
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}
                 field1={employee_type_name}
-                field2={Coefficient}
+                // field2={Coefficient}
                 field3={contract_types}
                 field4={dimona_types}
                 field5={employee_type_desc}
                 field6={employee_type_status}
-                field7={contract_renewal}
+                field7={employee_type_category}
                 error1={titleError}
                 SetValues={SetValues}
                 onSave={OnSave}

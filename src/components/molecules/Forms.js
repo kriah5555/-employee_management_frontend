@@ -23,7 +23,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         title={field1.title}
                         name={field1.name}
                         placeholder={field1.placeholder}
-                        CustomStyle={"col-md-6 float-left" + (view === 'group_function' ? ' mt-4' : '')}
+                        CustomStyle={"col-md-6 float-left" + ((view === 'group_function' || view === 'employee_types') ? ' mt-4 pt-1' : '')}
                         required={field1.required}
                         value={field1.value}
                         setValue={(e) => SetValues(e, 1)}
@@ -31,7 +31,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         styleMargin={error1 ? '' : (view === 'group_function' ? 'my-2' : 'mt-2 mb-1')}
                     ></TextInput>
 
-                    {view !== 'group_function' &&
+                    {view !== 'employee_types' && view !== 'group_function' &&
                         <TextInput title={field2.title}
                             name={field2.name}
                             placeholder={field2.placeholder}
