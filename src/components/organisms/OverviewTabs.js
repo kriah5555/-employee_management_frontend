@@ -55,7 +55,7 @@ export default function OverviewTabs() {
                 })}
                 {addIcon && <div className="react-tabs__tab border-0 right-end-tab">
                     <div className="d-flex justify-content-end">
-                        <a href={addUrl}><p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>
+                        <p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>
                         <img src={FilterIcon} className="header-icon ml-4"></img>
                         <img src={ExportIcon} className="header-icon ml-4"></img>
                     </div>
