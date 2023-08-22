@@ -5,6 +5,7 @@ import Companies from '../pages/Companies';
 import Settings from '../pages/Settings';
 
 import Login from '../pages/Login';
+import ForgotPassword from '../pages/ForgotPassword';
 import Employees from '../pages/Employees';
 import Configurations from '../pages/Configurations';
 import ConfigurationOverviews from '../components/organisms/ConfigurationOverviews';
@@ -22,6 +23,7 @@ const BaseRouter = () => (
         {/* <Route exact path={active language}  element={<Component name />} /> */}
         <Route exact path="/"  element={<Dashboard></Dashboard>} />
         <Route exact path="/login"  element={<Login></Login>} />
+        <Route exact path="/reset-password-link"  element={<ForgotPassword></ForgotPassword>} />
 
         <Route exact path="/manage-employees"  element={<Employees></Employees>} />
         <Route exact path="/manage-companies"  element={<Companies></Companies>} />

@@ -11,7 +11,7 @@
 
 #text-indii-blue {
     color: #61bfb5;
-    font-weight: bolder !important;
+    font-weight: bolder !important; 
 }
 
 #text-indii-dark-blue {
@@ -430,8 +430,6 @@ textarea {
     width: 94%;
     border-radius: 5px;
 }
-
-
 
 /* Custom scroll css */
 .customscroll, .tablescroll div div div div {
