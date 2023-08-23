@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../components/atoms/Card";
+import ContractTypeIcon from "../static/icons/ContractType.png";
 import EmployeeTypeIcon from "../static/icons/EmployeeType.svg";
 import SectorsIcon from "../static/icons/Sectors.svg";
 import FunctionsIcon from "../static/icons/Functions.svg";
@@ -14,7 +15,7 @@ export default function Configurations() {
     const subTabStyle = "col-md-2 my-3 mx-3 shadow text-center border-0 card-height ";
 
     const ConfigurationTabs = [
-        { title: t('CONTRACT_TYPE'), icon: EmployeeTypeIcon, styleClass: subTabStyle, type: 'contract_type' },
+        { title: t('CONTRACT_TYPE'), icon: ContractTypeIcon, styleClass: subTabStyle, type: 'contract_type' },
         { title: t('EMPLOYEE_TYPES'), icon: EmployeeTypeIcon, styleClass: subTabStyle, type: 'employee_type' },
         { title: t('SECTORS'), icon: SectorsIcon, styleClass: subTabStyle, type: 'sectors' },
         { title: t('FUNCTIONS'), icon: FunctionsIcon, styleClass: subTabStyle, type: 'functions' },

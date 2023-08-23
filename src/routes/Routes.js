@@ -12,6 +12,7 @@ import AddFunction from '../components/organisms/AddFunction';
 import AddEmployeeTypes from '../components/organisms/AddEmployeeTypes';
 import AddSector from '../components/organisms/AddSector';
 import AddGroupFunction from '../components/organisms/AddGroupFunction';
+import AddContractType from '../components/organisms/AddContractType';
 import CompanyCreation from '../components/organisms/CompanyCreation';
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;

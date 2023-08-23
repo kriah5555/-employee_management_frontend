@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
-import ConfigurationIcon from "../../static/icons/Configuration.svg";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -174,7 +173,7 @@ export default function ConfigurationOverviews() {
             setHeaders(group_function_headers); setTitle('Manage group functions'); setAddTitle('Add group function'); setAddUrl('/add-group-function');
 
         } else if (overviewContent === 'contract_type') {
-            apiUrl = FunctionApiUrl
+            apiUrl = ContractTypeApiUrl
             setHeaders(function_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
 
         } else {
@@ -243,6 +242,12 @@ export default function ConfigurationOverviews() {
                 navigate('/add-group-function/' + data.id)
             } else {
                 DeleteApiCall(GroupFunctionApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'contract_type') {
+            if (action === 'edit') {
+                navigate('/add-contract-type/' + data.id)
+            } else {
+                DeleteApiCall(ContractTypeApiUrl + '/' + data.id)
             }
         }
     }

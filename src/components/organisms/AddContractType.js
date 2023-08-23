@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
-import { GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { ContractTypeApiUrl, GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
@@ -48,12 +48,15 @@ export default function AddContractType() {
 
     //Fetch dropdown data of sectors
     useEffect(() => {
-        AXIOS.service(SectorApiUrl, 'GET')
+        AXIOS.service(ContractTypeApiUrl + '/create', 'GET')
             .then((result) => {
-                if (result?.success && result.data.length !== renewalList.length) {
-                    result.data.map((val, index) => {
-                        renewalList.push({ value: val.id, label: val.name })
-                    })
+                if (result?.success) {
+                    let renewals = Object.entries(result.data.renewal_types);
+                    if (renewals.length !== renewalList.length) {
+                        renewals.map((val, index) => {
+                            renewalList.push({ value: val[0], label: val[1] })
+                        })
+                    }
                 }
             })
             .catch((error) => {
@@ -64,15 +67,15 @@ export default function AddContractType() {
     // Fetch group function data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = GroupFunctionApiUrl + '/' + params.id
+            let editApiUrl = ContractTypeApiUrl + '/' + params.id +'/edit'
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setContractType(result.data.name);
-                        setDescription(result.data.description);
-                        setContractRenewal({ value: result.data.category, label: result.data.category })
-                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                        
+                        setContractType(result.data.details.name);
+                        setDescription(result.data.details.description);
+                        setContractRenewal(result.data.details.renewal)
+                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+
                     }
                 })
                 .catch((error) => {
@@ -80,11 +83,6 @@ export default function AddContractType() {
                 })
         }
     }, [])
-
-    // Function to stop the rendering till the data gets updated
-    if (params.id) {
-        return
-    }
 
 
     // Fields data
@@ -159,12 +157,12 @@ export default function AddContractType() {
             }
 
             // Creation url and method
-            let url = GroupFunctionApiUrl
+            let url = ContractTypeApiUrl
             let method = 'POST'
 
             // Updation url and method
             if (params.id !== undefined) {
-                url = GroupFunctionApiUrl + '/' + params.id
+                url = ContractTypeApiUrl + '/' + params.id
                 method = 'PUT'
             }
 
@@ -186,7 +184,7 @@ export default function AddContractType() {
             {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
-                onHide={() => navigate('/manage-configurations/group_functions')}
+                onHide={() => navigate('/manage-configurations/contract_type')}
             ></ModalPopup>}
             <Forms
                 formTitle={'Add Contract type'}
