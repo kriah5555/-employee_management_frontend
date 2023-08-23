@@ -8,6 +8,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import CustomButton from "../atoms/CustomButton";
+import BackIcon from "../../static/icons/BackIcon.png";
 
 export default function ConfigurationOverviews() {
 
@@ -251,11 +252,11 @@ export default function ConfigurationOverviews() {
         <div className="right-container">
             {<div className="company-tab-width mt-3 border bg-white">
                 <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-                    <h4 className="text-color mb-0">{title}</h4>
+              <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(-1)} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
+                        {/* <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
                             <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>
-                        </p>
+                        </p> */}
                         {addTitle && <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
                         </p>}
