@@ -197,6 +197,14 @@ li,
     background-color: #F3F3F3;
 }
 
+/* Dynamic content part */
+.right-creation-container {
+    width: 93%;
+    /* display: flex; */
+    justify-content: center;
+    background-color: #F3F3F3;
+}
+
 
 /* Dashboard css */
 .display-linebreak {
@@ -214,7 +222,7 @@ li,
 /* Sidebar css */
 .side-bar {
     min-width: 7% !important;
-    height: 89.5vh;
+    min-height: 89.5vh;
     overflow: hidden;
 }
 
@@ -303,7 +311,7 @@ li,
 }
 
 .company-tab-width {
-    width: 98%;
+    width: 98% !important;
     border-radius: 5px;
 }
 
@@ -435,8 +443,18 @@ textarea {
 }
 
 .form-subHeading {
-    text-decoration:#073763 underline;
+    /* text-decoration: underline; */
+    color: #073763;
+    font-weight: bold;
     font-size: 1.25rem;
+}
+
+.pos-relative {
+    position: relative;
+}
+.pos-absolute {
+    position: absolute;
+    top: 20px;
 }
 
 
@@ -493,7 +511,7 @@ textarea {
     }
 
     .side-bar {
-        height: 91vh !important;
+        min-height: 91vh !important;
     }
 
     .font-inherit {
