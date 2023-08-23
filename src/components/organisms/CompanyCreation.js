@@ -1,15 +1,17 @@
 import React, { useState } from "react"
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { t } from "../../translations/Translation";
-import CompanyOverview from "../molecules/CompanyOverview";
 import 'react-tabs/style/react-tabs.css';
-import AddCompany from "../../pages/Add_company";
 import AddLocationForm from "../molecules/LocationForm";
 import AddCompanyForm from "../molecules/AddCompanyForm";
 import WorkstationForm from "../molecules/WorkstationForm";
+import BackIcon from "../../static/icons/BackIcon.png";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CompanyCreation() {
+
+    const navigate = useNavigate();
 
     const TabsData = [
         { tabHeading: t("COMPANY"), tabName: 'company' },
@@ -18,28 +20,12 @@ export default function CompanyCreation() {
         { tabHeading: t("RULES"), tabName: 'rules' },
     ]
 
-    const [locations, setLocations]=useState([{
-        location:"",
-        loc_street:"",
-        loc_HouseNum:"",
-        loc_postal_code:"",
-        loc_postbox_num:"",
-        loc_city:"",
-        loc_country:"",
-    }]);
-
-    const [workstations, setWorkstations]=useState([{
-        workstation_name:"",
-        blocked:"",
-        sequence_num:"",
-        addFunctions:[]
-    }]);
-
-
-
     return (
-        <div className="right-container">
-            <div className="company-tab-width mt-3 mb-3 border bg-white">
+        <div className="right-creation-container ">
+            <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
+                <h4 className="mb-0 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-companies')} src={BackIcon}></img> Create company</h4>
+            </div>
+            <div className="company-tab-width mt-2 mb-3 mx-auto border bg-white">
                 <Tabs>
                     <TabList>
                         {TabsData.map((val) => {
@@ -47,19 +33,18 @@ export default function CompanyCreation() {
                                 <Tab key={val.tabName} >{val.tabHeading}</Tab>
                             )
                         })}
-
                     </TabList>
 
                     <TabPanel>
-                        <div className="tablescroll"><AddCompanyForm></AddCompanyForm></div>
+                        <div className=""><AddCompanyForm></AddCompanyForm></div>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="tablescroll"><AddLocationForm locations={locations} setLocations={setLocations}></AddLocationForm></div>
+                        <div className=""><AddLocationForm ></AddLocationForm></div>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="tablescroll"><WorkstationForm workstations={workstations} setWorkstations={setWorkstations}></WorkstationForm></div>
+                        <div className=""><WorkstationForm></WorkstationForm></div>
                     </TabPanel>
 
                     <TabPanel>

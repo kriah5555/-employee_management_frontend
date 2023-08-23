@@ -1,75 +1,81 @@
-import React,{useState} from "react";
-import TextInput from "../atoms/formFields/TextInput";
-import TextInputType2 from "../atoms/formFields/TextInputType2";
-import Dropdown from "../atoms/Dropdown";
-import AddIcon from "../../static/icons/AddPlusIcon.png"; 
-import DeleteIcon from "../../static/icons/Delete.svg";
+import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
+import CompanyForm from "./CompanyForm";
 
-export default function Addlocation({locations,setLocations}) {
-    
+export default function Addlocation() {
 
-    const handleAddAnotherLocation =()=>{
-        if(locations.length<=3) {
+    const [locations, setLocations]=useState([{
+        location:"",
+        loc_street:"",
+        loc_HouseNum:"",
+        loc_postal_code:"",
+        loc_postbox_num:"",
+        loc_city:"",
+        loc_country:"",
+    }]);
 
-            setLocations([...locations,{location:"", loc_street:"", loc_HouseNum:"", loc_postal_code:"", loc_postbox_num:"", loc_city:"", loc_country:""}]);
+    const handleAddAnotherLocation = () => {
+        if (locations.length <= 3) {
+            setLocations([...locations, { location: "", loc_street: "", loc_HouseNum: "", loc_postal_code: "", loc_postbox_num: "", loc_city: "", loc_country: "" }]);
         }
-       
     }
+
+    const removeLocation = (i) => {
+        const newLocations = [...locations];
+        newLocations.splice(i, 1);
+        setLocations(newLocations);
+    }
+
+    const setValues = (index, name, value) => {
+        const locationsArray = [...locations];
+        locationsArray[index][name] = value
+        setLocations(locationsArray);
+    }
+
     //add location fields
-    const locationFieldsArray=[
-        {title:"Location", name:"location", value:locations, placeholder:"Location", required:true, type:"input_field"},
-        {title:"Street", name:"loc_street", value:locations, placeholder:"Street",  required:true, type:"input_field"},
-        {title:"House Number", name:"loc_HouseNum", value:locations, placeholder:"House number", required:true, type:"input_field"},
-        {title:"Postbox Number", name:"loc_postbox_num", value:locations,  placeholder:"Postbox number", required:true, type:"input_field"},
-        {title:"Postal code", name:"loc_postal_code", value:locations, placeholder:"Postal code", required:true, type:"input_field"},
-        {title:"City", name:"loc_city", value:locations,  placeholder:"City", required:true, type:"input_field"},
-        {title:"Country", name:"loc_country", value:locations, placeholder:"Country", required:true, type:"input_field"},
+    const locationFieldsArray = [
+        { title: "Location", name: "location", placeholder: "Location", required: false, type: "input_field" },
+        { title: "Street", name: "loc_street", placeholder: "Street", required: false, type: "input_field" },
+        { title: "House Number", name: "loc_HouseNum", placeholder: "House number", required: false, type: "input_field" },
+        { title: "Postbox Number", name: "loc_postbox_num", placeholder: "Postbox number", required: false, type: "input_field" },
+        { title: "Postal code", name: "loc_postal_code", placeholder: "Postal code", required: false, type: "input_field" },
+        { title: "City", name: "loc_city", placeholder: "City", required: false, type: "input_field" },
+        { title: "Country", name: "loc_country", placeholder: "Country", required: false, type: "input_field" },
     ]
 
-    return(
-        <>
-        <form className="container-fluid mt-3">    
-            {/* <span className="form-subHeading">Add location</span> */}
+    //responsible person fields for company
+    const companyResponsiblePersonFieldsArray = [
+        { className: "col-md-6 mb-4", title: "Name", name: "name", required: false, value: '', setValue: '', placeholder: "Name", type: "input_field" },
+        { className: "col-md-6 mb-4", title: "Email Id", name: "email", required: false, value: '', setValue: '', placeholder: "Email Id", type: "input_field" },
+        { className: "col-md-6 mb-4", title: "Telephone number", name: "telephone", required: false, value: '', setValue: '', placeholder: "Telephone number", type: "input_field" },
+    ];
 
-          {  locations.map((x,i)=>{
-            return(
-                <div className="row border-bottom">
-                {locationFieldsArray.map((field,index)=>{
-                   
-                        if(field.type=="input_field") {
-                            return(
-                                <div key={index} className="col-md-6 p-3">
-                               <TextInputType2
-                                title={field.title}
-                                name={field.name}
-                                required={field.required}
-                                value={(field.value[i][field.name])}
-                                onChange={(e)=>{
-                                     const {name, value}=e.target;
-                                    const newLocation=[...locations];
-                                    newLocation[i][name]=value;
-                                     setLocations(newLocation);
-                                }}
-                                placeholder={field.placeholder}
-                                error={field.error}/>
-                           </div>
-                            );
-                        } 
-                })}
-                <div className="col-md-12 d-flex my-4 justify-content-end">
-                 {locations.length>1&&<img className="shortcut-icon my-auto mx-5" onClick={()=>{
-                        const newLocations=[...locations];
-                        console.log(i);
-                        newLocations.splice(i,1);
-                        setLocations(newLocations);
-                           }} src={DeleteIcon}></img>}
-                {i==locations.length-1&&<img className="shortcut-icon my-auto " onClick={handleAddAnotherLocation} src={AddIcon}></img>}
-                           </div>
-                </div>
-            );
-          })}
-          </form>
-        </>
+
+    return (
+        <div className="">
+            {locations.map((x, i) => {
+                return (
+                    <div key={x}>
+                        <div className="d-flex mb-3 pos-relative justify-content-end">
+                            {locations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline" onClick={() => removeLocation(i)}>Remove</p>}
+                        </div>
+                        <CompanyForm
+                            index={i}
+                            view="location"
+                            title1='Add location'
+                            data1={locationFieldsArray}
+                            formattedData1={locations}
+                            title3='Responsible person'
+                            data3={companyResponsiblePersonFieldsArray}
+                            formattedData2={locations}
+                            SetValues={setValues}
+                        ></CompanyForm>
+                        <div className="d-flex mb-3 pos-relative justify-content-end">
+                            {i == locations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
     );
 }
