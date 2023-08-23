@@ -12,6 +12,7 @@ import AddFunction from '../components/organisms/AddFunction';
 import AddEmployeeTypes from '../components/organisms/AddEmployeeTypes';
 import AddSector from '../components/organisms/AddSector';
 import AddGroupFunction from '../components/organisms/AddGroupFunction';
+import AddContractType from '../components/organisms/AddContractType';
 import CompanyCreation from '../components/organisms/CompanyCreation';
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
@@ -33,6 +34,9 @@ const BaseRouter = () => (
 
         <Route exact path='/add-function' element={<AddFunction></AddFunction>} />
         <Route exact path='/add-function/:id' element={<AddFunction></AddFunction>} />
+
+        <Route exact path='/add-contract-type' element={<AddContractType></AddContractType>} />
+        <Route exact path='/add-contract-type/:id' element={<AddContractType></AddContractType>} />
 
         <Route exact path='/add-employee-type' element={<AddEmployeeTypes></AddEmployeeTypes>} />
         <Route exact path='/add-employee-type/:id' element={<AddEmployeeTypes></AddEmployeeTypes>} />

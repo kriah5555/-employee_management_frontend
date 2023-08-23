@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
-import ConfigurationIcon from "../../static/icons/Configuration.svg";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -17,7 +16,7 @@ export default function ConfigurationOverviews() {
     let overviewContent = params.type
     const [dataRefresh, setDataRefresh] = useState(false);
     const [selectedSector, setSelectedSector] = useState('');
-    const [noSectorMessage, setNoSectorMessage] = useState(overviewContent === 'min_salary' ? 'Please select sector to get the salaries': '')
+    const [noSectorMessage, setNoSectorMessage] = useState(overviewContent === 'min_salary' ? 'Please select sector to get the salaries' : '')
 
     // Header data for Function overview
     const function_headers = [
@@ -172,6 +171,10 @@ export default function ConfigurationOverviews() {
             apiUrl = GroupFunctionApiUrl
             setHeaders(group_function_headers); setTitle('Manage group functions'); setAddTitle('Add group function'); setAddUrl('/add-group-function');
 
+        } else if (overviewContent === 'contract_type') {
+            apiUrl = ContractTypeApiUrl
+            setHeaders(function_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
+
         } else {
             apiUrl = SectorApiUrl
             setHeaders(salary_header); setListData(salaryData); setTitle('Manage minimum salaries'); setAddTitle('');
@@ -239,6 +242,12 @@ export default function ConfigurationOverviews() {
             } else {
                 DeleteApiCall(GroupFunctionApiUrl + '/' + data.id)
             }
+        } else if (overviewContent === 'contract_type') {
+            if (action === 'edit') {
+                navigate('/add-contract-type/' + data.id)
+            } else {
+                DeleteApiCall(ContractTypeApiUrl + '/' + data.id)
+            }
         }
     }
 
@@ -252,7 +261,7 @@ export default function ConfigurationOverviews() {
         <div className="right-container">
             {<div className="company-tab-width mt-3 border bg-white">
                 <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-              <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(-1)} src={BackIcon}></img>{title}</h4>
+                    <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(-1)} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
                         {/* <p className="text-color mb-0 pointer mr-4" onClick={() => navigate('/configurations')}>
                             <img src={ConfigurationIcon} className="header-icon mr-2"></img><u>{'Back to configurations'}</u>

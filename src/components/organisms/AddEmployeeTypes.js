@@ -56,7 +56,6 @@ export default function AddEmployeeTypes() {
             .then((result) => {
                 if (result?.success) {
                     let resp = result.data
-                    console.log(result.data);
                     setContractTypeList(resp.contract_types);
                     setCategoryList(resp.employee_type_categories);
                     setDimonaTypeList(resp.dimona_types);
@@ -203,8 +202,6 @@ export default function AddEmployeeTypes() {
                 'status': status
             }
 
-
-            console.log(data);
             // Creation url and method
             let url = EmployeeTypeApiUrl
             let method = 'POST'
