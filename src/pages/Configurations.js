@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../components/atoms/Card";
+import ContractTypeIcon from "../static/icons/ContractType.png";
 import EmployeeTypeIcon from "../static/icons/EmployeeType.svg";
 import SectorsIcon from "../static/icons/Sectors.svg";
 import FunctionsIcon from "../static/icons/Functions.svg";
@@ -14,18 +15,19 @@ export default function Configurations() {
     const subTabStyle = "col-md-2 my-3 mx-3 shadow text-center border-0 card-height ";
 
     const ConfigurationTabs = [
-        { title: t('EMPLOYEE_TYPES'), icon: EmployeeTypeIcon, styleClass: subTabStyle, url: '/manage-employee-type', type: 'employee_type' },
-        { title: t('SECTORS'), icon: SectorsIcon, styleClass: subTabStyle, url: '/add-sector', type: 'sectors' },
-        { title: t('FUNCTIONS'), icon: FunctionsIcon, styleClass: subTabStyle, url: '/add-function', type: 'functions' },
-        { title: t('GROUP_FUNCTIONS'), icon: GroupFunctionsIcon, styleClass: subTabStyle, url: '/add-sector', type: 'group_functions' },
-        { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, url: '/add-sector', type: 'min_salary' },
+        { title: t('CONTRACT_TYPE'), icon: ContractTypeIcon, styleClass: subTabStyle, type: 'contract_type' },
+        { title: t('EMPLOYEE_TYPES'), icon: EmployeeTypeIcon, styleClass: subTabStyle, type: 'employee_type' },
+        { title: t('SECTORS'), icon: SectorsIcon, styleClass: subTabStyle, type: 'sectors' },
+        { title: t('FUNCTIONS'), icon: FunctionsIcon, styleClass: subTabStyle, type: 'functions' },
+        { title: t('GROUP_FUNCTIONS'), icon: GroupFunctionsIcon, styleClass: subTabStyle, type: 'group_functions' },
+        { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, type: 'min_salary' },
     ]
 
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
                 <h2 className="text-center my-4 text-color font-weight-bold">Configurations</h2>
-                <div className="col-md-12 d-flex justify-content-center mb-0 mt-2 pt-1 flex-wrap">
+                <div className="col-md-12 d-flex mx-4 mb-0 mt-2 pt-1 flex-wrap">
                     {
                         ConfigurationTabs.map((val, index) => {
                             return (

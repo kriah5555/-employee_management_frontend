@@ -183,13 +183,24 @@ li,
     background-color: #61bfb5;
     border: #61bfb5;
 }
-
-
+/* for add-company form */
+.button-confirm {
+    color: #fff;
+    background-color:#073763;
+}
 
 /* Dynamic content part */
 .right-container {
     width: 93%;
     display: inline-flex;
+    justify-content: center;
+    background-color: #F3F3F3;
+}
+
+/* Dynamic content part */
+.right-creation-container {
+    width: 93%;
+    /* display: flex; */
     justify-content: center;
     background-color: #F3F3F3;
 }
@@ -211,7 +222,7 @@ li,
 /* Sidebar css */
 .side-bar {
     min-width: 7% !important;
-    height: 89.5vh;
+    min-height: 89.5vh;
     overflow: hidden;
 }
 
@@ -300,7 +311,7 @@ li,
 }
 
 .company-tab-width {
-    width: 98%;
+    width: 98% !important;
     border-radius: 5px;
 }
 
@@ -431,6 +442,23 @@ textarea {
     border-radius: 5px;
 }
 
+.form-subHeading {
+    /* text-decoration: underline; */
+    color: #073763;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.pos-relative {
+    position: relative;
+}
+.pos-absolute {
+    position: absolute;
+    top: 20px;
+}
+
+
+
 /* Custom scroll css */
 .customscroll, .tablescroll div div div div {
     top: 0;
@@ -483,7 +511,7 @@ textarea {
     }
 
     .side-bar {
-        height: 91vh !important;
+        min-height: 91vh !important;
     }
 
     .font-inherit {

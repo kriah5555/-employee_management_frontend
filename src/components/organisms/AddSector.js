@@ -9,6 +9,7 @@ import TextInput from "../atoms/formFields/TextInput";
 import DeleteIcon from "../../static/icons/Delete.svg"
 import AddIcon from "../../static/icons/AddPlusIcon.png";
 import CustomButton from "../atoms/CustomButton";
+import Dropdown from "../atoms/Dropdown";
 
 
 export default function AddSector() {
@@ -23,7 +24,7 @@ export default function AddSector() {
     const [categoryNumber, setCategoryNumber] = useState('');
 
     const [experience, setExperience] = useState([{ 'level': 1, 'from': '', 'to': '' }]);
-    const [age, setAge] = useState({ '18': '', '17': '', '16': '', '15': '' })
+    const [age, setAge] = useState([{ 'age': '', 'value': '' }])
 
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -55,6 +56,12 @@ export default function AddSector() {
         { title: 'Actions', style: 'col-md-4 text-right pr-5' },
     ]
 
+    const AgeHeaders = [
+        { title: 'Age', style: 'col-md-4 pl-3' },
+        { title: 'Salary percentage', style: 'col-md-4 text-center' },
+        { title: 'Actions', style: 'col-md-4 text-right pr-5' },
+    ]
+
     // Sectors tabs
     const TabsData = [
         { tabHeading: ("Information"), tabName: 'information' },
@@ -63,12 +70,21 @@ export default function AddSector() {
     ]
 
     // Age tab data
-    const ageData = [
-        { label: 'Age of 18 will receive their full salary', age: '18' },
-        { label: 'Age of 17 will receive their salary', age: '17' },
-        { label: 'Age of 16 will receive their salary', age: '16' },
-        { label: 'Age of 15 will receive their salary', age: '15' },
-    ]
+    // const ageData = [
+    //     { label: 'Age of 18 will receive their full salary', age: '18' },
+    //     { label: 'Age of 17 will receive their salary', age: '17' },
+    //     { label: 'Age of 16 will receive their salary', age: '16' },
+    //     { label: 'Age of 15 will receive their salary', age: '15' },
+    // ]
+
+    const [ageRow, setAgeRow] = useState([1]);
+    const ageData = []
+    const MaximumAgeCount = 21;
+    let ageCount = 15
+    while (ageCount <= MaximumAgeCount) {
+        ageData.push({ value: ageCount, label: ageCount })
+        ageCount = ageCount + 1
+    }
 
 
     // Checkbox status data
@@ -116,21 +132,22 @@ export default function AddSector() {
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        if (result.data.employee_types.length === 0) { setEmpTypeState(true) }
-                        if (result.data.employee_types.length !== employeeType.length) {
-                            result.data.employee_types.map((val) => {
+                        if (result.data.details.employee_types.length === 0) { setEmpTypeState(true) }
+                        if (result.data.details.employee_types.length !== employeeType.length) {
+                            result.data.details.employee_types.map((val) => {
                                 employeeType.push({ value: val.id, label: val.name })
                             })
                         }
-                        setSectorName(result.data.name);
-                        setParitairCommittee(result.data.paritair_committee);
-                        setDescription(result.data.description);
-                        setCategoryNumber({ value: result.data.category, label: result.data.category })
-                        setExperience(result.data.salary_config.salary_steps);
-                        setLevelsCount(result.data.salary_config.salary_steps)
-                        setAge(result.data.age);
+                        setSectorName(result.data.details.name);
+                        setParitairCommittee(result.data.details.paritair_committee);
+                        setDescription(result.data.details.description);
+                        setCategoryNumber({ value: result.data.details.category, label: result.data.details.category })
+                        setExperience(result.data.details.salary_config.salary_steps);
+                        setLevelsCount(result.data.details.salary_config.salary_steps)
+                        setAge(result.data.details.age);
+                        setAgeRow(result.data.details.age);
 
-                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
                 })
                 .catch((error) => {
@@ -223,8 +240,12 @@ export default function AddSector() {
             data[index]['to'] = value
             setExperience(data);
         } else if (type === 'age') {
-            const data = { ...age };
-            data[index] = value
+            const data = [...age];
+            data[index]['age'] = value.value
+            setAge(data);
+        } else if (type === 'salary') {
+            const data = [...age];
+            data[index]['value'] = value
             setAge(data);
         } else {
             setDescription(value);
@@ -291,31 +312,56 @@ export default function AddSector() {
         // }
     }
 
-    // Function to add new row in experience tab
-    const AddNewRow = () => {
+    // Function to add new row in experience/age tab
+    const AddNewRow = (type) => {
         const rowsInput = 1;
         // Adding empty object for each row on add row click
-        const rowData = {
-            'level': levelsCount.length + 1,
-            'from': '',
-            'to': '',
+        if (type !== 'age') {
+            const rowData = {
+                'level': levelsCount.length + 1,
+                'from': '',
+                'to': '',
+            }
+            setExperience([...experience, rowData])
+            if (levelsCount !== undefined) {
+                setLevelsCount([...levelsCount, rowsInput])
+            }
+        } else {
+            const rowData = {
+                'age': '',
+                'value': '',
+            }
+            setAge([...age, rowData])
+            if (ageRow !== undefined) {
+                setAgeRow([...ageRow, rowsInput])
+            }
+
         }
-        setExperience([...experience, rowData])
-        if (levelsCount !== undefined) {
-            setLevelsCount([...levelsCount, rowsInput])
-        }
+
     }
 
-    // Function to delete each row in experience tab
-    function DeleteRow(index) {
-        // Remove data from experience data
-        const rows = [...levelsCount];
-        rows.splice(index, 1);
-        setLevelsCount(rows);
-        // Remove row from experience rows array
-        const data = [...experience];
-        data.splice(index, 1);
-        setExperience(data);
+    // Function to delete each row in experience/age tab
+    function DeleteRow(index, type) {
+        if (type !== 'age') {
+            // Remove data from experience data
+            const rows = [...levelsCount];
+            rows.splice(index, 1);
+            setLevelsCount(rows);
+            // Remove row from experience rows array
+            const data = [...experience];
+            data.splice(index, 1);
+            setExperience(data);
+        } else {
+            // Remove data from age data
+            const rows = [...ageRow];
+            rows.splice(index, 1);
+            setAgeRow(rows);
+            // Remove row from age rows array
+            const data = [...age];
+            data.splice(index, 1);
+            setAge(data);
+        }
+
     }
 
 
@@ -392,7 +438,7 @@ export default function AddSector() {
                                                         name={'from_range'}
                                                         CustomStyle={"col-md-4 float-left"}
                                                         required={false}
-                                                        value={experience[index]['from'] ? experience[index]['from'] : undefined}
+                                                        value={experience[index]['from'] !== '' ? experience[index]['from'] : undefined}
                                                         setValue={(e) => SetValues(e, 'from', index)}
                                                         error={''}
                                                     ></TextInput>
@@ -408,8 +454,8 @@ export default function AddSector() {
                                                 </div>
                                             </div>
                                             {index === levelsCount.length - 1 && <div className="col-md-4 text-right pr-4">
-                                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
-                                                {levelsCount.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow()}></img>}
+                                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow('experience')}></img>}
+                                                {levelsCount.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index, 'experience')}></img>}
                                             </div>}
                                         </div>
                                     )
@@ -419,6 +465,61 @@ export default function AddSector() {
                     </TabPanel>
 
                     <TabPanel>
+                        <div className="d-flex">
+                            <div className="col-md-12 px-0 border pb-5">
+                                <div className="row col-md-12 table-head-bg p-2 m-0">
+                                    {AgeHeaders.map((head, i) => {
+                                        return (
+                                            <div className={head.style} key={head.title}>
+                                                <p className="mb-0 font-weight-bold">{head.title}</p>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
+                                {ageRow.map((val, index) => {
+                                    return (
+                                        <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
+                                            <div className="col-md-4 pl-0">
+                                                <Dropdown
+                                                    options={ageData}
+                                                    selectedOptions={[{ value: age[index]['age'], label: age[index]['age'] }]}
+                                                    onSelectFunction={(e) => SetValues(e, 'age', index)}
+                                                    CustomStyle="col-md-4 pl-0 float-left"
+                                                    title={''}
+                                                    required={false}
+                                                    isMulti={false}
+                                                    error={''}
+                                                    styleMargin={''}
+                                                ></Dropdown>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="row m-0 justify-content-center">
+                                                    <TextInput
+                                                        key={ageData.age}
+                                                        title={''}
+                                                        name={ageData.age}
+                                                        CustomStyle={"col-md-4 float-left"}
+                                                        required={false}
+                                                        value={age[index]['value'] ? age[index]['value'] : undefined}
+                                                        setValue={(e) => SetValues(e, 'salary', index)}
+                                                        // error={''}
+                                                        age={true}
+                                                    ></TextInput>
+                                                </div>
+                                            </div>
+                                            {index === ageRow.length - 1 && <div className="col-md-4 text-right pr-4">
+                                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow('age')}></img>}
+                                                {ageRow.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index, 'age')}></img>}
+                                            </div>}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </TabPanel>
+
+                    {/* <TabPanel>
                         {ageData.map((ageData, index) => {
                             return (
                                 <TextInput
@@ -434,7 +535,7 @@ export default function AddSector() {
                                 ></TextInput>
                             )
                         })}
-                    </TabPanel>
+                    </TabPanel> */}
                 </Tabs>
                 <div className={"col-md-12 my-4 text-right pr-2"}>
                     {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}

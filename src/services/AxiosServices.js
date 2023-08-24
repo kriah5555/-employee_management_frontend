@@ -103,7 +103,7 @@ async function service(
       // DELETE method
       else if (httpmethod === "DELETE") {
         return await axios
-          .delete(urlendpoint, data, headers())
+          .delete(urlendpoint, headers())
           .then((result) => {
             if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
               document.getElementById("loading-icon").setAttribute("style", "display:none;");
