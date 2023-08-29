@@ -34,7 +34,7 @@ export default function AddSector() {
     const [CategoryError, setCategoryError] = useState('');
     const [employeeTypeError, setEmployeeTypeError] = useState('');
 
-    const [emp_type_state, setEmpTypeState] = useState(false);
+    const [emp_type_state, setEmpTypeState] = useState(true);
     const [employeeTypeList, setEmployeeTypeList] = useState([])
     const categoriesList = []
     const [selectedTab, setSelectedTab] = useState();
@@ -112,17 +112,19 @@ export default function AddSector() {
 
     //Fetch dropdown data of employee types
     useEffect(() => {
-        AXIOS.service(EmployeeTypeApiUrl, 'GET')
-            .then((result) => {
-                if (result?.success && result.data.length !== employeeTypeList.length) {
-                    result.data.map((val, index) => {
-                        employeeTypeList.push({ value: val.id, label: val.name })
-                    })
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (!params.id) {
+            AXIOS.service(EmployeeTypeApiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success && result.data.length !== employeeTypeList.length) {
+                        result.data.map((val, index) => {
+                            employeeTypeList.push({ value: val.id, label: val.name })
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }, [])
 
     // Fetch sector data based on param id to add default inputs
@@ -132,20 +134,17 @@ export default function AddSector() {
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        if (result.data.details.employee_types.length === 0) { setEmpTypeState(true) }
-                        if (result.data.details.employee_types.length !== employeeType.length) {
-                            result.data.details.employee_types.map((val) => {
-                                employeeType.push({ value: val.id, label: val.name })
-                            })
-                        }
+                        setEmployeeTypeList(result.data.employee_types);
+                        setEmployeeType(result.data.details.employee_types_value);
                         setSectorName(result.data.details.name);
                         setParitairCommittee(result.data.details.paritair_committee);
-                        setDescription(result.data.details.description);
+                        setDescription(result.data.details.description?result.data.details.description:'');
                         setCategoryNumber({ value: result.data.details.category, label: result.data.details.category })
                         setExperience(result.data.details.salary_config.salary_steps);
                         setLevelsCount(result.data.details.salary_config.salary_steps)
-                        setAge(result.data.details.age);
-                        setAgeRow(result.data.details.age);
+                        setAge(result.data.details.sector_age_salary);
+                        console.log(result.data.details.sector_age_salary)
+                        setAgeRow(result.data.details.sector_age_salary);
 
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
@@ -214,7 +213,7 @@ export default function AddSector() {
     // 1: Sector name
     // 2: Paritair committee
     // 3: employee type
-    // 4: category number 
+    // 4: category number
     // 5: sector description
     // 6: Active status
 
@@ -501,7 +500,7 @@ export default function AddSector() {
                                                         name={ageData.age}
                                                         CustomStyle={"col-md-4 float-left"}
                                                         required={false}
-                                                        value={age[index]['value'] ? age[index]['value'] : undefined}
+                                                        value={age[index]['percentage'] ? age[index]['percentage'] : undefined}
                                                         setValue={(e) => SetValues(e, 'salary', index)}
                                                         // error={''}
                                                         age={true}

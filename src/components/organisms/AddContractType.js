@@ -48,20 +48,17 @@ export default function AddContractType() {
 
     //Fetch dropdown data of sectors
     useEffect(() => {
-        AXIOS.service(ContractTypeApiUrl + '/create', 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    let renewals = Object.entries(result.data.renewal_types);
-                    if (renewals.length !== renewalList.length) {
-                        renewals.map((val, index) => {
-                            renewalList.push({ value: val[0], label: val[1] })
-                        })
+        if (!params.id) {
+            AXIOS.service(ContractTypeApiUrl + '/create', 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setRenewalList(result.data.renewal_types);
                     }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }, [])
 
     // Fetch group function data based on param id to add default inputs
@@ -73,7 +70,8 @@ export default function AddContractType() {
                     if (result?.success) {
                         setContractType(result.data.details.name);
                         setDescription(result.data.details.description);
-                        setContractRenewal(result.data.details.renewal)
+                        setContractRenewal(result.data.details.contract_renewal_type_value)
+                        setRenewalList(result.data.renewal_types);
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
 
                     }
@@ -151,7 +149,7 @@ export default function AddContractType() {
 
             let data = {
                 'name': contractType,
-                'renewal': contractRenewal.value,
+                'contract_renewal_type_id': contractRenewal.value,
                 'description': description,
                 'status': status
             }

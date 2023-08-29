@@ -69,20 +69,18 @@ export default function AddEmployeeTypes() {
     // Fetch data of employee type for update
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id
+            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id +'/edit'
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
+                    console.log(result.data.details)
                     if (result?.success) {
-                        setEmployeeType(result.data.name);
-                        setDescription(result.data.description);
-                        setCategory({value: result.data.employee_type_category['id'], label: result.data.employee_type_category['name']})
-                        if (result.data.contract_types.length !== contractType.length) {
-                            result.data.contract_types.map((val) => {
-                                contractType.push({ value: val.id, label: val.name })
-                            })
-                        }
-                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        setEmployeeType(result.data.details.name);
+                        setDescription(result.data.details.description?result.data.details.description:'');
+                        setCategory(result.data.details.employee_type_category_value);
+                        setContractType(result.data.details.contract_types_value);
+                        setDimonaType(result.data.details.dimona_type_value);
+                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
                 })
                 .catch((error) => {
@@ -145,7 +143,7 @@ export default function AddEmployeeTypes() {
         required: true
     }
 
-    
+
 
 
     // Type:
