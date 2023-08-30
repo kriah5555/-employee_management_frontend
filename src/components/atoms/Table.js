@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import EyeIcon from "../../static/icons/Eye.png"
 import EditIcon from "../../static/icons/Edit.svg"
 import DeleteIcon from "../../static/icons/Delete.svg"
 
 import MaterialTable from "material-table";
-import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search } from "@material-ui/icons";
+import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear } from "@material-ui/icons";
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 
 
-export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height }) {
+export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
+
+    // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
     const theme = createMuiTheme({
@@ -32,9 +34,12 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         DetailPanel: ChevronRight,
         NextPage: NavigateNextRounded,
         PreviousPage: NavigateBeforeRounded,
+        Edit: Edit,
+        Check: Done,
+        Clear: Clear,
     }
 
-    const searchStyle = showDetails ? {width: ''} : {width: '200%', border:'0.5px solid #ABABAB', borderRadius: '5px'}
+    const searchStyle = showDetails ? { width: '' } : { width: '200%', border: '0.5px solid #ABABAB', borderRadius: '5px' }
 
     //Table options
     const options = {
@@ -42,7 +47,8 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
 
         //Search toolbar props
-        toolbar: tableName !== 'min_salary' ? true : false,
+        toolbar: true,
+        search: tableName !== 'min_salary' ? true : false,
         searchFieldAlignment: 'left',
         searchFieldStyle: searchStyle, //padding: '0px',
 
@@ -70,7 +76,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         pageSize: 10,
         pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
-        showFirstLastPageButtons:false,
+        showFirstLastPageButtons: false,
 
         //Row style props
         rowStyle: (rowData) => ({
@@ -85,9 +91,9 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     }
 
 
-    const getViewIcon = () => { return(<img className="shortcut-icon" src={EyeIcon}></img>) }
-    const getEditIcon = () => { return(<img className="header-icon " src={EditIcon}></img>) }
-    const getDeleteIcon = () => { return(<img className="header-icon " src={DeleteIcon}></img>) }
+    const getViewIcon = () => { return (<img className="shortcut-icon" src={EyeIcon}></img>) }
+    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
+    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
 
 
     //Define actions based on requirement (Below actions are for view and edit)
@@ -128,6 +134,31 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                 columns={columns}
                 data={rows}
                 isLoading={rows ? false : true}
+
+                editable={tableName === 'min_salary' ? {
+                    onBulkUpdate: (changes) => //newData, oldData
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                const updatedData = [...rows];
+                                // Apply changes to the updatedData array based on the "changes" object
+                                for (const rowId in changes) {
+                                    const rowIndex = updatedData.findIndex(
+                                      (item) => item.id === changes[rowId].oldData.id
+                                    );
+                                    if (rowIndex !== -1) {
+                                      updatedData[rowIndex] = {
+                                        ...updatedData[rowIndex],
+                                        ...changes[rowId].newData,
+                                      };
+                                    }
+                                  }
+
+                                setRows(updatedData);
+                                SaveSalaries(updatedData);
+                                resolve();
+                            }, 1000);
+                        }),
+                } : false}
 
                 //Parent child format for employee overview
                 parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
