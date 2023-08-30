@@ -5,7 +5,7 @@ import TextArea from "../atoms/formFields/TextArea";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
-
+import BackIcon from "../../static/icons/BackIcon.png"
 
 export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, field7, error1, error2, error3, error4, error7, SetValues, onSave, view }) {
 
@@ -15,7 +15,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
     // Forms for functions, employee type and sectors
     return (
         <div className={view !== 'sectors' ? "form-container my-5 border bg-white" : "pt-5 pb-5"}>
-            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2">{formTitle}</h2>}
+            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             <div className="d-flex px-5">
                 <form className="col-md-12 px-0">
                     {/* Text input field */}

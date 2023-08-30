@@ -10,7 +10,7 @@ import DeleteIcon from "../../static/icons/Delete.svg"
 import AddIcon from "../../static/icons/AddPlusIcon.png";
 import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
-
+import BackIcon from "../../static/icons/BackIcon.png";
 
 export default function AddSector() {
 
@@ -378,7 +378,7 @@ export default function AddSector() {
                 onHide={() => setErrorMessage('')}
             ></ModalPopup>}
             <div className="form-container my-5 border bg-white">
-                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2">{('Add Sectors')}</h2>
+                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{('Add Sectors')}</h2>
 
                 <Tabs className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
                     <TabList>
