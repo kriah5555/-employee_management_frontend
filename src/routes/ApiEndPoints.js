@@ -18,6 +18,9 @@ export const SectorApiUrl = BASE_URL + '/masterdata/sectors'
 export const FunctionApiUrl = BASE_URL + '/masterdata/function-titles'
 export const GroupFunctionApiUrl = BASE_URL + '/masterdata/function-categories'
 export const ContractTypeApiUrl = BASE_URL + '/masterdata/contract-types'
+export const SalariesApiUrl = BASE_URL + '/masterdata/get-minimum-salaries'
+export const UpdateSalariesApiUrl = BASE_URL + '/masterdata/update-minimum-salaries'
+export const RevertSalariesApiUrl = BASE_URL + 'masterdata/undo-coefficient-minimum-salaries'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here
