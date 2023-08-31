@@ -71,8 +71,8 @@ export default function CompanyCreation() {
                     <TabPanel>
                         <h3 className="text-center mt-3">Rules</h3>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Save'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="mr-3 my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Save'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(3)} CustomStyle=" mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
                 </Tabs>
             </div>

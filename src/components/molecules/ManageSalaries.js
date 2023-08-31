@@ -263,6 +263,7 @@ export default function ManageSalaries() {
                             required={true}
                             value={coefficient}
                             setValue={(e) => setCoefficient(e)}
+                            age={true}
                         ></TextInput>
                         <CustomButton buttonName={'Check'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
                     </div>}
