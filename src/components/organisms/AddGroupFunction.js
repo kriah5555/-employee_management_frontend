@@ -56,35 +56,33 @@ export default function AddGroupFunction() {
 
     //Fetch dropdown data of sectors
     useEffect(() => {
-        AXIOS.service(SectorApiUrl, 'GET')
-            .then((result) => {
-                if (result?.success && result.data.length !== sectorList.length) {
-                    result.data.map((val, index) => {
-                        sectorList.push({ value: val.id, label: val.name })
-                    })
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (!params.id) {
+            let addApiUrl = GroupFunctionApiUrl + '/create'
+            AXIOS.service(addApiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setSectorList(result.data.sectors);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }, [])
 
     // Fetch group function data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = GroupFunctionApiUrl + '/' + params.id
+            let editApiUrl = GroupFunctionApiUrl + '/' + params.id + '/edit'
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setGroupName(result.data.name);
-                        setDescription(result.data.description);
-                        setFunctionCategory({ value: result.data.category, label: result.data.category })
-                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                        sectorList.map((sector) => {
-                            if (sector.value === result.data.sector_id) {
-                                setSector(sector);
-                            }
-                        })
+                        setGroupName(result.data.details.name);
+                        setDescription(result.data.details.description ? result.data.details.description : '');
+                        setFunctionCategory({ value: result.data.details.category, label: result.data.details.category });
+                        setSectorList(result.data.sectors);
+                        setSector(result.data.details.sector_value);
+                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
                 })
                 .catch((error) => {

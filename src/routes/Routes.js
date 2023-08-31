@@ -32,6 +32,7 @@ const BaseRouter = ({ setAuth }) => (
         <Route exact path='/settings' element={<Settings></Settings>} />
 
         <Route exact path='/manage-configurations/:type' element={<ConfigurationOverviews></ConfigurationOverviews>} />
+        {/* <Route exact path='/manage-configurations/:type/:id' element={<ConfigurationOverviews></ConfigurationOverviews>} /> */}
 
         <Route exact path='/add-function' element={<AddFunction></AddFunction>} />
         <Route exact path='/add-function/:id' element={<AddFunction></AddFunction>} />

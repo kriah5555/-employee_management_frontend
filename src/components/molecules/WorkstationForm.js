@@ -14,6 +14,8 @@ export default function WorkstationForm() {
         addFunctions: []
     }]);
 
+    const functions = []
+
     const [functionOptions, setFunctionOptions] = useState([]);
 
     //Fetch dropdown data of group functions
@@ -62,7 +64,7 @@ export default function WorkstationForm() {
         { title: "Workstation name", name: "workstation_name", placeholder: "Workstation name", required: false, type: "input_field" },
         { title: "Workstation blocked", name: "blocked", options: options, isMulti: false, selectedOptions: workstations, onSelectFunction: onBlockedStatusChange, required: false, type: "dropdown" },
         { title: "Sequence Number", name: "sequence_num", placeholder: "Sequence number", required: false, type: "input_field" },
-        { title: "Add functions", name: "functions", options: functionOptions, isMulti: true, selectedOptions: workstations, onSelectFunction: onFunctionsChange, required: false, type: "dropdown" },
+        { title: "Add functions", name: "functions", options: functionOptions, isMulti: true, selectedOptions: functions, onSelectFunction: onFunctionsChange, required: false, type: "dropdown" },
     ];
 
     return (

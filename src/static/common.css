@@ -5,6 +5,12 @@
     color: #073763;
 }
 
+.border-blue {
+    border: 1px solid #61bfb5 !important;
+    /* border: none; */
+    /* border-bottom: 1px solid #61bfb5 !important;  */
+}
+
 .dark-color {
     color: #292929;
 }
@@ -379,6 +385,10 @@ li,
     border-width: 3px 0px 0px 0px;
 }
 
+.company_creation div ul li {
+    width: 20% !important;
+}
+ 
 .right-end-tab {
     padding: 0px;
     width: 24% !important;
