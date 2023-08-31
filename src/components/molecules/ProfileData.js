@@ -34,19 +34,19 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
     }
 
     return (<>
-        <h2 className="col-md-10 p-0 mt-5 mb-5 ml-5 " id="text-indii-blue">{title}</h2>
-        <div className="col-md-12 font-details pt-4">
+        <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5 " id="text-indii-blue">{title}</h2>
+        <div className="col-md-12 font-details pt-2">
             {fieldData.map((val, index) => {
                 return (
                     <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1"}>
                         <label className="col-md-3 mb-1 pr-0 text-secondary">{val.label}:</label>
-                        {edit && <input type="text" className="col-md-9 mb-3 form-control font-weight-bold" name={val.label} value={val.value} />}
-                        {!edit && <p className="mb-0 col-md-9 mb-4">{val.value}</p>}
+                        {edit && <input type="text" className="col-md-9 mb-3 form-control font-weight-bold" name={val.label} value={val.value} disabled={val.label === 'Social security number' ? true: false} />}
+                        {!edit && <p className="mb-0 col-md-9 mb-3">{val.value}</p>}
                     </div>
                 )
             })}
         </div>
-        {edit && <div className="float-right col-md-12 text-right mt-3 mr-3">
+        {edit && <div className="float-right col-md-12 text-right mr-3 mb-1">
             <CustomButton buttonName={'Save'} ActionFunction={() => setEditStatus(false)}></CustomButton>
             <CustomButton buttonName={'Cancel'} ActionFunction={() => setEditStatus(false)}></CustomButton>
         </div>}

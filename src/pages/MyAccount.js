@@ -54,7 +54,7 @@ export default function MyAccount({ setAuth }) {
                 <CustomButton buttonName={'Logout'} CustomStyle={"mx-auto"} ActionFunction={Logout} ></CustomButton>
             </div>
             <div className="col-md-8 mt-3 ml-4 border bg-white">
-                {(window.location.hash !== "#changePassword" && window.location.hash !== "#enableNotification") && !editStatus && <img className="float-right  pt-2 mt-5 mr-3" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                {(window.location.hash !== "#changePassword" && window.location.hash !== "#enableNotification") && !editStatus && <img className="float-right  pt-2 mt-4 mr-3" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
                 {window.location.hash == "" && <ProfileData title="My Profile" edit={editStatus} setEditStatus={setEditStatus} />}
                 {window.location.hash == "#address" && <ProfileData title="My Address" edit={editStatus} setEditStatus={setEditStatus} type="address" />}
                 {window.location.hash == "#changePassword" && <ResetPassword />}
