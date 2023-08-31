@@ -39,6 +39,7 @@ export const GET_CONSTANTS = {
     'LOCATIONS': 'Locations',
     'WORKSTATION': 'Workstations',
     'CONTRACTS': 'Contracts',
+    'RESPONSIBLE_PERSONS': 'Responsible persons',
     'RULES': 'Rules',
 
     // Settings constants

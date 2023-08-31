@@ -32,64 +32,107 @@ export default function AddCompanyForm() {
 
     const navigate = useNavigate();
 
+    const [companyData, setCompanyData] = useState([{
+        company_name: "",
+        employer_id: "",
+        sender_number: "",
+        rsz_number: "",
+        social_secretary_number: "",
+        username: "",
+        // phone:"",
+        // email:"",
+        status: 1,
+        sectors: [],
+        address: {
+            street: "",
+            house_no: "",
+            postal_code: "",
+            city: "",
+            country: "",
+            status: "1"
+        },
+        locations: [],
+        workstations: [],
+    }]);
+
     // Fetch dropdown data of sectors
     useEffect(() => {
-    AXIOS.service(SectorApiUrl, 'GET')
-        .then((result) => {
-            if (result?.success && result.data.length !== sectorList.length) {
-                result.data.map((val, index) => {
-                    sectorList.push({ value: val.id, label: val.name })
-                })
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        AXIOS.service(SectorApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success && result.data.length !== sectorList.length) {
+                    result.data.map((val, index) => {
+                        sectorList.push({ value: val.id, label: val.name })
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, [])
 
 
-    const onSectorChange = (e) => {
-        setSector(e);
+
+    const setValues = (index, name, value, field) => {
+        const company = [...companyData];
+        if (index === 'address') {
+            company[0][index][name] = value
+        } else {
+            if (field !== 'dropdown') {
+                company[index][name] = value
+            } else {
+                const sector_arr = [...sector]
+                sector_arr.push(value)
+                setSector(sector_arr);
+                let arr = []
+                value.map((val, i) => {
+                    arr.push(val.value)
+                })
+                company[0]['sectors'] = arr
+            }
+        }
+        setCompanyData(company);
     }
 
 
     //add company fields 
     const addCompanyFieldsArray = [
-        { title: "Company name", name: "company_name", value: companyName, setValue: setCompanyName, placeholder: "Company name", error: companyName ? "" : error, required: true, type: "input_field" },
-        { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, onSelectFunction: onSectorChange, error: (sector.length > 0) ? "" : error, required: true, type: "dropdown" },
-        { title: "Employer Id", name: "employer_id", value: employerId, setValue: setEmployerId, placeholder: "Employer id", error: ``, required: false, type: "input_field" },
-        { title: "Sender number", name: "sender_name", value: senderNumber, setValue: setSenderNumber, placeholder: "Sender number", error: ``, required: false, type: "input_field" },
-        { title: "Username", name: "username", value: username, setValue: setUsername, placeholder: "Username", error: ``, required: false, type: "input_field" },
-        { title: "RSZ number", name: "RSZNumber", value: RSZNumber, setValue: setRSZNumber, placeholder: "RSZ number", error: ``, required: false, type: "input_field" },
-        { title: "Social secretary number", name: "socialSecretaryNumber", value: socialSecretaryNumber, setValue: setSocialSecretaryNumber, placeholder: "Social secretary number", error: ``, required: false, type: "input_field" },
+        { title: "Company name", name: "company_name", value: companyName, error: companyName ? "" : error, required: true, type: "input_field" },
+        { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, error: (sector.length > 0) ? "" : error, required: true, type: "dropdown" },
+        { title: "Employer Id", name: "employer_id", value: employerId, error: ``, required: false, type: "input_field" },
+        { title: "Sender number", name: "sender_number", value: senderNumber, error: ``, required: false, type: "input_field" },
+        { title: "Username", name: "username", value: username, error: ``, required: false, type: "input_field" },
+        { title: "RSZ number", name: "rsz_number", value: RSZNumber, error: ``, required: false, type: "input_field" },
+        { title: "Social secretary number", name: "social_secretary_number", value: socialSecretaryNumber, error: ``, required: false, type: "input_field" },
     ];
     //adress fields for company
     const companyAddressFieldsArray = [
-        { className: "col-md-12 d-block", title: "Street", name: "street", value: street, setValue: setStreet, placeholder: "Street", error: street ? "" : error, required: true, type: "input_field" },
-        { className: "col-md-6 mt-4", title: "House Number", name: "house_num", value: houseNum, setValue: setHouseNum, placeholder: "House number", error: houseNum ? "" : error, required: true, type: "input_field" },
-        { className: "col-md-6 mt-4", title: "Postal code", name: "postal_code", value: postalCode, setValue: setPostalCode, placeholder: "Postal code", error: postalCode ? "" : error, required: true, type: "input_field" },
-        { className: "col-md-6 mt-4", title: "Postbox Number", name: "postbox_num", value: postboxNum, setValue: setPostboxNum, placeholder: "Postbox number", error: postboxNum ? "" : error, required: true, type: "input_field" },
-        { className: "col-md-6 mt-4", title: "City", name: "city", value: city, setValue: setCity, placeholder: "City", error: city ? "" : error, required: true, type: "input_field" },
-        { className: "col-md-6 mt-4", title: "Country", name: "country", value: country, setValue: setCountry, placeholder: "Country", error: country ? "" : error, required: true, type: "input_field" },
+        { title: "Street", name: "street", value: street, setValue: setStreet, error: street ? "" : error, required: true, type: "input_field" },
+        { title: "House Number", name: "house_no", value: houseNum, setValue: setHouseNum, error: houseNum ? "" : error, required: true, type: "input_field" },
+        { title: "Postal code", name: "postal_code", value: postalCode, setValue: setPostalCode, error: postalCode ? "" : error, required: true, type: "input_field" },
+        { title: "City", name: "city", value: city, setValue: setCity, error: city ? "" : error, required: true, type: "input_field" },
+        { title: "Country", name: "country", value: country, setValue: setCountry, error: country ? "" : error, required: true, type: "input_field" },
     ];
-
-    //responsible person fields for company
-    const companyResponsiblePersonFieldsArray = [
-        { className: "col-md-6 mb-4", title: "Name", name: "name", required: true, value: name, setValue: setName, placeholder: "Name", error: name ? "" : error, type: "input_field" },
-        { className: "col-md-6 mb-4", title: "Email Id", name: "email", required: true, value: email, setValue: setEmail, placeholder: "Email Id", error: email ? "" : error, type: "input_field" },
-        { className: "col-md-6 mb-4", title: "Telephone number", name: "telephone", required: true, value: telephone, setValue: setTelephone, placeholder: "Telephone number", error: telephone ? "" : error, type: "input_field" },
-    ];
+    // //responsible person fields for company
+    // const companyResponsiblePersonFieldsArray = [
+    //     { className: "col-md-6 mb-4", title: "Name", name: "name", required: true, value: name, setValue: setName, placeholder: "Name", error: name ? "" : error, type: "input_field" },
+    //     { className: "col-md-6 mb-4", title: "Email Id", name: "email", required: true, value: email, setValue: setEmail, placeholder: "Email Id", error: email ? "" : error, type: "input_field" },
+    //     { className: "col-md-6 mb-4", title: "Telephone number", name: "telephone", required: true, value: telephone, setValue: setTelephone, placeholder: "Telephone number", error: telephone ? "" : error, type: "input_field" },
+    // ];
 
     return (
         <div>
             <CompanyForm
                 view="company"
                 title1={'Add company'}
+                index={0}
                 data1={addCompanyFieldsArray}
+                formattedData1={companyData}
                 title2={'Address'}
                 data2={companyAddressFieldsArray}
+                formattedData2={companyData[0].address}
                 // title3={'Responsible person'}
                 // data3={companyResponsiblePersonFieldsArray}
+                SetValues={setValues}
             ></CompanyForm>
         </div>
     );
