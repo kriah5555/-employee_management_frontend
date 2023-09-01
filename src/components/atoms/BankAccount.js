@@ -10,6 +10,9 @@ import "../../static/common.css";
 registerPlugin(FilePondPluginFileValidateType);
 
 export default function BankAccount({ edit, setEditStatus }) {
+
+    const [bankAccountNumber, setBankAccountNumber]=useState("BE01 1234 4567 7812");
+    const [updatedBankAccountNumber, setUpdatedBankAccountNumber]=useState("BE01 1234 4567 7812");
     const [files, setFiles] = useState([]);
     const fileInput = useRef();
 
@@ -25,7 +28,7 @@ export default function BankAccount({ edit, setEditStatus }) {
             <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5" id="text-indii-blue">My bank account</h2>
             <div className="col-md-10 ml-4 d-flex justify-content-center m-5">
                 <label className="col-md-3 mb-1 pr-0 text-secondary font-weight-bold h-25">Bank account number:</label>
-                {edit && <input type="text" className="col-md-9 mb-3 form-control font-weight-bold pt-0" name="bankAccountNumber" value={"BE01 1234 4567 7812"} />}
+                {edit && <TextInput CustomStyle={"col-md-9 mb-3 font-weight-bold pt-0"} name="bankAccountNumber" value={updatedBankAccountNumber} setValue={setUpdatedBankAccountNumber}/>}
                 {!edit && <p className="mb-0 col-md-9">{"BE01 1234 4567 7812"}</p>}
             </div>
             {edit && <div className="col-md-10 ml-4 m-5">
@@ -53,7 +56,7 @@ export default function BankAccount({ edit, setEditStatus }) {
             </div>
             {edit && <div className="float-right col-md-12 text-right mt-3">
                 <CustomButton buttonName={'Save'} ActionFunction={() => setEditStatus(false)}></CustomButton>
-                <CustomButton buttonName={'Cancel'} ActionFunction={() => { files[0] ? removeFile() : setEditStatus(false); }}></CustomButton>
+                <CustomButton buttonName={'Cancel'} ActionFunction={() => { files[0] ? removeFile() : setEditStatus(false);setUpdatedBankAccountNumber(bankAccountNumber)}}></CustomButton>
             </div>}
         </>
     );
