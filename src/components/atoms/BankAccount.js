@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import TextInput from "./formFields/TextInput";
 import CustomButton from "./CustomButton";
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -11,10 +11,18 @@ registerPlugin(FilePondPluginFileValidateType);
 
 export default function BankAccount({ edit, setEditStatus }) {
     const [files, setFiles] = useState([]);
+    const fileInput = useRef();
+
+    const removeFile = () => {
+        fileInput.current.removeFile(files[0].file);
+        setTimeout(() => {
+            setEditStatus(false);
+        }, 10); 
+    }
 
     return (
         <>
-            <h2 className="col-md-10 p-0 mt-5 mb-5 ml-5" id="text-indii-blue">My bank account</h2>
+            <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5" id="text-indii-blue">My bank account</h2>
             <div className="col-md-10 ml-4 d-flex justify-content-center m-5">
                 <label className="col-md-3 mb-1 pr-0 text-secondary font-weight-bold h-25">Bank account number:</label>
                 {edit && <input type="text" className="col-md-9 mb-3 form-control font-weight-bold pt-0" name="bankAccountNumber" value={"BE01 1234 4567 7812"} />}
@@ -25,27 +33,27 @@ export default function BankAccount({ edit, setEditStatus }) {
                 <FilePond
                     className="col-md-12"
                     files={files}
-                    allowReorder={true}
                     allowDrop={true}
                     allowBrowse={true}
                     allowMultiple={true}
+                    allowRemove={true}
                     maxFiles={1}
                     allowFileTypeValidation={true}
                     acceptedFileTypes={['image/png', 'image/jpeg']}
                     onupdatefiles={setFiles}
-                    labelFileTypeNotAllowed
                     labelIdle='Drag & Drop your files or <span class="filepond--label-action" id="text-indii-blue"> Browse </span>'
                     credits={false}
                     disabled={!edit}
+                    ref={fileInput}
                 />
             </div>}
             <div className='col-md-10  m-5'>
                 <label className="col-md-3 mb-4 mb-1 pr-0 text-secondary font-weight-bold d-block">Photo of bank account:</label>
-                <img className="photo-icon mx-2" src={files.length > 0 ? URL.createObjectURL(files[0].file) : EmployeeIcon}></img>
+                <img className="photo-icon mx-2" src={files.length > 0 ? URL.createObjectURL(files[0].file):EmployeeIcon}></img>
             </div>
             {edit && <div className="float-right col-md-12 text-right mt-3">
                 <CustomButton buttonName={'Save'} ActionFunction={() => setEditStatus(false)}></CustomButton>
-                <CustomButton buttonName={'Cancel'} ActionFunction={() => setEditStatus(false)}></CustomButton>
+                <CustomButton buttonName={'Cancel'} ActionFunction={() => { files[0] ? removeFile() : setEditStatus(false); }}></CustomButton>
             </div>}
         </>
     );
