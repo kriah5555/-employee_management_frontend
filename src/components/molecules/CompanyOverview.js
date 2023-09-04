@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "../atoms/Table";
+import { CompanyApiUrl } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+
 
 export default function CompanyOverview() {
+
+    useEffect(() => {
+        AXIOS.service(CompanyApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    console.log(result);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
 
     // Header data for company overview
     const headers = [
