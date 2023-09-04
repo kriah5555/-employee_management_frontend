@@ -17,9 +17,10 @@ export default function MyAccount({ setAuth }) {
     const navigate = useNavigate();
     const [userName, setUserName] = useState("Employee 01 super admin");
     const [editStatus, setEditStatus] = useState(false);
+    const [myProfileURL, setMyProfileURL] = useState("");
 
     const MenuData = [
-        { title: 'My profile', icon: '', url: '' },
+        { title: 'My profile', icon: '', url: myProfileURL },
         { title: 'My address', icon: '', url: '#address' },
         { title: 'Change password', icon: '', url: '#changePassword' },
         { title: 'My bank account', icon: '', url: '#bankAccountDetails' },
@@ -28,6 +29,9 @@ export default function MyAccount({ setAuth }) {
 
     useEffect(() => {
         setEditStatus(false);
+        if (window.location.hash !== "") {
+            setMyProfileURL("#myProfile")
+        }
     }, [window.location.hash])
 
     // Function to call Logout Api call 
@@ -55,7 +59,7 @@ export default function MyAccount({ setAuth }) {
             </div>
             <div className="col-md-8 mt-3 ml-4 border bg-white">
                 {(window.location.hash !== "#changePassword" && window.location.hash !== "#enableNotification") && !editStatus && <img className="float-right  pt-2 mt-4 mr-3" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
-                {window.location.hash == "" && <ProfileData title="My Profile" edit={editStatus} setEditStatus={setEditStatus} />}
+                {(window.location.hash == "#myProfile" || window.location.hash == "") && <ProfileData title="My Profile" edit={editStatus} setEditStatus={setEditStatus} />}
                 {window.location.hash == "#address" && <ProfileData title="My Address" edit={editStatus} setEditStatus={setEditStatus} type="address" />}
                 {window.location.hash == "#changePassword" && <ResetPassword />}
                 {window.location.hash == "#bankAccountDetails" && <BankAccount edit={editStatus} setEditStatus={setEditStatus} />}

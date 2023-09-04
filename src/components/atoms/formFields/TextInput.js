@@ -3,7 +3,7 @@ import React from "react";
 import RequiredIcon from "../../../static/icons/exclamation-mark1.png"
 
 
-export default function TextInput({ title, name, placeholder, required, CustomStyle, value, setValue, error, styleMargin, age }) {
+export default function TextInput({ title, name, placeholder, required, CustomStyle, value, setValue, error, styleMargin, age, disabled }) {
     return (
         <div className={"font-weight-bold " + CustomStyle}>
             <div className={"d-flex justify-content-between " + (error ? '' : styleMargin)} >
@@ -14,7 +14,7 @@ export default function TextInput({ title, name, placeholder, required, CustomSt
                 </p>}
             </div>
             <div className="input-group ">
-                <input type="text" className="form-control" placeholder={placeholder} name={name} value={value} onChange={(e) => setValue(e.target.value)} />
+                <input type="text" className="form-control" placeholder={placeholder} name={name} value={value} onChange={(e) => setValue(e.target.value)} disabled={disabled} />
                 {age && <div className="input-group-append">
                     <span className="input-group-text">%</span>
                 </div>}

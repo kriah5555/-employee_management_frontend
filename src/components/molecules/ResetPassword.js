@@ -61,7 +61,7 @@ export default function ResetPassword() {
         //     })
     }
     return (<>
-        <h2 className="col-md-10 p-0 mt-5 mb-5 ml-5" id="text-indii-blue">Reset Password</h2>
+        <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5" id="text-indii-blue">Reset Password</h2>
         <div className="col-md-8 mx-auto mt-5 h-50 pt-5">
             {validationError && <div className="mb-3 text-center" >
                 <span id={messageColour === "default" ? "text-indii-blue" : ""} className={messageColour === "fail" ? "text-red font-weight-bolder" : (messageColour === "pass" ? "text-green font-weight-bolder" : "")}>{validationError}</span>
