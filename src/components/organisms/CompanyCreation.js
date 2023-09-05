@@ -18,6 +18,8 @@ export default function CompanyCreation() {
 
     const navigate = useNavigate();
     const [tabIndex, setTabIndex] = useState(0);
+    const [locationStatus, setLocationStatus] = useState(false);
+    const [workstationStatus, setWorkstationStatus] = useState(false);
 
     const TabsData = [
         { tabHeading: t("COMPANY"), tabName: 'company' },
@@ -79,8 +81,8 @@ export default function CompanyCreation() {
         sender_number: "",
         rsz_number: "",
         social_secretary_number: "",
-        email: 'test@gmail.com',
-        phone: '+91 998 616 8736',
+        email: '',
+        phone: '',
         username: "",
         status: 1,
         sectors: [],
@@ -100,15 +102,24 @@ export default function CompanyCreation() {
     const SaveCompany = () => {
         let company = [...companyData]
         company[0]['responsible_persons'] = customers
-        company[0]['locations'] = locations
-        company[0]['workstations'] = workstations
+        if (!locationStatus) {
+            company[0]['locations'] = []
+        } else {
+            company[0]['locations'] = locations
+        }
+
+        if (!workstationStatus) {
+            company[0]['workstations'] = []
+        } else {
+            company[0]['workstations'] = workstations
+        }
         setCompanyData(company)
 
-        console.log(company);
         AXIOS.service(CompanyApiUrl, 'POST', company[0])
             .then((result) => {
                 if (result?.success) {
                     console.log(result);
+                    navigate('/manage-companies')
                 }
             })
             .catch((error) => {
@@ -147,7 +158,7 @@ export default function CompanyCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData}></AddLocationForm></div>
+                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus}></AddLocationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
@@ -155,7 +166,7 @@ export default function CompanyCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray}></WorkstationForm></div>
+                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus}></WorkstationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>

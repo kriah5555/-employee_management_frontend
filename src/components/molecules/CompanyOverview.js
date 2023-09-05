@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import { CompanyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
@@ -6,11 +6,24 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 
 export default function CompanyOverview() {
 
+    const [listData, setListData] = useState([]);
+
     useEffect(() => {
         AXIOS.service(CompanyApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    console.log(result);
+                    if (result.data.length !== listData.length)
+                    setListData(result.data)
+                        // result.data.map((resp, index) => {
+                        //     let obj = {
+                        //         id: index,
+                        //         company: resp.company_name,
+                        //         address: resp.address.street_house_no,
+                        //         email: resp.email,
+                        //         phone: resp.phone,
+                        //     }
+                        //     listData.push(resp)
+                        // })
                 }
             })
             .catch((error) => {
@@ -22,64 +35,24 @@ export default function CompanyOverview() {
     const headers = [
         {
             title: 'Company',
-            field:'company',
-            size: 200,
-        },
-        {
-            title: 'Address',
-            field:'address',
-            size: 250,
-        },
-        {
-            title: 'Customer type',
-            field:'type',
-            size: 200,
-        },
-        {
-            title: 'Incharge name',
-            field:'name',
+            field: 'company_name',
             size: 200,
         },
         {
             title: 'Email address',
-            field:'email',
+            field: 'email',
             size: 200,
         },
         {
             title: 'Phone number',
-            field:'number',
+            field: 'phone',
             size: 200,
         },
-    ];
-
-    // List of companies (Api will be called later)
-    const listData = [
-        { company: 'Company - 01', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'laxmiparwati.infanion123@gmail.com', number: '8648827364', id: '1' },
-        { company: 'Company - 02', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '2' },
-        { company: 'Company - 03', address: 'AMarathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '3' },
-        { company: 'Company - 04', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '4' },
-        { company: 'Company - 05', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '5' },
-        { company: 'Company - 06', address: 'Heislagsebaan 38 Braschaat', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '6' },
-
-        { company: 'Company - 01', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'laxmiparwati.infanion123@gmail.com', number: '8648827364', id: '1' },
-        { company: 'Company - 02', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '2' },
-        { company: 'Company - 03', address: 'AMarathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '3' },
-        { company: 'Company - 04', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '4' },
-        { company: 'Company - 05', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '5' },
-        { company: 'Company - 06', address: 'Heislagsebaan 38 Braschaat', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '6' },
-
-        { company: 'Company - 01', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'laxmiparwati.infanion123@gmail.com', number: '8648827364', id: '1' },
-        { company: 'Company - 02', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '2' },
-        { company: 'Company - 03', address: 'AMarathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '3' },
-        { company: 'Company - 04', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '4' },
-        { company: 'Company - 05', address: 'Marathahalli', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '5' },
-        { company: 'Company - 06', address: 'Heislagsebaan 38 Braschaat', type: 'Indii', name: 'Name-01', email: 'company@gmail.com', number: '8648827364', id: '6' },
     ];
 
     const viewAction = (val) => {
         console.log(val);
     }
-
 
     return (
         <Table columns={headers} rows={listData} tableName="company" viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>

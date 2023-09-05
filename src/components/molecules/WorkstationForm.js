@@ -5,7 +5,7 @@ import { FunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
 
-export default function WorkstationForm({workstations, setWorkstations, locationArray}) {
+export default function WorkstationForm({ workstations, setWorkstations, locationArray, setWorkstationStatus }) {
 
     // const [workstations, setWorkstations] = useState([{
     //     workstation_name: "",
@@ -16,9 +16,6 @@ export default function WorkstationForm({workstations, setWorkstations, location
     // }]);
     const [selectedLocation, setSelectedLocation] = useState([]);
     const [selectedFunction, setSelectedFunction] = useState([]);
-
-    const locations = [{value: 'loc1', label: 'loc1'}, {value: 'loc2', label: 'loc2'}, {value: 'loc3', label: 'loc3'}]
-
     const [functionOptions, setFunctionOptions] = useState([]);
 
     //Fetch dropdown data of functions
@@ -37,12 +34,13 @@ export default function WorkstationForm({workstations, setWorkstations, location
     }, [])
 
     const AddNewWorkstation = () => {
-        setWorkstations([...workstations, { workstation_name: "",
+        setWorkstations([...workstations, {
+            workstation_name: "",
             function_titles: [],
             sequence_number: "",
             locations_index: [],
             status: 1
-    }]);
+        }]);
     }
 
     const removeWorkstation = (i) => {
@@ -53,6 +51,12 @@ export default function WorkstationForm({workstations, setWorkstations, location
 
 
     const setValues = (index, name, value, field) => {
+        if (value === '' || value.length === 0) {
+            setWorkstationStatus(false)
+        } else {
+            setWorkstationStatus(true)
+        }
+
         const workstationArray = [...workstations];
 
         if (field === 'address') {

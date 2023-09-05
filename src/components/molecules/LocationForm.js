@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 
-export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData }) {
+export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus }) {
 
 
     // const [locations, setLocations] = useState([{
@@ -40,6 +40,13 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     }
 
     const setValues = (index, name, value, field) => {
+        console.log(value);
+        if (value === '' || value.length === 0) {
+            setLocationStatus(false)
+        } else {
+            setLocationStatus(true)
+        }
+
         const locationsArray = [...locations];
 
         if (field === 'address') {
