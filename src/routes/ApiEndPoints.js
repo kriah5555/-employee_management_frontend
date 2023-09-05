@@ -8,7 +8,7 @@ export const PAGINATE_BY = 10;
 
 // EXAMPLE : export const getUserDetails = BASE_URL + 'account/get-user-details';
 
-export const LoginApiUrl = BASE_URL + '/login'
+export const LoginApiUrl = BASE_URL + '/identity-manager/login'
 export const LogoutApiUrl = BASE_URL + '/identity-manager/logout'
 // export const GetUserDetailsApiUrl = BASE_URL + '/identity-manager/user-details'
 //add all your new urls from here onwards
