@@ -25,8 +25,11 @@ const ModalPopup = (props) => {
                 <p>{props.body}</p>
             </Modal.Body>
             <Modal.Footer>
-                {props.deleteTableRows && <Button className='button-style float-left' onClick={() => props.deleteTableRows(0,0,1,0)}>
+                {/* {props.deleteTableRows && <Button className='button-style float-left' onClick={() => props.deleteTableRows(0,0,1,0)}>
                     {t('YES_DELETE')}
+                </Button>} */}
+                {props.onConfirm && <Button className='button-style float-left' onClick={() => props.onConfirm()}>
+                    {'Yes'}
                 </Button>}
                 <Button className='button-style' onClick={props.onHide}>
                     {props.buttonName ? (props.buttonName) : t('CLOSE')}

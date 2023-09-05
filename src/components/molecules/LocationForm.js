@@ -2,21 +2,34 @@ import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 
-export default function Addlocation() {
+export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus }) {
 
-    const [locations, setLocations]=useState([{
-        location:"",
-        loc_street:"",
-        loc_HouseNum:"",
-        loc_postal_code:"",
-        loc_postbox_num:"",
-        loc_city:"",
-        loc_country:"",
-    }]);
+
+    // const [locations, setLocations] = useState([{
+    //     location_name: "",
+    //     responsible_persons: [],
+    //     address: {
+    //         street_house_no: "",
+    //         postal_code: "",
+    //         city: "",
+    //         country: "",
+    //     }
+    // }]);
+    const [responsiblePerson, setResponsiblePerson] = useState([]);
 
     const handleAddAnotherLocation = () => {
         if (locations.length <= 3) {
-            setLocations([...locations, { location: "", loc_street: "", loc_HouseNum: "", loc_postal_code: "", loc_postbox_num: "", loc_city: "", loc_country: "" }]);
+            setLocations([...locations, {
+                location_name: "",
+                responsible_persons: [],
+                address: {
+                    street: "",
+                    house_no: "",
+                    postal_code: "",
+                    city: "",
+                    country: "",
+                }
+            }]);
         }
     }
 
@@ -26,28 +39,47 @@ export default function Addlocation() {
         setLocations(newLocations);
     }
 
-    const setValues = (index, name, value) => {
+    const setValues = (index, name, value, field) => {
+        console.log(value);
+        if (value === '' || value.length === 0) {
+            setLocationStatus(false)
+        } else {
+            setLocationStatus(true)
+        }
+
         const locationsArray = [...locations];
-        locationsArray[index][name] = value
+
+        if (field === 'address') {
+            locationsArray[index][field][name] = value
+        } else if (field !== 'dropdown') {
+            locationsArray[index][name] = value
+            if (name === 'location_name') { getLocationDropdownData(index, value) }
+        } else {
+            const resp_person = [...responsiblePerson]
+            resp_person[index] = value
+            setResponsiblePerson(resp_person);
+            let arr = []
+            value.map((val, i) => {
+                arr.push(val.value)
+            })
+            locations[index]['responsible_persons'] = arr
+        }
+
         setLocations(locationsArray);
     }
 
     //add location fields
     const locationFieldsArray = [
-        { title: "Location", name: "location", placeholder: "Location", required: false, type: "input_field" },
-        { title: "Street", name: "loc_street", placeholder: "Street", required: false, type: "input_field" },
-        { title: "House Number", name: "loc_HouseNum", placeholder: "House number", required: false, type: "input_field" },
-        { title: "Postbox Number", name: "loc_postbox_num", placeholder: "Postbox number", required: false, type: "input_field" },
-        { title: "Postal code", name: "loc_postal_code", placeholder: "Postal code", required: false, type: "input_field" },
-        { title: "City", name: "loc_city", placeholder: "City", required: false, type: "input_field" },
-        { title: "Country", name: "loc_country", placeholder: "Country", required: false, type: "input_field" },
+        { title: "Location", name: "location_name", required: false, type: "input_field" },
+        { title: "Responsible persons", options: customerArray, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
     ]
 
-    //responsible person fields for company
-    const companyResponsiblePersonFieldsArray = [
-        { className: "col-md-6 mb-4", title: "Name", name: "name", required: false, value: '', setValue: '', placeholder: "Name", type: "input_field" },
-        { className: "col-md-6 mb-4", title: "Email Id", name: "email", required: false, value: '', setValue: '', placeholder: "Email Id", type: "input_field" },
-        { className: "col-md-6 mb-4", title: "Telephone number", name: "telephone", required: false, value: '', setValue: '', placeholder: "Telephone number", type: "input_field" },
+    //adress fields for company
+    const locationAddressArray = [
+        { title: "Street and house number", name: "street_house_no", required: false, type: "input_field" },
+        { title: "Postal code", name: "postal_code", required: false, type: "input_field" },
+        { title: "City", name: "city", required: false, type: "input_field" },
+        { title: "Country", name: "country", required: false, type: "input_field" },
     ];
 
 
@@ -65,8 +97,8 @@ export default function Addlocation() {
                             title1='Add location'
                             data1={locationFieldsArray}
                             formattedData1={locations}
-                            title3='Responsible person'
-                            data3={companyResponsiblePersonFieldsArray}
+                            title2={'Address'}
+                            data2={locationAddressArray}
                             formattedData2={locations}
                             SetValues={setValues}
                         ></CompanyForm>

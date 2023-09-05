@@ -39,6 +39,7 @@ export const GET_CONSTANTS = {
     'LOCATIONS': 'Locations',
     'WORKSTATION': 'Workstations',
     'CONTRACTS': 'Contracts',
+    'RESPONSIBLE_PERSONS': 'Responsible persons',
     'RULES': 'Rules',
 
     // Settings constants
@@ -53,5 +54,5 @@ export const GET_CONSTANTS = {
     'SECTORS':'Sectors',
     'GROUP_FUNCTIONS' : 'Group functions',
     'MIN_SALARY': 'Minimum salaries',
-    'CONTRACT_TYPE':'contract type'
+    'CONTRACT_TYPE':'Contract type'
 };

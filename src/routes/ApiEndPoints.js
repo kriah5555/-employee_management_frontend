@@ -8,7 +8,7 @@ export const PAGINATE_BY = 10;
 
 // EXAMPLE : export const getUserDetails = BASE_URL + 'account/get-user-details';
 
-export const LoginApiUrl = BASE_URL + '/login'
+export const LoginApiUrl = BASE_URL + '/identity-manager/login'
 export const LogoutApiUrl = BASE_URL + '/identity-manager/logout'
 // export const GetUserDetailsApiUrl = BASE_URL + '/identity-manager/user-details'
 //add all your new urls from here onwards
@@ -18,6 +18,10 @@ export const SectorApiUrl = BASE_URL + '/masterdata/sectors'
 export const FunctionApiUrl = BASE_URL + '/masterdata/function-titles'
 export const GroupFunctionApiUrl = BASE_URL + '/masterdata/function-categories'
 export const ContractTypeApiUrl = BASE_URL + '/masterdata/contract-types'
+export const SalariesApiUrl = BASE_URL + '/masterdata/get-minimum-salaries'
+export const UpdateSalariesApiUrl = BASE_URL + '/masterdata/update-minimum-salaries'
+export const RevertSalariesApiUrl = BASE_URL + 'masterdata/undo-coefficient-minimum-salaries'
+export const CompanyApiUrl = BASE_URL + '/masterdata/companies'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here
