@@ -14,6 +14,7 @@ import AddSector from '../components/organisms/AddSector';
 import AddGroupFunction from '../components/organisms/AddGroupFunction';
 import AddContractType from '../components/organisms/AddContractType';
 import CompanyCreation from '../components/organisms/CompanyCreation';
+import Holidayconfig from '../pages/HolidayConfig';
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
 
@@ -46,6 +47,8 @@ const BaseRouter = () => (
 
         <Route exact path='/add-group-function' element={<AddGroupFunction></AddGroupFunction>} />
         <Route exact path='/add-group-function/:id' element={<AddGroupFunction></AddGroupFunction>} />
+
+        <Route exact path='/holiday-config' element={<Holidayconfig></Holidayconfig>} />
 
 
 
