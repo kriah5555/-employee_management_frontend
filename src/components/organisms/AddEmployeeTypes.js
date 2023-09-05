@@ -79,7 +79,7 @@ export default function AddEmployeeTypes() {
                         setDescription(result.data.details.description?result.data.details.description:'');
                         setCategory(result.data.details.employee_type_category_value);
                         setContractType(result.data.details.contract_types_value);
-                        setDimonaType(result.data.details.dimona_type_value);
+                        setDimonaType(result.data.details.dimona_config.dimona_type_value);
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
                 })
