@@ -118,7 +118,6 @@ export default function CompanyCreation() {
         AXIOS.service(CompanyApiUrl, 'POST', company[0])
             .then((result) => {
                 if (result?.success) {
-                    console.log(result);
                     navigate('/manage-companies')
                 }
             })
