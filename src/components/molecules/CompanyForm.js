@@ -1,10 +1,11 @@
 import React from "react";
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
+import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 
-export default function CompanyForm({ view, data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2}) {
+export default function CompanyForm({ view, data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2 }) {
 
-    
+
     return (
         <div className="mt-3">
             {title1 && <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{title1}</span>}
@@ -26,6 +27,18 @@ export default function CompanyForm({ view, data1, data2, data3, title1, title2,
                                     error={''}
                                 ></TextInput>
                             )
+                        } else if (field.type === 'phone_input') {
+                            return (
+                                <CustomPhoneInput
+                                    key={field.name}
+                                    title={field.title}
+                                    name={field.name}
+                                    value={formattedData1 !== undefined ? formattedData1[index][field.name] : ''}
+                                    setValue={(e) => SetValues(index, field.name, e)}
+                                    CustomStyle={"col-md-6 mt-4 float-left"}
+                                    required={field.required}
+                                />
+                            )
                         } else if (field.type === 'dropdown') {
                             return (
                                 <Dropdown
@@ -44,7 +57,7 @@ export default function CompanyForm({ view, data1, data2, data3, title1, title2,
                     })}
                 </form>
             </div>}
-            {title2 &&<span className="col-md-12 pl-5 ml-3 form-subHeading">{title2}</span>}
+            {title2 && <span className="col-md-12 pl-5 ml-3 form-subHeading">{title2}</span>}
             {data2 && <div className="d-flex mb-4 px-5">
                 <form className="col-md-12 px-0 pb-4 mt-1 border-blue">
                     {/* Text input field */}

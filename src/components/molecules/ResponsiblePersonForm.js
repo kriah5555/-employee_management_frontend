@@ -57,7 +57,7 @@ export default function ResponsiblePersonForm({customers, setCustomers, getCusto
         { title: "Last name", name: "last_name", required: false, type: "input_field" },
         { title: "Rsz number", name: "rsz_number", required: false, type: "input_field" },
         { title: "Email", name: "email", required: false, type: "input_field" },
-        { title: "Phone number", name: "phone", required: false, type: "input_field" },
+        { title: "Phone number", name: "phone", required: false, type: "phone_input" },
         { title: "Roles", options: rolesList, isMulti: false, selectedOptions: selectedRole, required: false, type: "dropdown" },
     ];
 

@@ -74,7 +74,7 @@ export default function AddCompanyForm({companyData, setCompanyData}) {
         { title: "Company name", name: "company_name", required: true, type: "input_field" },
         { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, error: (sector.length > 0) ? "" : error, required: true, type: "dropdown" },
         { title: "Email", name: "email", required: true, type: "input_field" },
-        { title: "Phone number", name: "phone", required: true, type: "input_field" },
+        { title: "Phone number", name: "phone", required: true, type: "phone_input" },
         { title: "Employer Id", name: "employer_id", type: "input_field" },
         { title: "Sender number", name: "sender_number", required: false, type: "input_field" },
         { title: "Username", name: "username", required: false, type: "input_field" },
