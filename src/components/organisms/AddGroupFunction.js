@@ -21,12 +21,9 @@ export default function AddGroupFunction() {
     const [CategoryError, setCategoryError] = useState('');
 
     const [sectorList, setSectorList] = useState([])
-    const categoriesList = []
-    let count = 1
-    while (count <= 20) {
-        categoriesList.push({ value: count, label: count })
-        count = count + 1
-    }
+    const [categories, setCategories] = useState()
+    const [categoriesList, setCategoriesList] = useState([]);
+
 
     const navigate = useNavigate();
     const params = useParams();
@@ -62,6 +59,7 @@ export default function AddGroupFunction() {
                 .then((result) => {
                     if (result?.success) {
                         setSectorList(result.data.sectors);
+                        setCategories(result.data.categories);
                     }
                 })
                 .catch((error) => {
@@ -147,6 +145,14 @@ export default function AddGroupFunction() {
             setGroupName(value);
             if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else if (type === 3) {
+
+            let count = 1
+            while (count <= categories[value.value]) {
+                categoriesList.push({ value: count, label: count })
+                count = count + 1
+            }
+            setCategoriesList(categoriesList);
+
             setSector(value);
             if (value) { setSectorError(''); } else { setSectorError('Required'); }
         } else if (type === 4) {

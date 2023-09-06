@@ -26,7 +26,7 @@ export default function ManageSalaries() {
     const [incrementPage, setIncrementPage] = useState(false)
     const [coefficient, setCoefficient] = useState('');
     const [warningMessage, setWarningMessage] = useState('');
-
+    const [successMessage, setSuccessMessage] = useState('');
 
     // Input field from material table package for editing data in bulk
     const CustomInput = (props) => {
@@ -208,6 +208,7 @@ export default function ManageSalaries() {
             .then((result) => {
                 if (result?.success) {
                     console.log(result);
+                    setSuccessMessage(result.message[0])
                 }
             })
             .catch((error) => {
@@ -220,10 +221,11 @@ export default function ManageSalaries() {
     // Function to revert back to saved salaries
     const undoSalaries = () => {
         let url = RevertSalariesApiUrl + '/' + selectedSector.value
-        AXIOS.service(url, 'GET')
+        AXIOS.service(url, 'POST')
             .then((result) => {
                 if (result?.success) {
-                    console.log(result);
+                    setWarningMessage('');
+                    getIncrementPage();
                 }
             })
             .catch((error) => {
@@ -239,6 +241,11 @@ export default function ManageSalaries() {
                 body={(warningMessage)}
                 onConfirm={undoSalaries}
                 onHide={() => setWarningMessage('')}
+            ></ModalPopup>}
+            {successMessage && <ModalPopup
+                title={('SUCCESS')}
+                body={(successMessage)}
+                onHide={() => setSuccessMessage('')}
             ></ModalPopup>}
             <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
                 <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => incrementPage ? getIncrementPage(false) : navigate('/configurations')} src={BackIcon}></img>{title}</h4>

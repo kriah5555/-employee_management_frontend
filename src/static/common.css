@@ -655,14 +655,18 @@ textarea {
 
 .custom-switch.custom-switch-lg .custom-control-label::before {
     border-radius: 1rem;
-    height: 2rem;
-    width: 4rem;
+    /* height: 2rem;
+    width: 4rem; */
+    height: 1.5rem;
+    width: 3.5rem;
 }
 
 .custom-switch.custom-switch-lg .custom-control-label::after {
     border-radius: 1rem;
-    height: calc(2rem - 4px);
-    width: calc(2rem - 4px);
+    /* height: calc(2rem - 4px);
+    width: calc(2rem - 4px); */
+    height: calc(2rem - 12px);
+    width: calc(2.5rem - 20px);
 }
 
 .custom-switch.custom-switch-lg .custom-control-input:checked~.custom-control-label::after {

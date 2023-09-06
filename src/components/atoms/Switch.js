@@ -3,21 +3,21 @@ import { useLocation } from "react-router-dom";
 import { t } from "../../translations/Translation";
 import "../../static/common.css";
 //allows toggle if clicked on label aso
-export default function Switch({ label, id, checked, lableClick, defaultChecked, onChange, onInput, margin }) {
+export default function Switch({ label, id, checked, lableClick, defaultChecked, onChange, onInput, styleClass, required }) {
 
     return (
         <>
-            {lableClick && <div className={"pt-2 pb-3 col-md-11 px-0" + margin}>
+            {lableClick && <div className={styleClass}>
                 <div className="custom-control custom-switch custom-switch-lg">
-                    <input type="checkbox" className="custom-control-input" defaultChecked={checked} id={id} onChange={onChange} onInput={onInput}></input>
+                    <input type="checkbox" className="custom-control-input" defaultChecked={defaultChecked} id={id} onChange={onChange} onInput={onInput}></input>
                     <label className="custom-control-label font-weight-bold" htmlFor={id}><p className="filter-title mb-0">{label}</p></label>
                 </div>
             </div>}
-            {!lableClick && < div className={"d-flex " + margin}>
-                <h5 className="col-md-6 d-flex justify-content-lg-start align-content-center ">{label}:</h5>
-                <div className="col-md-6 d-flex justify-content-lg-start align-content-center">
+            {!lableClick && < div className={styleClass}>
+                <label className="col-md-3 pl-0 font-weight-bold row mx-0 my-auto justify-content-lg-start align-content-center ">{label}{required && <p className="text-danger my-auto">&nbsp;*</p>}</label>
+                <div className="col-md-1 d-flex justify-content-lg-start align-content-center">
                     <div class="custom-control custom-switch custom-switch-lg">
-                        <input type="checkbox" class="custom-control-input" id={id} defaultChecked={defaultChecked} onChange={onChange} onInput={onInput}></input>
+                        <input type="checkbox" class="custom-control-input" id={id} defaultChecked={defaultChecked} checked={checked} onChange={onChange} onInput={onInput}></input>
                         <label class="custom-control-label" for={id}></label>
                     </div>
                 </div>
