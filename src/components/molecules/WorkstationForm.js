@@ -5,20 +5,20 @@ import { FunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
 
-export default function WorkstationForm() {
+export default function WorkstationForm({ workstations, setWorkstations, locationArray, setWorkstationStatus }) {
 
-    const [workstations, setWorkstations] = useState([{
-        workstation_name: "",
-        blocked: "",
-        sequence_num: "",
-        addFunctions: []
-    }]);
-
-    const functions = []
-
+    // const [workstations, setWorkstations] = useState([{
+    //     workstation_name: "",
+    //     function_titles: [],
+    //     sequence_number: "",
+    //     locations_index: [],
+    //     status: 1
+    // }]);
+    const [selectedLocation, setSelectedLocation] = useState([]);
+    const [selectedFunction, setSelectedFunction] = useState([]);
     const [functionOptions, setFunctionOptions] = useState([]);
 
-    //Fetch dropdown data of group functions
+    //Fetch dropdown data of functions
     useEffect(() => {
         AXIOS.service(FunctionApiUrl, 'GET')
             .then((result) => {
@@ -33,8 +33,14 @@ export default function WorkstationForm() {
             })
     }, [])
 
-    const handleAddAnotherWorkstation = () => {
-        setWorkstations([...workstations, { workstations_name: "", blocked: "", sequence_num: "", functions: [] }]);
+    const AddNewWorkstation = () => {
+        setWorkstations([...workstations, {
+            workstation_name: "",
+            function_titles: [],
+            sequence_number: "",
+            locations_index: [],
+            status: 1
+        }]);
     }
 
     const removeWorkstation = (i) => {
@@ -43,28 +49,46 @@ export default function WorkstationForm() {
         setWorkstations(newWorkstation);
     }
 
-    //options for blocked state
-    const options = [{ value: 1, label: "Yes" }, { value: 0, label: "No" }];
-    //function options api data
 
-    const onBlockedStatusChange = (e) => {
-        console.log(e);
-    }
-    const onFunctionsChange = (e) => {
-        setWorkstations();
-    }
+    const setValues = (index, name, value, field) => {
+        if (value === '' || value.length === 0) {
+            setWorkstationStatus(false)
+        } else {
+            setWorkstationStatus(true)
+        }
 
-    const setValues = (index, name, value) => {
         const workstationArray = [...workstations];
-        workstationArray[index][name] = value
+
+        if (field === 'address') {
+            workstationArray[index][field][name] = value
+        } else if (field !== 'dropdown') {
+            workstationArray[index][name] = value
+        } else {
+            let arr = []
+            value.map((val, i) => {
+                arr.push(val.value)
+            })
+            if (name === 'locations_index') {
+                const selected_locations = [...selectedLocation]
+                selected_locations[index] = value
+                setSelectedLocation(selected_locations);
+                workstations[index]['locations_index'] = arr
+            } else {
+                const selected_functions = [...selectedFunction]
+                selected_functions[index] = value
+                setSelectedFunction(selected_functions);
+                workstations[index]['function_titles'] = arr
+            }
+        }
         setWorkstations(workstationArray);
+
     }
 
     const workstationFieldsArray = [
-        { title: "Workstation name", name: "workstation_name", placeholder: "Workstation name", required: false, type: "input_field" },
-        { title: "Workstation blocked", name: "blocked", options: options, isMulti: false, selectedOptions: workstations, onSelectFunction: onBlockedStatusChange, required: false, type: "dropdown" },
-        { title: "Sequence Number", name: "sequence_num", placeholder: "Sequence number", required: false, type: "input_field" },
-        { title: "Add functions", name: "functions", options: functionOptions, isMulti: true, selectedOptions: functions, onSelectFunction: onFunctionsChange, required: false, type: "dropdown" },
+        { title: "Workstation name", name: "workstation_name", required: false, type: "input_field" },
+        { title: "Sequence Number", name: "sequence_number", required: false, type: "input_field" },
+        { title: "Locations", name: 'locations_index', options: locationArray, isMulti: true, selectedOptions: selectedLocation, required: false, type: "dropdown" },
+        { title: "Functions", name: "function_titles", options: functionOptions, isMulti: true, selectedOptions: selectedFunction, required: false, type: "dropdown" },
     ];
 
     return (
@@ -84,7 +108,7 @@ export default function WorkstationForm() {
                             SetValues={setValues}
                         ></CompanyForm>
                         <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {i == workstations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => handleAddAnotherWorkstation()} CustomStyle="mr-5"></CustomButton>}
+                            {i == workstations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => AddNewWorkstation()} CustomStyle="mr-5"></CustomButton>}
                         </div>
                     </div>
                 );

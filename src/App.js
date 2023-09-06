@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from "./routes/Routes";
 import { AppContext } from "./routes/ContextLib";
@@ -13,7 +13,7 @@ function App() {
    const [auth, setAuth] = useState(localStorage.getItem('auth'));
 
    useEffect(() => {
-      if (localStorage.getItem('auth') === null){
+      if (localStorage.getItem('auth') === null) {
          localStorage.setItem('auth', false);
       }
       setAuth(localStorage.getItem('auth'));
@@ -30,7 +30,7 @@ function App() {
                   <Header setAuth={setAuth}></Header>
                   <div className='col-md-12 p-0 d-flex'>
                      <Sidebar></Sidebar>
-                     <BaseRouter></BaseRouter>
+                     <BaseRouter setAuth={setAuth}></BaseRouter>
                   </div>
                </>}
                {auth === 'false' &&
