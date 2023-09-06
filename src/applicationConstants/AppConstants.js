@@ -54,5 +54,5 @@ export const GET_CONSTANTS = {
     'SECTORS':'Sectors',
     'GROUP_FUNCTIONS' : 'Group functions',
     'MIN_SALARY': 'Minimum salaries',
-    'CONTRACT_TYPE':'Contract type'
+    'CONTRACT_TYPE':'Contract types'
 };

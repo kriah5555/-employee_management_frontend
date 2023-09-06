@@ -4,6 +4,7 @@ import { EmployeeTypeApiUrl, EmployeeTypeOptionsApiUrl } from "../../routes/ApiE
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
+import FormsNew from "../molecules/FormsNew";
 
 
 export default function AddEmployeeTypes() {
@@ -11,22 +12,43 @@ export default function AddEmployeeTypes() {
     const [active, setActive] = useState(true);
     const [inactive, setInactive] = useState(false);
 
-    const [employeeType, setEmployeeType] = useState('');
-    const [coefficient, setCoefficient] = useState('');
     const [contractType, setContractType] = useState([]);
     const [dimonaType, setDimonaType] = useState('');
     const [category, setCategory] = useState('');
-    const [description, setDescription] = useState('');
 
     const [successMessage, setSuccessMessage] = useState('');
-    const [titleError, SetTitleError] = useState('');
 
     const [contractTypeList, setContractTypeList] = useState([]);
     const [dimonaTypeList, setDimonaTypeList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
+    const [dayLimit, setDayLimit] = useState('');
+
+    const DaysList = []
+    const MaximumDaysNumber = 7;
+    let count = 1
+    while (count <= MaximumDaysNumber) {
+        DaysList.push({ value: count, label: count })
+        count = count + 1
+    }
 
     const navigate = useNavigate();
     const params = useParams();
+
+    const [employeeTypeData, setEmployeeTypeData] = useState({
+        "name": "",
+        "description": "",
+        "status": 1,
+        "employee_type_category_id": '',
+        "dimona_type_id": '',
+        "contract_types": [],
+        "consecutive_days_limit": 5,
+        "icon_color": "",
+        "start_in_past": false,
+        "counters": false,
+        "contract_hours_split": false,
+        "leave_access": false,
+        "holiday_access": false
+    });
 
     // Status checkbox data
     const changeCheckbox = (type) => {
@@ -66,139 +88,105 @@ export default function AddEmployeeTypes() {
             })
     }, [])
 
+
     // Fetch data of employee type for update
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id +'/edit'
+            let editApiUrl = EmployeeTypeApiUrl + '/' + params.id + '/edit'
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
-                    console.log(result.data.details)
+
                     if (result?.success) {
-                        setEmployeeType(result.data.details.name);
-                        setDescription(result.data.details.description?result.data.details.description:'');
-                        setCategory(result.data.details.employee_type_category_value);
-                        setContractType(result.data.details.contract_types_value);
-                        setDimonaType(result.data.details.dimona_config.dimona_type_value);
-                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        let response = result.data.details
+                        setCategory(response.employee_type_category_value);
+                        setDimonaType(response.dimona_config.dimona_type_value);
+                        setContractType(response.contract_types_value);
+                        setDayLimit({ value: response.employee_type_config.consecutive_days_limit, label: response.employee_type_config.consecutive_days_limit });
+                        let contract_type_ids = []
+                        response.contract_types_value.map((val, i) => {
+                            contract_type_ids.push(val.value)
+                        })
+                        let data = {
+                            "name": response.name,
+                            "description": response.description,
+                            "status": response.status,
+                            "employee_type_category_id": response.employee_type_category_value.value,
+                            "dimona_type_id": response.dimona_config.dimona_type_value.value,
+                            "contract_types": contract_type_ids,
+                            "consecutive_days_limit": response.employee_type_config.consecutive_days_limit,
+                            "icon_color": response.employee_type_config.icon_color,
+                            "start_in_past": response.employee_type_config.start_in_past,
+                            "counters": response.employee_type_config.counters,
+                            "contract_hours_split": response.employee_type_config.contract_hours_split,
+                            "leave_access": response.employee_type_config.leave_access,
+                            "holiday_access": response.employee_type_config.holiday_access,
+                        }
+                        setEmployeeTypeData(data);
+                        if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
         }
-
     }, [])
 
-    // Form field data
-    const employee_type_name = {
-        title: 'Employee type name',
-        name: 'emp_type_name',
-        placeholder: 'Enter employee type',
-        required: true,
-        value: employeeType,
-    }
 
-    // const Coefficient = {
-    //     title: 'Coefficient',
-    //     name: 'coefficient',
-    //     placeholder: 'Enter coefficient',
-    //     required: true,
-    //     value: coefficient,
-    // }
-
-    const contract_types = {
-        title: 'Contract type',
-        name: 'contract_type',
-        required: true,
-        options: contractTypeList,
-        value: contractType,
-        isMulti: true,
-    }
-    const dimona_types = {
-        title: 'Dimona type',
-        name: 'dimona_type',
-        required: true,
-        options: dimonaTypeList,
-        value: dimonaType,
-        isMulti: false
-    }
-    const employee_type_category = {
-        title: 'Employee type category',
-        name: 'employee_type_category',
-        required: true,
-        options: categoryList,
-        value: category,
-        isMulti: false
-    }
-
-    const employee_type_desc = {
-        title: 'Description',
-        name: 'emp_type_desc',
-        required: false,
-        value: description,
-    }
-    const employee_type_status = {
-        title: 'Status',
-        required: true
-    }
+    // Employee type fields data
+    const employeeTypeFields = [
+        // Employee type fields
+        { title: 'Employee type name', name: 'name', required: true, type: 'text' },
+        { title: 'Employee type category', name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown' },
+        { title: 'Description', name: 'description', required: false, type: 'text-area' },
+        // Employee type configuration fields
+        { title: 'Contract type', name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown' },
+        { title: 'Dimona type', name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown' },
+        { title: 'Consecutive days limit', name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown' },
+        { title: 'Icon color', name: 'icon_color', required: true, type: 'color' },
+        { title: 'Start in past', name: 'start_in_past', required: true, type: 'switch' },
+        { title: 'Enable counters', name: 'counters', required: true, type: 'switch' },
+        { title: 'Contract hours split', name: 'contract_hours_split', required: true, type: 'switch' },
+        { title: 'Leave access', name: 'leave_access', required: true, type: 'switch' },
+        { title: 'Holiday access', name: 'holiday_access', required: true, type: 'switch' },
+        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox },
+    ]
 
 
-
-
-    // Type:
-    // 1: Employee type name
-    // 2: coefficient
-    // 3: contract type
-    // 4: dimona type
-    // 5: Employee type description
-    // 6: Active status
-    // 7: category
-
-    // OnChange set field values
-    const SetValues = (value, type) => {
-        if (type === 1) {
-            setEmployeeType(value);
-            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
-        } else if (type === 2) {
-            setCoefficient(value);
-        } else if (type === 3) {
-            setContractType(value);
-        } else if (type === 4) {
-            setDimonaType(value);
-        } else if (type === 7) {
-            setCategory(value);
+    // Function to set values of employee type
+    const setValues = (index, name, value, field) => {
+        const employee_type = { ...employeeTypeData };
+        if (field !== 'dropdown') {
+            employee_type[name] = value
         } else {
-            setDescription(value);
+            if (name === 'contract_types') {
+                let arr = []
+                value.map((val, i) => {
+                    arr.push(val.value)
+                })
+                setContractType(value);
+                employee_type[name] = arr
+            } else {
+                if (name === 'dimona_type_id') {
+                    setDimonaType(value);
+                } else if (name === 'employee_type_category_id') {
+                    setCategory(value);
+                } else {
+                    setDayLimit(value);
+                }
+                employee_type[name] = value.value
+            }
         }
+        setEmployeeTypeData(employee_type);
     }
 
     // On submit function for create and update employee type
     const OnSave = () => {
-
-        if (employeeType === '') {
-            SetTitleError('Required');
-        } else {
-            SetTitleError('');
-        }
-
-        if (employeeType) {
+        if (employeeTypeData.name) {
             let status = 1
             if (inactive) { status = 0 }
 
-            let contract_types_arr = []
-            contractType.map((val, index) => {
-                contract_types_arr.push(val.value)
-            })
-            // Request data
-            let data = {
-                'name': employeeType,
-                'dimona_type_id': dimonaType.value,
-                'employee_type_category_id': category.value,
-                'contract_types': contract_types_arr,
-                'description': description,
-                'status': status
-            }
+            employeeTypeData['status'] = status
 
             // Creation url and method
             let url = EmployeeTypeApiUrl
@@ -211,7 +199,7 @@ export default function AddEmployeeTypes() {
             }
 
             // APICall for create and updation of employee types
-            AXIOS.service(url, method, data)
+            AXIOS.service(url, method, employeeTypeData)
                 .then((result) => {
                     if (result?.success) {
                         setSuccessMessage(result.message);
@@ -230,23 +218,15 @@ export default function AddEmployeeTypes() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/employee_type')}
             ></ModalPopup>}
-            <Forms
+            <FormsNew
+                view="employee_types"
                 formTitle={'Add Employee type'}
                 redirectURL={'/manage-configurations/employee_type'}
-                changeCheckbox={changeCheckbox}
-                checkboxList={checkboxList}
-                field1={employee_type_name}
-                // field2={Coefficient}
-                field3={contract_types}
-                field4={dimona_types}
-                field5={employee_type_desc}
-                field6={employee_type_status}
-                field7={employee_type_category}
-                error1={titleError}
-                SetValues={SetValues}
-                onSave={OnSave}
-                view={'employee_types'}
-            ></Forms>
+                formattedData={employeeTypeData}
+                data={employeeTypeFields}
+                SetValues={setValues}
+                OnSave={OnSave}
+            ></FormsNew>
         </div>
     )
 }
