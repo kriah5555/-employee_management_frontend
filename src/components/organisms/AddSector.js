@@ -24,7 +24,7 @@ export default function AddSector() {
     const [categoryNumber, setCategoryNumber] = useState('');
 
     const [experience, setExperience] = useState([{ 'level': 1, 'from': '', 'to': '' }]);
-    const [age, setAge] = useState([{ 'age': '', 'value': '' }])
+    const [age, setAge] = useState([{ 'age': '', 'percentage': '' }])
 
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -244,7 +244,7 @@ export default function AddSector() {
             setAge(data);
         } else if (type === 'salary') {
             const data = [...age];
-            data[index]['value'] = value
+            data[index]['percentage'] = value
             setAge(data);
         } else {
             setDescription(value);
@@ -328,7 +328,7 @@ export default function AddSector() {
         } else {
             const rowData = {
                 'age': '',
-                'value': '',
+                'percentage': '',
             }
             setAge([...age, rowData])
             if (ageRow !== undefined) {
