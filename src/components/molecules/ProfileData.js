@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import TextInput from "../atoms/formFields/TextInput";
+import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 export default function ProfileData({ title, edit, setEditStatus, type }) {
 
     //set Profile data from api call
     const [firstName, setFirstName] = useState("Employee");
     const [lastName, setLastName] = useState("01");
-    const [mobileNumber, setMobileNumber] = useState("1234567891");
+    const [mobileNumber, setMobileNumber] = useState("32123456789");
     const [gender, setGender] = useState("male");
     const [email, setEmail] = useState("example1@gmail.com");
     const [DOB, setDOB] = useState("04/02/1992");
@@ -24,7 +25,7 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
     //data to set fields if edit is enabled and edited
     const [updatedFirstname, setUpdatedFirstName] = useState("Employee");
     const [updatedLastName, setUpdatedLastName] = useState("01");
-    const [updatedMobileNumber, setUpdatedMobileNumber] = useState("1234567891");
+    const [updatedMobileNumber, setUpdatedMobileNumber] = useState("32123456789");
     const [updatedGender, setUpdatedGender] = useState("male");
     const [updatedEmail, setUpdatedEmail] = useState("example1@gmail.com");
     const [updatedDOB, setUpdatedDOB] = useState("04/02/1992");
@@ -58,7 +59,7 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
         { label: 'First name', value: updatedFirstname, setValue: setUpdatedFirstName },
         { label: 'Last name', value: updatedLastName, setValue: setUpdatedLastName },
         { label: 'Email', value: updatedEmail, setValue: setUpdatedEmail },
-        { label: 'Mobile number', value: updatedMobileNumber, setValue: setUpdatedMobileNumber },
+        { label: 'Mobile number', value: updatedMobileNumber, setValue: setUpdatedMobileNumber, type: 'phoneInput' },
         { label: 'Gender', value: updatedGender, setValue: setUpdatedGender },
         { label: 'DOB', value: updatedDOB, setValue: setUpdatedDOB },
         { label: 'Place of birth', value: updatedPlaceOfBirth, setValue: setUpdatedPlaceofBirth },
@@ -117,8 +118,9 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
             {(fieldData).map((val, index) => {
                 return (
                     <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1"}>
-                        <label className="col-md-3 mb-1 pr-0 text-secondary">{val.label}:</label>
-                        {edit && <TextInput name={val.label} CustomStyle={"col-md-9 mb-3 font-weight-bold"} value={val.value} setValue={val.setValue} disabled={val.disabled} />}
+                        <label className="col-md-3 mb-1 pr-0 text-secondary">{val.label}{val.type}:</label>
+                        {(edit && val.type === 'phoneInput') && (<CustomPhoneInput value={val.value} setValue={val.setValue} CustomStyle={"col-md-9 mb-3 font-weight-bold"} />)}
+                        {(edit && val.type !== 'phoneInput') && (<TextInput name={val.label} CustomStyle={"col-md-9 mb-3 font-weight-bold"} value={val.value} setValue={val.setValue} disabled={val.disabled} />)}
                         {!edit && <p className="mb-0 col-md-9 mb-3">{val.value}</p>}
                     </div>
                 )
