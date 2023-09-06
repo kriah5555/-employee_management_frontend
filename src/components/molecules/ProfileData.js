@@ -118,7 +118,7 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
             {(fieldData).map((val, index) => {
                 return (
                     <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1"}>
-                        <label className="col-md-3 mb-1 pr-0 text-secondary">{val.label}{val.type}:</label>
+                        <label className="col-md-3 mb-1 pr-0 text-secondary">{val.label}:</label>
                         {(edit && val.type === 'phoneInput') && (<CustomPhoneInput value={val.value} setValue={val.setValue} CustomStyle={"col-md-9 mb-3 font-weight-bold"} />)}
                         {(edit && val.type !== 'phoneInput') && (<TextInput name={val.label} CustomStyle={"col-md-9 mb-3 font-weight-bold"} value={val.value} setValue={val.setValue} disabled={val.disabled} />)}
                         {!edit && <p className="mb-0 col-md-9 mb-3">{val.value}</p>}
