@@ -1,39 +1,41 @@
-import React, { useState } from "react";
-import TextInput from "../atoms/formFields/TextInput";
-import TextArea from "../atoms/formFields/TextArea";
-import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
-import Dropdown from "../atoms/Dropdown";
-import CustomButton from "../atoms/CustomButton";
-import { useNavigate } from "react-router-dom";
-import BackIcon from "../../static/icons/BackIcon.png";
+import React, { useState, useEffect } from "react";
+import FormsNew from "./FormsNew";
+import { HolidayCodeApiUrl, BASE_URL } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+import { useNavigate, useParams } from "react-router-dom";
+import ModalPopup from "../../utilities/popup/Popup";
 export default function HolidayCodeCreation() {
-
-    const [holidayCode, setHolidayCode] = useState("");
-    const [internalCode, setInternalCode] = useState("");
+    //to show selected options in dropdown
     const [holidayType, setHolidayType] = useState("");
     const [countType, setCountType] = useState("");
     const [employeeCategory, setEmployeeCategory] = useState([]);
     const [iconType, setIconType] = useState("");
-    const [access, setAccess] = useState("");
     const [contractType, setContractType] = useState("");
     const [weeklyHours, setWeeklyHours] = useState(1);
     const [carryForward, setCarryForward] = useState("");
-    const [leaveVerification, setleaveVerification] = useState(1);
+
     const [active, setActive] = useState(1);
     const [inactive, setInactive] = useState(0);
-    const [description, setDescription] = useState("");
-    const navigate = useNavigate();
+    const [successMessage, setSuccessMessage] = useState('');
 
-    //options arrays
-    const holidayTypeOptions = [{ label: "1", value: "1" }, { label: "2", value: "2" }, { label: "3", value: "3" }];
-    const coutTypeOptions = [{ label: 1, value: 1 }, { label: 2, value: 2 }, { label: 3, value: 3 }];
-    const employeeCategoryOptions = [{ label: "A", value: "1" }, { label: "B", value: "2" }];
-    const iconTypeOptions = [{ label: 1, value: 1 }, { label: 2, value: 2 }];
-    const accessOptions = [{ label: "1", value: "1" }, { label: "2", value: "2" }];
-    const contractTypeOptions = [{ label: "Full Time", value: "1" }, { label: "Part Time", value: "2" }];
-    const carryForwardOptions = [{ label: "yes", value: 1 }, { label: "No", value: 0 }];
-    const weeklyHoursPlanOptions = [{ label: "Yes", value: 1 }, { label: "No", value: 0 }];
-    const leaveVerificationOptions = [{ label: "Yes", value: 1 }, { label: "No", value: 0 }];
+    const navigate = useNavigate();
+    const params = useParams();
+    // to store fetched dropdown options
+    const [dropdownOptions, setDropdownOptions] = useState({});
+    const [holidayCodeFormData, setHolidayCodeFormData] = useState({
+        holiday_code_name: "",
+        internal_code: "",
+        holiday_type: "",
+        count_type: "",
+        employee_category: "",
+        icon_type: "",
+        contract_type: "",
+        consider_plan_hours_in_week_hours: 1,
+        carry_forword: "",
+        description: "",
+        status: 1,
+    })
+
     //checkbox list
     const statusCheckBoxList = [{ key: "active", name: "Active", checked: active }, { key: "inactive", name: "Inactive", inactive, checked: inactive }];
 
@@ -47,104 +49,153 @@ export default function HolidayCodeCreation() {
             setInactive(1);
         }
     }
+    // Fetch data for options of dropdowns
+    useEffect(() => {
+        AXIOS.service(HolidayCodeApiUrl + '/create', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    let resp = result.data
+                    setDropdownOptions(resp);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
+    // Fetch data of employee type for update
+    useEffect(() => {
+        if (params.id) {
+            let editApiUrl = HolidayCodeApiUrl + '/' + params.id + '/edit'
+            // Api call to get detail data
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+
+                    if (result?.success) {
+                        let response = result.data.details
+                        //setting selected options
+                        setHolidayType({ value: response.holiday_type, label: response.holidayType });
+                        setCountType(response.count_type);
+                        setEmployeeCategory(response.employee_category);
+                        setIconType(response.icon_type);
+                        setContractType(response.contract_type);
+                        setWeeklyHours(response.consider_plan_hours_in_week_hours);
+                        setCarryForward(response.carry_forword);
+                        let data = {
+                            holiday_code_name: response.holiday_code_name,
+                            internal_code: response.internal_code,
+                            holiday_type: response.holiday_type,
+                            count_type: response.count_type,
+                            employee_category: response.employee_category,
+                            icon_type: response.icon_type,
+                            contract_type: response.contract_type,
+                            consider_plan_hours_in_week_hours: response.consider_plan_hours_in_week_hours,
+                            carry_forword: response.carry_forword,
+                            description: response.description,
+                            status: response.status,
+                        }
+                        setHolidayCodeFormData(data);
+                        if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
+    // Holiday code field data
     const fieldData = [
-        { title: "Holiday code name", value: holidayCode, setValue: setHolidayCode, type: "textInput", CustomStyle: "col-md-6 py-2" },
-        { title: "Internal code", value: internalCode, setValue: setInternalCode, type: "textInput", CustomStyle: "col-md-6 py-2" },
-        { title: "Holiday type", options: holidayTypeOptions, setValue: setHolidayType, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Count type", options: coutTypeOptions, setValue: setCountType, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Employee category", options: employeeCategoryOptions, setValue: setEmployeeCategory, isMulti: true, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Contract type", options: contractTypeOptions, setValue: setContractType, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Icon type", options: iconTypeOptions, setValue: setIconType, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Access", options: accessOptions, setValue: setAccess, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Carry forward", options: carryForwardOptions, setValue: setCarryForward, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Consider the plan hours in weekly hours ?", options: weeklyHoursPlanOptions, setValue: setWeeklyHours, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Show leave verification", options: leaveVerificationOptions, setValue: setleaveVerification, type: "dropdown", CustomStyle: "col-md-6 py-1" },
-        { title: "Description", value: description, setValue: setDescription, type: "textArea", CustomStyle: "col-md-12 py-2" },
-        { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", CustomStyle: "col-md-12 py-3" },
+        { title: "Holiday code name", name: "holiday_code_name", required: true, type: "text" },
+        { title: "Internal code", name: "internal_code", required: true, type: "text" },
+        { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown" },
+        { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown" },
+        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: false, selectedOptions: employeeCategory, type: "dropdown" },
+        { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown" },
+        { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown" },
+        { title: "Carry forward", name: "carry_forword", required: true, options: dropdownOptions.carry_forword, isMulti: false, selectedOptions: carryForward, type: "dropdown" },
+        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown" },
+        { title: "Description", name: "description", type: "text-area" },
+        { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox" },
 
     ];
-    const onSave = () => {
-        const formData = {
-            holidayCode: holidayCode,
-            internalCode: internalCode,
-            description: description,
-            holidayType: holidayType,
-            countType: countType,
-            iconType: iconType,
-            access: access,
-            employeeCategory: employeeCategory,
-            weeklyHours: weeklyHours,
-            leaveVerification: leaveVerification,
-            contractType: contractType,
-            carryForword: carryForward,
-            status: active,
+    // Function to set values of add holiday code fields
+    const SetValues = (index, name, value, field) => {
+        const form_data = { ...holidayCodeFormData }
+        if (field !== 'dropdown') {
+            form_data[name] = value;
+        } else {
+            if (name === 'need to change if employee category is multi select') {
+                let arr = []
+                value.map((val, i) => {
+                    arr.push(val.value)
+                })
+                setEmployeeCategory(value);
+                form_data[name] = arr
+            } else {
+                if (name === 'holiday_type') {
+                    setHolidayType(value);
+                } else if (name === 'count_type') {
+                    setCountType(value);
+                } else if (name === 'contract_type') {
+                    setContractType(value);
+                } else if (name === 'icon_type') {
+                    setIconType(value);
+                } else if (name === "carry_forword") {
+                    setCarryForward(value);
+                } else if (name === 'consider_plan_hours_in_week_hours') {
+                    setWeeklyHours(value);
+                } else if (name === 'employee_category') {
+                    setEmployeeCategory(value);
+                }
+                form_data[name] = value.value
+            }
         }
+        setHolidayCodeFormData(form_data);
+    }
+    const onSave = () => {
+
+        let status = 1
+        if (inactive) { status = 0 }
+
+        holidayCodeFormData['status'] = status
+
+        // Creation url and method
+        let url = HolidayCodeApiUrl
+        let method = 'POST'
+
+        // Updation url and method
+        if (params.id !== undefined) {
+            url = HolidayCodeApiUrl + '/' + params.id
+            method = 'PUT'
+        }
+console.log(url, method);
+        // APICall for create and updation of holiday code
+        AXIOS.service(url, method, holidayCodeFormData)
+            .then((result) => {
+                if (result?.success) {
+                    setSuccessMessage(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
     return (
-        <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
-            <h2 id="text-indii-blue" className="col-md-12 px-5 mb-2 ml-2 mt-4"><img className="shortcut-icon mr-2 mb-1" src={BackIcon} onClick={() => navigate('/')}></img>Add Holiday Code</h2>
-            <div className="row mx-5">
-                {fieldData.map((field, index) => {
-                    if (field.type == "textInput") {
-                        return (
-                            <TextInput
-                                title={field.title}
-                                CustomStyle={field.CustomStyle}
-                                value={field.value}
-                                setValue={field.setValue}
-                                key={field.title}
-                                error={field.error}
-                                required={field.required}
-                            />
-                        )
-                    }
-                    else if (field.type == "textArea") {
-                        return (
-                            <TextArea
-                                title={field.title}
-                                CustomStyle={field.CustomStyle}
-                                value={field.value}
-                                setValue={field.setValue}
-                                key={field.title}
-                                error={field.error}
-                                required={field.required}
-                            />
-                        );
-                    }
-                    else if (field.type == "checkbox") {
-                        return (
-                            <CustomCheckBox
-                                title={field.title}
-                                CustomStyle={field.CustomStyle}
-                                checkboxList={field.checkboxList}
-                                value={field.value}
-                                changeCheckbox={field.changeCheckbox}
-                                key={field.title}
-                                required={field.required}
-                            />
-                        );
-                    }
-                    else if (field.type == "dropdown") {
-                        return (
-                            <Dropdown
-                                options={field.options}
-                                selectedOptions={field.value}
-                                onSelectFunction={(e) => { field.setValue(e) }}
-                                CustomStyle={field.CustomStyle}
-                                title={field.title}
-                                required={field.required}
-                                isMulti={field.isMulti}
-                                key={field.title}
-                                error={field.error}
-                            />
-                        );
-                    }
-                })}
-            </div>
-            {<div className="row mx-5 justify-content-end mb-3">
-                <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/')} CustomStyle="mr-3"></CustomButton>
-                <CustomButton buttonName={'Submit'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
-            </div>}
+        <div className="right-container">
+            {successMessage && <ModalPopup
+                title={('SUCCESS')}
+                body={(successMessage)}
+                onHide={() => navigate('/manage-configurations/holiday_code')}
+            ></ModalPopup>}
+            <FormsNew
+                formTitle={"Add Holiday Code"}
+                data={fieldData}
+                SetValues={SetValues}
+                formattedData={holidayCodeFormData}
+                redirectURL={"/manage-configurations/holiday_code"}
+                OnSave={onSave}
+            ></FormsNew>
         </div>
     );
 }   
