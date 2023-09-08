@@ -125,7 +125,7 @@ export default function CompanyOverviews({overviewContent}) {
             if (action === 'edit') {
                 navigate('/manage-companies/company-single/' + data.id)
             } else if (action === 'view') {
-                console.log(data);
+                navigate('/manage-companies/company-view/' + data.id)
             } else {
                 DeleteApiCall(CompanyApiUrl + '/' + data.id)
             }
