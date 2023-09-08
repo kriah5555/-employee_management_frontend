@@ -86,7 +86,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                         value={formattedData !== undefined ? formattedData[field.name] : ''}
                                         setValue={(e) => SetValues(i, field.name, e)}
                                     ></TextArea>
-                                    <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>
+                                    {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>}
                                 </>
                             )
                         } else if (field.type === 'checkbox') {

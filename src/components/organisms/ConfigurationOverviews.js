@@ -106,7 +106,7 @@ export default function ConfigurationOverviews() {
 
         } else if (overviewContent === 'holiday_code') {
             apiUrl = HolidayCodeApiUrl
-            setHeaders(holiday_code_headers); setTitle('Holiday code'); setAddTitle('Add holiday code'); setAddUrl('/add-holiday-code');
+            setHeaders(holiday_code_headers); setTitle('Manage holiday code'); setAddTitle('Add holiday code'); setAddUrl('/add-holiday-code');
         }
 
         // Api call to get list data
