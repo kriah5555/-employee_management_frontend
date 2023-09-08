@@ -23,21 +23,31 @@ export default function HolidayCodeCreation() {
     // to store fetched dropdown options
     const [dropdownOptions, setDropdownOptions] = useState({});
     const [holidayCodeFormData, setHolidayCodeFormData] = useState({
-        holiday_code_name: "",
-        internal_code: "",
-        holiday_type: "",
-        count_type: "",
-        employee_category: "",
-        icon_type: "",
-        contract_type: "",
-        consider_plan_hours_in_week_hours: 1,
-        carry_forword: "",
-        description: "",
-        status: 1,
-    })
+        "holiday_code_name": "",
+        "internal_code": "",
+        "holiday_type": "",
+        "count_type": "",
+        "employee_category": "",
+        "icon_type": "",
+        "contract_type": "",
+        "consider_plan_hours_in_week_hours": 1,
+        "carry_forword": "",
+        "description": "",
+        "status": 1,
+    });
 
     //checkbox list
-    const statusCheckBoxList = [{ key: "active", name: "Active", checked: active }, { key: "inactive", name: "Inactive", inactive, checked: inactive }];
+    const statusCheckBoxList = [
+        {
+            key: "active",
+            name: "Active",
+            checked: active
+        },
+        {
+            key: "inactive",
+            name: "Inactive",
+            checked: inactive
+        }];
 
     // Checkbox status data
     const changeCheckbox = (type) => {
@@ -74,25 +84,30 @@ export default function HolidayCodeCreation() {
                     if (result?.success) {
                         let response = result.data.details
                         //setting selected options
-                        setHolidayType({ value: response.holiday_type, label: response.holidayType });
+                        setHolidayType(response.holiday_type);
                         setCountType(response.count_type);
                         setEmployeeCategory(response.employee_category);
                         setIconType(response.icon_type);
                         setContractType(response.contract_type);
                         setWeeklyHours(response.consider_plan_hours_in_week_hours);
                         setCarryForward(response.carry_forword);
+                        //creating selected employee category id array
+                        // let employee_category_ids = []
+                        // response.employee_category.map((val, i) => {
+                        //     employee_category_ids.push(val.value)
+                        // })
                         let data = {
-                            holiday_code_name: response.holiday_code_name,
-                            internal_code: response.internal_code,
-                            holiday_type: response.holiday_type,
-                            count_type: response.count_type,
-                            employee_category: response.employee_category,
-                            icon_type: response.icon_type,
-                            contract_type: response.contract_type,
-                            consider_plan_hours_in_week_hours: response.consider_plan_hours_in_week_hours,
-                            carry_forword: response.carry_forword,
-                            description: response.description,
-                            status: response.status,
+                            "holiday_code_name": response.holiday_code_name,
+                            "internal_code": response.internal_code,
+                            "holiday_type": response.holiday_type.value,
+                            "count_type": response.count_type.value,
+                            "employee_category": response.employee_category.value, /* need to set array employee_category_ids  */
+                            "icon_type": response.icon_type.value,
+                            "contract_type": response.contract_type.value,
+                            "consider_plan_hours_in_week_hours": response.consider_plan_hours_in_week_hours.value,
+                            "carry_forword": response.carry_forword.value,
+                            "description": response.description,
+                            "status": response.status,
                         }
                         setHolidayCodeFormData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -124,7 +139,7 @@ export default function HolidayCodeCreation() {
         if (field !== 'dropdown') {
             form_data[name] = value;
         } else {
-            if (name === 'need to change if employee category is multi select') {
+            if (name === 'need to amodify') { /* modify after multi select is enabled*/
                 let arr = []
                 value.map((val, i) => {
                     arr.push(val.value)
@@ -168,7 +183,6 @@ export default function HolidayCodeCreation() {
             url = HolidayCodeApiUrl + '/' + params.id
             method = 'PUT'
         }
-console.log(url, method);
         // APICall for create and updation of holiday code
         AXIOS.service(url, method, holidayCodeFormData)
             .then((result) => {
