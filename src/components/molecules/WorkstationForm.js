@@ -51,7 +51,8 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         selected_function_titles.map((func, i) => {
                             func_arr.push(func.value);
                         })
-                        response[0]['locations_index'] = loc_arr
+                        response[0]['locations'] = []
+                        response[0]['locations'] = loc_arr
                         response[0]['function_titles'] = func_arr
                         setWorkstations(response);
                         setSelectedLocation(result.data.details.locations_value);
@@ -104,6 +105,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                 // const selected_locations = [...selectedLocation]
                 // selected_locations[index] = value
                 setSelectedLocation(value);
+                workstations[index]['locations'] = arr
                 workstations[index]['locations_index'] = arr
             } else {
                 // const selected_functions = [...selectedFunction]
