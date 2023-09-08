@@ -29,6 +29,7 @@ export const WorkstationListApiUrl = BASE_URL + '/masterdata/company-workstation
 
 
 
+export const HolidayCodeApiUrl = BASE_URL + '/masterdata/holiday-codes'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here

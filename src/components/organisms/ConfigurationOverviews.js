@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, HolidayCodeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -47,6 +47,30 @@ export default function ConfigurationOverviews() {
         },
     ];
 
+    // Header data for Holiday code
+    const holiday_code_headers =[
+        {
+            title: 'title',
+            field: 'holiday_code_name',
+            size: 200,
+        },
+        {
+            title: 'Description',
+            field: 'description',
+            size: 200,
+        },
+        {
+            title: 'Internal Code',
+            field: 'internal_code',
+            size: 200,
+        },
+        {
+            title: 'Status',
+            field: 'status',
+            size: 200,
+        },
+    ]
+
     const [headers, setHeaders] = useState(emp_type_sector_headers);
     const [listData, setListData] = useState([]);
     const [title, setTitle] = useState('Manage employee types');
@@ -80,6 +104,9 @@ export default function ConfigurationOverviews() {
             apiUrl = ContractTypeApiUrl
             setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
 
+        } else if (overviewContent === 'holiday_code') {
+            apiUrl = HolidayCodeApiUrl
+            setHeaders(holiday_code_headers); setTitle('Holiday code'); setAddTitle('Add holiday code'); setAddUrl('/add-holiday-code');
         }
 
         // Api call to get list data
@@ -141,6 +168,12 @@ export default function ConfigurationOverviews() {
                 navigate('/add-contract-type/' + data.id)
             } else {
                 DeleteApiCall(ContractTypeApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'holiday_code') {
+            if (action === 'edit') {
+                navigate('/add-holiday-code/' + data.id)
+            } else {
+                DeleteApiCall(HolidayCodeApiUrl + '/' + data.id)
             }
         }
     }
