@@ -102,19 +102,19 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'function') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function') ? false : true
         }),
         rowData => ({
             icon: () => getEditIcon(),
             tooltip: 'Edit',
             onClick: (event, rowData) => viewAction(rowData, 'edit'),
-            hidden: (!rowData.parentOnly && tableName !== 'company' && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee') ? false : true
         }),
         rowData => ({
             icon: () => getDeleteIcon(),
             tooltip: 'Delete',
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'company' && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee') ? false : true
         })
     ]
 

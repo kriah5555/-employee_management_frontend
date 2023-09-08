@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { t } from "../../translations/Translation";
-import CompanyOverview from "../molecules/CompanyOverview";
+import CompanyOverviews from "../molecules/CompanyOverviews";
 import 'react-tabs/style/react-tabs.css';
-import LocationOverview from "../molecules/LocationOverview";
-import WorkstationOverview from "../molecules/WorkstationOverview";
 import AddCompanyIcon from "../../static/icons/AddCompany.svg";
 import FilterIcon from "../../static/icons/Filter.svg";
 import ExportIcon from "../../static/icons/Export.svg";
@@ -16,19 +14,41 @@ export default function OverviewTabs() {
 
     const [addIcon, setAddIcon] = useState(AddCompanyIcon);
     const [addTitle, setAddTitle] = useState('Add company');
-    const [addUrl, setAddUrl] = useState('/manage-companies/add-company');
+    const [addUrl, setAddUrl] = useState('/manage-companies/company/0');
+    const [tabIndex, setTabIndex] = useState(0);
+
+
+    useEffect(() => {
+        if (window.location.hash !== '' && window.location.hash !== '#') {
+            // setTabIndex(parseInt(window.location.hash.split('#')[1]));
+            if (window.location.hash === '#location') {
+                setTabIndex(1);
+                getRightHeaderContent('location');
+                window.location.hash = ''
+            } else if (window.location.hash === '#workstation') {
+                setTabIndex(2);
+                getRightHeaderContent('workstation');
+                window.location.hash = ''
+            }
+            window.location.hash = ''
+        }
+    }, [])
+
 
     const getRightHeaderContent = (tabName) => {
 
         if (tabName === 'company') {
             setAddIcon(AddCompanyIcon);
             setAddTitle('Add company');
+            setAddUrl('/manage-companies/company/0');
         } else if (tabName === 'location') {
             setAddIcon(AddLocationIcon);
             setAddTitle('Add location');
+            setAddUrl('/manage-companies/location/0')
         } else if (tabName === 'workstation') {
             setAddIcon(AddWorkstationIcon);
             setAddTitle('Add workstation');
+            setAddUrl('/manage-companies/workstation/0')
         } else {
             setAddIcon('');
             setAddTitle('');
@@ -46,7 +66,7 @@ export default function OverviewTabs() {
 
 
     return (
-        <Tabs>
+        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index) }>
             <TabList>
                 {TabsData.map((val) => {
                     return (
@@ -55,8 +75,8 @@ export default function OverviewTabs() {
                 })}
                 {addIcon && <div className="react-tabs__tab border-0 right-end-tab">
                     <div className="d-flex justify-content-end">
-                        {addTitle === 'Add company' &&<a href="/manage-companies/add-company"><p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
-                        {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>}
+                        {<a href={addUrl}><p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
+                        {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                         <img src={FilterIcon} className="header-icon ml-4"></img>
                         <img src={ExportIcon} className="header-icon ml-4"></img>
                     </div>
@@ -64,15 +84,15 @@ export default function OverviewTabs() {
             </TabList>
 
             <TabPanel>
-                <div className="tablescroll"><CompanyOverview></CompanyOverview></div>
+                <div className="tablescroll"><CompanyOverviews overviewContent={'company'}></CompanyOverviews></div>
             </TabPanel>
 
             <TabPanel>
-                <div className="tablescroll"><LocationOverview></LocationOverview></div>
+                <div className="tablescroll"><CompanyOverviews overviewContent={'location'}></CompanyOverviews></div>
             </TabPanel>
 
             <TabPanel>
-                <div className="tablescroll"><WorkstationOverview></WorkstationOverview></div>
+                <div className="tablescroll"><CompanyOverviews overviewContent={'workstation'}></CompanyOverviews></div>
             </TabPanel>
 
             <TabPanel>

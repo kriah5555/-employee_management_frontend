@@ -27,7 +27,7 @@ const BaseRouter = ({ setAuth }) => (
 
         <Route exact path="/manage-employees" element={<Employees></Employees>} />
         <Route exact path="/manage-companies" element={<Companies></Companies>} />
-        <Route exact path="/manage-companies/add-company" element={<CompanyCreation />} />
+        <Route exact path="/manage-companies/:addType/:id" element={<CompanyCreation />} />
         <Route exact path='/configurations' element={<Configurations></Configurations>} />
         <Route exact path='/settings' element={<Settings></Settings>} />
 

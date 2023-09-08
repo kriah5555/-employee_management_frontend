@@ -4,7 +4,7 @@ import { CompanyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import CompanyForm from "./CompanyForm";
 
-export default function AddCompanyForm({companyData, setCompanyData}) {
+export default function AddCompanyForm({ companyData, setCompanyData, view, update_id }) {
 
 
     const [sector, setSector] = useState([]);
@@ -47,7 +47,34 @@ export default function AddCompanyForm({companyData, setCompanyData}) {
     }, [])
 
 
+    useEffect(() => {
+        if (update_id !== '0') {
+            let editApiUrl = CompanyApiUrl + '/' + update_id + '/edit'
+            // Api call to get detail data
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        let response = [];
+                        response.push(result.data.details)
+                        let selectedSectors = result.data.details.sectors
+                        let id_arr = []
+                        response[0]['sectors'] = []
+                        selectedSectors.map((val, i) => {
+                            id_arr.push(val.id)
+                        })
+                        response[0]['sectors'] = id_arr
+                        setSector(result.data.details.sectors_value);
+                        setCompanyData(response);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
 
+
+    // Function to set new company data
     const setValues = (index, name, value, field) => {
         const company = [...companyData];
         if (field === 'address') {
@@ -57,6 +84,7 @@ export default function AddCompanyForm({companyData, setCompanyData}) {
         } else {
             // const sector_arr = [...sector]
             // sector_arr.push(value)
+            // sector_arr[index] = value
             setSector(value);
             let arr = []
             value.map((val, i) => {
@@ -64,7 +92,6 @@ export default function AddCompanyForm({companyData, setCompanyData}) {
             })
             company[0]['sectors'] = arr
         }
-
         setCompanyData(company);
     }
 
