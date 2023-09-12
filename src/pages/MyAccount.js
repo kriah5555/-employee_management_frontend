@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProfileImange from "../components/atoms/ProfileImage";
+import ProfileImage from "../components/atoms/ProfileImage";
 import CustomButton from "../components/atoms/CustomButton";
 import MenuContent from "../components/atoms/MenuContent";
 import BackIcon from "../static/icons/BackIcon.png";
@@ -49,7 +49,7 @@ export default function MyAccount({ setAuth }) {
     return (
         <div className="right-container">
             <div className="col-md-3 mt-3 border bg-white text-center">
-                <ProfileImange />
+                <ProfileImage />
                 <h4 className="text-center mx-auto mb-3 text-color" >{userName}</h4>
                 <a href="/" className="text-decoration-none p-2 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/")} src={BackIcon}></img><u>{'Back to Dashboard'}</u></a>
                 <div className="m-5">
