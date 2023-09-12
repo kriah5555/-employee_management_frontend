@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
-import { ContractTypeApiUrl, GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { ContractTypeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddContractType() {
 
@@ -13,10 +16,9 @@ export default function AddContractType() {
     const [contractType, setContractType] = useState('');
     const [contractRenewal, setContractRenewal] = useState('');
     const [description, setDescription] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
 
-    const [titleError, SetTitleError] = useState('');
-    const [contractRenewalError, setContractRenewalError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const [renewalList, setRenewalList] = useState([])
 
@@ -53,6 +55,8 @@ export default function AddContractType() {
                 .then((result) => {
                     if (result?.success) {
                         setRenewalList(result.data.renewal_types);
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -64,7 +68,7 @@ export default function AddContractType() {
     // Fetch group function data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = ContractTypeApiUrl + '/' + params.id +'/edit'
+            let editApiUrl = ContractTypeApiUrl + '/' + params.id + '/edit'
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
@@ -73,7 +77,8 @@ export default function AddContractType() {
                         setContractRenewal(result.data.details.contract_renewal_type_value)
                         setRenewalList(result.data.renewal_types);
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
-
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -121,10 +126,8 @@ export default function AddContractType() {
     const SetValues = (value, type) => {
         if (type === 1) {
             setContractType(value);
-            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else if (type === 3) {
             setContractRenewal(value);
-            if (value) { setContractRenewalError(''); } else { setContractRenewalError('Required'); }
         } else {
             setDescription(value);
         }
@@ -133,17 +136,7 @@ export default function AddContractType() {
 
     // On submit function for create and update group function
     const OnSave = () => {
-
-        if (contractType === '') {
-            SetTitleError('Required');
-        }
-        if (contractRenewal === '') {
-            setContractRenewalError('Required');
-        }
-
-
         if (contractType && contractRenewal) {
-
             let status = 1
             if (inactive) { status = 0 }
 
@@ -168,22 +161,42 @@ export default function AddContractType() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
+                        // setSuccessMessage(result.message);
+                        navigate('/manage-configurations/contract_type');
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
+        } else {
+            setErrors(['Please fill required fields'])
         }
     }
 
     return (
         <div className="right-container">
-            {successMessage && <ModalPopup
+            {/* {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/contract_type')}
-            ></ModalPopup>}
+            ></ModalPopup>} */}
+            {errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             <Forms
                 formTitle={'Add Contract type'}
                 redirectURL={'/manage-configurations/contract_type'}
@@ -193,8 +206,6 @@ export default function AddContractType() {
                 field3={contract_renewal_period}
                 field5={desc}
                 field6={contract_type_status}
-                error1={titleError}
-                error3={contractRenewalError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'contract_type'}

@@ -4,8 +4,7 @@ import CompanyForm from "./CompanyForm";
 import { LocationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
-export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id }) {
-
+export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id, responsiblePerson, setResponsiblePerson }) {
 
     // const [locations, setLocations] = useState([{
     //     location_name: "",
@@ -17,7 +16,6 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     //         country: "",
     //     }
     // }]);
-    const [responsiblePerson, setResponsiblePerson] = useState([]);
 
     useEffect(() => {
         if (update_id !== '0') {

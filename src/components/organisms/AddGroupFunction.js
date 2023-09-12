@@ -4,6 +4,8 @@ import { GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import { toast } from 'react-toastify';
 
 export default function AddGroupFunction() {
 
@@ -15,15 +17,11 @@ export default function AddGroupFunction() {
     const [functionCategory, setFunctionCategory] = useState('');
     const [groupName, setGroupName] = useState('')
     const [successMessage, setSuccessMessage] = useState('');
-
-    const [titleError, SetTitleError] = useState('');
-    const [sectorError, setSectorError] = useState('');
-    const [CategoryError, setCategoryError] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const [sectorList, setSectorList] = useState([])
     const [categories, setCategories] = useState()
     const [categoriesList, setCategoriesList] = useState([]);
-
 
     const navigate = useNavigate();
     const params = useParams();
@@ -60,6 +58,8 @@ export default function AddGroupFunction() {
                     if (result?.success) {
                         setSectorList(result.data.sectors);
                         setCategories(result.data.categories);
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -81,6 +81,8 @@ export default function AddGroupFunction() {
                         setSectorList(result.data.sectors);
                         setSector(result.data.details.sector_value);
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -143,21 +145,16 @@ export default function AddGroupFunction() {
     const SetValues = (value, type) => {
         if (type === 1) {
             setGroupName(value);
-            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else if (type === 3) {
-
             let count = 1
             while (count <= categories[value.value]) {
                 categoriesList.push({ value: count, label: count })
                 count = count + 1
             }
             setCategoriesList(categoriesList);
-
             setSector(value);
-            if (value) { setSectorError(''); } else { setSectorError('Required'); }
         } else if (type === 4) {
             setFunctionCategory(value);
-            if (value) { setCategoryError(''); } else { setCategoryError('Required'); }
         } else {
             setDescription(value);
         }
@@ -166,20 +163,7 @@ export default function AddGroupFunction() {
 
     // On submit function for create and update group function
     const OnSave = () => {
-
-        if (groupName === '') {
-            SetTitleError('Required');
-        }
-        if (sector === '') {
-            setSectorError('Required');
-        }
-        if (functionCategory === '') {
-            setCategoryError('Required');
-        }
-
-
         if (groupName && sector && functionCategory) {
-
             let status = 1
             if (inactive) { status = 0 }
 
@@ -205,12 +189,27 @@ export default function AddGroupFunction() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
+                        // setSuccessMessage(result.message);
+                        navigate('/manage-configurations/group_functions');
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
+        } else {
+            setErrors(['Please fill required fields'])
         }
     }
 
@@ -221,6 +220,11 @@ export default function AddGroupFunction() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/group_functions')}
             ></ModalPopup>}
+            {errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             <Forms
                 formTitle={'Add Group Function'}
                 redirectURL={'/manage-configurations/group_functions'}
@@ -231,9 +235,6 @@ export default function AddGroupFunction() {
                 field4={function_category}
                 field5={group_function_desc}
                 field6={group_function_status}
-                error1={titleError}
-                error3={sectorError}
-                error4={CategoryError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'group_function'}

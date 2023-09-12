@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 
-export default function ResponsiblePersonForm({customers, setCustomers, getCustomerDropdownData}) {
+export default function ResponsiblePersonForm({ customers, setCustomers, getCustomerDropdownData, selectedRole, setSelectedRole }) {
 
     // const [customers, setCustomers] = useState([{
     //     first_name: "",
@@ -13,20 +13,18 @@ export default function ResponsiblePersonForm({customers, setCustomers, getCusto
     //     role: "",
     // }]);
 
-    const [selectedRole, setSelectedRole] = useState([]);
-
-    const rolesList = [{value: 'cadmin', label: 'cadmin'}, {value: 'manager', label: 'manager'}]
+    const rolesList = [{ value: 'cadmin', label: 'cadmin' }, { value: 'manager', label: 'manager' }]
 
     const AddNewCustomer = () => {
         if (customers.length <= 3) {
             setCustomers([...customers, {
-                    first_name: "",
-                    last_name: "",
-                    email: "",
-                    phone: "",
-                    rsz_number: "",
-                    role: "",
-                }]);
+                first_name: "",
+                last_name: "",
+                email: "",
+                phone: "",
+                rsz_number: "",
+                role: "",
+            }]);
         }
     }
 
@@ -42,7 +40,7 @@ export default function ResponsiblePersonForm({customers, setCustomers, getCusto
             customer_arr[index][field][name] = value
         } else if (field !== 'dropdown') {
             customer_arr[index][name] = value
-            if (name === 'first_name') {getCustomerDropdownData(index, value)}
+            if (name === 'first_name') { getCustomerDropdownData(index, value) }
         } else {
             setSelectedRole(value);
             customer_arr[index]['role'] = value.value

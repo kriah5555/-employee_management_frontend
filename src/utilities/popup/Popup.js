@@ -6,7 +6,7 @@ import "./popup.css";
 
 
 const ModalPopup = (props) => {
-    
+
     return (
         <Modal
             show={true}

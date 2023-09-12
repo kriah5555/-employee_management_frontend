@@ -79,7 +79,12 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-            return null;
+              let err = {
+                'error': true,
+                'message': error.response.data.message,
+              }
+            return err;
+            // return null;
           });
       }
       // PUT method
@@ -97,7 +102,12 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-            return null;
+              let err = {
+                'error': true,
+                'message': error.response.data.message,
+              }
+            return err;
+            // return null;
           });
       }
       // DELETE method
@@ -115,7 +125,12 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-            return null;
+              let err = {
+                'error': true,
+                'message': error.response.data.message,
+              }
+            return err;
+            // return null;
           });
       }
       // GET method
