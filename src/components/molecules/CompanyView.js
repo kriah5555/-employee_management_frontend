@@ -2,30 +2,43 @@ import React, { useEffect, useState } from "react";
 import { CompanyApiUrl, LocationApiUrl, LocationListApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
-import BackIcon from "../../static/icons/BackIcon.png";
-
+import CompanyInfo from "../../static/icons/CompanyInfo.svg"
 
 export default function CompanyView() {
     const navigate = useNavigate();
     const params = useParams();
-    const [companyData, setCompanyData] = useState();
+    const [companyData, setCompanyData] = useState({});
+    const [address, setAddress] = useState({});
+    const [sector, setSector] = useState("");
 
     //add company fields 
     const CompanyFields = [
-        { title: "Company name", name: "company_name" },
-        // { title: "Sector name", name: "sectors" },
-        { title: "Email", name: "email" },
-        { title: "Phone number", name: "phone" },
-        { title: "Employer Id", name: "employer_id" },
-        { title: "Sender number", name: "sender_number" },
-        { title: "Username", name: "username" },
-        { title: "RSZ number", name: "rsz_number" },
-        { title: "Social secretary number", name: "social_secretary_number" },
-        { title: "Street and house number", name: "street_house_no" },
-        { title: "Postal code", name: "postal_code" },
-        { title: "City", name: "city" },
-        { title: "Country", name: "country" },
+        { title: "Company name", name: "company_name", value: companyData.company_name },
+        { title: "Sector name", name: "sectors", value: sector },
+        { title: "Email", name: "email", value: companyData.email },
+        { title: "Phone number", name: "phone", value: companyData.phone },
+        { title: "Employer Id", name: "employer_id", value: companyData.employer_id },
+        { title: "Sender number", name: "sender_number", value: companyData.sender_number },
+        { title: "Username", name: "username", value: companyData.username },
+        { title: "RSZ number", name: "rsz_number", value: companyData.rsz_number },
+        { title: "Social secretary number", name: "social_secretary_number", value: companyData.social_secretary_number },
+        { title: "Street and house number", name: "street_house_no", value: address.street_house_no },
+        { title: "Postal code", name: "postal_code", value: address.postal_code },
+        { title: "City", name: "city", value: address.city },
+        { title: "Country", name: "country", value: address.country },
     ];
+
+
+    // function to create string of sectors 
+    const sectorString = (sectors) => {
+        let resultString = '';
+
+        sectors.map((val, index) => {
+            index == sectors.length - 1 ? resultString += val.name : resultString += val.name + ", ";
+        })
+        return resultString;
+    }
+
 
     useEffect(() => {
         if (params.id !== '0') {
@@ -34,17 +47,9 @@ export default function CompanyView() {
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        // let response = [];
-                        // response.push(result.data.details)
-                        // let selectedSectors = result.data.details.sectors
-                        // let id_arr = []
-                        // response[0]['sectors'] = []
-                        // selectedSectors.map((val, i) => {
-                        //     id_arr.push(val.id)
-                        // })
-                        // response[0]['sectors'] = id_arr
-                        // setSector(result.data.details.sectors_value);
                         setCompanyData(result.data.details);
+                        setAddress(result.data.details.address);
+                        setSector(sectorString(result.data.details.sectors));
                     }
                 })
                 .catch((error) => {
@@ -53,17 +58,27 @@ export default function CompanyView() {
         }
     }, [])
 
-    console.log(companyData);
+
     return (
-        <div className="mt-3">
-            {CompanyFields.map((val, index) => {
-                return (
-                    <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-3"}>
-                        <label className="col-md-3 mb-1 pr-0 text-secondary">{val.title}:</label>
-                        {/* <p className="mb-0 col-md-9">{companyData!==undefined ? companyData[val.name]: ''}</p> */}
-                    </div>
-                )
-            })}
+        <div className="container-fluid">
+            <div className="row mx-auto">
+                <div className="col-md-4 text-center my-5 ">
+                    <img className="photo-icon rounded-circle mx-auto my-5" src={companyData.logo ? URL.createObjectURL(companyData.logo) : CompanyInfo}></img>
+                    <h4 className="text-center mx-auto mb-3 text-color my-3" >{companyData.company_name}</h4>
+                </div>
+                <div className="col-md-6 my-5">
+                    {CompanyFields.map((val, index) => {
+                        if (index !== 0) {
+                            return (
+                                <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-4"}>
+                                    <label className="col-md-3 mb-1 pr-0 text-secondary">{val.title}:</label>
+                                    <p className="mb-0 col-md-9">{companyData !== undefined ? val.value : ''}</p>
+                                </div>
+                            )
+                        }
+                    })}
+                </div>
+            </div>
         </div>
     )
 }
