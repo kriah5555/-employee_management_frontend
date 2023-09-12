@@ -8,7 +8,7 @@ import FilterIcon from "../../static/icons/Filter.svg";
 import ExportIcon from "../../static/icons/Export.svg";
 import AddLocationIcon from "../../static/icons/AddLocation.svg"
 import AddWorkstationIcon from "../../static/icons/Workstation.svg"
-
+import { ToastContainer } from 'react-toastify';
 
 export default function OverviewTabs() {
 
@@ -67,6 +67,18 @@ export default function OverviewTabs() {
 
     return (
         <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index) }>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <TabList>
                 {TabsData.map((val) => {
                     return (

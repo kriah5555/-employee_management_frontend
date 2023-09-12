@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import { CompanyApiUrl, LocationApiUrl, LocationListApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import ModalPopup from "../../utilities/popup/Popup";
 
-
-export default function CompanyOverviews({overviewContent}) {
+export default function CompanyOverviews({ overviewContent }) {
 
     const navigate = useNavigate();
     const [listData, setListData] = useState([]);
     const [headers, setHeaders] = useState([]);
     const [dataRefresh, setDataRefresh] = useState(false);
+    const [warningMessage, setWarningMessage] = useState('');
+    const [deleteUrl, setDeleteUrl] = useState('');
 
     // Header data for company overview
     const Company_headers = [
@@ -107,12 +110,23 @@ export default function CompanyOverviews({overviewContent}) {
     }, [overviewContent, dataRefresh])
 
     // Api call to delete item from table
-    const DeleteApiCall = (url) => {
+    const DeleteApiCall = () => {
         // APICall for create and updation of employee types
-        AXIOS.service(url, 'DELETE')
+        AXIOS.service(deleteUrl, 'DELETE')
             .then((result) => {
                 if (result?.success) {
                     setDataRefresh(!dataRefresh);
+                    setWarningMessage('')
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
                 }
             })
             .catch((error) => {
@@ -121,30 +135,41 @@ export default function CompanyOverviews({overviewContent}) {
     }
 
     const viewAction = (data, action) => {
+        if (action === 'delete') {
+            setWarningMessage('Are you sure you want to delete this item?')
+        }
         if (overviewContent === 'company') {
             if (action === 'edit') {
                 navigate('/manage-companies/company-single/' + data.id)
             } else if (action === 'view') {
                 navigate('/manage-companies/company-view/' + data.id)
             } else {
-                DeleteApiCall(CompanyApiUrl + '/' + data.id)
+                setDeleteUrl(CompanyApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'location') {
             if (action === 'edit') {
                 navigate('/manage-companies/location/' + data.id)
             } else {
-                DeleteApiCall(LocationApiUrl + '/' + data.id)
+                setDeleteUrl(LocationApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'workstation') {
             if (action === 'edit') {
                 navigate('/manage-companies/workstation/' + data.id)
             } else {
-                DeleteApiCall(WorkstationApiUrl + '/' + data.id)
+                setDeleteUrl(WorkstationApiUrl + '/' + data.id)
             }
         }
     }
 
     return (
-        <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
+        <>
+            {warningMessage && <ModalPopup
+                title={('WARNING')}
+                body={(warningMessage)}
+                onConfirm={DeleteApiCall}
+                onHide={() => setWarningMessage('')}
+            ></ModalPopup>}
+            <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
+        </>
     )
 }

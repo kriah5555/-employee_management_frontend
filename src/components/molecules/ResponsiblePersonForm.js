@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 
-export default function ResponsiblePersonForm({customers, setCustomers, getCustomerDropdownData}) {
+export default function ResponsiblePersonForm({customers, setCustomers, getCustomerDropdownData, selectedRole, setSelectedRole}) {
 
     // const [customers, setCustomers] = useState([{
     //     first_name: "",
@@ -13,7 +13,6 @@ export default function ResponsiblePersonForm({customers, setCustomers, getCusto
     //     role: "",
     // }]);
 
-    const [selectedRole, setSelectedRole] = useState([]);
 
     const rolesList = [{value: 'cadmin', label: 'cadmin'}, {value: 'manager', label: 'manager'}]
 

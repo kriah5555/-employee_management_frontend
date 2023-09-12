@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
-import { FunctionApiUrl, GroupFunctionApiUrl } from "../../routes/ApiEndPoints";
+import { FunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import { toast } from 'react-toastify';
 
 export default function AddFunction() {
 
@@ -16,11 +18,7 @@ export default function AddFunction() {
     const [functionCategory, setFunctionCategory] = useState('');
 
     const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('')
-
-    const [titleError, SetTitleError] = useState('');
-    const [codeError, setCodeError] = useState('');
-    const [CategoryError, setCategoryError] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
     const params = useParams();
@@ -58,6 +56,8 @@ export default function AddFunction() {
                 .then((result) => {
                     if (result?.success) {
                         setFunctionsList(result.data.function_categories);
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -80,7 +80,7 @@ export default function AddFunction() {
                         setFunctionCategory(result.data.details.function_category_value);
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
-                        console.log(result.message);
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -140,13 +140,10 @@ export default function AddFunction() {
     const SetValues = (value, type) => {
         if (type === 1) {
             setFunctionTitle(value)
-            if (value) { SetTitleError(''); } else { SetTitleError('Required'); }
         } else if (type === 2) {
             setFunctionCode(value)
-            if (value) { setCodeError(''); } else { setCodeError('Required'); }
         } else if (type === 3) {
             setFunctionCategory(value)
-            if (value) { setCategoryError(''); } else { setCategoryError('Required'); }
         } else {
             setFunctionDesc(value)
         }
@@ -154,16 +151,6 @@ export default function AddFunction() {
 
 
     const OnSave = () => {
-        if (functionTitle === '') {
-            SetTitleError('Required');
-        }
-        if (functionCode === '') {
-            setCodeError('Required');
-        }
-        if (functionCategory === '') {
-            setCategoryError('Required');
-        }
-
         if (functionTitle && functionCode && functionCategory) {
             let status = 1
             if (inactive) { status = 0 }
@@ -189,12 +176,27 @@ export default function AddFunction() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
+                        // setSuccessMessage(result.message);
+                        navigate('/manage-configurations/functions');
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
+        }  else {
+            setErrors(['Please fill required fields'])
         }
     }
 
@@ -206,11 +208,11 @@ export default function AddFunction() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/functions')}
             ></ModalPopup>}
-            {errorMessage && <ModalPopup
-                title={('ERROR')}
-                body={(errorMessage)}
-                onHide={() => setErrorMessage('')}
-            ></ModalPopup>}
+            {errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             <Forms
                 formTitle={'Add Function'}
                 redirectURL={'/manage-configurations/functions'}
@@ -221,9 +223,6 @@ export default function AddFunction() {
                 field3={function_group}
                 field5={function_desc}
                 field6={function_status}
-                error1={titleError}
-                error2={codeError}
-                error3={CategoryError}
                 SetValues={SetValues}
                 onSave={OnSave}
                 view={'functions'}

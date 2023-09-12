@@ -11,6 +11,8 @@ import AddIcon from "../../static/icons/AddPlusIcon.png";
 import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
 import BackIcon from "../../static/icons/BackIcon.png";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import { toast } from 'react-toastify';
 
 export default function AddSector() {
 
@@ -27,12 +29,7 @@ export default function AddSector() {
     const [age, setAge] = useState([{ 'age': '', 'percentage': '' }])
 
     const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const [titleError, SetTitleError] = useState('');
-    const [codeError, setCodeError] = useState('');
-    const [CategoryError, setCategoryError] = useState('');
-    const [employeeTypeError, setEmployeeTypeError] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const [emp_type_state, setEmpTypeState] = useState(true);
     const [employeeTypeList, setEmployeeTypeList] = useState([])
@@ -68,14 +65,6 @@ export default function AddSector() {
         { tabHeading: ("Experience"), tabName: 'experience' },
         { tabHeading: ("Age"), tabName: 'age' },
     ]
-
-    // Age tab data
-    // const ageData = [
-    //     { label: 'Age of 18 will receive their full salary', age: '18' },
-    //     { label: 'Age of 17 will receive their salary', age: '17' },
-    //     { label: 'Age of 16 will receive their salary', age: '16' },
-    //     { label: 'Age of 15 will receive their salary', age: '15' },
-    // ]
 
     const [ageRow, setAgeRow] = useState([1]);
     const ageData = []
@@ -119,6 +108,8 @@ export default function AddSector() {
                         result.data.map((val, index) => {
                             employeeTypeList.push({ value: val.id, label: val.name })
                         })
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -138,15 +129,16 @@ export default function AddSector() {
                         setEmployeeType(result.data.details.employee_types_value);
                         setSectorName(result.data.details.name);
                         setParitairCommittee(result.data.details.paritair_committee);
-                        setDescription(result.data.details.description?result.data.details.description:'');
+                        setDescription(result.data.details.description ? result.data.details.description : '');
                         setCategoryNumber({ value: result.data.details.category, label: result.data.details.category })
                         setExperience(result.data.details.salary_config.salary_steps);
                         setLevelsCount(result.data.details.salary_config.salary_steps)
                         setAge(result.data.details.sector_age_salary);
-                        console.log(result.data.details.sector_age_salary)
                         setAgeRow(result.data.details.sector_age_salary);
 
                         if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                    } else {
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -220,16 +212,12 @@ export default function AddSector() {
     const SetValues = (value, type, index) => {
         if (type === 1) {
             setSectorName(value);
-            if (value === '') { SetTitleError('Required'); } else { SetTitleError(''); }
         } else if (type === 2) {
             setParitairCommittee(value);
-            if (value === '') { setCodeError('Required'); } else { setCodeError(''); }
         } else if (type === 3) {
             setEmployeeType(value);
-            if (value.length === 0) { setEmployeeTypeError('Required'); } else { setEmployeeTypeError(''); }
         } else if (type === 4) {
             setCategoryNumber(value);
-            if (value === '') { setCategoryError('Required'); } else { setCategoryError(''); }
         } else if (type === 'from') {
             const data = [...experience];
             data[index]['from'] = value
@@ -253,62 +241,66 @@ export default function AddSector() {
 
     // Function for onSubmit for creating and updating sectors
     const OnSave = () => {
-
-        if (sectorName === '') {
-            SetTitleError('Required');
-        }
-        if (paritairCommittee === '') {
-            setCodeError('Required');
-        }
-        if (employeeType.length === 0) {
-            setEmployeeTypeError('Required');
-        }
-        if (categoryNumber === '') {
-            setCategoryError('Required');
-        }
-
-
-        // if (sectorName && paritairCommittee && categoryNumber && employeeType.length !== 0) {
-        // Request params
-        let status = 1
-        if (inactive) { status = 0 }
-        let emp_type_ids = []
-        employeeType.map((val, index) => {
-            emp_type_ids.push(val.value)
-        })
-
-        let data = {
-            'name': sectorName,
-            'paritair_committee': paritairCommittee,
-            'description': description,
-            'employee_types': emp_type_ids,
-            'category': categoryNumber.value,
-            'status': status,
-            'experience': experience,
-            'age': age
-        }
-
-        // Creation url and method
-        let url = SectorApiUrl
-        let method = 'POST'
-
-        // Updation url and method
-        if (params.id !== undefined) {
-            url = SectorApiUrl + '/' + params.id
-            method = 'PUT'
-        }
-
-        // APICall for create and update sectors
-        AXIOS.service(url, method, data)
-            .then((result) => {
-                if (result?.success) {
-                    setSuccessMessage(result.message);
-                }
+        if (sectorName && paritairCommittee && categoryNumber && employeeType.length !== 0) {
+            // Request params
+            let status = 1
+            if (inactive) { status = 0 }
+            let emp_type_ids = []
+            employeeType.map((val, index) => {
+                emp_type_ids.push(val.value)
             })
-            .catch((error) => {
-                console.log(error);
-            })
-        // }
+            let age_arr = age
+            if (age.length === 1 && age[0].age === '') {
+                age_arr = []
+            }
+
+            let data = {
+                'name': sectorName,
+                'paritair_committee': paritairCommittee,
+                'description': description,
+                'employee_types': emp_type_ids,
+                'category': categoryNumber.value,
+                'status': status,
+                'experience': experience,
+                'age': age_arr
+            }
+
+            // Creation url and method
+            let url = SectorApiUrl
+            let method = 'POST'
+
+            // Updation url and method
+            if (params.id !== undefined) {
+                url = SectorApiUrl + '/' + params.id
+                method = 'PUT'
+            }
+
+            // APICall for create and update sectors
+            AXIOS.service(url, method, data)
+                .then((result) => {
+                    if (result?.success) {
+                        // setSuccessMessage(result.message);
+                        navigate('/manage-configurations/sectors');
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    } else {
+                        setErrors(result.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } else {
+            setErrors(['Please fill required fields'])
+        }
     }
 
     // Function to add new row in experience/age tab
@@ -334,9 +326,7 @@ export default function AddSector() {
             if (ageRow !== undefined) {
                 setAgeRow([...ageRow, rowsInput])
             }
-
         }
-
     }
 
     // Function to delete each row in experience/age tab
@@ -360,23 +350,22 @@ export default function AddSector() {
             data.splice(index, 1);
             setAge(data);
         }
-
     }
 
 
     return (
         <div className="right-container">
             {/* Success message popup */}
-            {successMessage && <ModalPopup
+            {/* {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/sectors')}
-            ></ModalPopup>}
-            {errorMessage && <ModalPopup
-                title={('ERROR')}
-                body={(errorMessage)}
-                onHide={() => setErrorMessage('')}
-            ></ModalPopup>}
+            ></ModalPopup>} */}
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             <div className="form-container my-5 border bg-white">
                 <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{('Add Sectors')}</h2>
 
@@ -401,10 +390,6 @@ export default function AddSector() {
                             field4={category_number}
                             field5={sector_desc}
                             field6={sector_status}
-                            error1={titleError}
-                            error2={codeError}
-                            error3={employeeTypeError}
-                            error4={CategoryError}
                             SetValues={SetValues}
                             onSave={OnSave}
                             view={'sectors'}

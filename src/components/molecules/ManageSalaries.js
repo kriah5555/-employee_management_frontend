@@ -10,6 +10,8 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import TextField from '@material-ui/core/TextField';
 import { MTableEditField } from 'material-table';
 import ModalPopup from "../../utilities/popup/Popup";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ManageSalaries() {
 
@@ -26,7 +28,7 @@ export default function ManageSalaries() {
     const [incrementPage, setIncrementPage] = useState(false)
     const [coefficient, setCoefficient] = useState('');
     const [warningMessage, setWarningMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    const [errors, setErrors] = useState([]);
 
     // Input field from material table package for editing data in bulk
     const CustomInput = (props) => {
@@ -47,8 +49,6 @@ export default function ManageSalaries() {
         );
     };
 
-
-
     // Header data for Salaries overview
     const salary_header = [
         {
@@ -58,7 +58,6 @@ export default function ManageSalaries() {
             size: 500,
         }
     ];
-
 
     useEffect(() => {
         if (selectedSector && !incrementPage) {
@@ -109,6 +108,8 @@ export default function ManageSalaries() {
                             sectors.push({ value: val.id, label: val.name })
                         })
                     }
+                } else {
+                    setErrors(result.message)
                 }
             })
             .catch((error) => {
@@ -141,46 +142,53 @@ export default function ManageSalaries() {
         }
     }
 
-    
+
     // Function to get incremented salaries
     const getSalaries = () => {
-        setNoSectorMessage('')
-        let incremented_salary = []
+        if (selectedSector) {
+            if (!incrementPage) {
+                setNoSectorMessage('')
+            } else if (incrementPage && coefficient) {
+                setNoSectorMessage('')
+            }
+            let incremented_salary = []
 
-        if (coefficient) {
-            AXIOS.service(SalariesApiUrl + '/' + selectedSector.value)
-                .then((result) => {
-                    // if (result.data.levels !== salaryData.length) {
-                        let categories = new Array(result.data.categories).fill(1);
-                        let salary_data = result.data.salaries
-                        let header_arr = [...salary_header];
-                        // Set headers
-                        categories.map((cat, i) => {
-                            let header = {
-                                title: 'Category ' + (i + 1),
-                                field: 'cat' + (i + 1),
-                                size: 200,
-                                editComponent: CustomInput
-                            }
-                            header_arr.push(header);
-                        })
-                        // Set salaries
-                        salary_data.map((val, i) => {
-                            setHeaders(header_arr);
-                            val['id'] = i + 1;
-                            Object.keys(val).map((cat, j) => {
-                                if (cat !== 'id' && cat !== 'level' && cat !== 'tableData') {
-                                    // Calculate salaries based on coefficient added (Incrementing)
-                                    val[cat] = (parseFloat(val[cat]) + (parseFloat(val[cat]) * (parseFloat(coefficient) / 100))).toFixed(4);
+            if (coefficient) {
+                AXIOS.service(SalariesApiUrl + '/' + selectedSector.value)
+                    .then((result) => {
+                        if (result?.success) {
+                            let categories = new Array(result.data.categories).fill(1);
+                            let salary_data = result.data.salaries
+                            let header_arr = [...salary_header];
+                            // Set headers
+                            categories.map((cat, i) => {
+                                let header = {
+                                    title: 'Category ' + (i + 1),
+                                    field: 'cat' + (i + 1),
+                                    size: 200,
+                                    editComponent: CustomInput
                                 }
+                                header_arr.push(header);
                             })
-                            incremented_salary.push(val);
-                        })
-
-                        setListData(incremented_salary);
-                        setSalaryData(incremented_salary)
-                    // }
-                })
+                            // Set salaries
+                            salary_data.map((val, i) => {
+                                setHeaders(header_arr);
+                                val['id'] = i + 1;
+                                Object.keys(val).map((cat, j) => {
+                                    if (cat !== 'id' && cat !== 'level' && cat !== 'tableData') {
+                                        // Calculate salaries based on coefficient added (Incrementing)
+                                        val[cat] = (parseFloat(val[cat]) + (parseFloat(val[cat]) * (parseFloat(coefficient) / 100))).toFixed(4);
+                                    }
+                                })
+                                incremented_salary.push(val);
+                            })
+                            setListData(incremented_salary);
+                            setSalaryData(incremented_salary)
+                        } else {
+                            setErrors(result.message)
+                        }
+                    })
+            }
         }
     }
 
@@ -207,15 +215,24 @@ export default function ManageSalaries() {
         AXIOS.service(url, 'POST', requestData)
             .then((result) => {
                 if (result?.success) {
-                    console.log(result);
-                    setSuccessMessage(result.message[0])
+                    // setSuccessMessage(result.message[0])
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                } else {
+                    setErrors(result.message)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
-
-
     }
 
     // Function to revert back to saved salaries
@@ -226,6 +243,18 @@ export default function ManageSalaries() {
                 if (result?.success) {
                     setWarningMessage('');
                     getIncrementPage();
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                } else {
+                    setErrors(result.message)
                 }
             })
             .catch((error) => {
@@ -242,11 +271,28 @@ export default function ManageSalaries() {
                 onConfirm={undoSalaries}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
-            {successMessage && <ModalPopup
+            {/* {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => setSuccessMessage('')}
-            ></ModalPopup>}
+            ></ModalPopup>} */}
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
+            {errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
                 <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => incrementPage ? getIncrementPage(false) : navigate('/configurations')} src={BackIcon}></img>{title}</h4>
             </div>
@@ -277,7 +323,7 @@ export default function ManageSalaries() {
                     {!incrementPage && <CustomButton buttonName={'Search'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
                     {incrementPage && coefficient && <div className="row m-0">
                         <CustomButton buttonName={'Save'} ActionFunction={() => SaveSalaries(listData)} CustomStyle="mt-5 mb-3"></CustomButton>
-                        <CustomButton buttonName={'Undo'} ActionFunction={() => setWarningMessage('Are you sure you want to revert back salaries')} CustomStyle="mt-5 mb-3"></CustomButton>
+                        <CustomButton buttonName={'Undo'} ActionFunction={() => setWarningMessage('Are you sure you want to revert back the salaries')} CustomStyle="mt-5 mb-3"></CustomButton>
                     </div>}
 
                 </div>
@@ -286,7 +332,7 @@ export default function ManageSalaries() {
                     <u>{'Increment salaries'}</u>
                 </p>}
             </div>
-            
+
             <div className="tablescroll">
                 {noSectorMessage && <h5 className="text-danger ml-2 pl-4">{noSectorMessage}</h5>}
                 {noSectorMessage === '' && <Table columns={headers} rows={listData} setRows={setListData} tableName={'min_salary'} height={'calc(100vh - 162px)'} SaveSalaries={SaveSalaries}></Table>}
