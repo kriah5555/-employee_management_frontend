@@ -6,8 +6,6 @@ import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, 
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
-import { ToastContainer, toast } from 'react-toastify';
-import ModalPopup from "../../utilities/popup/Popup";
 
 export default function ConfigurationOverviews() {
 
@@ -15,8 +13,6 @@ export default function ConfigurationOverviews() {
     let params = useParams();
     let overviewContent = params.type
     const [dataRefresh, setDataRefresh] = useState(false);
-    const [warningMessage, setWarningMessage] = useState('');
-    const [deleteUrl, setDeleteUrl] = useState('');
 
     // Header data for employee and sector overview
     const emp_type_sector_headers = [
@@ -52,7 +48,7 @@ export default function ConfigurationOverviews() {
     ];
 
     // Header data for Holiday code
-    const holiday_code_headers = [
+    const holiday_code_headers =[
         {
             title: 'title',
             field: 'holiday_code_name',
@@ -80,6 +76,7 @@ export default function ConfigurationOverviews() {
     const [title, setTitle] = useState('Manage employee types');
     const [addTitle, setAddTitle] = useState('Add employee type');
     const [addUrl, setAddUrl] = useState('/add_employee_type');
+
 
     useEffect(() => {
         let apiUrl;
@@ -127,23 +124,12 @@ export default function ConfigurationOverviews() {
 
 
     // Api call to delete item from table
-    const DeleteApiCall = () => {
+    const DeleteApiCall = (url) => {
         // APICall for create and updation of employee types
-        AXIOS.service(deleteUrl, 'DELETE')
+        AXIOS.service(url, 'DELETE')
             .then((result) => {
                 if (result?.success) {
                     setDataRefresh(!dataRefresh);
-                    setWarningMessage('')
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
                 }
             })
             .catch((error) => {
@@ -153,44 +139,41 @@ export default function ConfigurationOverviews() {
 
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
-        if (action === 'delete') {
-            setWarningMessage('Are you sure you want to delete this item?')
-        }
         if (overviewContent === 'employee_type') {
             if (action === 'edit') {
                 navigate('/add-employee-type/' + data.id)
             } else {
-                setDeleteUrl(EmployeeTypeApiUrl + '/' + data.id)
+                DeleteApiCall(EmployeeTypeApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'sectors') {
             if (action === 'edit') {
                 navigate('/add-sector/' + data.id)
             } else {
-                setDeleteUrl(SectorApiUrl + '/' + data.id)
+                DeleteApiCall(SectorApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'functions') {
             if (action === 'edit') {
                 navigate('/add-function/' + data.id)
             } else {
-                setDeleteUrl(FunctionApiUrl + '/' + data.id)
+                DeleteApiCall(FunctionApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'group_functions') {
             if (action === 'edit') {
                 navigate('/add-group-function/' + data.id)
             } else {
-                setDeleteUrl(GroupFunctionApiUrl + '/' + data.id)
+                DeleteApiCall(GroupFunctionApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'contract_type') {
             if (action === 'edit') {
                 navigate('/add-contract-type/' + data.id)
             } else {
-                setDeleteUrl(ContractTypeApiUrl + '/' + data.id)
+                DeleteApiCall(ContractTypeApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'holiday_code') {
             if (action === 'edit') {
                 navigate('/add-holiday-code/' + data.id)
             } else {
-                setDeleteUrl(HolidayCodeApiUrl + '/' + data.id)
+                DeleteApiCall(HolidayCodeApiUrl + '/' + data.id)
             }
         }
     }
@@ -198,24 +181,6 @@ export default function ConfigurationOverviews() {
 
     return (
         <div className="right-container">
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
-            {warningMessage && <ModalPopup
-                title={('WARNING')}
-                body={(warningMessage)}
-                onConfirm={DeleteApiCall}
-                onHide={() => setWarningMessage('')}
-            ></ModalPopup>}
             {/* All configurations */}
             {overviewContent !== 'min_salary' && <div className="company-tab-width mt-3 border bg-white">
                 <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>

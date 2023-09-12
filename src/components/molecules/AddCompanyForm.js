@@ -4,9 +4,13 @@ import { CompanyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import CompanyForm from "./CompanyForm";
 
-export default function AddCompanyForm({ companyData, setCompanyData, view, update_id, sector, setSector }) {
+export default function AddCompanyForm({ companyData, setCompanyData, view, update_id }) {
 
+
+    const [sector, setSector] = useState([]);
+    const [error, setErrorMessage] = useState("");
     const [sectorList, setSectorList] = useState([])
+
     const navigate = useNavigate();
 
     // const [companyData, setCompanyData] = useState([{
@@ -58,7 +62,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                         selectedSectors.map((val, i) => {
                             id_arr.push(val.id)
                         })
-                        response[0]['sectors'] = id_arr;
+                        response[0]['sectors'] = id_arr
                         setSector(result.data.details.sectors_value);
                         setCompanyData(response);
                     }
@@ -95,7 +99,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
     //add company fields 
     const addCompanyFieldsArray = [
         { title: "Company name", name: "company_name", required: true, type: "input_field" },
-        { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, required: true, type: "dropdown" },
+        { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, error: (sector.length > 0) ? "" : error, required: true, type: "dropdown" },
         { title: "Email", name: "email", required: true, type: "input_field" },
         { title: "Phone number", name: "phone", required: true, type: "phone_input" },
         { title: "Employer Id", name: "employer_id", type: "input_field" },

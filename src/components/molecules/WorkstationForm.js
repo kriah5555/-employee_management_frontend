@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import CompanyForm from "./CompanyForm";
 import CustomButton from "../atoms/CustomButton";
-import { WorkstationApiUrl } from "../../routes/ApiEndPoints";
+import { FunctionApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
 
-export default function WorkstationForm({ workstations, setWorkstations, locationArray, setLocationArray, setWorkstationStatus, view, update_id,
-    selectedLocation, setSelectedLocation, selectedFunction, setSelectedFunction }) {
+export default function WorkstationForm({ workstations, setWorkstations, locationArray, setLocationArray, setWorkstationStatus, view, update_id }) {
 
     // const [workstations, setWorkstations] = useState([{
     //     workstation_name: "",
@@ -15,7 +14,8 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
     //     locations_index: [],
     //     status: 1
     // }]);
-
+    const [selectedLocation, setSelectedLocation] = useState([]);
+    const [selectedFunction, setSelectedFunction] = useState([]);
     const [functionOptions, setFunctionOptions] = useState([]);
 
     //Fetch dropdown data of functions

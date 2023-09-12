@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import FormsNew from "./FormsNew";
-import { HolidayCodeApiUrl } from "../../routes/ApiEndPoints";
+import { HolidayCodeApiUrl, BASE_URL } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
 import ModalPopup from "../../utilities/popup/Popup";
-import ErrorPopup from "../../utilities/popup/ErrorPopup";
-import { toast } from 'react-toastify';
-
 export default function HolidayCodeCreation() {
     //to show selected options in dropdown
     const [holidayType, setHolidayType] = useState("");
@@ -20,7 +17,6 @@ export default function HolidayCodeCreation() {
     const [active, setActive] = useState(1);
     const [inactive, setInactive] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
-    const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
     const params = useParams();
@@ -51,8 +47,7 @@ export default function HolidayCodeCreation() {
             key: "inactive",
             name: "Inactive",
             checked: inactive
-        }
-    ];
+        }];
 
     // Checkbox status data
     const changeCheckbox = (type) => {
@@ -64,7 +59,6 @@ export default function HolidayCodeCreation() {
             setInactive(1);
         }
     }
-
     // Fetch data for options of dropdowns
     useEffect(() => {
         AXIOS.service(HolidayCodeApiUrl + '/create', 'GET')
@@ -72,8 +66,6 @@ export default function HolidayCodeCreation() {
                 if (result?.success) {
                     let resp = result.data
                     setDropdownOptions(resp);
-                } else {
-                    setErrors(result.message)
                 }
             })
             .catch((error) => {
@@ -88,6 +80,7 @@ export default function HolidayCodeCreation() {
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
+
                     if (result?.success) {
                         let response = result.data.details
                         //setting selected options
@@ -118,8 +111,6 @@ export default function HolidayCodeCreation() {
                         }
                         setHolidayCodeFormData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                    } else {
-                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -196,19 +187,7 @@ export default function HolidayCodeCreation() {
         AXIOS.service(url, method, holidayCodeFormData)
             .then((result) => {
                 if (result?.success) {
-                    navigate('/manage-configurations/holiday_code');
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                } else {
-                    setErrors(result.message)
+                    setSuccessMessage(result.message);
                 }
             })
             .catch((error) => {
@@ -218,16 +197,11 @@ export default function HolidayCodeCreation() {
     }
     return (
         <div className="right-container">
-            {/* {successMessage && <ModalPopup
+            {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/holiday_code')}
-            ></ModalPopup>} */}
-            {errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
-                body={(errors)}
-                onHide={() => setErrors([])}
-            ></ErrorPopup>}
+            ></ModalPopup>}
             <FormsNew
                 formTitle={"Add Holiday Code"}
                 data={fieldData}

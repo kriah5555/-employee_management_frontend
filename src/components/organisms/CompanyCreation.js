@@ -12,8 +12,6 @@ import CustomButton from "../atoms/CustomButton";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import CompanyView from "../molecules/CompanyView";
-import ErrorPopup from "../../utilities/popup/ErrorPopup";
-import { toast } from 'react-toastify';
 
 
 
@@ -24,14 +22,6 @@ export default function CompanyCreation() {
     const [tabIndex, setTabIndex] = useState(0);
     const [locationStatus, setLocationStatus] = useState(false);
     const [workstationStatus, setWorkstationStatus] = useState(false);
-
-    const [sector, setSector] = useState([]);
-    const [selectedRole, setSelectedRole] = useState([]);
-    const [responsiblePerson, setResponsiblePerson] = useState([]);
-    const [selectedLocation, setSelectedLocation] = useState([]);
-    const [selectedFunction, setSelectedFunction] = useState([]);
-
-    const [errors, setErrors] = useState([]);
 
     // Tabs data array for super admin
     const TabsData = [
@@ -161,25 +151,12 @@ export default function CompanyCreation() {
             .then((result) => {
                 if (result?.success) {
                     navigate('/manage-companies#' + params.addType)
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                } else {
-                    setErrors(result.message)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
     }
-
 
     return (
         <div className="right-creation-container ">
@@ -189,11 +166,6 @@ export default function CompanyCreation() {
                     {params.addType !== 'company-view' ? ((params.id !== '0' ? 'Edit ' : 'Create ') + (params.addType === 'company-single' ? "company" : params.addType)) : 'Company details'}
                 </h4>
             </div>
-            {errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
-                body={(errors)}
-                onHide={() => setErrors([])}
-            ></ErrorPopup>}
             {/* Company creation multi step form */}
             {params.addType === 'company' && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -206,20 +178,20 @@ export default function CompanyCreation() {
                     </TabList>
 
                     <TabPanel>
-                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector}></AddCompanyForm></div>
+                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData}></AddCompanyForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><ResponsiblePersonForm customers={customers} setCustomers={setCustomers} getCustomerDropdownData={getCustomerDropdownData} selectedRole={selectedRole} setSelectedRole={setSelectedRole}></ResponsiblePersonForm></div>
+                        <div className=""><ResponsiblePersonForm customers={customers} setCustomers={setCustomers} getCustomerDropdownData={getCustomerDropdownData}></ResponsiblePersonForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson}></AddLocationForm></div>
+                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus}></AddLocationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
@@ -227,11 +199,10 @@ export default function CompanyCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction}></WorkstationForm></div>
+                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus}></WorkstationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(4)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
@@ -249,8 +220,6 @@ export default function CompanyCreation() {
                     view='company-single'
                     companyData={companyData}
                     setCompanyData={setCompanyData}
-                    sector={sector}
-                    setSector={setSector}
                     update_id={params.id}
                 ></AddCompanyForm>}
 
@@ -263,8 +232,6 @@ export default function CompanyCreation() {
                     getLocationDropdownData={getLocationDropdownData}
                     setLocationStatus={setLocationStatus}
                     update_id={params.id}
-                    responsiblePerson={responsiblePerson}
-                    setResponsiblePerson={setResponsiblePerson}
                 ></AddLocationForm>}
 
                 {/* Create and edit workstation details form */}
@@ -276,10 +243,6 @@ export default function CompanyCreation() {
                     setLocationArray={setLocationArray}
                     setWorkstationStatus={setWorkstationStatus}
                     update_id={params.id}
-                    selectedLocation={selectedLocation}
-                    setSelectedLocation={setSelectedLocation}
-                    selectedFunction={selectedFunction}
-                    setSelectedFunction={setSelectedFunction}
                 ></WorkstationForm>}
                 {params.addType === 'company-view' && <CompanyView></CompanyView>}
                 {params.addType !== 'company-view' && <div className="col-md-12 my-4 text-right pr-5">

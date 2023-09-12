@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Forms from "../molecules/Forms";
 import { EmployeeTypeApiUrl, EmployeeTypeOptionsApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
 import FormsNew from "../molecules/FormsNew";
-import ErrorPopup from "../../utilities/popup/ErrorPopup";
-import { toast } from 'react-toastify';
 
 
 export default function AddEmployeeTypes() {
@@ -18,7 +17,6 @@ export default function AddEmployeeTypes() {
     const [category, setCategory] = useState('');
 
     const [successMessage, setSuccessMessage] = useState('');
-    const [errors, setErrors] = useState([]);
 
     const [contractTypeList, setContractTypeList] = useState([]);
     const [dimonaTypeList, setDimonaTypeList] = useState([]);
@@ -83,8 +81,6 @@ export default function AddEmployeeTypes() {
                     setContractTypeList(resp.contract_types);
                     setCategoryList(resp.employee_type_categories);
                     setDimonaTypeList(resp.dimona_types);
-                } else {
-                    setErrors(result.message)
                 }
             })
             .catch((error) => {
@@ -100,6 +96,7 @@ export default function AddEmployeeTypes() {
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
+
                     if (result?.success) {
                         let response = result.data.details
                         setCategory(response.employee_type_category_value);
@@ -127,8 +124,6 @@ export default function AddEmployeeTypes() {
                         }
                         setEmployeeTypeData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
-                    } else {
-                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
@@ -187,7 +182,7 @@ export default function AddEmployeeTypes() {
 
     // On submit function for create and update employee type
     const OnSave = () => {
-        if (employeeTypeData.name && employeeTypeData.employee_type_category_id && employeeTypeData.dimona_type_id && employeeTypeData.consecutive_days_limit) {
+        if (employeeTypeData.name) {
             let status = 1
             if (inactive) { status = 0 }
 
@@ -207,42 +202,22 @@ export default function AddEmployeeTypes() {
             AXIOS.service(url, method, employeeTypeData)
                 .then((result) => {
                     if (result?.success) {
-                        // setSuccessMessage(result.message);
-                        navigate('/manage-configurations/employee_type');
-                        toast.success(result.message[0], {
-                            position: "top-center",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "colored",
-                        });
-                    } else {
-                        setErrors(result.message)
+                        setSuccessMessage(result.message);
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-        } else {
-            setErrors(['Please fill required fields'])
         }
     }
 
     return (
         <div className="right-container">
-            {/* {successMessage && <ModalPopup
+            {successMessage && <ModalPopup
                 title={('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/employee_type')}
-            ></ModalPopup>} */}
-            {errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
-                body={(errors)}
-                onHide={() => setErrors([])}
-            ></ErrorPopup>}
+            ></ModalPopup>}
             <FormsNew
                 view="employee_types"
                 formTitle={'Add Employee type'}
