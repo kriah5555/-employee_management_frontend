@@ -107,9 +107,6 @@ export default function ConfigurationOverviews() {
             apiUrl = ContractTypeApiUrl
             setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
 
-        } else if (overviewContent === 'holiday_code') {
-            apiUrl = HolidayCodeApiUrl
-            setHeaders(holiday_code_headers); setTitle('Manage holiday code'); setAddTitle('Add holiday code'); setAddUrl('/add-holiday-code');
         }
 
         // Api call to get list data

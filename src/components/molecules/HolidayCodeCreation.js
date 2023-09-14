@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ModalPopup from "../../utilities/popup/Popup";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
+import Login from "../../pages/Login";
 
 export default function HolidayCodeCreation() {
     //to show selected options in dropdown
@@ -15,8 +16,6 @@ export default function HolidayCodeCreation() {
     const [iconType, setIconType] = useState("");
     const [contractType, setContractType] = useState("");
     const [weeklyHours, setWeeklyHours] = useState(1);
-    const [carryForward, setCarryForward] = useState("");
-
     const [active, setActive] = useState(1);
     const [inactive, setInactive] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
@@ -31,7 +30,7 @@ export default function HolidayCodeCreation() {
         "internal_code": "",
         "holiday_type": "",
         "count_type": "",
-        "employee_category": "",
+        "employee_category": [],
         "icon_type": "",
         "contract_type": "",
         "consider_plan_hours_in_week_hours": 1,
@@ -97,22 +96,21 @@ export default function HolidayCodeCreation() {
                         setIconType(response.icon_type);
                         setContractType(response.contract_type);
                         setWeeklyHours(response.consider_plan_hours_in_week_hours);
-                        setCarryForward(response.carry_forword);
                         //creating selected employee category id array
-                        // let employee_category_ids = []
-                        // response.employee_category.map((val, i) => {
-                        //     employee_category_ids.push(val.value)
-                        // })
+                        let employee_category_ids = []
+                        response.employee_category.map((val, i) => {
+                            employee_category_ids.push(val.value)
+                        })
                         let data = {
                             "holiday_code_name": response.holiday_code_name,
                             "internal_code": response.internal_code,
                             "holiday_type": response.holiday_type.value,
                             "count_type": response.count_type.value,
-                            "employee_category": response.employee_category.value, /* need to set array employee_category_ids  */
+                            "employee_category": employee_category_ids, /* need to set array employee_category_ids  */
                             "icon_type": response.icon_type.value,
                             "contract_type": response.contract_type.value,
                             "consider_plan_hours_in_week_hours": response.consider_plan_hours_in_week_hours.value,
-                            "carry_forword": response.carry_forword.value,
+                            "count": response.count,
                             "description": response.description,
                             "status": response.status,
                         }
@@ -133,10 +131,10 @@ export default function HolidayCodeCreation() {
         { title: "Internal code", name: "internal_code", required: true, type: "text" },
         { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown" },
         { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown" },
-        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: false, selectedOptions: employeeCategory, type: "dropdown" },
+        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: true, selectedOptions: employeeCategory, type: "dropdown" },
         { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown" },
         { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown" },
-        { title: "Carry forward", name: "carry_forword", required: true, options: dropdownOptions.carry_forword, isMulti: false, selectedOptions: carryForward, type: "dropdown" },
+        { title: "count", name: "count", required: true, type: "text" },
         { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown" },
         { title: "Description", name: "description", type: "text-area" },
         { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox" },
@@ -148,7 +146,7 @@ export default function HolidayCodeCreation() {
         if (field !== 'dropdown') {
             form_data[name] = value;
         } else {
-            if (name === 'need to amodify') { /* modify after multi select is enabled*/
+            if (name === 'employee_category') {
                 let arr = []
                 value.map((val, i) => {
                     arr.push(val.value)
@@ -164,12 +162,8 @@ export default function HolidayCodeCreation() {
                     setContractType(value);
                 } else if (name === 'icon_type') {
                     setIconType(value);
-                } else if (name === "carry_forword") {
-                    setCarryForward(value);
                 } else if (name === 'consider_plan_hours_in_week_hours') {
                     setWeeklyHours(value);
-                } else if (name === 'employee_category') {
-                    setEmployeeCategory(value);
                 }
                 form_data[name] = value.value
             }
@@ -196,7 +190,7 @@ export default function HolidayCodeCreation() {
         AXIOS.service(url, method, holidayCodeFormData)
             .then((result) => {
                 if (result?.success) {
-                    navigate('/manage-configurations/holiday_code');
+                    navigate('/manage-holiday-configurations/holiday_code');
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
@@ -233,7 +227,7 @@ export default function HolidayCodeCreation() {
                 data={fieldData}
                 SetValues={SetValues}
                 formattedData={holidayCodeFormData}
-                redirectURL={"/manage-configurations/holiday_code"}
+                redirectURL={"/manage-holiday-configurations/holiday_code"}
                 OnSave={onSave}
             ></FormsNew>
         </div>

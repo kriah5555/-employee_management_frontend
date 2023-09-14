@@ -47,7 +47,7 @@ export default function Configurations() {
                     {
                         HolidayConfigurationTabs.map((val, index) => {
                             return (
-                                <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-configurations/' + val.type} view={'configuration'}></Card>
+                                <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-holiday-configurations/' + val.type} view={'configuration'}></Card>
                             )
                         })
                     }

@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { useNavigate, useParams } from "react-router-dom";
 import { CompanyApiUrl, LocationApiUrl, LocationListApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { useNavigate, useParams } from "react-router-dom";
-import CompanyInfo from "../../static/icons/CompanyInfo.svg"
-
+import indii from "../../static/icons/indii.jpeg"
 export default function CompanyView() {
+
     const navigate = useNavigate();
+
     const params = useParams();
     const [companyData, setCompanyData] = useState({});
     const [address, setAddress] = useState({});
     const [sector, setSector] = useState("");
+
+    const TabsData = [
+        { tabHeading: ("Company details"), tabName: 'company_details' },
+        { tabHeading: ("Address"), tabName: 'address' },
+    ]
 
     //add company fields 
     const CompanyFields = [
@@ -22,6 +29,9 @@ export default function CompanyView() {
         { title: "Username", name: "username", value: companyData.username },
         { title: "RSZ number", name: "rsz_number", value: companyData.rsz_number },
         { title: "Social secretary number", name: "social_secretary_number", value: companyData.social_secretary_number },
+    ];
+
+    const companyAddress = [
         { title: "Street and house number", name: "street_house_no", value: address.street_house_no },
         { title: "Postal code", name: "postal_code", value: address.postal_code },
         { title: "City", name: "city", value: address.city },
@@ -58,26 +68,51 @@ export default function CompanyView() {
         }
     }, [])
 
-
     return (
-        <div className="container-fluid">
-            <div className="row mx-auto">
-                <div className="col-md-4 text-center my-5 ">
-                    <img className="photo-icon rounded-circle mx-auto my-5" src={companyData.logo ? URL.createObjectURL(companyData.logo) : CompanyInfo}></img>
-                    <h4 className="text-center mx-auto mb-3 text-color my-3" >{companyData.company_name}</h4>
+        <div>
+            <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
+                <img className="employee-icon rounded-circle mx-2 " src={companyData.logo ? URL.createObjectURL(companyData.logo) : indii}></img>
+                <div className="width-22 px-2">
+                    <p className="mb-1 font-22">{companyData.company_name}</p>
+                    <p className="text-secondary font-18">{sector}</p>
                 </div>
-                <div className="col-md-6 my-5">
-                    {CompanyFields.map((val, index) => {
-                        if (index !== 0) {
+            </div>
+            <div className="col-md-12 p-0 employee-detail">
+                <Tabs>
+                    <TabList>
+                        {TabsData.map((val) => {
                             return (
-                                <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-4"}>
-                                    <label className="col-md-3 mb-1 pr-0 text-secondary">{val.title}:</label>
-                                    <p className="mb-0 col-md-9">{companyData !== undefined ? val.value : ''}</p>
-                                </div>
+                                <Tab key={val.tabName} >{val.tabHeading}</Tab> //selectedClassName="selected_emp_tab"
                             )
-                        }
-                    })}
-                </div>
+                        })}
+                    </TabList>
+                    <TabPanel>
+                        <div className="customscroll employee-detail-height py-3 px-0  m-3">
+                            {CompanyFields.map((val, index) => {
+                                if (index !== 0) {
+                                    return (
+                                        <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-2"}>
+                                            <label className="col-md-4 mb-1 pr-0 text-secondary">{val.title}:</label>
+                                            <p className="mb-0 col-md-8">{companyData !== undefined ? val.value : ''}</p>
+                                        </div>
+                                    )
+                                }
+                            })}
+                        </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <div className="customscroll employee-detail-height py-3 px-0  m-3">
+                            {companyAddress.map((val, index) => {
+                                return (
+                                    <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-2"}>
+                                        <label className="col-md-4 mb-1 pr-0 text-secondary">{val.title}:</label>
+                                        <p className="mb-0 col-md-8">{companyData !== undefined ? val.value : ''}</p>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </TabPanel>
+                </Tabs>
             </div>
         </div>
     )
