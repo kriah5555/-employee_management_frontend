@@ -8,6 +8,8 @@ import CustomButton from "../atoms/CustomButton";
 import BackIcon from "../../static/icons/BackIcon.png"
 import ColorInput from "../atoms/formFields/ColorInput";
 import Switch from "../atoms/Switch";
+import DateInput from "../atoms/formFields/DateInput";
+import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 
 
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave }) {
@@ -16,8 +18,8 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
     const params = useParams();
 
     return (
-        <div className={view !== 'sectors' ? "form-container my-5 border bg-white" : "pt-2 pb-5"}>
-            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
+        <div className={view !== 'sectors' && formTitle ? "form-container my-5 border bg-white" : "pt-2 pb-5"}>
+            {view !== 'sectors' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             {data && <div className="d-flex px-5">
                 <form className={"col-md-12 px-0 pb-4 border-blue"}>
                     {/* Text input field and dropdown based on the data given */}
@@ -28,7 +30,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     key={field.name}
                                     title={field.title}
                                     name={field.name}
-                                    CustomStyle="col-md-6 mt-4 float-left"
+                                    CustomStyle={field.style}
                                     required={field.required}
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
                                     setValue={(e) => SetValues(i, field.name, e)}
@@ -42,7 +44,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     options={field.options}
                                     selectedOptions={field.selectedOptions}
                                     onSelectFunction={(e) => SetValues(i, field.name, e, field.type)}
-                                    CustomStyle="col-md-6 mt-2 float-left"
+                                    CustomStyle={field.style}
                                     title={field.title}
                                     required={field.required}
                                     isMulti={field.isMulti}
@@ -55,7 +57,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     key={field.name}
                                     title={field.title}
                                     name={field.name}
-                                    CustomStyle="col-md-6 mt-5 mb-2 d-flex float-left"
+                                    CustomStyle={field.style}
                                     required={field.required}
                                     value={formattedData !== undefined ? (formattedData[field.name] ? formattedData[field.name] : '#61bfb5') : '#61bfb5'}
                                     setValue={(e) => SetValues(i, field.name, e)}
@@ -65,24 +67,26 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                         } else if (field.type === 'switch') {
                             return (
                                 <Switch
+                                    key={field.name}
                                     label={field.title}
                                     id={field.name}
-                                    styleClass="col-md-6 d-flex mt-4 float-left"
+                                    styleClass={field.style}
                                     lableClick={false}
                                     required={field.required}
                                     onChange={(e) => SetValues(i, field.name, e.target.checked)}
                                     defaultChecked={formattedData !== undefined ? formattedData[field.name] : false}
-                                    checked={formattedData !== undefined ? formattedData[field.name]: false}
+                                    checked={formattedData !== undefined ? formattedData[field.name] : false}
                                 />
                             )
                         } else if (field.type === 'text-area') {
                             return (
                                 <>
                                     <TextArea
+                                        key={field.name}
                                         title={field.title}
                                         name={field.name}
                                         required={field.required}
-                                        CustomStyle={"col-md-12 mt-4 mb-5 float-left"}
+                                        CustomStyle={field.style}
                                         value={formattedData !== undefined ? formattedData[field.name] : ''}
                                         setValue={(e) => SetValues(i, field.name, e)}
                                     ></TextArea>
@@ -92,18 +96,43 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                         } else if (field.type === 'checkbox') {
                             return (
                                 <CustomCheckBox
+                                    key={field.name}
                                     title={field.title}
                                     checkboxList={field.checkboxList}
                                     changeCheckbox={field.changeCheckbox}
                                     required={field.required}
-                                    CustomStyle={"col-md-12 mt-4 mb-2 float-left"}
+                                    CustomStyle={field.style}
                                 ></CustomCheckBox>
+                            )
+                        } else if (field.type === 'date') {
+                            return (
+                                <DateInput
+                                    key={field.name}
+                                    title={field.title}
+                                    name={field.name}
+                                    CustomStyle={field.style}
+                                    required={field.required}
+                                    value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                    setValue={(e) => SetValues(i, field.name, e)}
+                                ></DateInput>
+                            )
+                        } else if (field.type === 'phone_input') {
+                            return (
+                                <CustomPhoneInput
+                                    key={field.name}
+                                    title={field.title}
+                                    name={field.name}
+                                    value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                    setValue={(e) => SetValues(i, field.name, e)}
+                                    CustomStyle={field.style}
+                                    required={field.required}
+                                />
                             )
                         }
                     })}
                 </form>
             </div>}
-            {view !== 'sectors' && <div className={"col-md-12 mb-3 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
+            {view !== 'sectors' && formTitle && <div className={"col-md-12 mb-3 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
                 {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
                 <CustomButton buttonName={'Back'} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
             </div>}

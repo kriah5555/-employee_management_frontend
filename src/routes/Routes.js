@@ -16,6 +16,7 @@ import AddContractType from '../components/organisms/AddContractType';
 import CompanyCreation from '../components/organisms/CompanyCreation';
 import HolidayCodeCreation from '../components/molecules/HolidayCodeCreation';
 import MyAccount from "../pages/MyAccount";
+import EmployeeCreation from '../components/organisms/EmployeeCreation';
 // const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
 
@@ -27,11 +28,12 @@ const BaseRouter = ({ setAuth }) => (
         <Route exact path="/login" element={<Login></Login>} />
 
         <Route exact path="/manage-employees" element={<Employees></Employees>} />
+        <Route exact path="/add-employees" element={<EmployeeCreation></EmployeeCreation>} />
+
         <Route exact path="/manage-companies" element={<Companies></Companies>} />
         <Route exact path="/manage-companies/:addType/:id" element={<CompanyCreation />} />
-        <Route exact path='/configurations' element={<Configurations></Configurations>} />
-        <Route exact path='/settings' element={<Settings></Settings>} />
 
+        <Route exact path='/configurations' element={<Configurations></Configurations>} />
         <Route exact path='/manage-configurations/:type' element={<ConfigurationOverviews></ConfigurationOverviews>} />
         {/* <Route exact path='/manage-configurations/:type/:id' element={<ConfigurationOverviews></ConfigurationOverviews>} /> */}
 
@@ -54,6 +56,7 @@ const BaseRouter = ({ setAuth }) => (
         <Route exact path='/add-holiday-code/:id' element={<HolidayCodeCreation></HolidayCodeCreation>} />
 
         <Route exact path='/my-account' element={<MyAccount setAuth={setAuth}></MyAccount>} />
+        <Route exact path='/settings' element={<Settings></Settings>} />
 
     </Routes>
 );

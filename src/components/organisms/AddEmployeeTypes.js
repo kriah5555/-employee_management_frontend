@@ -141,20 +141,20 @@ export default function AddEmployeeTypes() {
     // Employee type fields data
     const employeeTypeFields = [
         // Employee type fields
-        { title: 'Employee type name', name: 'name', required: true, type: 'text' },
-        { title: 'Employee type category', name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown' },
-        { title: 'Description', name: 'description', required: false, type: 'text-area' },
+        { title: 'Employee type name', name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: 'Employee type category', name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
+        { title: 'Description', name: 'description', required: false, type: 'text-area', style:"col-md-12 mt-4 mb-5 float-left" },
         // Employee type configuration fields
-        { title: 'Contract type', name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown' },
-        { title: 'Dimona type', name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown' },
-        { title: 'Consecutive days limit', name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown' },
-        { title: 'Icon color', name: 'icon_color', required: true, type: 'color' },
-        { title: 'Start in past', name: 'start_in_past', required: true, type: 'switch' },
-        { title: 'Enable counters', name: 'counters', required: true, type: 'switch' },
-        { title: 'Contract hours split', name: 'contract_hours_split', required: true, type: 'switch' },
-        { title: 'Leave access', name: 'leave_access', required: true, type: 'switch' },
-        { title: 'Holiday access', name: 'holiday_access', required: true, type: 'switch' },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox },
+        { title: 'Contract type', name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
+        { title: 'Dimona type', name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
+        { title: 'Consecutive days limit', name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
+        { title: 'Icon color', name: 'icon_color', required: true, type: 'color', style:"col-md-6 mt-5 mb-2 d-flex float-left" },
+        { title: 'Start in past', name: 'start_in_past', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
+        { title: 'Enable counters', name: 'counters', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
+        { title: 'Contract hours split', name: 'contract_hours_split', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
+        { title: 'Leave access', name: 'leave_access', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
+        { title: 'Holiday access', name: 'holiday_access', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
+        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style:"col-md-12 mt-4 mb-2 float-left" },
     ]
 
 

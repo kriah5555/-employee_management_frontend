@@ -3,7 +3,6 @@ import FormsNew from "./FormsNew";
 import { HolidayCodeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
-import ModalPopup from "../../utilities/popup/Popup";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 
@@ -129,17 +128,17 @@ export default function HolidayCodeCreation() {
     }, [])
     // Holiday code field data
     const fieldData = [
-        { title: "Holiday code name", name: "holiday_code_name", required: true, type: "text" },
-        { title: "Internal code", name: "internal_code", required: true, type: "text" },
-        { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown" },
-        { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown" },
-        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: false, selectedOptions: employeeCategory, type: "dropdown" },
-        { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown" },
-        { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown" },
-        { title: "Carry forward", name: "carry_forword", required: true, options: dropdownOptions.carry_forword, isMulti: false, selectedOptions: carryForward, type: "dropdown" },
-        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown" },
-        { title: "Description", name: "description", type: "text-area" },
-        { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox" },
+        { title: "Holiday code name", name: "holiday_code_name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Internal code", name: "internal_code", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: false, selectedOptions: employeeCategory, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Carry forward", name: "carry_forword", required: true, options: dropdownOptions.carry_forword, isMulti: false, selectedOptions: carryForward, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Description", name: "description", type: "text-area", style:"col-md-12 mt-4 mb-5 float-left" },
+        { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", style:"col-md-12 mt-4 mb-2 float-left" },
 
     ];
     // Function to set values of add holiday code fields

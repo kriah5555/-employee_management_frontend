@@ -388,6 +388,10 @@ li,
 .company_creation div ul li {
     width: 20% !important;
 }
+
+.employee_creation div ul li {
+    width: 25% !important;
+}
  
 .right-end-tab {
     padding: 0px;
@@ -671,4 +675,8 @@ textarea {
 
 .custom-switch.custom-switch-lg .custom-control-input:checked~.custom-control-label::after {
     transform: translateX(2rem);
+}
+
+.react-tel-input {
+    height: 2.5em !important;
 }

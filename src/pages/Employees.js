@@ -21,9 +21,9 @@ export default function Employees() {
                     <div className="col-md-6 float-right">
                         <ul className="float-right">
                             {!showDetails &&
-                                <li className="list-group d-inline" onClick={() => setShowDetails(showDetails)}>
+                                <li className="list-group d-inline" onClick={() => navigate('/add-employees')}>
                                     <img className="header-icon mr-1 pr-1" src={AddEmployeeIcon}></img>
-                                    Create employee
+                                    <u>Create employee</u>
                                 </li>}
                             <li className="list-group d-inline ml-5"><img className="header-icon " src={EmailForwardersIcon}></img></li>
                             <li className="list-group d-inline ml-3"><img className="header-icon " src={FilterIcon}></img></li>

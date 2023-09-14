@@ -42,6 +42,12 @@ export const GET_CONSTANTS = {
     'RESPONSIBLE_PERSONS': 'Responsible persons',
     'RULES': 'Rules',
 
+    // employee creation tabs constants
+    'PERSONAL_DETAILS': 'Personal details',
+    'EMPLOYEE_CONTRACT_TYPE': 'Employee/Contract types',
+    'FUNCTION_SALARIES': 'Function salaries',
+    'EXTRA_BENEFITS': 'Extra benefits',
+
     // Settings constants
     'ADD_FUNCTION': 'Add function',
     'ADD_EMPLOYEE_TYPE': 'Add employee type',
