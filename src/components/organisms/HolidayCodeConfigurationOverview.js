@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, HolidayCodeApiUrl } from "../../routes/ApiEndPoints";
+import { HolidayCodeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 
-export default function ConfigurationOverviews() {
+export default function HolidayCodeConfigurationOverview() {
 
     const navigate = useNavigate();
     let params = useParams();
@@ -18,38 +18,6 @@ export default function ConfigurationOverviews() {
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteUrl, setDeleteUrl] = useState('');
 
-    // Header data for employee and sector overview
-    const emp_type_sector_headers = [
-        {
-            title: 'Title',
-            field: 'name',
-            size: 200,
-        },
-        {
-            title: 'Status',
-            field: 'status',
-            size: 200,
-        },
-    ];
-
-    // Header data for Group function overview
-    const group_function_headers = [
-        {
-            title: 'Group function title',
-            field: 'name',
-            size: 200,
-        },
-        {
-            title: 'Description',
-            field: 'description',
-            size: 200,
-        },
-        {
-            title: 'Status',
-            field: 'status',
-            size: 200,
-        },
-    ];
 
     // Header data for Holiday code
     const holiday_code_headers = [
@@ -75,38 +43,18 @@ export default function ConfigurationOverviews() {
         },
     ]
 
-    const [headers, setHeaders] = useState(emp_type_sector_headers);
+    const [headers, setHeaders] = useState(holiday_code_headers);
     const [listData, setListData] = useState([]);
-    const [title, setTitle] = useState('Manage employee types');
-    const [addTitle, setAddTitle] = useState('Add employee type');
-    const [addUrl, setAddUrl] = useState('/add_employee_type');
+    const [title, setTitle] = useState('Manage holiday code');
+    const [addTitle, setAddTitle] = useState('Add holiday code');
+    const [addUrl, setAddUrl] = useState('/add-holiday-code');
 
     useEffect(() => {
         let apiUrl;
         // Header data for Function overview
-        if (overviewContent === 'employee_type' || overviewContent === 'sectors') {
-
-            setHeaders(emp_type_sector_headers);
-            if (overviewContent === 'sectors') {
-                apiUrl = SectorApiUrl
-                setTitle('Manage sectors'); setAddTitle('Add sector'); setAddUrl('/add-sector');
-            } else {
-                apiUrl = EmployeeTypeApiUrl
-                setTitle('Manage employee types'); setAddTitle('Add employee type'); setAddUrl('/add-employee-type');
-            }
-
-        } else if (overviewContent === 'functions') {
-            apiUrl = FunctionApiUrl
-            setHeaders(emp_type_sector_headers); setTitle('Manage functions'); setAddTitle('Add function'); setAddUrl('/add-function');
-
-        } else if (overviewContent === 'group_functions') {
-            apiUrl = GroupFunctionApiUrl
-            setHeaders(group_function_headers); setTitle('Manage group functions'); setAddTitle('Add group function'); setAddUrl('/add-group-function');
-
-        } else if (overviewContent === 'contract_type') {
-            apiUrl = ContractTypeApiUrl
-            setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
-
+        if (overviewContent === 'holiday_code') {
+            apiUrl = HolidayCodeApiUrl
+            setHeaders(holiday_code_headers); setTitle('Manage holiday code'); setAddTitle('Add holiday code'); setAddUrl('/add-holiday-code');
         }
 
         // Api call to get list data
@@ -153,45 +101,15 @@ export default function ConfigurationOverviews() {
         if (action === 'delete') {
             setWarningMessage('Are you sure you want to delete this item?')
         }
-        if (overviewContent === 'employee_type') {
-            if (action === 'edit') {
-                navigate('/add-employee-type/' + data.id)
-            } else {
-                setDeleteUrl(EmployeeTypeApiUrl + '/' + data.id)
-            }
-        } else if (overviewContent === 'sectors') {
-            if (action === 'edit') {
-                navigate('/add-sector/' + data.id)
-            } else {
-                setDeleteUrl(SectorApiUrl + '/' + data.id)
-            }
-        } else if (overviewContent === 'functions') {
-            if (action === 'edit') {
-                navigate('/add-function/' + data.id)
-            } else {
-                setDeleteUrl(FunctionApiUrl + '/' + data.id)
-            }
-        } else if (overviewContent === 'group_functions') {
-            if (action === 'edit') {
-                navigate('/add-group-function/' + data.id)
-            } else {
-                setDeleteUrl(GroupFunctionApiUrl + '/' + data.id)
-            }
-        } else if (overviewContent === 'contract_type') {
-            if (action === 'edit') {
-                navigate('/add-contract-type/' + data.id)
-            } else {
-                setDeleteUrl(ContractTypeApiUrl + '/' + data.id)
-            }
-        } else if (overviewContent === 'holiday_code') {
+        if (overviewContent === 'holiday_code') {
             if (action === 'edit') {
                 navigate('/add-holiday-code/' + data.id)
             } else {
                 setDeleteUrl(HolidayCodeApiUrl + '/' + data.id)
             }
+
         }
     }
-
 
     return (
         <div className="right-container">
@@ -214,7 +132,7 @@ export default function ConfigurationOverviews() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            {overviewContent !== 'min_salary' && <div className="company-tab-width mt-3 border bg-white">
+            <div className="company-tab-width mt-3 border bg-white">
                 <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
                     <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
@@ -223,13 +141,10 @@ export default function ConfigurationOverviews() {
                         </p>}
                     </div>
                 </div>
-
                 <div className="tablescroll">
                     <Table columns={headers} rows={listData} setRows={setListData} tableName={'function'} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
                 </div>
-            </div>}
-            {/* Minimum salary configurations */}
-            {overviewContent === 'min_salary' && <ManageSalaries></ManageSalaries>}
+            </div>
         </div>
 
     )
