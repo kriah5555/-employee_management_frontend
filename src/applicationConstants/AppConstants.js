@@ -46,7 +46,8 @@ export const GET_CONSTANTS = {
     'PERSONAL_DETAILS': 'Personal details',
     'EMPLOYEE_CONTRACT_TYPE': 'Employee/Contract types',
     'FUNCTION_SALARIES': 'Function salaries',
-    'EXTRA_BENEFITS': 'Extra benefits',
+    'TRANSPORTATION_DETAILS': 'Transportation details',
+    'ADDITIONAL_INFO': 'Additional information',
 
     // Settings constants
     'ADD_FUNCTION': 'Add function',

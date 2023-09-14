@@ -192,7 +192,7 @@ export default function AddContractType() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/contract_type')}
             ></ModalPopup>} */}
-            {errors.length !== 0 && <ErrorPopup
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={('Validation error!')}
                 body={(errors)}
                 onHide={() => setErrors([])}

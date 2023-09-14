@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useNavigate, useParams } from "react-router-dom";
 import { CompanyApiUrl, LocationApiUrl, LocationListApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import indii from "../../static/icons/indii.jpeg"
+import indii from "../../static/icons/logo-temp.png"
 export default function CompanyView() {
 
     const navigate = useNavigate();
@@ -70,10 +70,10 @@ export default function CompanyView() {
 
     return (
         <div>
-            <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
-                <img className="employee-icon rounded-circle mx-2 " src={companyData.logo ? URL.createObjectURL(companyData.logo) : indii}></img>
-                <div className="width-22 px-2">
-                    <p className="mb-1 font-22">{companyData.company_name}</p>
+            <div className="col-md-12 row m-0 py-4 px-4 border-bottom">
+                <img className="employee-icon-temp rounded-circle mx-2 " src={companyData.logo ? URL.createObjectURL(companyData.logo) : indii}></img>
+                <div className="width-22 px-3 mt-2">
+                    <h4 className="mb-1 font-22">{companyData.company_name}</h4>
                     <p className="text-secondary font-18">{sector}</p>
                 </div>
             </div>
@@ -91,7 +91,7 @@ export default function CompanyView() {
                             {CompanyFields.map((val, index) => {
                                 if (index !== 0) {
                                     return (
-                                        <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-2"}>
+                                        <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-4"}>
                                             <label className="col-md-4 mb-1 pr-0 text-secondary">{val.title}:</label>
                                             <p className="mb-0 col-md-8">{companyData !== undefined ? val.value : ''}</p>
                                         </div>
@@ -101,10 +101,10 @@ export default function CompanyView() {
                         </div>
                     </TabPanel>
                     <TabPanel>
-                        <div className="customscroll employee-detail-height py-3 px-0  m-3">
+                        <div className="customscroll employee-detail-height py-3 px-0 m-3">
                             {companyAddress.map((val, index) => {
                                 return (
-                                    <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-2"}>
+                                    <div key={val.label} className={"font-weight-bold col-md-12 row m-0 my-4"}>
                                         <label className="col-md-4 mb-1 pr-0 text-secondary">{val.title}:</label>
                                         <p className="mb-0 col-md-8">{companyData !== undefined ? val.value : ''}</p>
                                     </div>

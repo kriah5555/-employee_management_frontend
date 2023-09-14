@@ -238,7 +238,7 @@ export default function AddEmployeeTypes() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/employee_type')}
             ></ModalPopup>} */}
-            {errors.length !== 0 && <ErrorPopup
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={('Validation error!')}
                 body={(errors)}
                 onHide={() => setErrors([])}

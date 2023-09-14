@@ -130,7 +130,7 @@ export default function HolidayCodeCreation() {
         { title: "Internal code", name: "internal_code", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
         { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
-        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: false, selectedOptions: employeeCategory, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: true, selectedOptions: employeeCategory, type: "dropdown", style:"col-md-6 mt-2 float-left" },
         { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
         { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
         { title: "count", name: "count", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
@@ -215,7 +215,7 @@ export default function HolidayCodeCreation() {
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/holiday_code')}
             ></ModalPopup>} */}
-            {errors.length !== 0 && <ErrorPopup
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={('Validation error!')}
                 body={(errors)}
                 onHide={() => setErrors([])}

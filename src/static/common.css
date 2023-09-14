@@ -150,6 +150,11 @@
     height: 50px;
 }
 
+.employee-icon-temp {
+    width: 80px;
+    height: 80px;
+}
+
 .photo-update-container {
     position: relative;
     width: 18vh;

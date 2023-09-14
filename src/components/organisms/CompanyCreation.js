@@ -189,7 +189,7 @@ export default function CompanyCreation() {
                     {params.addType !== 'company-view' ? ((params.id !== '0' ? 'Edit ' : 'Create ') + (params.addType === 'company-single' ? "company" : params.addType)) : 'Company details'}
                 </h4>
             </div>
-            {errors.length !== 0 && <ErrorPopup
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={('Validation error!')}
                 body={(errors)}
                 onHide={() => setErrors([])}
