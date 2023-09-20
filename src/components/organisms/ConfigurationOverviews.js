@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, HolidayCodeApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -51,21 +51,16 @@ export default function ConfigurationOverviews() {
         },
     ];
 
-    // Header data for Holiday code
-    const holiday_code_headers = [
+    // Header data for reasons
+    const reasons_headers = [
         {
-            title: 'title',
-            field: 'holiday_code_name',
+            title: 'Reason',
+            field: 'name',
             size: 200,
         },
         {
-            title: 'Description',
-            field: 'description',
-            size: 200,
-        },
-        {
-            title: 'Internal Code',
-            field: 'internal_code',
+            title: 'Category',
+            field: 'category',/* need to change,currently value is setting change it to lable */
             size: 200,
         },
         {
@@ -107,6 +102,9 @@ export default function ConfigurationOverviews() {
             apiUrl = ContractTypeApiUrl
             setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
 
+        } else if (overviewContent === 'reasons') {
+            apiUrl = ReasonsApiUrl
+            setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
         }
 
         // Api call to get list data
@@ -183,11 +181,11 @@ export default function ConfigurationOverviews() {
             } else {
                 setDeleteUrl(ContractTypeApiUrl + '/' + data.id)
             }
-        } else if (overviewContent === 'holiday_code') {
+        } else if (overviewContent === 'reasons') {
             if (action === 'edit') {
-                navigate('/add-holiday-code/' + data.id)
+                navigate('/add-reasons/' + data.id)
             } else {
-                setDeleteUrl(HolidayCodeApiUrl + '/' + data.id)
+                setDeleteUrl(ReasonsApiUrl + '/' + data.id)
             }
         }
     }

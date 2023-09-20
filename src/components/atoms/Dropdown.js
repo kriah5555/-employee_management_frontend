@@ -3,7 +3,7 @@ import Select from 'react-select';
 import RequiredIcon from "../../static/icons/exclamation-mark1.png"
 
 
-export default function Dropdown({ options, selectedOptions, onSelectFunction, styleClass, CustomStyle, title, required, isMulti, error }) {
+export default function Dropdown({ options, selectedOptions, onSelectFunction, styleClass, CustomStyle, title, required, isMulti, error, isDisabled }) {
 
 
     const customStyle = {
@@ -38,6 +38,7 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
                 value={selectedOptions}
                 onChange={onSelectFunction}
                 className={styleClass}
+                isDisabled={isDisabled}
                 components={{
                     IndicatorSeparator: () => null,
                 }}

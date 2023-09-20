@@ -33,7 +33,7 @@ export default function HolidayCodeCreation() {
         "icon_type": "",
         "contract_type": "",
         "consider_plan_hours_in_week_hours": 1,
-        "carry_forword": "",
+        "count": "",
         "description": "",
         "status": 1,
     });
