@@ -6,6 +6,7 @@ import SectorsIcon from "../static/icons/Sectors.svg";
 import FunctionsIcon from "../static/icons/Functions.svg";
 import GroupFunctionsIcon from "../static/icons/GroupFunctions.svg";
 import SalariesIcon from "../static/icons/Salaries.svg";
+import Notification from "../static/icons/notifications.png"
 
 import { t } from "../translations/Translation";
 
@@ -21,6 +22,8 @@ export default function Configurations() {
         { title: t('FUNCTIONS'), icon: FunctionsIcon, styleClass: subTabStyle, type: 'functions' },
         { title: t('GROUP_FUNCTIONS'), icon: GroupFunctionsIcon, styleClass: subTabStyle, type: 'group_functions' },
         { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, type: 'min_salary' },
+        { title: t('REASONS'), icon: Notification, styleClass: subTabStyle, type: 'reasons' },
+
     ]
 
     const HolidayConfigurationTabs = [

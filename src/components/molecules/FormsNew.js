@@ -48,6 +48,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     title={field.title}
                                     required={field.required}
                                     isMulti={field.isMulti}
+                                    isDisabled={field.isDisabled}
                                     error={''}
                                 ></Dropdown>
                             )
