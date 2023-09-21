@@ -46,7 +46,13 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
     const extraPersonalInfo = [
         { title: "Id card front", name: "id_card_front", required: false, type: "text-area", style: "col-md-4 mt-4 float-left" },
         { title: "Id card back", name: "id_card_back", required: false, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: 'Description', name: 'description', required: false, type: 'text-area', style:"col-md-4 mt-4 mb-5 float-left" },
+        { title: 'Description', name: 'description', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
+
+    ]
+
+    const FreeFields = [
+        { title: "", name: "", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "", name: "", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
     ]
 
@@ -95,7 +101,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
                 view="employees"
                 formTitle={''}
                 formattedData={employeeData}
-                data={extraBenefitFields}
+                data={FreeFields}
                 SetValues={setValues}
             ></FormsNew>
 
