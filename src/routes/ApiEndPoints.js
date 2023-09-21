@@ -32,6 +32,7 @@ export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
 
 
 export const HolidayCodeApiUrl = BASE_URL + '/masterdata/holiday-codes'
+export const CostCenterApiUrl = BASE_URL + '/masterdata/cost-center'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here

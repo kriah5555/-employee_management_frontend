@@ -21,6 +21,7 @@ export default function Configurations() {
         { title: t('FUNCTIONS'), icon: FunctionsIcon, styleClass: subTabStyle, type: 'functions' },
         { title: t('GROUP_FUNCTIONS'), icon: GroupFunctionsIcon, styleClass: subTabStyle, type: 'group_functions' },
         { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, type: 'min_salary' },
+        { title: t('COST_CENTER'), icon: SalariesIcon, styleClass: subTabStyle, type: 'cost_center' },
     ]
 
     const HolidayConfigurationTabs = [
