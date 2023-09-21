@@ -39,7 +39,10 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         Clear: Clear,
     }
 
-    const searchStyle = showDetails ? { width: '' } : { width: '200%', border: '0.5px solid #ABABAB', borderRadius: '5px' }
+    // const searchStyle = showDetails ? { width: '' } : { width: '200%', border: '0.5px solid #ABABAB', borderRadius: '5px' }
+
+    const searchStyle = showDetails ? { width: '' } : { width: '200%'}
+
 
     //Table options
     const options = {

@@ -4,7 +4,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 
 
-export default function AddEmployeePersonalDetails({ tabIndex, employeeData, setEmployeeData, OnSave, gender, setGender, language, setLanguage,
+export default function AddEmployeePersonalDetails({ tabIndex, employeeData, setEmployeeData, gender, setGender, language, setLanguage,
     maritalStatus, setMaritalStatus, fuelCard, setFuelCard, companyCar, setCompanyCar, mealVoucher, setMealVoucher, functions, setFunctions }) {
 
     const [options, setOptions] = useState([]);
@@ -44,8 +44,7 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
 
         { title: "Gender", name: "gender_id", required: true, options: options.genders, selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Date of joining", name: "date_of_joining", required: true, type: "date", style: "col-md-2 mt-4 float-left" },
-        { title: "Date of leaving", name: "date_of_leaving", required: false, type: "date", style: "col-md-2 mt-4 float-left" },
+        { title: "Licence expiry", name: "licence_expiry", required: false, type: "date", style: "col-md-4 mt-4 float-left" },
 
         { title: "Address: Street + House num", name: "street_house_no", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Postal code", name: "postal_code", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
@@ -62,25 +61,13 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
     ];
 
     const extraBenefitFields = [
-        { title: "Transport", name: "transport_id", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Distance(kms)", name: "distance", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Meal Vouchers", name: "meal_voucher", required: false, options: VouchersOptions, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Meal Voucher type", name: "meal_voucher_type", required: false, options: VouchersOptions, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ]
 
-    const functionSalariesFields = [
-        { title: "Add function", name: "function", required: false, options: YesNoOptions, selectedOptions: functions, isMulti: true, type: 'dropdown', style: "col-md-12 mt-2 float-left" },
-        { title: "Function name", name: "function_name", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Minimum salary", name: "min_salary", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Salary to be paid", name: "salary", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Contract number", name: "contract_no", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Social security number", name: "social_security_number_2", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Weekly contract hours", name: "weekly_contract_hour", required: false, type: "text", style: "col-md-2 mt-4 float-left" },
-        { title: "Work days per week", name: "week_day", required: false, type: "text", style: "col-md-2 mt-4 float-left" },
-
-    ]
 
     // Function to set values of employee type
     const setValues = (index, name, value, field) => {
@@ -115,15 +102,6 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
         }
     }
 
-    let data = addEmployeeDetailsFields
-
-    if (tabIndex === 0) {
-        data = addEmployeeDetailsFields
-    } else if (tabIndex === 2) {
-        data = functionSalariesFields
-    } else {
-        data = extraBenefitFields
-    }
 
     return (
         <div className="">
@@ -132,9 +110,8 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
                 formTitle={''}
                 redirectURL={'/manage-employees'}
                 formattedData={employeeData}
-                data={data}
+                data={tabIndex === 0 ? addEmployeeDetailsFields : extraBenefitFields}
                 SetValues={setValues}
-                OnSave={OnSave}
             ></FormsNew>
         </div>
     )

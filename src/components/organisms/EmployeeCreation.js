@@ -10,6 +10,8 @@ import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import AddEmployeeContractTypes from "../molecules/AddEmployeeContractTypes";
+import AddEmployeeFunctionSalaries from "../molecules/AddEmployeeFunctionSalaries";
+import AddEmployeeAdditionalInfo from "../molecules/AddEmployeeAdditionalInfo";
 
 
 
@@ -25,7 +27,11 @@ export default function EmployeeCreation() {
     const [fuelCard, setFuelCard] = useState();
     const [companyCar, setCompanyCar] = useState();
     const [mealVoucher, setMealVoucher] = useState();
-    const [functions, setFunctions] = useState();
+    const [functions, setFunctions] = useState([]);
+    const [locations, setLocations] = useState([]);
+
+    const [functionSalaries, setFunctionSalaries] = useState([{ 'function': 1, 'salary': '' }]);
+    const [locationTransport, setLocationTransport] = useState([{ 'location': '', 'transport': '', 'distance': '' }])
 
     const [errors, setErrors] = useState([]);
 
@@ -48,6 +54,7 @@ export default function EmployeeCreation() {
         "phone_number": "",
         "social_security_number": "",
         "date_of_joining": "",
+        "licence_expiry": "",
         "language": "",
         "street_house_no": "",
         "postal_code": "",
@@ -62,6 +69,8 @@ export default function EmployeeCreation() {
 
 
     const OnSave = () => {
+        employeeData['functions'] = functionSalaries
+        employeeData['locations'] = locationTransport
         let ApiUrl = EmployeeApiUrl + '/store/1'
         let Method = 'POST'
         let requestData = employeeData
@@ -116,14 +125,15 @@ export default function EmployeeCreation() {
                     </TabList>
 
                     <TabPanel>
-                        <div className=""><AddEmployeePersonalDetails
-                            tabIndex={tabIndex}
-                            OnSave={OnSave}
-                            gender={gender} setGender={setGender}
-                            language={language} setLanguage={setLanguage}
-                            maritalStatus={maritalStatus} setMaritalStatus={setMaritalStatus}
-                            employeeData={employeeData} setEmployeeData={setEmployeeData}
-                        ></AddEmployeePersonalDetails></div>
+                        <div className="">
+                            <AddEmployeePersonalDetails
+                                tabIndex={tabIndex}
+                                gender={gender} setGender={setGender}
+                                language={language} setLanguage={setLanguage}
+                                maritalStatus={maritalStatus} setMaritalStatus={setMaritalStatus}
+                                employeeData={employeeData} setEmployeeData={setEmployeeData}
+                            ></AddEmployeePersonalDetails>
+                        </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>
@@ -136,27 +146,40 @@ export default function EmployeeCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddEmployeePersonalDetails tabIndex={tabIndex}></AddEmployeePersonalDetails></div>
+                        <div className="">
+                            <AddEmployeeFunctionSalaries
+                                tabIndex={tabIndex}
+                                functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
+                                functions={functions} setFunctions={setFunctions}
+                            ></AddEmployeeFunctionSalaries>
+                        </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddEmployeePersonalDetails tabIndex={tabIndex}></AddEmployeePersonalDetails></div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <div className="">
+                            <AddEmployeeFunctionSalaries
+                                tabIndex={tabIndex}
+                                locationTransport={locationTransport} setLocationTransport={setLocationTransport}
+                                locations={locations} setLocations={setLocations}
+                            ></AddEmployeeFunctionSalaries>
+                        </div>                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddEmployeePersonalDetails
-                            tabIndex={tabIndex}
-                            fuelCard={fuelCard} setFuelCard={setFuelCard}
-                            companyCar={companyCar} setCompanyCar={setCompanyCar}
-                            mealVoucher={mealVoucher} setMealVoucher={setMealVoucher}
-                            employeeData={employeeData} setEmployeeData={setEmployeeData}
-                        ></AddEmployeePersonalDetails></div>
+                        <div className="">
+                            <AddEmployeeAdditionalInfo
+                                tabIndex={tabIndex}
+                                fuelCard={fuelCard} setFuelCard={setFuelCard}
+                                companyCar={companyCar} setCompanyCar={setCompanyCar}
+                                mealVoucher={mealVoucher} setMealVoucher={setMealVoucher}
+                                employeeData={employeeData} setEmployeeData={setEmployeeData}
+                            ></AddEmployeeAdditionalInfo>
+                        </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(3)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
