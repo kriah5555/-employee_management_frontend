@@ -12,6 +12,7 @@ import axios from 'axios';
  * })  
  */
 
+
 export const APICALL = {
     service,
     serviceForSitesJSON,
@@ -79,6 +80,9 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
+              if (error.response.status === 403) {
+                window.location.href = '/login'
+              }
               let err = {
                 'error': true,
                 'message': error.response.data.message,
@@ -101,6 +105,9 @@ async function service(
             console.log("Error service : ", error);
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
+              }
+              if (error.response.status === 403) {
+                window.location.href = '/login'
               }
               let err = {
                 'error': true,
@@ -125,6 +132,9 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
+              if (error.response.status === 403) {
+                window.location.href = '/login'
+              }
               let err = {
                 'error': true,
                 'message': error.response.data.message,
@@ -147,6 +157,9 @@ async function service(
             console.log("Error service : ", error, error.response.status);
               if (loading === 1 && document.getElementById("loading-icon") !== null) {
                   document.getElementById("loading-icon").setAttribute("style", "display:none;");
+              }
+              if (error.response.status === 403) {
+                window.location.href = '/login'
               }
               let err = {
                 'error': true,
