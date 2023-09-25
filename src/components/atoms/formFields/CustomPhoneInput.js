@@ -18,7 +18,7 @@ export default function CustomPhoneInput({ title, name, placeholder, required, C
       </div>
       <div className="input-group">
         <PhoneInput
-          regions={["america", "europe", "asia", "oceania", "africa"]}
+          // regions={["america", "europe", "asia", "oceania", "africa",'north-america', 'south-america', 'central-america', 'carribean', 'eu-union', 'ex-ussr', 'ex-yugos', 'baltic', 'middle-east', 'north-africa']}
           onlyCountries={countryArray}
           enableSearch={enableSearch}
           inputStyle={{ height: '100%', width: '100%', fontSize: '1rem' }}
@@ -36,7 +36,6 @@ export default function CustomPhoneInput({ title, name, placeholder, required, C
               name: { name }
             }
           }
-        // isValid={(value. country)=>{.........}} we can validate here
         />
       </div>
     </div>

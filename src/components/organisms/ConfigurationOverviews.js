@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -60,7 +60,7 @@ export default function ConfigurationOverviews() {
         },
         {
             title: 'Category',
-            field: 'category',/* need to change,currently value is setting change it to lable */
+            field: 'category',
             size: 200,
         },
         {
@@ -68,6 +68,19 @@ export default function ConfigurationOverviews() {
             field: 'status',
             size: 200,
         },
+    ]
+    // Headers for social secretory
+    const social_secretary_headers = [
+        {
+            title: 'Social secretary number',
+            field: 'name',
+            size: 200,
+        },
+        {
+            title: 'Status',
+            field: 'status',
+            size: 200,
+        }
     ]
 
     const [headers, setHeaders] = useState(emp_type_sector_headers);
@@ -105,6 +118,9 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'reasons') {
             apiUrl = ReasonsApiUrl
             setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
+        } else if (overviewContent === 'social_secretary') {
+            apiUrl = SocialSecretaryApiUrl
+            setHeaders(social_secretary_headers); setTitle('Manage social secretary'); setAddTitle('Add social secretary'); setAddUrl('/add-social-secretary');
         }
 
         // Api call to get list data
@@ -186,6 +202,12 @@ export default function ConfigurationOverviews() {
                 navigate('/add-reasons/' + data.id)
             } else {
                 setDeleteUrl(ReasonsApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'social_secretary') {
+            if (action === 'edit') {
+                navigate('/add-social-secretary/' + data.id)
+            } else {
+                setDeleteUrl(SocialSecretaryApiUrl + '/' + data.id)
             }
         }
     }

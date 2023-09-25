@@ -64,5 +64,6 @@ export const GET_CONSTANTS = {
     'CONTRACT_TYPE':'Contract types',
     'REASONS':'Reasons',
     'GENDER':'Gender',
-    'MARITAL_STATUS': 'Marital status'
+    'MARITAL_STATUS': 'Marital status',
+    'SOCIAL_SECRETARY':'Social secretary'
 };
