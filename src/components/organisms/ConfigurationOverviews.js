@@ -206,6 +206,8 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'social_secretary') {
             if (action === 'edit') {
                 navigate('/add-social-secretary/' + data.id)
+            } else if (action === 'link_code'){
+                navigate('/link-holiday-code/' + data.id)
             } else {
                 setDeleteUrl(SocialSecretaryApiUrl + '/' + data.id)
             }
