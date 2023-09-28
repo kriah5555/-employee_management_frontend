@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { SocialSecretaryApiUrl } from "../../routes/ApiEndPoints"
+
+ 
 export default function AddSocialSecretary() {
 
     const [socialSecretaryData, setSocialSecretaryData] = useState({

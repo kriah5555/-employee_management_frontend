@@ -31,8 +31,8 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
 
     //add employee personal detail fields 
     const socialSecurityFields = [
-        { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Social secretory number", name: "social_secretory_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ];
 
     const extraBenefitFields = [
@@ -50,11 +50,11 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
 
     ]
 
-    const FreeFields = [
-        { title: "", name: "", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "", name: "", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+    // const FreeFields = [
+    //     { title: "", name: "", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+    //     { title: "", name: "", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
-    ]
+    // ]
 
 
     // Function to set values of employee type
@@ -96,16 +96,16 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
                 SetValues={setValues}
             ></FormsNew>
 
-            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Free fields'}</span>
+            {/* <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Free fields'}</span>
             <FormsNew
                 view="employees"
                 formTitle={''}
                 formattedData={employeeData}
                 data={FreeFields}
                 SetValues={setValues}
-            ></FormsNew>
+            ></FormsNew> */}
 
-            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Extra benefits'}</span>
+            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Identity info'}</span>
             <FormsNew
                 view="employees"
                 formTitle={''}

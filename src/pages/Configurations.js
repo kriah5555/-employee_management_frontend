@@ -7,7 +7,7 @@ import FunctionsIcon from "../static/icons/Functions.svg";
 import GroupFunctionsIcon from "../static/icons/GroupFunctions.svg";
 import SalariesIcon from "../static/icons/Salaries.svg";
 import Notification from "../static/icons/notifications.png"
-import SocialSecretary from "../static/icons/ID.svg"
+import SocialSecretaryIcon from "../static/icons/social.png"
 
 import { t } from "../translations/Translation";
 
@@ -25,7 +25,7 @@ export default function Configurations() {
         { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, type: 'min_salary' },
         { title: t('REASONS'), icon: Notification, styleClass: subTabStyle, type: 'reasons' },
         { title: t('COST_CENTER'), icon: SalariesIcon, styleClass: subTabStyle, type: 'cost_center' },
-        { title: t('SOCIAL_SECRETARY'), icon: SocialSecretary, styleClass: subTabStyle, type: 'social_secretary' },
+        { title: t('SOCIAL_SECRETARY'), icon: SocialSecretaryIcon, styleClass: subTabStyle, type: 'social_secretary' },
 
     ]
 
