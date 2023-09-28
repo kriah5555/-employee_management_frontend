@@ -36,6 +36,7 @@ export const MaritalSttausApiUrl = BASE_URL + '/masterdata/marital-statuses'
 export const HolidayCodeApiUrl = BASE_URL + '/masterdata/holiday-codes'
 export const ReasonsApiUrl = BASE_URL + '/masterdata/reasons'
 export const CostCenterApiUrl = BASE_URL + '/masterdata/cost-center'
+export const SocialSecretaryApiUrl = BASE_URL + '/masterdata/social-secretary'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here

@@ -56,6 +56,9 @@ export const GET_CONSTANTS = {
     'ADD_GROUP_FUNCTION' : 'Add group function',
     'ADD_MIN_SALARY': 'Add minimum salaries',
 
+    'GENDER':'Genders',
+    'MARITAL_STATUS': 'Marital status',
+
     'FUNCTIONS': 'Functions',
     'EMPLOYEE_TYPES': 'Employee types',
     'SECTORS':'Sectors',
@@ -63,7 +66,6 @@ export const GET_CONSTANTS = {
     'MIN_SALARY': 'Minimum salaries',
     'CONTRACT_TYPE':'Contract types',
     'REASONS':'Reasons',
-    'GENDER':'Genders',
-    'MARITAL_STATUS': 'Marital status',
     'COST_CENTER':'Cost center',
+    'SOCIAL_SECRETARY':'Social secretary'
 };

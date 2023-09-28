@@ -17,12 +17,13 @@ import CompanyCreation from '../components/organisms/CompanyCreation';
 import HolidayCodeCreation from '../components/molecules/HolidayCodeCreation';
 import MyAccount from "../pages/MyAccount";
 import EmployeeCreation from '../components/organisms/EmployeeCreation';
-// const langRegex = "(en|nl|fr)?";
 import HolidayCodeConfiguratuionOverview from '../components/organisms/HolidayCodeConfigurationOverview';
 // const langRegex = "(en|nl|fr)?"; 
 // const langPath =  `/:lang${langRegex}`;
 import AddReasons from '../components/organisms/AddReasons';
 import AddCostCenter from '../components/organisms/AddCostCenter';
+import AddSocialSecretary from '../components/organisms/AddSocialSecretary';
+import LinkHolidayCodeToSocialSecretary from "../components/molecules/LinkHolidayCodeToSocialSecretary"
 
 
 const BaseRouter = ({ setAuth }) => (
@@ -69,6 +70,11 @@ const BaseRouter = ({ setAuth }) => (
 
         <Route exact path='/add-cost-center' element={<AddCostCenter></AddCostCenter>} />
         <Route exact path='/add-cost-center/:id' element={<AddCostCenter></AddCostCenter>} />
+        <Route exact path='/add-social-secretary' element={<AddSocialSecretary></AddSocialSecretary>} />
+        <Route exact path='/add-social-secretary/:id' element={<AddSocialSecretary></AddSocialSecretary>} />
+
+        <Route exact path='/link-holiday-code/:id' element={<LinkHolidayCodeToSocialSecretary></LinkHolidayCodeToSocialSecretary>} />
+
     </Routes>
 );
 
