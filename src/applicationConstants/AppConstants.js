@@ -63,6 +63,6 @@ export const GET_CONSTANTS = {
     'MIN_SALARY': 'Minimum salaries',
     'CONTRACT_TYPE':'Contract types',
     'REASONS':'Reasons',
-    'GENDER':'Gender',
+    'GENDER':'Genders',
     'MARITAL_STATUS': 'Marital status'
 };
