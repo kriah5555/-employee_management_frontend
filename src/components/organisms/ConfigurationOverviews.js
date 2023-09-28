@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, CostCenterApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -42,6 +42,26 @@ export default function ConfigurationOverviews() {
         {
             title: 'Description',
             field: 'description',
+            size: 200,
+        },
+        {
+            title: 'Status',
+            field: 'status',
+            size: 200,
+        },
+    ];
+
+    
+    //cost center headers
+    const cost_center_headers = [
+        {
+            title: 'Title',
+            field: 'name',
+            size: 200,
+        },
+        {
+            title: 'Location',
+            field: 'location.location_name',
             size: 200,
         },
         {
@@ -105,6 +125,10 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'reasons') {
             apiUrl = ReasonsApiUrl
             setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
+            
+        } else if (overviewContent === 'cost_center') {
+            apiUrl = CostCenterApiUrl + '/1/all'
+            setHeaders(cost_center_headers); setTitle('Manage cost center'); setAddTitle('Add cost center'); setAddUrl('/add-cost-center');
         }
 
         // Api call to get list data
@@ -186,6 +210,12 @@ export default function ConfigurationOverviews() {
                 navigate('/add-reasons/' + data.id)
             } else {
                 setDeleteUrl(ReasonsApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'cost_center') {
+            if (action === 'edit') {
+                navigate('/add-cost-center/' + data.id)
+            } else {
+                setDeleteUrl(CostCenterApiUrl + '/' + data.id)
             }
         }
     }

@@ -22,6 +22,9 @@ import HolidayCodeConfiguratuionOverview from '../components/organisms/HolidayCo
 // const langRegex = "(en|nl|fr)?"; 
 // const langPath =  `/:lang${langRegex}`;
 import AddReasons from '../components/organisms/AddReasons';
+import AddCostCenter from '../components/organisms/AddCostCenter';
+
+
 const BaseRouter = ({ setAuth }) => (
     <Routes>
         {/* route starts here */}
@@ -64,6 +67,8 @@ const BaseRouter = ({ setAuth }) => (
         <Route exact path='/add-reasons' element={<AddReasons></AddReasons>} />
         <Route exact path='/add-reasons/:id' element={<AddReasons></AddReasons>} />
 
+        <Route exact path='/add-cost-center' element={<AddCostCenter></AddCostCenter>} />
+        <Route exact path='/add-cost-center/:id' element={<AddCostCenter></AddCostCenter>} />
     </Routes>
 );
 
