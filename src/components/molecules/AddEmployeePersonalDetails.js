@@ -4,33 +4,8 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 
 
-export default function AddEmployeePersonalDetails({ tabIndex, employeeData, setEmployeeData, gender, setGender, language, setLanguage,
-    maritalStatus, setMaritalStatus, fuelCard, setFuelCard, companyCar, setCompanyCar, mealVoucher, setMealVoucher, functions, setFunctions }) {
-
-    const [options, setOptions] = useState([]);
-
-    const YesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }]
-
-    const VouchersOptions = [{ value: 'sodexo', label: 'Sodexo' }, { value: 'not applicable', label: 'Not applicable' }]
-
-    const spousesOptions = [{ value: 'no', label: 'No' }, { value: 'not applicable', label: 'With income' }, { value: 'not', label: 'Without income' }]
-
-
-    useEffect(() => {
-        AXIOS.service(EmployeeApiUrl + '/create/1', 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    setOptions(result.data)
-                } else {
-                    // setErrors(result.message)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
-
-
+export default function AddEmployeePersonalDetails({ options, employeeData, setEmployeeData, gender, setGender, language, setLanguage,
+    maritalStatus, setMaritalStatus, dependantSpouse, setDependantSpouse }) {
 
     //add employee personal detail fields 
     const addEmployeeDetailsFields = [
@@ -44,7 +19,7 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
 
         { title: "Gender", name: "gender_id", required: true, options: options.genders, selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Licence expiry", name: "licence_expiry", required: false, type: "date", style: "col-md-4 mt-4 float-left" },
+        { title: "Licence expiry", name: "license_expiry_date", required: false, type: "date", style: "col-md-4 mt-4 float-left" },
 
         { title: "Address: Street + House num", name: "street_house_no", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Postal code", name: "postal_code", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
@@ -55,18 +30,10 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
         { title: "Bank account number", name: "bank_account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
         { title: "Language", name: "language", required: true, options: options.languages, selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Marital status', name: 'marital_status_id', required: true, options: options.marital_status, selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Dependant spouse", name: "dependant_spouse", required: true, options: spousesOptions, selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Childrens", name: "childrens", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: 'Marital status', name: 'marital_status_id', required: true, options: options.marital_statuses, selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Dependant spouse", name: "dependant_spouse", required: true, options: options.dependent_spouse_options, selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        // { title: "Childrens", name: "childrens", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ];
-
-    const extraBenefitFields = [
-        { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Meal Voucher type", name: "meal_voucher_type", required: false, options: VouchersOptions, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-    ]
 
 
     // Function to set values of employee type
@@ -75,31 +42,18 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
         if (field !== 'dropdown') {
             employees[name] = value
         } else {
-            if (name === 'functions') {
-                let arr = []
-                value.map((val, i) => {
-                    arr.push(val.value)
-                })
-                setFunctions(value);
-                employees[name] = arr
-            } else {
-                if (name === 'gender_id') {
-                    setGender(value);
-                } else if (name === 'language') {
-                    setLanguage(value);
-                } else if (name === 'marital_status_id') {
-                    setMaritalStatus(value);
-                } else if (name === 'fuel_card') {
-                    setFuelCard(value)
-                } else if (name === 'company_car') {
-                    setCompanyCar(value)
-                } else {
-                    setMealVoucher(value)
-                }
-                employees[name] = value.value
+            if (name === 'gender_id') {
+                setGender(value);
+            } else if (name === 'language') {
+                setLanguage(value);
+            } else if (name === 'marital_status_id') {
+                setMaritalStatus(value);
+            } else if (name === 'dependant_spouse') {
+                setDependantSpouse(value)
             }
-            setEmployeeData(employees);
+            employees[name] = value.value
         }
+        setEmployeeData(employees);
     }
 
 
@@ -110,7 +64,7 @@ export default function AddEmployeePersonalDetails({ tabIndex, employeeData, set
                 formTitle={''}
                 redirectURL={'/manage-employees'}
                 formattedData={employeeData}
-                data={tabIndex === 0 ? addEmployeeDetailsFields : extraBenefitFields}
+                data={addEmployeeDetailsFields}
                 SetValues={setValues}
             ></FormsNew>
         </div>

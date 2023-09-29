@@ -18,7 +18,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
     const params = useParams();
 
     return (
-        <div className={view !== 'sectors' && formTitle ? "form-container my-5 border bg-white" : "pt-2 pb-5"}>
+        <div className={view !== 'sectors' && formTitle ? "form-container my-5 border bg-white" : "pt-2 pb-3"}>
             {view !== 'sectors' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             {data && <div className="d-flex px-5">
                 <form className={"col-md-12 px-0 pb-4 border-blue"}>

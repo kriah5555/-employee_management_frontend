@@ -371,7 +371,7 @@ li,
 }
 
 .react-tabs__tab--selected {
-    background: #61bfb5;
+    background: #61bfb5 !important;
 }
 
 .react-tabs__tab {

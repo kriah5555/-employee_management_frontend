@@ -4,30 +4,9 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 
 
-export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setEmployeeData, fuelCard, setFuelCard, companyCar, setCompanyCar, mealVoucher, setMealVoucher }) {
-
-    const [options, setOptions] = useState([]);
+export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setEmployeeData, fuelCard, setFuelCard, companyCar, setCompanyCar, mealVoucher, setMealVoucher, options }) {
 
     const YesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }]
-
-    const VouchersOptions = [{ value: 'sodexo', label: 'Sodexo' }, { value: 'not applicable', label: 'Not applicable' }]
-
-
-    useEffect(() => {
-        AXIOS.service(EmployeeApiUrl + '/create/1', 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    setOptions(result.data)
-                } else {
-                    // setErrors(result.message)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
-
-
 
     //add employee personal detail fields 
     const socialSecurityFields = [
@@ -39,14 +18,14 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Meal Voucher type", name: "meal_voucher_type", required: false, options: VouchersOptions, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: options.meal_voucher_options, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ]
 
     const extraPersonalInfo = [
         { title: "Id card front", name: "id_card_front", required: false, type: "text-area", style: "col-md-4 mt-4 float-left" },
         { title: "Id card back", name: "id_card_back", required: false, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: 'Description', name: 'description', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
+        { title: 'Extra information', name: 'extra_info', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
 
     ]
 
@@ -71,8 +50,8 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
                 setMealVoucher(value)
             }
             employees[name] = value.value
-            setEmployeeData(employees);
         }
+        setEmployeeData(employees);
     }
 
 

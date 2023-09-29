@@ -6,7 +6,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 
-export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries, setFunctionSalaries, locationTransport, setLocationTransport, functions, setFunctions, locations, setLocations }) {
+export default function AddEmployeeFunctionSalaries({ tabIndex, options, functionSalaries, setFunctionSalaries, locationTransport, setLocationTransport, functions, setFunctions, locations, setLocations, commute, setCommute }) {
 
     const FunctionSalariesHeaders = [
         { title: 'Function', style: 'col-md-3 pl-3' },
@@ -17,7 +17,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
 
     const TransportationHeaders = [
         { title: 'Location', style: 'col-md-3 pl-3' },
-        { title: 'Transport', style: 'col-md-3 text-center' },
+        { title: 'Commute', style: 'col-md-3 text-center' },
         { title: 'Distance(kms)', style: 'col-md-3 text-center' },
         { title: 'Actions', style: 'col-md-3 text-right pr-5' },
     ]
@@ -25,9 +25,6 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
     const headers = (tabIndex === 2 ? FunctionSalariesHeaders : TransportationHeaders)
     const [rows, setRows] = useState([1])
 
-    const functionOptions = [{ value: '1', label: 'Function 1' }, { value: '2', label: 'Function 2' }]
-
-    const LocationOptions = [{ value: '1', label: 'Location 1' }, { value: '2', label: 'Location 2' }]
 
     // Function to add new row in experience/age tab
     const AddNewRow = (type) => {
@@ -35,7 +32,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
         // Adding empty object for each row on add row click
         if (tabIndex === 2) {
             const rowData = {
-                'function': '',
+                'function_id': '',
                 'salary': '',
                 'experience': '',
             }
@@ -43,8 +40,8 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
 
         } else {
             const rowData = {
-                'location': '',
-                'transport': '',
+                'location_id': '',
+                'commute_type_id': '',
                 'distance': '',
             }
             setLocationTransport([...locationTransport, rowData])
@@ -81,7 +78,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
             data[index] = value
             setFunctions(data)
 
-            index_data[index]['function'] = value.value
+            index_data[index]['function_id'] = value.value
             setFunctionSalaries(index_data)
         } else if (type === 'salary') {
             index_data[index]['salary'] = value
@@ -94,10 +91,14 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
             data[index] = value
             setLocations(data)
 
-            index_data[index]['location'] = value.value
+            index_data[index]['location_id'] = value.value
             setLocationTransport(index_data)
-        } else if (type === 'transport') {
-            index_data[index]['transport'] = value
+        } else if (type === 'commute') {
+            const data = [...commute]
+            data[index] = value
+            setCommute(data)
+
+            index_data[index]['commute_type_id'] = value.value
             setLocationTransport(index_data)
         } else if (type === 'distance') {
             index_data[index]['distance'] = value
@@ -126,7 +127,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
                         <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
                             <div className="col-md-3 pl-0">
                                 <Dropdown
-                                    options={tabIndex === 2 ? functionOptions : LocationOptions}
+                                    options={tabIndex === 2 ? options.functions : options.locations}
                                     selectedOptions={tabIndex === 2 ? functions[index] : locations[index]}
                                     onSelectFunction={(e) => SetValues(e, (tabIndex === 2 ? 'function' : 'location'), index)}
                                     CustomStyle="col-md-8 pl-0 float-left"
@@ -137,7 +138,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
                                     styleMargin={''}
                                 ></Dropdown>
                             </div>
-                            <div className="col-md-3">
+                            {tabIndex === 2 && <div className="col-md-3">
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
                                         key={'function' + val}
@@ -145,16 +146,31 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, functionSalaries
                                         name={'salary'}
                                         CustomStyle={"col-md-8 float-left"}
                                         required={false}
-                                        value={tabIndex === 2 ? functionSalaries[index]['salary'] : locationTransport[index]['transport']}
-                                        setValue={(e) => SetValues(e, (tabIndex === 2 ? 'salary' : 'transport'), index)}
+                                        value={functionSalaries[index]['salary']}
+                                        setValue={(e) => SetValues(e, 'salary', index)}
                                     // error={''}
                                     ></TextInput>
                                 </div>
-                            </div>
+                            </div>}
+                            {tabIndex === 3 && <div className="col-md-3">
+                                <div className="row m-0 justify-content-center">
+                                    <Dropdown
+                                        options={options.commute_type_options}
+                                        selectedOptions={commute[index]}
+                                        onSelectFunction={(e) => SetValues(e, 'commute', index)}
+                                        CustomStyle="col-md-8 pl-0 float-left"
+                                        title={''}
+                                        required={false}
+                                        isMulti={false}
+                                        error={''}
+                                        styleMargin={''}
+                                    ></Dropdown>
+                                </div>
+                            </div>}
                             <div className="col-md-3">
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
-                                        key={'location' +val}
+                                        key={'location' + val}
                                         title={''}
                                         name={'experience'}
                                         CustomStyle={"col-md-8 float-left"}

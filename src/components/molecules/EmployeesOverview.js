@@ -69,7 +69,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails }) {
 
 
     useEffect(() => {
-        let ApiUrl = EmployeeApiUrl + '/get-company-employees/1'
+        let ApiUrl = EmployeeApiUrl + '/1'
         let Method = 'GET'
 
         AXIOS.service(ApiUrl, Method)

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
@@ -29,11 +29,44 @@ export default function EmployeeCreation() {
     const [mealVoucher, setMealVoucher] = useState();
     const [functions, setFunctions] = useState([]);
     const [locations, setLocations] = useState([]);
+    const [commute, setCommute] = useState([]);
+    const [dependantSpouse, setDependantSpouse] = useState([]);
+    const [selectedEmpTypeCategory, setSelectedEmpTypeCategory] = useState();
+    const [displaySubType, setDisplaySubType] = useState(false);
 
-    const [functionSalaries, setFunctionSalaries] = useState([{ 'function': 1, 'salary': '' }]);
-    const [locationTransport, setLocationTransport] = useState([{ 'location': '', 'transport': '', 'distance': '' }])
+
+    const [functionSalaries, setFunctionSalaries] = useState([{ 'function_id': '', 'salary': '', 'experience': '' }]);
+    const [locationTransport, setLocationTransport] = useState([{ 'location_id': '', 'commute_type_id': '', 'distance': '' }])
+    const [employeeContracts, setEmployeeContracts] = useState(
+        {
+            "employee_type_id": '',
+            "sub_type": "",
+            "schedule_type": "",
+            "employement_type": "",
+            "start_date": "",
+            "end_date": "",
+            "weekly_contract_hours": "",
+            "work_days_per_week": ''
+        }
+    )
 
     const [errors, setErrors] = useState([]);
+
+    const [options, setOptions] = useState([]);
+
+    useEffect(() => {
+        AXIOS.service(EmployeeApiUrl + '/create/1', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setOptions(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
 
     // Tabs data array for super admin
     const TabsData = [
@@ -53,24 +86,28 @@ export default function EmployeeCreation() {
         "email": "",
         "phone_number": "",
         "social_security_number": "",
-        "date_of_joining": "",
-        "licence_expiry": "",
+        "license_expiry_date": "",
         "language": "",
         "street_house_no": "",
         "postal_code": "",
         "city": "",
         "country": "",
         "bank_account_number": "",
-        "transport_id": "",
         "fuel_card": "",
         "company_car": "",
         "clothing_compensation": "",
+        "meal_voucher_amount":"",
+        "meal_voucher_id":"",
+        "social_secretary_number": "",
+        "contract number": "",
+        "extra_info":"",
     });
-
+    
 
     const OnSave = () => {
-        employeeData['functions'] = functionSalaries
-        employeeData['locations'] = locationTransport
+        employeeData['employee_function_details'] = functionSalaries
+        employeeData['employee_commute_details'] = locationTransport
+        employeeData['employee_contract_details'] = employeeContracts
         let ApiUrl = EmployeeApiUrl + '/store/1'
         let Method = 'POST'
         let requestData = employeeData
@@ -131,7 +168,9 @@ export default function EmployeeCreation() {
                                 gender={gender} setGender={setGender}
                                 language={language} setLanguage={setLanguage}
                                 maritalStatus={maritalStatus} setMaritalStatus={setMaritalStatus}
+                                dependantSpouse={dependantSpouse} setDependantSpouse={setDependantSpouse} 
                                 employeeData={employeeData} setEmployeeData={setEmployeeData}
+                                options={options}
                             ></AddEmployeePersonalDetails>
                         </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
@@ -139,7 +178,14 @@ export default function EmployeeCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddEmployeeContractTypes tabIndex={tabIndex}></AddEmployeeContractTypes></div>
+                        <div className="">
+                            <AddEmployeeContractTypes
+                                tabIndex={tabIndex} options={options}
+                                setEmployeeContracts={setEmployeeContracts} employeeContracts={employeeContracts}
+                                displaySubType={displaySubType} setDisplaySubType={setDisplaySubType}
+                                selectedEmpTypeCategory={selectedEmpTypeCategory} setSelectedEmpTypeCategory={setSelectedEmpTypeCategory}
+                            ></AddEmployeeContractTypes>
+                        </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
@@ -151,6 +197,7 @@ export default function EmployeeCreation() {
                                 tabIndex={tabIndex}
                                 functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
                                 functions={functions} setFunctions={setFunctions}
+                                options={options}
                             ></AddEmployeeFunctionSalaries>
                         </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
@@ -164,6 +211,8 @@ export default function EmployeeCreation() {
                                 tabIndex={tabIndex}
                                 locationTransport={locationTransport} setLocationTransport={setLocationTransport}
                                 locations={locations} setLocations={setLocations}
+                                commute={commute} setCommute={setCommute}
+                                options={options}
                             ></AddEmployeeFunctionSalaries>
                         </div>                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
@@ -174,6 +223,7 @@ export default function EmployeeCreation() {
                         <div className="">
                             <AddEmployeeAdditionalInfo
                                 tabIndex={tabIndex}
+                                options={options}
                                 fuelCard={fuelCard} setFuelCard={setFuelCard}
                                 companyCar={companyCar} setCompanyCar={setCompanyCar}
                                 mealVoucher={mealVoucher} setMealVoucher={setMealVoucher}
