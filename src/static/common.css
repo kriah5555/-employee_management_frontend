@@ -685,3 +685,86 @@ textarea {
 .react-tel-input {
     height: 2.5em !important;
 }
+
+.time-picker{
+    position: absolute;
+    bottom: 70%;
+    background-color: white;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 3px;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 3px;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+    border-top-right-radius: 3px;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+    border-top-left-radius: 3px;
+}
+.ui-timepicker-table {
+    display: inline-table;
+    width: 0;
+}
+.ui-widget {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 1em;
+}
+.ui-timepicker-table td {
+    padding: 0.1em;
+    width: 2.2em;
+}
+.ui-timepicker-hours, .ui-timepicker-minutes {
+    padding: 0.2em;
+}
+.ui-timepicker-table .ui-timepicker-title {
+    line-height: 1.8em;
+    text-align: center;
+}
+.ui-widget-header {
+    border: 1px solid #61bfb5;
+    background: #61bfb5;
+    color: black;
+    font-weight: bold;
+}
+.ui-helper-clearfix {
+    min-height: 0;
+}
+.ui-timepicker-table table {
+    margin: 0.15em 0 0 0;
+    border-collapse: collapse;
+}
+.ui-timepicker-table th.periods {
+    padding: 0.1em;
+    width: 2.2em;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    border: 1px solid #61bfb5;
+    background: #61bfb5;
+    font-weight: normal;
+    color: #fff;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    border: 1px solid #61bfb5;
+    background: #E8F8F3;
+    font-weight: normal;
+    color: #454545;
+}
+.ui-widget-content {
+    border: 1px solid #ddd !important;
+    /* background: #E8F8F3;  */
+    font-weight: normal;
+    color: #454545;
+}
+.ui-timepicker{
+    border: none;
+}
+.ui-timepicker-table td a {
+    display: block;
+    padding: 0.2em 0.3em 0.2em 0.5em;
+    width: 2.2em;
+    cursor: pointer;
+    text-align: right;
+    text-decoration: none;
+}

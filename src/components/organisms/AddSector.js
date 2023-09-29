@@ -13,6 +13,7 @@ import Dropdown from "../atoms/Dropdown";
 import BackIcon from "../../static/icons/BackIcon.png";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
+import TimeInput from "../atoms/TimeInput";
 
 export default function AddSector() {
 
@@ -26,7 +27,7 @@ export default function AddSector() {
     const [categoryNumber, setCategoryNumber] = useState('');
 
     const [experience, setExperience] = useState([{ 'level': 1, 'from': '', 'to': '' }]);
-    const [age, setAge] = useState([{ 'age': '', 'percentage': '' }])
+    const [age, setAge] = useState([{ 'age': '', 'percentage': '', 'max_time_to_work': '' }])
 
     const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
@@ -54,9 +55,10 @@ export default function AddSector() {
     ]
 
     const AgeHeaders = [
-        { title: 'Age', style: 'col-md-4 pl-3' },
-        { title: 'Salary percentage', style: 'col-md-4 text-center' },
-        { title: 'Actions', style: 'col-md-4 text-right pr-5' },
+        { title: 'Age', style: 'col-md-3 pl-3' },
+        { title: 'Salary percentage', style: 'col-md-3 text-center' },
+        { title: 'MaxTime', style: 'col-md-3 text-center' },
+        { title: 'Actions', style: 'col-md-3 text-right pr-5' },
     ]
 
     // Sectors tabs
@@ -234,6 +236,11 @@ export default function AddSector() {
             const data = [...age];
             data[index]['percentage'] = value
             setAge(data);
+        } else if (type === 'max_time') {
+            const data = [...age];
+            data[index]['max_time_to_work'] = value
+            setAge(data);
+            // setHourMin(value);
         } else {
             setDescription(value);
         }
@@ -464,7 +471,7 @@ export default function AddSector() {
                                 {ageRow.map((val, index) => {
                                     return (
                                         <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
-                                            <div className="col-md-4 pl-0">
+                                            <div className="col-md-3 pl-0">
                                                 <Dropdown
                                                     options={ageData}
                                                     selectedOptions={[{ value: age[index]['age'], label: age[index]['age'] }]}
@@ -477,13 +484,13 @@ export default function AddSector() {
                                                     styleMargin={''}
                                                 ></Dropdown>
                                             </div>
-                                            <div className="col-md-4">
+                                            <div className="col-md-3">
                                                 <div className="row m-0 justify-content-center">
                                                     <TextInput
                                                         key={ageData.age}
                                                         title={''}
                                                         name={ageData.age}
-                                                        CustomStyle={"col-md-4 float-left"}
+                                                        CustomStyle={"col-md-5 float-left"}
                                                         required={false}
                                                         value={age[index]['percentage'] ? age[index]['percentage'] : undefined}
                                                         setValue={(e) => SetValues(e, 'salary', index)}
@@ -492,7 +499,18 @@ export default function AddSector() {
                                                     ></TextInput>
                                                 </div>
                                             </div>
-                                            {index === ageRow.length - 1 && <div className="col-md-4 text-right pr-4">
+                                            <div className="col-md-3">
+                                                <div className="row m-0 justify-content-center">
+                                                    <TimeInput
+                                                        setTime={(e) => SetValues(e, 'max_time', index)}
+                                                        value={age[index]['max_time_to_work']}
+                                                        type="max_time"
+                                                        index={index}
+                                                        customStyle='col-5'
+                                                    ></TimeInput>
+                                                </div>
+                                            </div>
+                                            {index === ageRow.length - 1 && <div className="col-md-3 text-right pr-4">
                                                 {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow('age')}></img>}
                                                 {ageRow.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index, 'age')}></img>}
                                             </div>}
