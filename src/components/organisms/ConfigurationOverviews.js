@@ -136,7 +136,7 @@ export default function ConfigurationOverviews() {
             setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
 
         } else if (overviewContent === 'reasons') {
-            apiUrl = ReasonsApiUrl
+            apiUrl = ReasonsApiUrl + '-list/all'
             setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
             
         } else if (overviewContent === 'cost_center') {

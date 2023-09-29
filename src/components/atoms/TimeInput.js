@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TimePicker from "../../utilities/TimePicker";
 import { t } from "../../translations/Translation.js";
 import { GET_CONSTANTS } from "../../applicationConstants/AppConstants";
@@ -7,7 +7,20 @@ import RequiredIcon from "../../static/icons/exclamation-mark1.png"
 
 export default function TimeInput({ setTime, index, type, value, title, customStyle, required, error, styleMargin }) {
     const [startPicker, setStartPicker] = useState(false);
+    let timePickerRef = useRef();
 
+    useEffect(() => {
+        let handler = (e) => {
+            if (!timePickerRef.current.contains(e.target)) {
+
+                setStartPicker(false);
+            }
+        }
+        document.addEventListener('mousedown', handler)
+        return () => {
+            document.removeEventListener('mousedown', handler)
+        }
+    })
     return (
         <div className={"col-3 title-position font-weight-bold " + customStyle} >
             {/* {title && <label htmlFor="start_time" onClick={() => hideTimePopup()}  className="filter-title row m-0 mb-1">
@@ -21,15 +34,17 @@ export default function TimeInput({ setTime, index, type, value, title, customSt
                     {error}
                 </p>}
             </div>
-            {startPicker && (
-                <TimePicker
-                    hour={value ? value.split(':')[0] : '00'}
-                    minute={value ? value.split(':')[1] : '00'}
-                    index={index}
-                    type={type}
-                    setHourMin={setTime}
-                />
-            )}
+            <div ref={timePickerRef}>
+                {startPicker && (
+                    <TimePicker
+                        hour={value ? value.split(':')[0] : '00'}
+                        minute={value ? value.split(':')[1] : '00'}
+                        index={index}
+                        type={type}
+                        setHourMin={setTime}
+                    />
+                )}
+            </div>
             <input
                 type=""
                 name="start_time"
