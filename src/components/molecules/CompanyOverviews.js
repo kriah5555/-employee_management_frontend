@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -72,6 +72,25 @@ export default function CompanyOverviews({ overviewContent }) {
         }
     ];
 
+    //cost center headers
+    const cost_center_headers = [
+        {
+            title: 'Title',
+            field: 'name',
+            size: 200,
+        },
+        {
+            title: 'Location',
+            field: 'location.location_name',
+            size: 200,
+        },
+        {
+            title: 'Status',
+            field: 'status',
+            size: 200,
+        },
+    ];
+
     useEffect(() => {
         let ApiUrl;
         if (overviewContent === 'company') {
@@ -83,11 +102,14 @@ export default function CompanyOverviews({ overviewContent }) {
         } else if (overviewContent === 'workstation') {
             setHeaders(Workstation_headers);
             ApiUrl = WorkstationListApiUrl + '/1/1'
+        } else if (overviewContent === 'cost center') {
+            setHeaders(cost_center_headers)
+            ApiUrl = CostCenterApiUrl + '/1/all'
         }
         AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
                 if (result?.success && result.data.length !== listData.length) {
-                    if (overviewContent === 'company' || overviewContent === 'workstation') {
+                    if (overviewContent === 'company' || overviewContent === 'workstation' || overviewContent === 'cost center') {
                         setListData(result.data)
                     } else if (overviewContent === 'location') {
                         let arr = []
@@ -157,6 +179,12 @@ export default function CompanyOverviews({ overviewContent }) {
                 navigate('/manage-companies/workstation/' + data.id)
             } else {
                 setDeleteUrl(WorkstationApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'cost center') {
+            if (action === 'edit') {
+                navigate('/manage-companies/cost_center/' + data.id)
+            } else {
+                setDeleteUrl(CostCenterApiUrl + '/' + data.id)
             }
         }
     }

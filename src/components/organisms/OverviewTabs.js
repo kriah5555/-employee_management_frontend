@@ -9,6 +9,7 @@ import ExportIcon from "../../static/icons/Export.svg";
 import AddLocationIcon from "../../static/icons/AddLocation.svg"
 import AddWorkstationIcon from "../../static/icons/Workstation.svg"
 import { ToastContainer } from 'react-toastify';
+import SalariesIcon from "../../static/icons/Salaries.svg";
 
 export default function OverviewTabs() {
 
@@ -28,6 +29,10 @@ export default function OverviewTabs() {
             } else if (window.location.hash === '#workstation') {
                 setTabIndex(2);
                 getRightHeaderContent('workstation');
+                window.location.hash = ''
+            } else if (window.location.hash === '#cost_center') {
+                setTabIndex(3)
+                getRightHeaderContent('cost center');
                 window.location.hash = ''
             }
             window.location.hash = ''
@@ -49,6 +54,10 @@ export default function OverviewTabs() {
             setAddIcon(AddWorkstationIcon);
             setAddTitle('Add workstation');
             setAddUrl('/manage-companies/workstation/0')
+        } else if (tabName === 'cost center') {
+            setAddIcon(SalariesIcon);
+            setAddTitle('Add cost center');
+            setAddUrl('/manage-companies/cost_center/0')
         } else {
             setAddIcon('');
             setAddTitle('');
@@ -59,6 +68,7 @@ export default function OverviewTabs() {
         { tabHeading: t("COMPANY"), tabName: 'company' },
         { tabHeading: t("LOCATIONS"), tabName: 'location' },
         { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
+        { tabHeading: t("COST_CENTER"), tabName: 'cost center' },
         { tabHeading: t("CONTRACTS"), tabName: 'contracts' },
         { tabHeading: t("DIMONA"), tabName: 'dimona' },
         { tabHeading: t("RULES"), tabName: 'rules' },
@@ -66,7 +76,7 @@ export default function OverviewTabs() {
 
 
     return (
-        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index) }>
+        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
             <ToastContainer
                 position="top-center"
                 autoClose={2000}
@@ -85,12 +95,12 @@ export default function OverviewTabs() {
                         <Tab key={val.tabName} onClick={() => getRightHeaderContent(val.tabName)} >{val.tabHeading}</Tab>
                     )
                 })}
-                {addIcon && <div className="react-tabs__tab border-0 right-end-tab">
-                    <div className="d-flex justify-content-end">
-                        {<a href={addUrl}><p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
+                {addIcon && <div className="react-tabs__tab border-0">
+                    <div className="d-flex justify-content-start">
+                        {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
                         {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
-                        <img src={FilterIcon} className="header-icon ml-4"></img>
-                        <img src={ExportIcon} className="header-icon ml-4"></img>
+                        {/* <img src={FilterIcon} className="header-icon ml-2"></img>
+                        <img src={ExportIcon} className="header-icon ml-2"></img> */}
                     </div>
                 </div>}
             </TabList>
@@ -105,6 +115,9 @@ export default function OverviewTabs() {
 
             <TabPanel>
                 <div className="tablescroll"><CompanyOverviews overviewContent={'workstation'}></CompanyOverviews></div>
+            </TabPanel>
+            <TabPanel>
+                <div className="tablescroll"><CompanyOverviews overviewContent={'cost center'}></CompanyOverviews></div>
             </TabPanel>
 
             <TabPanel>

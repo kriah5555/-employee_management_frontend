@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import FormsNew from "../molecules/FormsNew";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CostCenterApiUrl } from "../../routes/ApiEndPoints"
-
-export default function AddCostCenter() {
+import CompanyForm from "../molecules/CompanyForm";
+import CustomButton from "../atoms/CustomButton";
+export default function AddCostCenter(redirectURL) {
 
     const [costCenterData, setCostCenterData] = useState({
         "name": "",
@@ -76,15 +76,15 @@ export default function AddCostCenter() {
     useEffect(() => {
         if (costCenterData.location_id !== "" && dropdownOptions.workstations) {
             let id = costCenterData.location_id;
-                const options = dropdownOptions.workstations[id] || [];
-                setWorkstationsOptions(options)
-                setWorkstations([])
+            const options = dropdownOptions.workstations[id] || [];
+            setWorkstationsOptions(options)
+            setWorkstations([])
         }
     }, [costCenterData.location_id])
 
     // Fetch data of cost center for update
     useEffect(() => {
-        if (params.id) {
+        if (params.id && params.id != 0) {
             let editApiUrl = CostCenterApiUrl + '/' + params.id + '/edit'
             // Api call to get details from data
             AXIOS.service(editApiUrl, 'GET')
@@ -169,7 +169,7 @@ export default function AddCostCenter() {
             let method = 'POST'
 
             // Updation url and method
-            if (params.id !== undefined) {
+            if (params.id !== undefined && params.id != 0) {
                 url = CostCenterApiUrl + '/' + params.id
                 method = 'PUT'
             }
@@ -179,7 +179,7 @@ export default function AddCostCenter() {
                 .then((result) => {
                     if (result?.success) {
                         setSuccessMessage(result.message);
-                        navigate('/manage-configurations/cost_center');
+                        navigate('/manage-companies#' + 'cost%20center');
                         toast.success(result.message[0], {
                             position: "top-center",
                             autoClose: 2000,
@@ -201,28 +201,24 @@ export default function AddCostCenter() {
             setErrors(['Please fill required fields'])
         }
     }
-    
+
     return (
-        <div className="right-container">
-            {/* {successMessage && <ModalPopup
-            title={('SUCCESS')}
-            body={(successMessage)}
-            onHide={() => navigate('/manage-configurations/cost_center')}
-        ></ModalPopup>} */}
+        <>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={('Validation error!')}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <FormsNew
-                view="cost center"
-                formTitle={'Add cost center'}
-                redirectURL={'/manage-configurations/cost_center'}
-                formattedData={costCenterData}
-                data={reasonFields}
+            <CompanyForm
+                title4={'Add cost center'}
+                data4={reasonFields}
+                formattedData1={costCenterData}
                 SetValues={setValues}
-                OnSave={OnSave}
-            ></FormsNew>
-        </div>
-    );
+            ></CompanyForm>
+            <div className="col-md-12 my-4 text-right pr-5">
+                <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
+                <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
+            </div>
+        </>
+    )
 }

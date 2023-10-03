@@ -24,7 +24,6 @@ export default function Configurations() {
         { title: t('GROUP_FUNCTIONS'), icon: GroupFunctionsIcon, styleClass: subTabStyle, type: 'group_functions' },
         { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, type: 'min_salary' },
         { title: t('REASONS'), icon: Notification, styleClass: subTabStyle, type: 'reasons' },
-        { title: t('COST_CENTER'), icon: SalariesIcon, styleClass: subTabStyle, type: 'cost_center' },
         { title: t('SOCIAL_SECRETARY'), icon: SocialSecretaryIcon, styleClass: subTabStyle, type: 'social_secretary' },
 
     ]

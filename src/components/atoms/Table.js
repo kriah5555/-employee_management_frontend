@@ -41,7 +41,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
 
     // const searchStyle = showDetails ? { width: '' } : { width: '200%', border: '0.5px solid #ABABAB', borderRadius: '5px' }
 
-    const searchStyle = showDetails ? { width: '' } : { width: '200%'}
+    const searchStyle = showDetails ? { width: '' } : { width: '200%' }
 
 
     //Table options
@@ -105,7 +105,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'cost center') ? false : true
         }),
         rowData => ({
             icon: () => getEditIcon(),
@@ -146,15 +146,15 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                                 // Apply changes to the updatedData array based on the "changes" object
                                 for (const rowId in changes) {
                                     const rowIndex = updatedData.findIndex(
-                                      (item) => item.id === changes[rowId].oldData.id
+                                        (item) => item.id === changes[rowId].oldData.id
                                     );
                                     if (rowIndex !== -1) {
-                                      updatedData[rowIndex] = {
-                                        ...updatedData[rowIndex],
-                                        ...changes[rowId].newData,
-                                      };
+                                        updatedData[rowIndex] = {
+                                            ...updatedData[rowIndex],
+                                            ...changes[rowId].newData,
+                                        };
                                     }
-                                  }
+                                }
 
                                 setRows(updatedData);
                                 SaveSalaries(updatedData);
