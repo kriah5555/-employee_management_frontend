@@ -95,7 +95,7 @@ export default function OverviewTabs() {
                         <Tab key={val.tabName} onClick={() => getRightHeaderContent(val.tabName)} >{val.tabHeading}</Tab>
                     )
                 })}
-                {addIcon && <div className="react-tabs__tab border-0">
+                {addIcon && <div className="react-tabs__tab border-0 float-right">
                     <div className="d-flex justify-content-start">
                         {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
                         {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
