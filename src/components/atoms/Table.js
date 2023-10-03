@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import EyeIcon from "../../static/icons/Eye.png"
 import EditIcon from "../../static/icons/Edit.svg"
 import DeleteIcon from "../../static/icons/Delete.svg"
+import LinkIcon from "../../static/icons/link.png"
 
 import MaterialTable from "material-table";
 import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear } from "@material-ui/icons";
@@ -97,6 +98,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     const getViewIcon = () => { return (<img className="shortcut-icon" src={EyeIcon}></img>) }
     const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
     const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
+    const getLinkIcon = () => { return (<img className="header-icon " src={LinkIcon}></img>) }
 
 
     //Define actions based on requirement (Below actions are for view and edit)
@@ -105,7 +107,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary') ? false : true
+        }),
+        rowData => ({
+            icon: () => getLinkIcon(),
+            tooltip: 'Link holiday code',
+            onClick: (event, rowData) => viewAction(rowData, 'link'),
+            hidden: (tableName === 'social_secretary') ? false : true
         }),
         rowData => ({
             icon: () => getEditIcon(),

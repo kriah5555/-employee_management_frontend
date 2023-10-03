@@ -237,7 +237,7 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'social_secretary') {
             if (action === 'edit') {
                 navigate('/add-social-secretary/' + data.id)
-            } else if (action === 'link_code'){
+            } else if (action === 'link'){
                 navigate('/link-holiday-code/' + data.id)
             } else {
                 setDeleteUrl(SocialSecretaryApiUrl + '/' + data.id)
@@ -278,7 +278,7 @@ export default function ConfigurationOverviews() {
                 </div>
 
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={'function'} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
                 </div>
             </div>}
             {/* Minimum salary configurations */}

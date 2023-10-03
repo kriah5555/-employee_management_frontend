@@ -87,17 +87,17 @@ export default function LinkHolidayCodeToSocialSecretary() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>} */}
-            <div className="form-container my-5 border bg-white">
-                <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>Link holiday code</h2>
+            <div className="form-container my-3 border bg-white">
+                <h2 id="text-indii-blue" className="col-md-12 px-3 pt-4 mb-0 ml-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>Link holiday code</h2>
                 <div className="row m-0 my-3 px-5 pt-3 table-head-bg">
                     <div className="col-md-4 text-start">
-                        <h4>Holiday code name</h4>
+                        <h5>Holiday code name</h5>
                     </div>
                     <div className="col-md-4">
-                        <h4>Internal code</h4>
+                        <h5>Internal code</h5>
                     </div>
                     <div className="col-md-4">
-                        <h4>Social secretary code</h4>
+                        <h5>Social secretary code</h5>
                     </div>
                 </div>
                 {listData.map((val, i) => {
