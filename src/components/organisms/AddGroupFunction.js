@@ -51,21 +51,19 @@ export default function AddGroupFunction() {
 
     //Fetch dropdown data of sectors
     useEffect(() => {
-        if (!params.id) {
-            let addApiUrl = GroupFunctionApiUrl + '/create'
-            AXIOS.service(addApiUrl, 'GET')
-                .then((result) => {
-                    if (result?.success) {
-                        setSectorList(result.data.sectors);
-                        setCategories(result.data.categories);
-                    } else {
-                        setErrors(result.message)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
+        let addApiUrl = GroupFunctionApiUrl + '/create'
+        AXIOS.service(addApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setSectorList(result.data.sectors);
+                    setCategories(result.data.categories);
+                } else {
+                    setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, [])
 
     // Fetch group function data based on param id to add default inputs
@@ -147,12 +145,14 @@ export default function AddGroupFunction() {
             setGroupName(value);
         } else if (type === 3) {
             let count = 1
+            let arr = [];
             while (count <= categories[value.value]) {
-                categoriesList.push({ value: count, label: count })
+                arr.push({ value: count, label: count })
                 count = count + 1
             }
-            setCategoriesList(categoriesList);
+            setCategoriesList(arr);
             setSector(value);
+            setFunctionCategory("")
         } else if (type === 4) {
             setFunctionCategory(value);
         } else {

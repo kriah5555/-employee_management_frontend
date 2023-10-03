@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl, CostCenterApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -42,26 +42,6 @@ export default function ConfigurationOverviews() {
         {
             title: 'Description',
             field: 'description',
-            size: 200,
-        },
-        {
-            title: 'Status',
-            field: 'status',
-            size: 200,
-        },
-    ];
-
-    
-    //cost center headers
-    const cost_center_headers = [
-        {
-            title: 'Title',
-            field: 'name',
-            size: 200,
-        },
-        {
-            title: 'Location',
-            field: 'location.location_name',
             size: 200,
         },
         {
@@ -139,10 +119,6 @@ export default function ConfigurationOverviews() {
             apiUrl = ReasonsApiUrl + '-list/all'
             setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
             
-        } else if (overviewContent === 'cost_center') {
-            apiUrl = CostCenterApiUrl + '/1/all'
-            setHeaders(cost_center_headers); setTitle('Manage cost center'); setAddTitle('Add cost center'); setAddUrl('/add-cost-center');
-
         } else if (overviewContent === 'social_secretary') {
             apiUrl = SocialSecretaryApiUrl
             setHeaders(social_secretary_headers); setTitle('Manage social secretary'); setAddTitle('Add social secretary'); setAddUrl('/add-social-secretary');
@@ -227,12 +203,6 @@ export default function ConfigurationOverviews() {
                 navigate('/add-reasons/' + data.id)
             } else {
                 setDeleteUrl(ReasonsApiUrl + '/' + data.id)
-            }
-        } else if (overviewContent === 'cost_center') {
-            if (action === 'edit') {
-                navigate('/add-cost-center/' + data.id)
-            } else {
-                setDeleteUrl(CostCenterApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'social_secretary') {
             if (action === 'edit') {

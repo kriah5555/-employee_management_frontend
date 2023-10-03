@@ -14,8 +14,7 @@ import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl } from "../../routes/A
 import CompanyView from "../molecules/CompanyView";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
-
-
+import AddCostCenterForm from "../molecules/AddCostCenterForm";
 
 export default function CompanyCreation() {
 
@@ -186,7 +185,7 @@ export default function CompanyCreation() {
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
                     <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-companies#' + params.addType)} src={BackIcon}></img>
-                    {params.addType !== 'company-view' ? ((params.id !== '0' ? 'Edit ' : 'Create ') + (params.addType === 'company-single' ? "company" : params.addType)) : 'Company details'}
+                    {params.addType !== 'company-view' ? ((params.id !== '0' ? 'Edit ' : 'Create ') + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' ? 'cost center' : params.addType))) : 'Company details'}
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
@@ -281,8 +280,9 @@ export default function CompanyCreation() {
                     selectedFunction={selectedFunction}
                     setSelectedFunction={setSelectedFunction}
                 ></WorkstationForm>}
+                {params.addType === 'cost_center' && <AddCostCenterForm></AddCostCenterForm>}
                 {params.addType === 'company-view' && <CompanyView></CompanyView>}
-                {params.addType !== 'company-view' && <div className="col-md-12 my-4 text-right pr-5">
+                {params.addType !== 'company-view' && params.addType !== 'cost_center' && <div className="col-md-12 my-4 text-right pr-5">
                     <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle=""></CustomButton>
                     <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
                 </div>}
