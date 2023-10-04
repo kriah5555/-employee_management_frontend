@@ -94,11 +94,12 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
 
     //add company fields 
     const addCompanyFieldsArray = [
+        { title: "VAT number", name: "employer_id", type: "input_field" },
         { title: "Company name", name: "company_name", required: true, type: "input_field" },
         { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, required: true, type: "dropdown" },
         { title: "Email", name: "email", required: true, type: "input_field" },
-        { title: "Phone number", name: "phone", required: true, type: "phone_input", style:"col-md-4 mt-4 mb-1 float-left" },
-        { title: "Employer Id", name: "employer_id", type: "input_field" },
+        { title: "Phone number", name: "phone", required: true, type: "phone_input", style:"col-md-4 mt-1 float-left" },
+        // { title: "VAT number", name: "employer_id", type: "input_field" },
         { title: "Sender number", name: "sender_number", required: false, type: "input_field" },
         { title: "Username", name: "username", required: false, type: "input_field" },
         { title: "RSZ number", name: "rsz_number", required: false, type: "input_field" },

@@ -40,10 +40,15 @@ export default function ConfigurationOverviews() {
             size: 200,
         },
         {
-            title: 'Description',
-            field: 'description',
-            size: 200,
+            title: 'Sector',
+            field:'sector_id',
+            size:200,
         },
+        // {
+        //     title: 'Description',
+        //     field: 'description',
+        //     size: 200,
+        // },
         {
             title: 'Status',
             field: 'status',

@@ -35,7 +35,7 @@ export default function CompanyForm({ view, data1, data2, data3, data4, title1, 
                                     name={field.name}
                                     value={formattedData1 !== undefined ? formattedData1[index][field.name] : ''}
                                     setValue={(e) => SetValues(index, field.name, e)}
-                                    CustomStyle={"col-md-6 mt-4 mb-1 float-left"}
+                                    CustomStyle={"col-md-6 mt-4 float-left"}
                                     required={field.required}
                                 />
                             )

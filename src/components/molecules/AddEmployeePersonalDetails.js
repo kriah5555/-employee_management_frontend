@@ -9,16 +9,18 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
 
     //add employee personal detail fields 
     const addEmployeeDetailsFields = [
+        { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+
         { title: "First name", name: "first_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Last name", name: "last_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Mobile number", name: "phone_number", required: true, type: "phone_input", style: "col-md-4 mt-4 mb-1 float-left" },
+        { title: "Mobile number", name: "phone_number", required: true, type: "phone_input", style: "col-md-4 mt-4 float-left" },
 
         { title: "Email", name: "email", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "DOB", name: "date_of_birth", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: "Place of birth", name: "birth_place", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
         { title: "Gender", name: "gender_id", required: true, options: options.genders, selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        // { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Licence expiry", name: "license_expiry_date", required: false, type: "date", style: "col-md-4 mt-4 float-left" },
 
         { title: "Address: Street + House num", name: "street_house_no", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
@@ -40,7 +42,13 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
     const setValues = (index, name, value, field) => {
         const employees = { ...employeeData };
         if (field !== 'dropdown') {
-            employees[name] = value
+            if (name === 'social_security_number') {
+                if (value.length <=15){
+                    employees[name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+                }
+            } else {
+                employees[name] = value
+            }
         } else {
             if (name === 'gender_id') {
                 setGender(value);
