@@ -77,7 +77,7 @@ export default function ConfigurationOverviews() {
     // Headers for social secretory
     const social_secretary_headers = [
         {
-            title: 'Social secretary number',
+            title: 'Social secretary',
             field: 'name',
             size: 200,
         },

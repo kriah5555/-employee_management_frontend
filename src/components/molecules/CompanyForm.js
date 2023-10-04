@@ -3,7 +3,7 @@ import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
-export default function CompanyForm({ view, data1, data2, title1, title2, SetValues, index, formattedData1, formattedData2 }) {
+export default function CompanyForm({ data1, data2, title1, title2, SetValues, index, formattedData1, formattedData2 }) {
 
     return (
         <div className="mt-3">

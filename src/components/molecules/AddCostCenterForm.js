@@ -126,7 +126,7 @@ export default function AddCostCenterForm() {
         }
     }, [])
 
-    const reasonFields = [
+    const costCenterFields = [
         // cost center fields
         { title: 'Name', name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
         { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
@@ -212,8 +212,7 @@ export default function AddCostCenterForm() {
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <CompanyForm
-                view='cost center'
-                data1={reasonFields}
+                data1={costCenterFields}
                 formattedData1={costCenterData}
                 SetValues={setValues}
                 index={0}
