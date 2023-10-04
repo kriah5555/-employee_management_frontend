@@ -280,7 +280,9 @@ export default function CompanyCreation() {
                     selectedFunction={selectedFunction}
                     setSelectedFunction={setSelectedFunction}
                 ></WorkstationForm>}
-                {params.addType === 'cost_center' && <AddCostCenterForm></AddCostCenterForm>}
+                {params.addType === 'cost_center' && <AddCostCenterForm
+                    view='cost center'
+                ></AddCostCenterForm>}
                 {params.addType === 'company-view' && <CompanyView></CompanyView>}
                 {params.addType !== 'company-view' && params.addType !== 'cost_center' && <div className="col-md-12 my-4 text-right pr-5">
                     <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle=""></CustomButton>

@@ -53,7 +53,7 @@ export default function OverviewTabs() {
         } else if (tabName === 'workstation') {
             setAddIcon(AddWorkstationIcon);
             setAddTitle('Add workstation');
-            setAddUrl('/manage-companies/workstation/0')
+        setAddUrl('/manage-companies/workstation/0')
         } else if (tabName === 'cost center') {
             setAddIcon(SalariesIcon);
             setAddTitle('Add cost center');

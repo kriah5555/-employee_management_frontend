@@ -17,7 +17,7 @@ import CompanyCreation from '../components/organisms/CompanyCreation';
 import HolidayCodeCreation from '../components/molecules/HolidayCodeCreation';
 import MyAccount from "../pages/MyAccount";
 import EmployeeCreation from '../components/organisms/EmployeeCreation';
-import HolidayCodeConfiguratuionOverview from '../components/organisms/HolidayCodeConfigurationOverview';
+import HolidayCodeConfigurationOverview from '../components/organisms/HolidayCodeConfigurationOverview';
 // const langRegex = "(en|nl|fr)?"; 
 // const langPath =  `/:lang${langRegex}`;
 import AddReasons from '../components/organisms/AddReasons';
@@ -62,7 +62,7 @@ const BaseRouter = ({ setAuth }) => (
 
         <Route exact path='/my-account' element={<MyAccount setAuth={setAuth}></MyAccount>} />
         <Route exact path='/settings' element={<Settings></Settings>} />
-        <Route exact path='/manage-holiday-configurations/:type' element={<HolidayCodeConfiguratuionOverview></HolidayCodeConfiguratuionOverview>} />
+        <Route exact path='/manage-holiday-configurations/:type' element={<HolidayCodeConfigurationOverview></HolidayCodeConfigurationOverview>} />
 
         <Route exact path='/add-reasons' element={<AddReasons></AddReasons>} />
         <Route exact path='/add-reasons/:id' element={<AddReasons></AddReasons>} />

@@ -6,9 +6,9 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CostCenterApiUrl } from "../../routes/ApiEndPoints"
 import CompanyForm from "../molecules/CompanyForm";
 import CustomButton from "../atoms/CustomButton";
-export default function AddCostCenter(redirectURL) {
+export default function AddCostCenter() {
 
-    const [costCenterData, setCostCenterData] = useState({
+    const [costCenterData, setCostCenterData] = useState([{
         "name": "",
         "company_id": 1,
         "cost_center_number": "",
@@ -16,7 +16,7 @@ export default function AddCostCenter(redirectURL) {
         "status": "",
         "workstations": [],
         "employees": [],
-    });
+    }]);
 
     //for dropdown options
     const [location, setLocation] = useState('');
@@ -72,15 +72,15 @@ export default function AddCostCenter(redirectURL) {
             })
     }, [])
 
-    //setting options based on location
+    // setting options based on location
     useEffect(() => {
-        if (costCenterData.location_id !== "" && dropdownOptions.workstations) {
-            let id = costCenterData.location_id;
+        if (costCenterData[0].location_id !== "" && dropdownOptions.workstations) {
+            let id = costCenterData[0].location_id;
             const options = dropdownOptions.workstations[id] || [];
             setWorkstationsOptions(options)
             setWorkstations([])
         }
-    }, [costCenterData.location_id])
+    }, [costCenterData[0]?.location_id])
 
     // Fetch data of cost center for update
     useEffect(() => {
@@ -102,7 +102,7 @@ export default function AddCostCenter(redirectURL) {
                         response.employees_value.map((val, i) => {
                             selected_employees.push(val.value)
                         })
-                        let data = {
+                        let data = [{
                             "name": response.name,
                             "company_id": response.company_id,
                             "cost_center_number": response.cost_center_number,
@@ -111,7 +111,7 @@ export default function AddCostCenter(redirectURL) {
                             "workstations": work_stations,
                             "employees": selected_employees,
                             "status": response.status,
-                        }
+                        }]
                         setCostCenterData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
@@ -126,8 +126,8 @@ export default function AddCostCenter(redirectURL) {
 
     const reasonFields = [
         // cost center fields
-        { title: 'Name', name: 'name', required: true, type: 'text', style: 'col-md-6 mt-4 float-left' },
-        { title: 'Cost center number', name: 'cost_center_number', required: true, type: "text", style: 'col-md-6 mt-4 float-left' },
+        { title: 'Name', name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
+        { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
         { title: 'Location', name: 'location_id', required: true, options: dropdownOptions.locations, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Employees', name: 'employees', required: false, options: dropdownOptions.employees, isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
@@ -136,9 +136,9 @@ export default function AddCostCenter(redirectURL) {
 
     // Function to set values of cost center
     const setValues = (index, name, value, field) => {
-        const cost_center_data = { ...costCenterData };
+        const cost_center_data = [...costCenterData];
         if (field !== 'dropdown') {
-            cost_center_data[name] = value
+            cost_center_data[0][name] = value
         } else {
             if (name === 'workstations' || name === 'employees') {
                 let arr = []
@@ -146,10 +146,10 @@ export default function AddCostCenter(redirectURL) {
                     arr.push(val.value)
                 })
                 name === "workstations" ? setWorkstations(value) : setEmployees(value);
-                cost_center_data[name] = arr
+                cost_center_data[0][name] = arr
             } else {
                 setLocation(value);
-                cost_center_data[name] = value.value;
+                cost_center_data[0][name] = value.value;
             }
 
         }
@@ -158,11 +158,11 @@ export default function AddCostCenter(redirectURL) {
 
     // On submit function for create and update cost center
     const OnSave = () => {
-        if (costCenterData.name) {
+        if (costCenterData[0].name) {
             let status = 1
             if (inactive) { status = 0 }
 
-            costCenterData['status'] = status
+            costCenterData[0]['status'] = status
 
             // Creation url and method
             let url = CostCenterApiUrl
@@ -175,11 +175,11 @@ export default function AddCostCenter(redirectURL) {
             }
 
             // APICall for create and updation of cost center
-            AXIOS.service(url, method, costCenterData)
+            AXIOS.service(url, method, costCenterData[0])
                 .then((result) => {
                     if (result?.success) {
                         setSuccessMessage(result.message);
-                        navigate('/manage-companies#' + 'cost%20center');
+                        navigate('/manage-companies#' + 'cost_center');
                         toast.success(result.message[0], {
                             position: "top-center",
                             autoClose: 2000,
@@ -210,10 +210,11 @@ export default function AddCostCenter(redirectURL) {
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <CompanyForm
-                title4={'Add cost center'}
-                data4={reasonFields}
+                view='cost center'
+                data1={reasonFields}
                 formattedData1={costCenterData}
                 SetValues={setValues}
+                index={0}
             ></CompanyForm>
             <div className="col-md-12 my-4 text-right pr-5">
                 <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
