@@ -6,7 +6,9 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CostCenterApiUrl } from "../../routes/ApiEndPoints"
 import CompanyForm from "../molecules/CompanyForm";
 import CustomButton from "../atoms/CustomButton";
-export default function AddCostCenter() {
+
+
+export default function AddCostCenterForm() {
 
     const [costCenterData, setCostCenterData] = useState([{
         "name": "",
