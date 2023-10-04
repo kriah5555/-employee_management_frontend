@@ -46,7 +46,7 @@ export default function AddEmployeeTypes() {
         "consecutive_days_limit": 5,
         "icon_color": "",
         "start_in_past": false,
-        // "counters": false,
+        "counters": false,
         "contract_hours_split": false,
         "leave_access": false,
         "holiday_access": false
@@ -120,7 +120,7 @@ export default function AddEmployeeTypes() {
                             "consecutive_days_limit": response.employee_type_config.consecutive_days_limit,
                             "icon_color": response.employee_type_config.icon_color,
                             "start_in_past": response.employee_type_config.start_in_past,
-                            // "counters": response.employee_type_config.counters,
+                            "counters": response.employee_type_config.counters ?  response.employee_type_config.counters : false,
                             "contract_hours_split": response.employee_type_config.contract_hours_split,
                             "leave_access": response.employee_type_config.leave_access,
                             "holiday_access": response.employee_type_config.holiday_access,
