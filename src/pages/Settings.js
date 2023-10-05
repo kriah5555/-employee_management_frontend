@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import EmployeeTypeIcon from "../static/icons/EmployeeType.png";
-import NotificationIcon from "../static/icons/notifications.png";
+import GenderIcon from "../static/icons/Gender.svg";
+import MaritalStatusIcon from "../static/icons/Gender.svg";
+import MealVoucherIcon from "../static/icons/MealVoucher.svg";
 import { t } from "../translations/Translation";
-import CustomTable from "../components/atoms/CustomTable";
-import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl } from "../routes/ApiEndPoints";
-import { APICALL as AXIOS } from "../services/AxiosServices";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import ErrorPopup from "../utilities/popup/ErrorPopup";
-import voucher from "../static/icons/ID.svg";
 import SettingsOverview from "../components/organisms/SettingsOverview";
-import Table from "../components/atoms/Table";
 
 export default function Settings() {
 
@@ -29,9 +25,9 @@ export default function Settings() {
 
     // settings page data
     const settingTabs = [
-        { title: t('GENDER'), icon: EmployeeTypeIcon, styleClass: subTabStyle, url: '', type: 'gender' },
-        { title: t('MARITAL_STATUS'), icon: EmployeeTypeIcon, styleClass: subTabStyle, url: '', type: 'marital_status' },
-        { title: t('MEAL_VOUCHERS'), icon: voucher, styleClass: subTabStyle, url: '', type: 'meal_vouchers' },
+        { title: t('GENDER'), icon: GenderIcon, styleClass: subTabStyle, url: '', type: 'gender' },
+        { title: t('MARITAL_STATUS'), icon: MaritalStatusIcon, styleClass: subTabStyle, url: '', type: 'marital_status' },
+        { title: t('MEAL_VOUCHERS'), icon: MealVoucherIcon, styleClass: subTabStyle, url: '', type: 'meal_vouchers' },
     ]
 
     return (
@@ -47,7 +43,7 @@ export default function Settings() {
                                     className="list-group-item border-bottom-only"
                                     id={overviewContent === val.type ? "text-indii-dark-blue" : ''}
                                     onClick={() => { setOverviewContent(val.type); setTitle('Manage ' + val.title); setType(val.type); setReRender(false) }}>
-                                    <img className="shortcut-icon" src={val.icon}></img>
+                                    <img className="shortcut-icon mr-3" src={val.icon}></img>
                                     {val.title}
                                 </li>
                             )
