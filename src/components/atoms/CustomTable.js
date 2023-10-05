@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
 import MaterialTable from "material-table";
-import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear, AddBox , Delete} from "@material-ui/icons";
+import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear, AddBox, Delete } from "@material-ui/icons";
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 import DeleteIcon from "../../static/icons/Delete.svg"
 import EditIcon from "../../static/icons/Edit.svg"
+import DoneIcon from "../../static/icons/Available.svg"
+import CancelIcon from "../../static/icons/Notavailable.svg"
 
 
 export default function CustomTable({ columns, rows, tableName, UpdateRow, CreateRow, DeleteRow, height, setRows, title }) {
@@ -41,6 +43,8 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
 
     const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
     const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
+    const getDoneIcon = () => { return (<img className="header-icon " src={DoneIcon}></img>) }
+    const getCancelIcon = () => { return (<img className="header-icon " src={CancelIcon}></img>) }
 
     //All the icons used in the table are defined below
     const tableIcon = {
@@ -51,8 +55,8 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
         NextPage: NavigateNextRounded,
         PreviousPage: NavigateBeforeRounded,
         Edit: getEditIcon,
-        Check: Done,
-        Clear: Clear,
+        Check: getDoneIcon,
+        Clear: getCancelIcon,
         Add: AddBox,
         Delete: getDeleteIcon,
     }
@@ -151,11 +155,12 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
                                 DeleteRow(dataDelete[index])
                                 dataDelete.splice(index, 1);
                                 setRows([...dataDelete]);
-                                
+
 
                                 resolve()
                             }, 1000)
                         }),
+
                 }}
             />
         </MuiThemeProvider>

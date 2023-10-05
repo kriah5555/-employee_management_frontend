@@ -58,6 +58,7 @@ export const GET_CONSTANTS = {
 
     'GENDER':'Genders',
     'MARITAL_STATUS': 'Marital status',
+    'MEAL_VOUCHERS': 'Meal vouchers',
 
     'FUNCTIONS': 'Functions',
     'EMPLOYEE_TYPES': 'Employee types',
