@@ -36,7 +36,7 @@ export default function Configurations() {
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
                 <h2 className="text-center my-4 text-color font-weight-bold">Configurations</h2>
-                <h4 className="col-md-12 text-left pl-5 ml-4 text-color font-weight-bold">Employee configurations</h4>
+                <h4 className="text-left pl-5 ml-4 text-color font-weight-bold">Employee configurations</h4>
                 <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
                     {
                         ConfigurationTabs.map((val, index) => {
@@ -47,7 +47,7 @@ export default function Configurations() {
                     }
                 </div>
 
-                <h4 className="col-md-12 text-left pl-5 mt-4 ml-4 text-color font-weight-bold">Holiday configurations</h4>
+                <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">Holiday configurations</h4>
                 <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
                     {
                         HolidayConfigurationTabs.map((val, index) => {

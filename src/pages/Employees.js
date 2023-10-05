@@ -6,6 +6,8 @@ import ExportIcon from "../static/icons/Export.svg"
 import EmployeeListWithDetails from "../components/organisms/EmployeeListWithDetails";
 import BackIcon from "../static/icons/BackIcon.png"
 import { useNavigate } from "react-router-dom";
+
+
 export default function Employees() {
 
     const navigate = useNavigate();
