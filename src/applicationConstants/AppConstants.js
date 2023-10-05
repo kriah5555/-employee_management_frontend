@@ -59,6 +59,7 @@ export const GET_CONSTANTS = {
     // Settings constant
     'GENDER':'Genders',
     'MARITAL_STATUS': 'Marital status',
+    'MEAL_VOUCHERS': 'Meal vouchers',
 
     // Configuration constant
     'FUNCTIONS': 'Functions',
