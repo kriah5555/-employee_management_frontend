@@ -5,7 +5,9 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
-import Login from "../../pages/Login";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import BackIcon from "../../static/icons/BackIcon.png";
+import CustomButton from "../atoms/CustomButton"
 
 export default function HolidayCodeCreation() {
     //to show selected options in dropdown
@@ -19,6 +21,12 @@ export default function HolidayCodeCreation() {
     const [inactive, setInactive] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
+
+    const [selectedTab, setSelectedTab] = useState();
+    const [linkCompanies, setlinkCompanies] = useState("")
+    const [companies, setCompanies] = useState([]);
+    const [type, setType] = useState("");
+    const [hideCompaniesTab, setHideCompaniestab] = useState(false)
 
     const navigate = useNavigate();
     const params = useParams();
@@ -36,7 +44,18 @@ export default function HolidayCodeCreation() {
         "count": "",
         "description": "",
         "status": 1,
+        "type": '',
+        "link_companies": "",
+        "companies": []
     });
+
+    // Holiday codes tabs
+    const TabsData = hideCompaniesTab ? [
+        { tabHeading: ("Information"), tabName: 'information' },
+    ] : [
+        { tabHeading: ("Information"), tabName: 'information' },
+        { tabHeading: ("Companies"), tabName: 'companies' },
+    ]
 
     //checkbox list
     const statusCheckBoxList = [
@@ -82,6 +101,7 @@ export default function HolidayCodeCreation() {
     // Fetch data of employee type for update
     useEffect(() => {
         if (params.id) {
+            setHideCompaniestab(true)
             let editApiUrl = HolidayCodeApiUrl + '/' + params.id + '/edit'
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
@@ -95,6 +115,7 @@ export default function HolidayCodeCreation() {
                         setIconType(response.icon_type);
                         setContractType(response.contract_type);
                         setWeeklyHours(response.consider_plan_hours_in_week_hours);
+                        setType(response.type)
                         //creating selected employee category id array
                         let employee_category_ids = []
                         response.employee_category.map((val, i) => {
@@ -112,6 +133,7 @@ export default function HolidayCodeCreation() {
                             "count": response.count,
                             "description": response.description,
                             "status": response.status,
+                            "type": response.type,
                         }
                         setHolidayCodeFormData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -128,15 +150,22 @@ export default function HolidayCodeCreation() {
     const fieldData = [
         { title: "Holiday code name", name: "holiday_code_name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Internal code", name: "internal_code", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
-        { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
-        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: true, selectedOptions: employeeCategory, type: "dropdown", style:"col-md-6 mt-2 float-left" },
-        { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
-        { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style:"col-md-6 mt-2 float-left" },
+        { title: "Holiday type", name: "holiday_type", required: true, options: dropdownOptions.holiday_type, isMulti: false, selectedOptions: holidayType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: "Count type", name: "count_type", required: true, options: dropdownOptions.count_type, isMulti: false, selectedOptions: countType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: "Employee category", name: "employee_category", required: true, options: dropdownOptions.employee_category, isMulti: true, selectedOptions: employeeCategory, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "count", name: "count", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style:"col-md-6 mt-2 float-left" },
-        { title: "Description", name: "description", type: "text-area", style:"col-md-12 mt-4 mb-5 float-left" },
-        { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", style:"col-md-12 mt-4 mb-2 float-left" },
+        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: "Type", name: "type", required: true, options: dropdownOptions.type, isMulti: false, selectedOptions: type, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: "Description", name: "description", type: "text-area", style: "col-md-12 mt-4 mb-5 float-left" },
+        { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", style: "col-md-12 mt-4 mb-2 float-left" },
+    ];
+
+    //companies tab fields for holiday code
+    const companiesTabFields = [
+        { title: "Link companies", name: "link_companies", required: true, options: dropdownOptions.include_exclude_company, isMulti: false, selectedOptions: linkCompanies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
+        { title: "Companies", name: "companies", required: true, options: dropdownOptions.companies, isMulti: true, selectedOptions: companies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
     ];
     // Function to set values of add holiday code fields
     const SetValues = (index, name, value, field) => {
@@ -144,12 +173,16 @@ export default function HolidayCodeCreation() {
         if (field !== 'dropdown') {
             form_data[name] = value;
         } else {
-            if (name === 'employee_category') {
+            if (name === 'employee_category' || name === 'companies') {
                 let arr = []
                 value.map((val, i) => {
                     arr.push(val.value)
                 })
-                setEmployeeCategory(value);
+                if (name === 'companies') {
+                    setCompanies(value);
+                } else {
+                    setEmployeeCategory(value);
+                }
                 form_data[name] = arr
             } else {
                 if (name === 'holiday_type') {
@@ -162,12 +195,18 @@ export default function HolidayCodeCreation() {
                     setIconType(value);
                 } else if (name === 'consider_plan_hours_in_week_hours') {
                     setWeeklyHours(value);
+                } else if (name === 'link_companies') {
+                    setlinkCompanies(value);
+                } else if (name === 'type') {
+                    setType(value)
                 }
                 form_data[name] = value.value
             }
         }
         setHolidayCodeFormData(form_data);
     }
+
+
     const onSave = () => {
 
         let status = 1
@@ -220,14 +259,39 @@ export default function HolidayCodeCreation() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <FormsNew
-                formTitle={"Add Holiday Code"}
-                data={fieldData}
-                SetValues={SetValues}
-                formattedData={holidayCodeFormData}
-                redirectURL={"/manage-holiday-configurations/holiday_code"}
-                OnSave={onSave}
-            ></FormsNew>
+            <div className="form-container my-5 border bg-white">
+                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/manage-holiday-configurations/holiday_code")} src={BackIcon}></img>{('Add Holiday Code')}</h2>
+
+                <Tabs className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
+                    <TabList>
+                        {TabsData.map((val) => {
+                            return (
+                                <Tab key={val.tabName} >{val.tabHeading}</Tab>
+                            )
+                        })}
+                    </TabList>
+                    <TabPanel>
+                        <FormsNew
+                            view={"holiday codes"}
+                            data={fieldData}
+                            SetValues={SetValues}
+                            formattedData={holidayCodeFormData}
+                        ></FormsNew>
+                    </TabPanel>
+                    {!hideCompaniesTab && <TabPanel>
+                        <FormsNew
+                            view={"holiday codes"}
+                            data={companiesTabFields}
+                            SetValues={SetValues}
+                            formattedData={companiesTabFields}
+                        ></FormsNew>
+                    </TabPanel>}
+                </Tabs>
+                <div className={"col-md-12 my-4 text-right pr-2"}>
+                    {(params.id !== undefined || (params.id === undefined && selectedTab === 1)) && <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
+                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate("/manage-holiday-configurations/holiday_code")} CustomStyle="mr-3"></CustomButton>
+                </div>
+            </div>
         </div>
     );
 }   
