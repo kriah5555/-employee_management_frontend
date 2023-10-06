@@ -56,9 +56,12 @@ export const GET_CONSTANTS = {
     'ADD_GROUP_FUNCTION' : 'Add group function',
     'ADD_MIN_SALARY': 'Add minimum salaries',
 
+    // Settings constant
     'GENDER':'Genders',
     'MARITAL_STATUS': 'Marital status',
+    'MEAL_VOUCHERS': 'Meal vouchers',
 
+    // Configuration constant
     'FUNCTIONS': 'Functions',
     'EMPLOYEE_TYPES': 'Employee types',
     'SECTORS':'Sectors',
@@ -67,5 +70,11 @@ export const GET_CONSTANTS = {
     'CONTRACT_TYPE':'Contract types',
     'REASONS':'Reasons',
     'COST_CENTER':'Cost center',
-    'SOCIAL_SECRETARY':'Social secretary'
+    'SOCIAL_SECRETARY':'Social secretary',
+
+    // Planning Constants
+    'OVERVIEW':'Overview',
+    'PLANNING_LOGS':'Planning logs',
+    'HOLIDAY_LEAVE': 'Holiday/leave',
+    'EVENT_PLANNING':'Event planning'
 };

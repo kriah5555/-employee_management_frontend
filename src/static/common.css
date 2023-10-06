@@ -126,6 +126,11 @@
     height: 35px;
 }
 
+.planning-icon {
+    width: 30px;
+    height: 30px;
+}
+
 .dashboard-icon {
     width: 3.5rem;
     height: 8rem;
@@ -227,6 +232,10 @@ li,
 
 .font-details {
     font-size: 13px;
+}
+
+.pointer {
+    cursor: pointer!important;
 }
 
 
@@ -359,6 +368,33 @@ li,
 
 /* Company overview css */
 
+/* Monthly overview tabs */
+.monthly-overview div ul {
+    text-align: center;
+    padding: 14px 0px;
+}
+
+.monthly-overview div ul li {
+    padding: 6px;
+    border-radius: 5px;
+    background: #61bfb5 !important;
+    margin: 0px 10px;
+    color: white;
+    font-weight: 600;
+}
+
+.monthly-overview div ul li.react-tabs__tab--selected {
+    background: #073763 !important;
+}
+
+.monthly-overview div div {
+    border-width: thin;
+}
+
+.monthly-overview div div.react-tabs__tab-panel--selected {
+    border-top: none !important;
+}
+
 /* React Tabs css*/
 .react-tabs__tab-list {
     margin: 0px !important;
@@ -376,13 +412,14 @@ li,
 
 .react-tabs__tab {
     border: 3px solid #F3F3F3;
-    border-width: 0px 1px 0px 1px !important;
+    border-width: 1px 1px 0px 1px !important;
     color: black;
     border-radius: 0px;
     bottom: 1px;
     padding: 12px 12px;
     text-align: center;
     width: 12% !important;
+    background-color: white;
 }
 
 .react-tabs__tab-panel--selected {
@@ -577,8 +614,8 @@ textarea {
     }
 
     .configuration-icon {
-        width: 4rem;
-        height: 4rem;
+        width: 3rem;
+        height: 3rem;
     }
 
     .side-bar {

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
-import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import TextInput from "../atoms/formFields/TextInput";
 import BackIcon from "../../static/icons/BackIcon.png"
 import CustomButton from "../atoms/CustomButton";
-import EditIcon from "../../static/icons/edit-dark.svg";
+
+
 export default function LinkHolidayCodeToSocialSecretary() {
 
     const navigate = useNavigate()
@@ -17,7 +17,6 @@ export default function LinkHolidayCodeToSocialSecretary() {
         "social_secretary_id": params.id,
         "social_secretary_codes": [],
     })
-    const [editStatus, setEditStatus] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
@@ -88,7 +87,7 @@ export default function LinkHolidayCodeToSocialSecretary() {
                 onHide={() => setErrors([])}
             ></ErrorPopup>} */}
             <div className="form-container my-3 border bg-white">
-                <h2 id="text-indii-blue" className="col-md-12 px-3 pt-4 mb-0 ml-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>Link holiday code</h2>
+                <h3 className="col-md-12 px-3 pt-4 mb-0 ml-0 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>Link holiday code</h3>
                 <div className="row m-0 my-3 px-5 pt-3 table-head-bg">
                     <div className="col-md-4 text-start">
                         <h5>Holiday code name</h5>

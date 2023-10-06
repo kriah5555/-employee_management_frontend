@@ -23,6 +23,7 @@ import HolidayCodeConfigurationOverview from '../components/organisms/HolidayCod
 import AddReasons from '../components/organisms/AddReasons';
 import AddSocialSecretary from '../components/organisms/AddSocialSecretary';
 import LinkHolidayCodeToSocialSecretary from "../components/molecules/LinkHolidayCodeToSocialSecretary"
+import Planning from '../pages/Planning';
 
 
 const BaseRouter = ({ setAuth }) => (
@@ -71,6 +72,9 @@ const BaseRouter = ({ setAuth }) => (
         <Route exact path='/add-social-secretary/:id' element={<AddSocialSecretary></AddSocialSecretary>} />
 
         <Route exact path='/link-holiday-code/:id' element={<LinkHolidayCodeToSocialSecretary></LinkHolidayCodeToSocialSecretary>} />
+
+
+        <Route exact path="/manage-plannings" element={<Planning></Planning>} />
 
     </Routes>
 );
