@@ -11,6 +11,16 @@ export default function TimePicker(props) {
             setSelectedMinute(props.value.split(':')[1])
         }
     }, [])
+
+    const onHourClick = (formattedHour) => {
+        props.setHourMin(formattedHour + ':' + selectedMinute, props.type, props.index, 1);
+        setSelectedHour(formattedHour);
+    }
+
+    const onMinuteClick = (formattedMinute) => {
+        props.setHourMin(selectedHour + ':' + formattedMinute, props.type, props.index, 2);
+        setSelectedMinute(formattedMinute)
+    }
     return (
         <table className="time-picker ui-timepicker-table ui-widget-content ui-corner-all">
             <tbody>
@@ -26,7 +36,7 @@ export default function TimePicker(props) {
                                                 const hour = hourRow * 6 + hourCol;
                                                 const formattedHour = hour < 10 ? `0${hour}` : `${hour}`;
                                                 return (
-                                                    <td onClick={() => { props.setHourMin(formattedHour + ':' + selectedMinute, props.type, props.index, 1); setSelectedHour(formattedHour); }}>
+                                                    <td onClick={() => onHourClick(formattedHour)}>
                                                         <a className={props.hour !== formattedHour ? "ui-state-default" : "ui-state-active"}>{formattedHour}</a>
                                                     </td>
                                                 );
@@ -43,10 +53,9 @@ export default function TimePicker(props) {
                             <tbody>
                                 {[0, 15, 30, 45].map((minute) => {
                                     const formattedMinute = minute < 10 ? `0${minute}` : `${minute}`;
-                                    // const value = `${selectedHour}:${formattedMinute}`;
                                     return (
                                         <tr>
-                                            <td key={minute} onClick={() => { props.setHourMin(selectedHour + ':' + formattedMinute, props.type, props.index, 2); setSelectedMinute(formattedMinute) }}>
+                                            <td key={minute} onClick={() => onMinuteClick(formattedMinute)}>
                                                 <a className={props.minute !== formattedMinute ? "ui-state-default" : "ui-state-active"}>{formattedMinute}</a>
                                             </td>
                                         </tr>
