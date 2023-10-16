@@ -6,12 +6,16 @@ import CloneIcon from "../../static/icons/Clone.svg";
 import ImportIcon from "../../static/icons/Import.svg";
 import AddLeaveIcon from "../../static/icons/addLeave.svg";
 import WeeklyOverview from "../molecules/WeeklyOverview";
+import Switch from "../atoms/Switch";
 
 export default function PlanningOverview() {
 
     const [selectedLocation, setSelectedLocation] = useState();
     const [selectedWorkstation, setSelectedWorkstation] = useState([]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState([]);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [enableShifts, setEnableshifts] = useState(false);
+
 
     // Planning overview tab list data
     const TabsData = [
@@ -83,8 +87,14 @@ export default function PlanningOverview() {
                     OnSave={OnSave}
                 ></FormsNew>
             </div>
+
+            {tabIndex === 1 && <div className="d-flex justify-content-between">
+                <Switch label="Show Availability for selected week" id="switch4" styleClass="" lableClick={true} onChange={() => console.log(true)} checked={false}/>
+                <Switch label="Use preferred shifts" id="switch4" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
+            </div>}
+
             <div className="monthly-overview bg-white mt-2">
-                <Tabs>
+                <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <TabList>
                         {TabsData.map((val) => {
                             return (
@@ -105,7 +115,7 @@ export default function PlanningOverview() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="px-3 pb-3"><WeeklyOverview></WeeklyOverview></div>
+                        <div className="px-3 pb-3"><WeeklyOverview enableShifts={enableShifts} ></WeeklyOverview></div>
                     </TabPanel>
 
                     <TabPanel>
