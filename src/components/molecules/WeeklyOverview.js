@@ -165,6 +165,7 @@ export default function WeeklyOverview({ enableShifts }) {
                                 ws.employees.map((ws_employee, ws_emp_index) => {
                                     return (
                                         <tr key={ws_employee.employee_name}>
+                                            {/* Workstation column data */}
                                             {ws_emp_index === 0 && <td key={ws.workstation_id} className="justify-content-center py-3" rowSpan={ws.employees.length}>
                                                 <p className="mb-0">{ws.workstation_name}</p>
                                                 <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id)}>+</h2>
@@ -176,6 +177,7 @@ export default function WeeklyOverview({ enableShifts }) {
                                                     <img className="shortcut-icon ml-2" src={EditShiftIcon}></img>
                                                 </div>}
                                             </td>}
+                                            {/* Employee and plan data rows */}
                                             <td>{ws_employee.employee_name}</td>
                                             <PlanItem PlansData={ws_employee.plans} Dates={dates}></PlanItem>
                                             <td>
