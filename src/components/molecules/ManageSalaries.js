@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import { useNavigate } from "react-router-dom";
-import { SectorApiUrl, SalariesApiUrl, UpdateSalariesApiUrl, RevertSalariesApiUrl } from "../../routes/ApiEndPoints";
+import { SectorApiUrl, MonthlyMinimumSalariesApiurl, HourlyMinimumSalariesApiurl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -17,7 +17,7 @@ export default function ManageSalaries() {
 
     const navigate = useNavigate();
     const [selectedSector, setSelectedSector] = useState('');
-    const [noSectorMessage, setNoSectorMessage] = useState('Please select sector to get the salaries');
+    const [noSectorMessage, setNoSectorMessage] = useState('Please select sector and Salary type to get the salaries');
     const [salaryData, setSalaryData] = useState([]);
 
 
@@ -29,6 +29,7 @@ export default function ManageSalaries() {
     const [coefficient, setCoefficient] = useState('');
     const [warningMessage, setWarningMessage] = useState('');
     const [errors, setErrors] = useState([]);
+    const [salaryType, setSalaryType] = useState("");
 
     // Input field from material table package for editing data in bulk
     const CustomInput = (props) => {
@@ -59,10 +60,23 @@ export default function ManageSalaries() {
         }
     ];
 
+    const salaryTypeOptions = [
+        {
+            value: 1,
+            label: "Monthly"
+        },
+        {
+            value: 2,
+            label: "Hourly"
+        }
+    ]
+
+
     useEffect(() => {
-        if (selectedSector && !incrementPage) {
+        if (selectedSector && salaryType && !incrementPage) {
             // Initial API call to fetch salaries and levels
-            AXIOS.service(SalariesApiUrl + '/' + selectedSector.value)
+            let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+            AXIOS.service(ApiUrl + '/' + selectedSector.value + '/get')
                 .then((result) => {
                     if (result.data.levels >= salaryData.length) {
                         let categories = new Array(result.data.categories).fill(1);
@@ -93,7 +107,7 @@ export default function ManageSalaries() {
                     }
                 })
         }
-    }, [selectedSector, incrementPage])
+    }, [selectedSector, salaryType.value, incrementPage])
 
 
     useEffect(() => {
@@ -145,16 +159,16 @@ export default function ManageSalaries() {
 
     // Function to get incremented salaries
     const getSalaries = () => {
-        if (selectedSector) {
+        if (selectedSector && salaryType) {
             if (!incrementPage) {
                 setNoSectorMessage('')
             } else if (incrementPage && coefficient) {
                 setNoSectorMessage('')
             }
             let incremented_salary = []
-
             if (coefficient) {
-                AXIOS.service(SalariesApiUrl + '/' + selectedSector.value)
+                let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+                AXIOS.service(ApiUrl + '/' + selectedSector.value + '/get')
                     .then((result) => {
                         if (result?.success) {
                             let categories = new Array(result.data.categories).fill(1);
@@ -190,6 +204,7 @@ export default function ManageSalaries() {
                     })
             }
         }
+
     }
 
     // Function to save updated salaries
@@ -211,8 +226,8 @@ export default function ManageSalaries() {
         });
 
         // API call to save updated salaries
-        let url = UpdateSalariesApiUrl + '/' + selectedSector.value
-        AXIOS.service(url, 'POST', requestData)
+        let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+        AXIOS.service(ApiUrl + '/' + selectedSector.value + '/update', 'POST', requestData)
             .then((result) => {
                 if (result?.success) {
                     // setSuccessMessage(result.message[0])
@@ -237,8 +252,8 @@ export default function ManageSalaries() {
 
     // Function to revert back to saved salaries
     const undoSalaries = () => {
-        let url = RevertSalariesApiUrl + '/' + selectedSector.value
-        AXIOS.service(url, 'POST')
+        let ApiUrl = salaryType == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+        AXIOS.service(ApiUrl + '/' + selectedSector.value + '/undo', 'POST')
             .then((result) => {
                 if (result?.success) {
                     setWarningMessage('');
@@ -298,21 +313,30 @@ export default function ManageSalaries() {
             </div>
 
             <div className="col-md-12 mb-2 d-flex justify-content-between">
-                <div className={incrementPage ? "col-md-12 px-0 row m-0" : "col-md-8 px-0 row m-0"}>
+                <div className={incrementPage ? "col-md-10 px-0 row m-0" : "col-md-8 px-0 row m-0"}>
                     <Dropdown
                         options={sectors}
                         selectedOptions={selectedSector}
                         onSelectFunction={(e) => setSelectedSector(e)}
-                        CustomStyle="my-2 col-md-5"
+                        CustomStyle="my-2 col-md-3"
                         title={'Sectors'}
                         required={true}
                         isMulti={false}
                     ></Dropdown>
-                    {incrementPage && <div className="col-md-6 px-0 row m-0">
+                    <Dropdown
+                        options={salaryTypeOptions}
+                        selectedOptions={salaryType}
+                        onSelectFunction={(e) => setSalaryType(e)}
+                        CustomStyle="my-2 col-md-3"
+                        title={'Salary type'}
+                        required={true}
+                        isMulti={false}
+                    ></Dropdown>
+                    {incrementPage && <div className="col-md-4 px-0 row m-0">
                         <TextInput
                             title={"Increment coefficient"}
                             name={'increment_coef'}
-                            CustomStyle={"col-md-4 mt-4"}
+                            CustomStyle={"col-md-8 mt-4"}
                             required={true}
                             value={coefficient}
                             setValue={(e) => setCoefficient(e)}
@@ -321,12 +345,12 @@ export default function ManageSalaries() {
                         <CustomButton buttonName={'Check'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
                     </div>}
                     {!incrementPage && <CustomButton buttonName={'Search'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
-                    {incrementPage && coefficient && <div className="row m-0">
-                        <CustomButton buttonName={'Save'} ActionFunction={() => SaveSalaries(listData)} CustomStyle="mt-5 mb-3"></CustomButton>
-                        <CustomButton buttonName={'Undo'} ActionFunction={() => setWarningMessage('Are you sure you want to revert back the salaries')} CustomStyle="mt-5 mb-3"></CustomButton>
-                    </div>}
-
                 </div>
+
+                {incrementPage && coefficient && <div className="d-flex mr-5">
+                    <CustomButton buttonName={'Save'} ActionFunction={() => SaveSalaries(listData)} CustomStyle="mt-5 mb-3"></CustomButton>
+                    <CustomButton buttonName={'Undo'} ActionFunction={() => setWarningMessage('Are you sure you want to revert back the salaries')} CustomStyle="mt-5 mb-3"></CustomButton>
+                </div>}
 
                 {noSectorMessage === '' && !incrementPage && <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => getIncrementPage(true)}>
                     <u>{'Increment salaries'}</u>

@@ -30,6 +30,14 @@ export default function Settings() {
         { title: t('MEAL_VOUCHERS'), icon: MealVoucherIcon, styleClass: subTabStyle, url: '', type: 'meal_vouchers' },
     ]
 
+    const handleTabClick = (val) => {
+
+        setOverviewContent(val.type);
+        setTitle('Manage ' + val.title)
+        setType(val.type);
+        setReRender(false);
+    }
+
     return (
         <div className="right-container p-3" >
             <div className="col-md-3 bg-white border-right">
@@ -42,7 +50,7 @@ export default function Settings() {
                                     key={val.title}
                                     className="list-group-item border-bottom-only"
                                     id={overviewContent === val.type ? "text-indii-dark-blue" : ''}
-                                    onClick={() => { setOverviewContent(val.type); setTitle('Manage ' + val.title); setType(val.type); setReRender(false) }}>
+                                    onClick={() => handleTabClick(val)}>
                                     <img className="shortcut-icon mr-3" src={val.icon}></img>
                                     {val.title}
                                 </li>

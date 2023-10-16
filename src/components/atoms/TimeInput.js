@@ -42,6 +42,7 @@ export default function TimeInput({ setTime, index, type, value, title, customSt
                         index={index}
                         type={type}
                         setHourMin={setTime}
+                        value={value}
                     />
                 )}
             </div>
