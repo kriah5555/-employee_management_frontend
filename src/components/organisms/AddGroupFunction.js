@@ -6,6 +6,7 @@ import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function AddGroupFunction() {
 
@@ -49,13 +50,34 @@ export default function AddGroupFunction() {
         }
     ]
 
+
+    const SetFunctionCategoryOptions = (sector_id) => {
+        let editApiUrl = SectorApiUrl + '/' + sector_id
+        let arr = [];
+        AXIOS.service(editApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    let count = 1
+                    let max = result.data.category
+                    while (count <= max) {
+                        arr.push({ value: count, label: count })
+                        count = count + 1
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        setCategoriesList(arr);
+    }
+
     //Fetch dropdown data of sectors
     useEffect(() => {
         let addApiUrl = GroupFunctionApiUrl + '/create'
         AXIOS.service(addApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setSectorList(result.data.sectors);
+                    setSectorList(getFormattedDropdownOptions(result.data.sectors));
                     setCategories(result.data.categories);
                 } else {
                     setErrors(result.message)
@@ -69,16 +91,16 @@ export default function AddGroupFunction() {
     // Fetch group function data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = GroupFunctionApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = GroupFunctionApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setGroupName(result.data.details.name);
-                        setDescription(result.data.details.description ? result.data.details.description : '');
-                        setFunctionCategory({ value: result.data.details.category, label: result.data.details.category });
-                        setSectorList(result.data.sectors);
-                        setSector(result.data.details.sector_value);
-                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        setGroupName(result.data.name);
+                        setDescription(result.data.description ? result.data.description : '');
+                        setFunctionCategory({ value: result.data.category, label: result.data.category });
+                        setSector(getFormattedDropdownOptions(result.data.sector));
+                        SetFunctionCategoryOptions(result.data.sector.id)
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
                         setErrors(result.message)
                     }
@@ -144,13 +166,7 @@ export default function AddGroupFunction() {
         if (type === 1) {
             setGroupName(value);
         } else if (type === 3) {
-            let count = 1
-            let arr = [];
-            while (count <= categories[value.value]) {
-                arr.push({ value: count, label: count })
-                count = count + 1
-            }
-            setCategoriesList(arr);
+            SetFunctionCategoryOptions(value.value)
             setSector(value);
             setFunctionCategory("")
         } else if (type === 4) {

@@ -7,6 +7,7 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function AddContractType() {
 
@@ -50,33 +51,30 @@ export default function AddContractType() {
 
     //Fetch dropdown data of sectors
     useEffect(() => {
-        if (!params.id) {
-            AXIOS.service(ContractTypeApiUrl + '/create', 'GET')
-                .then((result) => {
-                    if (result?.success) {
-                        setRenewalList(result.data.renewal_types);
-                    } else {
-                        setErrors(result.message)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
+        AXIOS.service(ContractTypeApiUrl + '/create', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setRenewalList(getFormattedDropdownOptions(result.data.renewal_types));
+                } else {
+                    setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, [])
 
     // Fetch group function data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = ContractTypeApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = ContractTypeApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setContractType(result.data.details.name);
-                        setDescription(result.data.details.description);
-                        setContractRenewal(result.data.details.contract_renewal_type_value)
-                        setRenewalList(result.data.renewal_types);
-                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        setContractType(result.data.name);
+                        setDescription(result.data.description);
+                        setContractRenewal(getFormattedDropdownOptions(result.data.contract_renewal_type))
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
                         setErrors(result.message)
                     }

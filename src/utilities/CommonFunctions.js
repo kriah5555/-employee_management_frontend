@@ -64,7 +64,7 @@ export function checkBreaktime(planning_time) {
              ((operator === '<=') && (planning_time <= workperiod))
             ){
                 planning_time = planning_time - formulabreak_value;
-        } 
+        }
         return planning_time;
 }
 
@@ -74,7 +74,20 @@ export function getWeekNumberByDate(date){
     let startDate = new Date(currentDate.getFullYear(), 0, 1);
     let days = Math.floor((currentDate - startDate) /
         (24 * 60 * 60 * 1000));
-        
+
     let weekNumber = Math.ceil(days / 7);
     return weekNumber;
+}
+
+export function getFormattedDropdownOptions(options, value_key = 'id' , label_key = 'name') {
+    if (Array.isArray(options)) {
+        let formattedData = []
+        options.map((value) => {
+            let obj = {value: value[value_key], label: value[label_key]}
+            formattedData.push(obj)
+        })
+        return formattedData;
+    } else {
+        return {value: options[value_key], label: options[label_key]}
+    }
 }

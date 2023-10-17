@@ -11,7 +11,7 @@ export default function TextArea({ title, name, required, CustomStyle, value, se
                     Required
                 </p>}
             </div>
-            <textarea className="form-control" name={name} rows={4} value={value} onChange={(e) => setValue(e.target.value)} />
+            <textarea className="form-control" name={name} rows={4} value={value == null ? '' : value} onChange={(e) => setValue(e.target.value)} />
         </div>
     )
 }
