@@ -885,3 +885,6 @@ html .ui-button.ui-state-disabled:active {
     right: 8px;
     bottom: 6px;
 }
+.ck-editor__editable_inline {
+    min-height: 400px;
+}
