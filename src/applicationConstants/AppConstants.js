@@ -76,5 +76,14 @@ export const GET_CONSTANTS = {
     'OVERVIEW':'Overview',
     'PLANNING_LOGS':'Planning logs',
     'HOLIDAY_LEAVE': 'Holiday/leave',
-    'EVENT_PLANNING':'Event planning'
+    'EVENT_PLANNING':'Event planning',
+
+    // Days constants
+    'MONDAY': 'Monday',
+    'TUESDAY': 'Tuesday',
+    'WEDNESDAY': 'Wednesday',
+    'THURSDAY': 'Thursday',
+    'FRIDAY': 'Friday',
+    'SATURDAY': 'Saturday',
+    'SUNDAY': 'Sunday',
 };

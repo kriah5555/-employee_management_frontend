@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GenderIcon from "../static/icons/Gender.svg";
-import MaritalStatusIcon from "../static/icons/Gender.svg";
+import MaritalStatusIcon from "../static/icons/MaritalStatus.svg";
 import MealVoucherIcon from "../static/icons/MealVoucher.svg";
 import { t } from "../translations/Translation";
 import { ToastContainer } from 'react-toastify';
@@ -31,7 +31,6 @@ export default function Settings() {
     ]
 
     const handleTabClick = (val) => {
-
         setOverviewContent(val.type);
         setTitle('Manage ' + val.title)
         setType(val.type);
@@ -77,8 +76,6 @@ export default function Settings() {
                     body={(errors)}
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}
-                {/* <p>Notification</p> */}
-                {/* <div><ConfigurationOverviews overviewContent={overviewContent}></ConfigurationOverviews></div> */}
                 {reRender && <SettingsOverview type={type} title={title} overviewContent={overviewContent} setErrors={setErrors} ></SettingsOverview>}
             </div>
         </div>
