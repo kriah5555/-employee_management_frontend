@@ -18,13 +18,14 @@ import HolidayCodeCreation from '../components/molecules/HolidayCodeCreation';
 import MyAccount from "../pages/MyAccount";
 import EmployeeCreation from '../components/organisms/EmployeeCreation';
 import HolidayCodeConfigurationOverview from '../components/organisms/HolidayCodeConfigurationOverview';
+import CommunicationConfigurationOverview from '../components/organisms/CommunicationConfigurationOverview';
 // const langRegex = "(en|nl|fr)?"; 
 // const langPath =  `/:lang${langRegex}`;
 import AddReasons from '../components/organisms/AddReasons';
 import AddSocialSecretary from '../components/organisms/AddSocialSecretary';
 import LinkHolidayCodeToSocialSecretary from "../components/molecules/LinkHolidayCodeToSocialSecretary"
 import Planning from '../pages/Planning';
-
+import AddEmailTemplate from '../components/organisms/AddEmailTemplate'
 
 const BaseRouter = ({ setAuth }) => (
     <Routes>
@@ -75,6 +76,11 @@ const BaseRouter = ({ setAuth }) => (
 
 
         <Route exact path="/manage-plannings" element={<Planning></Planning>} />
+
+        <Route exact path='/add-email-template' element={<AddEmailTemplate></AddEmailTemplate>} />
+        <Route exact path='/add-email-template/:id' element={<AddEmailTemplate></AddEmailTemplate>} />
+
+        <Route exact path='/manage-communication-configurations/:type' element={<CommunicationConfigurationOverview></CommunicationConfigurationOverview>} />
 
     </Routes>
 );
