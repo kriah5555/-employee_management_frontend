@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 
-export default function CompanyOverviews({ overviewContent }) {
+export default function CompanyOverviews({ overviewContent, setCompanySelected }) {
 
     const navigate = useNavigate();
     const [listData, setListData] = useState([]);
@@ -165,6 +165,8 @@ export default function CompanyOverviews({ overviewContent }) {
                 navigate('/manage-companies/company-single/' + data.id)
             } else if (action === 'view') {
                 navigate('/manage-companies/company-view/' + data.id)
+            } else if (action === 'details') {
+                setCompanySelected(true);
             } else {
                 setDeleteUrl(CompanyApiUrl + '/' + data.id)
             }
