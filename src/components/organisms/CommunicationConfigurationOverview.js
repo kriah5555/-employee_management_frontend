@@ -17,7 +17,6 @@ export default function CommunicationConfigurationOverview() {
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteUrl, setDeleteUrl] = useState('');
 
-console.log(overviewContent);
     // Header data for Holiday code
     const communication_headers = [
         {
@@ -25,7 +24,7 @@ console.log(overviewContent);
             field: 'name',
             size: 200,
         },
-        
+
     ]
 
     const [headers, setHeaders] = useState(communication_headers);
@@ -36,7 +35,6 @@ console.log(overviewContent);
 
     useEffect(() => {
         let apiUrl;
-        console.log(headers);
         // Header data for Function overview
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
