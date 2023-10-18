@@ -17,7 +17,9 @@ export default function OverviewTabs() {
     const [addTitle, setAddTitle] = useState('Add company');
     const [addUrl, setAddUrl] = useState('/manage-companies/company/0');
     const [tabIndex, setTabIndex] = useState(0);
+    const [TabsData, setTabsData] = useState([{ tabHeading: t("COMPANY"), tabName: 'company' }])
 
+    const [companySelected, setCompanySelected] = useState(false);
 
     useEffect(() => {
         if (window.location.hash !== '' && window.location.hash !== '#') {
@@ -37,7 +39,7 @@ export default function OverviewTabs() {
             }
             window.location.hash = ''
         }
-    }, [])
+    }, [companySelected])
 
 
     const getRightHeaderContent = (tabName) => {
@@ -53,7 +55,7 @@ export default function OverviewTabs() {
         } else if (tabName === 'workstation') {
             setAddIcon(AddWorkstationIcon);
             setAddTitle('Add workstation');
-        setAddUrl('/manage-companies/workstation/0')
+            setAddUrl('/manage-companies/workstation/0')
         } else if (tabName === 'cost center') {
             setAddIcon(SalariesIcon);
             setAddTitle('Add cost center');
@@ -64,15 +66,34 @@ export default function OverviewTabs() {
         }
     }
 
-    const TabsData = [
-        { tabHeading: t("COMPANY"), tabName: 'company' },
-        { tabHeading: t("LOCATIONS"), tabName: 'location' },
-        { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
-        { tabHeading: t("COST_CENTER"), tabName: 'cost center' },
-        { tabHeading: t("CONTRACTS"), tabName: 'contracts' },
-        { tabHeading: t("DIMONA"), tabName: 'dimona' },
-        { tabHeading: t("RULES"), tabName: 'rules' },
-    ]
+    // const TabsData = [
+    //     { tabHeading: t("COMPANY"), tabName: 'company' },
+    //     { tabHeading: t("LOCATIONS"), tabName: 'location' },
+    //     { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
+    //     { tabHeading: t("COST_CENTER"), tabName: 'cost center' },
+    //     { tabHeading: t("CONTRACTS"), tabName: 'contracts' },
+    //     { tabHeading: t("DIMONA"), tabName: 'dimona' },
+    //     { tabHeading: t("RULES"), tabName: 'rules' },
+    // ]
+
+    useEffect(() => {
+        if (companySelected) {
+            getRightHeaderContent('location');
+            setTabsData([
+                { tabHeading: t("LOCATIONS"), tabName: 'location' },
+                { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
+                { tabHeading: t("COST_CENTER"), tabName: 'cost center' },
+                { tabHeading: t("CONTRACTS"), tabName: 'contracts' },
+                { tabHeading: t("DIMONA"), tabName: 'dimona' },
+                { tabHeading: t("RULES"), tabName: 'rules' },
+            ])
+        } else {
+            getRightHeaderContent('company')
+            setTabsData([
+                { tabHeading: t("COMPANY"), tabName: 'company' },
+            ])
+        }
+    }, [companySelected])
 
 
     return (
@@ -105,9 +126,9 @@ export default function OverviewTabs() {
                 </div>}
             </TabList>
 
-            <TabPanel>
-                <div className="tablescroll"><CompanyOverviews overviewContent={'company'}></CompanyOverviews></div>
-            </TabPanel>
+            {!companySelected && <TabPanel>
+                <div className="tablescroll"><CompanyOverviews overviewContent={'company'} setCompanySelected={setCompanySelected}></CompanyOverviews></div>
+            </TabPanel>}
 
             <TabPanel>
                 <div className="tablescroll"><CompanyOverviews overviewContent={'location'}></CompanyOverviews></div>

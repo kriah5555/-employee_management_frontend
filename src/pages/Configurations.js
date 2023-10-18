@@ -9,6 +9,7 @@ import SalariesIcon from "../static/icons/Salaries.svg";
 import ReasonsIcon from "../static/icons/Reasons.svg";
 import SocialSecretaryIcon from "../static/icons/SocialSecretary.svg";
 import HolidayCodeIcon from "../static/icons/HolidayCode.svg";
+import Email from "../static/icons/Email.svg";
 
 import { t } from "../translations/Translation";
 
@@ -33,6 +34,11 @@ export default function Configurations() {
         { title: ('Holiday codes'), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code' },
     ]
 
+    const CommunicationTabs = [
+        { title: ('Email templates'), icon: Email, styleClass: subTabStyle, type: 'email' },
+        // { title: ('Translations'), icon: Email, styleClass: subTabStyle, type: 'translation' },
+        // { title: ('Message '), icon: Email, styleClass: subTabStyle, type: 'message' },
+    ]
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
@@ -54,6 +60,16 @@ export default function Configurations() {
                         HolidayConfigurationTabs.map((val, index) => {
                             return (
                                 <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-holiday-configurations/' + val.type} view={'configuration'}></Card>
+                            )
+                        })
+                    }
+                </div>
+                <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">Communication configuration</h4>
+                <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
+                    {
+                        CommunicationTabs.map((val, index) => {
+                            return (
+                                <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-communication-configurations/' + val.type} view={'configuration'}></Card>
                             )
                         })
                     }
