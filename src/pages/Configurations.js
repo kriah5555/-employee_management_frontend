@@ -9,7 +9,7 @@ import SalariesIcon from "../static/icons/Salaries.svg";
 import ReasonsIcon from "../static/icons/Reasons.svg";
 import SocialSecretaryIcon from "../static/icons/SocialSecretary.svg";
 import HolidayCodeIcon from "../static/icons/HolidayCode.svg";
-import Email from "../static/icons/Email.svg";
+import Email from "../static/icons/EmailTemplate.svg";
 
 import { t } from "../translations/Translation";
 

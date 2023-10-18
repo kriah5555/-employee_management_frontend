@@ -38,7 +38,7 @@ export default function CompanyCreation() {
         { tabHeading: t("RESPONSIBLE_PERSONS"), tabName: 'responsible_persons' },
         { tabHeading: t("LOCATIONS"), tabName: 'location' },
         { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
-        { tabHeading: t("RULES"), tabName: 'rules' },
+        // { tabHeading: t("RULES"), tabName: 'rules' },
     ]
 
     // Customer default data
@@ -228,17 +228,18 @@ export default function CompanyCreation() {
                     <TabPanel>
                         <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction}></WorkstationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
+                        {/* <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton> */}
+                        <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(4)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        {/* <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(4)} CustomStyle="mr-3 my-3 float-right"></CustomButton> */}
                     </TabPanel>
 
-                    <TabPanel>
+                    {/* <TabPanel>
                         <h3 className="text-center mt-3">Rules</h3>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany('company')} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(3)} CustomStyle=" mr-3 my-3 float-right"></CustomButton>
-                    </TabPanel>
+                    </TabPanel> */}
                 </Tabs>
             </div>}
             {/* Code for single forms */}
