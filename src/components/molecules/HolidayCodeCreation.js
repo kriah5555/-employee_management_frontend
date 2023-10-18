@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import BackIcon from "../../static/icons/BackIcon.png";
 import CustomButton from "../atoms/CustomButton"
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function HolidayCodeCreation() {
     //to show selected options in dropdown
@@ -40,7 +41,7 @@ export default function HolidayCodeCreation() {
         "employee_category": [],
         "icon_type": "",
         "contract_type": "",
-        "consider_plan_hours_in_week_hours": 1,
+        "consider_plan_hours_in_week_hours": false,
         "count": "",
         "description": "",
         "status": 1,
@@ -102,12 +103,13 @@ export default function HolidayCodeCreation() {
     useEffect(() => {
         if (params.id) {
             setHideCompaniestab(true)
-            let editApiUrl = HolidayCodeApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = HolidayCodeApiUrl + '/' + params.id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        let response = result.data.details
+                        let response = result.data
+                        console.log(response)
                         //setting selected options
                         setHolidayType(response.holiday_type);
                         setCountType(response.count_type);
@@ -129,11 +131,11 @@ export default function HolidayCodeCreation() {
                             "employee_category": employee_category_ids, /* need to set array employee_category_ids  */
                             "icon_type": response.icon_type.value,
                             "contract_type": response.contract_type.value,
-                            "consider_plan_hours_in_week_hours": response.consider_plan_hours_in_week_hours.value,
+                            "consider_plan_hours_in_week_hours": response.consider_plan_hours_in_week_hours,
                             "count": response.count,
                             "description": response.description,
                             "status": response.status,
-                            "type": response.type,
+                            "type": response.type.value,
                         }
                         setHolidayCodeFormData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -156,16 +158,33 @@ export default function HolidayCodeCreation() {
         { title: "Contract type", name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "count", name: "count", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        // { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "Type", name: "type", required: true, options: dropdownOptions.type, isMulti: false, selectedOptions: type, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "Description", name: "description", type: "text-area", style: "col-md-12 mt-4 mb-5 float-left" },
+        { title: "Consider the plan hours in weekly hours ?", name: 'consider_plan_hours_in_week_hours', type: 'switch', style:"col-md-12 d-flex mt-4 float-left" },
         { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", style: "col-md-12 mt-4 mb-2 float-left" },
     ];
 
     //companies tab fields for holiday code
+    const link_companies_options = [
+        {
+            value: 'all',
+            label: 'All'
+        },
+        {
+            value: 'include',
+            label: 'Include'
+        },
+        {
+            value: 'exclude',
+            label: 'Exclude'
+        }
+    ]
+
+    const companies_options = dropdownOptions.companies != undefined ? getFormattedDropdownOptions(dropdownOptions.companies, 'id', 'company_name') : [];
     const companiesTabFields = [
-        { title: "Link companies", name: "link_companies", required: true, options: dropdownOptions.include_exclude_company, isMulti: false, selectedOptions: linkCompanies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
-        { title: "Companies", name: "companies", required: true, options: dropdownOptions.companies, isMulti: true, selectedOptions: companies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
+        { title: "Link companies", name: "link_companies", required: true, options: link_companies_options, isMulti: false, selectedOptions: linkCompanies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
+        { title: "Companies", name: "companies", required: true, options: companies_options, isMulti: true, selectedOptions: companies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
     ];
     // Function to set values of add holiday code fields
     const SetValues = (index, name, value, field) => {
@@ -294,4 +313,4 @@ export default function HolidayCodeCreation() {
             </div>
         </div>
     );
-}   
+}

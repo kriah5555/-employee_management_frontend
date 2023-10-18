@@ -88,6 +88,7 @@ export function getFormattedDropdownOptions(options, value_key = 'id' , label_ke
         })
         return formattedData;
     } else {
+        console.log(options)
         return {value: options[value_key], label: options[label_key]}
     }
 }

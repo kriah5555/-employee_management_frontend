@@ -121,9 +121,9 @@ export default function ConfigurationOverviews() {
             setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
 
         } else if (overviewContent === 'reasons') {
-            apiUrl = ReasonsApiUrl + '-list/all'
+            apiUrl = ReasonsApiUrl
             setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
-            
+
         } else if (overviewContent === 'social_secretary') {
             apiUrl = SocialSecretaryApiUrl
             setHeaders(social_secretary_headers); setTitle('Manage social secretary'); setAddTitle('Add social secretary'); setAddUrl('/add-social-secretary');

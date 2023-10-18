@@ -24,7 +24,7 @@ export default function LinkHolidayCodeToSocialSecretary() {
 
     useEffect(() => {
 
-        let apiUrl = BASE_URL + '/masterdata/social-secretary-holiday-codes/' + params.id + '/edit'
+        let apiUrl = BASE_URL + '/masterdata/social-secretary-holiday-configuration/' + params.id
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
@@ -45,7 +45,7 @@ export default function LinkHolidayCodeToSocialSecretary() {
 
     }, [])
 
-    //setting values 
+    //setting values
     const SetValues = (id, value, index) => {
         let form_data = { ...formData }
         form_data['social_secretary_codes'][index]['social_secretary_code'] = value
@@ -54,9 +54,9 @@ export default function LinkHolidayCodeToSocialSecretary() {
 
     function OnSave() {
 
-        let apiUrl = BASE_URL + '/masterdata/social-secretary-holiday-codes'
+        let apiUrl = BASE_URL + '/masterdata/social-secretary-holiday-configuration'
         // APICall for create and updation of social secretary
-        AXIOS.service(apiUrl, 'POST', formData)
+        AXIOS.service(apiUrl, 'PUT', formData)
             .then((result) => {
                 if (result?.success) {
                     setSuccessMessage(result.message);
