@@ -14,6 +14,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import TimeInput from "../atoms/TimeInput";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function AddSector() {
 
@@ -103,42 +104,39 @@ export default function AddSector() {
 
     //Fetch dropdown data of employee types
     useEffect(() => {
-        if (!params.id) {
-            AXIOS.service(EmployeeTypeApiUrl, 'GET')
-                .then((result) => {
-                    if (result?.success && result.data.length !== employeeTypeList.length) {
-                        result.data.map((val, index) => {
-                            employeeTypeList.push({ value: val.id, label: val.name })
-                        })
-                    } else {
-                        setErrors(result.message)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
+        AXIOS.service(EmployeeTypeApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success && result.data.length !== employeeTypeList.length) {
+                    result.data.map((val, index) => {
+                        employeeTypeList.push({ value: val.id, label: val.name })
+                    })
+                } else {
+                    setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, [])
 
     // Fetch sector data based on param id to add default inputs
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = SectorApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = SectorApiUrl + '/' + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setEmployeeTypeList(result.data.employee_types);
-                        setEmployeeType(result.data.details.employee_types_value);
-                        setSectorName(result.data.details.name);
-                        setParitairCommittee(result.data.details.paritair_committee);
-                        setDescription(result.data.details.description ? result.data.details.description : '');
-                        setCategoryNumber({ value: result.data.details.category, label: result.data.details.category })
-                        setExperience(result.data.details.salary_config.salary_steps);
-                        setLevelsCount(result.data.details.salary_config.salary_steps)
-                        setAge(result.data.details.sector_age_salary);
-                        setAgeRow(result.data.details.sector_age_salary);
+                        setEmployeeType(getFormattedDropdownOptions(result.data.employee_types));
+                        setSectorName(result.data.name);
+                        setParitairCommittee(result.data.paritair_committee);
+                        setDescription(result.data.description ? result.data.description : '');
+                        setCategoryNumber({ value: result.data.category, label: result.data.category })
+                        setExperience(result.data.salary_config.salary_steps);
+                        setLevelsCount(result.data.salary_config.salary_steps)
+                        setAge(result.data.sector_age_salary);
+                        setAgeRow(result.data.sector_age_salary);
 
-                        if (result.data.details.status) { setActive(true) } else { setInactive(true); setActive(false) }
+                        if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
                         setErrors(result.message)
                     }

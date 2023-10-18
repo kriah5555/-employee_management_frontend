@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { SocialSecretaryApiUrl } from "../../routes/ApiEndPoints"
 
- 
+
 export default function AddSocialSecretary() {
 
     const [socialSecretaryData, setSocialSecretaryData] = useState({
@@ -48,12 +48,12 @@ export default function AddSocialSecretary() {
     // Fetch data of social secretary for update
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = SocialSecretaryApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = SocialSecretaryApiUrl + '/' + params.id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        let response = result.data.details
+                        let response = result.data
                         let data = {
                             "name": response.name
                         }

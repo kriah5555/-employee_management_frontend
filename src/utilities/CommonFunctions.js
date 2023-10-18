@@ -79,6 +79,20 @@ export function getWeekNumberByDate(date) {
     return weekNumber;
 }
 
+export function getFormattedDropdownOptions(options, value_key = 'id' , label_key = 'name') {
+    if (Array.isArray(options)) {
+        let formattedData = []
+        options.map((value) => {
+            let obj = {value: value[value_key], label: value[label_key]}
+            formattedData.push(obj)
+        })
+        return formattedData;
+    } else {
+        console.log(options)
+        return {value: options[value_key], label: options[label_key]}
+    }
+}
+
 export function getDatesForWeek(weekNumber, year) {
     const startDate = new Date(year, 0, 2 + (weekNumber - 1) * 7);
     const endDate = new Date(startDate);

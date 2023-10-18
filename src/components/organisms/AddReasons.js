@@ -66,16 +66,16 @@ export default function AddReasons() {
     // Fetch data of reasons for update
     useEffect(() => {
         if (params.id) {
-            let editApiUrl = ReasonsApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = ReasonsApiUrl + '/' + params.id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        let response = result.data.details
+                        let response = result.data
                         setCategory(response.category)
                         let data = {
                             "name": response.name,
-                            "category": category,
+                            "category": response.category.value,
                         }
                         setReasonsData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -92,7 +92,7 @@ export default function AddReasons() {
     const reasonFields = [
         // Reasons fields
         { title: 'Reason name', name: 'name', required: true, type: 'text', style: 'col-md-12 mt-4 float-left' },
-        { title: 'Category', name: 'category', required: true, options: dropdownOptions.categories, isMulti: false, selectedOptions: category, type: 'dropdown', isDisabled: params.id !== 0 && params.id !== undefined ? true : false, style: 'col-md-6 mt-2 float-left' },
+        { title: 'Category', name: 'category', required: true, options: dropdownOptions.categories, isMulti: false, selectedOptions: category, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
