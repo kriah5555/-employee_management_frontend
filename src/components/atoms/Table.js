@@ -115,7 +115,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "manage email template") ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -133,7 +133,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: 'Delete',
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "manage email template") ? false : true
         })
     ]
 
