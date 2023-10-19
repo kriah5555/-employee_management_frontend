@@ -885,6 +885,15 @@ html .ui-button.ui-state-disabled:active {
     right: 8px;
     bottom: 6px;
 }
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
 .ck-editor__editable_inline {
     min-height: 400px;
 }

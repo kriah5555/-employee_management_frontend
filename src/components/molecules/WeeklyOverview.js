@@ -142,7 +142,7 @@ export default function WeeklyOverview({ enableShifts }) {
     return (
         <div className="col-md-12 p-0 text-center">
             <table className="table table-bordered mb-0">
-                <thead>
+                <thead className="sticky">
                     <tr>
                         <th><img className="shortcut-icon" src={WorkStationIcon}></img></th>
                         <th className="py-4">Employees</th>
