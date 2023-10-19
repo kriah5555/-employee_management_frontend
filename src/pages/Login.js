@@ -28,7 +28,8 @@ export default function Login({ setAuth }) {
             .then((result) => {
                 if (result.success) {
                     let response = result.data
-                    localStorage.setItem('token', 'Bearer ' + response.token);
+                    localStorage.setItem('token', 'Bearer ' + response.token.access_token);
+                    localStorage.setItem('refresh_token', response.token.refresh_token);
                     localStorage.setItem('userId', response.uid);
                     localStorage.setItem('name', response.username);
                     setAuth(true)
