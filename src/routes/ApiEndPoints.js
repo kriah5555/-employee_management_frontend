@@ -10,6 +10,8 @@ export const PAGINATE_BY = 10;
 
 export const LoginApiUrl = BASE_URL + '/identity-manager/login'
 export const LogoutApiUrl = BASE_URL + '/identity-manager/logout'
+export const GenderApiUrl = BASE_URL + '/identity-manager/genders'
+export const MaritalStatusApiUrl = BASE_URL + '/identity-manager/marital-statuses'
 // export const GetUserDetailsApiUrl = BASE_URL + '/identity-manager/user-details'
 //add all your new urls from here onwards
 export const EmployeeTypeApiUrl = BASE_URL + '/masterdata/employee-types'
@@ -27,8 +29,6 @@ export const LocationListApiUrl = BASE_URL + '/masterdata/company-locations'
 export const WorkstationApiUrl = BASE_URL + '/masterdata/workstations'
 export const WorkstationListApiUrl = BASE_URL + '/masterdata/company-workstations'
 export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
-export const GenderApiUrl = BASE_URL + '/masterdata/genders'
-export const MaritalStatusApiUrl = BASE_URL + '/masterdata/marital-statuses'
 export const MealVoucherApiUrl = BASE_URL + '/masterdata/meal-vouchers'
 export const HourlyMinimumSalariesApiurl = BASE_URL + '/masterdata/hourly-minimum-salaries'
 export const MonthlyMinimumSalariesApiurl = BASE_URL + '/masterdata/monthly-minimum-salaries'

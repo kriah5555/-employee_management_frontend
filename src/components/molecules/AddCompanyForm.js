@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CompanyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import CompanyForm from "./CompanyForm";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function AddCompanyForm({ companyData, setCompanyData, view, update_id, sector, setSector }) {
 
@@ -34,7 +35,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
         AXIOS.service(CompanyApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setSectorList(result.data.sectors)
+                    setSectorList(getFormattedDropdownOptions(result.data.sectors))
                 }
             })
             .catch((error) => {
@@ -44,22 +45,22 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
 
 
     useEffect(() => {
-        if (update_id !== '0') {
-            let editApiUrl = CompanyApiUrl + '/' + update_id + '/edit'
+        if (update_id !== '0' && update_id != undefined) {
+            let editApiUrl = CompanyApiUrl + '/' + update_id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
                         let response = [];
-                        response.push(result.data.details)
-                        let selectedSectors = result.data.details.sectors
+                        response.push(result.data)
+                        let selectedSectors = result.data.sectors
                         let id_arr = []
                         response[0]['sectors'] = []
                         selectedSectors.map((val, i) => {
                             id_arr.push(val.id)
                         })
                         response[0]['sectors'] = id_arr;
-                        setSector(result.data.details.sectors_value);
+                        setSector(getFormattedDropdownOptions(result.data.sectors));
                         setCompanyData(response);
                     }
                 })
@@ -92,11 +93,11 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
     }
 
 
-    //add company fields 
+    //add company fields
     const addCompanyFieldsArray = [
         { title: "VAT number", name: "employer_id", type: "input_field" },
         { title: "Company name", name: "company_name", required: true, type: "input_field" },
-        { title: "Sector name", options: sectorList, isMulti: true, selectedOptions: sector, required: true, type: "dropdown" },
+        { title: "Sector", options: sectorList, isMulti: true, selectedOptions: sector, required: true, type: "dropdown" },
         { title: "Email", name: "email", required: true, type: "input_field" },
         { title: "Phone number", name: "phone", required: true, type: "phone_input", style:"col-md-4 mt-1 float-left" },
         // { title: "VAT number", name: "employer_id", type: "input_field" },
@@ -129,4 +130,4 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
             ></CompanyForm>
         </div>
     );
-}       
+}

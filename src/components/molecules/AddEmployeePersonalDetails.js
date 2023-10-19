@@ -7,7 +7,7 @@ import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 export default function AddEmployeePersonalDetails({ options, employeeData, setEmployeeData, gender, setGender, language, setLanguage,
     maritalStatus, setMaritalStatus, dependantSpouse, setDependantSpouse }) {
 
-    //add employee personal detail fields 
+    //add employee personal detail fields
     const addEmployeeDetailsFields = [
         { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
 
