@@ -45,7 +45,7 @@ export default function CommunicationConfigurationOverview() {
         // Header data for Function overview
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
-            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle('Create email template'); setAddUrl('/add-email-template');
+            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle(''); setAddUrl('/add-email-template');
         }
         
         // Api call to get list data
