@@ -4,6 +4,7 @@ import { t } from "../../translations/Translation";
 import CompanyOverviews from "../molecules/CompanyOverviews";
 import 'react-tabs/style/react-tabs.css';
 import AddCompanyIcon from "../../static/icons/AddCompany.svg";
+import BackIcon from "../../static/icons/BackIcon.png"
 import FilterIcon from "../../static/icons/Filter.svg";
 import ExportIcon from "../../static/icons/Export.svg";
 import AddLocationIcon from "../../static/icons/AddLocation.svg"
@@ -25,17 +26,20 @@ export default function OverviewTabs() {
         if (window.location.hash !== '' && window.location.hash !== '#') {
             // setTabIndex(parseInt(window.location.hash.split('#')[1]));
             if (window.location.hash === '#location') {
-                setTabIndex(1);
+                setCompanySelected(true);
+                setTabIndex(0);
                 getRightHeaderContent('location');
                 window.location.hash = ''
             } else if (window.location.hash === '#workstation') {
-                setTabIndex(2);
+                setTabIndex(1);
                 getRightHeaderContent('workstation');
+                setCompanySelected(true);
                 window.location.hash = ''
             } else if (window.location.hash === '#cost_center') {
-                setTabIndex(3)
+                setTabIndex(2)
                 getRightHeaderContent('cost center');
                 window.location.hash = ''
+                setCompanySelected(true);
             }
             window.location.hash = ''
         }
@@ -89,6 +93,7 @@ export default function OverviewTabs() {
             ])
         } else {
             getRightHeaderContent('company')
+            setTabIndex(0)
             setTabsData([
                 { tabHeading: t("COMPANY"), tabName: 'company' },
             ])
@@ -116,8 +121,9 @@ export default function OverviewTabs() {
                         <Tab key={val.tabName} onClick={() => getRightHeaderContent(val.tabName)} >{val.tabHeading}</Tab>
                     )
                 })}
-                {addIcon && <div className="react-tabs__tab border-0 float-right">
-                    <div className="d-flex justify-content-start">
+                {addIcon && <div className="react-tabs__tab border-0 float-right width-20">
+                    <div className="d-flex justify-content-end">
+                        {addTitle !== 'Add company' && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2" src={BackIcon}></img>Company overview</p>}
                         {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
                         {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                         {/* <img src={FilterIcon} className="header-icon ml-2"></img>

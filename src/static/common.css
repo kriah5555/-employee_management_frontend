@@ -432,7 +432,7 @@ li,
     border-width: 3px 0px 0px 0px;
 }
 
-.company_creation div ul li {
+.company_creation div ul li, .width-20 {
     width: 20% !important;
 }
 
