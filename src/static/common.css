@@ -947,3 +947,6 @@ html .ui-button.ui-state-disabled:active {
     color: #003f54 !important;
 }
 
+.underline {
+    text-decoration: underline;
+}
