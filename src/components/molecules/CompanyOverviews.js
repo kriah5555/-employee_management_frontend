@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -91,6 +91,20 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
         },
     ];
 
+    //contract headers
+    const contracts_template_headers = [
+        {
+            title: 'Employee Type',
+            field: 'employee_type.name',
+            size: '200',
+        },
+        {
+            title: 'Language',
+            field: 'language',
+            size: '200',
+        }
+    ]
+
     useEffect(() => {
         let ApiUrl;
         if (overviewContent === 'company') {
@@ -105,6 +119,9 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
         } else if (overviewContent === 'cost center') {
             setHeaders(cost_center_headers)
             ApiUrl = CostCenterApiUrl + '/1/all'
+        } else if (overviewContent === 'contracts') {
+            setHeaders(contracts_template_headers)
+            ApiUrl = ContractTemplateApiUrl
         }
         AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
@@ -123,6 +140,17 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
                             arr.push(obj)
                         })
                         setListData(arr)
+                    } else if (overviewContent === 'contracts') {
+                        let data = result.data
+                        //filtering data for given company and also for null 
+                        const filteredData = data.filter(item => item.company_id == null || item.company_id == 1);
+                        filteredData.forEach(element => {
+                            if (element.language) {
+                                element.language = element.language.toUpperCase();
+                            }
+                        });
+
+                        setListData(filteredData)
                     }
                 }
             })
@@ -133,7 +161,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
 
     // Api call to delete item from table
     const DeleteApiCall = () => {
-        // APICall for create and updation of employee types
+
         AXIOS.service(deleteUrl, 'DELETE')
             .then((result) => {
                 if (result?.success) {
@@ -187,6 +215,12 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
                 navigate('/manage-companies/cost_center/' + data.id)
             } else {
                 setDeleteUrl(CostCenterApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'contracts') {
+            if (action === 'edit') {
+                navigate('/add-contracts-template/company/' + data.id)
+            } else {
+                setDeleteUrl(ContractTemplateApiUrl + '/' + data.id)
             }
         }
     }

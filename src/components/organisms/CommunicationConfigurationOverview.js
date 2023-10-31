@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmailTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { EmailTemplateApiUrl, ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
@@ -27,6 +27,20 @@ export default function CommunicationConfigurationOverview() {
 
     ]
 
+    //Header data for contract templates
+    const contracts_template_headers = [
+        {
+            title: 'Employee Type',
+            field: 'employee_type.name',
+            size: '200',
+        },
+        {
+            title: 'Language',
+            field: 'language',
+            size: '200',
+        }
+    ]
+
     const [headers, setHeaders] = useState(communication_headers);
     const [listData, setListData] = useState([]);
     const [title, setTitle] = useState('Manage communication');
@@ -39,13 +53,23 @@ export default function CommunicationConfigurationOverview() {
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
             setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle('Create email template'); setAddUrl('/add-email-template');
+        } else if (overviewContent == 'contracts_template') {
+            apiUrl = ContractTemplateApiUrl
+            setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');
         }
 
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setListData(result.data);
+                    let data = result.data
+                    //filtering data for given company and also for null 
+                    data.forEach(element => {
+                        if (element.language) {
+                            element.language = element.language.toUpperCase();
+                        }
+                    });
+                    setListData(data)
                 }
             })
             .catch((error) => {
@@ -57,7 +81,7 @@ export default function CommunicationConfigurationOverview() {
 
     // Api call to delete item from table
     const DeleteApiCall = () => {
-        // APICall for create and updation of employee types
+
         AXIOS.service(deleteUrl, 'DELETE')
             .then((result) => {
                 if (result?.success) {
@@ -87,9 +111,15 @@ export default function CommunicationConfigurationOverview() {
         }
         if (overviewContent === 'email') {
             if (action === 'edit') {
-                navigate('/add-email-template' + data.id)
+                navigate('/add-email-template/' + data.id)
             } else {
                 setDeleteUrl(EmailTemplateApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'contracts_template') {
+            if (action === 'edit') {
+                navigate('/add-contracts-template/template/' + data.id)
+            } else {
+                setDeleteUrl(ContractTemplateApiUrl + '/' + data.id)
             }
         }
     }

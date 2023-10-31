@@ -29,6 +29,8 @@ export default function CompanyCreation() {
     const [responsiblePerson, setResponsiblePerson] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState([]);
     const [selectedFunction, setSelectedFunction] = useState([]);
+    const [socialSecretary, setSocialSecretary] = useState("");
+    const [interimAgency, setInterimAgency] = useState("");
 
     const [errors, setErrors] = useState([]);
 
@@ -105,6 +107,8 @@ export default function CompanyCreation() {
         username: "",
         status: 1,
         sectors: [],
+        social_secretary_id:"",
+        interim_agency_id:"",
         address: {
             street_house_no: "",
             postal_code: "",
@@ -205,7 +209,7 @@ export default function CompanyCreation() {
                     </TabList>
 
                     <TabPanel>
-                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector}></AddCompanyForm></div>
+                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector} socialSecretary ={socialSecretary} setSocialSecretary={setSocialSecretary} interimAgency={interimAgency} setInterimAgency = {setInterimAgency}></AddCompanyForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>

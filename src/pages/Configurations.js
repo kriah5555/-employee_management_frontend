@@ -38,6 +38,7 @@ export default function Configurations() {
         { title: ('Email templates'), icon: Email, styleClass: subTabStyle, type: 'email' },
         // { title: ('Translations'), icon: Email, styleClass: subTabStyle, type: 'translation' },
         // { title: ('Message '), icon: Email, styleClass: subTabStyle, type: 'message' },
+        { title: ('contract templates'), icon: ContractTypeIcon, styleClass: subTabStyle, type: 'contracts_template' },
     ]
     return (
         <div className="right-container">

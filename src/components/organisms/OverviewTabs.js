@@ -10,6 +10,7 @@ import AddLocationIcon from "../../static/icons/AddLocation.svg"
 import AddWorkstationIcon from "../../static/icons/Workstation.svg"
 import { ToastContainer } from 'react-toastify';
 import SalariesIcon from "../../static/icons/Salaries.svg";
+import ContractTypeIcon from "../../static/icons/ContractType.svg";
 
 export default function OverviewTabs() {
 
@@ -60,6 +61,10 @@ export default function OverviewTabs() {
             setAddIcon(SalariesIcon);
             setAddTitle('Add cost center');
             setAddUrl('/manage-companies/cost_center/0')
+        } else if ( tabName === 'contracts') {
+            setAddIcon(ContractTypeIcon)
+            setAddTitle('Add contract');
+            setAddUrl('/add-contracts-template/company');
         } else {
             setAddIcon('');
             setAddTitle('');
@@ -142,7 +147,7 @@ export default function OverviewTabs() {
             </TabPanel>
 
             <TabPanel>
-                <h3 className="text-center mt-3">Contracts Overview</h3>
+                <h3 className="text-center mt-3"><CompanyOverviews overviewContent={'contracts'}></CompanyOverviews></h3>
             </TabPanel>
 
             <TabPanel>
