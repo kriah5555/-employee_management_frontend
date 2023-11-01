@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 
 export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setEmployeeData, fuelCard, setFuelCard, companyCar, setCompanyCar, mealVoucher, setMealVoucher, options }) {
 
     const YesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }]
 
-    //add employee personal detail fields 
+    //add employee personal detail fields
     const socialSecurityFields = [
         { title: "Social secretory number", name: "social_secretory_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
@@ -18,7 +19,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: options.meal_voucher_options, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: getFormattedDropdownOptions(options.meal_vouchers), selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ]
 

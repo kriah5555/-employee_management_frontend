@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 
 export default function AddEmployeePersonalDetails({ options, employeeData, setEmployeeData, gender, setGender, language, setLanguage,
-    maritalStatus, setMaritalStatus, dependantSpouse, setDependantSpouse }) {
+    maritalStatus, setMaritalStatus, dependantSpouse, setDependantSpouse, childrenOptions }) {
 
     //add employee personal detail fields
     const addEmployeeDetailsFields = [
@@ -19,7 +20,7 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         { title: "DOB", name: "date_of_birth", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: "Place of birth", name: "birth_place", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: "Gender", name: "gender_id", required: true, options: options.genders, selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Gender", name: "gender_id", required: true, options: getFormattedDropdownOptions(options.genders), selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         // { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Licence expiry", name: "license_expiry_date", required: false, type: "date", style: "col-md-4 mt-4 float-left" },
 
@@ -32,9 +33,10 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         { title: "Bank account number", name: "bank_account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
         { title: "Language", name: "language", required: true, options: options.languages, selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Marital status', name: 'marital_status_id', required: true, options: options.marital_statuses, selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: 'Marital status', name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(options.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Dependant spouse", name: "dependant_spouse", required: true, options: options.dependent_spouse_options, selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         // { title: "Childrens", name: "childrens", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Childrens", name: "childrens", required: false, options: childrenOptions, selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ];
 
 
