@@ -39,6 +39,8 @@ export const ReasonsApiUrl = BASE_URL + '/masterdata/reasons'
 export const CostCenterApiUrl = BASE_URL + '/masterdata/cost-center'
 export const SocialSecretaryApiUrl = BASE_URL + '/masterdata/social-secretary'
 export const EmailTemplateApiUrl = BASE_URL + '/masterdata/email-templates'
+export const InterimAgencyApiUrl = BASE_URL + '/masterdata/interim-agencies'
+export const InterimAgencyOptionsApiUrl = BASE_URL + '/masterdata/interim-agencies/create'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here
