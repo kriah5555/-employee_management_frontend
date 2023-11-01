@@ -51,16 +51,18 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
+                        // Get selected sectors
+                        setSector(getFormattedDropdownOptions(result.data.sectors));
+
+                        // Formatting sector data and converting to array of sector ids
                         let response = [];
                         response.push(result.data)
                         let selectedSectors = result.data.sectors
                         let id_arr = []
-                        response[0]['sectors'] = []
                         selectedSectors.map((val, i) => {
                             id_arr.push(val.id)
                         })
                         response[0]['sectors'] = id_arr;
-                        setSector(getFormattedDropdownOptions(result.data.sectors));
                         setCompanyData(response);
                     }
                 })

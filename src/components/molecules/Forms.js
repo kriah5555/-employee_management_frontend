@@ -6,8 +6,8 @@ import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
 import BackIcon from "../../static/icons/BackIcon.png"
-
-export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, field7, error1, error2, error3, error4, error7, SetValues, onSave, view }) {
+import TimeInput from "../atoms/TimeInput";
+export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, field7, field8, field9, error1, error2, error3, error4, error7, SetValues, onSave, view }) {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -76,6 +76,26 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         isMulti={field7.isMulti}
                         error={error7}
                     ></Dropdown>}
+                    { view === 'sectors' &&
+                         <TimeInput
+                         setTime={(e) => SetValues(e, 'night_hour_start_time')}
+                         value={field8.value}
+                         type={field8.type}
+                         title={field8.title}
+                         required={field8.required}
+                         customStyle= "col-md-6 float-left mt-4"
+                     ></TimeInput>
+                    }
+                    { view === 'sectors' &&
+                         <TimeInput
+                         setTime={(e) => SetValues(e, 'night_hour_end_time')}
+                         value={field9.value}
+                         type={field9.type}
+                         title={field9.title}
+                         required={field9.required}
+                         customStyle= "col-md-6 float-left mt-4"
+                     ></TimeInput>
+                    }
 
                     {/* Text area input field */}
                     <TextArea

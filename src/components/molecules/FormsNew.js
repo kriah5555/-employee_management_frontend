@@ -132,6 +132,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                         } else if (field.type === 'editor') {
                             return (
                                 <Editor
+                                    key={field.name}
                                     title={field.title}
                                     name={field.name}
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}

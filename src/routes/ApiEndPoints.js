@@ -10,6 +10,7 @@ export const PAGINATE_BY = 10;
 
 export const LoginApiUrl = BASE_URL + '/identity-manager/login'
 export const LogoutApiUrl = BASE_URL + '/identity-manager/logout'
+export const AccessTokenApiUrl = BASE_URL + '/identity-manager/generate-access-token'
 export const GenderApiUrl = BASE_URL + '/identity-manager/genders'
 export const MaritalStatusApiUrl = BASE_URL + '/identity-manager/marital-statuses'
 // export const GetUserDetailsApiUrl = BASE_URL + '/identity-manager/user-details'

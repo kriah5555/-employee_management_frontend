@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getNewAccessToken } from '../utilities/CommonFunctions';
 
 /**
  * Below is the usage of service function
@@ -56,6 +57,7 @@ async function service(
   urlendpoint = "",
   httpmethod = "",
   data = "",
+  refresh = "",
   file = 0,
   loading = 1
 ) {
@@ -80,8 +82,10 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-              if (error.response.status === 403) {
+              if ((error.response.status === 403 || error.response.status === 401) && refresh === true) {
                 window.location.href = '/login'
+              } else if (error.response.status === 403) {
+                getNewAccessToken();
               }
               let err = {
                 'error': true,
@@ -106,8 +110,10 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-              if (error.response.status === 403) {
+              if ((error.response.status === 403 || error.response.status === 401) && refresh === true) {
                 window.location.href = '/login'
+              } else if (error.response.status === 403) {
+                getNewAccessToken();
               }
               let err = {
                 'error': true,
@@ -132,8 +138,10 @@ async function service(
               if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-              if (error.response.status === 403) {
+              if ((error.response.status === 403 || error.response.status === 401) && refresh === true) {
                 window.location.href = '/login'
+              } else if (error.response.status === 403) {
+                getNewAccessToken();
               }
               let err = {
                 'error': true,
@@ -158,8 +166,10 @@ async function service(
               if (loading === 1 && document.getElementById("loading-icon") !== null) {
                   document.getElementById("loading-icon").setAttribute("style", "display:none;");
               }
-              if (error.response.status === 403) {
+              if ((error.response.status === 403 || error.response.status === 401) && refresh === true) {
                 window.location.href = '/login'
+              } else if (error.response.status === 403) {
+                getNewAccessToken();
               }
               let err = {
                 'error': true,

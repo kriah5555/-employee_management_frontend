@@ -17,43 +17,51 @@ export default function CommunicationConfigurationOverview() {
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteUrl, setDeleteUrl] = useState('');
 
-    // Header data for Holiday code
-    const communication_headers = [
-        {
-            title: 'Email templates',
-            field: 'name',
-            size: 200,
-        },
-
-    ]
-
-    const [headers, setHeaders] = useState(communication_headers);
+    
     const [listData, setListData] = useState([]);
     const [title, setTitle] = useState('Manage communication');
     const [addTitle, setAddTitle] = useState('Create email template');
     const [addUrl, setAddUrl] = useState('/add-email-template');
 
+    // Header data for Holiday code
+    const communication_headers = [
+        // {
+        //     title: 'Email templates',
+        //     field: 'name',
+        //     size: 200,
+        // },
+        {
+            title: "Mail type",
+            field: 'template_type',
+            size: 200.
+        },
+
+    ]
+    const [headers, setHeaders] = useState(communication_headers);
+
+    
     useEffect(() => {
         let apiUrl;
         // Header data for Function overview
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
-            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle('Create email template'); setAddUrl('/add-email-template');
+            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle(''); setAddUrl('/add-email-template');
         }
-
+        
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    setListData(result.data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
+        .then((result) => {
+            if (result?.success) {
+                setListData(result.data);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        
     }, [overviewContent, dataRefresh])
-
+    
+    
 
     // Api call to delete item from table
     const DeleteApiCall = () => {
@@ -87,7 +95,7 @@ export default function CommunicationConfigurationOverview() {
         }
         if (overviewContent === 'email') {
             if (action === 'edit') {
-                navigate('/add-email-template' + data.id)
+                navigate('/add-email-template/' + data.id)
             } else {
                 setDeleteUrl(EmailTemplateApiUrl + '/' + data.id)
             }
@@ -125,7 +133,7 @@ export default function CommunicationConfigurationOverview() {
                     </div>
                 </div>
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={'function'} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={"manage email template"} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
                 </div>
             </div>
         </div>

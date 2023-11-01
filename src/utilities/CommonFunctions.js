@@ -1,3 +1,6 @@
+import { AccessTokenApiUrl } from "../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../services/AxiosServices";
+
 // Function to make the given number 2 digit
 export function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
@@ -79,17 +82,17 @@ export function getWeekNumberByDate(date) {
     return weekNumber;
 }
 
-export function getFormattedDropdownOptions(options, value_key = 'id' , label_key = 'name') {
+export function getFormattedDropdownOptions(options, value_key = 'id', label_key = 'name') {
     if (Array.isArray(options)) {
         let formattedData = []
         options.map((value) => {
-            let obj = {value: value[value_key], label: value[label_key]}
+            let obj = { value: value[value_key], label: value[label_key] }
             formattedData.push(obj)
         })
         return formattedData;
     } else {
         console.log(options)
-        return {value: options[value_key], label: options[label_key]}
+        return { value: options[value_key], label: options[label_key] }
     }
 }
 
@@ -118,4 +121,17 @@ export function getCurrentWeek() {
 
     let weekNumber = Math.ceil(days / 7);
     return weekNumber;
+}
+
+export function getNewAccessToken() {
+    let request_data = { 'refresh_token': localStorage.getItem('refresh_token') }
+    AXIOS.service(AccessTokenApiUrl, 'POST', request_data, true)
+        .then((result) => {
+            if (result.success) {
+                let response = result.data
+                localStorage.setItem('token', 'Bearer ' + response.token.access_token);
+                localStorage.setItem('refresh_token', response.token.refresh_token);
+                window.location.reload();
+            }
+        })
 }

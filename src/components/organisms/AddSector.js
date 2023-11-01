@@ -26,8 +26,10 @@ export default function AddSector() {
     const [description, setDescription] = useState('');
     const [employeeType, setEmployeeType] = useState([]);
     const [categoryNumber, setCategoryNumber] = useState('');
+    const [nightHourStartTime, setNightHourStartTime] = useState('');
+    const [nightHourEndTime, setNightHourEndTime] = useState('');
 
-    const [experience, setExperience] = useState([{ 'level': 1, 'from': '', 'to': '' }]);
+    const [experience, setExperience] = useState([{ 'level': 0, 'from': '', 'to': '' }]);
     const [age, setAge] = useState([{ 'age': '', 'percentage': '', 'max_time_to_work': '' }])
 
     const [successMessage, setSuccessMessage] = useState('');
@@ -200,6 +202,20 @@ export default function AddSector() {
         required: true
     }
 
+    const night_shift_start = {
+        title: "Night shift strart time",
+        type: 'night_hour_start_time',
+        value: nightHourStartTime,
+        required: true
+    }
+
+    const night_shift_end = {
+        title: "Night shift end time",
+        type: "night_hour_end_time",
+        value: nightHourEndTime,
+        required: true
+    }
+
 
     // Type:
     // 1: Sector name
@@ -239,7 +255,12 @@ export default function AddSector() {
             data[index]['max_time_to_work'] = value
             setAge(data);
             // setHourMin(value);
-        } else {
+        } else if (type === 'night_hour_start_time') {
+            setNightHourStartTime(value)
+        } else if (type === 'night_hour_end_time') {
+            setNightHourEndTime(value)
+        }
+        else {
             setDescription(value);
         }
     }
@@ -265,6 +286,8 @@ export default function AddSector() {
                 'description': description,
                 'employee_types': emp_type_ids,
                 'category': categoryNumber.value,
+                'night_hour_start_time': nightHourStartTime,
+                'night_hour_end_time': nightHourEndTime,
                 'status': status,
                 'experience': experience,
                 'age': age_arr
@@ -314,7 +337,7 @@ export default function AddSector() {
         // Adding empty object for each row on add row click
         if (type !== 'age') {
             const rowData = {
-                'level': levelsCount.length + 1,
+                'level': levelsCount.length,
                 'from': '',
                 'to': '',
             }
@@ -395,6 +418,8 @@ export default function AddSector() {
                             field4={category_number}
                             field5={sector_desc}
                             field6={sector_status}
+                            field8={night_shift_start}
+                            field9={night_shift_end}
                             SetValues={SetValues}
                             onSave={OnSave}
                             view={'sectors'}
@@ -418,7 +443,7 @@ export default function AddSector() {
                                     return (
                                         <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
                                             <div className="col-md-4 pl-3">
-                                                <p className="mb-0">{index + 1}</p>
+                                                <p className="mb-0">{index}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <div className="row m-0 justify-content-center">

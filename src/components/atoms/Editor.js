@@ -1,11 +1,21 @@
 
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from 'ckeditor5-custom-build/build/ckeditor';
 import RequiredIcon from "../../static/icons/exclamation-mark1.png";
 import "../../static/common.css";
 
 export default function Editor({ index, title, name, required, CustomStyle, value, setValue, error, styleMargin }) {
+    const CustomConfig= {
+        toolbar: {
+            items: ['heading', '|', 'fontColor', 'fontSize', 'fontFamily', 'fontBackgroundColor', 'highlight', 'findAndReplace', '|',
+             'bold', 'italic', 'underline', 'subscript', 'superscript', 'link', '|',
+             'alignment', 'outdent', 'indent', '|', 'bulletedList', 'numberedList', '|',
+             'insertTable', 'imageUpload', 'mediaEmbed', 'codeBlock', 'imageInsert', 'blockQuote', 'selectAll', '|',
+             'undo', 'redo'
+        ]
+    },};
     const handleChange = (event, editor) => {
         const data = editor.getData();
         setValue(index, name, data);
@@ -20,7 +30,8 @@ export default function Editor({ index, title, name, required, CustomStyle, valu
                 </p>}
             </div>
             <CKEditor
-                editor={ClassicEditor}
+                editor={CustomEditor}
+                config={CustomConfig}
                 data={value}
                 onChange={(event, editor) => handleChange(event, editor)}
             />
