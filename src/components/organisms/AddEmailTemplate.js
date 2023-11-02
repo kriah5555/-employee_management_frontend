@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import FormsNew from "../molecules/FormsNew";
 import { EmailTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
+import Table from "../atoms/Table"
+
 export default function AddEmailTemplate() {
 
     const navigate = useNavigate();
@@ -24,6 +26,7 @@ export default function AddEmailTemplate() {
         'fr': "",
     })
     const [langauge, setLanguage] = useState('en');
+    const [tokensList, setTokensList] = useState([])
 
     //api call to get email template details
     useEffect(() => {
@@ -39,6 +42,14 @@ export default function AddEmailTemplate() {
                             "subject": response.details.subject.en,
                             "body": response.details.body.en,
                         }
+                        //converting tokens to required form
+                        const tokensData = Object.keys(response.tokens).map((key, i) => ({
+                            name: key,
+                            value: response.tokens[key],
+                            id: i
+                        }));
+
+                        setTokensList(tokensData)
                         setFormattedData(data);
                     }
                 })
@@ -52,7 +63,7 @@ export default function AddEmailTemplate() {
     const SetValues = (index, name, value) => {
         setFormattedData((prevData) => ({ ...prevData, [name]: value }));
     };
-
+    // to avoid delay in rendering current state values
     useEffect(() => {
         setSubject((prevSubject) => ({ ...prevSubject, [langauge]: formattedData.subject }));
         setBody((prevBody) => ({ ...prevBody, [langauge]: formattedData.body }));
@@ -84,13 +95,12 @@ export default function AddEmailTemplate() {
     const onLangaugeSelect = (lang) => {
         setLanguage(lang)
         let data = {
-            "subject": subject[lang],
+            "subject": subject[lang] ? subject[lang] : "",
             "body": body[lang] ? body[lang] : ""
         }
         //setting data display previous data
         setFormattedData(data)
     }
-
 
     //function to save data
     const OnSave = () => {
@@ -165,6 +175,10 @@ export default function AddEmailTemplate() {
                     SetValues={SetValues}
                     OnSave={OnSave}
                 />
+                <div className="px-5 pb-4">
+                    <h4 className="mb-3">Tokens:</h4>
+                    <Table columns={TableHeader} rows={tokensList} tableName="tokens" />
+                </div>
             </div>
         </div>
     );

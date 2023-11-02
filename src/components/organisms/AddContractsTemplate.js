@@ -153,7 +153,7 @@ export default function AddEmailTemplate() {
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ] : [
         { title: "Employee type", name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
-        { title: 'Company', name: 'company_id', required: true, options: companyList, selectedOptions: company, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: 'Company', name: 'company_id', required: false, options: companyList, selectedOptions: company, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: 'Social secretary', name: 'social_secretary_id', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Preview", name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
@@ -229,13 +229,13 @@ export default function AddEmailTemplate() {
                 <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                     <h4 className="mb-0 text-color d-flex ">
                         <div className="col-md-6 float-left">
-                            <img className="shortcut-icon mr-2 mb-1 " onClick={() => navigate('/manage-communication-configurations/contracts_template')} src={BackIcon}></img>
-                            Manage contract
+                            <img className="shortcut-icon mr-2 mb-1 " onClick={() => navigate(navigateUrl)} src={BackIcon}></img>
+                            Add contract template
                         </div>
                         <div className="col-md-6 float-right">
                             <ul className="d-flex float-right mr-5">
                                 {langaugeArray.map((lang) => (
-                                    <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " text-success font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)}>{lang.label}</li>
+                                    <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)} id={(langauge == lang.value) ? "text-indii-blue" : ""}>{lang.label}</li>
                                 ))}
                             </ul>
                         </div>

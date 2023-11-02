@@ -12,7 +12,7 @@ export default function Editor({ index, title, name, required, CustomStyle, valu
             items: ['heading', '|', 'fontColor', 'fontSize', 'fontFamily', 'fontBackgroundColor', 'highlight', 'findAndReplace', '|',
              'bold', 'italic', 'underline', 'subscript', 'superscript', 'link', '|',
              'alignment', 'outdent', 'indent', '|', 'bulletedList', 'numberedList', '|',
-             'insertTable', 'imageUpload', 'mediaEmbed', 'codeBlock', 'imageInsert', 'blockQuote', 'selectAll', '|',
+             'insertTable', 'mediaEmbed', 'codeBlock', 'imageInsert', 'blockQuote', 'selectAll', '|',
              'undo', 'redo'
         ]
     },};

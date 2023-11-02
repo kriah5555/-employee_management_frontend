@@ -46,6 +46,7 @@ export default function CommunicationConfigurationOverview() {
     const [title, setTitle] = useState('Manage communication');
     const [addTitle, setAddTitle] = useState('Create email template');
     const [addUrl, setAddUrl] = useState('/add-email-template');
+    const [tableName, setTableName] = useState("");
 
     // Header data for Holiday code
     // const communication_headers = [
@@ -69,10 +70,10 @@ export default function CommunicationConfigurationOverview() {
         // Header data for Function overview
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
-            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle('Create email template'); setAddUrl('/add-email-template');
+            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle('Create email template'); setAddUrl('/add-email-template'); setTableName("manage email template");
         } else if (overviewContent == 'contracts_template') {
             apiUrl = ContractTemplateApiUrl
-            setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');
+            setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');setTableName("manage contract template");
         }
         
         // Api call to get list data
@@ -173,7 +174,7 @@ export default function CommunicationConfigurationOverview() {
                     </div>
                 </div>
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={"manage email template"} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={tableName} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
                 </div>
             </div>
         </div>
