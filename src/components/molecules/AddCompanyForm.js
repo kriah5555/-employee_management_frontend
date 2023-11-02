@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CompanyApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, SocialSecretaryApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import CompanyForm from "./CompanyForm";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
@@ -8,6 +8,7 @@ import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 export default function AddCompanyForm({ companyData, setCompanyData, view, update_id, sector, setSector }) {
 
     const [sectorList, setSectorList] = useState([])
+    const [socialSecretaryList, setSocialSecretaryList] = useState([])
     const navigate = useNavigate();
 
     // const [companyData, setCompanyData] = useState([{
@@ -36,6 +37,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
             .then((result) => {
                 if (result?.success) {
                     setSectorList(getFormattedDropdownOptions(result.data.sectors))
+                    setSocialSecretaryList(getFormattedDropdownOptions(result.data.social_secretaries))
                 }
             })
             .catch((error) => {
@@ -106,7 +108,6 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
         { title: "Sender number", name: "sender_number", required: false, type: "input_field" },
         { title: "Username", name: "username", required: false, type: "input_field" },
         { title: "RSZ number", name: "rsz_number", required: false, type: "input_field" },
-        { title: "Social secretary number", name: "social_secretary_number", required: false, type: "input_field" },
     ];
     //adress fields for company
     const companyAddressFieldsArray = [
@@ -115,6 +116,12 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
         { title: "City", name: "city", required: true, type: "input_field" },
         { title: "Country", name: "country", required: true, type: "input_field" },
     ];
+
+    const companySocialSectretaryFieldsArray = [
+        // { title: "Social secretary", name: "social_secretary", options: socialSecretaryList, isMulti: false, selectedOptions: sector, required: false, type: "dropdown" },
+        { title: "Social secretary number", name: "social_secretary_number", required: false, type: "input_field" },
+        { title: "Contact email", name: "contact_email", required: false, type: "input_field" },
+    ]
 
 
     return (
@@ -128,6 +135,9 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                 title2={'Address'}
                 data2={companyAddressFieldsArray}
                 formattedData2={companyData}
+                title3={'Social secretary details'}
+                data3={companySocialSectretaryFieldsArray}
+                formattedData3={companyData}
                 SetValues={setValues}
             ></CompanyForm>
         </div>
