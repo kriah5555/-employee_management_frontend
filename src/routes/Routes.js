@@ -25,7 +25,8 @@ import AddReasons from '../components/organisms/AddReasons';
 import AddSocialSecretary from '../components/organisms/AddSocialSecretary';
 import LinkHolidayCodeToSocialSecretary from "../components/molecules/LinkHolidayCodeToSocialSecretary"
 import Planning from '../pages/Planning';
-import AddEmailTemplate from '../components/organisms/AddEmailTemplate'
+import AddEmailTemplate from '../components/organisms/AddEmailTemplate';
+import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 
 const BaseRouter = ({ setAuth }) => (
     <Routes>
@@ -82,6 +83,9 @@ const BaseRouter = ({ setAuth }) => (
 
         <Route exact path='/manage-communication-configurations/:type' element={<CommunicationConfigurationOverview></CommunicationConfigurationOverview>} />
 
+        <Route exact path='/add-contracts-template/:addType' element={<AddContractsTemplate></AddContractsTemplate>} />
+        <Route exact path='/add-contracts-template/:addType/:id' element={<AddContractsTemplate></AddContractsTemplate>} />
+        
     </Routes>
 );
 

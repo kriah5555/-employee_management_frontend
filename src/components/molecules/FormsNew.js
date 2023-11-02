@@ -11,6 +11,7 @@ import Switch from "../atoms/Switch";
 import DateInput from "../atoms/formFields/DateInput";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import Editor from "../atoms/Editor";
+import FileInput from "../atoms/FileInput";
 
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave }) {
 
@@ -18,8 +19,8 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
     const params = useParams();
 
     return (
-        <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
-            {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
+        <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
+            {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             {data && <div className={view === 'filters' ? "d-flex px-2" : "d-flex px-5"}>
                 <form className={view === 'filters' ? "col-md-12 px-0 border-blue" : "col-md-12 px-0 pb-4 border-blue"}>
                     {/* Text input field and dropdown based on the data given */}
@@ -138,6 +139,17 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
                                     setValue={SetValues}
                                     index={i}
+                                    CustomStyle={field.style}
+                                    required={field.required}
+                                />
+                            )
+                        } else if (field.type === 'file') {
+                            return (
+                                <FileInput
+                                    title={field.title}
+                                    name={field.name}
+                                    index={i}
+                                    setValue={SetValues}
                                     CustomStyle={field.style}
                                     required={field.required}
                                 />
