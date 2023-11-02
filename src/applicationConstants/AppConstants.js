@@ -86,4 +86,7 @@ export const GET_CONSTANTS = {
     'FRIDAY': 'Friday',
     'SATURDAY': 'Saturday',
     'SUNDAY': 'Sunday',
+
+    'WORKING_HOURS': 'Working hours',
+    'LEAVE': 'Leave'
 };
