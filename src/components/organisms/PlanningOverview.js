@@ -7,6 +7,7 @@ import ImportIcon from "../../static/icons/Import.svg";
 import AddLeaveIcon from "../../static/icons/addLeave.svg";
 import WeeklyOverview from "../molecules/WeeklyOverview";
 import Switch from "../atoms/Switch";
+import DayOverview from "../molecules/DayOverview";
 
 export default function PlanningOverview() {
 
@@ -119,7 +120,7 @@ export default function PlanningOverview() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="tablescroll"></div>
+                        <div className="px-3 pb-3"><DayOverview></DayOverview></div>
                     </TabPanel>
 
                 </Tabs>

@@ -950,3 +950,18 @@ html .ui-button.ui-state-disabled:active {
 .underline {
     text-decoration: underline;
 }
+
+.planning-timeline div div div div{
+    overflow:hidden !important;
+}
+.planning-timeline div div div div svg g text{
+    display: none !important;
+}
+
+.border-x-none {
+    border-right: none !important;
+    border-left: none !important;
+}
+.width-90 {
+    width: 90% !important;
+}
