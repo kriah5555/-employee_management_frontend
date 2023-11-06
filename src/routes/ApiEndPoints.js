@@ -13,6 +13,8 @@ export const LogoutApiUrl = BASE_URL + '/identity-manager/logout'
 export const AccessTokenApiUrl = BASE_URL + '/identity-manager/generate-access-token'
 export const GenderApiUrl = BASE_URL + '/identity-manager/genders'
 export const MaritalStatusApiUrl = BASE_URL + '/identity-manager/marital-statuses'
+export const EmployeeCreateApiUrl = BASE_URL + '/identity-manager/user'
+
 // export const GetUserDetailsApiUrl = BASE_URL + '/identity-manager/user-details'
 //add all your new urls from here onwards
 export const EmployeeTypeApiUrl = BASE_URL + '/masterdata/employee-types'
@@ -29,7 +31,14 @@ export const LocationApiUrl = BASE_URL + '/masterdata/locations'
 export const LocationListApiUrl = BASE_URL + '/masterdata/company-locations'
 export const WorkstationApiUrl = BASE_URL + '/masterdata/workstations'
 export const WorkstationListApiUrl = BASE_URL + '/masterdata/company-workstations'
+
 export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
+export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contract'
+export const EmployeeCommutetApiUrl = BASE_URL + '/masterdata/employee-commute'
+export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
+
+
+
 export const MealVoucherApiUrl = BASE_URL + '/masterdata/meal-vouchers'
 export const HourlyMinimumSalariesApiurl = BASE_URL + '/masterdata/hourly-minimum-salaries'
 export const MonthlyMinimumSalariesApiurl = BASE_URL + '/masterdata/monthly-minimum-salaries'

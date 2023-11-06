@@ -199,6 +199,7 @@ function headers() {
         // include, *same-origin, omit
        // credentials: "same-origin",
         headers: {
+            "Company-ID": 1,
             "Content-Type": "application/json",
             // "Authorization": "Bearer aAqbVgy30qDmSqT0m32rB2xON0EE_3OW",
             "Authorization" : localStorage.getItem('token'),

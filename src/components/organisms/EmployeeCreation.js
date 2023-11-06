@@ -6,7 +6,7 @@ import { t } from "../../translations/Translation";
 import BackIcon from "../../static/icons/BackIcon.png";
 import CustomButton from "../atoms/CustomButton";
 import AddEmployeePersonalDetails from "../molecules/AddEmployeePersonalDetails";
-import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeCreateApiUrl, EmployeeContractApiUrl, EmployeeCommutetApiUrl, EmployeeBenefitsApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import AddEmployeeContractTypes from "../molecules/AddEmployeeContractTypes";
@@ -53,6 +53,12 @@ export default function EmployeeCreation() {
     const [errors, setErrors] = useState([]);
 
     const [options, setOptions] = useState([]);
+
+    const [employeeCreateOptions, setEmployeeCreateOptions] = useState([]);
+    const [employeeContractOptions, setEmployeeContractOptions] = useState([]);
+    const [employeeCommuteOptions, setEmployeeCommuteOptions] = useState([]);
+    const [employeeBenefitsOptions, setEmployeeBenefitsOptions] = useState([]);
+
     const MaximumChildren = 10;
     let count = 1
     let childrenOptions = [];
@@ -62,10 +68,47 @@ export default function EmployeeCreation() {
     }
 
     useEffect(() => {
-        AXIOS.service(EmployeeApiUrl + '/create/1', 'GET')
+        AXIOS.service(EmployeeCreateApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setOptions(result.data)
+                    console.log(result);
+                    setEmployeeCreateOptions(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        AXIOS.service(EmployeeContractApiUrl + '/create', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeContractOptions(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        AXIOS.service(EmployeeCommutetApiUrl + '/create', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeCommuteOptions(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        AXIOS.service(EmployeeBenefitsApiUrl + '/create', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeBenefitsOptions(result.data)
                 } else {
                     // setErrors(result.message)
                 }
@@ -103,11 +146,11 @@ export default function EmployeeCreation() {
         "fuel_card": "",
         "company_car": "",
         "clothing_compensation": "",
-        "meal_voucher_amount":"",
-        "meal_voucher_id":"",
+        "meal_voucher_amount": "",
+        "meal_voucher_id": "",
         "social_secretary_number": "",
         "contract number": "",
-        "extra_info":"",
+        "extra_info": "",
     });
 
 
@@ -177,7 +220,7 @@ export default function EmployeeCreation() {
                                 maritalStatus={maritalStatus} setMaritalStatus={setMaritalStatus}
                                 dependantSpouse={dependantSpouse} setDependantSpouse={setDependantSpouse}
                                 employeeData={employeeData} setEmployeeData={setEmployeeData}
-                                options={options}
+                                options={employeeCreateOptions}
                                 childrenOptions={childrenOptions}
                             ></AddEmployeePersonalDetails>
                         </div>
@@ -188,7 +231,7 @@ export default function EmployeeCreation() {
                     <TabPanel>
                         <div className="">
                             <AddEmployeeContractTypes
-                                tabIndex={tabIndex} options={options}
+                                tabIndex={tabIndex} options={employeeContractOptions}
                                 setEmployeeContracts={setEmployeeContracts} employeeContracts={employeeContracts}
                                 displaySubType={displaySubType} setDisplaySubType={setDisplaySubType}
                                 selectedEmpTypeCategory={selectedEmpTypeCategory} setSelectedEmpTypeCategory={setSelectedEmpTypeCategory}
@@ -205,7 +248,7 @@ export default function EmployeeCreation() {
                                 tabIndex={tabIndex}
                                 functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
                                 functions={functions} setFunctions={setFunctions}
-                                options={options}
+                                options={employeeContractOptions}
                             ></AddEmployeeFunctionSalaries>
                         </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
@@ -220,7 +263,7 @@ export default function EmployeeCreation() {
                                 locationTransport={locationTransport} setLocationTransport={setLocationTransport}
                                 locations={locations} setLocations={setLocations}
                                 commute={commute} setCommute={setCommute}
-                                options={options}
+                                options={employeeCommuteOptions}
                             ></AddEmployeeFunctionSalaries>
                         </div>                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
@@ -231,7 +274,7 @@ export default function EmployeeCreation() {
                         <div className="">
                             <AddEmployeeAdditionalInfo
                                 tabIndex={tabIndex}
-                                options={options}
+                                options={employeeBenefitsOptions}
                                 fuelCard={fuelCard} setFuelCard={setFuelCard}
                                 companyCar={companyCar} setCompanyCar={setCompanyCar}
                                 mealVoucher={mealVoucher} setMealVoucher={setMealVoucher}

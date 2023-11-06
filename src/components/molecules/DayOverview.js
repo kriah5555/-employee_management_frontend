@@ -30,7 +30,7 @@ export default function DayOverview() {
                 <tbody>
                     <tr>
                         <td>Employee name</td>
-                        <td colspan="13" className="p-0 width-90"><PlanChart></PlanChart></td>
+                        <td colSpan="13" className="p-0 width-90"><PlanChart></PlanChart></td>
                     </tr>
                 </tbody>
             </table>
