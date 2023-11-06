@@ -82,12 +82,12 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                             type={'schedule_type'}
                         ></RadioInput>
                         <RadioInput
-                            title={'Employement type'}
-                            radiobuttonsList={options.employement_types}
+                            title={'Employment type'}
+                            radiobuttonsList={options.employment_types}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}
-                            selectedOption={employeeContracts['employement_type']}
-                            type={'employement_type'}
+                            selectedOption={employeeContracts['employment_type']}
+                            type={'employment_type'}
                         ></RadioInput>
                     </>}
                 </div>

@@ -15,25 +15,37 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus }) {
         { label: 'Postal code', value: '2101' },
         { label: 'City', value: 'Antwerpen' },
         { label: 'Country', value: 'België' },
-        { label: 'Nationality', value: 'Belgium' }
+        { label: 'Nationality', value: 'Belgium' },
+        { label: 'Mobile number', value: '1234567891' },
+        { label: 'Email', value: 'example1@gmail.com' },
     ]
 
     // Personal data
     const tab1Right = [
-        { label: 'Mobile number', value: '1234567891' },
-        { label: 'Email', value: 'example1@gmail.com' },
         { label: 'Social security number', value: '84071938582' },
         { label: 'Date of joining', value: '22-04-2022' },
         { label: 'Expiry date', value: '22-05-2023' },
         { label: 'Bank account number', value: 'BE01 1234 4567 7812' },
         { label: 'INSS number', value: '84071938582' },
+        { label: 'Language', value: 'English' },
+        { label: 'Marital status', value: 'Married' },
+        { label: 'Dependant spouse', value: 'Yes' },
+        { label: 'Childrens', value: '02' },
     ]
 
     // Functions and salary data
     const tab2Data = [
+        { label: 'Employee type', value: 'Student' },
+        { label: 'Sub type', value: 'Daily contract' },
+        { label: 'Start date', value: '20/04/2023' },
+        { label: 'End date', value: '20/07/2023' },
         { label: 'Function name', value: 'Chef' },
         { label: 'Minimum salary', value: '€220.10' },
-        { label: 'Salary to be paid', value: '€235.20' }
+        { label: 'Salary to be paid', value: '€235.20' },
+        { label: 'Contract number', value: '12345' },
+        { label: 'Social security number', value: '84071938582' },
+        { label: 'Weekly contract hours', value: '02 days' },
+        { label: 'Work days per week', value: '02 days' },
     ]
 
     // Employee type data

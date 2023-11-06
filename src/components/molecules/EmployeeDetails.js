@@ -4,20 +4,31 @@ import PhoneIcon from "../../static/icons/phone.svg"
 import EmailIcon from "../../static/icons/Email.svg"
 import EditIcon from "../../static/icons/edit-dark.svg"
 import RSZIcon from "../../static/icons/ID.svg"
+import DownArrow from "../../static/icons/DownArrow.svg"
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import EmployeeUpdate from "./EmployeeUpdate";
 import CalendarLayout from "../../utilities/calendar/CalendarLayout";
+import CustomButton from "../atoms/CustomButton";
+import Switch from "../atoms/Switch";
 
 export default function EmployeeDetails() {
 
     const [editStatus, setEditStatus] = useState(false);
+    const [toggleOpen, setToggleOpen] = useState(false);
 
     const TabsData = [
         { tabHeading: ("Personal details"), tabName: 'personal' },
-        { tabHeading: ("Functions & Salaries"), tabName: 'functions_salaries' },
-        { tabHeading: ("Employee type"), tabName: 'emp_type' },
+        { tabHeading: ("Contract details"), tabName: 'contracts' },
         { tabHeading: ("Counters"), tabName: 'counters' },
+        { tabHeading: ("Documents"), tabName: 'documents' },
         { tabHeading: ("Availability"), tabName: 'availability' },
+
+
+    ]
+
+    const contracts = [
+        { id: 0, name: 'Contract 01' },
+        { id: 1, name: 'Contract 02' },
     ]
 
 
@@ -54,16 +65,31 @@ export default function EmployeeDetails() {
                     </TabPanel>
 
                     <TabPanel>
+
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
-                            <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus}></EmployeeUpdate>
+                            <div className="d-flex">
+                                <CustomButton buttonName={'Create'} ActionFunction={() => console.log('create')} CustomStyle="mx-3 mb-2"></CustomButton>
+                                <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" ></Switch>
+                            </div>
+                            {contracts.map((contract, index) => {
+                                return (
+                                    <div className="border shadow-sm rounded mx-3 px-2 my-2" key={contract.id}>
+                                        <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => setToggleOpen(toggleOpen === contract.id ? "" : contract.id)}></img></div>
+                                        {!editStatus && toggleOpen === contract.id && <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                                        {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus}></EmployeeUpdate>}
+                                    </div>
+                                )
+                            })}
                         </div>
                     </TabPanel>
 
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
-                            <EmployeeUpdate tab="tab3" edit={editStatus} setEditStatus={setEditStatus}></EmployeeUpdate>
+                            <div className="border mx-3 px-2">
+                                <div className={"d-flex mx-4 my-1 mb-0 justify-content-between" + (toggleOpen ? " border-bottom mb-2" : "")}><h4 className="pt-2">Holidays counter</h4><img className="profile-icon" src={DownArrow} onClick={() => setToggleOpen(!toggleOpen)}></img></div>
+                                {!editStatus && toggleOpen && <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                                {toggleOpen && <EmployeeUpdate tab="tab3" edit={editStatus} setEditStatus={setEditStatus}></EmployeeUpdate>}
+                            </div>
                         </div>
                     </TabPanel>
 

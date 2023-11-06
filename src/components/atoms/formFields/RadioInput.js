@@ -2,7 +2,6 @@ import React from "react";
 
 export default function RadioInput({ title, radiobuttonsList, required, changeCheckbox, CustomStyle, selectedOption, type }) {
 
-    console.log(selectedOption);
     return (
         <div className={" " + CustomStyle}>
             {title && <label className="row font-weight-bolder m-0 pl-4 mb-3">{title} {required && <p className="text-danger mb-0">&nbsp;*</p>} </label>}
@@ -18,7 +17,7 @@ export default function RadioInput({ title, radiobuttonsList, required, changeCh
                         <label>
                             <input
                                 type="radio"
-                                name={val.key}
+                                name={val.name}
                                 value={val.name}
                                 checked={val.key === selectedOption}
                                 onChange={() => changeCheckbox(type, val.key)}

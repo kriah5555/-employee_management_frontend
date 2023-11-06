@@ -5,6 +5,7 @@ import { EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function AddEmployeeFunctionSalaries({ tabIndex, options, functionSalaries, setFunctionSalaries, locationTransport, setLocationTransport, functions, setFunctions, locations, setLocations, commute, setCommute }) {
 
@@ -127,7 +128,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                         <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
                             <div className="col-md-3 pl-0">
                                 <Dropdown
-                                    options={tabIndex === 2 ? options.functions : options.locations}
+                                    options={tabIndex === 2 ? getFormattedDropdownOptions(options.functions) : getFormattedDropdownOptions(options.locations, 'id', 'location_name')}
                                     selectedOptions={tabIndex === 2 ? functions[index] : locations[index]}
                                     onSelectFunction={(e) => SetValues(e, (tabIndex === 2 ? 'function' : 'location'), index)}
                                     CustomStyle="col-md-8 pl-0 float-left"
@@ -155,7 +156,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                             {tabIndex === 3 && <div className="col-md-3">
                                 <div className="row m-0 justify-content-center">
                                     <Dropdown
-                                        options={options.commute_type_options}
+                                        options={getFormattedDropdownOptions(options.commute_type_options)}
                                         selectedOptions={commute[index]}
                                         onSelectFunction={(e) => SetValues(e, 'commute', index)}
                                         CustomStyle="col-md-8 pl-0 float-left"
