@@ -53,6 +53,13 @@ export default function EmployeeCreation() {
     const [errors, setErrors] = useState([]);
 
     const [options, setOptions] = useState([]);
+    const MaximumChildren = 10;
+    let count = 1
+    let childrenOptions = [];
+    while (count <= MaximumChildren) {
+        childrenOptions.push({ value: count, label: count })
+        count = count + 1
+    }
 
     useEffect(() => {
         AXIOS.service(EmployeeApiUrl + '/create/1', 'GET')
@@ -102,7 +109,7 @@ export default function EmployeeCreation() {
         "contract number": "",
         "extra_info":"",
     });
-    
+
 
     const OnSave = () => {
         employeeData['employee_function_details'] = functionSalaries
@@ -168,9 +175,10 @@ export default function EmployeeCreation() {
                                 gender={gender} setGender={setGender}
                                 language={language} setLanguage={setLanguage}
                                 maritalStatus={maritalStatus} setMaritalStatus={setMaritalStatus}
-                                dependantSpouse={dependantSpouse} setDependantSpouse={setDependantSpouse} 
+                                dependantSpouse={dependantSpouse} setDependantSpouse={setDependantSpouse}
                                 employeeData={employeeData} setEmployeeData={setEmployeeData}
                                 options={options}
+                                childrenOptions={childrenOptions}
                             ></AddEmployeePersonalDetails>
                         </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>

@@ -82,16 +82,35 @@ export function getWeekNumberByDate(date) {
     return weekNumber;
 }
 
-export function getFormattedDropdownOptions(options, value_key = 'id', label_key = 'name') {
-    if (Array.isArray(options)) {
-        let formattedData = []
-        options.map((value) => {
-            let obj = { value: value[value_key], label: value[label_key] }
-            formattedData.push(obj)
-        })
-        return formattedData;
-    } else {
-        return { value: options[value_key], label: options[label_key] }
+export function getFormattedDropdownOptions(options, value_key = 'id' , label_key = 'name') {
+    if (options != undefined) {
+        if (Array.isArray(options)) {
+            let formattedData = []
+            options.map((value) => {
+                let obj = {value: value[value_key], label: value[label_key]}
+                formattedData.push(obj)
+            })
+            return formattedData;
+        } else {
+            console.log(options)
+            return {value: options[value_key], label: options[label_key]}
+        }
+    }
+}
+
+export function getFormattedRadioOptions(options, value_key = 'id' , label_key = 'name') {
+    if (options != undefined) {
+        if (Array.isArray(options)) {
+            let formattedData = []
+            options.map((value) => {
+                let obj = {key: value[value_key], name: value[label_key]}
+                formattedData.push(obj)
+            })
+            return formattedData;
+        } else {
+            console.log(options)
+            return {key: options[value_key], name: options[label_key]}
+        }
     }
 }
 

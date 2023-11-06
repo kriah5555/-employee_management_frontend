@@ -27,6 +27,7 @@ export default function Configurations() {
         { title: t('MIN_SALARY'), icon: SalariesIcon, styleClass: subTabStyle, type: 'min_salary' },
         { title: t('REASONS'), icon: ReasonsIcon, styleClass: subTabStyle, type: 'reasons' },
         { title: t('SOCIAL_SECRETARY'), icon: SocialSecretaryIcon, styleClass: subTabStyle, type: 'social_secretary' },
+        { title: t('INTERIM_AGENCIES'), icon: SocialSecretaryIcon, styleClass: subTabStyle, type: 'interim-agencies' },
 
     ]
 

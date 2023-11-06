@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl, InterimAgencyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -87,6 +87,24 @@ export default function ConfigurationOverviews() {
             size: 200,
         }
     ]
+    // Headers for social secretory
+    const interim_agencies_headers = [
+        {
+            title: 'Interim agency',
+            field: 'name',
+            size: 200,
+        },
+        {
+            title: 'Email',
+            field: 'email',
+            size: 200,
+        },
+        {
+            title: 'Status',
+            field: 'status',
+            size: 200,
+        }
+    ]
 
     const [headers, setHeaders] = useState(emp_type_sector_headers);
     const [listData, setListData] = useState([]);
@@ -127,12 +145,16 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'social_secretary') {
             apiUrl = SocialSecretaryApiUrl
             setHeaders(social_secretary_headers); setTitle('Manage social secretary'); setAddTitle('Add social secretary'); setAddUrl('/add-social-secretary');
+        } else if (overviewContent === 'interim-agencies') {
+            apiUrl = InterimAgencyApiUrl
+            setHeaders(interim_agencies_headers); setTitle('Manage interim agencies'); setAddTitle('Add interim agency'); setAddUrl('/add-interim-agency');
         }
 
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
+                    console.log(result.data)
                     setListData(result.data);
                 }
             })
@@ -216,6 +238,12 @@ export default function ConfigurationOverviews() {
                 navigate('/link-holiday-code/' + data.id)
             } else {
                 setDeleteUrl(SocialSecretaryApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'interim-agencies') {
+            if (action === 'edit') {
+                navigate('/add-interim-agency/' + data.id)
+            } else {
+                setDeleteUrl(InterimAgencyApiUrl + '/' + data.id)
             }
         }
     }

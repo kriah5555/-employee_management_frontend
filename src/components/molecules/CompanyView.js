@@ -18,7 +18,7 @@ export default function CompanyView() {
         { tabHeading: ("Address"), tabName: 'address' },
     ]
 
-    //add company fields 
+    //add company fields
     const CompanyFields = [
         { title: "Company name", name: "company_name", value: companyData.company_name },
         { title: "Sector name", name: "sectors", value: sector },
@@ -39,7 +39,7 @@ export default function CompanyView() {
     ];
 
 
-    // function to create string of sectors 
+    // function to create string of sectors
     const sectorString = (sectors) => {
         let resultString = '';
 
@@ -52,14 +52,14 @@ export default function CompanyView() {
 
     useEffect(() => {
         if (params.id !== '0') {
-            let editApiUrl = CompanyApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = CompanyApiUrl + '/' + params.id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setCompanyData(result.data.details);
-                        setAddress(result.data.details.address);
-                        setSector(sectorString(result.data.details.sectors));
+                        setCompanyData(result.data);
+                        setAddress(result.data.address);
+                        setSector(sectorString(result.data.sectors));
                     }
                 })
                 .catch((error) => {

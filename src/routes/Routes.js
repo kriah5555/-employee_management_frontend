@@ -10,6 +10,7 @@ import Configurations from '../pages/Configurations';
 import ConfigurationOverviews from '../components/organisms/ConfigurationOverviews';
 import AddFunction from '../components/organisms/AddFunction';
 import AddEmployeeTypes from '../components/organisms/AddEmployeeTypes';
+import AddInterimAgency from '../components/organisms/AddInterimAgency';
 import AddSector from '../components/organisms/AddSector';
 import AddGroupFunction from '../components/organisms/AddGroupFunction';
 import AddContractType from '../components/organisms/AddContractType';
@@ -19,7 +20,7 @@ import MyAccount from "../pages/MyAccount";
 import EmployeeCreation from '../components/organisms/EmployeeCreation';
 import HolidayCodeConfigurationOverview from '../components/organisms/HolidayCodeConfigurationOverview';
 import CommunicationConfigurationOverview from '../components/organisms/CommunicationConfigurationOverview';
-// const langRegex = "(en|nl|fr)?"; 
+// const langRegex = "(en|nl|fr)?";
 // const langPath =  `/:lang${langRegex}`;
 import AddReasons from '../components/organisms/AddReasons';
 import AddSocialSecretary from '../components/organisms/AddSocialSecretary';
@@ -53,6 +54,8 @@ const BaseRouter = ({ setAuth }) => (
 
         <Route exact path='/add-employee-type' element={<AddEmployeeTypes></AddEmployeeTypes>} />
         <Route exact path='/add-employee-type/:id' element={<AddEmployeeTypes></AddEmployeeTypes>} />
+        <Route exact path='/add-interim-agency' element={<AddInterimAgency></AddInterimAgency>} />
+        <Route exact path='/add-interim-agency/:id' element={<AddInterimAgency></AddInterimAgency>} />
 
         <Route exact path='/add-sector' element={<AddSector></AddSector>} />
         <Route exact path='/add-sector/:id' element={<AddSector></AddSector>} />

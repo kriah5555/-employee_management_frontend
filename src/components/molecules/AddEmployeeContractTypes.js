@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import RadioInput from "../atoms/formFields/RadioInput";
+import { getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 
 
 export default function AddEmployeeContractTypes({ options, employeeContracts, setEmployeeContracts, selectedEmpTypeCategory, setSelectedEmpTypeCategory, displaySubType, setDisplaySubType }) {
@@ -67,7 +68,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                     {displaySubType && <>
                         <RadioInput
                             title={'Sub types'}
-                            radiobuttonsList={options.sub_types}
+                            radiobuttonsList={getFormattedRadioOptions(options.sub_types, 'key', 'value')}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}
                             selectedOption={employeeContracts['sub_type']}
@@ -75,15 +76,15 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                         ></RadioInput>
                         <RadioInput
                             title={'Schedule type'}
-                            radiobuttonsList={options.schedule_types}
+                            radiobuttonsList={getFormattedRadioOptions(options.schedule_types, 'key', 'value')}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}
                             selectedOption={employeeContracts['schedule_type']}
                             type={'schedule_type'}
                         ></RadioInput>
                         <RadioInput
-                            title={'Employment type'}
-                            radiobuttonsList={options.employment_types}
+                            title={'Employement type'}
+                            radiobuttonsList={getFormattedRadioOptions(options.employment_types, 'key', 'value')}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}
                             selectedOption={employeeContracts['employment_type']}

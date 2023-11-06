@@ -71,6 +71,7 @@ export const GET_CONSTANTS = {
     'REASONS':'Reasons',
     'COST_CENTER':'Cost center',
     'SOCIAL_SECRETARY':'Social secretary',
+    'INTERIM_AGENCIES':'Interim agencies',
 
     // Planning Constants
     'OVERVIEW':'Overview',
