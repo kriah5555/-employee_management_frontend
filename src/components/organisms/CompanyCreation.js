@@ -30,7 +30,7 @@ export default function CompanyCreation() {
     const [selectedLocation, setSelectedLocation] = useState([]);
     const [selectedFunction, setSelectedFunction] = useState([]);
     const [socialSecretary, setSocialSecretary] = useState("");
-    const [interimAgency, setInterimAgency] = useState("");
+    const [interimAgency, setInterimAgency] = useState([]);
 
     const [errors, setErrors] = useState([]);
 

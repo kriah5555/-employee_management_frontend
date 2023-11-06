@@ -109,13 +109,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: 'Details',
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "manage email template" && tableName !== 'contracts' && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee') ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "manage email template" && tableName !== 'contracts') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -133,7 +133,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: 'Delete',
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "manage email template") ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "email_template") ? false : true
         })
     ]
 

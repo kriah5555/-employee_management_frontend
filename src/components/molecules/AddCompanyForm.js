@@ -69,6 +69,12 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                             id_arr.push(val.id)
                         })
                         response[0]['sectors'] = id_arr;
+                        let seletedInterimAgencies = result.data.interim_agencies
+                        let interimAgencyArray = []
+                        // seletedInterimAgencies.map((val, i)=>{
+                        //     interimAgencyArray.push(val.value)
+                        // })
+                        // response[0]['interim_agency_id']
                         setCompanyData(response);
                     }
                 })
