@@ -137,6 +137,8 @@ export default function AddSector() {
                         setLevelsCount(result.data.salary_config.salary_steps)
                         setAge(result.data.sector_age_salary);
                         setAgeRow(result.data.sector_age_salary);
+                        setNightHourStartTime(result.data.night_hour_start_time)
+                        setNightHourEndTime(result.data.night_hour_end_time)
 
                         if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {

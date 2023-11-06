@@ -18,16 +18,14 @@ export default function AddEmailTemplate() {
         "body": "",
         "status": "",
         "employee_type_id": "",
-        "social_secretary_id": params.addType == 'company' ? "" : "",
+        "social_secretary_id": params.addType == 'company' ? [] : [],
         "company_id": params.addType == 'company' ? 1 : "",
         "language": langauge
     })
     const [employeeType, setEmployeeType] = useState("");
     const [employeeTypeList, setEmployeeTypeList] = useState([]);
-    const [socialSecretary, setSocialSecretary] = useState("");
+    const [socialSecretary, setSocialSecretary] = useState([]);
     const [socialSecretaryList, setSocialSecretaryList] = useState([])
-    const [company, setCompany] = useState("")
-    const [companyList, setCompanyList] = useState([])
     const [tokensList, setTokensList] = useState([])
 
     const [active, setActive] = useState(true);
@@ -76,7 +74,6 @@ export default function AddEmailTemplate() {
                     let response = result.data
                     setEmployeeTypeList(getFormattedDropdownOptions(response.employee_types))
                     setSocialSecretaryList(getFormattedDropdownOptions(response.social_secretaries))
-                    setCompanyList(getFormattedDropdownOptions(response.companies, "id", 'company_name'))
                     //converting tokens object to array of object of tokens
                     const data = Object.keys(response.tokens).map((key, i) => ({
                         name: key,
@@ -94,6 +91,7 @@ export default function AddEmailTemplate() {
 
     //api call to get email template details for edit
     useEffect(() => {
+        console.log();
         if (params.id) {
             let editApiUrl = ContractTemplateApiUrl + "/" + params.id
             AXIOS.service(editApiUrl, 'GET')
@@ -104,17 +102,23 @@ export default function AddEmailTemplate() {
                         setEmployeeType(getFormattedDropdownOptions(response.employee_type))
 
                         if (params.addType == 'template') {
-                            setCompany(getFormattedDropdownOptions(response.company, 'id', 'company_name'))
+
                             setSocialSecretary(getFormattedDropdownOptions(response.social_secretary ? response.social_secretary : []))
                         }
+
+                        let arr = [];
+                        getFormattedDropdownOptions(response.social_secretary ? response.social_secretary : []).map((value) => {
+                            arr.push(value.value);
+                        })
 
                         let data = {
                             "body": response.body,
                             "employee_type_id": response.employee_type_id,
-                            "social_secretary_id": response.social_secretary_id,
-                            "company_id": response.company_id,
+                            "social_secretary_id": arr,
+                            "company_id": response.company_id ? response.company_id : "",
                             "language": response.language,
                         }
+                        console.log(data);
                         setFormdata(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
@@ -136,12 +140,16 @@ export default function AddEmailTemplate() {
 
             if (name == 'employee_type_id') {
                 setEmployeeType(value)
-            } else if (name == 'company_id') {
-                setCompany(value)
+                setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
             } else if (name == 'social_secretary_id') {
+                let arr = []
+                value.map((val, i) => {
+                    arr.push(val.value)
+                })
                 setSocialSecretary(value)
+                setFormdata((prevData) => ({ ...prevData, [name]: arr }))
             }
-            setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
+
         }
     }
 
@@ -153,8 +161,7 @@ export default function AddEmailTemplate() {
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ] : [
         { title: "Employee type", name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
-        { title: 'Company', name: 'company_id', required: false, options: companyList, selectedOptions: company, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: 'Social secretary', name: 'social_secretary_id', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: 'Social secretary', name: 'social_secretary_id', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Preview", name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
