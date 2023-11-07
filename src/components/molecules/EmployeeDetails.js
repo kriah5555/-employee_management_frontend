@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EmployeeIcon from "../../static/icons/Profile1.jpeg"
 import PhoneIcon from "../../static/icons/phone.svg"
 import EmailIcon from "../../static/icons/Email.svg"
 import EditIcon from "../../static/icons/edit-dark.svg"
+import DeleteIcon from "../../static/icons/delete.png"
 import RSZIcon from "../../static/icons/ID.svg"
 import DownArrow from "../../static/icons/DownArrow.svg"
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
@@ -10,11 +11,18 @@ import EmployeeUpdate from "./EmployeeUpdate";
 import CalendarLayout from "../../utilities/calendar/CalendarLayout";
 import CustomButton from "../atoms/CustomButton";
 import Switch from "../atoms/Switch";
+import AddContractPopup from "./AddContractPopup";
+import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
+import { APICALL as AXIOS } from "../../services/AxiosServices"
+
 
 export default function EmployeeDetails() {
 
     const [editStatus, setEditStatus] = useState(false);
     const [toggleOpen, setToggleOpen] = useState(false);
+    const [popupOpen, setOpenPopup] = useState(false);
+    const [employeeContractOptions, setEmployeeContractOptions] = useState([]);
+
 
     const TabsData = [
         { tabHeading: ("Personal details"), tabName: 'personal' },
@@ -31,9 +39,29 @@ export default function EmployeeDetails() {
         { id: 1, name: 'Contract 02' },
     ]
 
+    useEffect(() => {
+        AXIOS.service(EmployeeContractApiUrl + '/create', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeContractOptions(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
 
     return (
         <div>
+            {popupOpen && <AddContractPopup
+                onConfirm={() => setOpenPopup(false)}
+                onHide={() => setOpenPopup(false)}
+                employeeContractOptions={employeeContractOptions}
+            ></AddContractPopup>}
+
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
                 <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon}></img>
                 <div className="width-22 px-2">
@@ -68,14 +96,17 @@ export default function EmployeeDetails() {
 
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             <div className="d-flex">
-                                <CustomButton buttonName={'Create'} ActionFunction={() => console.log('create')} CustomStyle="mx-3 mb-2"></CustomButton>
+                                <CustomButton buttonName={'Create'} ActionFunction={() => setOpenPopup(true)} CustomStyle="mx-3 mb-2"></CustomButton>
                                 <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" ></Switch>
                             </div>
                             {contracts.map((contract, index) => {
                                 return (
                                     <div className="border shadow-sm rounded mx-3 px-2 my-2" key={contract.id}>
                                         <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => setToggleOpen(toggleOpen === contract.id ? "" : contract.id)}></img></div>
-                                        {!editStatus && toggleOpen === contract.id && <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                                        {!editStatus && toggleOpen === contract.id && <>
+                                            <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>
+                                            <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => console.log()}></img>
+                                        </>}
                                         {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus}></EmployeeUpdate>}
                                     </div>
                                 )

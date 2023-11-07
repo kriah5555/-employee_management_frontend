@@ -42,7 +42,7 @@ export default function EmployeeCreation() {
             "employee_type_id": '',
             "sub_type": "",
             "schedule_type": "",
-            "employement_type": "",
+            "employment_type": "",
             "start_date": "",
             "end_date": "",
             "weekly_contract_hours": "",
@@ -158,7 +158,7 @@ export default function EmployeeCreation() {
         employeeData['employee_function_details'] = functionSalaries
         employeeData['employee_commute_details'] = locationTransport
         employeeData['employee_contract_details'] = employeeContracts
-        let ApiUrl = EmployeeApiUrl + '/store/1'
+        let ApiUrl = EmployeeApiUrl
         let Method = 'POST'
         let requestData = employeeData
 
