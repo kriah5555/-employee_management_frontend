@@ -36,6 +36,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
                                     setValue={(e) => SetValues(i, field.name, e)}
                                     error={''}
+                                    placeholder={field.placeholder?field.placeholder:''}
                                 ></TextInput>
                             )
                         } else if (field.type === 'dropdown') {
@@ -116,6 +117,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     required={field.required}
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
                                     setValue={(e) => SetValues(i, field.name, e)}
+                                    placeholder={field.placeholder}
                                 ></DateInput>
                             )
                         } else if (field.type === 'phone_input') {
