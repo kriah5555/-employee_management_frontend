@@ -4,7 +4,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import FormsNew from "../molecules/FormsNew";
-import { ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table"
@@ -18,7 +18,7 @@ export default function AddEmailTemplate() {
         "body": "",
         "status": "",
         "employee_type_id": "",
-        "social_secretary_id": params.addType == 'company' ? [] : [],
+        "social_secretary_id": params.addType == 'company' ? 1 : 1,
         "company_id": params.addType == 'company' ? 1 : "",
         "language": langauge
     })
@@ -91,9 +91,9 @@ export default function AddEmailTemplate() {
 
     //api call to get email template details for edit
     useEffect(() => {
-        console.log();
+
         if (params.id) {
-            let editApiUrl = ContractTemplateApiUrl + "/" + params.id
+            let editApiUrl = (params.addType === 'company' ? CompanyContractTemplateApiUrl : ContractTemplateApiUrl) + "/" + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result.data) {
@@ -118,7 +118,6 @@ export default function AddEmailTemplate() {
                             "company_id": response.company_id ? response.company_id : "",
                             "language": response.language,
                         }
-                        console.log(data);
                         setFormdata(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
@@ -142,12 +141,13 @@ export default function AddEmailTemplate() {
                 setEmployeeType(value)
                 setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
             } else if (name == 'social_secretary_id') {
-                let arr = []
-                value.map((val, i) => {
-                    arr.push(val.value)
-                })
+                // let arr = []
+                // value.map((val, i) => {
+                //     arr.push(val.value)
+                // })
                 setSocialSecretary(value)
-                setFormdata((prevData) => ({ ...prevData, [name]: arr }))
+                // setFormdata((prevData) => ({ ...prevData, [name]: arr }))
+                setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
             }
 
         }
@@ -184,7 +184,6 @@ export default function AddEmailTemplate() {
 
     //function to save data
     const OnSave = () => {
-
         if (formData.body) {
             let status = 1
             if (inactive) { status = 0 }
@@ -192,7 +191,7 @@ export default function AddEmailTemplate() {
             formData['status'] = status
 
             // Creation url and method
-            let url = ContractTemplateApiUrl
+            let url = params.addType == 'template' ? ContractTemplateApiUrl : CompanyContractTemplateApiUrl
             let method = 'POST'
 
             // Updation url and method

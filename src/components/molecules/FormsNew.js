@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -17,6 +17,23 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
 
     const navigate = useNavigate();
     const params = useParams();
+    const [multipleHolidayCodeCount, setMultipleHOlidayCodeCount] = useState([1]);
+    const [experience, setExperience] = useState([{ 'hour': "", 'holiday_code': '' }]);
+
+    const AddNewRow = () => {
+        console.log(experience);
+        const rowsInput = 1;
+        // Adding empty object for each row on add row click
+        const rowData = {
+            'hour': '',
+            'holiday_code': '',
+        }
+        setExperience([...experience, rowData])
+        if (multipleHolidayCodeCount !== undefined) {
+            setMultipleHOlidayCodeCount([...multipleHolidayCodeCount, rowsInput])
+        }
+
+    }
 
     return (
         <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
@@ -34,7 +51,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     CustomStyle={field.style}
                                     required={field.required}
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                    setValue={(e) => SetValues(i, field.name, e)}
+                                    setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     error={''}
                                 ></TextInput>
                             )
@@ -90,7 +107,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                         required={field.required}
                                         CustomStyle={field.style}
                                         value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                        setValue={(e) => SetValues(i, field.name, e)}
+                                        setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     ></TextArea>
                                     {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>}
                                 </>
@@ -154,7 +171,45 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     required={field.required}
                                 />
                             )
-                        }
+                        } 
+                        // else if (field.type === "arry_of_values") {
+                        //     return (
+                        //         <>
+                        //             {multipleHolidayCodeCount.map((val, index) => {
+                        //                 return (
+                        //                     <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
+                        //                         <div className="col-md-10">
+                        //                             <TextInput
+                        //                                 key={field.name}
+                        //                                 title={field.title}
+                        //                                 name={field.name}
+                        //                                 CustomStyle={'col-md-6'}
+                        //                                 required={field.required}
+                        //                                 value={formattedData !== undefined ? formattedData[field.name] : ''}
+                        //                                 setValue={(e) => SetValues(i, field.name, e, field.type)}
+                        //                                 error={''}
+                        //                             ></TextInput>
+                        //                             <TextInput
+                        //                                 key={field.name}
+                        //                                 title={field.title}
+                        //                                 name={field.name}
+                        //                                 CustomStyle={'col-md-6'}
+                        //                                 required={field.required}
+                        //                                 value={formattedData !== undefined ? formattedData[field.name] : ''}
+                        //                                 setValue={(e) => SetValues(i, field.name, e, field.type)}
+                        //                                 error={''}
+                        //                             ></TextInput>
+                        //                         </div>
+                        //                         {index === multipleHolidayCodeCount.length - 1 && <div className="col-md-2 text-right pr-4">
+                        //                             {<img className="header-icon mr-4" src={"AddIcon"} onClick={() => AddNewRow()}></img>}
+                        //                             {/* {multipleHolidayCodeCount.length > 1 && <img className="header-icon" src={"DeleteIcon"} onClick={() => DeleteRow(index, 'experience')}></img>} */}
+                        //                         </div>}
+                        //                     </div>
+                        //                 )
+                        //             })}
+                        //         </>
+                        //     )
+                        // }
                     })}
                 </form>
             </div>}

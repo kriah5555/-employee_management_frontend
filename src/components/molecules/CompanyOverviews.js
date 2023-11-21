@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, CompanyContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -121,7 +121,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
             ApiUrl = CostCenterApiUrl + '/1/all'
         } else if (overviewContent === 'contracts') {
             setHeaders(contracts_template_headers)
-            ApiUrl = ContractTemplateApiUrl
+            ApiUrl = CompanyContractTemplateApiUrl
         }
         AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
@@ -220,7 +220,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
             if (action === 'edit') {
                 navigate('/add-contracts-template/company/' + data.id)
             } else {
-                setDeleteUrl(ContractTemplateApiUrl + '/' + data.id)
+                setDeleteUrl(CompanyContractTemplateApiUrl + '/' + data.id)
             }
         }
     }

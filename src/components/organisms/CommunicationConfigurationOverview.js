@@ -70,7 +70,7 @@ export default function CommunicationConfigurationOverview() {
         // Header data for Function overview
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
-            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle('Create email template'); setAddUrl('/add-email-template'); setTableName("email_template");
+            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle(''); setAddUrl('/add-email-template'); setTableName("email_template");
         } else if (overviewContent == 'contracts_template') {
             apiUrl = ContractTemplateApiUrl
             setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');setTableName("contract_template");

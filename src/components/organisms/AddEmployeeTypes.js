@@ -52,7 +52,8 @@ export default function AddEmployeeTypes() {
         "counters": false,
         "contract_hours_split": false,
         "leave_access": false,
-        "holiday_access": false
+        "holiday_access": false,
+        "dimona_code":""
     });
 
     // Status checkbox data
@@ -131,6 +132,7 @@ export default function AddEmployeeTypes() {
                             "leave_access": response.employee_type_config.leave_access,
                             "holiday_access": response.employee_type_config.holiday_access,
                             "salary_type": response.salary_type.value,
+                            "dimona_code":""
                         }
                         setEmployeeTypeData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -154,6 +156,7 @@ export default function AddEmployeeTypes() {
         // Employee type configuration fields
         { title: 'Contract type', name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
         { title: 'Dimona type', name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
+        { title: 'Dimona Code', name: 'dimona_code', required: true, type: 'text', style:"col-md-6 mt-4 float-left" },
         { title: 'Consecutive days limit', name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
         { title: 'Salary type', name: 'salary_type', required: true, options: salaryTypeList, selectedOptions: salaryType, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
         { title: 'Start in past', name: 'start_in_past', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
