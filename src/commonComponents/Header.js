@@ -53,20 +53,23 @@ export default function Header({ setAuth }) {
     }, [Time]);
 
     useEffect(() => {
+
         let lastCompanyId = localStorage.getItem('company_id')
+
         AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
             .then((result) => {
                 if (result.success) {
                     let data = getFormattedDropdownOptions(result.data, "id", "company_name")
                     setCompanyList(data)
-
+                    //filtering last selected company from company list
                     const lastCompany = data.filter((obj) => {
                         return obj.value == lastCompanyId;
                     })
+                    //setting last selected company
                     if (lastCompany.length != 0) {
                         setSelectedCompany(lastCompany)
                     } else {
-                        //alert
+                        //message popup if last company not matching  in company list
                         setIsCompanyIdEmpty(true)
                     }
                 }
@@ -76,6 +79,7 @@ export default function Header({ setAuth }) {
             })
     }, [])
 
+    //to set selected company
     useEffect(() => {
         if (selectedCompany.value !== undefined) {
             localStorage.setItem('company_id', selectedCompany.value);
