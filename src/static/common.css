@@ -343,6 +343,14 @@ li,
     z-index: 3 !important;
 }
 
+/* Company dropdown*/
+.company-dropdown div{
+    border: 0;
+    font-size: 1.5rem;
+    /* width: 10rem; */
+
+}
+
 
 
 
