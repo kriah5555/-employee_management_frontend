@@ -154,7 +154,7 @@ export default function AddEmailTemplate() {
                     <div className="col-md-6 float-right">
                         <ul className="d-flex float-right mr-5">
                             {langaugeArray.map((lang) => (
-                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " text-success font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)}>{lang.label}</li>
+                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " font-weight-bolder underline" : "")} id={(langauge == lang.value) ? "text-indii-blue" : ""} onClick={() => onLangaugeSelect(lang.value)}>{lang.label}</li>
                             ))}
                         </ul>
                     </div>

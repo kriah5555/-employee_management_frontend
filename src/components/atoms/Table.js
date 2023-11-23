@@ -52,7 +52,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
 
         //Search toolbar props
-        toolbar:tableName !== 'tokens'? true: false,
+        toolbar:(tableName !== 'tokens' && tableName !== 'holiday_overview')? true: false,
         search: tableName !== 'min_salary' ? true : false,
         searchFieldAlignment: 'left',
         searchFieldStyle: searchStyle, //padding: '0px',
@@ -115,7 +115,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -127,13 +127,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getEditIcon(),
             tooltip: 'Edit',
             onClick: (event, rowData) => viewAction(rowData, 'edit'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview') ? false : true
         }),
         rowData => ({
             icon: () => getDeleteIcon(),
             tooltip: 'Delete',
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "email_template") ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
         })
     ]
 
@@ -186,7 +186,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                 options={options}
 
                 //Actions props
-                actions={showDetails || tableName === 'min_salary' ||tableName === 'tokens'  ? [] : actionIconsList}
+                actions={showDetails || tableName === 'min_salary' ||tableName === 'tokens'||tableName ==='holiday_overview_rejected'  ? [] : actionIconsList}
             />
         </MuiThemeProvider>
 

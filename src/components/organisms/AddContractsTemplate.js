@@ -8,6 +8,7 @@ import { ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table"
+
 export default function AddEmailTemplate() {
 
     const navigate = useNavigate();
@@ -91,7 +92,7 @@ export default function AddEmailTemplate() {
 
     //api call to get email template details for edit
     useEffect(() => {
-        console.log();
+
         if (params.id) {
             let editApiUrl = ContractTemplateApiUrl + "/" + params.id
             AXIOS.service(editApiUrl, 'GET')
@@ -111,15 +112,13 @@ export default function AddEmailTemplate() {
                             arr.push(value.value);
                         })
 
-                        let data = {
+                        setFormdata({
                             "body": response.body,
                             "employee_type_id": response.employee_type_id,
                             "social_secretary_id": arr,
                             "company_id": response.company_id ? response.company_id : "",
                             "language": response.language,
-                        }
-                        console.log(data);
-                        setFormdata(data);
+                        })
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
                 })

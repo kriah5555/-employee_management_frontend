@@ -3,6 +3,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { ToastContainer } from "react-toastify";
 import { t } from "../translations/Translation";
 import PlanningOverview from "../components/organisms/PlanningOverview";
+import HolidayOverview from "../components/organisms/HolidayOverview"
 
 export default function Planning() {
 
@@ -50,7 +51,7 @@ export default function Planning() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="tablescroll"></div>
+                        <div className="tablescroll"><HolidayOverview></HolidayOverview></div>
                     </TabPanel>
                     <TabPanel>
                         <div className="tablescroll"></div>

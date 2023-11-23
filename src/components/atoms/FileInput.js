@@ -6,7 +6,7 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
   const [selectedFile, setSelectedFile] = useState(value)
   const handleFileInput = (e) => {
     let file = e.target.files[0]
-    setValue(index, file, name);
+    setValue(index, name, file);
     if (file) {
       const selectedFileName = e.target.files[0].name;
       const fileNameLabel = document.getElementById("file-name-label");
