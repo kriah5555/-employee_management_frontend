@@ -41,6 +41,7 @@ export default function Header({ setAuth }) {
         { value: "company 01", value: 1 },
         { value: "company 02", value: 2 }
     ]
+
     useEffect(() => {
         //Implementing the setInterval method for displaying current belgium time
         const interval = setInterval(() => {
@@ -52,8 +53,8 @@ export default function Header({ setAuth }) {
         return () => clearInterval(interval);
     }, [Time]);
 
-    useEffect(() => {
 
+    useEffect(() => {
         let lastCompanyId = localStorage.getItem('company_id')
 
         AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
@@ -168,7 +169,7 @@ export default function Header({ setAuth }) {
                         selectedOptions={selectedCompany}
                         onSelectFunction={(e) => setSelectedCompany(e)}
                         CustomStyle="company-dropdown"
-                        styleClass="company-dropdown mr-2"
+                        styleClass=""
                         isMulti={false}
                     ></Dropdown>
                 </>}
@@ -197,7 +198,7 @@ export default function Header({ setAuth }) {
                             selectedOptions={selectedCompany}
                             onSelectFunction={(e) => setSelectedCompany(e)}
                             CustomStyle="company-dropdown"
-                            styleClass="company-dropdown mr-2"
+                            styleClass="col-md-12"
                             isMulti={false}
                         >
                         </Dropdown>
