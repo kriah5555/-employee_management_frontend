@@ -27,7 +27,7 @@ export default function AddEmailTemplate() {
     })
     const [langauge, setLanguage] = useState('en');
     const [tokensList, setTokensList] = useState([])
-
+    const [templateType, setTemplateType] = useState("")
     //api call to get email template details
     useEffect(() => {
         if (params.id) {
@@ -38,6 +38,7 @@ export default function AddEmailTemplate() {
                         let response = result.data
                         setBody(response.details.body);
                         setSubject(response.details.subject);
+                        setTemplateType(response.details.template_type.value)
                         let data = {
                             "subject": response.details.subject.en,
                             "body": response.details.body.en,
@@ -108,7 +109,7 @@ export default function AddEmailTemplate() {
         if (params.id !== undefined) {
 
             let data = {
-                "template_type": "planning_mail",
+                "template_type": templateType,
                 "status": true,
                 "body": body,
                 "subject": subject

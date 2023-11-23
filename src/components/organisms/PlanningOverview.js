@@ -8,7 +8,7 @@ import AddLeaveIcon from "../../static/icons/addLeave.svg";
 import WeeklyOverview from "../molecules/WeeklyOverview";
 import Switch from "../atoms/Switch";
 import DayOverview from "../molecules/DayOverview";
-
+import AddLeavePopup from "../molecules/AddLeavePopup"
 export default function PlanningOverview() {
 
     const [selectedLocation, setSelectedLocation] = useState();
@@ -16,7 +16,7 @@ export default function PlanningOverview() {
     const [selectedEmployeeType, setSelectedEmployeeType] = useState([]);
     const [tabIndex, setTabIndex] = useState(0);
     const [enableShifts, setEnableshifts] = useState(false);
-
+    const [addLeave, setAddLeave] = useState(false);
 
     // Planning overview tab list data
     const TabsData = [
@@ -104,7 +104,7 @@ export default function PlanningOverview() {
                         })}
                         <div className="react-tabs__tab border-0 pt-0 float-right">
                             <div className="d-flex justify-content-end">
-                                <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={AddLeaveIcon}></img>
+                                <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={AddLeaveIcon} onClick={()=>setAddLeave(true)}></img>
                                 <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={ImportIcon}></img>
                                 <img className="planning-icon mr-2 mt-1 pointer" title="Clone planning" src={CloneIcon}></img>
                             </div>
@@ -113,6 +113,7 @@ export default function PlanningOverview() {
 
                     <TabPanel>
                         <div className="px-3 pb-3"><CalendarLayout></CalendarLayout></div>
+                       {addLeave&&<AddLeavePopup buttonName={'Cancel'} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
                     </TabPanel>
 
                     <TabPanel>

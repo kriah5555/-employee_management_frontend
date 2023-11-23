@@ -4,7 +4,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import FormsNew from "../molecules/FormsNew";
-import { ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table"
@@ -19,7 +19,7 @@ export default function AddEmailTemplate() {
         "body": "",
         "status": "",
         "employee_type_id": "",
-        "social_secretary_id": params.addType == 'company' ? [] : [],
+        "social_secretary_id": params.addType == 'company' ? 1 : 1,
         "company_id": params.addType == 'company' ? 1 : "",
         "language": langauge
     })
@@ -94,7 +94,7 @@ export default function AddEmailTemplate() {
     useEffect(() => {
 
         if (params.id) {
-            let editApiUrl = ContractTemplateApiUrl + "/" + params.id
+            let editApiUrl = (params.addType === 'company' ? CompanyContractTemplateApiUrl : ContractTemplateApiUrl) + "/" + params.id
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result.data) {
@@ -141,12 +141,13 @@ export default function AddEmailTemplate() {
                 setEmployeeType(value)
                 setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
             } else if (name == 'social_secretary_id') {
-                let arr = []
-                value.map((val, i) => {
-                    arr.push(val.value)
-                })
+                // let arr = []
+                // value.map((val, i) => {
+                //     arr.push(val.value)
+                // })
                 setSocialSecretary(value)
-                setFormdata((prevData) => ({ ...prevData, [name]: arr }))
+                // setFormdata((prevData) => ({ ...prevData, [name]: arr }))
+                setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
             }
 
         }
@@ -183,7 +184,6 @@ export default function AddEmailTemplate() {
 
     //function to save data
     const OnSave = () => {
-
         if (formData.body) {
             let status = 1
             if (inactive) { status = 0 }
@@ -191,7 +191,7 @@ export default function AddEmailTemplate() {
             formData['status'] = status
 
             // Creation url and method
-            let url = ContractTemplateApiUrl
+            let url = params.addType == 'template' ? ContractTemplateApiUrl : CompanyContractTemplateApiUrl
             let method = 'POST'
 
             // Updation url and method
@@ -230,44 +230,44 @@ export default function AddEmailTemplate() {
     }
 
     return (
-        <>
-            <div className="right-creation-container ">
-                <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
-                    <h4 className="mb-0 text-color d-flex ">
-                        <div className="col-md-6 float-left">
-                            <img className="shortcut-icon mr-2 mb-1 " onClick={() => navigate(navigateUrl)} src={BackIcon}></img>
-                            Add contract template
-                        </div>
-                        <div className="col-md-6 float-right">
-                            <ul className="d-flex float-right mr-5">
-                                {langaugeArray.map((lang) => (
-                                    <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)} id={(langauge == lang.value) ? "text-indii-blue" : ""}>{lang.label}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </h4>
-                </div>
-                {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                    title={('Validation error!')}
-                    body={(errors)}
-                    onHide={() => setErrors([])}
-                ></ErrorPopup>}
-                <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
-                    <FormsNew
-                        formTitle="contracts template"
-                        view='contracts template'
-                        redirectURL={navigateUrl}
-                        formattedData={formData}
-                        data={fieldData}
-                        SetValues={SetValues}
-                        OnSave={OnSave}
-                    />
-                    <div className="px-5 pb-4">
-                        <h4 className="mb-3">Tokens:</h4>
-                        <Table columns={TableHeader} rows={tokensList} tableName="tokens" />
+
+        <div className="right-creation-container ">
+            <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
+                <h4 className="mb-0 text-color d-flex ">
+                    <div className="col-md-6 float-left">
+                        <img className="shortcut-icon mr-2 mb-1 " onClick={() => navigate(navigateUrl)} src={BackIcon}></img>
+                        Add contract template
                     </div>
+                    <div className="col-md-6 float-right">
+                        <ul className="d-flex float-right mr-5">
+                            {langaugeArray.map((lang) => (
+                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)} id={(langauge == lang.value) ? "text-indii-blue" : ""}>{lang.label}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </h4>
+            </div>
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
+            <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
+                <FormsNew
+                    formTitle="contracts template"
+                    view='contracts template'
+                    redirectURL={navigateUrl}
+                    formattedData={formData}
+                    data={fieldData}
+                    SetValues={SetValues}
+                    OnSave={OnSave}
+                />
+                <div className="px-5 pb-4">
+                    <h4 className="mb-3">Tokens:</h4>
+                    <Table columns={TableHeader} rows={tokensList} tableName="tokens" />
                 </div>
             </div>
-        </>
+        </div>
+
     );
 };

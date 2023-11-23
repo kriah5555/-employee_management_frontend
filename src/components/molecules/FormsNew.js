@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -12,11 +12,40 @@ import DateInput from "../atoms/formFields/DateInput";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import Editor from "../atoms/Editor";
 import FileInput from "../atoms/FileInput";
-
+import AddIcon from "../../static/icons/AddPlusIcon.png"
+import DeleteIcon from "../../static/icons/Delete.svg"
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave }) {
 
     const navigate = useNavigate();
     const params = useParams();
+    const [multipleHolidayCodeCount, setMultipleHolidayCodeCount] = useState([1]);
+    const [multipleHolidayCodes, setMultipleHolidayCodes] = useState([{ 'hour': "", 'holiday_code': '' }]);
+
+    const AddNewRow = () => {
+        const rowsInput = 1;
+        // Adding empty object for each row on add row click
+        const rowData = {
+            'hour': '',
+            'holiday_code': '',
+        }
+        setMultipleHolidayCodes([...multipleHolidayCodes, rowData])
+        if (multipleHolidayCodeCount !== undefined) {
+            setMultipleHolidayCodeCount([...multipleHolidayCodeCount, rowsInput])
+        }
+
+    }
+
+    function DeleteRow(index, type) {
+        // Remove data from multipleHolidayCodes data
+        const rows = [...multipleHolidayCodeCount];
+        console.log(rows);
+        rows.splice(index, 1);
+        setMultipleHolidayCodeCount(rows);
+
+        const data = [...multipleHolidayCodes];
+        data.splice(index, 1);
+        setMultipleHolidayCodes(data);
+    }
 
     return (
         <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
@@ -34,7 +63,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     CustomStyle={field.style}
                                     required={field.required}
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                    setValue={(e) => SetValues(i, field.name, e)}
+                                    setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     error={''}
                                     placeholder={field.placeholder?field.placeholder:''}
                                 ></TextInput>
@@ -91,7 +120,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                         required={field.required}
                                         CustomStyle={field.style}
                                         value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                        setValue={(e) => SetValues(i, field.name, e)}
+                                        setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     ></TextArea>
                                     {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>}
                                 </>
@@ -155,6 +184,43 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     CustomStyle={field.style}
                                     required={field.required}
                                 />
+                            )
+                        } else if (field.type === "arry_of_values") {
+                            return (
+                                <>
+                                    {multipleHolidayCodeCount.map((val, index) => {
+                                        return (
+                                            <div className=" col-md-12 d-flex p-0 ">
+                                                <div className="col-md-10 d-flex mt-2">
+                                                    <TextInput
+                                                        key={field.name}
+                                                        title={"Hours"}
+                                                        name={"hours"}
+                                                        CustomStyle={'col-md-6'}
+                                                        required={true}
+                                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                                        setValue={(e) => SetValues(index, field.name, e, field.type)}
+                                                        error={''}
+                                                    ></TextInput>
+                                                    <TextInput
+                                                        key={field.name}
+                                                        title={"Holiday code"}
+                                                        name={"holiday_code"}
+                                                        CustomStyle={'col-md-6'}
+                                                        required={true}
+                                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                                        setValue={(e) => SetValues(index, field.name, e, field.type)}
+                                                        error={''}
+                                                    ></TextInput>
+                                                </div>
+                                                <div className="col-md-2 mt-2">
+                                                    {<img className="header-icon mt-4 mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
+                                                    {multipleHolidayCodeCount.length > 1 && <img className="header-icon mt-4 mr-4" src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </>
                             )
                         }
                     })}
