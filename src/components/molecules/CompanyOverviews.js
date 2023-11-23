@@ -112,13 +112,13 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
             ApiUrl = CompanyApiUrl
         } else if (overviewContent === 'location') {
             setHeaders(Location_headers);
-            ApiUrl = LocationApiUrl + '/1/1'
+            ApiUrl = LocationApiUrl
         } else if (overviewContent === 'workstation') {
             setHeaders(Workstation_headers);
-            ApiUrl = WorkstationListApiUrl + '/1/1'
+            ApiUrl = WorkstationApiUrl
         } else if (overviewContent === 'cost center') {
             setHeaders(cost_center_headers)
-            ApiUrl = CostCenterApiUrl + '/1/all'
+            ApiUrl = CostCenterApiUrl
         } else if (overviewContent === 'contracts') {
             setHeaders(contracts_template_headers)
             ApiUrl = ContractTemplateApiUrl
@@ -142,7 +142,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
                         setListData(arr)
                     } else if (overviewContent === 'contracts') {
                         let data = result.data
-                        //filtering data for given company and also for null 
+                        //filtering data for given company and also for null
                         const filteredData = data.filter(item => item.company_id == null || item.company_id == 1);
                         filteredData.forEach(element => {
                             if (element.language) {

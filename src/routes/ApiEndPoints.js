@@ -45,7 +45,7 @@ export const MonthlyMinimumSalariesApiurl = BASE_URL + '/masterdata/monthly-mini
 
 export const HolidayCodeApiUrl = BASE_URL + '/masterdata/holiday-codes'
 export const ReasonsApiUrl = BASE_URL + '/masterdata/reasons'
-export const CostCenterApiUrl = BASE_URL + '/masterdata/cost-center'
+export const CostCenterApiUrl = BASE_URL + '/masterdata/cost-centers'
 export const SocialSecretaryApiUrl = BASE_URL + '/masterdata/social-secretary'
 export const EmailTemplateApiUrl = BASE_URL + '/masterdata/email-templates'
 export const ContractTemplateApiUrl = BASE_URL + '/masterdata/contract-templates'

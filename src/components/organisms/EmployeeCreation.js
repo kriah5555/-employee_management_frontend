@@ -33,6 +33,7 @@ export default function EmployeeCreation() {
     const [dependantSpouse, setDependantSpouse] = useState([]);
     const [selectedEmpTypeCategory, setSelectedEmpTypeCategory] = useState();
     const [displaySubType, setDisplaySubType] = useState(false);
+    const [children, setChildren] = useState([]);
 
 
     const [functionSalaries, setFunctionSalaries] = useState([{ 'function_id': '', 'salary': '', 'experience': '' }]);
@@ -219,6 +220,7 @@ export default function EmployeeCreation() {
                                 language={language} setLanguage={setLanguage}
                                 maritalStatus={maritalStatus} setMaritalStatus={setMaritalStatus}
                                 dependantSpouse={dependantSpouse} setDependantSpouse={setDependantSpouse}
+                                children={children} setChildren={setChildren}
                                 employeeData={employeeData} setEmployeeData={setEmployeeData}
                                 options={employeeCreateOptions}
                                 childrenOptions={childrenOptions}
