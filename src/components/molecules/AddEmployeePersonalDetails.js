@@ -6,7 +6,7 @@ import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 
 export default function AddEmployeePersonalDetails({ options, employeeData, setEmployeeData, gender, setGender, language, setLanguage,
-    maritalStatus, setMaritalStatus, dependantSpouse, setDependantSpouse, childrenOptions }) {
+    maritalStatus, setMaritalStatus, dependantSpouse, setDependantSpouse, children, setChildren, childrenOptions }) {
 
     //add employee personal detail fields
     const addEmployeeDetailsFields = [
@@ -36,7 +36,7 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         { title: 'Marital status', name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(options.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Dependant spouse", name: "dependant_spouse", required: true, options: getFormattedDropdownOptions(options.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         // { title: "Childrens", name: "childrens", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Childrens", name: "childrens", required: false, options: childrenOptions, selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Childrens", name: "childrens", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ];
 
 
@@ -60,6 +60,8 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
                 setMaritalStatus(value);
             } else if (name === 'dependant_spouse') {
                 setDependantSpouse(value)
+            } else if (name === 'childrens') {
+                setChildren(value)
             }
             employees[name] = value.value
         }
