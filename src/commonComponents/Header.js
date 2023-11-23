@@ -191,7 +191,7 @@ export default function Header({ setAuth }) {
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
-                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{Company}</h4>}
+                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany.label}</h4>}
                     {companyList.length > 1 && <div>
                         <Dropdown
                             options={companyList}
