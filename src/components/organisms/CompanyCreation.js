@@ -256,6 +256,10 @@ export default function CompanyCreation() {
                     sector={sector}
                     setSector={setSector}
                     update_id={params.id}
+                    socialSecretary={socialSecretary}
+                    setSocialSecretary={setSocialSecretary}
+                    interimAgency={interimAgency}
+                    setInterimAgency={setInterimAgency}
                 ></AddCompanyForm>}
 
                 {/* Create and edit location details form */}
