@@ -12,27 +12,39 @@ import DateInput from "../atoms/formFields/DateInput";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import Editor from "../atoms/Editor";
 import FileInput from "../atoms/FileInput";
-
+import AddIcon from "../../static/icons/AddPlusIcon.png"
+import DeleteIcon from "../../static/icons/Delete.svg"
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave }) {
 
     const navigate = useNavigate();
     const params = useParams();
-    const [multipleHolidayCodeCount, setMultipleHOlidayCodeCount] = useState([1]);
-    const [experience, setExperience] = useState([{ 'hour': "", 'holiday_code': '' }]);
+    const [multipleHolidayCodeCount, setMultipleHolidayCodeCount] = useState([1]);
+    const [multipleHolidayCodes, setMultipleHolidayCodes] = useState([{ 'hour': "", 'holiday_code': '' }]);
 
     const AddNewRow = () => {
-        console.log(experience);
         const rowsInput = 1;
         // Adding empty object for each row on add row click
         const rowData = {
             'hour': '',
             'holiday_code': '',
         }
-        setExperience([...experience, rowData])
+        setMultipleHolidayCodes([...multipleHolidayCodes, rowData])
         if (multipleHolidayCodeCount !== undefined) {
-            setMultipleHOlidayCodeCount([...multipleHolidayCodeCount, rowsInput])
+            setMultipleHolidayCodeCount([...multipleHolidayCodeCount, rowsInput])
         }
 
+    }
+
+    function DeleteRow(index, type) {
+        // Remove data from multipleHolidayCodes data
+        const rows = [...multipleHolidayCodeCount];
+        console.log(rows);
+        rows.splice(index, 1);
+        setMultipleHolidayCodeCount(rows);
+
+        const data = [...multipleHolidayCodes];
+        data.splice(index, 1);
+        setMultipleHolidayCodes(data);
     }
 
     return (
@@ -171,45 +183,44 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     required={field.required}
                                 />
                             )
-                        } 
-                        // else if (field.type === "arry_of_values") {
-                        //     return (
-                        //         <>
-                        //             {multipleHolidayCodeCount.map((val, index) => {
-                        //                 return (
-                        //                     <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
-                        //                         <div className="col-md-10">
-                        //                             <TextInput
-                        //                                 key={field.name}
-                        //                                 title={field.title}
-                        //                                 name={field.name}
-                        //                                 CustomStyle={'col-md-6'}
-                        //                                 required={field.required}
-                        //                                 value={formattedData !== undefined ? formattedData[field.name] : ''}
-                        //                                 setValue={(e) => SetValues(i, field.name, e, field.type)}
-                        //                                 error={''}
-                        //                             ></TextInput>
-                        //                             <TextInput
-                        //                                 key={field.name}
-                        //                                 title={field.title}
-                        //                                 name={field.name}
-                        //                                 CustomStyle={'col-md-6'}
-                        //                                 required={field.required}
-                        //                                 value={formattedData !== undefined ? formattedData[field.name] : ''}
-                        //                                 setValue={(e) => SetValues(i, field.name, e, field.type)}
-                        //                                 error={''}
-                        //                             ></TextInput>
-                        //                         </div>
-                        //                         {index === multipleHolidayCodeCount.length - 1 && <div className="col-md-2 text-right pr-4">
-                        //                             {<img className="header-icon mr-4" src={"AddIcon"} onClick={() => AddNewRow()}></img>}
-                        //                             {/* {multipleHolidayCodeCount.length > 1 && <img className="header-icon" src={"DeleteIcon"} onClick={() => DeleteRow(index, 'experience')}></img>} */}
-                        //                         </div>}
-                        //                     </div>
-                        //                 )
-                        //             })}
-                        //         </>
-                        //     )
-                        // }
+                        } else if (field.type === "arry_of_values") {
+                            return (
+                                <>
+                                    {multipleHolidayCodeCount.map((val, index) => {
+                                        return (
+                                            <div className=" col-md-12 d-flex p-0 ">
+                                                <div className="col-md-10 d-flex mt-2">
+                                                    <TextInput
+                                                        key={field.name}
+                                                        title={"Hours"}
+                                                        name={"hours"}
+                                                        CustomStyle={'col-md-6'}
+                                                        required={true}
+                                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                                        setValue={(e) => SetValues(index, field.name, e, field.type)}
+                                                        error={''}
+                                                    ></TextInput>
+                                                    <TextInput
+                                                        key={field.name}
+                                                        title={"Holiday code"}
+                                                        name={"holiday_code"}
+                                                        CustomStyle={'col-md-6'}
+                                                        required={true}
+                                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                                        setValue={(e) => SetValues(index, field.name, e, field.type)}
+                                                        error={''}
+                                                    ></TextInput>
+                                                </div>
+                                                <div className="col-md-2 mt-2">
+                                                    {<img className="header-icon mt-4 mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
+                                                    {multipleHolidayCodeCount.length > 1 && <img className="header-icon mt-4 mr-4" src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </>
+                            )
+                        }
                     })}
                 </form>
             </div>}

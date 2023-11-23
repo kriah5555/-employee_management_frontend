@@ -132,7 +132,7 @@ export default function AddEmployeeTypes() {
                             "leave_access": response.employee_type_config.leave_access,
                             "holiday_access": response.employee_type_config.holiday_access,
                             "salary_type": response.salary_type.value,
-                            "dimona_code":""
+                            "dimona_code":response.dimona_code,
                         }
                         setEmployeeTypeData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }

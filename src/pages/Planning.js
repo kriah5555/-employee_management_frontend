@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { ToastContainer } from "react-toastify";
 import { t } from "../translations/Translation";
 import PlanningOverview from "../components/organisms/PlanningOverview";
-import AddLeavePopup from "../components/molecules/AddLeavePopup"
+
 export default function Planning() {
 
     const [tabIndex, setTabIndex] = useState(0);
@@ -50,7 +50,7 @@ export default function Planning() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="tablescroll"><AddLeavePopup buttonName={'Cancel'} onConfirm={"save"}></AddLeavePopup></div>
+                        <div className="tablescroll"></div>
                     </TabPanel>
                     <TabPanel>
                         <div className="tablescroll"></div>
