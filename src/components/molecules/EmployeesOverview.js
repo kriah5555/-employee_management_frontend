@@ -7,10 +7,10 @@ import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 
 
-export default function EmployeesOverview({ setShowDetails, showDetails }) {
+export default function EmployeesOverview({ setShowDetails, showDetails, eid, setEid }) {
 
     const [parentId, setParentId] = useState('');
-    const [eid, setEid] = useState('');
+    // const [eid, setEid] = useState('');
     const [listData, setListData] = useState([]);
 
 
@@ -89,7 +89,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails }) {
                                 number: emp.user.user_contact_details.phone_number,
                                 email: emp.user.user_contact_details.email,
                                 ssn: emp.user.social_security_number,
-                                id: index + 1 + i + 1,
+                                id: emp.id,
                                 parentId: index + 1
                             }
                             arr.push(employee)
