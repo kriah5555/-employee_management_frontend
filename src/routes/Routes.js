@@ -28,6 +28,7 @@ import LinkHolidayCodeToSocialSecretary from "../components/molecules/LinkHolida
 import Planning from '../pages/Planning';
 import AddEmailTemplate from '../components/organisms/AddEmailTemplate';
 import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
+import Uurrooster from '../pages/Uurrooster';
 
 const BaseRouter = ({ setAuth }) => (
     <Routes>
@@ -88,6 +89,8 @@ const BaseRouter = ({ setAuth }) => (
 
         <Route exact path='/add-contracts-template/:addType' element={<AddContractsTemplate></AddContractsTemplate>} />
         <Route exact path='/add-contracts-template/:addType/:id' element={<AddContractsTemplate></AddContractsTemplate>} />
+
+        <Route exact path='/uurrooster' element={<Uurrooster></Uurrooster>} />
         
     </Routes>
 );
