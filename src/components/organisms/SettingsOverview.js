@@ -31,7 +31,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = GenderApiUrl
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl
-        }else if (overviewContent === 'meal_vouchers') {
+        } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl
         } else {
             apiUrl = CommuteTypesApiUrl
@@ -55,7 +55,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl
         } else if (overviewContent === 'meal_vouchers') {
-            apiUrl = MaritalStatusApiUrl
+            apiUrl = MealVoucherApiUrl
         } else {
             apiUrl = CommuteTypesApiUrl
         }
@@ -92,7 +92,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl + '/' + newData.id
         } else if (overviewContent === 'meal_vouchers') {
-            apiUrl = MaritalStatusApiUrl + '/' + newData.id
+            apiUrl = MealVoucherApiUrl + '/' + newData.id
         } else {
             apiUrl = CommuteTypesApiUrl + '/' + newData.id
         }
@@ -128,7 +128,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl + '/' + newData.id
         } else if (overviewContent === 'meal_vouchers') {
-            apiUrl = MaritalStatusApiUrl + '/' + newData.id
+            apiUrl = MealVoucherApiUrl + '/' + newData.id
         } else {
             apiUrl = CommuteTypesApiUrl + '/' + newData.id
         }
