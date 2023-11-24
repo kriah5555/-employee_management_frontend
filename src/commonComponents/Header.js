@@ -24,7 +24,7 @@ import Popup from "../utilities/popup/Popup"
 
 export default function Header({ setAuth }) {
 
-    const Company = "Company 01";
+    // const Company = "Company 01";
     const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
@@ -66,8 +66,11 @@ export default function Header({ setAuth }) {
                     const lastCompany = data.filter((obj) => {
                         return obj.value == lastCompanyId;
                     })
-                    //setting last selected company
-                    if (lastCompany.length != 0) {
+                    //if only one company then select it without showing popup
+                    if (data.length == 1) {
+                        setSelectedCompany(data[0])
+                        //setting last selected company if it is present
+                    } else if (lastCompany.length != 0) {
                         setSelectedCompany(lastCompany)
                     } else {
                         //message popup if last company not matching  in company list
@@ -86,6 +89,20 @@ export default function Header({ setAuth }) {
             localStorage.setItem('company_id', selectedCompany.value);
         }
     }, [selectedCompany.value])
+
+    const onConfirm = () => {
+        if (selectedCompany.value !== undefined) {
+            setIsCompanyIdEmpty(false)
+            setMessage(false)
+        } else {
+            setMessage(true)
+        }
+    }
+
+    const onCompanySelect = (e) => {
+        setSelectedCompany(e);
+        window.location.reload();
+    }
 
     // Function to call Logout Api call 
     const Logout = () => {
@@ -176,27 +193,19 @@ export default function Header({ setAuth }) {
                 onHide={() => setIsCompanyIdEmpty(false)}
                 backdrop="static"
                 title="Responsible company"
-                onConfirm={() => {
-                    if (selectedCompany.value !== undefined) {
-                        setIsCompanyIdEmpty(false)
-                        setMessage(false)
-                    } else {
-                        setMessage(true)
-                    }
-
-                }}
+                onConfirm={() => onConfirm()}
             ></Popup>}
             <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
                 <div className="d-flex">
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
-                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{Company}</h4>}
+                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany.label}</h4>}
                     {companyList.length > 1 && <div>
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
-                            onSelectFunction={(e) => setSelectedCompany(e)}
+                            onSelectFunction={(e) => onCompanySelect(e)}
                             CustomStyle="company-dropdown"
                             styleClass="col-md-12"
                             isMulti={false}

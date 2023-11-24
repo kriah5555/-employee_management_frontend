@@ -174,6 +174,7 @@ export default function CompanyCreation() {
                         progress: undefined,
                         theme: "colored",
                     });
+                    window.location.reload()
                 } else {
                     setErrors(result.message)
                 }

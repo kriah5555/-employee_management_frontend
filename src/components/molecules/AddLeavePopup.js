@@ -54,7 +54,7 @@ const AddLeavePopup = (props) => {
         },
         {
             name: 'Morning',
-            key: 'morning',
+            key: 'morning', 
             checked: morning,
             customStyle: " mr-2"
         },
@@ -208,7 +208,7 @@ const AddLeavePopup = (props) => {
         props.setAddLeave(false)
     }
 
-    return (<>
+    return (
         <Modal
             show={props.addLeave}
             onHide={onHide}
@@ -245,7 +245,6 @@ const AddLeavePopup = (props) => {
                 </Button>
             </Modal.Footer>
         </Modal>
-    </>
     );
 }
 
