@@ -60,6 +60,7 @@ export const GET_CONSTANTS = {
     'GENDER':'Genders',
     'MARITAL_STATUS': 'Marital status',
     'MEAL_VOUCHERS': 'Meal vouchers',
+    'COMMUTE_TYPES': 'Commute types',
 
     // Configuration constant
     'FUNCTIONS': 'Functions',

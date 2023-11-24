@@ -40,6 +40,7 @@ export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
 
 
 export const MealVoucherApiUrl = BASE_URL + '/masterdata/meal-vouchers'
+export const CommuteTypesApiUrl = BASE_URL + '/masterdata/commute-types'
 export const HourlyMinimumSalariesApiurl = BASE_URL + '/masterdata/hourly-minimum-salaries'
 export const MonthlyMinimumSalariesApiurl = BASE_URL + '/masterdata/monthly-minimum-salaries'
 

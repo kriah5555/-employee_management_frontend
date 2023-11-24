@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomTable from "../../components/atoms/CustomTable";
 import { ToastContainer, toast } from 'react-toastify';
-import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl } from "../../routes/ApiEndPoints";
+import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl, CommuteTypesApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 
 
@@ -31,8 +31,10 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = GenderApiUrl
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl
-        } else {
+        }else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl
+        } else {
+            apiUrl = CommuteTypesApiUrl
         }
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
@@ -52,8 +54,10 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = GenderApiUrl
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl
+        } else if (overviewContent === 'meal_vouchers') {
+            apiUrl = MaritalStatusApiUrl
         } else {
-            apiUrl = MealVoucherApiUrl
+            apiUrl = CommuteTypesApiUrl
         }
 
         AXIOS.service(apiUrl, 'POST', newData)
@@ -87,8 +91,10 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = GenderApiUrl + '/' + newData.id
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl + '/' + newData.id
+        } else if (overviewContent === 'meal_vouchers') {
+            apiUrl = MaritalStatusApiUrl + '/' + newData.id
         } else {
-            apiUrl = MealVoucherApiUrl + '/' + newData.id
+            apiUrl = CommuteTypesApiUrl + '/' + newData.id
         }
 
         AXIOS.service(apiUrl, 'PUT', newData)
@@ -121,8 +127,10 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = GenderApiUrl + '/' + newData.id
         } else if (overviewContent === 'marital_status') {
             apiUrl = MaritalStatusApiUrl + '/' + newData.id
+        } else if (overviewContent === 'meal_vouchers') {
+            apiUrl = MaritalStatusApiUrl + '/' + newData.id
         } else {
-            apiUrl = MealVoucherApiUrl + '/' + newData.id
+            apiUrl = CommuteTypesApiUrl + '/' + newData.id
         }
 
         AXIOS.service(apiUrl, 'DELETE')

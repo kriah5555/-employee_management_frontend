@@ -28,6 +28,7 @@ export default function Settings() {
         { title: t('GENDER'), icon: GenderIcon, styleClass: subTabStyle, url: '', type: 'gender' },
         { title: t('MARITAL_STATUS'), icon: MaritalStatusIcon, styleClass: subTabStyle, url: '', type: 'marital_status' },
         { title: t('MEAL_VOUCHERS'), icon: MealVoucherIcon, styleClass: subTabStyle, url: '', type: 'meal_vouchers' },
+        { title: t('COMMUTE_TYPES'), icon: MealVoucherIcon, styleClass: subTabStyle, url: '', type: 'commute_types' },
     ]
 
     const handleTabClick = (val) => {
