@@ -159,7 +159,6 @@ export default function Header({ setAuth }) {
         { icon: NotificationIcon, url: '#', type: 'notification' },
     ]
 
-    console.log(selectedCompany);
     return (
         <section>
             {isCompanyIdEmpty && <Popup
