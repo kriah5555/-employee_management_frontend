@@ -9,8 +9,9 @@ import EditShiftIcon from "../../static/icons/EditShift.png";
 
 import Dropdown from "../atoms/Dropdown";
 import PlanItem from "./PlanItem";
+import CreatePlanPopup from "./CreatePlanPopup";
 
-export default function WeeklyOverview({ enableShifts }) {
+export default function WeeklyOverview({ enableShifts, employeeTypeOptions }) {
 
     // Get current week number and year
     const weekNumber = getCurrentWeek()
@@ -19,7 +20,8 @@ export default function WeeklyOverview({ enableShifts }) {
     // Const for days
     const days = [t('MONDAY'), t('TUESDAY'), t('WEDNESDAY'), t('THURSDAY'), t('FRIDAY'), t('SATURDAY'), t('SUNDAY')]
     const dates = getDatesForWeek(weekNumber, year)
-    const [WeekData, setWeekData] = useState([])
+    const [weekData, setWeekData] = useState([]);
+    const [planPopup, setPlanPopup] = useState(false);
 
 
     // Dummy data for shifts dropdown
@@ -78,7 +80,7 @@ export default function WeeklyOverview({ enableShifts }) {
             },
         ]
         setWeekData(data)
-    }, [])
+    }, [planPopup])
 
     // Dummy data for weekly planning total cost and contract hours
     const totalData = [
@@ -95,8 +97,8 @@ export default function WeeklyOverview({ enableShifts }) {
 
     // Function to add new row for adding new employee
     const addNewRow = (wid) => {
-        let week_arr = [...WeekData]
-        WeekData.map((data, index) => {
+        let week_arr = [...weekData]
+        weekData.map((data, index) => {
             if (data.workstation_id === wid) {
                 let data_arr = { ...data }
                 let emp_arr = [...data.employees]
@@ -114,8 +116,8 @@ export default function WeeklyOverview({ enableShifts }) {
 
     // Function to delete plan row for adding new employee
     const removeRow = (wid, row_index) => {
-        let week_arr = [...WeekData]
-        WeekData.map((data, index) => {
+        let week_arr = [...weekData]
+        weekData.map((data, index) => {
             if (data.workstation_id === wid) {
                 let data_arr = { ...data }
                 let emp_arr = [...data.employees]
@@ -141,6 +143,7 @@ export default function WeeklyOverview({ enableShifts }) {
 
     return (
         <div className="col-md-12 p-0 text-center">
+            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} employeeTypeOptions={employeeTypeOptions} ></CreatePlanPopup>}
             <table className="table table-bordered mb-0">
                 <thead className="sticky">
                     <tr>
@@ -160,7 +163,7 @@ export default function WeeklyOverview({ enableShifts }) {
                 </thead>
                 <tbody>
                     {
-                        WeekData.map((ws, index) => {
+                        weekData.map((ws, index) => {
                             return (
                                 ws.employees.map((ws_employee, ws_emp_index) => {
                                     return (
@@ -179,7 +182,7 @@ export default function WeeklyOverview({ enableShifts }) {
                                             </td>}
                                             {/* Employee and plan data rows */}
                                             <td>{ws_employee.employee_name}</td>
-                                            <PlanItem PlansData={ws_employee.plans} Dates={dates}></PlanItem>
+                                            <PlanItem PlansData={ws_employee.plans} Dates={dates} setPlanPopup={setPlanPopup}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
                                                     {ws_employee.total.cost && <small>

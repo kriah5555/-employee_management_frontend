@@ -117,7 +117,7 @@ export default function PlanningOverview() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="px-3 pb-3"><WeeklyOverview enableShifts={enableShifts} ></WeeklyOverview></div>
+                        <div className="px-3 pb-3"><WeeklyOverview enableShifts={enableShifts} employeeTypeOptions={employeeTypeOptions} ></WeeklyOverview></div>
                     </TabPanel>
 
                     <TabPanel>

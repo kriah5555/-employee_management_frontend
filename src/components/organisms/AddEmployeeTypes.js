@@ -116,7 +116,6 @@ export default function AddEmployeeTypes() {
                         response.contract_types.map((val, i) => {
                             contract_type_ids.push(val.id)
                         })
-                        // console.log(response.name)
                         let data = {
                             "name": response.name,
                             "description": response.description,

@@ -1,7 +1,7 @@
 import React from "react";
 import DatePicker from "react-multi-date-picker"
 
-export default function DateInput({ title, name, required, CustomStyle, value, setValue, disabled, placeholder }) {
+export default function DateInput({ title, name, required, CustomStyle, value, setValue, disabled, placeholder, isMulti }) {
     return (
         <div className={"" + CustomStyle}>
             <div className="" >
@@ -10,7 +10,8 @@ export default function DateInput({ title, name, required, CustomStyle, value, s
                 <DatePicker
                     className="custom-calendar"
                     value={value}
-                    onChange={(e) => setValue(e.format("DD-MM-YYYY"))}
+                    multiple={isMulti}
+                    onChange={(e) => setValue(isMulti ? e : e.format("DD-MM-YYYY"))}
                     format="DD-MM-YYYY"
                     disabled={disabled}
                     weekStartDayIndex={1}

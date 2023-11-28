@@ -72,7 +72,6 @@ export default function EmployeeCreation() {
         AXIOS.service(EmployeeCreateApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
-                    console.log(result);
                     setEmployeeCreateOptions(result.data)
                 } else {
                     // setErrors(result.message)

@@ -208,14 +208,14 @@ export default function AddSector() {
         title: "Night shift strart time",
         type: 'night_hour_start_time',
         value: nightHourStartTime,
-        required: true
+        required: false
     }
 
     const night_shift_end = {
         title: "Night shift end time",
         type: "night_hour_end_time",
         value: nightHourEndTime,
-        required: true
+        required: false
     }
 
 

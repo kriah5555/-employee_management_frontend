@@ -14,7 +14,8 @@ import Editor from "../atoms/Editor";
 import FileInput from "../atoms/FileInput";
 import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
-export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave }) {
+import TimeInput from "../atoms/TimeInput";
+export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex }) {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -38,7 +39,6 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
     function DeleteRow(index, type) {
         // Remove data from multipleHolidayCodes data
         const rows = [...multipleHolidayCodeCount];
-        console.log(rows);
         rows.splice(index, 1);
         setMultipleHolidayCodeCount(rows);
 
@@ -46,6 +46,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
         data.splice(index, 1);
         setMultipleHolidayCodes(data);
     }
+
 
     return (
         <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
@@ -65,7 +66,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
                                     setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     error={''}
-                                    placeholder={field.placeholder?field.placeholder:''}
+                                    placeholder={field.placeholder ? field.placeholder : ''}
                                 ></TextInput>
                             )
                         } else if (field.type === 'dropdown') {
@@ -147,6 +148,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
                                     setValue={(e) => SetValues(i, field.name, e)}
                                     placeholder={field.placeholder}
+                                    isMulti={field.isMulti}
                                 ></DateInput>
                             )
                         } else if (field.type === 'phone_input') {
@@ -177,6 +179,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                         } else if (field.type === 'file') {
                             return (
                                 <FileInput
+                                    key={field.name}
                                     title={field.title}
                                     name={field.name}
                                     index={i}
@@ -185,12 +188,25 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     required={field.required}
                                 />
                             )
+                        } else if (field.type === 'time') {
+                            return (
+                                <TimeInput
+                                    key={field.name}
+                                    title={field.title}
+                                    setTime={(e) => SetValues(planIndex, field.name, e, field.type)}
+                                    value={formattedData[i] !== undefined ? formattedData[i][field.name] : ''}
+                                    type={field.type}
+                                    index={i}
+                                    required={field.required}
+                                    customStyle={field.style}
+                                ></TimeInput>
+                            )
                         } else if (field.type === "arry_of_values") {
                             return (
                                 <>
                                     {multipleHolidayCodeCount.map((val, index) => {
                                         return (
-                                            <div className=" col-md-12 d-flex p-0 ">
+                                            <div className=" col-md-12 d-flex p-0 " key={field.name}>
                                                 <div className="col-md-10 d-flex mt-2">
                                                     <TextInput
                                                         key={field.name}

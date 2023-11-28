@@ -238,7 +238,7 @@ const AddLeavePopup = (props) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button className='button-style float-left' onClick={() => onSave()}>
-                    {'save'}
+                    {'Save'}
                 </Button>
                 <Button className='button-style' onClick={() => onHide()}>
                     {props.buttonName ? (props.buttonName) : t('CLOSE')}

@@ -73,9 +73,9 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
             locationsArray[index][name] = value
             if (name === 'location_name') { getLocationDropdownData(index, value) }
         } else {
-            // const resp_person = [...responsiblePerson]
-            // resp_person[index] = value
-            setResponsiblePerson(value);
+            const resp_person = [...responsiblePerson]
+            resp_person[index] = value
+            setResponsiblePerson(resp_person);
             let arr = []
             value.map((val, i) => {
                 arr.push(val.value)
