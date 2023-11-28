@@ -30,7 +30,8 @@ export default function ManageSalaries() {
     const [warningMessage, setWarningMessage] = useState('');
     const [errors, setErrors] = useState([]);
     const [salaryType, setSalaryType] = useState("");
-
+    const [tempData, setTempData] = useState([])
+    const [tempHeader, setTempHeader] = useState([])
     // Input field from material table package for editing data in bulk
     const CustomInput = (props) => {
         return (
@@ -78,12 +79,11 @@ export default function ManageSalaries() {
             let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
             AXIOS.service(ApiUrl + '/' + selectedSector.value + '/get')
                 .then((result) => {
-                    if (result.data.levels >= salaryData.length) {
+                    if (result.data.levels) {
                         let categories = new Array(result.data.categories).fill(1);
                         let salary_data = result.data.salaries
                         let header_arr = [...salary_header];
                         let emptySalary = []
-
                         // Set headers
                         categories.map((cat, i) => {
                             let header = {
@@ -94,7 +94,8 @@ export default function ManageSalaries() {
                             }
                             header_arr.push(header);
                         })
-                        setHeaders(header_arr);
+                        // setHeaders(header_arr);
+                        setTempHeader(header_arr)
 
                         // Set salaries data
                         salary_data.map((val, i) => {
@@ -102,16 +103,17 @@ export default function ManageSalaries() {
                             emptySalary.push(val);
                         })
 
-                        setListData(emptySalary);
+                        // setListData(emptySalary);
+                        setTempData(emptySalary)
                         setSalaryData(emptySalary)
                     }
                 })
         }
-    }, [selectedSector, salaryType.value, incrementPage])
+    }, [selectedSector.value, salaryType.value, incrementPage])
 
 
     useEffect(() => {
-        setListData(salaryData);
+        // setListData(salaryData);
 
         // Api call to get sector list data
         AXIOS.service(SectorApiUrl, 'GET')
@@ -138,7 +140,7 @@ export default function ManageSalaries() {
         // If increment page
         if (val) {
             setNoSectorMessage(coefficient === '' ? 'Please enter the increment coefficent to check and confirm new minimum salaries' : '')
-            setListData([]);
+            // setListData([]);
             setTitle('Increase minimum salaries');
             setHeaders([{
                 title: 'Level',
@@ -149,7 +151,7 @@ export default function ManageSalaries() {
         } else {
             // If back to manage page
             setTitle('Manage minimum salaries');
-            setListData([]);
+            // setListData([]);
             setCoefficient('');
             setIncrementPage(false);
             setNoSectorMessage('')
@@ -202,6 +204,9 @@ export default function ManageSalaries() {
                             setErrors(result.message)
                         }
                     })
+            } else {
+                setHeaders(tempHeader)
+                setListData(tempData);
             }
         }
 
@@ -276,6 +281,12 @@ export default function ManageSalaries() {
                 console.log(error);
             })
     }
+    //function to set old data to listData if increment not saved
+    const clearNewData = () => {
+        getIncrementPage(false)
+        setHeaders(tempHeader)
+        setListData(tempData)
+    }
 
 
     return (
@@ -309,7 +320,7 @@ export default function ManageSalaries() {
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-                <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => incrementPage ? getIncrementPage(false) : navigate('/configurations')} src={BackIcon}></img>{title}</h4>
+                <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => incrementPage ? clearNewData() : navigate('/configurations')} src={BackIcon}></img>{title}</h4>
             </div>
 
             <div className="col-md-12 mb-2 d-flex justify-content-between">
@@ -344,7 +355,7 @@ export default function ManageSalaries() {
                         ></TextInput>
                         <CustomButton buttonName={'Check'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
                     </div>}
-                    {!incrementPage && <CustomButton buttonName={'Search'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
+                    {!incrementPage && <CustomButton buttonName={'Get salaries'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
                 </div>
 
                 {incrementPage && coefficient && <div className="d-flex mr-5">
