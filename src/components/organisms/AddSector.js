@@ -38,7 +38,7 @@ export default function AddSector() {
     const [emp_type_state, setEmpTypeState] = useState(true);
     const [employeeTypeList, setEmployeeTypeList] = useState([])
     const categoriesList = []
-    const [selectedTab, setSelectedTab] = useState();
+    const [selectedTab, setSelectedTab] = useState(0);
     const [levelsCount, setLevelsCount] = useState([1]);
     const MaximumCategoryNumber = 50;
     let count = 1
@@ -266,6 +266,14 @@ export default function AddSector() {
             setDescription(value);
         }
     }
+    const handleNext = () => {
+        // Increment the index to move to the next tab
+        setSelectedTab((prevIndex) => (prevIndex < TabsData.length - 1 ? prevIndex + 1 : prevIndex));
+    };
+
+    const handlePrevious = () => {
+        setSelectedTab((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex));
+    }
 
     // Function for onSubmit for creating and updating sectors
     const OnSave = () => {
@@ -399,7 +407,7 @@ export default function AddSector() {
             <div className="form-container my-5 border bg-white">
                 <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{('Add Sectors')}</h2>
 
-                <Tabs className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
+                <Tabs selectedIndex={selectedTab} className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
                     <TabList>
                         {TabsData.map((val) => {
                             return (
@@ -565,8 +573,16 @@ export default function AddSector() {
                     </TabPanel> */}
                 </Tabs>
                 <div className={"col-md-12 my-4 text-right pr-2"}>
-                    {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
-                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3"></CustomButton>
+                    <div className="div">
+                        <div className="text-left">
+                            <CustomButton buttonName={'Cancel'} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3"></CustomButton>
+                        </div>
+                        <div className="text-right">
+                            {selectedTab !== 0 && <CustomButton buttonName={'Prev'} ActionFunction={() => handlePrevious()} CustomStyle="mr-3"></CustomButton>}
+                            {selectedTab !== 2 && <CustomButton buttonName={'Next'} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
+                            {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                        </div>
+                    </div>
                 </div>
             </div>
 

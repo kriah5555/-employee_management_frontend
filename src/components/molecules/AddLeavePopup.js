@@ -11,7 +11,6 @@ const AddLeavePopup = (props) => {
     const [employeeList, setEmployeeList] = useState([]);
     const [holidayCode, setHolidayCode] = useState([]);
     const [holidayCodeList, setHolidayCodeList] = useState([])
-    const [reason, setReason] = useState("")
     const [formData, setFormData] = useState({
         "employee": "",
         "dates": "",
@@ -26,6 +25,7 @@ const AddLeavePopup = (props) => {
     const [multipleHolidayCode, setMultipleHOlidayCode] = useState(false)
     const [morning, setMorning] = useState(false)
     const [evening, setEvening] = useState(false)
+    const [formFields, setFormFields] = useState([])
 
     let checkboxList = [
         {
@@ -142,18 +142,8 @@ const AddLeavePopup = (props) => {
         ]
     }
 
-    // useEffect(() => {
-    //     //api call to get options to dropdown
-    //     AXIOS.service()
-    //         .then((result) => {
-
-    //         })
-    //         .catch()
-
-    // }, [halfDay, multipleDays, multipleHolidayCode])
-
-    // setting form fields based on selected checkbox 
-    const formFields = halfDay ? [
+    // field arrays
+    const halfDayFieldsArray = [
         { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
         { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         (morning ? { title: "Holiday code for morning shift", name: "morning_holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" }
@@ -165,27 +155,62 @@ const AddLeavePopup = (props) => {
             : { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 float-left' }),
         (multipleHolidayCode ? { type: "arry_of_values" } : {}),
         { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" }
-    ] : multipleDays ? [
+    ]
+
+    const multipleDaysArrayField = [
         { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
         { title: "From date", name: "from_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: "To date", name: "to_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: "Holiday code", name: "holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
         { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
         { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
-    ] : multipleHolidayCode ? [
+    ]
+
+    const multipleHolidayCodeFieldsArray = [
         { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
         { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
         { type: "arry_of_values" },
         { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
         (halfDay ? { title: '', required: false, type: 'checkbox', checkboxList: halfDayCheckboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left d-flex' } : {})
-    ] : [
+    ]
+
+    const defaultFieldsArray = [
         { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
         { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: "Holiday code", name: "holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
         { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
         { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
     ]
+
+    // useEffect(() => {
+    //     //api call to get options to dropdown
+    //     AXIOS.service()
+    //         .then((result) => {
+
+    //         })
+    //         .catch()
+    // }, [halfDay, multipleDays, multipleHolidayCode])
+
+    // setting form fields based on selected checkbox 
+
+    useEffect(() => {
+        let newFormFields
+
+        if (halfDay) {
+            newFormFields = halfDayFieldsArray;
+        } else if (multipleHolidayCode) {
+            newFormFields = multipleHolidayCodeFieldsArray;
+        } else if (multipleDays) {
+            newFormFields = multipleDaysArrayField;
+        } else {
+            newFormFields = defaultFieldsArray;
+        }
+
+        setFormFields(newFormFields);
+    }, [halfDay, multipleDays, multipleHolidayCode, morning, evening]);
+
+
 
     const setValue = (index, name, value, type) => {
         if (type !== 'dropdown') {
@@ -208,7 +233,7 @@ const AddLeavePopup = (props) => {
         props.setAddLeave(false)
     }
 
-    return (<>
+    return (
         <Modal
             show={props.addLeave}
             onHide={onHide}
@@ -245,7 +270,6 @@ const AddLeavePopup = (props) => {
                 </Button>
             </Modal.Footer>
         </Modal>
-    </>
     );
 }
 

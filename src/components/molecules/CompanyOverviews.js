@@ -177,6 +177,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
                         progress: undefined,
                         theme: "colored",
                     });
+                    window.location.reload()
                 }
             })
             .catch((error) => {
