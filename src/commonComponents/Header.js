@@ -60,21 +60,27 @@ export default function Header({ setAuth }) {
         AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
             .then((result) => {
                 if (result.success) {
-                    let data = getFormattedDropdownOptions(result.data, "id", "company_name")
-                    setCompanyList(data)
-                    //filtering last selected company from company list
-                    const lastCompany = data.filter((obj) => {
-                        return obj.value == lastCompanyId;
-                    })
-                    //if only one company then select it without showing popup
-                    if (data.length == 1) {
-                        setSelectedCompany(data[0])
-                        //setting last selected company if it is present
-                    } else if (lastCompany.length != 0) {
-                        setSelectedCompany(lastCompany)
+                    if (result.data.length !== 0) {
+                        let data = getFormattedDropdownOptions(result.data, "id", "company_name")
+                        setCompanyList(data)
+                        //filtering last selected company from company list
+                        const lastCompany = data.filter((obj) => {
+                            return obj.value == lastCompanyId;
+                        })
+                        //if only one company then select it without showing popup
+                        if (data.length == 1) {
+                            setSelectedCompany(data[0])
+                            //setting last selected company if it is present
+                        } else if (lastCompany.length != 0) {
+                            setSelectedCompany(lastCompany)
+                        } else {
+                            //message popup if last company not matching  in company list
+                            setIsCompanyIdEmpty(true)
+                        }
                     } else {
-                        //message popup if last company not matching  in company list
-                        setIsCompanyIdEmpty(true)
+                        if (window.location.pathname !== "/manage-companies/company/0"){
+                            setIsCompanyIdEmpty(true)
+                        }
                     }
                 }
             })
@@ -96,6 +102,9 @@ export default function Header({ setAuth }) {
             setMessage(false)
         } else {
             setMessage(true)
+        }
+        if (companyList.length === 0) {
+            navigate("/manage-companies/company/0")
         }
     }
 
@@ -179,17 +188,23 @@ export default function Header({ setAuth }) {
     return (
         <section>
             {isCompanyIdEmpty && <Popup
-                body={<>
-                    {message && <h6 className="text-danger">Please select responsible company</h6>}
-                    <Dropdown
-                        options={companyList}
-                        selectedOptions={selectedCompany}
-                        onSelectFunction={(e) => setSelectedCompany(e)}
-                        CustomStyle="company-dropdown"
-                        styleClass=""
-                        isMulti={false}
-                    ></Dropdown>
-                </>}
+                body={companyList.length !== 0 ?
+                    <>
+                        {message && <h6 className="text-danger">Please select responsible company</h6>}
+                        <Dropdown
+                            options={companyList}
+                            selectedOptions={selectedCompany}
+                            onSelectFunction={(e) => setSelectedCompany(e)}
+                            CustomStyle="company-dropdown"
+                            styleClass=""
+                            isMulti={false}
+                        ></Dropdown>
+                    </> :
+                    <>
+                        <h6 className="text-danger">No companies found</h6>
+                        <a href="/manage-companies/company/0"><u>Create company</u></a>
+                    </>
+                }
                 onHide={() => setIsCompanyIdEmpty(false)}
                 backdrop="static"
                 title="Responsible company"
