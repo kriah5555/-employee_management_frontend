@@ -36,7 +36,7 @@ export default function EmployeeCreation() {
     const [children, setChildren] = useState([]);
 
 
-    const [functionSalaries, setFunctionSalaries] = useState([{ 'function_id': '', 'salary': '', 'experience': '' }]);
+    const [functionSalaries, setFunctionSalaries] = useState([{ 'function_id': '', 'min_salary': '', 'salary': '', 'experience': '' }]);
     const [locationTransport, setLocationTransport] = useState([{ 'location_id': '', 'commute_type_id': '', 'distance': '' }])
     const [employeeContracts, setEmployeeContracts] = useState(
         {

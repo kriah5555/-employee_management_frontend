@@ -11,9 +11,10 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
 
     const FunctionSalariesHeaders = [
         { title: 'Function', style: 'col-md-3 pl-3' },
+        { title: 'Minimum salary', style: 'col-md-2 text-center' },
         { title: 'Salary to be paid', style: 'col-md-3 text-center' },
-        { title: 'Experience', style: 'col-md-3 text-center' },
-        { title: 'Actions', style: 'col-md-3 text-right pr-5' },
+        { title: 'Experience', style: 'col-md-2 text-center' },
+        { title: 'Actions', style: 'col-md-2 text-right pr-5' },
     ]
 
     const TransportationHeaders = [
@@ -34,6 +35,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
         if (tabIndex === 2) {
             const rowData = {
                 'function_id': '',
+                'min_salary': '',
                 'salary': '',
                 'experience': '',
             }
@@ -139,6 +141,20 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     styleMargin={''}
                                 ></Dropdown>
                             </div>
+                            {tabIndex === 2 && <div className="col-md-2">
+                                <div className="row m-0 justify-content-center">
+                                    <TextInput
+                                        key={'min_salary' + val}
+                                        title={''}
+                                        name={'min_salary'}
+                                        CustomStyle={"col-md-12 float-left"}
+                                        required={false}
+                                        value={functionSalaries[index]['min_salary']}
+                                        setValue={(e) => SetValues(e, 'min_salary', index)}
+                                    // error={''}
+                                    ></TextInput>
+                                </div>
+                            </div>}
                             {tabIndex === 2 && <div className="col-md-3">
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
@@ -168,13 +184,13 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     ></Dropdown>
                                 </div>
                             </div>}
-                            <div className="col-md-3">
+                            <div className={tabIndex === 3 ? "col-md-3" : "col-md-2"}>
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
                                         key={'location' + val}
                                         title={''}
                                         name={'experience'}
-                                        CustomStyle={"col-md-8 float-left"}
+                                        CustomStyle={tabIndex === 3 ? "col-md-8 float-left" : "col-md-12 float-left"}
                                         required={false}
                                         value={tabIndex === 2 ? functionSalaries[index]['experience'] : locationTransport[index]['distance']}
                                         setValue={(e) => SetValues(e, (tabIndex === 2 ? 'experience' : 'distance'), index)}
@@ -182,7 +198,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     ></TextInput>
                                 </div>
                             </div>
-                            {index === rows.length - 1 && <div className="col-md-3 text-right pr-4">
+                            {index === rows.length - 1 && <div className={tabIndex === 3 ? "col-md-3 text-right pr-4" : "col-md-2 text-right pr-4"}>
                                 {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
                                 {rows.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
                             </div>}
