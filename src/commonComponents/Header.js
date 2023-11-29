@@ -77,11 +77,12 @@ export default function Header({ setAuth }) {
                             //message popup if last company not matching  in company list
                             setIsCompanyIdEmpty(true)
                         }
-                    } else {
-                        if (window.location.pathname !== "/manage-companies/company/0"){
-                            setIsCompanyIdEmpty(true)
-                        }
-                    }
+                    } 
+                    // else {
+                    //     if (window.location.pathname !== "/manage-companies/company/0"){
+                    //         setIsCompanyIdEmpty(true)
+                    //     }
+                    // }
                 }
             })
             .catch((error) => {
@@ -97,6 +98,7 @@ export default function Header({ setAuth }) {
     }, [selectedCompany.value])
 
     const onConfirm = () => {
+        window.location.reload()
         if (selectedCompany.value !== undefined) {
             setIsCompanyIdEmpty(false)
             setMessage(false)
@@ -188,7 +190,8 @@ export default function Header({ setAuth }) {
     return (
         <section>
             {isCompanyIdEmpty && <Popup
-                body={companyList.length !== 0 ?
+                body={
+                    // companyList.length !== 0 ?
                     <>
                         {message && <h6 className="text-danger">Please select responsible company</h6>}
                         <Dropdown
@@ -199,11 +202,12 @@ export default function Header({ setAuth }) {
                             styleClass=""
                             isMulti={false}
                         ></Dropdown>
-                    </> :
-                    <>
-                        <h6 className="text-danger">No companies found</h6>
-                        <a href="/manage-companies/company/0"><u>Create company</u></a>
-                    </>
+                    </> 
+                    // :
+                    // <>
+                    //     <h6 className="text-danger">No companies found</h6>
+                    //     <a href="/manage-companies/company/0"><u>Create company</u></a>
+                    // </>
                 }
                 onHide={() => setIsCompanyIdEmpty(false)}
                 backdrop="static"

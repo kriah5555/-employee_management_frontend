@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardIcon from "../static/icons/Dashboard.svg"
 import UurroosterIcon from "../static/icons/UurroosterDark.svg"
 import PlanningIcon from "../static/icons/Planning.svg"
@@ -23,13 +23,15 @@ import ActiveSettingIcon from "../static/icons/SettingsActive.svg"
 export default function Sidebar() {
 
     const [displaySidebar, setSidebardOpen] = useState(false)
+    const [sideBarData, setSideBarData] = useState([])
 
     let params = useParams();
     const navigate = useNavigate();
     let location = useLocation();
+    let selectedCompany = localStorage.getItem('company_id');
 
     //Constant data for sidebard
-    const sideBarData = [
+    const sideBarFullData = [
 
         { title: t('DASHBOARD'), icon: (location.pathname === '/' ? ActiveDashboardIcon : DashboardIcon), url: '/' },
         { title: t('UURROOSTER'), icon: (location.pathname === '/uurrooster' ? ActiveUurrosterIcon : UurroosterIcon), url: '/uurrooster' },
@@ -40,6 +42,20 @@ export default function Sidebar() {
         { title: t('SETTINGS'), icon: (location.pathname === '/settings' ? ActiveSettingIcon : SettingIcon), url: '/settings' },
         { title: t('REPORTING'), icon: ReportingIcon, url: '/reporting' },
     ]
+    const noCompanySideBar = [
+        { title: t('DASHBOARD'), icon: (location.pathname === '/' ? ActiveDashboardIcon : DashboardIcon), url: '/' },
+        { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
+        { title: t('SETTINGS'), icon: (location.pathname === '/settings' ? ActiveSettingIcon : SettingIcon), url: '/settings' },
+        { title: t('REPORTING'), icon: ReportingIcon, url: '/reporting' },
+    ]
+
+    useEffect(() => {
+        if (selectedCompany) {
+            setSideBarData(sideBarFullData)
+        } else {
+            setSideBarData(noCompanySideBar)
+        }
+    }, [localStorage.getItem('company_id')])
 
 
     return (
