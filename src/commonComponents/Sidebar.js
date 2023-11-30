@@ -44,6 +44,7 @@ export default function Sidebar() {
     ]
     const noCompanySideBar = [
         { title: t('DASHBOARD'), icon: (location.pathname === '/' ? ActiveDashboardIcon : DashboardIcon), url: '/' },
+        { title: t('COMPANIES'), icon: (location.pathname === '/manage-companies' ? ActiveCompaniesIcon : CompaniesIcon), url: '/manage-companies' },
         { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
         { title: t('SETTINGS'), icon: (location.pathname === '/settings' ? ActiveSettingIcon : SettingIcon), url: '/settings' },
         { title: t('REPORTING'), icon: ReportingIcon, url: '/reporting' },
