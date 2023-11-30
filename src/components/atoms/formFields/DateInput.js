@@ -11,7 +11,7 @@ export default function DateInput({ title, name, required, CustomStyle, value, s
                     className="custom-calendar"
                     value={value}
                     multiple={isMulti}
-                    onChange={(e) => setValue(isMulti ? e : e.format("DD-MM-YYYY"))}
+                    onChange={(e) => setValue(!isMulti && e !== null ? e.format("DD-MM-YYYY") : e)}
                     format="DD-MM-YYYY"
                     disabled={disabled}
                     weekStartDayIndex={1}
