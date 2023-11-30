@@ -45,7 +45,7 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         const employees = { ...employeeData };
         if (field !== 'dropdown') {
             if (name === 'social_security_number') {
-                if (value.length <=15){
+                if (value.length <= 15) {
                     employees[name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
                 }
             } else {
@@ -65,6 +65,7 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
             }
             employees[name] = value.value
         }
+        console.log(employees);
         setEmployeeData(employees);
     }
 
