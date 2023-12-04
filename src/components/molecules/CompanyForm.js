@@ -3,6 +3,7 @@ import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
+
 export default function CompanyForm({ data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2, formattedData3 }) {
 
     return (

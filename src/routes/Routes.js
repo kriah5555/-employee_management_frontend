@@ -29,6 +29,7 @@ import Planning from '../pages/Planning';
 import AddEmailTemplate from '../components/organisms/AddEmailTemplate';
 import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 import Uurrooster from '../pages/Uurrooster';
+import ClonePlanning from '../components/molecules/ClonePlanning';
 
 const BaseRouter = ({ setAuth }) => (
     <Routes>
@@ -81,6 +82,7 @@ const BaseRouter = ({ setAuth }) => (
 
 
         <Route exact path="/manage-plannings" element={<Planning></Planning>} />
+        <Route exact path="/clone-plannings" element={<ClonePlanning></ClonePlanning>} />
 
         <Route exact path='/add-email-template' element={<AddEmailTemplate></AddEmailTemplate>} />
         <Route exact path='/add-email-template/:id' element={<AddEmailTemplate></AddEmailTemplate>} />

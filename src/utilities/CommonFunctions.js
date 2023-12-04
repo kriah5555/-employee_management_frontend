@@ -153,3 +153,16 @@ export function getNewAccessToken() {
             }
         })
 }
+
+export function getWeeksInYear(year) {
+    // The first day of the year
+    const firstDayOfYear = new Date(year, 0, 1);
+    // The last day of the year
+    const lastDayOfYear = new Date(year, 11, 31);
+    // Calculate the difference in days
+    const daysDifference = Math.round((lastDayOfYear - firstDayOfYear) / (1000 * 60 * 60 * 24));
+    // Calculate the number of weeks
+    const weeks = Math.ceil((daysDifference + 1) / 7);
+
+    return weeks;
+}

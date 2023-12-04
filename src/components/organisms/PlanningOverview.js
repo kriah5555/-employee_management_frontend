@@ -106,7 +106,7 @@ export default function PlanningOverview() {
                             <div className="d-flex justify-content-end">
                                 <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={AddLeaveIcon} onClick={()=>setAddLeave(true)}></img>
                                 <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={ImportIcon}></img>
-                                <img className="planning-icon mr-2 mt-1 pointer" title="Clone planning" src={CloneIcon}></img>
+                                <a href="/clone-plannings"><img className="planning-icon mr-2 mt-1 pointer" title="Clone planning" src={CloneIcon}></img></a>
                             </div>
                         </div>
                     </TabList>
