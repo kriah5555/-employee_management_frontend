@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CompanyForm from "./CompanyForm";
 import CustomButton from "../atoms/CustomButton";
-import { FunctionApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
+import { FunctionApiUrl, GetSectorFunctionsApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 
 export default function WorkstationForm({ workstations, setWorkstations, locationArray, setLocationArray, setWorkstationStatus, view, update_id,
-    selectedLocation, setSelectedLocation, selectedFunction, setSelectedFunction }) {
+    selectedLocation, setSelectedLocation, selectedFunction, setSelectedFunction, sector }) {
 
     // const [workstations, setWorkstations] = useState([{
     //     workstation_name: "",
@@ -19,20 +20,35 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
 
     //Fetch dropdown data of functions
     useEffect(() => {
-        AXIOS.service(WorkstationApiUrl + '/create/1', 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    setFunctionOptions(result.data.function_titles);
-                    setLocationArray(result.data.locations);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (view === 'workstation-single') {
+            AXIOS.service(WorkstationApiUrl + '/create', 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setFunctionOptions(result.data.function_titles);
+                        setLocationArray(result.data.locations);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } else {
+            let requestData = {
+                "sector_ids": sector
+            }
+            AXIOS.service(GetSectorFunctionsApiUrl, 'POST', requestData)
+                .then((result) => {
+                    if (result?.success) {
+                        setFunctionOptions(getFormattedDropdownOptions(result.data.function_titles, 'id', 'name'));
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }, [])
 
     useEffect(() => {
-        if (update_id !== '0') {
+        if (update_id !== '0' && update_id !== undefined) {
             let editApiUrl = WorkstationApiUrl + '/' + update_id + '/edit'
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')

@@ -49,6 +49,11 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
                 setCompanyCar(value)
             } else {
                 setMealVoucher(value)
+                options.meal_vouchers.map((val) => {
+                    if (val.id === value.value) {
+                        employees['meal_voucher_amount'] = val.amount_formatted
+                    }
+                })
             }
             employees[name] = value.value
         }

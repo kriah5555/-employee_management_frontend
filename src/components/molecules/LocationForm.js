@@ -19,7 +19,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     // }]);
 
     useEffect(() => {
-        if (update_id !== '0') {
+        if (update_id !== '0' && update_id !== undefined) {
             let editApiUrl = LocationApiUrl + '/' + update_id + '/edit'
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')

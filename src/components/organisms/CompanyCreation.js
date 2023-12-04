@@ -231,7 +231,7 @@ export default function CompanyCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction}></WorkstationForm></div>
+                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction} sector={companyData[0]['sectors']}></WorkstationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         {/* <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton> */}
                         <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle="my-3 float-right"></CustomButton>

@@ -31,6 +31,7 @@ export const LocationApiUrl = BASE_URL + '/masterdata/locations'
 export const LocationListApiUrl = BASE_URL + '/masterdata/company-locations'
 export const WorkstationApiUrl = BASE_URL + '/masterdata/workstations'
 export const WorkstationListApiUrl = BASE_URL + '/masterdata/company-workstations'
+export const GetSectorFunctionsApiUrl = BASE_URL + '/masterdata/get-sector-function-titles'
 
 export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
 export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contract'

@@ -24,6 +24,24 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         },
     ];
 
+    const meal_voucher_headers = [
+        {
+            title: 'Title',
+            field: 'name',
+            size: 200,
+        },
+        {
+            title: 'Amount',
+            field: 'amount_formatted',
+            size: 200,
+        },
+        {
+            title: 'Sort order',
+            field: 'sort_order',
+            size: 200,
+        },
+    ]
+
     useEffect(() => {
         // Api to get list of genders and marital status
         let apiUrl;
@@ -56,6 +74,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = MaritalStatusApiUrl
         } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl
+            newData['amount'] = newData.amount_formatted
         } else {
             apiUrl = CommuteTypesApiUrl
         }
@@ -85,7 +104,6 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
 
     // Function to call API on editing the row
     const UpdateRow = (newData) => {
-
         let apiUrl;
         if (overviewContent === 'gender') {
             apiUrl = GenderApiUrl + '/' + newData.id
@@ -93,6 +111,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = MaritalStatusApiUrl + '/' + newData.id
         } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl + '/' + newData.id
+            newData['amount'] = newData.amount_formatted
         } else {
             apiUrl = CommuteTypesApiUrl + '/' + newData.id
         }
@@ -158,7 +177,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
 
     return (
         <>
-            {type !== 'notification' && <CustomTable title={title} columns={headers} rows={listData} setRows={setListData} tableName={'function'} height={'calc(100vh - 162px)'} UpdateRow={UpdateRow} CreateRow={CreateRow} DeleteRow={DeleteRow}></CustomTable>}
+            {type !== 'notification' && <CustomTable title={title} columns={overviewContent === 'meal_vouchers' ? meal_voucher_headers : headers} rows={listData} setRows={setListData} tableName={'function'} height={'calc(100vh - 162px)'} UpdateRow={UpdateRow} CreateRow={CreateRow} DeleteRow={DeleteRow}></CustomTable>}
         </>
     );
 
