@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteIcon from "../../static/icons/Delete.svg"
 import AddIcon from "../../static/icons/AddPlusIcon.png";
-import { EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { BASE_URL, EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
-export default function AddEmployeeFunctionSalaries({ tabIndex, options, functionSalaries, setFunctionSalaries, locationTransport, setLocationTransport, functions, setFunctions, locations, setLocations, commute, setCommute }) {
+export default function AddEmployeeFunctionSalaries({ tabIndex, options, functionSalaries, setFunctionSalaries, locationTransport, setLocationTransport, functions, setFunctions, locations, setLocations, commute, setCommute, employeeContracts, setEmployeeContracts, }) {
 
     const FunctionSalariesHeaders = [
         { title: 'Function', style: 'col-md-3 pl-3' },
@@ -37,7 +37,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                 'function_id': '',
                 'min_salary': '',
                 'salary': '',
-                'experience': '',
+                'experience': 0,
             }
             setFunctionSalaries([...functionSalaries, rowData])
 
@@ -74,6 +74,42 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
         setRows(data);
     }
 
+    const fetchMinSalary = (id, experience, index) => {
+        let data = {
+            "employee_type_id": employeeContracts.employee_type_id,
+            "employee_subtype": employeeContracts["sub_type"],
+            "function_title_id": id,
+            "experience_in_months": experience,
+        }
+
+        let url = BASE_URL + '/masterdata/employee-function-salary-option'
+        AXIOS.service(url, "POST", data)
+            .then((result) => {
+                if (result?.success) {
+                    let response = result.data.minimumSalary
+                    let function_salaries = [...functionSalaries]
+                    let row = functionSalaries[index]
+                    row["min_salary"] = response
+                    function_salaries[index] = row
+                    setFunctionSalaries(function_salaries)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+    useEffect(() => {
+        if (employeeContracts["employee_type_id"] && employeeContracts["sub_type"]) {
+            functionSalaries.map((obj, index) => {
+
+                fetchMinSalary(obj["function_id"], obj["experience"], index)
+
+            })
+        }
+        setRows(functionSalaries)
+
+    }, [])
+
     const SetValues = (value, type, index) => {
         const index_data = tabIndex === 2 ? [...functionSalaries] : [...locationTransport]
         if (type === 'function') {
@@ -83,12 +119,14 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
 
             index_data[index]['function_id'] = value.value
             setFunctionSalaries(index_data)
+            fetchMinSalary(functionSalaries[index]["function_id"], functionSalaries[index]["experience"], index)
         } else if (type === 'salary') {
             index_data[index]['salary'] = value
             setFunctionSalaries(index_data)
         } else if (type === 'experience') {
             index_data[index]['experience'] = value
             setFunctionSalaries(index_data)
+            fetchMinSalary(functionSalaries[index]["function_id"], functionSalaries[index]["experience"], index)
         } else if (type === 'location') {
             const data = [...locations]
             data[index] = value
@@ -127,7 +165,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
 
                 {rows.map((val, index) => {
                     return (
-                        <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
+                        <div className="row col-md-12 p-3 m-0 border-bottom" key={index}>
                             <div className="col-md-3 pl-0">
                                 <Dropdown
                                     options={tabIndex === 2 ? getFormattedDropdownOptions(options.functions) : getFormattedDropdownOptions(options.locations, 'id', 'location_name')}
@@ -151,6 +189,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                         required={false}
                                         value={functionSalaries[index]['min_salary']}
                                         setValue={(e) => SetValues(e, 'min_salary', index)}
+                                        disabled={true}
                                     // error={''}
                                     ></TextInput>
                                 </div>
