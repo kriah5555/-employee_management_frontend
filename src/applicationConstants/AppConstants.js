@@ -38,6 +38,7 @@ export const GET_CONSTANTS = {
     'COMPANY': 'Company',
     'LOCATIONS': 'Locations',
     'WORKSTATION': 'Workstations',
+    'RESP_PERSON':'Responsible persons',
     'CONTRACTS': 'Contracts',
     'RESPONSIBLE_PERSONS': 'Responsible persons',
     'RULES': 'Rules',

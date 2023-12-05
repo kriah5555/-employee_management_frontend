@@ -31,7 +31,7 @@ import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 import Uurrooster from '../pages/Uurrooster';
 import ClonePlanning from '../components/molecules/ClonePlanning';
 
-const BaseRouter = ({ setAuth }) => (
+const BaseRouter = ({ setAuth, setCompany}) => (
     <Routes>
         {/* route starts here */}
         {/* <Route exact path={active language}  element={<Component name />} /> */}
@@ -41,8 +41,8 @@ const BaseRouter = ({ setAuth }) => (
         <Route exact path="/manage-employees" element={<Employees></Employees>} />
         <Route exact path="/add-employees" element={<EmployeeCreation></EmployeeCreation>} />
 
-        <Route exact path="/manage-companies" element={<Companies></Companies>} />
-        <Route exact path="/manage-companies/:addType/:id" element={<CompanyCreation />} />
+        <Route exact path="/manage-companies" element={<Companies setCompany={setCompany}></Companies>} />
+        <Route exact path="/manage-companies/:addType/:id" element={<CompanyCreation setCompany={setCompany} />} />
 
         <Route exact path='/configurations' element={<Configurations></Configurations>} />
         <Route exact path='/manage-configurations/:type' element={<ConfigurationOverviews></ConfigurationOverviews>} />

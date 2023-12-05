@@ -24,8 +24,8 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
             AXIOS.service(WorkstationApiUrl + '/create', 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setFunctionOptions(result.data.function_titles);
-                        setLocationArray(result.data.locations);
+                        setFunctionOptions(getFormattedDropdownOptions(result.data.function_titles, 'id', 'name'));
+                        setLocationArray(getFormattedDropdownOptions(result.data.locations, 'id', 'location_name'));
                     }
                 })
                 .catch((error) => {
@@ -49,17 +49,17 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
 
     useEffect(() => {
         if (update_id !== '0' && update_id !== undefined) {
-            let editApiUrl = WorkstationApiUrl + '/' + update_id + '/edit'
+            let editApiUrl = WorkstationApiUrl + '/' + update_id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
                         let response = [];
-                        response.push(result.data.details);
+                        response.push(result.data);
                         let loc_arr = []
                         let func_arr = []
-                        let selected_locations = result.data.details.locations_value
-                        let selected_function_titles = result.data.details.function_titles_value
+                        let selected_locations = result.data.locations
+                        let selected_function_titles = result.data.function_titles
                         selected_locations.map((loc, i) => {
                             loc_arr.push(loc.value);
                         })
@@ -70,8 +70,8 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         response[0]['locations'] = loc_arr
                         response[0]['function_titles'] = func_arr
                         setWorkstations(response);
-                        setSelectedLocation(result.data.details.locations_value);
-                        setSelectedFunction(result.data.details.function_titles_value);
+                        setSelectedLocation(getFormattedDropdownOptions(selected_locations, 'id', 'location_name'));
+                        setSelectedFunction(getFormattedDropdownOptions(selected_function_titles, 'id', 'name'));
                     }
                 })
                 .catch((error) => {
@@ -153,7 +153,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                             view="workstation"
                             title1={view !== 'workstation-single' ? 'Add workstation' : ''}
                             data1={workstationFieldsArray}
-                            formattedData1={workstations}
+                            formattedData1={workstations[0]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'workstation-single' && <div className="d-flex mb-3 pos-relative justify-content-end">

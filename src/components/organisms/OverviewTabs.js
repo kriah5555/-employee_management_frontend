@@ -13,7 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import SalariesIcon from "../../static/icons/Salaries.svg";
 import ContractTypeIcon from "../../static/icons/ContractType.svg";
 
-export default function OverviewTabs() {
+export default function OverviewTabs({setCompany}) {
 
     const [addIcon, setAddIcon] = useState(AddCompanyIcon);
     const [addTitle, setAddTitle] = useState('Add company');
@@ -36,8 +36,13 @@ export default function OverviewTabs() {
                 getRightHeaderContent('workstation');
                 setCompanySelected(true);
                 window.location.hash = ''
+            } else if (window.location.hash === '#responsible_person') {
+                setTabIndex(2);
+                getRightHeaderContent('responsible person');
+                setCompanySelected(true);
+                window.location.hash = ''
             } else if (window.location.hash === '#cost_center') {
-                setTabIndex(2)
+                setTabIndex(3)
                 getRightHeaderContent('cost center');
                 window.location.hash = ''
                 setCompanySelected(true);
@@ -61,6 +66,10 @@ export default function OverviewTabs() {
             setAddIcon(AddWorkstationIcon);
             setAddTitle('Add workstation');
             setAddUrl('/manage-companies/workstation/0')
+        } else if (tabName === 'responsible_person') {
+            setAddIcon(AddWorkstationIcon);
+            setAddTitle('Add responsible person');
+            setAddUrl('/manage-companies/responsible_person/0')
         } else if (tabName === 'cost center') {
             setAddIcon(SalariesIcon);
             setAddTitle('Add cost center');
@@ -91,6 +100,7 @@ export default function OverviewTabs() {
             setTabsData([
                 { tabHeading: t("LOCATIONS"), tabName: 'location' },
                 { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
+                { tabHeading: t("RESP_PERSON"), tabName: 'responsible_person' },
                 { tabHeading: t("COST_CENTER"), tabName: 'cost center' },
                 { tabHeading: t("CONTRACTS"), tabName: 'contracts' },
                 { tabHeading: t("DIMONA"), tabName: 'dimona' },
@@ -138,22 +148,25 @@ export default function OverviewTabs() {
             </TabList>
 
             {!companySelected && <TabPanel>
-                <div className="tablescroll"><CompanyOverviews overviewContent={'company'} setCompanySelected={setCompanySelected}></CompanyOverviews></div>
+                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected}></CompanyOverviews></div>
             </TabPanel>}
 
             <TabPanel>
-                <div className="tablescroll"><CompanyOverviews overviewContent={'location'}></CompanyOverviews></div>
+                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'location'}></CompanyOverviews></div>
             </TabPanel>
 
             <TabPanel>
-                <div className="tablescroll"><CompanyOverviews overviewContent={'workstation'}></CompanyOverviews></div>
+                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'workstation'}></CompanyOverviews></div>
             </TabPanel>
             <TabPanel>
-                <div className="tablescroll"><CompanyOverviews overviewContent={'cost center'}></CompanyOverviews></div>
+                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'responsible_person'}></CompanyOverviews></div>
+            </TabPanel>
+            <TabPanel>
+                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'cost center'}></CompanyOverviews></div>
             </TabPanel>
 
             <TabPanel>
-                <h3 className="text-center mt-3"><CompanyOverviews overviewContent={'contracts'}></CompanyOverviews></h3>
+                <h3 className="text-center mt-3"><CompanyOverviews setCompany={setCompany} overviewContent={'contracts'}></CompanyOverviews></h3>
             </TabPanel>
 
             <TabPanel>

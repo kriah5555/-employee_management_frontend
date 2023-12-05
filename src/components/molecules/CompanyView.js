@@ -24,7 +24,7 @@ export default function CompanyView() {
         { title: "Sector name", name: "sectors", value: sector },
         { title: "Email", name: "email", value: companyData.email },
         { title: "Phone number", name: "phone", value: companyData.phone },
-        { title: "Employer Id", name: "employer_id", value: companyData.employer_id },
+        { title: "Vat number", name: "vat_number", value: companyData.vat_number },
         { title: "Sender number", name: "sender_number", value: companyData.sender_number },
         { title: "Username", name: "username", value: companyData.username },
         { title: "RSZ number", name: "rsz_number", value: companyData.rsz_number },

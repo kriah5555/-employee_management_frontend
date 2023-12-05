@@ -17,14 +17,13 @@ import DownArrowIcon from "../static/icons/arrow.png"
 import { t } from "../translations/Translation"
 
 import { APICALL as AXIOS } from "../services/AxiosServices";
-import { BASE_URL, LogoutApiUrl, ResponsibleCompaniesApiUrl } from "../routes/ApiEndPoints";
+import { LogoutApiUrl, ResponsibleCompaniesApiUrl } from "../routes/ApiEndPoints";
 import { useNavigate } from "react-router-dom"
 import { getFormattedDropdownOptions } from "../utilities/CommonFunctions"
 import Popup from "../utilities/popup/Popup"
 
-export default function Header({ setAuth }) {
+export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList}) {
 
-    // const Company = "Company 01";
     const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
@@ -32,15 +31,11 @@ export default function Header({ setAuth }) {
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
     const navigate = useNavigate()
-    const [companyList, setCompanyList] = useState([]);
-    const [selectedCompany, setSelectedCompany] = useState("")
+    
+    // const [selectedCompany, setSelectedCompany] = useState("")
     const [isCompanyIdEmpty, setIsCompanyIdEmpty] = useState(false)
     const [message, setMessage] = useState(false)
 
-    const companyArray = [
-        { value: "company 01", value: 1 },
-        { value: "company 02", value: 2 }
-    ]
 
     useEffect(() => {
         //Implementing the setInterval method for displaying current belgium time
@@ -91,11 +86,12 @@ export default function Header({ setAuth }) {
     }, [])
 
     //to set selected company
-    useEffect(() => {
-        if (selectedCompany.value !== undefined) {
-            localStorage.setItem('company_id', selectedCompany.value);
-        }
-    }, [selectedCompany.value])
+    // useEffect(() => {
+    //     console.log(selectedCompany);
+    //     if (selectedCompany.value !== undefined) {
+    //         localStorage.setItem('company_id', selectedCompany.value);
+    //     }
+    // }, [selectedCompany])
 
     const onConfirm = () => {
         window.location.reload()
@@ -110,10 +106,14 @@ export default function Header({ setAuth }) {
         }
     }
 
-    const onCompanySelect = (e) => {
-        setSelectedCompany(e);
-        window.location.reload();
-    }
+    // const onCompanySelect = (e) => {
+    //     if (e.value === undefined) {
+    //         let company = companyList.filter(item => {return item.value === e} )
+    //         console.log(company);
+    //     }
+    //     setSelectedCompany(e);
+    //     window.location.reload();
+    // }
 
     // Function to call Logout Api call 
     const Logout = () => {
@@ -197,7 +197,7 @@ export default function Header({ setAuth }) {
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
-                            onSelectFunction={(e) => setSelectedCompany(e)}
+                            onSelectFunction={(e) => onCompanySelect(e)}
                             CustomStyle="company-dropdown"
                             styleClass=""
                             isMulti={false}
@@ -219,7 +219,7 @@ export default function Header({ setAuth }) {
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
-                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany !== undefined && selectedCompany !== undefined ? selectedCompany.label : ''}</h4>}
+                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany ? selectedCompany.label : companyList[0].label}</h4>}
                     {companyList.length > 1 && <div>
                         <Dropdown
                             options={companyList}

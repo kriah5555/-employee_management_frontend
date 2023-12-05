@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, CompanyContractTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, CompanyContractTemplateApiUrl, ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 
-export default function CompanyOverviews({ overviewContent, setCompanySelected }) {
+export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany }) {
 
     const navigate = useNavigate();
     const [listData, setListData] = useState([]);
@@ -72,6 +72,25 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
         }
     ];
 
+    const Resp_person_headers = [
+        {
+            title: 'Name',
+            field:'username',
+            size: 200,
+        },
+        {
+            title: 'Social security number',
+            field: 'social_security_number',
+            size: 200,
+        },
+        {
+            title: 'Status',
+            field: 'status',
+            size: 250,
+        }
+
+    ]
+
     //cost center headers
     const cost_center_headers = [
         {
@@ -116,6 +135,9 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
         } else if (overviewContent === 'workstation') {
             setHeaders(Workstation_headers);
             ApiUrl = WorkstationApiUrl
+        } else if (overviewContent === 'responsible_person') {
+            setHeaders(Resp_person_headers)
+            ApiUrl = ResponsiblePersonApiUrl
         } else if (overviewContent === 'cost center') {
             setHeaders(cost_center_headers)
             ApiUrl = CostCenterApiUrl
@@ -126,7 +148,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
         AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
                 if (result?.success && result.data.length !== listData.length) {
-                    if (overviewContent === 'company' || overviewContent === 'workstation' || overviewContent === 'cost center') {
+                    if (overviewContent === 'company' || overviewContent === 'workstation' || overviewContent === 'cost center' || overviewContent === 'responsible_person') {
                         setListData(result.data)
                     } else if (overviewContent === 'location') {
                         let arr = []
@@ -196,6 +218,8 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
                 navigate('/manage-companies/company-view/' + data.id)
             } else if (action === 'details') {
                 setCompanySelected(true);
+                localStorage.setItem('company_id', data.id)
+                setCompany(data.id);
             } else {
                 setDeleteUrl(CompanyApiUrl + '/' + data.id)
             }
@@ -210,6 +234,12 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
                 navigate('/manage-companies/workstation/' + data.id)
             } else {
                 setDeleteUrl(WorkstationApiUrl + '/' + data.id)
+            }
+        } else if (overviewContent === 'responsible_person') {
+            if (action === 'edit') {
+                navigate('/manage-companies/responsible_person/' + data.id)
+            } else {
+                setDeleteUrl(ResponsiblePersonApiUrl + '/' + data.id)
             }
         } else if (overviewContent === 'cost center') {
             if (action === 'edit') {

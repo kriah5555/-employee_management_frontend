@@ -20,13 +20,15 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
 
     useEffect(() => {
         if (update_id !== '0' && update_id !== undefined) {
-            let editApiUrl = LocationApiUrl + '/' + update_id + '/edit'
+            let editApiUrl = LocationApiUrl + '/' + update_id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
                         let response = [];
-                        response.push(result.data.details);
+                        response['location_name'] = result.data.location_name
+                        response['responsiblePerson'] = []
+                        response.push(result.data);
                         setLocations(response);
                     }
                 })
@@ -41,6 +43,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
             setLocations([...locations, {
                 location_name: "",
                 responsible_persons: [],
+                status: 1,
                 address: {
                     street: "",
                     house_no: "",
@@ -117,7 +120,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                             formattedData1={locations}
                             title2={'Address'}
                             data2={locationAddressArray}
-                            formattedData2={locations}
+                            formattedData2={locations[i]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">

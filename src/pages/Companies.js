@@ -3,12 +3,12 @@ import OverviewTabs from "../components/organisms/OverviewTabs";
 
 
 
-export default function Companies() {
+export default function Companies({ setCompany }) {
 
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
-                <OverviewTabs></OverviewTabs>
+                <OverviewTabs setCompany={setCompany}></OverviewTabs>
             </div>
         </div>
 

@@ -10,17 +10,17 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../atoms/CustomButton";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyAdditionalApiUrl, CompanyApiUrl, LocationApiUrl, ResponsiblePersonApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import CompanyView from "../molecules/CompanyView";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import AddCostCenterForm from "../molecules/AddCostCenterForm";
 
-export default function CompanyCreation() {
-
+export default function CompanyCreation({setCompany}) {
     const navigate = useNavigate();
     const params = useParams();
     const [tabIndex, setTabIndex] = useState(0);
+    const [tabType, setTabType] = useState('company')
     const [locationStatus, setLocationStatus] = useState(false);
     const [workstationStatus, setWorkstationStatus] = useState(false);
 
@@ -35,8 +35,11 @@ export default function CompanyCreation() {
     const [errors, setErrors] = useState([]);
 
     // Tabs data array for super admin
-    const TabsData = [
+    const TabsData1 = [
         { tabHeading: t("COMPANY"), tabName: 'company' },
+    ]
+
+    const TabsData2 = [
         { tabHeading: t("RESPONSIBLE_PERSONS"), tabName: 'responsible_persons' },
         { tabHeading: t("LOCATIONS"), tabName: 'location' },
         { tabHeading: t("WORKSTATION"), tabName: 'workstation' },
@@ -49,7 +52,7 @@ export default function CompanyCreation() {
         last_name: "",
         email: "",
         phone: "",
-        rsz_number: "",
+        social_security_number: "",
         role: "",
     }]);
 
@@ -96,9 +99,9 @@ export default function CompanyCreation() {
     }]);
 
     // Company default data
-    const [companyData, setCompanyData] = useState([{
+    const [companyData, setCompanyData] = useState({
         company_name: "",
-        employer_id: "",
+        vat_number: "",
         sender_number: "",
         rsz_number: "",
         social_secretary_number: "",
@@ -107,8 +110,10 @@ export default function CompanyCreation() {
         username: "",
         status: 1,
         sectors: [],
-        social_secretary_id:"",
-        interim_agency_id:"",
+        social_secretary_id: "",
+        interim_agencies: [],
+        contact_email:'',
+        oauth_key:'',
         address: {
             street_house_no: "",
             postal_code: "",
@@ -119,33 +124,44 @@ export default function CompanyCreation() {
         // responsible_persons: customers,
         // locations: locations,
         // workstations: workstations,
-    }]);
+    });
 
 
     // Function to call Api for create and update of company, location and workstation
-    const SaveCompany = () => {
+    const SaveCompany = (type) => {
         let requestData;
         let ApiUrl;
         let Method;
 
         if (params.addType === 'company' || params.addType === 'company-single') {
             // For company create and edit
-            let company = [...companyData]
-            company[0]['responsible_persons'] = customers
-            if (!locationStatus) {
-                company[0]['locations'] = []
-            } else {
-                company[0]['locations'] = locations
-            }
+            if (type !== 'company') {
+                let company = {}
+                company['responsible_persons'] = customers
 
-            if (!workstationStatus) {
-                company[0]['workstations'] = []
+                if (!locationStatus) {
+                    company['locations'] = []
+                } else {
+                    company['locations'] = locations
+                }
+
+                if (!workstationStatus) {
+                    company['workstations'] = []
+                } else {
+                    company['workstations'] = workstations
+                }
+                requestData = company
+                ApiUrl = CompanyAdditionalApiUrl
+                Method = 'POST'
             } else {
-                company[0]['workstations'] = workstations
+                requestData = companyData
+                ApiUrl = params.id !== '0' ? CompanyApiUrl + '/' + params.id : CompanyApiUrl
+                Method = params.id !== '0' ? 'PUT' : 'POST'
             }
-            setCompanyData(company)
-            requestData = company[0]
-            ApiUrl = params.id !== '0' ? CompanyApiUrl + '/' + params.id : CompanyApiUrl
+        } else if (params.addType === 'responsible_person') {
+            // For location create and edit
+            requestData = customers[0]
+            ApiUrl = params.id !== '0' ? ResponsiblePersonApiUrl + '/' + params.id : ResponsiblePersonApiUrl
             Method = params.id !== '0' ? 'PUT' : 'POST'
         } else if (params.addType === 'location') {
             // For location create and edit
@@ -163,19 +179,26 @@ export default function CompanyCreation() {
         AXIOS.service(ApiUrl, Method, requestData)
             .then((result) => {
                 if (result?.success) {
-                    navigate('/manage-companies#' + params.addType)
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                    window.location.reload()
+                    if (type === 'company') {
+                        setTabType('');
+                        setCompany({value: result.data.id, label: result.data.company_name})
+                        localStorage.setItem('company_id', result.data.id)
+                    } else {
+                        navigate('/manage-companies#' + params.addType)
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                        window.location.reload()
+                    }
                 } else {
+                    // localStorage.removeItem('Creating_company_id');
                     setErrors(result.message)
                 }
             })
@@ -190,7 +213,7 @@ export default function CompanyCreation() {
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
                     <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-companies#' + params.addType)} src={BackIcon}></img>
-                    {params.addType !== 'company-view' ? ((params.id !== '0' ? 'Edit ' : 'Create ') + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' ? 'cost center' : params.addType))) : 'Company details'}
+                    {params.addType !== 'company-view' ? ((params.id !== '0' ? 'Edit ' : 'Create ') + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' || params.addType === 'responsible_person' ? params.addType.replace(/_/g, ' ') : params.addType))) : 'Company details'}
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
@@ -202,40 +225,40 @@ export default function CompanyCreation() {
             {params.addType === 'company' && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <TabList>
-                        {TabsData.map((val) => {
+                        {(tabType === 'company' ? TabsData1 : TabsData2).map((val) => {
                             return (
                                 <Tab key={val.tabName} >{val.tabHeading}</Tab>
                             )
                         })}
                     </TabList>
 
-                    <TabPanel>
-                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector} socialSecretary ={socialSecretary} setSocialSecretary={setSocialSecretary} interimAgency={interimAgency} setInterimAgency = {setInterimAgency}></AddCompanyForm></div>
+                    {tabType === 'company' && <TabPanel>
+                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector} socialSecretary={socialSecretary} setSocialSecretary={setSocialSecretary} interimAgency={interimAgency} setInterimAgency={setInterimAgency}></AddCompanyForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
-                    </TabPanel>
+                        <CustomButton buttonName={'Next'} ActionFunction={() => SaveCompany('company')} CustomStyle="my-3 float-right"></CustomButton>
+                    </TabPanel>}
 
                     <TabPanel>
                         <div className=""><ResponsiblePersonForm customers={customers} setCustomers={setCustomers} getCustomerDropdownData={getCustomerDropdownData} selectedRole={selectedRole} setSelectedRole={setSelectedRole}></ResponsiblePersonForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
+                        {/* <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton> */}
                     </TabPanel>
 
                     <TabPanel>
                         <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson}></AddLocationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(3)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
-                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction} sector={companyData[0]['sectors']}></WorkstationForm></div>
+                        <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction} sector={companyData['sectors']}></WorkstationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         {/* <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton> */}
                         <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                         {/* <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(4)} CustomStyle="mr-3 my-3 float-right"></CustomButton> */}
                     </TabPanel>
 
@@ -290,10 +313,19 @@ export default function CompanyCreation() {
                     selectedFunction={selectedFunction}
                     setSelectedFunction={setSelectedFunction}
                 ></WorkstationForm>}
+                {params.addType === 'responsible_person' && <ResponsiblePersonForm
+                    view='responsible-person-single'
+                    customers={customers}
+                    setCustomers={setCustomers}
+                    getCustomerDropdownData={getCustomerDropdownData}
+                    selectedRole={selectedRole}
+                    setSelectedRole={setSelectedRole}
+                    update_id={params.id}
+                ></ResponsiblePersonForm>}
                 {params.addType === 'cost_center' && <AddCostCenterForm></AddCostCenterForm>}
                 {params.addType === 'company-view' && <CompanyView></CompanyView>}
                 {params.addType !== 'company-view' && params.addType !== 'cost_center' && <div className="col-md-12 my-4 text-right pr-5">
-                    <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle=""></CustomButton>
+                    <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany(params.addType === 'company-single' ? 'company' : '')} CustomStyle=""></CustomButton>
                     <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
                 </div>}
             </div>}

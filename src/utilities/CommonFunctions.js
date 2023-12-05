@@ -92,7 +92,6 @@ export function getFormattedDropdownOptions(options, value_key = 'id' , label_ke
             })
             return formattedData;
         } else {
-            console.log(options)
             return {value: options[value_key], label: options[label_key]}
         }
     }
@@ -108,7 +107,6 @@ export function getFormattedRadioOptions(options, value_key = 'id' , label_key =
             })
             return formattedData;
         } else {
-            console.log(options)
             return {key: options[value_key], name: options[label_key]}
         }
     }
