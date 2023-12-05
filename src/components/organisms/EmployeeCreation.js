@@ -36,7 +36,7 @@ export default function EmployeeCreation() {
     const [children, setChildren] = useState([]);
 
 
-    const [functionSalaries, setFunctionSalaries] = useState([{ 'function_id': '', 'min_salary': '', 'salary': '', 'experience': '' }]);
+    const [functionSalaries, setFunctionSalaries] = useState([{ 'function_id': '', 'min_salary': '', 'salary': '', 'experience': '0' }]);
     const [locationTransport, setLocationTransport] = useState([{ 'location_id': '', 'commute_type_id': '', 'distance': '' }])
     const [employeeContracts, setEmployeeContracts] = useState(
         {
@@ -204,9 +204,9 @@ export default function EmployeeCreation() {
             <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <TabList>
-                        {TabsData.map((val) => {
+                        {TabsData.map((val, index) => {
                             return (
-                                <Tab key={val.tabName} >{val.tabHeading}</Tab>
+                                <Tab key={val.tabName + index} >{val.tabHeading}</Tab>
                             )
                         })}
                     </TabList>
@@ -250,6 +250,7 @@ export default function EmployeeCreation() {
                                 functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
                                 functions={functions} setFunctions={setFunctions}
                                 options={employeeContractOptions}
+                                employeeContracts={employeeContracts} setEmployeeContracts={setEmployeeContracts}
                             ></AddEmployeeFunctionSalaries>
                         </div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
