@@ -9,19 +9,22 @@ import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table"
 
-export default function AddEmailTemplate() {
+export default function AddContractsTemplate() {
 
     const navigate = useNavigate();
     const params = useParams();
     const [errors, setErrors] = useState("")
     const [langauge, setLanguage] = useState('en');
+    const [formattedData, setFormattedData] = useState({});
     const [formData, setFormdata] = useState({
-        "body": "",
         "status": "",
         "employee_type_id": "",
-        "social_secretary_id": params.addType == 'company' ? 1 : 1,
-        "company_id": params.addType == 'company' ? 1 : "",
-        "language": langauge
+        "social_secretary": params.addType == 'company' ? [] : []
+    })
+    const [body, setBody] = useState({
+        "en": "",
+        "nl": "",
+        "fr": ""
     })
     const [employeeType, setEmployeeType] = useState("");
     const [employeeTypeList, setEmployeeTypeList] = useState([]);
@@ -63,7 +66,11 @@ export default function AddEmailTemplate() {
 
     const onLangaugeSelect = (lang) => {
         setLanguage(lang)
-        formData['language'] = lang
+        let data = {
+            "body": body[lang] ? body[lang] : ""
+        }
+        //setting data display previous data
+        setFormattedData(data)
     }
 
     // api call to get options to create
@@ -100,6 +107,7 @@ export default function AddEmailTemplate() {
                     if (result.data) {
                         let response = result.data
                         setLanguage(response.language)
+                        setBody(response.body)
                         setEmployeeType(getFormattedDropdownOptions(response.employee_type))
 
                         if (params.addType == 'template') {
@@ -113,11 +121,15 @@ export default function AddEmailTemplate() {
                         })
 
                         setFormdata({
-                            "body": response.body,
+                            "status": response.status ? 1 : 0,
                             "employee_type_id": response.employee_type_id,
-                            "social_secretary_id": arr,
+                            "social_secretary": arr
+                        })
+                        setFormattedData({
+                            "body": response.body.en,
+                            "employee_type_id": response.employee_type_id,
+                            "social_secretary": arr,
                             "company_id": response.company_id ? response.company_id : "",
-                            "language": response.language,
                         })
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     }
@@ -132,26 +144,28 @@ export default function AddEmailTemplate() {
     const SetValues = (index, name, value, type) => {
 
         if (type !== 'dropdown') {
-
-            setFormdata((prevData) => ({ ...prevData, [name]: value }))
+            setFormattedData((prevData) => ({ ...prevData, [name]: value }))
 
         } else {
 
             if (name == 'employee_type_id') {
                 setEmployeeType(value)
                 setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
-            } else if (name == 'social_secretary_id') {
-                // let arr = []
-                // value.map((val, i) => {
-                //     arr.push(val.value)
-                // })
+            } else if (name == 'social_secretary') {
+                let arr = []
+                value.map((val, i) => {
+                    arr.push(val.value)
+                })
                 setSocialSecretary(value)
-                // setFormdata((prevData) => ({ ...prevData, [name]: arr }))
-                setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
+                setFormdata((prevData) => ({ ...prevData, [name]: arr }))
             }
 
         }
     }
+
+    useEffect(() => {
+        setBody((prevBody) => ({ ...prevBody, [langauge]: formattedData.body }));
+    }, [formattedData.body, formattedData.status])
 
     //form fields array
     const fieldData = (params.addType === 'company') ? [
@@ -161,7 +175,7 @@ export default function AddEmailTemplate() {
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ] : [
         { title: "Employee type", name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
-        { title: 'Social secretary', name: 'social_secretary_id', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: 'Social secretary', name: 'social_secretary', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Preview", name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
@@ -184,7 +198,7 @@ export default function AddEmailTemplate() {
 
     //function to save data
     const OnSave = () => {
-        if (formData.body) {
+        if (formData.employee_type_id !== "") {
             let status = 1
             if (inactive) { status = 0 }
 
@@ -196,12 +210,16 @@ export default function AddEmailTemplate() {
 
             // Updation url and method
             if (params.id !== undefined) {
-                url = ContractTemplateApiUrl + '/' + params.id
+                url = params.addType == 'template' ? ContractTemplateApiUrl + '/' + params.id : CompanyContractTemplateApiUrl + '/' + params.id
                 method = 'PUT'
             }
 
+            // setFormdata((prevData) => ({ ...prevData, "body": body }))
+            let data = { ...formData }
+            data = { ...data, "body": body }
+
             // APICall for create and updation of social secretary
-            AXIOS.service(url, method, formData)
+            AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
                         setSuccessMessage(result.message);
@@ -257,7 +275,7 @@ export default function AddEmailTemplate() {
                     formTitle="contracts template"
                     view='contracts template'
                     redirectURL={navigateUrl}
-                    formattedData={formData}
+                    formattedData={formattedData}
                     data={fieldData}
                     SetValues={SetValues}
                     OnSave={OnSave}

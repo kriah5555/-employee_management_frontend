@@ -98,11 +98,6 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected }
             field: 'employee_type.name',
             size: '200',
         },
-        {
-            title: 'Language',
-            field: 'language',
-            size: '200',
-        }
     ]
 
     useEffect(() => {
