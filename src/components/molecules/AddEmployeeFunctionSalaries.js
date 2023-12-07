@@ -106,7 +106,11 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
 
             })
         }
-        if (tabIndex === 2) setRows(functionSalaries)
+        if (tabIndex === 2) {
+            setRows(functionSalaries) 
+        } else if (tabIndex === 3) {
+            setRows(locationTransport)
+        }
     }, [])
 
     const SetValues = (value, type, index) => {
