@@ -105,8 +105,8 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                 fetchMinSalary(obj["function_id"], obj["experience"], index)
 
             })
-            setRows(functionSalaries)
         }
+        if (tabIndex === 2) setRows(functionSalaries)
     }, [])
 
     const SetValues = (value, type, index) => {
