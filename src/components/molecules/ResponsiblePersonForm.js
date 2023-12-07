@@ -40,8 +40,8 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                         let data = [{
                             first_name: result.data.user_basic_details.first_name,
                             last_name: result.data.user_basic_details.last_name,
-                            email: '',
-                            phone: "",
+                            email: result.data.user_contact_details.email,
+                            phone_number: result.data.user_contact_details.phone_number,
                             social_security_number: result.data.social_security_number,
                             role: result.data.roles[0]
                         }]
@@ -61,7 +61,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                 first_name: "",
                 last_name: "",
                 email: "",
-                phone: "",
+                phone_number: "",
                 social_security_number: "",
                 role: "",
             }]);
@@ -95,7 +95,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
         { title: "Last name", name: "last_name", required: false, type: "input_field" },
         { title: "Rsz number", name: "social_security_number", required: false, type: "input_field" },
         { title: "Email", name: "email", required: false, type: "input_field" },
-        { title: "Phone number", name: "phone", required: false, type: "phone_input" },
+        { title: "Phone number", name: "phone_number", required: false, type: "phone_input" },
         { title: "Roles", options: rolesList, isMulti: false, selectedOptions: selectedRole, required: false, type: "dropdown" },
     ];
 

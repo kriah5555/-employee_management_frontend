@@ -51,7 +51,7 @@ export default function CompanyCreation({setCompany}) {
         first_name: "",
         last_name: "",
         email: "",
-        phone: "",
+        phone_number: "",
         social_security_number: "",
         role: "",
     }]);
@@ -198,7 +198,6 @@ export default function CompanyCreation({setCompany}) {
                         window.location.reload()
                     }
                 } else {
-                    // localStorage.removeItem('Creating_company_id');
                     setErrors(result.message)
                 }
             })
