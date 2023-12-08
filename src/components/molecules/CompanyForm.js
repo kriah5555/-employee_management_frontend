@@ -23,7 +23,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                     CustomStyle="col-md-6 mt-4 float-left"
                                     required={field.required}
                                     value={formattedData1 !== undefined ? formattedData1[field.name] : ''}
-                                    setValue={(e) => SetValues(index, field.name, e)}
+                                    setValue={(e) => SetValues(index, field.name, e, field.type)}
                                     error={''}
                                 ></TextInput>
                             )
@@ -34,7 +34,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                     title={field.title}
                                     name={field.name}
                                     value={formattedData1 !== undefined ? formattedData1[field.name] : ''}
-                                    setValue={(e) => SetValues(index, field.name, e)}
+                                    setValue={(e) => SetValues(index, field.name, e, field.type)}
                                     CustomStyle={"col-md-6 mt-4 float-left"}
                                     required={field.required}
                                 />
@@ -82,7 +82,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                     placeholder={field.placeholder}
                                     CustomStyle={field.name === 'street_house_no' ? "col-md-12 mt-4 float-left" : "col-md-6 mt-4 float-left"}
                                     required={field.required}
-                                    value={formattedData2 !== undefined ? formattedData2['address'][field.name] : ''}
+                                    value={formattedData2 !== undefined && formattedData2['address'] !== undefined ? formattedData2['address'][field.name] : ''}
                                     setValue={(e) => SetValues(index, field.name, e, 'address')}
                                     error={''}
                                 ></TextInput>
@@ -119,8 +119,8 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                     placeholder={field.placeholder}
                                     CustomStyle={field.name === 'street_house_no' ? "col-md-12 mt-4 float-left" : "col-md-6 mt-4 float-left"}
                                     required={field.required}
-                                    value={formattedData3 !== undefined ? formattedData3['address'][field.name] : ''}
-                                    setValue={(e) => SetValues(index, field.name, e, 'address')}
+                                    value={formattedData3 !== undefined ? formattedData3[field.name] : ''}
+                                    setValue={(e) => SetValues(index, field.name, e, field.type)}
                                     error={''}
                                 ></TextInput>
                             )
@@ -129,7 +129,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                 <Dropdown
                                     key={field.name}
                                     options={field.options}
-                                    // selectedOptions={field.selectedOptions[index]}
+                                    selectedOptions={field.selectedOptions}
                                     onSelectFunction={(e) => SetValues(index, field.name, e, field.type)}
                                     CustomStyle="col-md-6 mt-2 float-left"
                                     title={field.title}

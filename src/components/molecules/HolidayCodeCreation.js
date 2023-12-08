@@ -159,7 +159,7 @@ export default function HolidayCodeCreation() {
         { title: "Icon type", name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "Type", name: "type", required: true, options: dropdownOptions.type, isMulti: false, selectedOptions: type, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "Count", name: "count", required: type.value == 1? true:false, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        // { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: "Description", name: "description", type: "text-area", style: "col-md-12 mt-4 mb-5 float-left" },
         { title: "Consider the plan hours in weekly hours ?", name: 'consider_plan_hours_in_week_hours', type: 'switch', style:"col-md-12 d-flex mt-4 float-left" },
         { title: "Status", checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", style: "col-md-12 mt-4 mb-2 float-left" },

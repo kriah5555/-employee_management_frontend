@@ -32,13 +32,10 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                     console.log(error);
                 })
         } else {
-            let requestData = {
-                "sector_ids": sector
-            }
-            AXIOS.service(GetSectorFunctionsApiUrl, 'POST', requestData)
+            AXIOS.service(GetSectorFunctionsApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setFunctionOptions(getFormattedDropdownOptions(result.data.function_titles, 'id', 'name'));
+                        setFunctionOptions(getFormattedDropdownOptions(result.data.functions, 'id', 'name'));
                     }
                 })
                 .catch((error) => {

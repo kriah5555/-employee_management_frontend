@@ -57,7 +57,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                     if (result?.success) {
                         // Get selected sectors
                         setSector(getFormattedDropdownOptions(result.data.sectors));
-                        setSocialSecretary(getFormattedDropdownOptions(result.data.social_secretary_id))
+                        setSocialSecretary(getFormattedDropdownOptions(result.data.company_social_secretary_details.social_secretary))
                         setInterimAgency(getFormattedDropdownOptions(result.data.interim_agencies))
 
                         // Formatting sector data and converting to array of sector ids
@@ -69,12 +69,16 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                             id_arr.push(val.id)
                         })
                         response[0]['sectors'] = id_arr;
-                        let seletedInterimAgencies = result.data.interim_agencies
-                        let interimAgencyArray = []
-                        // seletedInterimAgencies.map((val, i)=>{
-                        //     interimAgencyArray.push(val.value)
-                        // })
-                        // response[0]['interim_agency_id']
+
+                        let selectedInterimAgencies = result.data.interim_agencies
+                        let agency_id_arr = []
+                        selectedInterimAgencies.map((val, i) => {
+                            agency_id_arr.push(val.id)
+                        })
+                        response[0]['interim_agencies'] = agency_id_arr;
+                        response[0]['social_secretary_id'] = result.data.company_social_secretary_details.social_secretary_id
+                        response[0]['social_secretary_number'] = result.data.company_social_secretary_details.social_secretary_number
+                        response[0]['contact_email'] = result.data.company_social_secretary_details.contact_email
                         setCompanyData(response);
                     }
                 })
@@ -87,17 +91,17 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
 
     // Function to set new company data
     const setValues = (index, name, value, field) => {
-        const company = { ...companyData };
+        const company = [...companyData];
 
         if (field === 'address') {
-            company[field][name] = value
+            company[index][field][name] = value
         } else if (field !== 'dropdown') {
             if (name === 'vat_number') {
                 if (value.length < 15) {
-                    company[name] = [6, 10].includes(value.length) ? (value + '.') : value
+                    company[index][name] = [6, 10].includes(value.length) ? (value + '.') : value
                 }
             } else {
-                company[name] = value
+                company[index][name] = value
             }
         } else {
             if (name === 'sector') {
@@ -110,13 +114,24 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                 value.map((val, i) => {
                     arr.push(val.value)
                 })
-                company['sectors'] = arr
+                company[index]['sectors'] = arr
             } else if (name === 'social_secretary_id') {
                 setSocialSecretary(value)
-                company[name] = value.value
+                company[index][name] = value.value
             } else if (name === 'interim_agencies') {
                 setInterimAgency(value)
-                company[name] = value.value
+                company[index][name] = value.value
+
+                const interim_arr = [...interimAgency]
+                interim_arr.push(value)
+                interim_arr[index] = value
+                // if ()
+                setInterimAgency(interim_arr);
+                let arr = []
+                value.map((val, i) => {
+                    arr.push(val.value)
+                })
+                company[index][name] = arr
             }
         }
         setCompanyData(company);
@@ -133,7 +148,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
         { title: "Sender number", name: "sender_number", required: false, type: "input_field" },
         { title: "Username", name: "username", required: false, type: "input_field" },
         { title: "RSZ number", name: "rsz_number", required: false, type: "input_field" },
-        { title: "Interim agency", name: "interim_agencies", options: interimAgencyList, isMulti: false, selectedOptions: interimAgency, required: false, type: "dropdown" },
+        { title: "Interim agency", name: "interim_agencies", options: interimAgencyList, isMulti: true, selectedOptions: interimAgency, required: false, type: "dropdown" },
     ];
     //adress fields for company
     const companyAddressFieldsArray = [
@@ -158,13 +173,13 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                 title1={'Add company'}
                 index={0}
                 data1={addCompanyFieldsArray}
-                formattedData1={companyData}
+                formattedData1={companyData[0]}
                 title2={'Address'}
                 data2={companyAddressFieldsArray}
-                formattedData2={companyData}
+                formattedData2={companyData[0]}
                 title3={'Social secretary details'}
                 data3={companySocialSectretaryFieldsArray}
-                formattedData3={companyData}
+                formattedData3={companyData[0]}
                 SetValues={setValues}
             ></CompanyForm>
         </div>
