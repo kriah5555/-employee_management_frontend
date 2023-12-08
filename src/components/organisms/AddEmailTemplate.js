@@ -43,6 +43,7 @@ export default function AddEmailTemplate() {
                             "subject": response.details.subject.en,
                             "body": response.details.body.en,
                         }
+                        setFormattedData(data)
                         //converting tokens to required form
                         const tokensData = Object.keys(response.tokens).map((key, i) => ({
                             name: key,
@@ -51,7 +52,6 @@ export default function AddEmailTemplate() {
                         }));
 
                         setTokensList(tokensData)
-                        setFormattedData(data);
                     }
                 })
                 .catch((error) => {
@@ -68,7 +68,7 @@ export default function AddEmailTemplate() {
     useEffect(() => {
         setSubject((prevSubject) => ({ ...prevSubject, [langauge]: formattedData.subject }));
         setBody((prevBody) => ({ ...prevBody, [langauge]: formattedData.body }));
-    }, [formattedData.body, formattedData.subject, formattedData.template_type, formattedData.status])
+    }, [formattedData.body, formattedData.subject])
 
     //form fields array
     const fieldData = [
@@ -107,7 +107,6 @@ export default function AddEmailTemplate() {
     const OnSave = () => {
 
         if (params.id !== undefined) {
-
             let data = {
                 "template_type": templateType,
                 "status": true,
@@ -115,7 +114,7 @@ export default function AddEmailTemplate() {
                 "subject": subject
             }
 
-            let apiUrl = EmailTemplateApiUrl + "/" + params.id
+            let apiUrl = EmailTemplateApiUrl + "/" + params.id 
 
 
             AXIOS.service(apiUrl, "PUT", data)
