@@ -57,7 +57,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                     if (result?.success) {
                         // Get selected sectors
                         setSector(getFormattedDropdownOptions(result.data.sectors));
-                        setSocialSecretary(getFormattedDropdownOptions(result.data.company_social_secretary_details.social_secretary))
+                        setSocialSecretary(getFormattedDropdownOptions(result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary : ''))
                         setInterimAgency(getFormattedDropdownOptions(result.data.interim_agencies))
 
                         // Formatting sector data and converting to array of sector ids
@@ -76,9 +76,9 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                             agency_id_arr.push(val.id)
                         })
                         response[0]['interim_agencies'] = agency_id_arr;
-                        response[0]['social_secretary_id'] = result.data.company_social_secretary_details.social_secretary_id
-                        response[0]['social_secretary_number'] = result.data.company_social_secretary_details.social_secretary_number
-                        response[0]['contact_email'] = result.data.company_social_secretary_details.contact_email
+                        response[0]['social_secretary_id'] = result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary_id : ''
+                        response[0]['social_secretary_number'] = result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary_number : ''
+                        response[0]['contact_email'] =result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.contact_email : ''
                         setCompanyData(response);
                     }
                 })

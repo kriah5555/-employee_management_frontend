@@ -30,7 +30,7 @@ export default function CompanyView() {
                         setCompanyData(result.data);
                         setAddress(result.data.address);
                         setSector(sectorString(result.data.sectors));
-                        setSocialSecretaryNumber(result.data.company_social_secretary_details.social_secretary_number);
+                        setSocialSecretaryNumber(result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary_number : '');
                     }
                 })
                 .catch((error) => {
