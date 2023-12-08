@@ -18,7 +18,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
     const employeeHeaders = [
         {
             title: 'Employee',
-            field: 'fullname',
+            field: 'employee',
             sorting: false
         },
         {
@@ -85,8 +85,8 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                         arr.push(data)
                         val.employees.map((emp, i) => {
                             let employee = {
-                                employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name, val.employee_type),
-                                fullname:getEmployeeWithIcon(emp.user.user_basic_details.first_name +" "+emp.user.user_basic_details.last_name, val.employee_type),
+                                // employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name, val.employee_type),
+                                employee:getEmployeeWithIcon(emp.user.user_basic_details.first_name +" "+emp.user.user_basic_details.last_name, val.employee_type),
                                 number: emp.user.user_contact_details.phone_number,
                                 email: emp.user.user_contact_details.email,
                                 ssn: emp.user.social_security_number,
