@@ -16,6 +16,7 @@ export default function DateInput({ title, name, required, CustomStyle, value, s
                     disabled={disabled}
                     weekStartDayIndex={1}
                     placeholder={placeholder}
+                    onOpenPickNewDate={false}
                 />
             </div>
         </div>

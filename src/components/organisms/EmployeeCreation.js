@@ -61,7 +61,7 @@ export default function EmployeeCreation() {
     const [employeeBenefitsOptions, setEmployeeBenefitsOptions] = useState([]);
 
     const MaximumChildren = 10;
-    let count = 1
+    let count = 0
     let childrenOptions = [];
     while (count <= MaximumChildren) {
         childrenOptions.push({ value: count, label: count })

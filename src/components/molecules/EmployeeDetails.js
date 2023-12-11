@@ -136,7 +136,7 @@ export default function EmployeeDetails({ eid }) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }, [eid])
 
 
     return (
