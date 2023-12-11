@@ -123,7 +123,7 @@ export default function AddInterimAgency() {
     const interimAgencyFields = [
         // Interim agency fields
         { title: 'Name', name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Companies', name: 'companies', required: false, options: companiesList, selectedOptions: companies, isMulti: true, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
+        { title: 'Companies', name: 'companies', required: false, options: companiesList, selectedOptions: companies, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: 'Email', name: 'email', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
         { title: 'Employer id', name: 'employer_id', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
         { title: 'Sender number', name: 'sender_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
@@ -134,7 +134,7 @@ export default function AddInterimAgency() {
         { title: "Postal code", name: "postal_code", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "City", name: "city", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Country", name: "country", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: 'Status', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style:"col-md-12 mt-4 mb-2 float-left" },
+        { title: 'Status', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" },
     ]
 
 
@@ -142,7 +142,13 @@ export default function AddInterimAgency() {
     const setValues = (index, name, value, field) => {
         const interim_agency = { ...interimAgencyData };
         if (field !== 'dropdown') {
-            interim_agency[name] = value
+            if (name === 'rsz_number') {
+                if (value.length <= 15) {
+                    interim_agency[name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+                }
+            } else {
+                interim_agency[name] = value
+            }
         } else {
             if (name === 'companies') {
                 let arr = []

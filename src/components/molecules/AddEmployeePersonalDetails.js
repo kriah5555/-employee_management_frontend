@@ -39,6 +39,21 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         { title: "Childrens", name: "childrens", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ];
 
+    function formatDate(value) {
+
+        const firstSixDigits = value.toString().replace(/[^\d]/g, '').slice(0, 6);
+        // Check if the extracted 6 digits are not digits
+        if (!/^\d+$/.test(firstSixDigits)) {
+            return ""; // Return an empty string if not digits
+        }
+
+        const yy = firstSixDigits.slice(0, 2);
+        const xx = yy >= 23 ? '19' : '20';
+        const formattedDate = `${firstSixDigits.slice(4, 6)}-${firstSixDigits.slice(2, 4)}-${xx}${yy}`;
+        return formattedDate;
+
+    }
+
 
     // Function to set values of employee type
     const setValues = (index, name, value, field) => {
@@ -47,6 +62,9 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
             if (name === 'social_security_number') {
                 if (value.length <= 15) {
                     employees[name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+                }
+                if (value.length >= 8) {
+                    employees["date_of_birth"] = formatDate(value)
                 }
             } else {
                 employees[name] = value
@@ -65,7 +83,6 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
             }
             employees[name] = value.value
         }
-        console.log(employees);
         setEmployeeData(employees);
     }
 
