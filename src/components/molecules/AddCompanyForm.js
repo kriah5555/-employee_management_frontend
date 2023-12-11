@@ -78,7 +78,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                         response[0]['interim_agencies'] = agency_id_arr;
                         response[0]['social_secretary_id'] = result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary_id : ''
                         response[0]['social_secretary_number'] = result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary_number : ''
-                        response[0]['contact_email'] =result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.contact_email : ''
+                        response[0]['contact_email'] = result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.contact_email : ''
                         setCompanyData(response);
                     }
                 })
@@ -99,6 +99,10 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
             if (name === 'vat_number') {
                 if (value.length < 15) {
                     company[index][name] = [6, 10].includes(value.length) ? (value + '.') : value
+                }
+            } else if (name === 'rsz_number') {
+                if (value.length <= 15) {
+                    company[index][name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
                 }
             } else {
                 company[index][name] = value

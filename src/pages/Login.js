@@ -32,6 +32,7 @@ export default function Login({ setAuth }) {
                     localStorage.setItem('refresh_token', response.token.refresh_token);
                     localStorage.setItem('userId', response.uid);
                     localStorage.setItem('name', response.username);
+                    localStorage.setItem('activeIcon', t('DASHBOARD'));
                     setAuth(true)
                     localStorage.setItem('auth', true)
                     navigate('/');
