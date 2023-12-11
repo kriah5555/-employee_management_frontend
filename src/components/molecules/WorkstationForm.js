@@ -150,7 +150,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                             view="workstation"
                             title1={view !== 'workstation-single' ? 'Add workstation' : ''}
                             data1={workstationFieldsArray}
-                            formattedData1={workstations[0]}
+                            formattedData1={workstations[i]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'workstation-single' && <div className="d-flex mb-3 pos-relative justify-content-end">

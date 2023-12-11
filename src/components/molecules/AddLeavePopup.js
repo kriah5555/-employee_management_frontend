@@ -5,20 +5,29 @@ import { t } from '../../translations/Translation';
 import "../../utilities/popup/popup.css";
 import FormsNew from './FormsNew';
 import { APICALL as AXIOS } from '../../services/AxiosServices';
+import { ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
 
 const AddLeavePopup = (props) => {
     const [employee, setEmployee] = useState("");
-    const [employeeList, setEmployeeList] = useState([]);
+    const [employeeList, setEmployeeList] = useState([{value: 2, label: 'Test user'}]);
     const [holidayCode, setHolidayCode] = useState([]);
-    const [holidayCodeList, setHolidayCodeList] = useState([])
+    const [holidayCodeList, setHolidayCodeList] = useState([{value: 2, label: 'dummy holiday code'}])
     const [formData, setFormData] = useState({
-        "employee": "",
+        "employee_profile_id": "",
+        "manager_id":"",
+        "duration_type" : '8',
         "dates": "",
-        "holiday_code": "",
+        "holiday_code_counts": [],
         "reason": "",
-        "half_day_holiday_codes": { "morning": "", "evening": "" },
-        "multiple_holiday_codes": { "hour": "", "holiday_code": "" }
+        // "half_day_holiday_codes": { "morning": "", "evening": "" },
+        // "multiple_holiday_codes": { "hour": "", "holiday_code": "" }
     })
+
+    let holiday_code_format = {
+        "holiday_code": "",
+        "hours": 0,
+        "duration_type" : '',
+    }
 
     const [halfDay, setHalfDay] = useState(false);
     const [multipleDays, SetMultipleDays] = useState(false);
@@ -65,6 +74,18 @@ const AddLeavePopup = (props) => {
             customStyle: " mr-2"
         },
     ]
+
+    // useEffect(() => {
+    //     AXIOS.service(ResponsiblePersonApiUrl, 'GET')
+    //         .then((result) => {
+    //             if (result?.success) {
+    //                 setEmployeeList(result.data)
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }, [])
 
     const changeCheckbox = (type) => {
 
@@ -142,46 +163,7 @@ const AddLeavePopup = (props) => {
         ]
     }
 
-    // field arrays
-    const halfDayFieldsArray = [
-        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
-        { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        (morning ? { title: "Holiday code for morning shift", name: "morning_holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" }
-            : {}),
-        (evening ? { title: "Holiday code for evening shift", name: "evening_holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" }
-            : {}),
-        { title: '', required: false, type: 'checkbox', checkboxList: halfDayCheckboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left d-flex' },
-        (halfDay && morning && evening ? {}
-            : { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 float-left' }),
-        (multipleHolidayCode ? { type: "arry_of_values" } : {}),
-        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" }
-    ]
-
-    const multipleDaysArrayField = [
-        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
-        { title: "From date", name: "from_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: "To date", name: "to_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: "Holiday code", name: "holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
-        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
-    ]
-
-    const multipleHolidayCodeFieldsArray = [
-        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
-        { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
-        { type: "arry_of_values" },
-        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
-        (halfDay ? { title: '', required: false, type: 'checkbox', checkboxList: halfDayCheckboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left d-flex' } : {})
-    ]
-
-    const defaultFieldsArray = [
-        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
-        { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: "Holiday code", name: "holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
-        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
-    ]
+    
 
     // useEffect(() => {
     //     //api call to get options to dropdown
@@ -224,6 +206,7 @@ const AddLeavePopup = (props) => {
                 setFormData((prev) => ({ ...prev, [name]: value.value }))
             }
         }
+        setFormData(formData)
     }
 
     const onHide = () => {
@@ -232,6 +215,47 @@ const AddLeavePopup = (props) => {
     const onSave = () => {
         props.setAddLeave(false)
     }
+
+    // field arrays
+    const halfDayFieldsArray = [
+        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
+        { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
+        (morning ? { title: "Holiday code for morning shift", name: "morning_holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" }
+            : {}),
+        (evening ? { title: "Holiday code for evening shift", name: "evening_holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" }
+            : {}),
+        { title: '', required: false, type: 'checkbox', checkboxList: halfDayCheckboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left d-flex' },
+        (halfDay && morning && evening ? {}
+            : { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 float-left' }),
+        (multipleHolidayCode ? { type: "arry_of_values" } : {}),
+        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" }
+    ]
+
+    const multipleDaysArrayField = [
+        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
+        { title: "From date", name: "from_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
+        { title: "To date", name: "to_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
+        { title: "Holiday code", name: "holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
+        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
+    ]
+
+    const multipleHolidayCodeFieldsArray = [
+        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
+        { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
+        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { type: "arry_of_values" },
+        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
+        (halfDay ? { title: '', required: false, type: 'checkbox', checkboxList: halfDayCheckboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left d-flex' } : {})
+    ]
+
+    const defaultFieldsArray = [
+        { title: "Employee", name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, style: "col-md-4 mt-2" },
+        { title: "Multiple dates", name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
+        { title: "Holiday code", name: "holiday_code", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
+        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: "Reason", name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
+    ]
 
     return (
         <Modal
