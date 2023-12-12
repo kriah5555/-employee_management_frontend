@@ -31,6 +31,7 @@ export default function CompanyCreation({ setCompany }) {
     const [selectedFunction, setSelectedFunction] = useState([]);
     const [socialSecretary, setSocialSecretary] = useState("");
     const [interimAgency, setInterimAgency] = useState([]);
+    const [address, setAddress] = useState();
 
     const [errors, setErrors] = useState([]);
 
@@ -181,6 +182,7 @@ export default function CompanyCreation({ setCompany }) {
                 if (result?.success) {
                     if (type === 'company' && params.addType !== 'company-single') {
                         setTabType('');
+                        setAddress(result.data.address)
                         setCompany({ value: result.data.id, label: result.data.company_name })
                         localStorage.setItem('company_id', result.data.id)
                         toast.success(result.message[0], {
@@ -267,7 +269,7 @@ export default function CompanyCreation({ setCompany }) {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson}></AddLocationForm></div>
+                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson} address={address}></AddLocationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>

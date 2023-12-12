@@ -4,7 +4,7 @@ import CompanyForm from "./CompanyForm";
 import { LocationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
-export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id, responsiblePerson, setResponsiblePerson }) {
+export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id, responsiblePerson, setResponsiblePerson, address }) {
 
 
     // const [locations, setLocations] = useState([{
@@ -18,6 +18,8 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     //     }
     // }]);
 
+    const [addressCheckbox, setAddressCheckbox] = useState([]);
+
     useEffect(() => {
         if (update_id !== '0' && update_id !== undefined) {
             let editApiUrl = LocationApiUrl + '/' + update_id
@@ -27,7 +29,8 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                     if (result?.success) {
                         let response = [];
                         response['location_name'] = result.data.location_name
-                        response['responsiblePerson'] = []
+                        response['responsiblePerson'] = [{ value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name }]
+                        setResponsiblePerson([{ value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name }])
                         response.push(result.data);
                         setLocations(response);
                     }
@@ -45,8 +48,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                 responsible_persons: [],
                 status: 1,
                 address: {
-                    street: "",
-                    house_no: "",
+                    street_house_no: "",
                     postal_code: "",
                     city: "",
                     country: "",
@@ -62,7 +64,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     }
 
     const setValues = (index, name, value, field) => {
-        if (value === '' || value.length === 0) {
+        if (value === '' || value.length === 0 || value === undefined) {
             setLocationStatus(false)
         } else {
             setLocationStatus(true)
@@ -72,6 +74,22 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
 
         if (field === 'address') {
             locationsArray[index][field][name] = value
+        } else if (field === 'checkbox') {
+            let copydata = [...addressCheckbox]
+            if (copydata[index]) {
+                copydata[index] = false
+                let add = {
+                    street_house_no: "",
+                    postal_code: "",
+                    city: "",
+                    country: "",
+                }
+                locationsArray[index]['address'] = add
+            } else {
+                copydata[index] = true
+                locationsArray[index]['address'] = address
+            }
+            setAddressCheckbox(copydata)
         } else if (field !== 'dropdown') {
             locationsArray[index][name] = value
             if (name === 'location_name') { getLocationDropdownData(index, value) }
@@ -95,8 +113,19 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
         { title: "Responsible persons", options: customerArray, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
     ]
 
+    //checkbox list
+    const statusCheckBoxList = [
+        {
+            key: "copy",
+            name: "Same as company address",
+            // checked: addressCheckbox
+        }
+    ];
+
+
     //adress fields for company
     const locationAddressArray = [
+        { title: "", checkboxList: statusCheckBoxList, changeCheckbox: setValues, type: "checkbox" },
         { title: "Street and house number", name: "street_house_no", required: false, type: "input_field" },
         { title: "Postal code", name: "postal_code", required: false, type: "input_field" },
         { title: "City", name: "city", required: false, type: "input_field" },
@@ -122,6 +151,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                             data2={locationAddressArray}
                             formattedData2={locations[i]}
                             SetValues={setValues}
+                            addressValues={addressCheckbox}
                         ></CompanyForm>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
                             {i == locations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
