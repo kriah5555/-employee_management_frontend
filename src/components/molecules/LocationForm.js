@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
-import { LocationApiUrl } from "../../routes/ApiEndPoints";
+import { LocationApiUrl, ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
 export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id, responsiblePerson, setResponsiblePerson, address }) {
@@ -19,8 +19,24 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     // }]);
 
     const [addressCheckbox, setAddressCheckbox] = useState([]);
+    const [customerUpdateArr, setUpdateCustomerArr] = useState([]);
 
     useEffect(() => {
+        AXIOS.service(ResponsiblePersonApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                let options = []
+                    result.data.map((val, i) => {
+                        let option = {value: val.id, label: val.user_basic_details.first_name + " " + val.user_basic_details.last_name}
+                        options.push(option);
+                    })
+                    setUpdateCustomerArr(options);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
         if (update_id !== '0' && update_id !== undefined) {
             let editApiUrl = LocationApiUrl + '/' + update_id
             // Api call to get detail data
@@ -29,8 +45,8 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                     if (result?.success) {
                         let response = [];
                         response['location_name'] = result.data.location_name
-                        response['responsiblePerson'] = [{ value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name }]
-                        setResponsiblePerson([{ value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name }])
+                        response['responsiblePerson'] = result.data.responsible_person_details !== null ? [{ value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name }] : []
+                        setResponsiblePerson([result.data.responsible_person_details !== null ? { value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name } : ''])
                         response.push(result.data);
                         setLocations(response);
                     }
@@ -110,7 +126,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     //add location fields
     const locationFieldsArray = [
         { title: "Location", name: "location_name", required: false, type: "input_field" },
-        { title: "Responsible persons", options: customerArray, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
+        { title: "Responsible persons", options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
     ]
 
     //checkbox list

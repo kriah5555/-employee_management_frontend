@@ -108,7 +108,7 @@ export default function OverviewTabs({setCompany}) {
             ])
         } else {
             getRightHeaderContent('company')
-            setTabIndex(0)
+            // setTabIndex(0)
             setTabsData([
                 { tabHeading: t("COMPANY"), tabName: 'company' },
             ])
