@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { EmployeeCreateApiUrl, EmployeeApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeCreateApiUrl, EmployeeApiUrl, EmployeeBenefitsApiUrl } from "../../routes/ApiEndPoints";
 import FormsNew from "./FormsNew";
 import { Axios } from "axios";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
@@ -8,7 +8,7 @@ import EditIcon from "../../static/icons/edit-dark.svg"
 import CustomButton from "../atoms/CustomButton"
 import { toast } from 'react-toastify';
 
-export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, response, redirectURL, setShowAddress, showAddress, setShowDetails, showDetails, setDataRefresh , dataRefresh}) {
+export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, response, redirectURL, setShowAddress, showAddress, setShowDetails, showDetails, setDataRefresh, dataRefresh, tab, showExtraBenifits, setShowExtraBenefits }) {
 
     const [langaugeList, setLangaugeList] = useState([])
     const [maritalStausList, setMaritalStatusList] = useState([])
@@ -20,6 +20,11 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     const [dependantSpouse, setDependantSpouse] = useState("")
     const [formData, setFormData] = useState({})
     const [children, setChildren] = useState([]);
+    const [fuelCard, setFuelCard] = useState("")
+    const [companyCar, setCompanyCar] = useState("")
+    const [mealVoucher, setMealVoucher] = useState("")
+    const [mealVoucherList, setMealVoucherList] = useState([])
+    const [mealVoucherDetails, setMealVoucherDetails] = useState([])
 
     const MaximumChildren = 10;
     let count = 0
@@ -30,36 +35,57 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     }
 
     useEffect(() => {
-        let url = EmployeeCreateApiUrl + "/create"
-        AXIOS.service(url, "GET")
-            .then((result) => {
-                if (result?.success) {
-                    let data = result.data
-                    setGenderList(getFormattedDropdownOptions(data.genders))
-                    setLangaugeList(getFormattedDropdownOptions(data.languages, "key", "value"))
-                    setMaritalStatusList(getFormattedDropdownOptions(data.marital_statuses))
-                    setDependentSpouseList(getFormattedDropdownOptions(data.dependent_spouse_options, "key", "value"))
-                    setLanguage({ "value": response.language.id, "label": response.language.name })
-                    setMaritalStatus({ "value": response.marital_status.id, "label": response.marital_status.name })
-                    setGender({ "value": response.gender.id, "label": response.gender.name })
-                    setDependantSpouse({ "value": response.dependent_spouse.id, "label": response.dependent_spouse.name })
-                    setChildren(selectedOptions(childrenOptions, response.children))
 
-                    //modifying response passed from emp details.js as required for update
-                    let userData = { ...response }
-                    userData["marital_status_id"] = response.marital_status.id
-                    userData["gender_id"] = response.gender.id
-                    userData["dependent_spouse"] = response.dependent_spouse.id
-                    userData["language"] = response.language.id
-                    userData["place_of_birth"] = response.place_of_birth == null ? "" : response.place_of_birth
-                    userData["license_expiry_date"] = response.license_expiry_date == null ? "" : response.license_expiry_date
-                    setFormData(userData)
+        if (tab == "tab6") {
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+            AXIOS.service(EmployeeBenefitsApiUrl + "/create", "GET")
+                .then((result) => {
+                    if (result?.success) {
+                        let data = result.data
+                        setMealVoucherList(getFormattedDropdownOptions(data.meal_vouchers))
+                        setMealVoucherDetails(data.meal_vouchers)
+                        setFormData(response)
+                        setMealVoucher({ value: 1, label: "Sudexo" })
+                        setCompanyCar({ value: 1, label: "Yes" })
+                        setFuelCard({ value: 1, label: "Yes" })
+
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } else {
+            AXIOS.service(EmployeeCreateApiUrl + "/create", "GET")
+                .then((result) => {
+                    if (result?.success) {
+                        let data = result.data
+                        setGenderList(getFormattedDropdownOptions(data.genders))
+                        setLangaugeList(getFormattedDropdownOptions(data.languages, "key", "value"))
+                        setMaritalStatusList(getFormattedDropdownOptions(data.marital_statuses))
+                        setDependentSpouseList(getFormattedDropdownOptions(data.dependent_spouse_options, "key", "value"))
+                        setLanguage({ "value": response.language.id, "label": response.language.name })
+                        setMaritalStatus({ "value": response.marital_status.id, "label": response.marital_status.name })
+                        setGender({ "value": response.gender.id, "label": response.gender.name })
+                        setDependantSpouse({ "value": response.dependent_spouse.id, "label": response.dependent_spouse.name })
+                        setChildren(selectedOptions(childrenOptions, response.children))
+
+                        //modifying response passed from emp details.js as required for update
+                        let userData = { ...response }
+                        userData["marital_status_id"] = response.marital_status.id
+                        userData["gender_id"] = response.gender.id
+                        userData["dependent_spouse"] = response.dependent_spouse.id
+                        userData["language"] = response.language.id
+                        userData["place_of_birth"] = response.place_of_birth == null ? "" : response.place_of_birth
+                        userData["license_expiry_date"] = response.license_expiry_date == null ? "" : response.license_expiry_date
+                        setFormData(userData)
+
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
     }, [])
 
 
@@ -120,30 +146,57 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         setFormData(employees);
     }
 
+    const setExtraBenefitsValue = (index, name, value, field) => {
+        const benefits = { ...formData };
+        if (field !== 'dropdown') {
+            benefits[name] = value
+        } else {
+            if (name === 'fuel_card') {
+                setFuelCard(value)
+            } else if (name === 'company_car') {
+                setCompanyCar(value)
+            } else {
+                setMealVoucher(value)
+                mealVoucherDetails.map((val) => {
+                    if (val.id === value.value) {
+                        benefits['meal_voucher_amount'] = val.amount_formatted
+                    }
+                })
+            }
+            benefits[name] = value.value
+        }
+        setFormData(benefits);
+    }
     const onSave = () => {
 
-        let url = EmployeeApiUrl + "/" + eid
-        AXIOS.service(url, "PUT", formData)
-            .then((result) => {
-                if (result?.success) {
-                    setDataRefresh(!dataRefresh)
-                    setShowAddress(false)
-                    setShowDetails(false)
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (tab == "tab6") {
+
+
+        } else {
+            let url = EmployeeApiUrl + "/" + eid
+            AXIOS.service(url, "PUT", formData)
+                .then((result) => {
+                    if (result?.success) {
+                        setDataRefresh(!dataRefresh)
+                        setShowAddress(false)
+                        setShowDetails(false)
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
     }
 
     let detailsArray = [
@@ -172,23 +225,35 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: "Postal code", name: "postal_code", type: "text", required: true, style: "col-md-6 float-left mt-3" },
     ]
 
+    const YesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }]
+
+    const extraBenefitsArray = [
+        { title: "Social secretory number", name: "social_secretary_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: mealVoucherList, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+    ];
+
     return (
         <>
-            <FormsNew
+            {tab == "tab1" && <FormsNew
                 data={detailsArray}
                 SetValues={setValues}
                 formattedData={formData}
                 redirectURL={redirectURL}
-                OnSave={onSave}
+                OnSave={onSave} mealVoucherList
                 setRefId={setRefId}
-            ></FormsNew>
-            <div className={showAddress ? "ml-5 mb-1 " : "ml-5 mb-5"}>
+            ></FormsNew>}
+            {tab !== "tab6" && <div className={showAddress ? "ml-5 mb-1 " : "ml-5 mb-5"}>
                 <div className={"font-weight-bold col-md-6 row mb-1"}>
                     <div className="col-md-6 pl-0"><h4 className="col-md-6 mb-1 ml-0 float-left" id="text-indii-blue">{"Address"}</h4></div>
                     <div className="col-md-6"><img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => { setShowAddress(true) }}></img></div>
                     {!showAddress && <p className="mb-0 col-md-8">{response.street_house_no + ", " + response.city + ", " + response.country + ", " + response.postal_code}</p>}
                 </div>
-            </div>
+            </div>}
             {showAddress && <div className="col-md-6 p-0 mr-0"><FormsNew
                 data={addressArray}
                 SetValues={setValues}
@@ -198,9 +263,17 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 actionButtons={false}
                 setRefId={setRefId}
             ></FormsNew></div>}
+            {showExtraBenifits && <FormsNew
+                data={extraBenefitsArray}
+                SetValues={setExtraBenefitsValue}
+                formattedData={formData}
+                redirectURL={redirectURL}
+                OnSave={onSave} mealVoucherList
+                setRefId={setRefId}
+            ></FormsNew>}
             <div className="col-md-12 mb-3 text-right pr-5">
                 <CustomButton buttonName={'Save'} ActionFunction={() => { onSave() }} CustomStyle=""></CustomButton>
-                <CustomButton buttonName={'Cancel'} ActionFunction={() => { setShowAddress(false); setShowDetails(false) }} CustomStyle="mr-3"></CustomButton>
+                <CustomButton buttonName={'Cancel'} ActionFunction={() => { setShowAddress(false); setShowDetails(false); setShowExtraBenefits(false) }} CustomStyle="mr-3"></CustomButton>
             </div>
         </>
     )
