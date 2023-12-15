@@ -15,6 +15,8 @@ import FileInput from "../atoms/FileInput";
 import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import TimeInput from "../atoms/TimeInput";
+
+
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex }) {
 
     const navigate = useNavigate();
@@ -63,8 +65,8 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     name={field.name}
                                     CustomStyle={field.style}
                                     required={field.required}
-                                    value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                    setValue={(e) => SetValues(i, field.name, e, field.type)}
+                                    value={formattedData !== undefined ? field.name === 'contract_hours' &&  formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : formattedData[field.name] : ''}
+                                    setValue={(e) => SetValues((field.name === 'contract_hours' ? planIndex : i), field.name, e, field.type)}
                                     error={''}
                                     placeholder={field.placeholder ? field.placeholder : ''}
                                 ></TextInput>
@@ -194,9 +196,9 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     key={field.name}
                                     title={field.title}
                                     setTime={(e) => SetValues(planIndex, field.name, e, field.type)}
-                                    value={formattedData[i] !== undefined ? formattedData[i][field.name] : ''}
+                                    value={formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : ''}
                                     type={field.type}
-                                    index={i}
+                                    index={planIndex}
                                     required={field.required}
                                     customStyle={field.style}
                                 ></TimeInput>

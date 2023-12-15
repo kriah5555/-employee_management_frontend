@@ -164,3 +164,27 @@ export function getWeeksInYear(year) {
 
     return weeks;
 }
+
+export function getMonthAndYearFromWeek(weekNumber, year) {
+    // Create a date object for the first day of the year
+    const startDate = new Date(year, 0, 1);
+
+    // Calculate the day of the week for the first day of the year (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const startDayOfWeek = startDate.getDay();
+
+    // Calculate the offset to the first day of the week for the given week number
+    const daysToWeekStart = (weekNumber - 1) * 7 - startDayOfWeek;
+
+    // Calculate the date for the first day of the week
+    const firstDayOfWeek = new Date(startDate);
+    firstDayOfWeek.setDate(startDate.getDate() + daysToWeekStart);
+
+    // Get the month and year of the first day of the week
+    const month = firstDayOfWeek.getMonth();
+    const resultYear = firstDayOfWeek.getFullYear();
+
+    return {
+        month: month + 1, // Months are zero-based in JavaScript (0 = January, 1 = February, ..., 11 = December)
+        year: resultYear
+    };
+}

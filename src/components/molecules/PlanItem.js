@@ -3,23 +3,23 @@ import TimeIcon from "../../static/icons/Time.svg";
 import CostIcon from "../../static/icons/Euro.svg";
 import ContractHoursIcon from "../../static/icons/Contract.svg";
 
-export default function PlanItem({ PlansData, Dates, setPlanPopup }) {
+export default function PlanItem({ PlansData, Dates, openCreatePlanPopup, employeeId, wid }) {
 
     return (
         Dates.map((date) => {
             return (
-                <td key={date} className="py-2 px-0 height-10 planning-position shadow-sm" onClick={() => setPlanPopup(true)}>
+                <td key={date} className="py-2 px-0 height-10 planning-position shadow-sm" onClick={() => openCreatePlanPopup(employeeId, date, wid, PlansData)}>
                     {PlansData[date] && <>
-                        {PlansData[date]['planning_time'].map((plan) => {
+                        {PlansData[date]['planning'].map((plan) => {
                             return (
-                                <small key={plan} className="row m-0 pb-1 px-2 border-bottom">
+                                <small key={plan.plan_id} className="row m-0 pb-1 px-2 border-bottom">
                                     <img src={TimeIcon} className="plan-icon mr-2"></img>
-                                    {plan}
+                                    {plan.timings}
                                 </small>
                             )
                         })}
                         <div className="d-flex mt-3 justify-content-between px-2">
-                            {PlansData[date].cost && <small className="cost-position">
+                            {PlansData[date].cost !== null && <small className="cost-position">
                                 <img src={CostIcon} className="plan-icon mr-1"></img>
                                 {PlansData[date].cost}
                             </small>}

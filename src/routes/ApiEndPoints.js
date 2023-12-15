@@ -58,6 +58,14 @@ export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsib
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
+// Planning Apis:
+export const FilterOptionsApiUrl = BASE_URL + '/masterdata/planning/get-planning-options'
+export const GetMonthlyPlanningApiUrl = BASE_URL + '/masterdata/planning/get-monthly-planning'
+export const GetWeeklyPlanningApiUrl = BASE_URL + '/masterdata/planning/get-week-planning'
+export const GetEmployeeOptionsApiUrl = BASE_URL + '/masterdata/get-active-contract-employees'
+export const GetPlanCreationOptionsUrl = BASE_URL + '/masterdata/get-employee-plan-creation-options'
+export const CreatePlanApiUrl = BASE_URL + '/masterdata/save-plans'
+
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 // export const fetchTranslations = BASE_URL + 'translations/fetch-strings';

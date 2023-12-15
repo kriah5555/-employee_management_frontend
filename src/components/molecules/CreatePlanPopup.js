@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from 'react-bootstrap/Modal';
 import FormsNew from "./FormsNew";
 import { Button } from "react-bootstrap";
@@ -6,17 +6,28 @@ import { t } from "../../translations/Translation";
 import DeleteIcon from "../../static/icons/Delete.svg";
 import AddIcon from "../../static/icons/AddPlusIcon.png";
 import CalendarIcon from "../../static/icons/Calendar.svg";
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { GetPlanCreationOptionsUrl, CreatePlanApiUrl } from "../../routes/ApiEndPoints";
+import { toast } from 'react-toastify';
 
 
-export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
 
-    const [rowArr, setRowArr] = useState([1]);
-    const [selectedEmployeeType, setSelectedEmployeeType] = useState();
-    const [selectedFunction, setSelectedFunction] = useState();
-    const [planningData, setPlanningData] = useState([]);
+export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh }) {
+
+    const [rowArr, setRowArr] = useState(planData.length > 0 ? planData : [1]);
+    const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
+    const [selectedFunction, setSelectedFunction] = useState(dropDownData ? dropDownData['function'] : '');
+    const [planningData, setPlanningData] = useState({
+        'employee_id': employeeId,
+        'location_id': locId,
+        'workstation_id': wid,
+        'function_id': dropDownData['function'] ? dropDownData['function'].value : '',
+        'employee_type_id': dropDownData['employee_type'] ? dropDownData['employee_type'].value : '',
+        'dates': [planningDate],
+        'timings': planData
+    });
     const [multipleDatesStatus, setMultipleDatesStatus] = useState(false);
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [employeeTypeOptions, setEmployeeTypeOptions] = useState([]);
 
     const checkboxList = [
         {
@@ -26,20 +37,35 @@ export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
         },
     ]
 
-    const functionOptions = [
-        { value: '1', label: 'Function 1' },
-        { value: '2', label: 'Function 2' },
-        { value: '3', label: 'Function 3' }
-    ]
+    useEffect(() => {
+        let requestData = {
+            "employee_id": employeeId,
+            "date": planningDate
+        }
+        AXIOS.service(GetPlanCreationOptionsUrl, 'POST', requestData)
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeTypeOptions(result.data)
+                    // setEmployeeList(result.data)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
 
     const changeCheckbox = () => {
         setMultipleDatesStatus(!multipleDatesStatus)
     }
 
-    const formFields = [
-        { title: 'Employee type', name: 'employee_type_id', required: true, options: employeeTypeOptions, selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Function', name: 'function_id', required: true, options: functionOptions, selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" },
+    const formFields = !updatePlan ? [
+        { title: 'Employee type', name: 'employee_type_id', required: true, options: employeeTypeOptions !== undefined ? employeeTypeOptions.employee_types : [], selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: 'Function', name: 'function_id', required: true, options: employeeTypeOptions !== undefined && employeeTypeOptions.functions !== undefined ? employeeTypeOptions.functions[selectedEmployeeType !== undefined ? selectedEmployeeType.value : selectedEmployeeType] : [], selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" }
+    ] : [
+        { title: 'Employee type', name: 'employee_type_id', required: true, options: employeeTypeOptions !== undefined ? employeeTypeOptions.employee_types : [], selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: 'Function', name: 'function_id', required: true, options: employeeTypeOptions !== undefined && employeeTypeOptions.functions !== undefined ? employeeTypeOptions.functions[selectedEmployeeType !== undefined ? selectedEmployeeType.value : selectedEmployeeType] : [], selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ]
 
     const planFields = [
@@ -54,10 +80,19 @@ export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
 
     const setValues = (index, name, value, field) => {
         const planning_data = { ...planningData };
-        if (field !== 'dropdown') {
-            if (field === 'time') {
-                planning_data[index] = {}
-                planning_data[index][name] = value
+
+        if (name === 'dates') {
+            let arr = planning_data['dates']
+            value.map((date, i) => {
+                if (!arr.includes(date.format("DD-MM-YYYY"))) {
+                    arr.push(date.format("DD-MM-YYYY"))
+                }
+            })
+            planning_data['dates'] = arr
+        } else if (field !== 'dropdown') {
+            if (field === 'time' || name === 'contract_hours') {
+                planning_data['timings'][index] = planning_data['timings'][index] ? planningData['timings'][index] : {}
+                planning_data['timings'][index][name] = value
             } else {
                 planning_data[name] = value
             }
@@ -85,8 +120,29 @@ export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
 
     }
 
-
-    const formData = planningData[0]
+    const SavePlan = () => {
+        AXIOS.service(CreatePlanApiUrl, 'POST', planningData)
+            .then((result) => {
+                if (result?.success) {
+                    setPlanPopup(false);
+                    setDataRefresh(true);
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    // setEmployeeList(result.data)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
 
 
     return (
@@ -111,16 +167,16 @@ export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
                         view="filters"
                         data={formFields}
                         SetValues={setValues}
-                        formattedData={formData}
+                        formattedData={planningData}
                     />
-                    {multipleDatesStatus &&
+                    {multipleDatesStatus && !updatePlan &&
                         <div className="col-md-12 d-flex p-0">
                             <div className="col-md-10 p-0">
                                 <FormsNew
                                     view="filters"
                                     data={multiDatePicker}
                                     SetValues={setValues}
-                                    formattedData={formData}
+                                    formattedData={planningData}
                                 />
                             </div>
                             <img src={CalendarIcon} className="pb-3 ml-4 shortcut_icon"></img>
@@ -135,7 +191,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
                                         planIndex={index}
                                         data={planFields}
                                         SetValues={setValues}
-                                        formattedData={planningData}
+                                        formattedData={planningData['timings']}
                                     />
                                 </div>
                                 <div className="col-md-1 ml-4 px-3 text-center py-4 border">
@@ -152,7 +208,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeTypeOptions }) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button className='button-style float-left' onClick={() => setPlanPopup(false)}>
+                <Button className='button-style float-left' onClick={() => { SavePlan() }}> {/*setPlanPopup(false); */}
                     {'Save'}
                 </Button>
                 <Button className='button-style' onClick={() => setPlanPopup(false)}>
