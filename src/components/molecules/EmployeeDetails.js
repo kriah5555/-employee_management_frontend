@@ -12,9 +12,9 @@ import CalendarLayout from "../../utilities/calendar/CalendarLayout";
 import CustomButton from "../atoms/CustomButton";
 import Switch from "../atoms/Switch";
 import AddContractPopup from "./AddContractPopup";
-import { EmployeeApiUrl, EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeContractApiUrl , EmployeesContractsApiUrl} from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-
+import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 
 export default function EmployeeDetails({ eid }) {
 
@@ -32,7 +32,7 @@ export default function EmployeeDetails({ eid }) {
     );
     const [dataLeft, setDataLeft] = useState([]);
     const [dataRight, setDataRight] = useState([])
-
+    // const [contracts, setContracts] = useState({})
 
     const TabsData = [
         { tabHeading: ("Personal details"), tabName: 'personal' },
@@ -47,15 +47,26 @@ export default function EmployeeDetails({ eid }) {
         { label: 'Sub type', value: 'Daily contract' },
         { label: 'Start date', value: '20/04/2023' },
         { label: 'End date', value: '20/07/2023' },
-        { label: 'Function name', value: 'Chef' },
-        { label: 'Minimum salary', value: '€220.10' },
-        { label: 'Salary to be paid', value: '€235.20' },
+        // { label: 'Function name', value: 'Chef' },
+        // { label: 'Minimum salary', value: '€220.10' },
+        // { label: 'Salary to be paid', value: '€235.20' },
         // { label: 'Contract number', value: '12345' },
         // { label: 'Social security number', value: '84071938582' },
-        { label: 'Weekly contract hours', value: '02 days' },
-        { label: 'Work days per week', value: '02 days' },
+        // { label: 'Weekly contract hours', value: '02 days' },
+        // { label: 'Work days per week', value: '02 days' },
     ]
 
+    const functions = {
+        contract_id: 0,
+        functions: [
+            {
+                function_name: 'chef',
+                min_salary: '22',
+                salary_paid: '20',
+
+            }
+        ]
+    }
     // Employee type data
     const tab3Data = [
         { label: 'Employee type', value: 'Student' },
@@ -74,8 +85,69 @@ export default function EmployeeDetails({ eid }) {
     ]
 
     const contracts = [
-        { id: 0, name: 'Contract 01' },
-        { id: 1, name: 'Contract 02' },
+        {
+            id: 0,
+            name: 'Contract 01',
+            employee_type: "student",
+            sub_type: "worker",
+            start_date: "12-12-2023",
+            end_date: "",
+            weekly_contract_hours: "",
+            work_days_per_week: "",
+            functions: [
+                {
+                    'function_name': "chef",
+                    'minimum_salary': "€220.10",
+                    'salary_to_be_paid': "€232.10",
+                },
+                {
+                    'function_name': "Assistant",
+                    'minimum_salary': "€120.10",
+                    'salary_to_be_paid': "€132.10",
+                },
+                {
+                    'function_name': "Assistant",
+                    'minimum_salary': "€120.10",
+                    'salary_to_be_paid': "€132.10",
+                },
+                {
+                    'function_name': "Assistant",
+                    'minimum_salary': "€120.10",
+                    'salary_to_be_paid': "€132.10",
+                    'weekly_contract_hours': "",
+                }
+
+            ],
+            employee_type_options: [
+                { value: "student", label: "Student" },
+                { value: "Long term flex", label: "ltf" },
+                { value: "Long term student", label: "lts" },
+                { value: "Normal employee", label: "ne" }
+            ],
+            functions_options: [
+                { value: "01", label: "Assistant" },
+                { value: "02", label: "Cleaning" },
+                { value: "03", label: "Cooking" },
+            ]
+
+        },
+        {
+            id: 1,
+            name: 'Contract 02',
+            employee_type: "student",
+            sub_type: "servant",
+            start_date: "12-12-2023",
+            end_date: "",
+            weekly_contract_hours: "",
+            work_days_per_week: "",
+            functions: [
+                {
+                    'function_name': "chef",
+                    'minimum_salary': "€220.10",
+                    'salary_to_be_paid': "€232.10",
+                }
+            ]
+        },
     ]
 
     useEffect(() => {
@@ -113,7 +185,7 @@ export default function EmployeeDetails({ eid }) {
                         { label: 'City', value: result.data.city },
                         { label: 'Country', value: result.data.country },
                         { label: 'Nationality', value: result.data.nationality },
-                        
+
                     ]
                     let data_right = [
                         { label: 'Mobile number', value: result.data.phone_number },
@@ -123,7 +195,7 @@ export default function EmployeeDetails({ eid }) {
                         { label: 'Bank account number', value: result.data.account_number },
                         { label: 'Language', value: result.data.language.name },
                         { label: 'Marital status', value: result.data.marital_status.name },
-                        { label: 'Dependant spouse', value:result.data.dependent_spouse.name },
+                        { label: 'Dependant spouse', value: result.data.dependent_spouse.name },
                         { label: 'Childrens', value: result.data.children },
                     ]
                     setDataLeft(data_left);
@@ -136,6 +208,20 @@ export default function EmployeeDetails({ eid }) {
             .catch((error) => {
                 console.log(error);
             })
+
+            AXIOS.service(EmployeesContractsApiUrl+"/1", 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    // setContracts(result.data)
+                    console.log(result.data);
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }, [])
 
 
@@ -187,12 +273,13 @@ export default function EmployeeDetails({ eid }) {
                             {contracts.map((contract, index) => {
                                 return (
                                     <div className="border shadow-sm rounded mx-3 px-2 my-2" key={contract.id}>
-                                        <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => setToggleOpen(toggleOpen === contract.id ? "" : contract.id)}></img></div>
+                                        <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => { setToggleOpen(toggleOpen === contract.id ? "" : contract.id); setEditStatus(false) }}></img></div>
                                         {!editStatus && toggleOpen === contract.id && <>
                                             <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>
                                             <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => console.log()}></img>
                                         </>}
-                                        {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>}
+                                        {/* {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>} */}
+                                        {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen}></UpdateEmployeeContractDetailsForm>}
                                     </div>
                                 )
                             })}

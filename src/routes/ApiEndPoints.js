@@ -36,7 +36,7 @@ export const GetSectorFunctionsApiUrl = BASE_URL + '/masterdata/get-sector-funct
 export const ResponsiblePersonApiUrl = BASE_URL + '/masterdata/responsible-persons'
 
 export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
-export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contract'
+export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contracts'
 export const EmployeeCommutetApiUrl = BASE_URL + '/masterdata/employee-commute'
 export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
 
@@ -56,6 +56,7 @@ export const ContractTemplateApiUrl = BASE_URL + '/masterdata/contract-templates
 export const InterimAgencyApiUrl = BASE_URL + '/masterdata/interim-agencies'
 export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsible-companies"
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
+export const EmployeesContractsApiUrl = BASE_URL + '/masterdata/employees/contracts'
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
 //Translations API urls starts here

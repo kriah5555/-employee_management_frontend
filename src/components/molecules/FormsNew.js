@@ -16,7 +16,6 @@ import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import TimeInput from "../atoms/TimeInput";
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex }) {
-
     const navigate = useNavigate();
     const params = useParams();
     const [multipleHolidayCodeCount, setMultipleHolidayCodeCount] = useState([1]);
@@ -149,6 +148,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     setValue={(e) => SetValues(i, field.name, e)}
                                     placeholder={field.placeholder}
                                     isMulti={field.isMulti}
+                                    disabled={field.disabled}
                                 ></DateInput>
                             )
                         } else if (field.type === 'phone_input') {
