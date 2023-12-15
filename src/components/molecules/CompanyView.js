@@ -12,11 +12,32 @@ export default function CompanyView() {
     const [companyData, setCompanyData] = useState({});
     const [address, setAddress] = useState({});
     const [sector, setSector] = useState("");
+    const [socialSecretaryNumber, setSocialSecretaryNumber] = useState('')
 
     const TabsData = [
         { tabHeading: ("Company details"), tabName: 'company_details' },
         { tabHeading: ("Address"), tabName: 'address' },
     ]
+
+
+    useEffect(() => {
+        if (params.id !== '0') {
+            let editApiUrl = CompanyApiUrl + '/' + params.id
+            // Api call to get detail data
+            AXIOS.service(editApiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setCompanyData(result.data);
+                        setAddress(result.data.address);
+                        setSector(sectorString(result.data.sectors));
+                        setSocialSecretaryNumber(result.data.company_social_secretary_details !== null ? result.data.company_social_secretary_details.social_secretary_number : '');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
 
     //add company fields
     const CompanyFields = [
@@ -28,7 +49,7 @@ export default function CompanyView() {
         { title: "Sender number", name: "sender_number", value: companyData.sender_number },
         { title: "Username", name: "username", value: companyData.username },
         { title: "RSZ number", name: "rsz_number", value: companyData.rsz_number },
-        { title: "Social secretary number", name: "social_secretary_number", value: companyData.social_secretary_number },
+        { title: "Social secretary number", name: "social_secretary_number", value: socialSecretaryNumber },
     ];
 
     const companyAddress = [
@@ -50,23 +71,6 @@ export default function CompanyView() {
     }
 
 
-    useEffect(() => {
-        if (params.id !== '0') {
-            let editApiUrl = CompanyApiUrl + '/' + params.id
-            // Api call to get detail data
-            AXIOS.service(editApiUrl, 'GET')
-                .then((result) => {
-                    if (result?.success) {
-                        setCompanyData(result.data);
-                        setAddress(result.data.address);
-                        setSector(sectorString(result.data.sectors));
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
-    }, [])
 
     return (
         <div>

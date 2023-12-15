@@ -79,8 +79,17 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
         if (field === 'address') {
             customer_arr[index][field][name] = value
         } else if (field !== 'dropdown') {
-            customer_arr[index][name] = value
-            if (name === 'first_name') { getCustomerDropdownData(index, value) }
+            if (name === 'first_name') {
+                customer_arr[index][name] = value
+                getCustomerDropdownData(index, value)
+            } else if (name === 'social_security_number') {
+                if (value.length <= 15) {
+                    customer_arr[index][name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+                }
+            } else {
+                customer_arr[index][name] = value
+            }
+
         } else {
             setSelectedRole(value);
             customer_arr[index]['role'] = value.value
@@ -113,7 +122,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                             view="customer"
                             title1={view !== 'responsible-person-single' ? 'Add Responsible person' : ''}
                             data1={CustomerfieldsData}
-                            formattedData1={customers[0]}
+                            formattedData1={customers[index]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'responsible-person-single' && <div className="d-flex mb-3 pos-relative justify-content-end">

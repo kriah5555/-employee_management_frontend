@@ -99,15 +99,18 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
             })
     }
     useEffect(() => {
-        if (employeeContracts["employee_type_id"] && employeeContracts["sub_type"]) {
+        if (employeeContracts !== undefined && employeeContracts["employee_type_id"] != "" && employeeContracts["sub_type"] != "" && tabIndex === 2) {
             functionSalaries.map((obj, index) => {
 
                 fetchMinSalary(obj["function_id"], obj["experience"], index)
 
             })
         }
-        setRows(functionSalaries)
-
+        if (tabIndex === 2) {
+            setRows(functionSalaries)
+        } else if (tabIndex === 3) {
+            setRows(locationTransport)
+        }
     }, [])
 
     const SetValues = (value, type, index) => {

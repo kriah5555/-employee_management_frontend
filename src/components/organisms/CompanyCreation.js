@@ -13,10 +13,10 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CompanyAdditionalApiUrl, CompanyApiUrl, LocationApiUrl, ResponsiblePersonApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import CompanyView from "../molecules/CompanyView";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import AddCostCenterForm from "../molecules/AddCostCenterForm";
 
-export default function CompanyCreation({setCompany}) {
+export default function CompanyCreation({ setCompany }) {
     const navigate = useNavigate();
     const params = useParams();
     const [tabIndex, setTabIndex] = useState(0);
@@ -31,6 +31,7 @@ export default function CompanyCreation({setCompany}) {
     const [selectedFunction, setSelectedFunction] = useState([]);
     const [socialSecretary, setSocialSecretary] = useState("");
     const [interimAgency, setInterimAgency] = useState([]);
+    const [address, setAddress] = useState();
 
     const [errors, setErrors] = useState([]);
 
@@ -99,7 +100,7 @@ export default function CompanyCreation({setCompany}) {
     }]);
 
     // Company default data
-    const [companyData, setCompanyData] = useState({
+    const [companyData, setCompanyData] = useState([{
         company_name: "",
         vat_number: "",
         sender_number: "",
@@ -112,8 +113,8 @@ export default function CompanyCreation({setCompany}) {
         sectors: [],
         social_secretary_id: "",
         interim_agencies: [],
-        contact_email:'',
-        oauth_key:'',
+        contact_email: '',
+        oauth_key: '',
         address: {
             street_house_no: "",
             postal_code: "",
@@ -124,7 +125,7 @@ export default function CompanyCreation({setCompany}) {
         // responsible_persons: customers,
         // locations: locations,
         // workstations: workstations,
-    });
+    }]);
 
 
     // Function to call Api for create and update of company, location and workstation
@@ -154,7 +155,7 @@ export default function CompanyCreation({setCompany}) {
                 ApiUrl = CompanyAdditionalApiUrl
                 Method = 'POST'
             } else {
-                requestData = companyData
+                requestData = companyData[0]
                 ApiUrl = params.id !== '0' ? CompanyApiUrl + '/' + params.id : CompanyApiUrl
                 Method = params.id !== '0' ? 'PUT' : 'POST'
             }
@@ -179,10 +180,21 @@ export default function CompanyCreation({setCompany}) {
         AXIOS.service(ApiUrl, Method, requestData)
             .then((result) => {
                 if (result?.success) {
-                    if (type === 'company') {
+                    if (type === 'company' && params.addType !== 'company-single') {
                         setTabType('');
-                        setCompany({value: result.data.id, label: result.data.company_name})
+                        setAddress(result.data.address)
+                        setCompany({ value: result.data.id, label: result.data.company_name })
                         localStorage.setItem('company_id', result.data.id)
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
                     } else {
                         navigate('/manage-companies#' + params.addType)
                         toast.success(result.message[0], {
@@ -195,7 +207,7 @@ export default function CompanyCreation({setCompany}) {
                             progress: undefined,
                             theme: "colored",
                         });
-                        window.location.reload()
+                        // window.location.reload()
                     }
                 } else {
                     setErrors(result.message)
@@ -238,6 +250,18 @@ export default function CompanyCreation({setCompany}) {
                     </TabPanel>}
 
                     <TabPanel>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={2000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                        />
                         <div className=""><ResponsiblePersonForm customers={customers} setCustomers={setCustomers} getCustomerDropdownData={getCustomerDropdownData} selectedRole={selectedRole} setSelectedRole={setSelectedRole}></ResponsiblePersonForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
@@ -245,7 +269,7 @@ export default function CompanyCreation({setCompany}) {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson}></AddLocationForm></div>
+                        <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson} address={address}></AddLocationForm></div>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>

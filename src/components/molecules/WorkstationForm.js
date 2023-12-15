@@ -32,13 +32,10 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                     console.log(error);
                 })
         } else {
-            let requestData = {
-                "sector_ids": sector
-            }
-            AXIOS.service(GetSectorFunctionsApiUrl, 'POST', requestData)
+            AXIOS.service(GetSectorFunctionsApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        setFunctionOptions(getFormattedDropdownOptions(result.data.function_titles, 'id', 'name'));
+                        setFunctionOptions(getFormattedDropdownOptions(result.data.functions, 'id', 'name'));
                     }
                 })
                 .catch((error) => {
@@ -153,7 +150,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                             view="workstation"
                             title1={view !== 'workstation-single' ? 'Add workstation' : ''}
                             data1={workstationFieldsArray}
-                            formattedData1={workstations[0]}
+                            formattedData1={workstations[i]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'workstation-single' && <div className="d-flex mb-3 pos-relative justify-content-end">

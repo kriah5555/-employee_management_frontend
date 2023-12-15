@@ -3,7 +3,6 @@ import FormsNew from "./FormsNew";
 import RadioInput from "../atoms/formFields/RadioInput";
 import { getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 
-
 export default function AddEmployeeContractTypes({ options, employeeContracts, setEmployeeContracts, selectedEmpTypeCategory, setSelectedEmpTypeCategory, displaySubType, setDisplaySubType }) {
 
     const contractFields = [
@@ -48,7 +47,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
             <div className="col-md-3 pr-0 my-5 border-right">
                 <RadioInput
                     title={''}
-                    radiobuttonsList={options ? options.employee_contract_options.employee_type_categories : []}
+                    radiobuttonsList={options && options.employee_contract_options !== undefined ? options.employee_contract_options.employee_type_categories : []}
                     changeCheckbox={onRadioSelect}
                     CustomStyle={''}
                     selectedOption={selectedEmpTypeCategory}

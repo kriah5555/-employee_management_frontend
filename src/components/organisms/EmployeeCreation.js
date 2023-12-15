@@ -61,7 +61,7 @@ export default function EmployeeCreation() {
     const [employeeBenefitsOptions, setEmployeeBenefitsOptions] = useState([]);
 
     const MaximumChildren = 10;
-    let count = 1
+    let count = 0
     let childrenOptions = [];
     while (count <= MaximumChildren) {
         childrenOptions.push({ value: count, label: count })
@@ -265,6 +265,7 @@ export default function EmployeeCreation() {
                                 locationTransport={locationTransport} setLocationTransport={setLocationTransport}
                                 locations={locations} setLocations={setLocations}
                                 commute={commute} setCommute={setCommute}
+                                employeeContracts={employeeContracts} setEmployeeContracts={setEmployeeContracts}
                                 options={employeeCommuteOptions}
                             ></AddEmployeeFunctionSalaries>
                         </div>                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>

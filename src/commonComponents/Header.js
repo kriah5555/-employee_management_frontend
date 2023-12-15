@@ -220,13 +220,13 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
                     {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany ? selectedCompany.label : companyList[0].label}</h4>}
-                    {companyList.length > 1 && <div>
+                    {companyList.length > 1 && <div className="d-flex col-md-12">
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
                             onSelectFunction={(e) => onCompanySelect(e)}
-                            CustomStyle="company-dropdown"
-                            styleClass="col-md-12"
+                            CustomStyle="col-md-12"
+                            // styleClass="company-dropdown"
                             isMulti={false}
                         >
                         </Dropdown>
