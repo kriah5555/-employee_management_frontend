@@ -4,7 +4,7 @@ import Dropdown from "../atoms/Dropdown";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 
-export default function CompanyForm({ data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2, formattedData3 }) {
+export default function CompanyForm({ data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2, formattedData3, addressValues }) {
 
     return (
         <div className="mt-3">
@@ -86,6 +86,18 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                     setValue={(e) => SetValues(index, field.name, e, 'address')}
                                     error={''}
                                 ></TextInput>
+                            )
+                        } else if (field.type === 'checkbox' && title1) {
+                            return (
+                                <CustomCheckBox
+                                    key={field.name}
+                                    title={field.title}
+                                    checked = {addressValues ? addressValues[index]: ''}
+                                    checkboxList={field.checkboxList}
+                                    changeCheckbox={(e) => SetValues(index, field.name, e, field.type)}
+                                    required={field.required}
+                                    CustomStyle={"col-md-12 mt-4 float-left"}
+                                ></CustomCheckBox>
                             )
                         } else if (field.type === 'dropdown') {
                             return (

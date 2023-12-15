@@ -122,7 +122,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                             view="customer"
                             title1={view !== 'responsible-person-single' ? 'Add Responsible person' : ''}
                             data1={CustomerfieldsData}
-                            formattedData1={customers[0]}
+                            formattedData1={customers[index]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'responsible-person-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
