@@ -14,7 +14,7 @@ import Switch from "../atoms/Switch";
 import AddContractPopup from "./AddContractPopup";
 import { EmployeeApiUrl, EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-
+import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
 
 export default function EmployeeDetails({ eid }) {
 
@@ -32,7 +32,14 @@ export default function EmployeeDetails({ eid }) {
     );
     const [dataLeft, setDataLeft] = useState([]);
     const [dataRight, setDataRight] = useState([])
-
+    const [response, setResponse] = useState({})
+    const [showDetails, setShowDetails] = useState(false)
+    const [showAddress, setShowAddress] = useState(false)
+    const [dataRefresh, setDataRefresh] = useState(false)
+    const [showExtraBenifits, setShowExtraBenefits] = useState(false)
+    const [exrtraBenefitsLeftData, setExtraBenefitsLefttdata] = useState([])
+    const [exrtraBenefitsRightData, setExtraBenefitsRightdata] = useState([])
+    const [extraBenefitsData, setExtraBenefitsData] = useState({})
 
     const TabsData = [
         { tabHeading: ("Personal details"), tabName: 'personal' },
@@ -40,6 +47,7 @@ export default function EmployeeDetails({ eid }) {
         { tabHeading: ("Counters"), tabName: 'counters' },
         { tabHeading: ("Documents"), tabName: 'documents' },
         { tabHeading: ("Availability"), tabName: 'availability' },
+        { tabHeading: ("Extra benefits"), tabName: 'extra_benefits' }
     ]
 
     const tab2Data = [
@@ -101,34 +109,32 @@ export default function EmployeeDetails({ eid }) {
                         rsz: result.data.social_security_number
                     }
                     setBasicDetails(basic_details)
-
+                    setResponse(result.data)
                     let data_left = [
                         { label: 'First name', value: result.data.first_name },
                         { label: 'Last name', value: result.data.last_name },
+                        { label: 'Mobile number', value: result.data.phone_number },
+                        { label: 'Email', value: result.data.email },
                         { label: 'Gender', value: result.data.gender.name },
                         { label: 'DOB', value: result.data.date_of_birth },
                         { label: 'Place of birth', value: result.data.place_of_birth },
-                        { label: 'Address', value: result.data.street_house_no },
-                        { label: 'Postal code', value: result.data.postal_code },
-                        { label: 'City', value: result.data.city },
-                        { label: 'Country', value: result.data.country },
                         { label: 'Nationality', value: result.data.nationality },
-                        
+                        { label: 'Address', value: result.data.street_house_no + ", " + result.data.city + ", " + result.data.country + ", " + result.data.postal_code },
+
                     ]
                     let data_right = [
-                        { label: 'Mobile number', value: result.data.phone_number },
-                        { label: 'Email', value: result.data.email },
                         { label: 'Social security number', value: result.data.social_security_number },
                         { label: 'Expiry date', value: result.data.license_expiry_date },
                         { label: 'Bank account number', value: result.data.account_number },
                         { label: 'Language', value: result.data.language.name },
                         { label: 'Marital status', value: result.data.marital_status.name },
-                        { label: 'Dependant spouse', value:result.data.dependent_spouse.name },
+                        { label: 'Dependant spouse', value: result.data.dependent_spouse.name },
                         { label: 'Childrens', value: result.data.children },
                     ]
                     setDataLeft(data_left);
                     setDataRight(data_right)
                     // setBasicDetails(result.data)
+
                 } else {
                     // setErrors(result.message)
                 }
@@ -136,7 +142,46 @@ export default function EmployeeDetails({ eid }) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [eid])
+
+        // call api and set values 
+        // AXIOS.service(EmployeeExtraBenefitsApiUrl + '/' + eid, 'GET')
+        //     .then((result) => {
+        //         if (result?.success) {
+
+        let data = {
+            "fuel_card": "yes",
+            "company_car": "yes",
+            "clothing_compensation": "2000",
+            "meal_voucher_amount": "2000",
+            "meal_voucher_id": "1",
+            "social_secretary_number": "12345678901",
+            "contract_number": "1239872321",
+        }
+        setExtraBenefitsData(data)
+
+        let data_right = [
+            // { label: 'Social secretary number', value: "12345678901"},
+            // { label: 'Contact number', value: "1239872321" },
+        ]
+
+        let data_left = [
+            { label: 'Social secretary number', value: "12345678901" },
+            { label: 'Contract number', value: "1239872321" },
+            { label: 'Company car', value: "yes" },
+            { label: 'Company fuel card', value: "yes" },
+            { label: 'Clothing componsation', value: "2000" },
+            { label: 'Meal voucher', value: "Sudexo" },
+            { label: 'Meal voucher amount', value: "2000" },
+        ]
+
+        setExtraBenefitsLefttdata(data_left)
+        setExtraBenefitsRightdata(data_right)
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+    }, [eid, dataRefresh])
 
 
     return (
@@ -172,8 +217,9 @@ export default function EmployeeDetails({ eid }) {
                     </TabList>
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
-                            <EmployeeUpdate tab="tab1" edit={editStatus} setEditStatus={setEditStatus} dataLeft={dataLeft} dataRight={dataRight} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>
+                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setShowDetails(true)}></img>}
+                            {!showDetails && <EmployeeUpdate tab="tab1" edit={editStatus} setEditStatus={setEditStatus} dataLeft={dataLeft} dataRight={dataRight} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails} ></EmployeeUpdate>}
+                            {showDetails && <EmployeeDetailsUpdateForm tab="tab1" eid={eid} response={response} setShowAddress={setShowAddress} setShowDetails={setShowDetails} showAddress={showAddress} showDetails={showDetails} setDataRefresh={setDataRefresh} dataRefresh={dataRefresh} showExtraBenifits={showExtraBenifits} setShowExtraBenefits={setShowExtraBenefits}></EmployeeDetailsUpdateForm>}
                         </div>
                     </TabPanel>
 
@@ -220,6 +266,13 @@ export default function EmployeeDetails({ eid }) {
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             {<img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
                             <CalendarLayout view={'availability'}></CalendarLayout>
+                        </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <div className="customscroll employee-detail-height py-3 px-0 border m-3">
+                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => { setShowExtraBenefits(true); setShowDetails(false); setShowAddress(false) }}></img>}
+                            {!showExtraBenifits && <EmployeeUpdate tab="tab1" edit={editStatus} setEditStatus={setEditStatus} dataLeft={exrtraBenefitsLeftData} dataRight={exrtraBenefitsRightData} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails}></EmployeeUpdate>}
+                            {showExtraBenifits && <EmployeeDetailsUpdateForm tab="tab6" eid={eid} response={extraBenefitsData} setShowAddress={setShowAddress} setShowDetails={setShowDetails} showAddress={showAddress} showDetails={showDetails} setDataRefresh={setDataRefresh} dataRefresh={dataRefresh} showExtraBenifits={showExtraBenifits} setShowExtraBenefits={setShowExtraBenefits} ></EmployeeDetailsUpdateForm>}
                         </div>
                     </TabPanel>
                 </Tabs>
