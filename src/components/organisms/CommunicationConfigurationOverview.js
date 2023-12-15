@@ -34,11 +34,6 @@ export default function CommunicationConfigurationOverview() {
             field: 'employee_type.name',
             size: '200',
         },
-        {
-            title: 'Language',
-            field: 'language',
-            size: '200',
-        }
     ]
 
     const [headers, setHeaders] = useState(communication_headers);
