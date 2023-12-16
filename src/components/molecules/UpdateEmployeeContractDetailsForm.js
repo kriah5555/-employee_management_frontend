@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import EditIcon from "../../static/icons/edit-dark.svg"
 import CustomButton from "../atoms/CustomButton";
+import { getFormattedDropdownOptions, getFormattedRadioOptions } from "../../utilities/CommonFunctions";
+import RadioInput from "../atoms/formFields/RadioInput";
 
-export default function UpdateEmployeeContractDetailsForm({ data, edit, employeeContractOptions, setEditStatus, setToggleOpen }) {
-    console.log(employeeContractOptions);
-    const [formData, setFormData] = useState({})
+// import getFormattedDropdownOptions from 
+
+export default function UpdateEmployeeContractDetailsForm({ data={}, edit, employeeContractOptions, setEditStatus, setToggleOpen }) {
+    let response = { ...data }
+    const [formData, setFormData] = useState(response)
     const [employeeTypeList, setEmployeeTypeList] = useState([])
     const [employeeType, setEmployeeType] = useState("")
     const [subTypeList, setSubTypeList] = useState([])
@@ -15,6 +19,14 @@ export default function UpdateEmployeeContractDetailsForm({ data, edit, employee
     const [showData, setShowData] = useState(true)
     const [editFunction, setEditFunction] = useState(false)
     const [cardNumber, setCardNumber] = useState("")
+    const [isLongTermContract, setisLongTermContract] = useState(data.long_term)
+
+    let scheduleTypeArray = getFormattedRadioOptions(employeeContractOptions.schedule_types, 'key', 'value')
+    let employementTypeArray = getFormattedRadioOptions(employeeContractOptions.schedule_types, 'key', 'value')
+    let functionData = data.employee_function_details
+    let longtermEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options.employee_types[1], "key", "name")
+    let dayContractEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options.employee_types[2], "key", "name")
+    let subTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.sub_types, "key", "value")
 
     let commonData = [
         { label: "Employee type", value: data.employee_type },
@@ -25,16 +37,41 @@ export default function UpdateEmployeeContractDetailsForm({ data, edit, employee
         { label: "Work days per week", value: data.work_days_per_week }
     ]
 
-    let otherData = [
-        { label: "Function_name", value: data.Function_name },
-        { label: "Minimum salary", value: data.minimum_salary },
-        { label: "Salary to be paid", value: data.salary_to_be_paid },
-    ]
+    useEffect(() => {
+        if (isLongTermContract) {
+            setEmployeeTypeList(longtermEmployeeTypeListArray)
+            setSubTypeList(subTypeListArray)
+            longtermEmployeeTypeListArray.map((val) => {
+                if (val.label == data.employee_type) {
+                    setEmployeeType(val)
+                }
+            })
 
-    let functionData = data.functions
+            subTypeListArray.map((val) => {
+                console.log(val);
+                if (val.label == data.sub_type) {
+                    setSubType(val)
+                }
+            })
+        } else {
+            setEmployeeTypeList(dayContractEmployeeTypeListArray)
+            dayContractEmployeeTypeListArray.map((val) => {
+                if (val.label == data.employee_type) {
+                    setEmployeeType(val)
+                }
+            })
+        }
 
-    const setValues = () => {
+    }, [])
 
+
+    const onRadioSelect = () => {
+
+    }
+
+    const setValues = (index, name, value, field) => {
+        
+    
     }
 
     const onSave = () => {
@@ -42,12 +79,13 @@ export default function UpdateEmployeeContractDetailsForm({ data, edit, employee
     }
 
     let commonDataFieldsArray = [
-        { title: "Employee Type", name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled:true, style: "col-md-6 float-left" },
-        { title: "Sub Type", name: "sub_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled:true, style: "col-md-6 float-left mt-2" },
+        { title: "Employee Type", name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled: true, style: "col-md-6 float-left" },
+        { title: "Sub Type", name: "sub_type", type: "dropdown", options: subTypeList, selectedOptions: subType, required: true, isDisabled: true, style: "col-md-6 float-left mt-2" },
         { title: "Start date", name: "start_date", type: "date", disabled: true, style: "col-md-6 float-left  mt-2" },
-        { title: "End date", name: "employee_type", type: "date", style: "col-md-6 float-left mt-2" },
-        { title: "Weekly contract hours", name: "weekly_hours", type: "text", style: "col-md-6 float-left mt-2" },
+        { title: "End date", name: "end_date", type: "date", disabled: (data.end_date) ? true : false, style: "col-md-6 float-left mt-2" },
+        { title: "Weekly contract hours", name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },
         { title: "Work days per week", name: "work_days_per_week", type: "text", style: "col-md-6 float-left mt-2" },
+        { title: "Schedule type", name: "schedule_type", type: "radio", style: "col-md-6 float-left mt-2" },
     ]
 
     let otherDataFieldsArray = [
@@ -73,14 +111,33 @@ export default function UpdateEmployeeContractDetailsForm({ data, edit, employee
                     OnSave={onSave}
                 >
                 </FormsNew>
+                {isLongTermContract && edit && <div className="col-md-6 ml-4 p-0 d-flex mb-2">
+                    <RadioInput
+                        title={'Schedule type'}
+                        radiobuttonsList={scheduleTypeArray}
+                        changeCheckbox={onRadioSelect}
+                        CustomStyle={'col-md-4'}
+                        selectedOption={""}
+                        type={'schedule_type'}
+                    ></RadioInput>
+                    <RadioInput
+                        title={'Employement type'}
+                        radiobuttonsList={employementTypeArray}
+                        changeCheckbox={onRadioSelect}
+                        CustomStyle={'col-md-4'}
+                        selectedOption={""}
+                        type={'employment_type'}
+                    ></RadioInput>
+                </div>}
             </div>
             }
             <div className=" col-md-12 d-flex flex-wrap">
                 {functionData?.map((val, index) => {
+                    console.log(val.salary);
                     let otherData = [
-                        { label: "Function name", value: val.function_name },
-                        { label: "Minimum salary", value: val.minimum_salary },
-                        { label: "Salary to be paid", value: val.salary_to_be_paid },
+                        { label: "Function name", value: val.function_title },
+                        { label: "Salary", value: val.salary },
+                        { label: "Experience", value: val.experience },// need to add value for this
                     ]
                     return (
                         <div key={index} className={"border mt-2 mr-2 mb-2 function-card font-14"}>

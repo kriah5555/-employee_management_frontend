@@ -66,6 +66,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     error={''}
                                     placeholder={field.placeholder ? field.placeholder : ''}
+                                    disabled={field.disabled}
                                 ></TextInput>
                             )
                         } else if (field.type === 'dropdown') {

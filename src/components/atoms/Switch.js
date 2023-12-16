@@ -17,9 +17,9 @@ export default function Switch({ label, id, checked, lableClick, defaultChecked,
             {!lableClick && < div className={styleClass}>
                 <label className="col-md-3 pl-0 font-weight-bold row mx-0 my-auto justify-content-lg-start align-content-center ">{label}{required && <p className="text-danger my-auto">&nbsp;*</p>}</label>
                 <div className="col-md-1 d-flex justify-content-lg-start align-content-center">
-                    <div class="custom-control custom-switch custom-switch-lg">
+                    <div className="custom-control custom-switch custom-switch-lg">
                         <input type="checkbox" class="custom-control-input" id={id} defaultChecked={defaultChecked} checked={checked} onChange={onChange} onInput={onInput}></input>
-                        <label class="custom-control-label" for={id}></label>
+                        <label className="custom-control-label" htmlFor={id}></label>
                     </div>
                 </div>
             </div>}

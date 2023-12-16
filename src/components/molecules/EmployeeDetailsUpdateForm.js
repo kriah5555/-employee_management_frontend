@@ -43,6 +43,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                     if (result?.success) {
                         let data = result.data
                         setMealVoucherList(getFormattedDropdownOptions(data.meal_vouchers))
+                        //to prefill the meal voucher amount  field based on delected meal voucher
                         setMealVoucherDetails(data.meal_vouchers)
                         setFormData(response)
                         setMealVoucher({ value: 1, label: "Sudexo" })
@@ -234,7 +235,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: mealVoucherList, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", disabled:true, style: "col-md-6 mt-4 float-left" },
     ];
 
     return (
@@ -263,7 +264,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 actionButtons={false}
                 setRefId={setRefId}
             ></FormsNew></div>}
-            {showExtraBenifits && <FormsNew
+            {showExtraBenifits && tab=="tab6" && <FormsNew
                 data={extraBenefitsArray}
                 SetValues={setExtraBenefitsValue}
                 formattedData={formData}

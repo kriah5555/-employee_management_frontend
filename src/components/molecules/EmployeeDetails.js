@@ -12,7 +12,7 @@ import CalendarLayout from "../../utilities/calendar/CalendarLayout";
 import CustomButton from "../atoms/CustomButton";
 import Switch from "../atoms/Switch";
 import AddContractPopup from "./AddContractPopup";
-import { EmployeeApiUrl, EmployeeContractApiUrl , EmployeesContractsApiUrl} from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, EmployeesContractsApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
@@ -41,6 +41,7 @@ export default function EmployeeDetails({ eid }) {
     const [exrtraBenefitsLeftData, setExtraBenefitsLefttdata] = useState([])
     const [exrtraBenefitsRightData, setExtraBenefitsRightdata] = useState([])
     const [extraBenefitsData, setExtraBenefitsData] = useState({})
+    const [activeContracts, setActiveContracts] = useState([])
 
     const TabsData = [
         { tabHeading: ("Personal details"), tabName: 'personal' },
@@ -216,11 +217,10 @@ export default function EmployeeDetails({ eid }) {
                 console.log(error);
             })
 
-            AXIOS.service(EmployeesContractsApiUrl+"/1", 'GET')
+        AXIOS.service(EmployeesContractsApiUrl + "/" + eid, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    // setContracts(result.data)
-                    console.log(result.data);
+                    setActiveContracts(result.data.active_contracts)
                 } else {
                     // setErrors(result.message)
                 }
@@ -229,45 +229,45 @@ export default function EmployeeDetails({ eid }) {
                 console.log(error);
             })
 
-    // }, [])
+        // }, [])
+        // EmployeeExtraBenefitsApiUrl
         // call api and set values 
-        // AXIOS.service(EmployeeExtraBenefitsApiUrl + '/' + eid, 'GET')
-        //     .then((result) => {
-        //         if (result?.success) {
+        AXIOS.service(EmployeeBenefitsApiUrl + '/' + eid, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    // let data = {
+                    //     "fuel_card": "yes",
+                    //     "company_car": "yes",
+                    //     "clothing_compensation": "2000",
+                    //     "meal_voucher_amount": "2000",
+                    //     "meal_voucher_id": "1",
+                    //     "social_secretary_number": "12345678901",
+                    //     "contract_number": "1239872321",
+                    // }
+                    // setExtraBenefitsData(data)
 
-        let data = {
-            "fuel_card": "yes",
-            "company_car": "yes",
-            "clothing_compensation": "2000",
-            "meal_voucher_amount": "2000",
-            "meal_voucher_id": "1",
-            "social_secretary_number": "12345678901",
-            "contract_number": "1239872321",
-        }
-        setExtraBenefitsData(data)
+                    let data_right = [
+                        // { label: 'Social secretary number', value: "12345678901"},
+                        // { label: 'Contact number', value: "1239872321" },
+                    ]
 
-        let data_right = [
-            // { label: 'Social secretary number', value: "12345678901"},
-            // { label: 'Contact number', value: "1239872321" },
-        ]
+                    let data_left = [
+                        { label: 'Social secretary number', value: "12345678901" },
+                        { label: 'Contract number', value: "1239872321" },
+                        { label: 'Company car', value: "yes" },
+                        { label: 'Company fuel card', value: "yes" },
+                        { label: 'Clothing componsation', value: "2000" },
+                        { label: 'Meal voucher', value: "Sudexo" },
+                        { label: 'Meal voucher amount', value: "2000" },
+                    ]
 
-        let data_left = [
-            { label: 'Social secretary number', value: "12345678901" },
-            { label: 'Contract number', value: "1239872321" },
-            { label: 'Company car', value: "yes" },
-            { label: 'Company fuel card', value: "yes" },
-            { label: 'Clothing componsation', value: "2000" },
-            { label: 'Meal voucher', value: "Sudexo" },
-            { label: 'Meal voucher amount', value: "2000" },
-        ]
-
-        setExtraBenefitsLefttdata(data_left)
-        setExtraBenefitsRightdata(data_right)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+                    setExtraBenefitsLefttdata(data_left)
+                    setExtraBenefitsRightdata(data_right)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, [eid, dataRefresh])
 
 
@@ -317,7 +317,7 @@ export default function EmployeeDetails({ eid }) {
                                 <CustomButton buttonName={'Create'} ActionFunction={() => setOpenPopup(true)} CustomStyle="mx-3 mb-2"></CustomButton>
                                 <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" ></Switch>
                             </div>
-                            {contracts.map((contract, index) => {
+                            {activeContracts?.map((contract, index) => {
                                 return (
                                     <div className="border shadow-sm rounded mx-3 px-2 my-2" key={contract.id}>
                                         <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => { setToggleOpen(toggleOpen === contract.id ? "" : contract.id); setEditStatus(false) }}></img></div>
