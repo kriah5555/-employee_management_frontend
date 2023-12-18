@@ -60,7 +60,7 @@ export default function AddCostCenterForm() {
 
     // Fetch options for dropdown
     useEffect(() => {
-        AXIOS.service(CostCenterApiUrl + '/create/1', 'GET')
+        AXIOS.service(CostCenterApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
                     let resp = result.data

@@ -11,8 +11,8 @@ import Dropdown from "../atoms/Dropdown";
 import PlanItem from "./PlanItem";
 import CreatePlanPopup from "./CreatePlanPopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
-import { ToastContainer } from 'react-toastify';
+import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds }) {
@@ -79,7 +79,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     setWeekData(result.data);
                     result.data.map((val, i) => {
                         if (val.employee.length === 0) {
-                            addNewRow(val.workstation_id, result.data)
+                            addNewRow(val.workstation_id, i === 0 ? result.data : [])
                         }
                     })
                 }
@@ -136,7 +136,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
 
     // Function to add new row for adding new employee
     const addNewRow = (wid, weekArrData) => {
-        let week_arr = [...weekData]
+        let week_arr = weekArrData.length === 0 ? [...weekData] : [...weekArrData]
         week_arr.map((data, index) => {
             if (data.workstation_id === wid) {
                 let data_arr = { ...data }
@@ -155,7 +155,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     }
 
     // Function to delete plan row for adding new employee
-    const removeRow = (wid, row_index) => {
+    const removeRow = (wid, row_index, eid) => {
         let week_arr = [...weekData]
         weekData.map((data, index) => {
             if (data.workstation_id === wid) {
@@ -167,6 +167,34 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             }
         })
         setWeekData(week_arr)
+
+        let requestData = {
+            "employee_id": eid,
+            "location_id": locId,
+            "workstation_id": wid,
+            "week": weekNumber,
+            "year": year
+        }
+
+        AXIOS.service(DeleteWeekPlans, 'POST', requestData)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
 
     // Function to return total data element
@@ -182,8 +210,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     }
 
     const openCreatePlanPopup = (eid, date, ws, planData) => {
-        
-        if (eid) { setEmployeeId(eid);setPlanPopup(true); }
+        if (eid) { setEmployeeId(eid); setPlanPopup(true); }
 
         setPlanningDate(date)
         setPlanWid(ws);
@@ -196,12 +223,12 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             planData[date]['planning'].map((val) => {
                 val['start_time'] = val.timings.split(' ')[0]
                 val['end_time'] = val.timings.split(' ')[1]
-
             })
         }
         setPlanningDetails(planData && planData[date] !== undefined ? planData[date]['planning'] : [])
         setUpdatePlan(planData && planData[date] !== undefined ? true : false)
     }
+
 
     return (
         <div className="col-md-12 p-0 text-center">
@@ -256,7 +283,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             </td>}
                                             {/* Employee and plan data rows */}
                                             <td>{ws_employee.employee_name}</td>
-                                            <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id} openCreatePlanPopup={openCreatePlanPopup}></PlanItem>
+                                            <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId} openCreatePlanPopup={openCreatePlanPopup}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
                                                     {ws_employee.total.cost && <small>
@@ -270,7 +297,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>
                                             <td>
-                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index)} src={DeleteIcon}></img>
+                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id)} src={DeleteIcon}></img>
                                             </td>
                                         </tr>
                                     )

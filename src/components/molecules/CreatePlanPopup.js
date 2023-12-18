@@ -7,7 +7,7 @@ import DeleteIcon from "../../static/icons/Delete.svg";
 import AddIcon from "../../static/icons/AddPlusIcon.png";
 import CalendarIcon from "../../static/icons/Calendar.svg";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { GetPlanCreationOptionsUrl, CreatePlanApiUrl } from "../../routes/ApiEndPoints";
+import { GetPlanCreationOptionsUrl, CreatePlanApiUrl, DeleteSinglePlan } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 
 
@@ -107,7 +107,30 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
         setPlanningData(planning_data);
     }
 
-    const AddRemovePlanRow = (val, index) => {
+    const deletePlan = (Pid) => {
+        AXIOS.service(DeleteSinglePlan + Pid, 'DELETE')
+            .then((result) => {
+                if (result?.success) {
+                    setDataRefresh(true);
+                    // setWarningMessage('')
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    const AddRemovePlanRow = (val, index, Pid) => {
         if (val === 'add') {
             let arrData = [...rowArr]
             arrData.push(1);
@@ -116,6 +139,9 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             let arrData = [...rowArr]
             arrData.splice(index, 1);
             setRowArr(arrData);
+            if (Pid !== undefined) {
+                deletePlan(Pid.plan_id)
+            }
         }
 
     }
@@ -196,7 +222,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                                 </div>
                                 <div className="col-md-1 ml-4 px-3 text-center py-4 border">
                                     <img className="shortcut-icon" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
-                                        onClick={() => AddRemovePlanRow(rowArr.length - 1 === index ? 'add' : 'remove', index)}></img>
+                                        onClick={() => AddRemovePlanRow(rowArr.length - 1 === index ? 'add' : 'remove', index, planningData['timings'][index])}></img>
                                 </div>
                                 {/* <div className=" ml-3 px-3 text-center py-4 border">
                                     <img className="shortcut-icon" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
