@@ -36,7 +36,7 @@ export const GetSectorFunctionsApiUrl = BASE_URL + '/masterdata/get-company-link
 export const ResponsiblePersonApiUrl = BASE_URL + '/masterdata/responsible-persons'
 
 export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
-export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contract'
+export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contracts'
 export const EmployeeCommutetApiUrl = BASE_URL + '/masterdata/employee-commute'
 export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
 

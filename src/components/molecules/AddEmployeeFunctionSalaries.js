@@ -214,7 +214,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                             {tabIndex === 3 && <div className="col-md-3">
                                 <div className="row m-0 justify-content-center">
                                     <Dropdown
-                                        options={getFormattedDropdownOptions(options.commute_type_options)}
+                                        options={getFormattedDropdownOptions(options.commute_types)}
                                         selectedOptions={commute[index]}
                                         onSelectFunction={(e) => SetValues(e, 'commute', index)}
                                         CustomStyle="col-md-8 pl-0 float-left"
