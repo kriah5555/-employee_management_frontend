@@ -44,8 +44,18 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         setMealVoucherList(getFormattedDropdownOptions(data.meal_vouchers))
                         //to prefill the meal voucher amount  field based on delected meal voucher
                         setMealVoucherDetails(data.meal_vouchers)
-                        setFormData(response)
-
+                        let benefitsdata = {
+                            "social_secretary_number": response.social_secretary_number,
+                            "contract_number": response.contract_number,
+                            "fuel_card": false,
+                            "company_car": false,
+                            "clothing_compensation": response.benefits.clothing_compensation,
+                            "clothing_size": response.benefits.clothing_size,
+                            "meal_voucher_id": response.benefits.meal_voucher_id,
+                            "clothing_compensation": response.benefits.clothing_compensation_european,
+                            "meal_voucher_amount": response.benefits.meal_voucher.amount_formatted,
+                        }
+                        setFormData(benefitsdata)
                         setMealVoucher(getFormattedDropdownOptions(response.benefits.meal_voucher))
                         YesNoOptions.map((val) => {
                             if (val.value == response.benefits.company_car) {
@@ -178,8 +188,29 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     const onSave = () => {
 
         if (tab == "tab6") {
-
-
+            let url = EmployeeBenefitsApiUrl + "/" + eid
+            AXIOS.service(url, "PUT", formData)
+                .then((result) => {
+                    if (result?.success) {
+                        setDataRefresh(!dataRefresh)
+                        setShowAddress(false)
+                        setShowDetails(false)
+                        setShowExtraBenefits(false)
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         } else {
             let url = EmployeeApiUrl + "/" + eid
             AXIOS.service(url, "PUT", formData)
@@ -188,6 +219,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         setDataRefresh(!dataRefresh)
                         setShowAddress(false)
                         setShowDetails(false)
+                        setShowExtraBenefits(false)
                         toast.success(result.message[0], {
                             position: "top-center",
                             autoClose: 2000,
@@ -240,7 +272,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: mealVoucherList, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", disabled: true, style: "col-md-6 mt-4 float-left" },
     ];

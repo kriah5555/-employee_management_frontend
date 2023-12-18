@@ -174,11 +174,11 @@ export default function EmployeeDetails({ eid }) {
                     let data_left = [
                         { label: 'Social secretary number', value: result.data.social_secretary_number },
                         { label: 'Contract number', value: result.data.contract_number },
-                        { label: 'Company car', value: benefits.company_car?"Yes":"No" },
-                        { label: 'Company fuel card', value: benefits.fuel_card?"Yes":"No" },
-                        { label: 'Clothing componsation', value: benefits.clothing_compensation },
-                        { label: 'Meal voucher', value:benefits.meal_voucher.name },
-                        { label: 'Meal voucher amount', value: benefits.meal_voucher.amount },
+                        { label: 'Company car', value: benefits?.company_car?"Yes":"No" },
+                        { label: 'Company fuel card', value: benefits?.fuel_card?"Yes":"No" },
+                        { label: 'Clothing componsation', value: benefits?.clothing_compensation },
+                        { label: 'Meal voucher', value:benefits?.meal_voucher?.name },
+                        { label: 'Meal voucher amount', value: benefits?.meal_voucher?.amount_formatted },
                     ]
 
                     setExtraBenefitsLefttdata(data_left)
@@ -194,6 +194,18 @@ export default function EmployeeDetails({ eid }) {
     const onChange = () => {
         setPastContracts(!pastContracts)
         setEditStatus(false)
+    }
+
+    const deleteContract=(contractId)=>{
+        AXIOS.service(EmployeeContractApiUrl + "/" + contractId, 'DELETE')
+        .then((result) => {
+            if (result?.success) {
+              setDataRefresh(!dataRefresh)
+            } 
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
 
@@ -251,7 +263,7 @@ export default function EmployeeDetails({ eid }) {
                                         <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => { setToggleOpen(toggleOpen === contract.id ? "" : contract.id); setEditStatus(false) }}></img></div>
                                         {!editStatus && toggleOpen === contract.id && <>
                                             <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>
-                                            <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => console.log()}></img>
+                                            <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => deleteContract(contract.id)}></img>
                                         </>}
                                         {/* {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>} */}
                                         {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm eid={eid} edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen} toggleOpen={toggleOpen} ></UpdateEmployeeContractDetailsForm>}
@@ -287,7 +299,7 @@ export default function EmployeeDetails({ eid }) {
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => { setShowExtraBenefits(true); setShowDetails(false); setShowAddress(false) }}></img>}
-                            {!showExtraBenifits && <EmployeeUpdate tab="tab1" edit={editStatus} setEditStatus={setEditStatus} dataLeft={exrtraBenefitsLeftData} dataRight={exrtraBenefitsRightData} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails}></EmployeeUpdate>}
+                            {!showExtraBenifits && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={exrtraBenefitsLeftData} dataRight={exrtraBenefitsRightData} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails}></EmployeeUpdate>}
                             {showExtraBenifits && <EmployeeDetailsUpdateForm tab="tab6" eid={eid} response={extraBenefitsData} setShowAddress={setShowAddress} setShowDetails={setShowDetails} showAddress={showAddress} showDetails={showDetails} setDataRefresh={setDataRefresh} dataRefresh={dataRefresh} showExtraBenifits={showExtraBenifits} setShowExtraBenefits={setShowExtraBenefits} ></EmployeeDetailsUpdateForm>}
                         </div>
                     </TabPanel>
