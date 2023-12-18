@@ -12,7 +12,7 @@ import CalendarLayout from "../../utilities/calendar/CalendarLayout";
 import CustomButton from "../atoms/CustomButton";
 import Switch from "../atoms/Switch";
 import AddContractPopup from "./AddContractPopup";
-import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, EmployeesContractsApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
@@ -42,6 +42,8 @@ export default function EmployeeDetails({ eid }) {
     const [exrtraBenefitsRightData, setExtraBenefitsRightdata] = useState([])
     const [extraBenefitsData, setExtraBenefitsData] = useState({})
     const [activeContracts, setActiveContracts] = useState([])
+    const [expiredContracts, setExpieredContracts] = useState([])
+    const [pastContracts, setPastContracts] = useState(false)
 
     const TabsData = [
         { tabHeading: ("Personal details"), tabName: 'personal' },
@@ -66,17 +68,6 @@ export default function EmployeeDetails({ eid }) {
         // { label: 'Work days per week', value: '02 days' },
     ]
 
-    const functions = {
-        contract_id: 0,
-        functions: [
-            {
-                function_name: 'chef',
-                min_salary: '22',
-                salary_paid: '20',
-
-            }
-        ]
-    }
     // Employee type data
     const tab3Data = [
         { label: 'Employee type', value: 'Student' },
@@ -94,71 +85,6 @@ export default function EmployeeDetails({ eid }) {
         { label: 'Remaining', value: '60 days' }
     ]
 
-    const contracts = [
-        {
-            id: 0,
-            name: 'Contract 01',
-            employee_type: "student",
-            sub_type: "worker",
-            start_date: "12-12-2023",
-            end_date: "",
-            weekly_contract_hours: "",
-            work_days_per_week: "",
-            functions: [
-                {
-                    'function_name': "chef",
-                    'minimum_salary': "€220.10",
-                    'salary_to_be_paid': "€232.10",
-                },
-                {
-                    'function_name': "Assistant",
-                    'minimum_salary': "€120.10",
-                    'salary_to_be_paid': "€132.10",
-                },
-                {
-                    'function_name': "Assistant",
-                    'minimum_salary': "€120.10",
-                    'salary_to_be_paid': "€132.10",
-                },
-                {
-                    'function_name': "Assistant",
-                    'minimum_salary': "€120.10",
-                    'salary_to_be_paid': "€132.10",
-                    'weekly_contract_hours': "",
-                }
-
-            ],
-            employee_type_options: [
-                { value: "student", label: "Student" },
-                { value: "Long term flex", label: "ltf" },
-                { value: "Long term student", label: "lts" },
-                { value: "Normal employee", label: "ne" }
-            ],
-            functions_options: [
-                { value: "01", label: "Assistant" },
-                { value: "02", label: "Cleaning" },
-                { value: "03", label: "Cooking" },
-            ]
-
-        },
-        {
-            id: 1,
-            name: 'Contract 02',
-            employee_type: "student",
-            sub_type: "servant",
-            start_date: "12-12-2023",
-            end_date: "",
-            weekly_contract_hours: "",
-            work_days_per_week: "",
-            functions: [
-                {
-                    'function_name': "chef",
-                    'minimum_salary': "€220.10",
-                    'salary_to_be_paid': "€232.10",
-                }
-            ]
-        },
-    ]
 
     useEffect(() => {
         AXIOS.service(EmployeeContractApiUrl + '/create', 'GET')
@@ -217,10 +143,12 @@ export default function EmployeeDetails({ eid }) {
                 console.log(error);
             })
 
-        AXIOS.service(EmployeesContractsApiUrl + "/" + eid, 'GET')
+        AXIOS.service(EmployeeContractApiUrl + "/" + eid, 'GET')
             .then((result) => {
                 if (result?.success) {
                     setActiveContracts(result.data.active_contracts)
+                    setExpieredContracts(result.data.expired_contracts)
+
                 } else {
                     // setErrors(result.message)
                 }
@@ -235,16 +163,8 @@ export default function EmployeeDetails({ eid }) {
         AXIOS.service(EmployeeBenefitsApiUrl + '/' + eid, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    // let data = {
-                    //     "fuel_card": "yes",
-                    //     "company_car": "yes",
-                    //     "clothing_compensation": "2000",
-                    //     "meal_voucher_amount": "2000",
-                    //     "meal_voucher_id": "1",
-                    //     "social_secretary_number": "12345678901",
-                    //     "contract_number": "1239872321",
-                    // }
-                    // setExtraBenefitsData(data)
+                   let benefits=result.data.benefits
+                    setExtraBenefitsData(result.data)
 
                     let data_right = [
                         // { label: 'Social secretary number', value: "12345678901"},
@@ -252,13 +172,13 @@ export default function EmployeeDetails({ eid }) {
                     ]
 
                     let data_left = [
-                        { label: 'Social secretary number', value: "12345678901" },
-                        { label: 'Contract number', value: "1239872321" },
-                        { label: 'Company car', value: "yes" },
-                        { label: 'Company fuel card', value: "yes" },
-                        { label: 'Clothing componsation', value: "2000" },
-                        { label: 'Meal voucher', value: "Sudexo" },
-                        { label: 'Meal voucher amount', value: "2000" },
+                        { label: 'Social secretary number', value: result.data.social_secretary_number },
+                        { label: 'Contract number', value: result.data.contract_number },
+                        { label: 'Company car', value: benefits.company_car?"Yes":"No" },
+                        { label: 'Company fuel card', value: benefits.fuel_card?"Yes":"No" },
+                        { label: 'Clothing componsation', value: benefits.clothing_compensation },
+                        { label: 'Meal voucher', value:benefits.meal_voucher.name },
+                        { label: 'Meal voucher amount', value: benefits.meal_voucher.amount },
                     ]
 
                     setExtraBenefitsLefttdata(data_left)
@@ -268,15 +188,23 @@ export default function EmployeeDetails({ eid }) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [eid, dataRefresh])
+    }, [eid, dataRefresh, pastContracts])
+
+    //to handle switch
+    const onChange = () => {
+        setPastContracts(!pastContracts)
+        setEditStatus(false)
+    }
 
 
     return (
         <div>
             {popupOpen && <AddContractPopup
-                onConfirm={() => setOpenPopup(false)}
+                // onConfirm={() => setOpenPopup(false)}
                 onHide={() => setOpenPopup(false)}
                 employeeContractOptions={employeeContractOptions}
+                eid={eid}
+                setOpenPopup={setOpenPopup}
             ></AddContractPopup>}
 
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
@@ -315,9 +243,9 @@ export default function EmployeeDetails({ eid }) {
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             <div className="d-flex">
                                 <CustomButton buttonName={'Create'} ActionFunction={() => setOpenPopup(true)} CustomStyle="mx-3 mb-2"></CustomButton>
-                                <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" ></Switch>
+                                <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" onChange={onChange} ></Switch>
                             </div>
-                            {activeContracts?.map((contract, index) => {
+                            {(pastContracts ? expiredContracts : activeContracts)?.map((contract, index) => {
                                 return (
                                     <div className="border shadow-sm rounded mx-3 px-2 my-2" key={contract.id}>
                                         <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => { setToggleOpen(toggleOpen === contract.id ? "" : contract.id); setEditStatus(false) }}></img></div>
@@ -326,7 +254,7 @@ export default function EmployeeDetails({ eid }) {
                                             <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => console.log()}></img>
                                         </>}
                                         {/* {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>} */}
-                                        {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen}></UpdateEmployeeContractDetailsForm>}
+                                        {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm eid={eid} edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen} toggleOpen={toggleOpen} ></UpdateEmployeeContractDetailsForm>}
                                     </div>
                                 )
                             })}

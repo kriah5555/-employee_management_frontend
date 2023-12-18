@@ -4,11 +4,16 @@ import EditIcon from "../../static/icons/edit-dark.svg"
 import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions, getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 import RadioInput from "../atoms/formFields/RadioInput";
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
+import { toast } from 'react-toastify';
 
 // import getFormattedDropdownOptions from 
 
-export default function UpdateEmployeeContractDetailsForm({ data={}, edit, employeeContractOptions, setEditStatus, setToggleOpen }) {
+export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, employeeContractOptions, setEditStatus, setToggleOpen, toggleOpen }) {
     let response = { ...data }
+    let contractId = data.id
+
     const [formData, setFormData] = useState(response)
     const [employeeTypeList, setEmployeeTypeList] = useState([])
     const [employeeType, setEmployeeType] = useState("")
@@ -20,10 +25,15 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
     const [editFunction, setEditFunction] = useState(false)
     const [cardNumber, setCardNumber] = useState("")
     const [isLongTermContract, setisLongTermContract] = useState(data.long_term)
+    const [selectedScheduleType, setSelectedScheduleType] = useState(response.schedule_type)
+    const [selectedEmploymentType, setSelectedEmploymentType] = useState(response.employment_type)
+    const [functionIndex, setFuncitonIndex] = useState("")
+    const [refresh, setRefresh]= useState(false)
 
     let scheduleTypeArray = getFormattedRadioOptions(employeeContractOptions.schedule_types, 'key', 'value')
-    let employementTypeArray = getFormattedRadioOptions(employeeContractOptions.schedule_types, 'key', 'value')
+    let employementTypeArray = getFormattedRadioOptions(employeeContractOptions.employment_types, 'key', 'value')
     let functionData = data.employee_function_details
+    let functionListArray = getFormattedDropdownOptions(employeeContractOptions.functions, "id", "name")
     let longtermEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options.employee_types[1], "key", "name")
     let dayContractEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options.employee_types[2], "key", "name")
     let subTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.sub_types, "key", "value")
@@ -38,6 +48,7 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
     ]
 
     useEffect(() => {
+        //setting radio options
         if (isLongTermContract) {
             setEmployeeTypeList(longtermEmployeeTypeListArray)
             setSubTypeList(subTypeListArray)
@@ -48,7 +59,6 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
             })
 
             subTypeListArray.map((val) => {
-                console.log(val);
                 if (val.label == data.sub_type) {
                     setSubType(val)
                 }
@@ -62,19 +72,102 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
             })
         }
 
-    }, [])
+        // setting function list from response
+        setFunctionList(functionListArray)
+        //setting schedule type and sub type from response
+        if (response.schedule_type !== undefined && response.schedule_type !== null && response.employment_type !== undefined && response.employment_type !== null) {
+            response.schedule_type == "part_time" ? setSelectedScheduleType(scheduleTypeArray[0].key) : setSelectedScheduleType(scheduleTypeArray[1].key)
+            response.employment_type == 'fixed' ? setSelectedEmploymentType(employementTypeArray[0].key) : setSelectedEmploymentType(employementTypeArray[1].key)
+        }
+
+        setEditStatus(false)
+
+    }, [toggleOpen,eid, refresh])
+
+    useEffect(() => {
+        // set function when loaded
+        functionListArray.map((val) => {
+            if (val.value == response.employee_function_details[functionIndex]?.function_id) {
+                setFunctionName(val)
+            }
+        })
+
+    }, [functionIndex])
 
 
-    const onRadioSelect = () => {
+    const onRadioSelect = (type, key) => {
 
+        if (type === 'schedule_type') {
+            if (key === "part_time") {
+                setSelectedScheduleType(key)
+            } else {
+                setSelectedScheduleType(key)
+            }
+            setFormData((prev) => ({ ...prev, [type]: key }))
+
+        } else {
+            if (key === 'fixed') {
+                setSelectedEmploymentType(key)
+            } else {
+
+                setSelectedEmploymentType(key)
+            }
+            setFormData((prev) => ({ ...prev, [type]: key }))
+
+        }
     }
 
-    const setValues = (index, name, value, field) => {
-        
-    
+    const setValues = (index, name, value, field, functionIndex) => {
+        let newData = { ...formData }
+        if (field !== "dropdown") {
+            if (name === "salary" || name === "experience") {
+                newData['employee_function_details'][functionIndex][name] = value
+            } else {
+                newData[name] = value
+            }
+
+        } else {
+            if (name == "function_id") {
+                newData['employee_function_details'][functionIndex][name] = value.value
+                setFunctionName(value)
+            }
+        }
+        setFormData(newData)
+
     }
 
     const onSave = () => {
+
+        const { employee_function_details, ...contractDetails } = formData
+        data = {
+            "employee_profile_id": eid,
+            "employee_contract_details": contractDetails,
+            "employee_function_details": formData.employee_function_details
+        }
+        let url = EmployeeContractApiUrl + "/" + contractId
+        AXIOS.service(url, "PUT", data)
+            .then((result) => {
+                if (result?.success) {
+                    setRefresh(true)
+                    setEditStatus(false)
+                    setEditFunction(false)
+                    setCardNumber("")
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }
 
@@ -89,9 +182,9 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
     ]
 
     let otherDataFieldsArray = [
-        { title: "Function name", name: "function_name", type: "dropdown", options: functionList, selectedOptions: functionName, required: true, style: "col-md-12 p-0" },
-        { title: "Minimum salary", name: "minimum_salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
-        { title: "Salary to be paid", name: "paid_salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
+        { title: "Function name", name: "function_id", type: "dropdown", options: functionList, selectedOptions: functionName, required: true, style: "col-md-12 p-0" },
+        { title: "Salary", name: "salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
+        { title: "Experience", name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
     ]
     return (
         <div>
@@ -117,7 +210,7 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
                         radiobuttonsList={scheduleTypeArray}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'col-md-4'}
-                        selectedOption={""}
+                        selectedOption={selectedScheduleType}
                         type={'schedule_type'}
                     ></RadioInput>
                     <RadioInput
@@ -125,7 +218,7 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
                         radiobuttonsList={employementTypeArray}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'col-md-4'}
-                        selectedOption={""}
+                        selectedOption={selectedEmploymentType}
                         type={'employment_type'}
                     ></RadioInput>
                 </div>}
@@ -133,7 +226,6 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
             }
             <div className=" col-md-12 d-flex flex-wrap">
                 {functionData?.map((val, index) => {
-                    console.log(val.salary);
                     let otherData = [
                         { label: "Function name", value: val.function_title },
                         { label: "Salary", value: val.salary },
@@ -141,7 +233,7 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
                     ]
                     return (
                         <div key={index} className={"border mt-2 mr-2 mb-2 function-card font-14"}>
-                            {showData && cardNumber !== index && <img className="float-right pr-2 pt-2" src={EditIcon} onClick={() => { setEditFunction(true); setCardNumber(index) }}></img>}
+                            {showData && cardNumber !== index && <img className="float-right pr-2 pt-2" src={EditIcon} onClick={() => { setEditFunction(true); setCardNumber(index); setFuncitonIndex(index) }}></img>}
                             {showData && cardNumber !== index && otherData.map((data, index) => {
                                 return (
                                     <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2"}>
@@ -150,14 +242,26 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
                                     </div>
                                 )
                             })}
-                            {cardNumber == index && editFunction && <FormsNew
-                                view={'filters'}
-                                data={otherDataFieldsArray}
-                                SetValues={setValues}
-                                formattedData={formData}
-                                OnSave={onSave}
-                            >
-                            </FormsNew>}
+                            {cardNumber == index && editFunction && <>
+                                <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
+                                    <label className="col-md-6 mb-1 p-0 text-secondary">"Minimum salary":</label>
+                                    <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.minimumSalary}</p>
+                                </div>
+                                <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2"}>
+                                    <label className="col-md-6 mb-1 p-0 text-secondary">"Type":</label>
+                                    <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.salary}</p>
+                                </div>
+                                <FormsNew
+                                    view={'filters'}
+                                    data={otherDataFieldsArray}
+                                    SetValues={setValues}
+                                    formattedData={formData.employee_function_details[index]}
+                                    OnSave={onSave}
+                                    functionIndex={index}
+                                >
+                                </FormsNew>
+                            </>
+                            }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
                                 <CustomButton buttonName={'ok'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
                                 <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
@@ -166,7 +270,7 @@ export default function UpdateEmployeeContractDetailsForm({ data={}, edit, emplo
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                    <CustomButton buttonName={'save'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
+                   <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>
                     <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >

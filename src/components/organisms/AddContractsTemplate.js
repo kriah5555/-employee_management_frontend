@@ -4,7 +4,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import FormsNew from "../molecules/FormsNew";
-import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl, BASE_URL } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table"
@@ -88,6 +88,20 @@ export default function AddEmailTemplate() {
                 console.log(error);
             })
     }, [])
+
+    // useEffect(() => {
+    //     let editApiUrl = BASE_URL+'/masterdata/convert-pdf-to-html'
+    //     AXIOS.service(editApiUrl, 'POST', file)
+    //         .then((result) => {
+    //             if (result.data) {
+    //                console.log(result);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }, [file.pdf_file_field])
+
 
 
     //api call to get email template details for edit

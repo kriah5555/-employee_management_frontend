@@ -9,7 +9,6 @@ import CustomButton from "../atoms/CustomButton"
 import { toast } from 'react-toastify';
 
 export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, response, redirectURL, setShowAddress, showAddress, setShowDetails, showDetails, setDataRefresh, dataRefresh, tab, showExtraBenifits, setShowExtraBenefits }) {
-
     const [langaugeList, setLangaugeList] = useState([])
     const [maritalStausList, setMaritalStatusList] = useState([])
     const [genderList, setGenderList] = useState([])
@@ -18,7 +17,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     const [gender, setGender] = useState("")
     const [maritalStatus, setMaritalStatus] = useState("")
     const [dependantSpouse, setDependantSpouse] = useState("")
-    const [formData, setFormData] = useState({})
+    const [formData, setFormData] = useState(response.data)
     const [children, setChildren] = useState([]);
     const [fuelCard, setFuelCard] = useState("")
     const [companyCar, setCompanyCar] = useState("")
@@ -46,9 +45,17 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         //to prefill the meal voucher amount  field based on delected meal voucher
                         setMealVoucherDetails(data.meal_vouchers)
                         setFormData(response)
-                        setMealVoucher({ value: 1, label: "Sudexo" })
-                        setCompanyCar({ value: 1, label: "Yes" })
-                        setFuelCard({ value: 1, label: "Yes" })
+
+                        setMealVoucher(getFormattedDropdownOptions(response.benefits.meal_voucher))
+                        YesNoOptions.map((val) => {
+                            if (val.value == response.benefits.company_car) {
+                                setCompanyCar(val)
+                            }
+                            if (val.value == response.benefits.fuel_card) {
+                                setFuelCard(val)
+                            }
+
+                        })
 
                     }
                 })
@@ -235,7 +242,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: mealVoucherList, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", disabled:true, style: "col-md-6 mt-4 float-left" },
+        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", disabled: true, style: "col-md-6 mt-4 float-left" },
     ];
 
     return (
@@ -264,7 +271,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 actionButtons={false}
                 setRefId={setRefId}
             ></FormsNew></div>}
-            {showExtraBenifits && tab=="tab6" && <FormsNew
+            {showExtraBenifits && tab == "tab6" && <FormsNew
                 data={extraBenefitsArray}
                 SetValues={setExtraBenefitsValue}
                 formattedData={formData}

@@ -15,7 +15,7 @@ import FileInput from "../atoms/FileInput";
 import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import TimeInput from "../atoms/TimeInput";
-export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex }) {
+export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex, functionIndex }) {
     const navigate = useNavigate();
     const params = useParams();
     const [multipleHolidayCodeCount, setMultipleHolidayCodeCount] = useState([1]);
@@ -63,7 +63,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     CustomStyle={field.style}
                                     required={field.required}
                                     value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                    setValue={(e) => SetValues(i, field.name, e, field.type)}
+                                    setValue={(e) => SetValues(i, field.name, e, field.type, functionIndex)}
                                     error={''}
                                     placeholder={field.placeholder ? field.placeholder : ''}
                                     disabled={field.disabled}
@@ -75,7 +75,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     key={field.name}
                                     options={field.options}
                                     selectedOptions={field.selectedOptions}
-                                    onSelectFunction={(e) => SetValues(i, field.name, e, field.type)}
+                                    onSelectFunction={(e) => SetValues(i, field.name, e, field.type, functionIndex)}
                                     CustomStyle={field.style}
                                     title={field.title}
                                     required={field.required}

@@ -38,6 +38,25 @@ export default function AddContractPopup(props) {
         }
     )
 
+    const onConfirm = () => {
+        let url = EmployeeContractApiUrl
+        let data = {
+            "employee_profile_id": props.eid,
+            "employee_contract_details": employeeContracts,
+            "employee_function_details": functionSalaries
+        }
+
+        AXIOS.service(url, "POST", data)
+            .then((result) => {
+                if (result?.success) {
+                    props.setOpenPopup(false)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
 
     return (
         <Modal
@@ -82,6 +101,7 @@ export default function AddContractPopup(props) {
                                     functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
                                     functions={functions} setFunctions={setFunctions}
                                     options={props.employeeContractOptions}
+                                    employeeContracts={employeeContracts}
                                 ></AddEmployeeFunctionSalaries>
                             </div>
                         </TabPanel>
@@ -89,9 +109,9 @@ export default function AddContractPopup(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                {props.onConfirm && <Button className='button-style float-left' onClick={() => props.onConfirm()}>
+                 <Button className='button-style float-left' onClick={() =>onConfirm()}>
                     {'Save'}
-                </Button>}
+                </Button>
                 <Button className='button-style' onClick={props.onHide}>
                     {props.buttonName ? (props.buttonName) : ('Cancel')}
                 </Button>
