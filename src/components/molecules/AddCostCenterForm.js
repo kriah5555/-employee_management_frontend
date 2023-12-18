@@ -6,6 +6,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CostCenterApiUrl } from "../../routes/ApiEndPoints"
 import CompanyForm from "../molecules/CompanyForm";
 import CustomButton from "../atoms/CustomButton";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 
 export default function AddCostCenterForm() {
@@ -78,7 +79,7 @@ export default function AddCostCenterForm() {
     useEffect(() => {
         if (costCenterData[0].location_id !== "" && dropdownOptions.workstations) {
             let id = costCenterData[0].location_id;
-            const options = dropdownOptions.workstations[id] || [];
+            const options = getFormattedDropdownOptions(dropdownOptions.workstations[id] || [], 'id', 'workstation_name');
             setWorkstationsOptions(options)
             setWorkstations([])
         }
@@ -126,11 +127,13 @@ export default function AddCostCenterForm() {
         }
     }, [])
 
+    const location_options = getFormattedDropdownOptions(dropdownOptions.locations, 'id', 'location_name');
+
     const costCenterFields = [
         // cost center fields
         { title: 'Name', name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
         { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
-        { title: 'Location', name: 'location_id', required: true, options: dropdownOptions.locations, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Location', name: 'location_id', required: true, options: location_options, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Employees', name: 'employees', required: false, options: dropdownOptions.employees, isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
