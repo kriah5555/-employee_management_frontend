@@ -31,23 +31,6 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [updatePlan, setUpdatePlan] = useState(false)
     const [dataRefresh, setDataRefresh] = useState(false)
 
-    useEffect(() => {
-        let requestData = {
-            "week_number": weekNumber,
-            "year": year
-        }
-        AXIOS.service(GetEmployeeOptionsApiUrl, 'POST', requestData)
-            .then((result) => {
-                if (result?.success) {
-                    setEmployeeList(result.data)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
-
-
     // Dummy data for shifts dropdown
     const shiftOptions = {
         1: [
@@ -64,6 +47,22 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
 
 
     useEffect(() => {
+        let request_Data = {
+            "week_number": weekNumber,
+            "year": year
+        }
+        let employees
+        AXIOS.service(GetEmployeeOptionsApiUrl, 'POST', request_Data)
+            .then((result) => {
+                if (result?.success) {
+                    employees = result.data
+                    setEmployeeList(result.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
         // Setting the weekly plans data
         let requestData = {
             'location': locId,
@@ -76,12 +75,23 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         AXIOS.service(GetWeeklyPlanningApiUrl, 'POST', requestData)
             .then((result) => {
                 if (result?.success) {
-                    setWeekData(result.data);
+                    // setWeekData(result.data);
+                    let arr = []
                     result.data.map((val, i) => {
                         if (val.employee.length === 0) {
-                            addNewRow(val.workstation_id, i === 0 ? result.data : [])
+                            // addNewRow(val.workstation_id, i === 0 ? result.data : [])
+                            val.employee = [{
+                                employee_name: <Dropdown options={employees} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
+                                // employee_id: employeeId,
+                                total: '',
+                                plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
+                            }]
+                            arr.push(val)
+                        } else {
+                            arr.push(val)
                         }
                     })
+                    setWeekData(arr)
                 }
             })
             .catch((error) => {
@@ -156,44 +166,46 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
 
     // Function to delete plan row for adding new employee
     const removeRow = (wid, row_index, eid) => {
-        let week_arr = [...weekData]
-        weekData.map((data, index) => {
-            if (data.workstation_id === wid) {
-                let data_arr = { ...data }
-                let emp_arr = [...data.employee]
-                emp_arr.splice(row_index, 1)
-                data_arr.employee = emp_arr
-                week_arr[index] = data_arr
-            }
-        })
-        setWeekData(week_arr)
-
-        let requestData = {
-            "employee_id": eid,
-            "location_id": locId,
-            "workstation_id": wid,
-            "week": weekNumber,
-            "year": year
-        }
-
-        AXIOS.service(DeleteWeekPlans, 'POST', requestData)
-            .then((result) => {
-                if (result?.success) {
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
+        if (row_index !== 0) {
+            let week_arr = [...weekData]
+            weekData.map((data, index) => {
+                if (data.workstation_id === wid) {
+                    let data_arr = { ...data }
+                    let emp_arr = [...data.employee]
+                    emp_arr.splice(row_index, 1)
+                    data_arr.employee = emp_arr
+                    week_arr[index] = data_arr
                 }
             })
-            .catch((error) => {
-                console.log(error);
-            })
+            setWeekData(week_arr)
+
+            let requestData = {
+                "employee_id": eid,
+                "location_id": locId,
+                "workstation_id": wid,
+                "week": weekNumber,
+                "year": year
+            }
+
+            AXIOS.service(DeleteWeekPlans, 'POST', requestData)
+                .then((result) => {
+                    if (result?.success) {
+                        toast.success(result.message[0], {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
 
     }
 
@@ -244,7 +256,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 pauseOnHover
                 theme="colored"
             />
-            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
+            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
             <table className="table table-bordered mb-0">
                 <thead className="sticky">
                     <tr>

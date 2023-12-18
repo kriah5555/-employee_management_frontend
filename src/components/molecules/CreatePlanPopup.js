@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 
 
 
-export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh }) {
+export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh }) {
 
     const [rowArr, setRowArr] = useState(planData.length > 0 ? planData : [1]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
@@ -111,7 +111,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
         AXIOS.service(DeleteSinglePlan + Pid, 'DELETE')
             .then((result) => {
                 if (result?.success) {
-                    setDataRefresh(true);
+                    setDataRefresh(!dataRefresh);
                     // setWarningMessage('')
                     toast.success(result.message[0], {
                         position: "top-center",
@@ -151,7 +151,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             .then((result) => {
                 if (result?.success) {
                     setPlanPopup(false);
-                    setDataRefresh(true);
+                    setDataRefresh(!dataRefresh);
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
