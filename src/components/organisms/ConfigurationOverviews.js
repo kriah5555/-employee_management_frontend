@@ -154,7 +154,6 @@ export default function ConfigurationOverviews() {
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    console.log(result.data)
                     setListData(result.data);
                 }
             })

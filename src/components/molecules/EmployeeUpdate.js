@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "../atoms/CustomButton";
-
+import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dataRight }) {
 
     // Dummy data of employee details
@@ -101,6 +101,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
                         </div>
                     )
                 })}
+                {/* {tab == "tab2" && <UpdateEmployeeContractDetailsForm data={dataLeft} edit={edit} />} */}
             </div>
             <div className="col-md-6 font-details">
                 {tab === 'tab4' && <h4 className="pl-4 ml-1 pb-2 font-weight-bold">EXT counter</h4>}

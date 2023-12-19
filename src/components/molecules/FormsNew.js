@@ -16,9 +16,7 @@ import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import TimeInput from "../atoms/TimeInput";
 
-
-export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex }) {
-
+export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex, functionIndex }) {
     const navigate = useNavigate();
     const params = useParams();
     const [multipleHolidayCodeCount, setMultipleHolidayCodeCount] = useState([1]);
@@ -66,9 +64,10 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     CustomStyle={field.style}
                                     required={field.required}
                                     value={formattedData !== undefined ? field.name === 'contract_hours' &&  formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : formattedData[field.name] : ''}
-                                    setValue={(e) => SetValues((field.name === 'contract_hours' ? planIndex : i), field.name, e, field.type)}
+                                    setValue={(e) => SetValues((field.name === 'contract_hours' ? planIndex : i), field.name, e, field.type, functionIndex)}
                                     error={''}
                                     placeholder={field.placeholder ? field.placeholder : ''}
+                                    disabled={field.disabled}
                                 ></TextInput>
                             )
                         } else if (field.type === 'dropdown') {
@@ -77,7 +76,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     key={field.name}
                                     options={field.options}
                                     selectedOptions={field.selectedOptions}
-                                    onSelectFunction={(e) => SetValues(i, field.name, e, field.type)}
+                                    onSelectFunction={(e) => SetValues(i, field.name, e, field.type, functionIndex)}
                                     CustomStyle={field.style}
                                     title={field.title}
                                     required={field.required}
@@ -115,18 +114,18 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                             )
                         } else if (field.type === 'text-area') {
                             return (
-                                <>
-                                    <TextArea
-                                        key={field.name}
-                                        title={field.title}
-                                        name={field.name}
-                                        required={field.required}
-                                        CustomStyle={field.style}
-                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                        setValue={(e) => SetValues(i, field.name, e, field.type)}
-                                    ></TextArea>
-                                    {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>}
-                                </>
+                              <div>
+                                  <TextArea
+                                      key={field.name}
+                                      title={field.title}
+                                      name={field.name}
+                                      required={field.required}
+                                      CustomStyle={field.style}
+                                      value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                      setValue={(e) => SetValues(i, field.name, e, field.type)}
+                                  ></TextArea>
+                                  {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>}
+                              </div>
                             )
                         } else if (field.type === 'checkbox') {
                             return (
@@ -151,6 +150,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     setValue={(e) => SetValues(i, field.name, e)}
                                     placeholder={field.placeholder}
                                     isMulti={field.isMulti}
+                                    disabled={field.disabled}
                                 ></DateInput>
                             )
                         } else if (field.type === 'phone_input') {

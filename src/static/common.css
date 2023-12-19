@@ -231,6 +231,10 @@ li,
     font-size: 12px;
 }
 
+.font-14 {
+    font-size: 14px;
+}
+
 .font-inherit {
     font-size: inherit;
 }
@@ -344,7 +348,7 @@ li,
 }
 
 /* Company dropdown*/
-.company-dropdown div{
+.company-dropdown div {
     /* border: 0;
     font-size: 1rem;
     width: 10rem; */
@@ -1046,4 +1050,9 @@ html .ui-button.ui-state-disabled:active {
 
 .popup-tabs div ul li {
     width: 50% !important;
+}
+
+.function-card {
+    width: 22%;
+    padding-left: 10px;
 }
