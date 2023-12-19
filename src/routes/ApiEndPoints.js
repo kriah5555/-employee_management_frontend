@@ -67,6 +67,8 @@ export const GetPlanCreationOptionsUrl = BASE_URL + '/masterdata/get-employee-pl
 export const CreatePlanApiUrl = BASE_URL + '/masterdata/save-plans'
 export const DeleteSinglePlan = BASE_URL + '/masterdata/delete-plan/'
 export const DeleteWeekPlans = BASE_URL + '/masterdata/delete-week-plans'
+export const GetDayPlans = BASE_URL + '/masterdata/planning/get-day-planning'
+export const GetPlanDetails = BASE_URL + '/masterdata/planning-details/'
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';

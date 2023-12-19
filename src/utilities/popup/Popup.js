@@ -11,13 +11,13 @@ const ModalPopup = (props) => {
         <Modal
             show={true}
             onHide={props.onHide}
-            size="sm"
+            size={props.size ? props.size : "sm"}
             className=""
             aria-labelledby="contained-modal-title-vcenter"
             centered
             backdrop={props.backdrop}
         >
-            <Modal.Header>
+            <Modal.Header closeButton={props.close}>
                 <Modal.Title id="contained-modal-title-vcenter">
                     {(props.title)}
                 </Modal.Title>
@@ -32,7 +32,7 @@ const ModalPopup = (props) => {
                 {props.onConfirm && <Button className='button-style float-left' onClick={() => props.onConfirm()}>
                     {'Yes'}
                 </Button>}
-             { props.title !=="Responsible company" && <Button className='button-style' onClick={props.onHide}>
+             { props.title !=="Responsible company" || props.title !=="Plan details"  && <Button className='button-style' onClick={props.onHide}>
                     {props.buttonName ? (props.buttonName) : t('CLOSE')}
                 </Button>}
             </Modal.Footer>

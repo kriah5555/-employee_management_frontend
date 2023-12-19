@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDatesForWeek } from "../../utilities/CommonFunctions";
+import { GetReversedDate, getDatesForWeek } from "../../utilities/CommonFunctions";
 import WorkStationIcon from "../../static/icons/Workstation.svg";
 import { t } from "../../translations/Translation";
 import DeleteIcon from "../../static/icons/Delete.svg";
@@ -13,9 +13,10 @@ import CreatePlanPopup from "./CreatePlanPopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from 'react-toastify';
+import ModalPopup from "../../utilities/popup/Popup";
 
 
-export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds }) {
+export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab }) {
 
     // Const for days
     const days = [t('MONDAY'), t('TUESDAY'), t('WEDNESDAY'), t('THURSDAY'), t('FRIDAY'), t('SATURDAY'), t('SUNDAY')]
@@ -29,7 +30,10 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [planningDetails, setPlanningDetails] = useState([]);
     const [dropDownData, setDropDownData] = useState({});
     const [updatePlan, setUpdatePlan] = useState(false)
-    const [dataRefresh, setDataRefresh] = useState(false)
+    const [dataRefresh, setDataRefresh] = useState(false);
+    const [warningMessage, setWarningMessage] = useState('');
+    const [deleteRequestData, setDeleteRequestData] = useState({});
+
 
     // Dummy data for shifts dropdown
     const shiftOptions = {
@@ -83,6 +87,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                             val.employee = [{
                                 employee_name: <Dropdown options={employees} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
                                 // employee_id: employeeId,
+                                status:true,
                                 total: '',
                                 plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
                             }]
@@ -154,6 +159,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 emp_arr.push({
                     employee_name: <Dropdown options={employeeList} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
                     // employee_id: employeeId,
+                    status:true,
                     total: '',
                     plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
                 })
@@ -164,9 +170,59 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         setWeekData(week_arr)
     }
 
+    const DeleteApiCall = () => {
+        let week_arr = [...weekData]
+        weekData.map((data, index) => {
+            if (data.workstation_id === deleteRequestData.workstation_id) {
+                let data_arr = { ...data }
+                let emp_arr = [...data.employee]
+                emp_arr.splice(deleteRequestData.row_index, 1)
+                data_arr.employee = emp_arr
+                week_arr[index] = data_arr
+            }
+        })
+        setWeekData(week_arr)
+
+        AXIOS.service(DeleteWeekPlans, 'POST', deleteRequestData)
+            .then((result) => {
+                if (result?.success) {
+                    setDataRefresh(!dataRefresh);
+                    setWarningMessage('')
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     // Function to delete plan row for adding new employee
-    const removeRow = (wid, row_index, eid) => {
-        if (row_index !== 0) {
+    const removeRow = (wid, row_index, eid, plans) => {
+        console.log(plans);
+        if (!plans.status) {
+            let requestData = {
+                "employee_id": eid,
+                "location_id": locId,
+                "workstation_id": wid,
+                "week": weekNumber,
+                "year": year,
+                "row_index": row_index,
+            }
+
+            setWarningMessage('Are you sure, you want to delete complete week plans?')
+            setDeleteRequestData(requestData);
+
+        } else if (row_index !== 0) {
+
             let week_arr = [...weekData]
             weekData.map((data, index) => {
                 if (data.workstation_id === wid) {
@@ -179,32 +235,6 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             })
             setWeekData(week_arr)
 
-            let requestData = {
-                "employee_id": eid,
-                "location_id": locId,
-                "workstation_id": wid,
-                "week": weekNumber,
-                "year": year
-            }
-
-            AXIOS.service(DeleteWeekPlans, 'POST', requestData)
-                .then((result) => {
-                    if (result?.success) {
-                        toast.success(result.message[0], {
-                            position: "top-center",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "colored",
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
         }
 
     }
@@ -244,6 +274,12 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
 
     return (
         <div className="col-md-12 p-0 text-center">
+            {warningMessage && <ModalPopup
+                title={('WARNING')}
+                body={(warningMessage)}
+                onConfirm={DeleteApiCall}
+                onHide={() => setWarningMessage('')}
+            ></ModalPopup>}
             <ToastContainer
                 position="top-center"
                 autoClose={2000}
@@ -264,7 +300,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         <th className="py-4">Employees</th>
                         {days.map((val, index) => {
                             return (
-                                <th key={val}>
+                                <th key={val} onClick={() => ChangeTab('day', new Date(GetReversedDate(dates[index])))}>
                                     <div>{val}</div>
                                     <div>{dates[index]}</div>
                                 </th>
@@ -309,7 +345,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>
                                             <td>
-                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id)} src={DeleteIcon}></img>
+                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon}></img>
                                             </td>
                                         </tr>
                                     )
