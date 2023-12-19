@@ -57,7 +57,7 @@ export default function PlanningOverview() {
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState();
-    
+
 
     // Planning overview tab list data
     const TabsData = [
@@ -77,9 +77,9 @@ export default function PlanningOverview() {
                         arr.push(option);
                     })
                     setSelectedLocation(arr.length === 1 ? arr[0] : '');
-                    monthlyData['location'] =arr.length === 1 ? arr[0].value : ''
+                    monthlyData['location'] = arr.length === 1 ? arr[0].value : ''
                     setLocationArr(arr);
-                    setWorkstationArr(arr.length === 1 ? result.data.workstations[arr[0].value].workstations: result.data.workstations);
+                    setWorkstationArr(arr.length === 1 ? result.data.workstations[arr[0].value].workstations : result.data.workstations);
                     setEmployeeTypeArr(result.data.employee_types);
                 }
             })
@@ -89,7 +89,7 @@ export default function PlanningOverview() {
     }, [])
 
     useEffect(() => {
-        let month = {...monthlyData}
+        let month = { ...monthlyData }
         month['month'] = monthNumber + 1
         AXIOS.service(GetMonthlyPlanningApiUrl, 'POST', month)
             .then((result) => {
@@ -250,11 +250,11 @@ export default function PlanningOverview() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} year={year} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
+                        <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="px-3 pb-3"><DayOverview dayDate={dayDate}></DayOverview></div>
+                        <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']}></DayOverview></div>
                     </TabPanel>
 
                 </Tabs>
