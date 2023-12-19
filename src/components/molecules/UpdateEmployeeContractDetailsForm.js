@@ -10,10 +10,10 @@ import { toast } from 'react-toastify';
 
 // import getFormattedDropdownOptions from 
 
-export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, employeeContractOptions, setEditStatus, setToggleOpen, toggleOpen }) {
+export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, employeeContractOptions, setEditStatus, setToggleOpen, toggleOpen, setDataRefresh, dataRefresh }) {
     //creating deep copy
-    const response = {...data}
     const copy = JSON.parse(JSON.stringify(data));
+    const response = JSON.parse(JSON.stringify(data));
     let contractId = data.id
 
     const [formData, setFormData] = useState(response)
@@ -48,6 +48,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         { label: "Weekly contract hours", value: data.weekly_contract_hours },
         { label: "Work days per week", value: data.work_days_per_week }
     ]
+
 
     useEffect(() => {
         //setting radio options
@@ -146,14 +147,16 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             "employee_contract_details": contractDetails,
             "employee_function_details": formData.employee_function_details
         }
+
         let url = EmployeeContractApiUrl + "/" + contractId
         AXIOS.service(url, "PUT", data)
             .then((result) => {
                 if (result?.success) {
-                    setRefresh(true)
+                    setRefresh(!refresh)
                     setEditStatus(false)
                     setEditFunction(false)
                     setCardNumber("")
+                    setDataRefresh(!dataRefresh)
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
@@ -179,20 +182,19 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         setFormData((prev) => {
             let currentDetails = [...prev.employee_function_details]
             currentDetails[index] = oldData
-            setCardNumber(""); setEditFunction(false);
+            // setCardNumber(""); setEditFunction(false);
             return {
                 ...prev, employee_function_details: currentDetails
             }
         })
     }
 
-    // const handleOk = (index) => {
-    //     let data = functionData[index]
-    //     console.log(index, data);
-    //     data.value = formData[index].salary
-    //     functionData[index] = data
-    //     console.log(data);
-    // }
+    const handleOk = (index) => {
+
+        // functionData.replaceformData.employee_function_details[index])
+        setCardNumber(""); setEditFunction(false);
+        setRefresh(!refresh)
+    }
 
     let commonDataFieldsArray = [
         { title: "Employee Type", name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled: true, style: "col-md-6 float-left" },
@@ -286,14 +288,14 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             </>
                             }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
-                                <CustomButton buttonName={'ok'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
-                                <CustomButton buttonName={'Cancel'} ActionFunction={() => reset(index)}></CustomButton>
+                                <CustomButton buttonName={'ok'} ActionFunction={() => { handleOk(index); setCardNumber(""); setEditFunction(false) }}></CustomButton>
+                                <CustomButton buttonName={'Cancel'} ActionFunction={() => {reset(index); setCardNumber(""); setEditFunction(false)}}></CustomButton>
                             </div>}
                         </div>
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                    <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>
+                   {(editFunction|| edit)&&<CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
                     <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >

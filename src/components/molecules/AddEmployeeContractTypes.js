@@ -18,6 +18,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
 
     // Function to set values of employee type
     const setValues = (index, name, value, field) => {
+        console.log(employeeContracts);
         const employeeContractsData = { ...employeeContracts };
         if (field !== 'dropdown') {
             employeeContractsData[name] = value
@@ -27,6 +28,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
 
     const onRadioSelect = (type, key) => {
         if (type === 'emp_type_cat') {
+
             setSelectedEmpTypeCategory(key);
             if (key === 1) {
                 setDisplaySubType(true)
@@ -34,9 +36,11 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                 setDisplaySubType(false)
             }
         } else {
+            console.log(type, key);
             const employeeContractsData = { ...employeeContracts };
             employeeContractsData[type] = key
             setEmployeeContracts(employeeContractsData)
+            // console.log(employeeContractsData);
         }
     }
 
@@ -96,7 +100,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                         view="contracts"
                         formTitle={''}
                         redirectURL={''}
-                        formattedData={[]}
+                        formattedData={employeeContracts}
                         data={ContractDateFields}
                         SetValues={setValues}
                     ></FormsNew>
@@ -106,7 +110,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                         view="contracts"
                         formTitle={''}
                         redirectURL={''}
-                        formattedData={[]}
+                        formattedData={employeeContracts}
                         data={contractFields}
                         SetValues={setValues}
                     ></FormsNew>

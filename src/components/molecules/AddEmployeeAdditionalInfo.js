@@ -16,16 +16,16 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
     ];
 
     const extraBenefitFields = [
-        { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Company fuel card", name: "fuel_card", required: true, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Company car", name: "company_car", required: true, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: getFormattedDropdownOptions(options.meal_vouchers), selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ]
 
     const extraPersonalInfo = [
-        { title: "Id card front", name: "id_card_front", required: false, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: "Id card back", name: "id_card_back", required: false, type: "text-area", style: "col-md-4 mt-4 float-left" },
+        { title: "Id card front", name: "id_card_front", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
+        { title: "Id card back", name: "id_card_back", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
         { title: 'Extra information', name: 'extra_info', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
 
     ]

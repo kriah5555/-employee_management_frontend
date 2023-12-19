@@ -16,7 +16,7 @@ import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, } from 
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
-import { Toast } from "react-bootstrap";
+import { toast } from 'react-toastify';
 
 export default function EmployeeDetails({ eid }) {
 
@@ -202,6 +202,16 @@ export default function EmployeeDetails({ eid }) {
         .then((result) => {
             if (result?.success) {
               setDataRefresh(!dataRefresh)
+              toast.success(result.message[0], {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
             } 
         })
         .catch((error) => {
@@ -269,7 +279,7 @@ export default function EmployeeDetails({ eid }) {
                                             <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => deleteContract(contract.id)}></img>
                                         </>}
                                         {/* {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>} */}
-                                        {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm eid={eid} edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen} toggleOpen={toggleOpen} ></UpdateEmployeeContractDetailsForm>}
+                                        {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm eid={eid} edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen} toggleOpen={toggleOpen} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} ></UpdateEmployeeContractDetailsForm>}
                                     </div>
                                 )
                             })}
