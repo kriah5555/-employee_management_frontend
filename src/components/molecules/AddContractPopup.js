@@ -9,7 +9,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { t } from "../../translations/Translation";
 import CustomButton from "../atoms/CustomButton";
-
+import { Toast } from "react-bootstrap";
 export default function AddContractPopup(props) {
 
     const [displaySubType, setDisplaySubType] = useState(false);
@@ -49,6 +49,7 @@ export default function AddContractPopup(props) {
         AXIOS.service(url, "POST", data)
             .then((result) => {
                 if (result?.success) {
+                    props.setDataRefresh(!props.dataRefresh)
                     props.setOpenPopup(false)
                 }
             })

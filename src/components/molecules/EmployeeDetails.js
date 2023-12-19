@@ -16,6 +16,7 @@ import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, } from 
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
+import { Toast } from "react-bootstrap";
 
 export default function EmployeeDetails({ eid }) {
 
@@ -217,6 +218,8 @@ export default function EmployeeDetails({ eid }) {
                 employeeContractOptions={employeeContractOptions}
                 eid={eid}
                 setOpenPopup={setOpenPopup}
+                setDataRefresh={setDataRefresh}
+                dataRefresh={dataRefresh}
             ></AddContractPopup>}
 
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">

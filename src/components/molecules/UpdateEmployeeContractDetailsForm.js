@@ -5,13 +5,15 @@ import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions, getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 import RadioInput from "../atoms/formFields/RadioInput";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeContractApiUrl, LogoutApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 
 // import getFormattedDropdownOptions from 
 
 export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, employeeContractOptions, setEditStatus, setToggleOpen, toggleOpen }) {
-    let response = { ...data }
+    //creating deep copy
+    const response = {...data}
+    const copy = JSON.parse(JSON.stringify(data));
     let contractId = data.id
 
     const [formData, setFormData] = useState(response)
@@ -28,7 +30,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     const [selectedScheduleType, setSelectedScheduleType] = useState(response.schedule_type)
     const [selectedEmploymentType, setSelectedEmploymentType] = useState(response.employment_type)
     const [functionIndex, setFuncitonIndex] = useState("")
-    const [refresh, setRefresh]= useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     let scheduleTypeArray = getFormattedRadioOptions(employeeContractOptions.schedule_types, 'key', 'value')
     let employementTypeArray = getFormattedRadioOptions(employeeContractOptions.employment_types, 'key', 'value')
@@ -82,7 +84,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
 
         setEditStatus(false)
 
-    }, [toggleOpen,eid, refresh])
+    }, [toggleOpen, eid, refresh])
 
     useEffect(() => {
         // set function when loaded
@@ -170,6 +172,27 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             })
 
     }
+
+    const reset = (index) => {
+
+        let oldData = copy.employee_function_details[index]
+        setFormData((prev) => {
+            let currentDetails = [...prev.employee_function_details]
+            currentDetails[index] = oldData
+            setCardNumber(""); setEditFunction(false);
+            return {
+                ...prev, employee_function_details: currentDetails
+            }
+        })
+    }
+
+    // const handleOk = (index) => {
+    //     let data = functionData[index]
+    //     console.log(index, data);
+    //     data.value = formData[index].salary
+    //     functionData[index] = data
+    //     console.log(data);
+    // }
 
     let commonDataFieldsArray = [
         { title: "Employee Type", name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled: true, style: "col-md-6 float-left" },
@@ -264,13 +287,13 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
                                 <CustomButton buttonName={'ok'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
-                                <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
+                                <CustomButton buttonName={'Cancel'} ActionFunction={() => reset(index)}></CustomButton>
                             </div>}
                         </div>
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                   <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>
+                    <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>
                     <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >
