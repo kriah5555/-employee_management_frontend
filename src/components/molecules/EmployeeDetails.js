@@ -116,7 +116,7 @@ export default function EmployeeDetails({ eid }) {
                         { label: 'Last name', value: result.data.last_name },
                         { label: 'Mobile number', value: result.data.phone_number },
                         { label: 'Email', value: result.data.email },
-                        { label: 'Gender', value: result.data.gender.name },
+                        { label: 'Gender', value: result.data.gender?.name },
                         { label: 'DOB', value: result.data.date_of_birth },
                         { label: 'Place of birth', value: result.data.place_of_birth },
                         { label: 'Nationality', value: result.data.nationality },
@@ -128,7 +128,7 @@ export default function EmployeeDetails({ eid }) {
                         { label: 'Expiry date', value: result.data.license_expiry_date },
                         { label: 'Bank account number', value: result.data.account_number },
                         { label: 'Language', value: result.data.language?.name },
-                        { label: 'Marital status', value: result.data.marital_status.name },
+                        { label: 'Marital status', value: result.data.marital_status?.name },
                         { label: 'Dependant spouse', value: result.data.dependent_spouse?.name },
                         { label: 'Childrens', value: result.data.children },
                     ]
