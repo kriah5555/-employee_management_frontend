@@ -3,6 +3,7 @@ import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
+import DateInput from "../atoms/formFields/DateInput";
 
 export default function CompanyForm({ data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2, formattedData3, addressValues }) {
 
@@ -26,6 +27,21 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                     setValue={(e) => SetValues(index, field.name, e, field.type)}
                                     error={''}
                                 ></TextInput>
+                            )
+                        } else if (field.type === 'date') {
+                            return (
+                                <DateInput
+                                    key={field.name}
+                                    title={field.title}
+                                    name={field.name}
+                                    CustomStyle={"col-md-6 mt-4 float-left"}
+                                    required={field.required}
+                                    value={formattedData1 !== undefined ? formattedData1[field.name] : ''}
+                                    setValue={(e) => SetValues(index, field.name, e, field.type)}
+                                    placeholder={field.placeholder}
+                                    isMulti={field.isMulti}
+                                    disabled={field.disabled}
+                                ></DateInput>
                             )
                         } else if (field.type === 'phone_input') {
                             return (

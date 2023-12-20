@@ -13,6 +13,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
     //     email: "",
     //     phone: "",
     //     rsz_number: "",
+    //     date_of_birth: "",
     //     role: "",
     // }]);
 
@@ -43,6 +44,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                             email: result.data.user_contact_details.email,
                             phone_number: result.data.user_contact_details.phone_number,
                             social_security_number: result.data.social_security_number,
+                            date_of_birth: result.data.user_basic_details.date_of_birth,
                             role: result.data.roles[0]
                         }]
                         setSelectedRole([{ value: result.data.roles[0], label: result.data.roles[0] }]);
@@ -63,6 +65,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                 email: "",
                 phone_number: "",
                 social_security_number: "",
+                date_of_birth: "",
                 role: "",
             }]);
         }
@@ -100,12 +103,14 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
 
     //responsible person fields for company
     const CustomerfieldsData = [
-        { title: "First name", name: "first_name", required: false, type: "input_field" },
-        { title: "Last name", name: "last_name", required: false, type: "input_field" },
-        { title: "Rsz number", name: "social_security_number", required: false, type: "input_field" },
-        { title: "Email", name: "email", required: false, type: "input_field" },
-        { title: "Phone number", name: "phone_number", required: false, type: "phone_input" },
-        { title: "Roles", options: rolesList, isMulti: false, selectedOptions: selectedRole, required: false, type: "dropdown" },
+        { title: "First name", name: "first_name", required: true, type: "input_field" },
+        { title: "Last name", name: "last_name", required: true, type: "input_field" },
+        { title: "Rsz number", name: "social_security_number", required: true, type: "input_field" },
+        { title: "Email", name: "email", required: true, type: "input_field" },
+        { title: "Phone number", name: "phone_number", required: true, type: "phone_input" },
+        { title: "Roles", options: rolesList, isMulti: false, selectedOptions: selectedRole, required: true, type: "dropdown" },
+        { title: "DOB", name: "date_of_birth", required: true, type: "date" },
+
     ];
 
 

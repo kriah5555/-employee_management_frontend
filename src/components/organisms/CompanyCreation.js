@@ -54,6 +54,7 @@ export default function CompanyCreation({ setCompany }) {
         email: "",
         phone_number: "",
         social_security_number: "",
+        date_of_birth: "",
         role: "",
     }]);
 
