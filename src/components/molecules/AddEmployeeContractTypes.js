@@ -18,7 +18,6 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
 
     // Function to set values of employee type
     const setValues = (index, name, value, field) => {
-        console.log(employeeContracts);
         const employeeContractsData = { ...employeeContracts };
         if (field !== 'dropdown') {
             employeeContractsData[name] = value

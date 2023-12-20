@@ -127,10 +127,10 @@ export default function EmployeeDetails({ eid }) {
                         { label: 'Social security number', value: result.data.social_security_number },
                         { label: 'Expiry date', value: result.data.license_expiry_date },
                         { label: 'Bank account number', value: result.data.account_number },
-                        { label: 'Language', value: result.data.language.name },
+                        { label: 'Language', value: result.data.language?.name },
                         { label: 'Marital status', value: result.data.marital_status.name },
-                        { label: 'Dependant spouse', value: result.data.dependent_spouse.name },
-                        { label: 'Children', value: result.data.children },
+                        { label: 'Dependant spouse', value: result.data.dependent_spouse?.name },
+                        { label: 'Childrens', value: result.data.children },
                     ]
                     setDataLeft(data_left);
                     setDataRight(data_right)
@@ -164,7 +164,7 @@ export default function EmployeeDetails({ eid }) {
         AXIOS.service(EmployeeBenefitsApiUrl + '/' + eid, 'GET')
             .then((result) => {
                 if (result?.success) {
-                   let benefits=result.data.benefits
+                    let benefits = result.data.benefits
                     setExtraBenefitsData(result.data)
 
                     let data_right = [
@@ -175,13 +175,12 @@ export default function EmployeeDetails({ eid }) {
                     let data_left = [
                         { label: 'Social secretary number', value: result.data.social_secretary_number },
                         { label: 'Contract number', value: result.data.contract_number },
-                        { label: 'Company car', value: benefits?.company_car?"Yes":"No" },
-                        { label: 'Company fuel card', value: benefits?.fuel_card?"Yes":"No" },
+                        { label: 'Company car', value: benefits?.company_car ? "Yes" : "No" },
+                        { label: 'Company fuel card', value: benefits?.fuel_card ? "Yes" : "No" },
                         { label: 'Clothing componsation', value: benefits?.clothing_compensation },
-                        { label: 'Meal voucher', value:benefits?.meal_voucher?.name },
+                        { label: 'Meal voucher', value: benefits?.meal_voucher?.name },
                         { label: 'Meal voucher amount', value: benefits?.meal_voucher?.amount_formatted },
                     ]
-
                     setExtraBenefitsLefttdata(data_left)
                     setExtraBenefitsRightdata(data_right)
                 }
@@ -197,26 +196,26 @@ export default function EmployeeDetails({ eid }) {
         setEditStatus(false)
     }
 
-    const deleteContract=(contractId)=>{
+    const deleteContract = (contractId) => {
         AXIOS.service(EmployeeContractApiUrl + "/" + contractId, 'DELETE')
-        .then((result) => {
-            if (result?.success) {
-              setDataRefresh(!dataRefresh)
-              toast.success(result.message[0], {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            } 
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+            .then((result) => {
+                if (result?.success) {
+                    setDataRefresh(!dataRefresh)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
 
