@@ -85,7 +85,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
 
         setEditStatus(false)
 
-    }, [toggleOpen, eid, refresh])
+    }, [toggleOpen, eid, refresh, functionData])
 
     useEffect(() => {
         // set function when loaded
@@ -140,7 +140,6 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     }
 
     const onSave = () => {
-
         const { employee_function_details, ...contractDetails } = formData
         data = {
             "employee_profile_id": eid,
@@ -182,7 +181,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         setFormData((prev) => {
             let currentDetails = [...prev.employee_function_details]
             currentDetails[index] = oldData
-            // setCardNumber(""); setEditFunction(false);
+            setCardNumber(""); setEditFunction(false);
             return {
                 ...prev, employee_function_details: currentDetails
             }
@@ -190,8 +189,8 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     }
 
     const handleOk = (index) => {
-
-        // functionData.replaceformData.employee_function_details[index])
+        // formData.employee_function_details
+        // functionData = functionData = [...functionData.slice(0, index), formData.employee_function_details[index], ...functionData.slice(0, index)]
         setCardNumber(""); setEditFunction(false);
         setRefresh(!refresh)
     }
@@ -288,14 +287,14 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             </>
                             }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
-                                <CustomButton buttonName={'ok'} ActionFunction={() => { handleOk(index); setCardNumber(""); setEditFunction(false) }}></CustomButton>
-                                <CustomButton buttonName={'Cancel'} ActionFunction={() => {reset(index); setCardNumber(""); setEditFunction(false)}}></CustomButton>
+                                <CustomButton buttonName={'ok'} ActionFunction={() => handleOk(index)}></CustomButton>
+                                <CustomButton buttonName={'Reset'} ActionFunction={() => reset(index)}></CustomButton>
                             </div>}
                         </div>
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                   {(editFunction|| edit)&&<CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
+                    {(editFunction || edit) && <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
                     <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >
