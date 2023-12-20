@@ -9,7 +9,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { t } from "../../translations/Translation";
 import CustomButton from "../atoms/CustomButton";
-
+import { toast } from 'react-toastify';
 export default function AddContractPopup(props) {
 
     const [displaySubType, setDisplaySubType] = useState(false);
@@ -30,7 +30,7 @@ export default function AddContractPopup(props) {
             "employee_type_id": '',
             "sub_type": "",
             "schedule_type": "",
-            "employement_type": "",
+            "employment_type": "",
             "start_date": "",
             "end_date": "",
             "weekly_contract_hours": "",
@@ -39,6 +39,7 @@ export default function AddContractPopup(props) {
     )
 
     const onConfirm = () => {
+
         let url = EmployeeContractApiUrl
         let data = {
             "employee_profile_id": props.eid,
@@ -49,7 +50,18 @@ export default function AddContractPopup(props) {
         AXIOS.service(url, "POST", data)
             .then((result) => {
                 if (result?.success) {
+                    props.setDataRefresh(!props.dataRefresh)
                     props.setOpenPopup(false)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
                 }
             })
             .catch((error) => {

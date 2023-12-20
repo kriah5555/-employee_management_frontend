@@ -5,13 +5,15 @@ import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions, getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 import RadioInput from "../atoms/formFields/RadioInput";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeContractApiUrl, LogoutApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 
 // import getFormattedDropdownOptions from
 
-export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, employeeContractOptions, setEditStatus, setToggleOpen, toggleOpen }) {
-    let response = { ...data }
+export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, employeeContractOptions, setEditStatus, setToggleOpen, toggleOpen, setDataRefresh, dataRefresh }) {
+    //creating deep copy
+    const copy = JSON.parse(JSON.stringify(data));
+    const response = JSON.parse(JSON.stringify(data));
     let contractId = data.id
 
     const [formData, setFormData] = useState(response)
@@ -28,7 +30,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     const [selectedScheduleType, setSelectedScheduleType] = useState(response.schedule_type)
     const [selectedEmploymentType, setSelectedEmploymentType] = useState(response.employment_type)
     const [functionIndex, setFuncitonIndex] = useState("")
-    const [refresh, setRefresh]= useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     let scheduleTypeArray = getFormattedRadioOptions(employeeContractOptions.schedule_types, 'key', 'value')
     let employementTypeArray = getFormattedRadioOptions(employeeContractOptions.employment_types, 'key', 'value')
@@ -46,6 +48,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         { label: "Weekly contract hours", value: data.weekly_contract_hours },
         { label: "Work days per week", value: data.work_days_per_week }
     ]
+
 
     useEffect(() => {
         //setting radio options
@@ -82,7 +85,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
 
         setEditStatus(false)
 
-    }, [toggleOpen,eid, refresh])
+    }, [toggleOpen, eid, refresh])
 
     useEffect(() => {
         // set function when loaded
@@ -144,14 +147,16 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             "employee_contract_details": contractDetails,
             "employee_function_details": formData.employee_function_details
         }
+
         let url = EmployeeContractApiUrl + "/" + contractId
         AXIOS.service(url, "PUT", data)
             .then((result) => {
                 if (result?.success) {
-                    setRefresh(true)
+                    setRefresh(!refresh)
                     setEditStatus(false)
                     setEditFunction(false)
                     setCardNumber("")
+                    setDataRefresh(!dataRefresh)
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
@@ -169,6 +174,26 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                 console.log(error);
             })
 
+    }
+
+    const reset = (index) => {
+
+        let oldData = copy.employee_function_details[index]
+        setFormData((prev) => {
+            let currentDetails = [...prev.employee_function_details]
+            currentDetails[index] = oldData
+            // setCardNumber(""); setEditFunction(false);
+            return {
+                ...prev, employee_function_details: currentDetails
+            }
+        })
+    }
+
+    const handleOk = (index) => {
+
+        // functionData.replaceformData.employee_function_details[index])
+        setCardNumber(""); setEditFunction(false);
+        setRefresh(!refresh)
     }
 
     let commonDataFieldsArray = [
@@ -263,14 +288,14 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             </>
                             }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
-                                <CustomButton buttonName={'ok'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
-                                <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setEditFunction(false) }}></CustomButton>
+                                <CustomButton buttonName={'ok'} ActionFunction={() => { handleOk(index); setCardNumber(""); setEditFunction(false) }}></CustomButton>
+                                <CustomButton buttonName={'Cancel'} ActionFunction={() => {reset(index); setCardNumber(""); setEditFunction(false)}}></CustomButton>
                             </div>}
                         </div>
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                   <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>
+                   {(editFunction|| edit)&&<CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
                     <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >
