@@ -38,7 +38,8 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     }, [])
 
     const pdfOpen = (data) => {
-        setPdfUrl(data);
+        // setPlanDetails(<div><iframe src={data} width="100%" height="500px" title="PDF Viewer" /></div>)
+        setPlanDetails(<object data={data} type="application/pdf" width="100%" height="500px"></object>)
     }
 
     useEffect(() => {
@@ -47,7 +48,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                 .then((result) => {
                     if (result?.success) {
                         let resp = result.data
-                        let design = pdfUrl === '' ? <div>
+                        let design = <div>
                             <div className="col-md-12 row m-0">
                                 <div className="col-md-6 row m-0">
                                     <label>{"Start time:"}</label>
@@ -75,11 +76,11 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                                 </div>
                             </div>
                             <div className="col-md-12 d-flex justify-content-center">
-                            {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>
-                                {resp.contract ? ('View contract') : resp.start_plan ? ('Start plan') : ('Stop plan')}
-                            </Button>}
+                                {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>
+                                    {resp.contract ? ('View contract') : resp.start_plan ? ('Start plan') : ('Stop plan')}
+                                </Button>}
                             </div>
-                        </div> : <div><iframe src={pdfUrl} width="100%" height="500px" title="PDF Viewer" /></div>
+                        </div>
                         setPlanDetails(design)
                     }
                 })
@@ -98,7 +99,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                 title={('PLAN DETAILS')}
                 body={planDetails}
                 // onConfirm={() => setStartStopPlanPopup('')}
-                onHide={() => setStartStopPlanPopup('')}
+                onHide={() => {setStartStopPlanPopup(''); setPlanDetails('');}}
                 close={true}
             ></ModalPopup>}
             <div className="d-flex justify-content-end col-md-12 mx-auto bg-white px-">
