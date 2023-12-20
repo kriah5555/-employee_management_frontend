@@ -74,7 +74,7 @@ export default function ConfigurationOverviews() {
             size: 200,
         },
     ]
-    // Headers for social secretory
+    // Headers for social secretary
     const social_secretary_headers = [
         {
             title: 'Social secretary',
@@ -87,7 +87,7 @@ export default function ConfigurationOverviews() {
             size: 200,
         }
     ]
-    // Headers for social secretory
+    // Headers for social secretary
     const interim_agencies_headers = [
         {
             title: 'Interim agency',

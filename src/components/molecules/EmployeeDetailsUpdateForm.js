@@ -154,7 +154,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 setLanguage(value);
             } else if (name === 'marital_status_id') {
                 setMaritalStatus(value);
-            } else if (name === 'dependant_spouse') {
+            } else if (name === 'dependent_spouse') {
                 setDependantSpouse(value)
             } else if (name === 'children') {
                 setChildren(value)
@@ -253,7 +253,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: "DOB", name: "date_of_birth", type: "date", required: true, style: "col-md-6 float-left mt-2" },
         { title: "Dependant spouse", name: "dependent_spouse", required: true, options: dependentSpouseList, selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Place of birth", name: "place_of_birth", type: "text", required: false, style: "col-md-6 float-left mt-2" },
-        { title: "Childrens", name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: "Children", name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Nationality", name: "nationality", type: "text", required: true, style: "col-md-6 mt-2 float-left" },
     ]
 
@@ -268,7 +268,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     const YesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }]
 
     const extraBenefitsArray = [
-        { title: "Social secretory number", name: "social_secretary_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Social secretary number", name: "social_secretary_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Company car", name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },

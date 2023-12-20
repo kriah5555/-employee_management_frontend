@@ -129,7 +129,7 @@ export default function EmployeeDetails({ eid }) {
                         { label: 'Language', value: result.data.language.name },
                         { label: 'Marital status', value: result.data.marital_status.name },
                         { label: 'Dependant spouse', value: result.data.dependent_spouse.name },
-                        { label: 'Childrens', value: result.data.children },
+                        { label: 'Children', value: result.data.children },
                     ]
                     setDataLeft(data_left);
                     setDataRight(data_right)
@@ -159,7 +159,7 @@ export default function EmployeeDetails({ eid }) {
 
         // }, [])
         // EmployeeExtraBenefitsApiUrl
-        // call api and set values 
+        // call api and set values
         AXIOS.service(EmployeeBenefitsApiUrl + '/' + eid, 'GET')
             .then((result) => {
                 if (result?.success) {
@@ -201,7 +201,7 @@ export default function EmployeeDetails({ eid }) {
         .then((result) => {
             if (result?.success) {
               setDataRefresh(!dataRefresh)
-            } 
+            }
         })
         .catch((error) => {
             console.log(error);

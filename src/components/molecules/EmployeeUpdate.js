@@ -30,7 +30,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
     //     { label: 'Language', value: 'English' },
     //     { label: 'Marital status', value: 'Married' },
     //     { label: 'Dependant spouse', value: 'Yes' },
-    //     { label: 'Childrens', value: '02' },
+    //     { label: 'Children', value: '02' },
     // ]
 
     // Functions and salary data

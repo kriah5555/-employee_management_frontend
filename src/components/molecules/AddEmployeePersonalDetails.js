@@ -18,7 +18,7 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
 
         { title: "Email", name: "email", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "DOB", name: "date_of_birth", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: "Place of birth", name: "birth_place", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Place of birth", name: "place_of_birth", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
         { title: "Gender", name: "gender_id", required: true, options: getFormattedDropdownOptions(options.genders), selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         // { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
@@ -30,13 +30,13 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
 
         { title: "Country", name: "country", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Nationality", name: "nationality", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Bank account number", name: "bank_account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Bank account number", name: "account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
         { title: "Language", name: "language", required: true, options: getFormattedDropdownOptions(options.languages, 'key', 'value'), selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: 'Marital status', name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(options.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Dependant spouse", name: "dependant_spouse", required: true, options: getFormattedDropdownOptions(options.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        // { title: "Childrens", name: "childrens", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Childrens", name: "childrens", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: "Dependant spouse", name: "dependent_spouse", required: true, options: getFormattedDropdownOptions(options.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        // { title: "Children", name: "children", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Children", name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ];
 
     function formatDate(value) {
@@ -76,9 +76,9 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
                 setLanguage(value);
             } else if (name === 'marital_status_id') {
                 setMaritalStatus(value);
-            } else if (name === 'dependant_spouse') {
+            } else if (name === 'dependent_spouse') {
                 setDependantSpouse(value)
-            } else if (name === 'childrens') {
+            } else if (name === 'children') {
                 setChildren(value)
             }
             employees[name] = value.value

@@ -142,7 +142,7 @@ export default function EmployeeCreation() {
         "postal_code": "",
         "city": "",
         "country": "",
-        "bank_account_number": "",
+        "account_number": "",
         "fuel_card": "",
         "company_car": "",
         "clothing_compensation": "",
