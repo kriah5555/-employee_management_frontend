@@ -92,7 +92,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                 <CustomCheckBox
                                     key={field.name}
                                     title={field.title}
-                                    checked = {addressValues ? addressValues[index]: ''}
+                                    checked={addressValues ? addressValues[index] : ''}
                                     checkboxList={field.checkboxList}
                                     changeCheckbox={(e) => SetValues(index, field.name, e, field.type)}
                                     required={field.required}

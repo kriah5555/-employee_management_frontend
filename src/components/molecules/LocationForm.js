@@ -27,7 +27,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                 if (result?.success) {
                 let options = []
                     result.data.map((val, i) => {
-                        let option = {value: val.id, label: val.user_basic_details.first_name + " " + val.user_basic_details.last_name}
+                        let option = {value: val.id, label: val.full_name}
                         options.push(option);
                     })
                     setUpdateCustomerArr(options);
@@ -45,8 +45,8 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                     if (result?.success) {
                         let response = [];
                         response['location_name'] = result.data.location_name
-                        response['responsiblePerson'] = result.data.responsible_person_details !== null ? [{ value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name }] : []
-                        setResponsiblePerson([result.data.responsible_person_details !== null ? { value: result.data.responsible_person_details.id, label: result.data.responsible_person_details.user_basic_details.first_name + ' ' + result.data.responsible_person_details.user_basic_details.last_name } : ''])
+                        response['responsiblePerson'] = result.data.responsible_person_details !== null ? [{ value: result.data.responsible_person_details.employee_profile_id, label: result.data.responsible_person_details.full_name}] : []
+                        setResponsiblePerson([result.data.responsible_person_details !== null ? { value: result.data.responsible_person_details.employee_profile_id, label: result.data.responsible_person_details.full_name} : ''])
                         response.push(result.data);
                         setLocations(response);
                     }

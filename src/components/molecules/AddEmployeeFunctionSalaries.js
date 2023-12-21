@@ -182,20 +182,20 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     styleMargin={''}
                                 ></Dropdown>
                             </div>
-                            <div className={tabIndex === 3 ? "col-md-3" : "col-md-2"}>
+                            {tabIndex == 2 && <div className="col-md-2">
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
-                                        key={'location' + val}
+                                        key={'experience' + val}
                                         title={''}
                                         name={'experience'}
-                                        CustomStyle={tabIndex === 3 ? "col-md-8 float-left" : "col-md-12 float-left"}
+                                        CustomStyle="col-md-12 float-left"
                                         required={false}
-                                        value={tabIndex === 2 ? functionSalaries[index]['experience'] : locationTransport[index]['distance']}
-                                        setValue={(e) => SetValues(e, (tabIndex === 2 ? 'experience' : 'distance'), index)}
+                                        value={functionSalaries[index]['experience']}
+                                        setValue={(e) => SetValues(e, 'experience', index)}
                                     // error={''}
                                     ></TextInput>
                                 </div>
-                            </div>
+                            </div>}
                             {tabIndex === 2 && <div className="col-md-2">
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
@@ -240,7 +240,21 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     ></Dropdown>
                                 </div>
                             </div>}
-                            
+                            {tabIndex === 3 && <div className="col-md-3">
+                                <div className="row m-0 justify-content-center">
+                                    <TextInput
+                                        key={'location' + val}
+                                        title={''}
+                                        name={'distance'}
+                                        CustomStyle="col-md-8 float-left"
+                                        required={false}
+                                        value={locationTransport[index]['distance']}
+                                        setValue={(e) => SetValues(e, 'distance', index)}
+                                    // error={''}
+                                    ></TextInput>
+                                </div>
+                            </div>
+                            }
                             {index === rows.length - 1 && <div className={tabIndex === 3 ? "col-md-3 text-right pr-4" : "col-md-2 text-right pr-4"}>
                                 {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
                                 {rows.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
