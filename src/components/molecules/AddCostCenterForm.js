@@ -6,6 +6,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { CostCenterApiUrl } from "../../routes/ApiEndPoints"
 import CompanyForm from "../molecules/CompanyForm";
 import CustomButton from "../atoms/CustomButton";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 
 export default function AddCostCenterForm() {
@@ -60,7 +61,7 @@ export default function AddCostCenterForm() {
 
     // Fetch options for dropdown
     useEffect(() => {
-        AXIOS.service(CostCenterApiUrl + '/create/1', 'GET')
+        AXIOS.service(CostCenterApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
                     let resp = result.data
@@ -78,7 +79,7 @@ export default function AddCostCenterForm() {
     useEffect(() => {
         if (costCenterData[0].location_id !== "" && dropdownOptions.workstations) {
             let id = costCenterData[0].location_id;
-            const options = dropdownOptions.workstations[id] || [];
+            const options = getFormattedDropdownOptions(dropdownOptions.workstations[id],"id", "workstation_name") || [];
             setWorkstationsOptions(options)
             setWorkstations([])
         }
@@ -130,9 +131,9 @@ export default function AddCostCenterForm() {
         // cost center fields
         { title: 'Name', name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
         { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
-        { title: 'Location', name: 'location_id', required: true, options: dropdownOptions.locations, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Location', name: 'location_id', required: true, options: getFormattedDropdownOptions(dropdownOptions.locations, "id", "location_name"), isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Employees', name: 'employees', required: false, options: dropdownOptions.employees, isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees,"employee_profile_d", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
