@@ -46,6 +46,14 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             .then((result) => {
                 if (result?.success) {
                     setEmployeeTypeOptions(result.data)
+                    if (result.data.employee_types?.length === 1){
+                        setSelectedEmployeeType(result.data.employee_types[0])
+                        planningData['employee_type_id'] = result.data.employee_types[0].value
+                        if (result.data.functions[result.data.employee_types[0].value]?.length === 1){
+                            setSelectedFunction(result.data.functions[result.data.employee_types[0].value][0])
+                            planningData['function_id'] = result.data.functions[result.data.employee_types[0].value][0].value
+                        }
+                    }
                     // setEmployeeList(result.data)
                 }
             })
