@@ -271,7 +271,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         setUpdatePlan(planData && planData[date] !== undefined ? true : false)
     }
 
-
+console.log(weekData);
     return (
         <div className="col-md-12 p-0 text-center">
             {warningMessage && <ModalPopup

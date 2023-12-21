@@ -79,7 +79,7 @@ export default function AddCostCenterForm() {
     useEffect(() => {
         if (costCenterData[0].location_id !== "" && dropdownOptions.workstations) {
             let id = costCenterData[0].location_id;
-            const options = getFormattedDropdownOptions(dropdownOptions.workstations[id] || [], 'id', 'workstation_name');
+            const options = getFormattedDropdownOptions(dropdownOptions.workstations[id],"id", "workstation_name") || [];
             setWorkstationsOptions(options)
             setWorkstations([])
         }
@@ -133,9 +133,9 @@ export default function AddCostCenterForm() {
         // cost center fields
         { title: 'Name', name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
         { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
-        { title: 'Location', name: 'location_id', required: true, options: location_options, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Location', name: 'location_id', required: true, options: getFormattedDropdownOptions(dropdownOptions.locations, "id", "location_name"), isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Employees', name: 'employees', required: false, options: dropdownOptions.employees, isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees,"employee_profile_d", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
