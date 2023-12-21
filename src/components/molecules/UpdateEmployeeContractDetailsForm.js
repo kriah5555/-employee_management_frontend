@@ -288,7 +288,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
                                 <CustomButton buttonName={'ok'} ActionFunction={() => handleOk(index)}></CustomButton>
-                                <CustomButton buttonName={'Reset'} ActionFunction={() => reset(index)}></CustomButton>
+                                <CustomButton buttonName={'Cancel'} ActionFunction={() => reset(index)}></CustomButton>
                             </div>}
                         </div>
                     )
