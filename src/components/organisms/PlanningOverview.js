@@ -178,6 +178,7 @@ export default function PlanningOverview() {
             const prevDate = new Date(date);
             prevDate.setDate(date.getDate() - 1);
             setDate(prevDate);
+            setDayDate(GetFormattedDate(prevDate, prevDate.getFullYear()))
             setYear(prevDate.getFullYear());
             setDayData(prevDate.getDate() + ' ' + Months[prevDate.getMonth()] + ', ' + prevDate.getFullYear())
 
@@ -195,6 +196,7 @@ export default function PlanningOverview() {
         } else {
             const nextDate = new Date(date);
             nextDate.setDate(date.getDate() + 1);
+            setDayDate(GetFormattedDate(nextDate, nextDate.getFullYear()))
             setDate(nextDate)
             setYear(nextDate.getFullYear());
             setDayData(nextDate.getDate() + ' ' + Months[nextDate.getMonth()] + ', ' + nextDate.getFullYear())

@@ -35,7 +35,6 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                 setDisplaySubType(false)
             }
         } else {
-            console.log(type, key);
             const employeeContractsData = { ...employeeContracts };
             employeeContractsData[type] = key
             setEmployeeContracts(employeeContractsData)

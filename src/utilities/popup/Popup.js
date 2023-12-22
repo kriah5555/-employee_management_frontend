@@ -30,7 +30,7 @@ const ModalPopup = (props) => {
                     {t('YES_DELETE')}
                 </Button>} */}
                 {props.onConfirm && <Button className='button-style float-left' onClick={() => props.onConfirm()}>
-                    {'Yes'}
+                    {props.startplanButton ? props.startplanButton :'Yes'}
                 </Button>}
              { props.title !=="Responsible company" || props.title !=="Plan details"  && <Button className='button-style' onClick={props.onHide}>
                     {props.buttonName ? (props.buttonName) : t('CLOSE')}

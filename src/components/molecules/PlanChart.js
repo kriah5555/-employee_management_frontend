@@ -8,8 +8,6 @@ import { APICALL as AXIOS } from "../../services/AxiosServices";
 
 export default function PlanChart({ Plans, dayDate, year, locId, EmpTypeIds, wsIds, setStartStopPlanPopup, refreshStatus }) {
 
-
-
     // const Plans = [
     //     {
     //         "start_time": "11:00",
@@ -21,16 +19,18 @@ export default function PlanChart({ Plans, dayDate, year, locId, EmpTypeIds, wsI
     //     }
     // ]
 
-    const handleTimelineClick = (e) => {
-        const chart = e.chartWrapper.getChart();
-        const selection = chart.getSelection();
 
-        if (selection.length > 0) {
-            const selectedItem = selection[0];
-            setStartStopPlanPopup(Plans[selectedItem['row'] - 1]['plan_id'])
+    const handleTimelineClick = (e) => {
+        if (e) {
+            const chart = e.chartWrapper.getChart();
+            const selection = chart.getSelection();
+
+            if (selection.length > 0) {
+                const selectedItem = selection[0];
+                setStartStopPlanPopup(Plans[selectedItem['row'] - 1]['plan_id'])
+            }
         }
     };
-
 
 
     const [data, setData] = useState([]);
@@ -38,45 +38,45 @@ export default function PlanChart({ Plans, dayDate, year, locId, EmpTypeIds, wsI
 
     useEffect(() => {
         let day_data = [];
-        if (data.length === 0) {
-            day_data.push(
-                [
-                    { type: "string", id: "President" },
-                    { type: "string", id: "Name" },
-                    { role: "tooltip", type: "string", p: { html: true } },
-                    { type: "date", id: "Start" },
-                    { type: "date", id: "End" }
-                ],
-                [
-                    "Planning time",
-                    "",
-                    "",
-                    new Date(0, 0, 0, 0, 0, 0),
-                    new Date(0, 0, 0, 0, 0, 0)
-                ]
-            )
-
-            Plans.map((plan, index) => {
-                colour.push(plan['leave'] ? "red" : '#169c02')
-                day_data.push([
-                    "Planning time",
-                    plan['workstation_name'],
-                    '<ul class="list-group"><li class="list-group-item">' + t('WORKSTATION') + ':&nbsp' + plan['workstation_name'] + '</li><li class="list-group-item">' + t('PLANNING_TIME') + ':&nbsp' + plan['start_time'] + "-" + plan['end_time'] + '</li></ul>',
-                    new Date(0, 0, 0, plan['start_time'].split(':')[0], plan['start_time'].split(':')[1], 0),
-                    new Date(0, 0, 0, plan['end_time'].split(':')[0], plan['end_time'].split(':')[1], 0),
-                ])
-            })
-
-            day_data.push([
+        // if (data.length === 0) {
+        day_data.push(
+            [
+                { type: "string", id: "President" },
+                { type: "string", id: "Name" },
+                { role: "tooltip", type: "string", p: { html: true } },
+                { type: "date", id: "Start" },
+                { type: "date", id: "End" }
+            ],
+            [
                 "Planning time",
                 "",
                 "",
-                new Date(0, 0, 0, 23, 59, 59),
-                new Date(0, 0, 0, 23, 59, 59)
+                new Date(0, 0, 0, 0, 0, 0),
+                new Date(0, 0, 0, 0, 0, 0)
+            ]
+        )
+
+        Plans.map((plan, index) => {
+            colour.push(plan['leave'] ? "red" : '#169c02')
+            day_data.push([
+                "Planning time",
+                plan['workstation_name'],
+                '<ul class="list-group"><li class="list-group-item">' + t('WORKSTATION') + ':&nbsp' + plan['workstation_name'] + '</li><li class="list-group-item">' + t('PLANNING_TIME') + ':&nbsp' + plan['start_time'] + "-" + plan['end_time'] + '</li></ul>',
+                new Date(0, 0, 0, plan['start_time'].split(':')[0], plan['start_time'].split(':')[1], 0),
+                new Date(0, 0, 0, plan['end_time'].split(':')[0], plan['end_time'].split(':')[1], 0),
             ])
-        }
+        })
+
+        day_data.push([
+            "Planning time",
+            "",
+            "",
+            new Date(0, 0, 0, 23, 59, 59),
+            new Date(0, 0, 0, 23, 59, 59)
+        ])
+        // }
         setData(day_data)
-    }, [refreshStatus])
+    }, [])
 
 
     return (

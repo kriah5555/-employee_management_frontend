@@ -2,23 +2,35 @@ import React, { useEffect, useState } from "react";
 import Legend from "../atoms/Legend";
 import { t } from "../../translations/Translation";
 import PlanChart from "./PlanChart";
-import { GetDayPlans, GetPlanDetails } from "../../routes/ApiEndPoints";
+import { GetDayPlans, GetPlanDetails, GetStartPlanReasonsApiUrl, GetStopPlanReasonsApiUrl, StartPlanApiUrl, StopPlanApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import ModalPopup from "../../utilities/popup/Popup";
 import { Button } from "react-bootstrap";
+import TimeInput from "../atoms/TimeInput";
+import { getFormattedRadioOptions } from "../../utilities/CommonFunctions";
+import RadioInput from "../atoms/formFields/RadioInput";
+import { toast } from "react-toastify";
 
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
 
     const times = ['Employee', '00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
     // const times = ['Employee', "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22"];
+    let current_time = new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' })
 
     const [dayData, setDayData] = useState([]);
     const [startStopPlanPopup, setStartStopPlanPopup] = useState('');
     const [planDetails, setPlanDetails] = useState();
-    const [pdfUrl, setPdfUrl] = useState('');
+    const [startTime, setStartTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
+    const [stopTime, setStopTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
+    const [selectedReason, setSelectedReason] = useState('');
+    const [reasons, setReasons] = useState('');
+    const [reasonStatus, setReasonStatus] = useState(false);
+    const [type, setType] = useState('')
 
     useEffect(() => {
+        setStartStopPlanPopup('')
+        setDayData([]);
         let requestData = {
             "location": locId,
             "workstations": wsIds,
@@ -35,11 +47,38 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }, [dayDate])
+
+
 
     const pdfOpen = (data) => {
         // setPlanDetails(<div><iframe src={data} width="100%" height="500px" title="PDF Viewer" /></div>)
         setPlanDetails(<object data={data} type="application/pdf" width="100%" height="500px"></object>)
+    }
+
+    const onRadioSelect = (type, key) => {
+        setSelectedReason(key);
+    }
+
+    const StartStopPopup = (type) => {
+        setType(type)
+        let ApiUrl = GetStartPlanReasonsApiUrl
+        if (!type) {
+            ApiUrl = GetStopPlanReasonsApiUrl
+        }
+        AXIOS.service(ApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setReasons(result.data);
+                    setReasonStatus(true)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+
+
     }
 
     useEffect(() => {
@@ -75,9 +114,18 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                                     <p className="pl-2">{resp.workstation}</p>
                                 </div>
                             </div>
-                            <div className="col-md-12 d-flex justify-content-center">
-                                {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>
-                                    {resp.contract ? ('View contract') : resp.start_plan ? ('Start plan') : ('Stop plan')}
+                            {resp.activity?.length !== 0 && <div className="col-md-12 pl-4 my-2">
+                                <h5>Activities</h5>
+                                {resp.activity.map((text, i) => {
+                                    return (
+                                        <p key={text}>{text}</p>
+                                    )
+                                })}
+                            </div>}
+                            <div className="col-md-12 mt-2 d-flex justify-content-center">
+                                {resp.contract && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>View contract</Button>}
+                                {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => StartStopPopup(resp.start_plan)}>
+                                    {resp.start_plan ? ('Start plan') : ('Stop plan')}
                                 </Button>}
                             </div>
                         </div>
@@ -91,15 +139,67 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
 
     }, [startStopPlanPopup])
 
+    // Function to start and stop plans
+    const StartStopApiCall = () => {
+        let ApiUrl = type ? StartPlanApiUrl : StopPlanApiUrl
+        let requestData = {
+            "plan_id": startStopPlanPopup,
+            "start_time": startTime,
+            "stop_time": stopTime,
+            "reason_id": selectedReason,
+        }
+        AXIOS.service(ApiUrl, 'POST', requestData)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    setStartStopPlanPopup(''); setPlanDetails(''); setReasonStatus(false);
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
 
     return (
         <div className="col-md-12">
             {startStopPlanPopup !== '' && <ModalPopup
                 size="lg"
-                title={('PLAN DETAILS')}
-                body={planDetails}
-                // onConfirm={() => setStartStopPlanPopup('')}
-                onHide={() => {setStartStopPlanPopup(''); setPlanDetails('');}}
+                title={!reasonStatus ? ('PLAN DETAILS') : type ? 'Start plan' : 'Stop plan'}
+                body={!reasonStatus ? planDetails : <div>
+                    <TimeInput
+                        key={'time'}
+                        title={'Time'}
+                        setTime={(e) => { type ? setStartTime(e) : setStopTime(e) }}
+                        value={type ? startTime : stopTime}
+                        type={'time'}
+                        index={0}
+                        required={true}
+                        customStyle={'col-md-4 pl-4'}
+                    ></TimeInput>
+                    <RadioInput
+                        title={'Reason'}
+                        radiobuttonsList={getFormattedRadioOptions(reasons, 'id', 'name')}
+                        changeCheckbox={onRadioSelect}
+                        CustomStyle={'mt-3'}
+                        selectedOption={selectedReason}
+                        type={'reason'}
+                    ></RadioInput>
+                </div>}
+                onConfirm={reasonStatus && StartStopApiCall}
+                startplanButton={type ? 'Start' : 'Stop'}
+
+                onHide={() => { setStartStopPlanPopup(''); setPlanDetails(''); }}
                 close={true}
             ></ModalPopup>}
             <div className="d-flex justify-content-end col-md-12 mx-auto bg-white px-">

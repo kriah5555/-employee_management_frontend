@@ -70,6 +70,10 @@ export const DeleteSinglePlan = BASE_URL + '/masterdata/delete-plan/'
 export const DeleteWeekPlans = BASE_URL + '/masterdata/delete-week-plans'
 export const GetDayPlans = BASE_URL + '/masterdata/planning/get-day-planning'
 export const GetPlanDetails = BASE_URL + '/masterdata/planning-details/'
+export const GetStartPlanReasonsApiUrl = BASE_URL + '/masterdata/start-plan-reasons'
+export const GetStopPlanReasonsApiUrl = BASE_URL + '/masterdata/stop-plan-reasons'
+export const StartPlanApiUrl = BASE_URL + '/masterdata/start-plan-by-manager'
+export const StopPlanApiUrl = BASE_URL + '/masterdata/stop-plan-by-manager'
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
