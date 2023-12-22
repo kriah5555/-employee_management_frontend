@@ -56,6 +56,7 @@ export const ContractTemplateApiUrl = BASE_URL + '/masterdata/contract-templates
 export const InterimAgencyApiUrl = BASE_URL + '/masterdata/interim-agencies'
 export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsible-companies"
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
+export const HolidayCodeConfigurationApiUrl = BASE_URL + "/masterdata/holiday-code-config"
 
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
