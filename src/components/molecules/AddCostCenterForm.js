@@ -79,7 +79,7 @@ export default function AddCostCenterForm() {
     useEffect(() => {
         if (costCenterData[0].location_id !== "" && dropdownOptions.workstations) {
             let id = costCenterData[0].location_id;
-            const options = getFormattedDropdownOptions(dropdownOptions.workstations[id],"id", "workstation_name") || [];
+            const options = getFormattedDropdownOptions(dropdownOptions.workstations[id], "id", "workstation_name") || [];
             setWorkstationsOptions(options)
             setWorkstations([])
         }
@@ -88,21 +88,22 @@ export default function AddCostCenterForm() {
     // Fetch data of cost center for update
     useEffect(() => {
         if (params.id && params.id != 0) {
-            let editApiUrl = CostCenterApiUrl + '/' + params.id + '/edit'
+            let editApiUrl = CostCenterApiUrl + '/' + params.id
             // Api call to get details from data
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        let response = result.data.details
-                        setLocation(response.location_value)
-                        setWorkstations(response.workstations_value);
+                        let response = result.data
+                        setLocation([{ value: response.location?.['id'], label: response.location?.['location_name'] }])
+                        setWorkstations(getFormattedDropdownOptions(response.workstations, "id", "workstation_name"));
                         let work_stations = []
-                        response.workstations_value.map((val, i) => {
+                        let workstationList = getFormattedDropdownOptions(response.workstations, "id", "workstation_name")
+                        workstationList.map((val, i) => {
                             work_stations.push(val.value)
                         });
-                        setEmployees(response.employees_value)
+                        setEmployees(response?.employees_value||[])
                         let selected_employees = []
-                        response.employees_value.map((val, i) => {
+                        response.employees_value?.map((val, i) => {
                             selected_employees.push(val.value)
                         })
                         let data = [{
@@ -110,7 +111,7 @@ export default function AddCostCenterForm() {
                             "company_id": response.company_id,
                             "cost_center_number": response.cost_center_number,
                             "cost_center_id": response.id,
-                            "location_id": response.location_value.value,
+                            "location_id": response.location?.id,
                             "workstations": work_stations,
                             "employees": selected_employees,
                             "status": response.status,
@@ -135,7 +136,7 @@ export default function AddCostCenterForm() {
         { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
         { title: 'Location', name: 'location_id', required: true, options: getFormattedDropdownOptions(dropdownOptions.locations, "id", "location_name"), isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees,"employee_profile_d", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees, "employee_profile_d", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
