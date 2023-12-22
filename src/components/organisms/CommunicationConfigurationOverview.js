@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmailTemplateApiUrl, ContractTemplateApiUrl } from "../../routes/ApiEndPoints";
+import { EmailTemplateApiUrl, ContractTemplateApiUrl, fetchTranslations } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
+import CustomTable from "../atoms/CustomTable";
 
 export default function CommunicationConfigurationOverview() {
 
@@ -22,6 +23,29 @@ export default function CommunicationConfigurationOverview() {
         {
             title: 'Email templates',
             field: 'template_type',
+            size: 200,
+        },
+    ]
+
+    const translation_headers = [
+        {
+            title: 'String',
+            field: 'key',
+            size: 200,
+        },
+        {
+            title: 'EN',
+            field: 'text.en',
+            size: 200,
+        },
+        {
+            title: 'NL',
+            field: 'text.nl',
+            size: 200,
+        },
+        {
+            title: 'FR',
+            field: 'text.fr',
             size: 200,
         },
 
@@ -69,6 +93,9 @@ export default function CommunicationConfigurationOverview() {
         } else if (overviewContent == 'contracts_template') {
             apiUrl = ContractTemplateApiUrl
             setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');setTableName("contract_template");
+        } else {
+            apiUrl = fetchTranslations
+            setTitle('Manage translations'); setAddTitle('');
         }
         
         // Api call to get list data
@@ -138,6 +165,30 @@ export default function CommunicationConfigurationOverview() {
         }
     }
 
+    // Function to call API on editing the row
+    const UpdateRow = (newData) => {
+
+        AXIOS.service(fetchTranslations + '/' + newData.id, 'PUT', newData)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+
+
     return (
         <div className="right-container">
             <ToastContainer
@@ -168,9 +219,11 @@ export default function CommunicationConfigurationOverview() {
                         </p>}
                     </div>
                 </div>
-                <div className="tablescroll">
+                {overviewContent !== 'translation' && <div className="tablescroll">
                     <Table columns={headers} rows={listData} setRows={setListData} tableName={tableName} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
-                </div>
+                </div>}
+                {overviewContent === 'translation' && <CustomTable title={''} columns={translation_headers} rows={listData} setRows={setListData} tableName={'translation'} height={'calc(100vh - 162px)'} UpdateRow={UpdateRow}></CustomTable>}
+
             </div>
         </div>
 

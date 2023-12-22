@@ -58,6 +58,8 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
         //Search toolbar props
         toolbar: true,
         search: true,
+        searchFieldAlignment: tableName === 'translation' ? 'left' : 'right',
+        searchFieldStyle: tableName === 'translation' ? searchStyle : {},
         // searchFieldAlignment: 'right',
         // searchFieldStyle: searchStyle, //padding: '0px',
 
@@ -109,7 +111,20 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
                 data={rows}
                 isLoading={rows ? false : true}
                 options={options}
-                editable={{
+                editable={tableName === 'translation' ? {
+                    onRowUpdate: (newData, oldData) =>
+                        new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                                const dataUpdate = [...rows];
+                                const index = oldData.tableData.id;
+                                dataUpdate[index] = newData;
+                                setRows([...dataUpdate]);
+                                UpdateRow(newData, oldData.tableData.id)
+
+                                resolve();
+                            }, 1000)
+                        })
+                } : {
                     onRowAdd: newData =>
                         new Promise((resolve, reject) => {
                             setTimeout(() => {

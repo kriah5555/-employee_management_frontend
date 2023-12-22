@@ -10,6 +10,7 @@ import ReasonsIcon from "../static/icons/Reasons.svg";
 import SocialSecretaryIcon from "../static/icons/SocialSecretary.svg";
 import HolidayCodeIcon from "../static/icons/HolidayCode.svg";
 import Email from "../static/icons/EmailTemplate.svg";
+import TranslationIcon from "../static/icons/translate.svg";
 
 import { t } from "../translations/Translation";
 
@@ -37,7 +38,7 @@ export default function Configurations() {
 
     const CommunicationTabs = [
         { title: ('Email templates'), icon: Email, styleClass: subTabStyle, type: 'email' },
-        // { title: ('Translations'), icon: Email, styleClass: subTabStyle, type: 'translation' },
+        { title: ('Translations'), icon: TranslationIcon, styleClass: subTabStyle, type: 'translation' },
         // { title: ('Message '), icon: Email, styleClass: subTabStyle, type: 'message' },
         { title: ('contract templates'), icon: ContractTypeIcon, styleClass: subTabStyle, type: 'contracts_template' },
     ]

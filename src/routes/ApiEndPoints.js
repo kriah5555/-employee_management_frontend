@@ -73,5 +73,5 @@ export const GetPlanDetails = BASE_URL + '/masterdata/planning-details/'
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
-// export const fetchTranslations = BASE_URL + 'translations/fetch-strings';
+export const fetchTranslations = BASE_URL + '/masterdata/translations';
 // export const fetchAllTranslations = BASE_URL + 'translations/get-all-strings';
