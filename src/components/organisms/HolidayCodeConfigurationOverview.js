@@ -22,6 +22,7 @@ export default function HolidayCodeConfigurationOverview() {
     const [deleteUrl, setDeleteUrl] = useState('');
     const [companyList, setCompanyList] = useState([])
     const [selectedCompany, setSelectedCompany] = useState("")
+    const [temp, setTemp] = useState([])
 
     // Header data for Holiday code
     const holiday_code_headers = [
@@ -142,42 +143,13 @@ export default function HolidayCodeConfigurationOverview() {
         }
     }
 
-    const handleCheckBox = (id) => {
-
-        let arr = { ...company }
-        arr.holiday_code_ids.map((val, index) => {
-
-            if (val !== id) {
-                arr.holiday_code_ids.push(val)
-            } else {
-                arr.holiday_code_ids = arr.holiday_code_ids.filter((item) => {
-                    if (id !== item) {
-                        return item
-                    }
-                })
-            }
-
-        })
-
-        setCompany((prev) => ({
-            ...prev, ["holiday_code_ids"]: arr
-        }))
-
-        // listData.map((val, index)=>{
-        //     if(val.checked)
-        // })
-
-        console.log(arr);
-    }
-
     const getCompanyHolidayCodeData = () => {
 
         AXIOS.service(HolidayCodeConfigurationApiUrl + "/" + selectedCompany.value, 'GET')
             .then((result) => {
                 if (result?.success) {
-
-                    console.log(result.data);
                     let arr = []
+                    setTemp(result.data)
                     result.data.map((val, index) => {
                         arr.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
                     })
@@ -190,12 +162,64 @@ export default function HolidayCodeConfigurationOverview() {
             })
     }
 
+    const handleCheckBox = (id) => {
+        let arr = []
+        temp.map((value) => {
+            if (value.holiday_code_id == id) {
+                let data = value
+                data.status = !(value.status)
+                arr.push(data)
+            } else {
+                arr.push(value)
+            }
+        })
+        setTemp(arr)
+        let formattedArray = []
+        arr.map((val, index) => {
+            formattedArray.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
+        })
+        setListData(formattedArray);
+
+        let arr1 = company.holiday_code_ids
+        company.holiday_code_ids.map((val, index) => {
+
+            if (val !== id) {
+                company.holiday_code_ids.push(val)
+            } else {
+                company.holiday_code_ids = arr1.holiday_code_ids.filter((item) => {
+                    if (id !== item) {
+                        return item
+                    }
+                })
+            }
+
+        })
+
+        setCompany((prev) => ({
+            ...prev, ["holiday_code_ids"]: arr1
+        }))
+
+
+    }
+
+
+
     const setValues = (index, name, value, field) => {
         setCompany((prev) => ({ ...prev, ["company_id"]: value.value }))
         setSelectedCompany(value)
     }
 
     const onSave = () => {
+        let url = HolidayCodeConfigurationApiUrl + "/" + selectedCompany.value
+        AXIOS.service(url, "PUT", company)
+            .then((result) => {
+                if (result?.success) {
+                    console.log(result);
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
     }
 

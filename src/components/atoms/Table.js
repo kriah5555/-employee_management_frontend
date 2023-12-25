@@ -13,7 +13,7 @@ import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-u
 
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
-
+// console.log(rows);
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table

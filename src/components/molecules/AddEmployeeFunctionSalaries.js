@@ -19,8 +19,8 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
 
     const TransportationHeaders = [
         { title: 'Location', style: 'col-md-3 pl-3' },
-        { title: 'Commute', style: 'col-md-3 text-center' },
         { title: 'Distance(kms)', style: 'col-md-3 text-center' },
+        { title: 'Commute', style: 'col-md-3 text-center' },
         { title: 'Actions', style: 'col-md-3 text-right pr-5' },
     ]
 
