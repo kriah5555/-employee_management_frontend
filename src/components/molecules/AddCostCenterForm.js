@@ -101,7 +101,7 @@ export default function AddCostCenterForm() {
                         workstationList.map((val, i) => {
                             work_stations.push(val.value)
                         });
-                        setEmployees(response?.employees_value||[])
+                        setEmployees(response?.employees?.employees||[])
                         let selected_employees = []
                         response.employees_value?.map((val, i) => {
                             selected_employees.push(val.value)
@@ -136,7 +136,7 @@ export default function AddCostCenterForm() {
         { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
         { title: 'Location', name: 'location_id', required: true, options: getFormattedDropdownOptions(dropdownOptions.locations, "id", "location_name"), isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees, "employee_profile_d", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees, "employee_profile_id", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
@@ -217,7 +217,7 @@ export default function AddCostCenterForm() {
             ></ErrorPopup>}
             <CompanyForm
                 data1={costCenterFields}
-                formattedData1={costCenterData}
+                formattedData1={costCenterData[0]}
                 SetValues={setValues}
                 index={0}
             ></CompanyForm>
