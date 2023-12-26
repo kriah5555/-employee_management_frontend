@@ -12,6 +12,7 @@ import FormsNew from "../molecules/FormsNew";
 import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
+
 export default function HolidayCodeConfigurationOverview() {
 
     const navigate = useNavigate();
@@ -20,9 +21,9 @@ export default function HolidayCodeConfigurationOverview() {
     const [dataRefresh, setDataRefresh] = useState(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteUrl, setDeleteUrl] = useState('');
-    const [companyList, setCompanyList] = useState([])
-    const [selectedCompany, setSelectedCompany] = useState("")
-    const [temp, setTemp] = useState([])
+    const [companyList, setCompanyList] = useState([]);
+    const [selectedCompany, setSelectedCompany] = useState("");
+    const [temp, setTemp] = useState([]);
 
     // Header data for Holiday code
     const holiday_code_headers = [
@@ -99,7 +100,6 @@ export default function HolidayCodeConfigurationOverview() {
             .catch((error) => {
                 console.log(error);
             })
-
     }, [overviewContent, dataRefresh])
 
 
@@ -142,19 +142,18 @@ export default function HolidayCodeConfigurationOverview() {
 
         }
     }
-
+    // function to call linked holiday codes of selected company
     const getCompanyHolidayCodeData = () => {
-
         AXIOS.service(HolidayCodeConfigurationApiUrl + "/" + selectedCompany.value, 'GET')
             .then((result) => {
                 if (result?.success) {
+                    //here temp act as previous state to compare status on when check box changed, its used in handle checkbox
+                    setTemp(result.data);
                     let arr = []
-                    setTemp(result.data)
                     result.data.map((val, index) => {
-                        arr.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
-                    })
+                        arr.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox key={index} checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
+                    });
                     setListData(arr);
-
                 }
             })
             .catch((error) => {
@@ -163,45 +162,37 @@ export default function HolidayCodeConfigurationOverview() {
     }
 
     const handleCheckBox = (id) => {
-        let arr = []
-        temp.map((value) => {
-            if (value.holiday_code_id == id) {
-                let data = value
-                data.status = !(value.status)
-                arr.push(data)
-            } else {
-                arr.push(value)
-            }
-        })
-        setTemp(arr)
-        let formattedArray = []
-        arr.map((val, index) => {
-            formattedArray.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
-        })
-        setListData(formattedArray);
+        setTemp((prevTemp) => {
+            let arr = [];
+            prevTemp.forEach((value) => {
+                if (value.holiday_code_id === id) {
+                    let data = { ...value, status: !value.status };
+                    arr.push(data);
+                } else {
+                    arr.push(value);
+                }
+            });
 
-        let arr1 = company.holiday_code_ids
-        company.holiday_code_ids.map((val, index) => {
+            // Rest of your code to update the listData and setCompany...
+            let formattedArray = []
+            arr.map((val, index) => {
+                formattedArray.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox key={index} checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
+            })
+            setListData(formattedArray);
+            //setting holiday code ids array for payload
+            let arr1 = []
+            arr.map((val) => {
 
-            if (val !== id) {
-                company.holiday_code_ids.push(val)
-            } else {
-                company.holiday_code_ids = arr1.holiday_code_ids.filter((item) => {
-                    if (id !== item) {
-                        return item
-                    }
-                })
-            }
-
-        })
-
-        setCompany((prev) => ({
-            ...prev, ["holiday_code_ids"]: arr1
-        }))
-
-
-    }
-
+                if (val.status == true) {
+                    arr1.push(val.holiday_code_id)
+                }
+            })
+            setCompany((prev) => ({
+                ...prev, ["holiday_code_ids"]: arr1
+            }))
+            return arr;
+        });
+    };
 
 
     const setValues = (index, name, value, field) => {
@@ -214,7 +205,16 @@ export default function HolidayCodeConfigurationOverview() {
         AXIOS.service(url, "PUT", company)
             .then((result) => {
                 if (result?.success) {
-                    console.log(result);
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
                 }
             })
             .catch((error) => {
@@ -223,10 +223,8 @@ export default function HolidayCodeConfigurationOverview() {
 
     }
 
-
-
-
-    const filterDataFields = [
+    //
+    const companyDropdownFields = [
         { title: "Select company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-12 float-left" },
     ]
 
@@ -268,7 +266,7 @@ export default function HolidayCodeConfigurationOverview() {
                                     view="filters"
                                     formTitle={''}
                                     formattedData={company}
-                                    data={filterDataFields}
+                                    data={companyDropdownFields}
                                     SetValues={setValues}
                                 ></FormsNew>
                             </div>
@@ -277,7 +275,7 @@ export default function HolidayCodeConfigurationOverview() {
                             </div>
                         </div>
                     </div>}
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "holiday_code_configuration" ? "tokens" : 'function'} viewAction={"viewAction"} height={overviewContent == "holiday_code_configuration" ? 'calc(100vh - 362px)' : 'calc(100vh - 162px)'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "holiday_code_configuration" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? 'calc(100vh - 362px)' : 'calc(100vh - 162px)'} ></Table>
                     {overviewContent === "holiday_code_configuration" && <div className={"col-md-12 mb-3 text-right pr-5 mt-2"}>
                         <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
                         <CustomButton buttonName={'Back'} ActionFunction={() => navigate("/configurations")} CustomStyle="mr-3"></CustomButton>
