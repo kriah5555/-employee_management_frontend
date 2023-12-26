@@ -70,16 +70,10 @@ export default function PlanningOverview() {
         AXIOS.service(FilterOptionsApiUrl, 'POST')
             .then((result) => {
                 if (result?.success) {
-                    let locations = Object.entries(result.data.locations)
-                    let arr = []
-                    locations.map((val, i) => {
-                        let option = { value: val[0], label: val[1] }
-                        arr.push(option);
-                    })
-                    setSelectedLocation(arr.length === 1 ? arr[0] : '');
-                    monthlyData['location'] = arr.length === 1 ? arr[0].value : ''
-                    setLocationArr(arr);
-                    setWorkstationArr(arr.length === 1 ? result.data.workstations[arr[0].value].workstations : result.data.workstations);
+                    setSelectedLocation(result.data.locations?.length === 1 ? result.data.locations[0] : '');
+                    monthlyData['location'] = result.data.locations?.length === 1 ? result.data.locations[0].value : ''
+                    setLocationArr(result.data.locations);
+                    setWorkstationArr(result.data.locations?.length === 1 ? result.data.workstations[result.data.locations[0].value] : result.data.workstations);
                     setEmployeeTypeArr(result.data.employee_types);
                 }
             })
@@ -115,7 +109,7 @@ export default function PlanningOverview() {
     // Filter fields data
     const filterData = [
         { title: 'Location', name: 'location', required: true, options: locationArr, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-4 float-left" },
-        { title: 'Workstation', name: 'workstation', required: false, options: selectedLocation.value && workstationArr[selectedLocation.value] !== undefined ? workstationArr[selectedLocation.value].workstations : workstationArr, selectedOptions: selectedWorkstation, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
+        { title: 'Workstation', name: 'workstation', required: false, options: selectedLocation.value && workstationArr[selectedLocation.value] !== undefined ? workstationArr[selectedLocation.value] : workstationArr, selectedOptions: selectedWorkstation, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
         { title: 'Employee type', name: 'employee_type', required: false, options: employeeTypeArr, selectedOptions: selectedEmployeeType, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
     ]
 
