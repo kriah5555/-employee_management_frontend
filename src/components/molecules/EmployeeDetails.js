@@ -148,6 +148,7 @@ export default function EmployeeDetails({ eid }) {
             .then((result) => {
                 if (result?.success) {
                     setActiveContracts(result.data.active_contracts)
+                    setToggleOpen(result.data.active_contracts[0]?.id)
                     setExpieredContracts(result.data.expired_contracts)
 
                 } else {

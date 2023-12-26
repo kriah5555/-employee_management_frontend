@@ -60,7 +60,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                 <Dropdown
                                     key={field.name}
                                     options={field.options}
-                                    selectedOptions={field.selectedOptions[index]}
+                                    selectedOptions={field.name === 'sector' ? field.selectedOptions : field.selectedOptions[index]}
                                     onSelectFunction={(e) => SetValues(index, field.name, e, field.type)}
                                     CustomStyle="col-md-6 mt-2 float-left"
                                     title={field.title}

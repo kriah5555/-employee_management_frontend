@@ -77,6 +77,21 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
         setCustomers(newCustomer);
     }
 
+    function formatDate(value) {
+
+        const firstSixDigits = value.toString().replace(/[^\d]/g, '').slice(0, 6);
+        // Check if the extracted 6 digits are not digits
+        if (!/^\d+$/.test(firstSixDigits)) {
+            return ""; // Return an empty string if not digits
+        }
+
+        const yy = firstSixDigits.slice(0, 2);
+        const xx = yy >= 23 ? '19' : '20';
+        const formattedDate = `${firstSixDigits.slice(4, 6)}-${firstSixDigits.slice(2, 4)}-${xx}${yy}`;
+        return formattedDate;
+
+    }
+
     const setValues = (index, name, value, field) => {
         const customer_arr = [...customers]
         if (field === 'address') {
@@ -88,6 +103,9 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
             } else if (name === 'social_security_number') {
                 if (value.length <= 15) {
                     customer_arr[index][name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+                }
+                if (value.length >= 8) {
+                    customer_arr[index]["date_of_birth"] = formatDate(value)
                 }
             } else {
                 customer_arr[index][name] = value
