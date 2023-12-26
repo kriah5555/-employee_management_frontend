@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LocationIcon from "../static/icons/Location.svg";
 import CalendarIcon from "../static/icons/UurroosterCalendar.svg";
 import QrcodeIcon from "../static/icons/UurroosterQrcode.svg";
@@ -8,6 +8,12 @@ import RedIcon from "../static/icons/RedDot.svg";
 import LeftArrowIcon from "../static/icons/LeftArrow.png";
 import RightArrowIcon from "../static/icons/RightArrow.png";
 import Dropdown from "../components/atoms/Dropdown";
+
+import { APICALL as AXIOS } from "../services/AxiosServices";
+import { LocationApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
+import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
+import { GetFormattedDate, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
+import QRCode from "react-qr-code";
 
 
 export default function Uurrooster() {
@@ -21,32 +27,171 @@ export default function Uurrooster() {
         { label: 'End work', colSpan: 3 },
         { label: 'Total', colSpan: 0 },
     ]
-    // ['ws', 'Employee', 'Function', 'Start work', 'Pause', 'End work', 'Total']
 
-    const body_arr = [
-        ['', '', '', 'Planning', 'Started', 'Dimona', '', 'Planning', 'Stopped', 'Dimona', 'Cost'],
-        ['Kitchen', 'Alain provist', 'Chef', '10:00', '10:01', 'Green', '13:30-14:30', '18:00', '18:45', 'Green', ''],
-        ['Zaal', 'Robin', 'Chef', '10:00', '10:01', 'Green', '13:30-14:30', '18:00', '18:45', 'Green', ''],
-    ]
+    const [planData, setPlanData] = useState([]);
+
+    const [locations, setLocations] = useState([]);
+    const [selectedLoc, setSelectedLoc] = useState();
+    const [qrcode, setQrcode] = useState('');
+    const currentDate = new Date();
+
+    const Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
+    const [date, setDate] = useState(new Date());
+    const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
+
+    useEffect(() => {
+        AXIOS.service(LocationApiUrl, 'GET')
+            .then((res) => {
+                setLocations(getFormattedDropdownOptions(res.data, 'id', 'location_name'))
+                setSelectedLoc({ value: res.data?.[0]?.id, label: res.data?.[0]?.location_name })
+                let uurroosterData = [
+                    {
+                        'workstation_name': '',
+                        'employee_name': '',
+                        'function_name': '',
+                        'plan_start': 'Planning',
+                        'start_time': 'Started',
+                        'dimona_start': 'Dimona',
+                        'pause': '',
+                        'plan_end': 'Planning',
+                        'end_time': 'Stopped',
+                        'dimona_end': 'Dimona',
+                        'cost': 'Cost'
+                    }
+                ]
+                setPlanData(uurroosterData)
+            })
+    }, [])
+
+    useEffect(() => {
+        let data = {
+            "location_id": selectedLoc?.value,
+            "date": dayDate
+        }
+
+        AXIOS.service(UurroosterApiUrl, 'POST', data)
+            .then((result) => {
+                if (result.success) {
+                    let uurroosterData = [
+                        {
+                            'workstation_name': '',
+                            'employee_name': '',
+                            'function_name': '',
+                            'plan_start': 'Planning',
+                            'start_time': 'Started',
+                            'dimona_start': 'Dimona',
+                            'pause': '',
+                            'plan_end': 'Planning',
+                            'end_time': 'Stopped',
+                            'dimona_end': 'Dimona',
+                            'cost': 'Cost'
+                        }
+                    ]
+                    let resp = result.data
+                    setQrcode(resp.qr_token);
+                    resp.planning_data.map((val, i) => {
+                        // let obj = {}
+                        // obj['workstation_name'] = val.workstation_name
+                        // val.plannings.map((arr_data, i) => {
+                        // obj['employee_name'] = arr_data?.employee_name
+                        // obj['function_name'] = arr_data?.function_name
+                        // obj['plan_start'] = arr_data?.start_time
+                        // obj['start_time'] = arr_data?.actual_start_timings[0]
+                        // obj['dimona_start'] = arr_data?.start_dimona_status[0]
+                        // obj['pause'] = arr_data?.break_timings[0]
+                        // obj['plan_end'] = arr_data?.end_time
+                        // obj['end_time'] = arr_data?.actual_end_timings[0]
+                        // obj['dimona_end'] = arr_data?.end_dimona_status[0]
+                        // obj['cost'] = arr_data?.cost
+                        // uurroosterData.push(obj);
+                        // })
+
+                        val.plannings.map((arr_data, i) => {
+                            if (arr_data?.actual_start_timings?.length >= 1) {
+                                arr_data?.actual_start_timings.map((value, j) => {
+                                    if (j === 0) {
+                                        let extra_obj = {
+                                            'workstation_name': i == 0 ? val.workstation_name : '',
+                                            'employee_name': j === 0 ? arr_data?.employee_name : '',
+                                            'function': j === 0 ? arr_data?.function_name : '',
+                                            'plan_start': j === 0 ? arr_data?.start_time : '',
+                                            'start_time': arr_data?.actual_start_timings[j],
+                                            'dimona_start': arr_data?.start_dimona_status[j],
+                                            'pause': arr_data?.break_timings[j],
+                                            'plan_end': j === 0 ? arr_data?.end_time : '',
+                                            'end_time': arr_data?.actual_end_timings[j],
+                                            'dimona_end': arr_data?.end_dimona_status[j],
+                                            'cost': j === 0 ? arr_data?.cost : ''
+                                        }
+                                        uurroosterData.push(extra_obj);
+                                    }
+                                })
+                            } else {
+                                let extra_obj = {
+                                    'workstation_name': val.workstation_name,
+                                    'employee_name': arr_data?.employee_name,
+                                    'function_name': arr_data?.function_name,
+                                    'plan_start': '',
+                                    'start_time': '',
+                                    'dimona_start': '',
+                                    'pause': '',
+                                    'plan_end': '',
+                                    'end_time': '',
+                                    'dimona_end': '',
+                                    'cost': ''
+                                }
+                                uurroosterData.push(extra_obj);
+
+                            }
+                        })
+
+                    })
+                    setPlanData(uurroosterData)
+                }
+            })
+    }, [dayDate, selectedLoc])
+
+
+    // Next or previous arrow action
+    const setNextPrev = (type) => {
+        if (type === 'prev') {
+            const prevDate = new Date(date);
+            prevDate.setDate(date.getDate() - 1);
+            setDate(prevDate);
+            setDayDate(GetFormattedDate(prevDate, prevDate.getFullYear()))
+            setDayData(prevDate.getDate() + ' ' + Months[prevDate.getMonth()] + ', ' + prevDate.getFullYear())
+        } else {
+            const nextDate = new Date(date);
+            nextDate.setDate(date.getDate() + 1);
+            setDayDate(GetFormattedDate(nextDate, nextDate.getFullYear()))
+            setDate(nextDate)
+            setDayData(nextDate.getDate() + ' ' + Months[nextDate.getMonth()] + ', ' + nextDate.getFullYear())
+        }
+    }
+
 
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
                 <div className="col-md-12 d-flex mt-4">
                     <div className="col-md-3">
-                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon}></img>Location 01</p>
-                        <p className=""><img className="mr-2 planning-icon" src={CalendarIcon}></img>08 November 2023</p>
+                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon}></img>{selectedLoc?.label}</p>
+                        <p className=""><img className="mr-2 planning-icon" src={CalendarIcon}></img>{dayData}</p>
                         <img className="" src={RedIcon}></img>
                     </div>
                     <div className="col-md-6">
-                        <p className="text-center">Select location</p>
+                        <p className="text-center mb-0 font-weight-bold">Select location</p>
                         <Dropdown
-                            styleClass={"col-md-8 px-0 mx-auto"}
+                            options={locations}
+                            selectedOptions={selectedLoc}
+                            onSelectFunction={(e) => setSelectedLoc(e)}
+                            CustomStyle="col-md-8 my-2 px-0 mx-auto"
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
-                            <div className="button-style mr-5"><img className="planning-icon" src={LeftArrowIcon}></img></div>
-                            <input className="px-5 mx-5 border-0" value={"16 January 2022, Friday"}></input>
-                            <div className="button-style ml-5"><img className="planning-icon" src={RightArrowIcon}></img></div>
+                            <div className="button-style mr-5" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon}></img></div>
+                            <p className="monthText mx-auto my-auto">{dayData}</p>
+                            <div className="button-style ml-5" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon}></img></div>
                         </div>
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
@@ -55,11 +200,14 @@ export default function Uurrooster() {
                             <br></br>
                             <img className="mr-4 mt-4" src={ExportIcon}></img>
                         </div>
-                        <img className="float-right d-flex" src={QrcodeIcon}></img>
-
+                        <QRCode
+                            size={256}
+                            style={{ height: "auto", maxWidth: "40%", width: "50%" }}
+                            viewBox={`0 0 256 256`}
+                            value={qrcode}
+                        ></QRCode>
                     </div>
                 </div>
-
                 <table className="table table-bordered company-tab-width mt-3 mx-auto bg-right-container">
                     <thead>
                         <tr>
@@ -71,21 +219,25 @@ export default function Uurrooster() {
                         </tr>
                     </thead>
                     <tbody>
-                        {body_arr.map((arr_data, index) => {
+                        {planData.map((val, index) => {
                             return (
-                                <tr key={index}>
-                                    {arr_data.map((data, index) => {
-                                        return (
-                                            <td key={data} className="text-center">{data}</td>
-                                        )
-                                    })}
+                                <tr key={val.workstation_id}>
+                                    <td className="text-center">{val.workstation_name}</td>
+                                    <td className="text-center">{val.employee_name}</td>
+                                    <td className="text-center">{val.function_name}</td>
+                                    <td className="text-center">{val.plan_start}</td>
+                                    <td className="text-center">{val.start_time}</td>
+                                    <td className="text-center">{val.dimona_start}</td>
+                                    <td className="text-center">{val.pause}</td>
+                                    <td className="text-center">{val.plan_end}</td>
+                                    <td className="text-center">{val.end_time}</td>
+                                    <td className="text-center">{val.dimona_end}</td>
+                                    <td className="text-center">{val.cost}</td>
                                 </tr>
                             )
                         })}
-
                     </tbody>
                 </table>
-
             </div>
         </div>
     )
