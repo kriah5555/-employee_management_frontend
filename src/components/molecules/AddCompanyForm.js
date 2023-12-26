@@ -111,9 +111,8 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
             if (name === 'sector') {
                 const sector_arr = [...sector]
                 sector_arr.push(value)
-                sector_arr[index] = value
-                // if ()
-                setSector(sector_arr);
+                // sector_arr[index] = value
+                setSector(value);
                 let arr = []
                 value.map((val, i) => {
                     arr.push(val.value)
