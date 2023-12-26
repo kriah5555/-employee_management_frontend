@@ -217,7 +217,7 @@ export default function PlanningOverview() {
             </div>}
 
             <div className="monthly-overview bg-white mt-2">
-                <Tabs selectedIndex={tabIndex} onSelect={(index) => { setTabIndex(index); setWeekNumber(weeknum); setYear(currentDate.getFullYear()); setDate(currentDate) }}>
+                <Tabs selectedIndex={tabIndex} onSelect={(index) => { setTabIndex(index); setWeekNumber(weeknum); setYear(currentDate.getFullYear()); setDate(currentDate); setDayDate(GetFormattedDate(currentDate, currentDate.getFullYear())) }}>
                     <TabList>
                         {tabIndex !== 0 && <div className="border-0 pt-0 d-flex float-left">
                             <button className="arrowButtons" onClick={() => setNextPrev('prev')}>‹</button>

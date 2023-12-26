@@ -58,10 +58,10 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         let selected_locations = result.data.locations
                         let selected_function_titles = result.data.function_titles
                         selected_locations.map((loc, i) => {
-                            loc_arr.push(loc.value);
+                            loc_arr.push(loc.id);
                         })
                         selected_function_titles.map((func, i) => {
-                            func_arr.push(func.value);
+                            func_arr.push(func.id);
                         })
                         response[0]['locations'] = []
                         response[0]['locations'] = loc_arr
