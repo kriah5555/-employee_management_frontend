@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 
 export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh }) {
 
-    const [rowArr, setRowArr] = useState(planData.length > 0 ? planData : [1]);
+    const [rowArr, setRowArr] = useState(planData.length > 0 ? [...planData, 1] : [1]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
     const [selectedFunction, setSelectedFunction] = useState(dropDownData ? dropDownData['function'] : '');
     const [planningData, setPlanningData] = useState({
