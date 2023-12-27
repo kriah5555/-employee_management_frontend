@@ -225,7 +225,7 @@ export default function EmployeeCreation() {
                                 childrenOptions={childrenOptions}
                             ></AddEmployeePersonalDetails>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
+                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>
 
@@ -238,7 +238,7 @@ export default function EmployeeCreation() {
                                 selectedEmpTypeCategory={selectedEmpTypeCategory} setSelectedEmpTypeCategory={setSelectedEmpTypeCategory}
                             ></AddEmployeeContractTypes>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
+                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
@@ -253,7 +253,7 @@ export default function EmployeeCreation() {
                                 employeeContracts={employeeContracts} setEmployeeContracts={setEmployeeContracts}
                             ></AddEmployeeFunctionSalaries>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
@@ -268,7 +268,8 @@ export default function EmployeeCreation() {
                                 employeeContracts={employeeContracts} setEmployeeContracts={setEmployeeContracts}
                                 options={employeeCommuteOptions}
                             ></AddEmployeeFunctionSalaries>
-                        </div>                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        </div>
+                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
@@ -284,7 +285,7 @@ export default function EmployeeCreation() {
                                 employeeData={employeeData} setEmployeeData={setEmployeeData}
                             ></AddEmployeeAdditionalInfo>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle="my-3 float-right"></CustomButton>
                         <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(3)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
