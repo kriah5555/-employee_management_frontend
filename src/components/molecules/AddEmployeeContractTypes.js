@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import RadioInput from "../atoms/formFields/RadioInput";
 import { getFormattedRadioOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function AddEmployeeContractTypes({ options, employeeContracts, setEmployeeContracts, selectedEmpTypeCategory, setSelectedEmpTypeCategory, displaySubType, setDisplaySubType }) {
 
     const contractFields = [
-        { title: "Weekly contract hours", name: "weekly_contract_hours", required: true, type: "text", style: "col-md-6 pl-0 float-left" },
-        { title: "Work days per week", name: "work_days_per_week", required: true, type: "text", style: "col-md-6 float-left" },
+        { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", required: true, type: "text", style: "col-md-6 pl-0 float-left" },
+        { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", required: true, type: "text", style: "col-md-6 float-left" },
     ]
 
     const ContractDateFields = [
-        { title: "Contract start date", name: "start_date", required: true, type: "date", style: "col-md-6 pl-0 mt-4 float-left" },
-        { title: "Contract end date", name: "end_date", required: false, type: "date", style: "col-md-6 mt-4 float-left" },
+        { title: t("CONTRACT_START_DATE"), name: "start_date", required: true, type: "date", style: "col-md-6 pl-0 mt-4 float-left" },
+        { title: t("CONTRACTS_END_DATE"), name: "end_date", required: false, type: "date", style: "col-md-6 mt-4 float-left" },
     ]
 
 
@@ -59,7 +60,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
             <div className="col-md-9 pl-0 my-5">
                 <div className="col-md-12 pl-0 row m-0">
                     {selectedEmpTypeCategory && <RadioInput
-                        title={'Employee types'}
+                        title={t("EMPLOYEE_TYPES")}
                         radiobuttonsList={options.employee_contract_options.employee_types[selectedEmpTypeCategory]}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'col-md-3'}
@@ -68,7 +69,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                     ></RadioInput>}
                     {displaySubType && <>
                         <RadioInput
-                            title={'Sub types'}
+                            title={t("SUB_TYPES")}
                             radiobuttonsList={getFormattedRadioOptions(options.sub_types, 'key', 'value')}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}
@@ -76,7 +77,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                             type={'sub_type'}
                         ></RadioInput>
                         <RadioInput
-                            title={'Schedule type'}
+                            title={t("SCHEDULE_TYPE")}
                             radiobuttonsList={getFormattedRadioOptions(options.schedule_types, 'key', 'value')}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}
@@ -84,7 +85,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
                             type={'schedule_type'}
                         ></RadioInput>
                         <RadioInput
-                            title={'Employement type'}
+                            title={t("EMPLOYEEMENT_TYPE")}
                             radiobuttonsList={getFormattedRadioOptions(options.employment_types, 'key', 'value')}
                             changeCheckbox={onRadioSelect}
                             CustomStyle={'col-md-3'}

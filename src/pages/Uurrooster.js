@@ -175,9 +175,9 @@ export default function Uurrooster() {
             <div className="company-tab-width mt-3 border bg-white">
                 <div className="col-md-12 d-flex mt-4">
                     <div className="col-md-3">
-                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon}></img>{selectedLoc?.label}</p>
-                        <p className=""><img className="mr-2 planning-icon" src={CalendarIcon}></img>{dayData}</p>
-                        <img className="" src={RedIcon}></img>
+                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon} alt={t("LOCATION_TITLE")}></img>{selectedLoc?.label}</p>
+                        <p className=""><img className="mr-2 planning-icon" src={CalendarIcon} alt={t("CALENDAR")}></img>{dayData}</p>
+                        <img className="" src={RedIcon} alt={t("ICON")}></img>
                     </div>
                     <div className="col-md-6">
                         <p className="text-center mb-0 font-weight-bold">{t("SELECT_LOCATION")}</p>
@@ -188,16 +188,16 @@ export default function Uurrooster() {
                             CustomStyle="col-md-8 my-2 px-0 mx-auto"
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
-                            <div className="button-style mr-5" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon}></img></div>
+                            <div className="button-style mr-5" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
                             <p className="monthText mx-auto my-auto">{dayData}</p>
-                            <div className="button-style ml-5" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon}></img></div>
+                            <div className="button-style ml-5" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
                         </div>
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
                         <div className="float-left">
-                            <img className="mr-4" src={FilterIcon}></img>
+                            <img className="mr-4" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}></img>
                             <br></br>
-                            <img className="mr-4 mt-4" src={ExportIcon}></img>
+                            <img className="mr-4 mt-4" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")}></img>
                         </div>
                         <QRCode
                             size={256}

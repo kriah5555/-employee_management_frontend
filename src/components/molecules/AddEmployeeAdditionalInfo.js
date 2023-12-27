@@ -3,7 +3,7 @@ import FormsNew from "./FormsNew";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-
+import { t } from "../../translations/Translation";
 
 export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setEmployeeData, fuelCard, setFuelCard, companyCar, setCompanyCar, mealVoucher, setMealVoucher, options }) {
 
@@ -11,22 +11,22 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
 
     //add employee personal detail fields
     const socialSecurityFields = [
-        { title: "Social secretary number", name: "social_secretary_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Contract number", name: "contract_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("SSN"), name: "social_secretary_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("CONTRACT_NUMBER"), name: "contract_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ];
 
     const extraBenefitFields = [
-        { title: "Company fuel card", name: "fuel_card", required: true, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Company car", name: "company_car", required: true, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Clothing compensation(Euros)", name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Meal Voucher type", name: "meal_voucher_id", required: false, options: getFormattedDropdownOptions(options.meal_vouchers), selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Meal Voucher amount", name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("COMPANY_FUEL_CARD"), name: "fuel_card", required: true, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("COMPANY_CAR"), name: "company_car", required: true, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("CLOTHING_COMPENSATION"), name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("MEAL_VOUCHER_TYPE"), name: "meal_voucher_id", required: false, options: getFormattedDropdownOptions(options.meal_vouchers), selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("MEAL_VOUCHER_AMOUNT"), name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ]
 
     const extraPersonalInfo = [
-        { title: "Id card front", name: "id_card_front", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: "Id card back", name: "id_card_back", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: 'Extra information', name: 'extra_info', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
+        { title: t("ID_CARD_FRONT"), name: "id_card_front", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
+        { title: t("ID_CARD_BACK"), name: "id_card_back", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
+        { title: t("EXTRA_INFORMATION"), name: 'extra_info', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
 
     ]
 
@@ -63,7 +63,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
 
     return (
         <div className="pt-4">
-            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Social secretary details'}</span>
+            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{t("SSN")}</span>
             <FormsNew
                 view="employees"
                 formTitle={''}
@@ -72,7 +72,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
                 SetValues={setValues}
             ></FormsNew>
 
-            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Extra benefits'}</span>
+            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{t("EXTRA_BENEFITS")}</span>
             <FormsNew
                 view="employees"
                 formTitle={''}
@@ -90,7 +90,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
                 SetValues={setValues}
             ></FormsNew> */}
 
-            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{'Identity info'}</span>
+            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{t("IDENTITY_INFO")}</span>
             <FormsNew
                 view="employees"
                 formTitle={''}

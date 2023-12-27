@@ -4,6 +4,7 @@ import { CompanyApiUrl, SocialSecretaryApiUrl } from "../../routes/ApiEndPoints"
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import CompanyForm from "./CompanyForm";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function AddCompanyForm({ companyData, setCompanyData, view, update_id, sector, setSector, socialSecretary, setSocialSecretary, interimAgency, setInterimAgency }) {
 
@@ -143,29 +144,29 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
 
     //add company fields
     const addCompanyFieldsArray = [
-        { title: "VAT number", name: "vat_number", type: "input_field" },
-        { title: "Company name", name: "company_name", required: true, type: "input_field" },
-        { title: "Sector", name: "sector", options: sectorList, isMulti: true, selectedOptions: sector, required: true, type: "dropdown" },
-        { title: "Email", name: "email", required: true, type: "input_field" },
-        { title: "Phone number", name: "phone", required: true, type: "phone_input", style: "col-md-4 mt-1 float-left" },
-        { title: "Sender number", name: "sender_number", required: false, type: "input_field" },
-        { title: "Username", name: "username", required: false, type: "input_field" },
-        { title: "RSZ number", name: "rsz_number", required: false, type: "input_field" },
-        { title: "Interim agency", name: "interim_agencies", options: interimAgencyList, isMulti: true, selectedOptions: interimAgency, required: false, type: "dropdown" },
+        { title: t("VAT_NUMBER"), name: "vat_number", type: "input_field" },
+        { title: t("COMPANY_NAME"), name: "company_name", required: true, type: "input_field" },
+        { title: t("SECTOR"), name: "sector", options: sectorList, isMulti: true, selectedOptions: sector, required: true, type: "dropdown" },
+        { title: t("EMAIL"), name: "email", required: true, type: "input_field" },
+        { title: t("PHONE_NUMBER"), name: "phone", required: true, type: "phone_input", style: "col-md-4 mt-1 float-left" },
+        { title: t("SENDER_NUMBER"), name: "sender_number", required: false, type: "input_field" },
+        { title: t("USERNAME"), name: "username", required: false, type: "input_field" },
+        { title: t("RSZ_NUMBER"), name: "rsz_number", required: false, type: "input_field" },
+        { title: t("INTERIM_AGENCY"), name: "interim_agencies", options: interimAgencyList, isMulti: true, selectedOptions: interimAgency, required: false, type: "dropdown" },
     ];
     //adress fields for company
     const companyAddressFieldsArray = [
-        { title: "Street and house number", name: "street_house_no", required: true, type: "input_field" },
-        { title: "Postal code", name: "postal_code", required: true, type: "input_field" },
-        { title: "City", name: "city", required: true, type: "input_field" },
-        { title: "Country", name: "country", required: true, type: "input_field" },
+        { title: t("SECTOR_HOUSE_NUMBER"), name: "street_house_no", required: true, type: "input_field" },
+        { title: t("POSTAL_CODE"), name: "postal_code", required: true, type: "input_field" },
+        { title: t("CITY"), name: "city", required: true, type: "input_field" },
+        { title: t("COUNTRY"), name: "country", required: true, type: "input_field" },
     ];
 
     const companySocialSectretaryFieldsArray = [
         // { title: "Social secretary", name: "social_secretary", options: socialSecretaryList, isMulti: false, selectedOptions: sector, required: false, type: "dropdown" },
-        { title: "Social secretary", name: "social_secretary_id", options: socialSecretaryList, isMulti: false, selectedOptions: socialSecretary, required: false, type: "dropdown" },
-        { title: "Social secretary number", name: "social_secretary_number", required: false, type: "input_field" },
-        { title: "Contact email", name: "contact_email", required: false, type: "input_field" },
+        { title: t("SOCIAL_SECRETARY"), name: "social_secretary_id", options: socialSecretaryList, isMulti: false, selectedOptions: socialSecretary, required: false, type: "dropdown" },
+        { title: t("SSN"), name: "social_secretary_number", required: false, type: "input_field" },
+        { title: t("CONTACT_EMAIL"), name: "contact_email", required: false, type: "input_field" },
     ]
 
 
@@ -173,14 +174,14 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
         <div>
             <CompanyForm
                 view="company"
-                title1={'Add company'}
+                title1={t("ADD_COMPANY")}
                 index={0}
                 data1={addCompanyFieldsArray}
                 formattedData1={companyData[0]}
-                title2={'Address'}
+                title2={t("ADDRESS_TITLE")}
                 data2={companyAddressFieldsArray}
                 formattedData2={companyData[0]}
-                title3={'Social secretary details'}
+                title3={t("SOCIAL_SECRETARY_DETAILS")}
                 data3={companySocialSectretaryFieldsArray}
                 formattedData3={companyData[0]}
                 SetValues={setValues}

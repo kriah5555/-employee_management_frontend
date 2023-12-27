@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
 
-    const times = ['Employee', '00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
+    const times = [t("EMPLOYEE_TITLE"), '00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
     // const times = ['Employee', "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22"];
     let current_time = new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' })
 
@@ -90,32 +90,32 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         let design = <div>
                             <div className="col-md-12 row m-0">
                                 <div className="col-md-6 row m-0">
-                                    <label>{"Start time:"}</label>
+                                    <label>{t("START_TIME")}</label>
                                     <p className="pl-2">{resp.start_time}</p>
                                 </div>
                                 <div className="col-md-6 row m-0">
-                                    <label>{"End time:"}</label>
+                                    <label>{t("END_TIME")}</label>
                                     <p className="pl-2">{resp.end_time}</p>
                                 </div>
                             </div>
                             <div className="col-md-12 row m-0">
                                 <div className="col-md-6 row m-0">
-                                    <label>{"Employee type:"}</label>
+                                    <label>{t("EMPLOYEE_TYPE")}</label>
                                     <p className="pl-2">{resp.employee_type}</p>
                                 </div>
                                 <div className="col-md-6 row m-0">
-                                    <label>{"Function:"}</label>
+                                    <label>{t("FUNCTION_TITLE")}</label>
                                     <p className="pl-2">{resp.function}</p>
                                 </div>
                             </div>
                             <div className="col-md-12 row m-0">
                                 <div className="col-md-6 row m-0">
-                                    <label>{"Workstation:"}</label>
+                                    <label>{t("WORK_STATION")}</label>
                                     <p className="pl-2">{resp.workstation}</p>
                                 </div>
                             </div>
                             {resp.activity?.length !== 0 && <div className="col-md-12 pl-4 my-2">
-                                <h5>Activities</h5>
+                                <h5>{t("ACTIVITIES")}</h5>
                                 {resp.activity.map((text, i) => {
                                     return (
                                         <p key={text}>{text}</p>
@@ -123,9 +123,9 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                                 })}
                             </div>}
                             <div className="col-md-12 mt-2 d-flex justify-content-center">
-                                {resp.contract && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>View contract</Button>}
+                                {resp.contract && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>{t("VIEW_CONTRACT")}</Button>}
                                 {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => StartStopPopup(resp.start_plan)}>
-                                    {resp.start_plan ? ('Start plan') : ('Stop plan')}
+                                    {resp.start_plan ? t("START_PLAN") : t("STOP_PLAN")}
                                 </Button>}
                             </div>
                         </div>
@@ -175,11 +175,11 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
         <div className="col-md-12">
             {startStopPlanPopup !== '' && <ModalPopup
                 size="lg"
-                title={!reasonStatus ? ('PLAN DETAILS') : type ? 'Start plan' : 'Stop plan'}
+                title={!reasonStatus ? t("PLAN_DETAILS") : type ?  t("START_PLAN") : t("STOP_PLAN")}
                 body={!reasonStatus ? planDetails : <div>
                     <TimeInput
                         key={'time'}
-                        title={'Time'}
+                        title={t("TIME")}
                         setTime={(e) => { type ? setStartTime(e) : setStopTime(e) }}
                         value={type ? startTime : stopTime}
                         type={'time'}
@@ -188,7 +188,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         customStyle={'col-md-4 pl-4'}
                     ></TimeInput>
                     <RadioInput
-                        title={'Reason'}
+                        title={t("REASON")}
                         radiobuttonsList={getFormattedRadioOptions(reasons, 'id', 'name')}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'mt-3'}
@@ -197,7 +197,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                     ></RadioInput>
                 </div>}
                 onConfirm={reasonStatus && StartStopApiCall}
-                startplanButton={type ? 'Start' : 'Stop'}
+                startplanButton={type ? t("START_TEXT") : t("STOP_TEXT")}
 
                 onHide={() => { setStartStopPlanPopup(''); setPlanDetails(''); }}
                 close={true}
@@ -212,7 +212,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                     <tr>
                         {times.map((time, index) => {
                             return (
-                                <th key={time} className={time !== 'Employee' ? "border-x-none" : ""}>{time}</th>
+                                <th key={time} className={time !== t("EMPLOYEE_TITLE") ? "border-x-none" : ""}>{time}</th>
                             )
                         })}
                     </tr>

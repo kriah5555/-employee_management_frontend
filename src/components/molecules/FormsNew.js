@@ -15,6 +15,7 @@ import FileInput from "../atoms/FileInput";
 import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import TimeInput from "../atoms/TimeInput";
+import { t } from "../../translations/Translation";
 
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex, functionIndex }) {
     const navigate = useNavigate();
@@ -245,8 +246,8 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                 </form>
             </div>}
             {view !== 'sectors' && view !== 'holiday codes' && formTitle && <div className={"col-md-12 mb-3 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
-                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
-                <CustomButton buttonName={'Back'} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
+                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
             </div>}
         </div>
     );

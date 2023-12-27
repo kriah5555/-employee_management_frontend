@@ -99,7 +99,7 @@ export default function PlanningOverview() {
 
     useEffect(() => {
         if (weekNumber === weeknum) {
-            setWeekNumberData('Current week')
+            setWeekNumberData(t("CURRENT_WEEK"))
         }
         setDayData(date.getDate() + ' ' + Months[date.getMonth()] + ', ' + date.getFullYear());
 
