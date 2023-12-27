@@ -6,7 +6,7 @@ import "./popup.css";
 
 
 const ModalPopup = (props) => {
-    
+
     return (
         <Modal
             show={true}
@@ -30,9 +30,9 @@ const ModalPopup = (props) => {
                     {t('YES_DELETE')}
                 </Button>} */}
                 {props.onConfirm && <Button className='button-style float-left' onClick={() => props.onConfirm()}>
-                    {props.startplanButton ? props.startplanButton :'Yes'}
+                    {props.startplanButton ? props.startplanButton : t('YES')}
                 </Button>}
-             { props.title !=="Responsible company" || props.title !=="Plan details"  && <Button className='button-style' onClick={props.onHide}>
+                {props.title !== t("RESPONSIBLE_COMPANY") || props.title !== t("Plan details") && <Button className='button-style' onClick={props.onHide}>
                     {props.buttonName ? (props.buttonName) : t('CLOSE')}
                 </Button>}
             </Modal.Footer>
