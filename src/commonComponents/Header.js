@@ -14,7 +14,7 @@ import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
 import AddHolidayIcon from "../static/icons/ManageHoliday.svg"
 import AddLocation from "../static/icons/AddLocation.svg"
 import DownArrowIcon from "../static/icons/arrow.png"
-import { t } from "../translations/Translation"
+import { GetTranslatedConstants, t } from "../translations/Translation"
 
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LogoutApiUrl, ResponsibleCompaniesApiUrl } from "../routes/ApiEndPoints";
@@ -27,7 +27,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-    const [activeLanguage, setActiveLanguage] = useState({ value: 'en', label: 'EN' })
+    const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language'), label: (localStorage.getItem('active_language')).toUpperCase() })
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
     const navigate = useNavigate()
@@ -246,7 +246,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                         <Dropdown
                             options={LanguageOptions}
                             selectedOptions={activeLanguage}
-                            onSelectFunction={(e) => setActiveLanguage(e)}
+                            onSelectFunction={(e) => {setActiveLanguage(e); localStorage.setItem('active_language', e?.value); window.location.reload();}}
                             styleClass="language-dropdown"
                         ></Dropdown>
                     </li>
