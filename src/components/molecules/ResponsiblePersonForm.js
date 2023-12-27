@@ -5,7 +5,7 @@ import { ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 
 
-export default function ResponsiblePersonForm({ customers, setCustomers, getCustomerDropdownData, selectedRole, setSelectedRole, view, update_id }) {
+export default function ResponsiblePersonForm({ customers, setCustomers, selectedRole, setSelectedRole, getCustomerDropdownData, view, update_id }) {
 
     // const [customers, setCustomers] = useState([{
     //     first_name: "",
@@ -24,7 +24,12 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
         AXIOS.service(ResponsiblePersonApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setRoleList(result.data.roles)
+                    setRoleList(result.data.roles);
+                    result.data.roles.map((val, i) => {
+                        if (val.value === customers[0]?.role) {
+                            setSelectedRole([val])
+                        }
+                    })
                 }
             })
             .catch((error) => {
