@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GetReversedDate, getDatesForWeek, getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { GetReversedDate, GetTimeDifference, getDatesForWeek, getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import WorkStationIcon from "../../static/icons/Workstation.svg";
 import { t } from "../../translations/Translation";
 import DeleteIcon from "../../static/icons/Delete.svg";
@@ -11,7 +11,7 @@ import Dropdown from "../atoms/Dropdown";
 import PlanItem from "./PlanItem";
 import CreatePlanPopup from "./CreatePlanPopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl, CreateShiftPlanApiUrl } from "../../routes/ApiEndPoints";
+import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl, CreateShiftsApiUrl, CreateShiftPlanApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import CreateShifts from "./CreateShifts";
@@ -36,6 +36,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [deleteRequestData, setDeleteRequestData] = useState({});
 
     const [shiftPopupOpen, setShiftPopupOpen] = useState(false);
+    const [shiftId, setShiftId] = useState('');
     const [shiftData, setShiftData] = useState({
         'location_id': '',
         'workstation_id': '',
@@ -95,7 +96,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             .catch((error) => {
                 console.log(error);
             })
-    }, [dataRefresh])
+    }, [dataRefresh, weekNumber])
 
     // Dummy data for weekly planning total cost and contract hours
     const totalData = [
@@ -210,7 +211,65 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     }
 
     const openCreatePlanPopup = (eid, date, ws, planData) => {
-        if (eid) { setEmployeeId(eid); setPlanPopup(true); }
+        if (eid) {
+            setEmployeeId(eid);
+            if (enableShifts) {
+                if (shiftId) {
+                    let reqData = {
+                        "employee_id": eid,
+                        "location_id": locId,
+                        "workstation_id": ws,
+                        "shift_id": shiftId?.value,
+                        "date": date
+                    }
+                    AXIOS.service(CreateShiftPlanApiUrl, 'POST', reqData)
+                        .then((result) => {
+                            if (result?.success) {
+                                if (result.plan_created) {
+                                    setDataRefresh(!dataRefresh);
+                                    toast.success(result.message[0], {
+                                        position: "top-center",
+                                        autoClose: 2000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: "colored",
+                                    });
+                                } else {
+                                    setPlanPopup(true);
+                                    let [start, end] = shiftId?.label.split('-')
+                                    let contract_hr = GetTimeDifference(start, end)
+                                    if (planData[date]) {
+                                        planData[date]['planning'] = [{'start_time': start, 'end_time': end, 'contract_hours': contract_hr}]
+                                    } else {
+                                        planData[date] = {}
+                                        planData[date]['planning'] = [{'start_time': start, 'end_time': end, 'contract_hours': contract_hr}]
+                                    }
+                                    setPlanningDetails(planData[date]['planning'])
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                } else{
+                    toast.error('Please select shifts to add plan', {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            } else {
+                setPlanPopup(true);
+            }
+        }
 
         setPlanningDate(date)
         setPlanWid(ws);
@@ -230,7 +289,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     }
 
     const SaveShift = () => {
-        AXIOS.service(CreateShiftPlanApiUrl, 'POST', shiftData)
+        AXIOS.service(CreateShiftsApiUrl, 'POST', shiftData)
             .then((result) => {
                 if (result?.success) {
                     setDataRefresh(!dataRefresh);
@@ -273,7 +332,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 theme="colored"
             />
             {shiftPopupOpen && <CreateShifts setShiftPopupOpen={setShiftPopupOpen} setShiftData={setShiftData} shiftData={shiftData} SaveShift={SaveShift}></CreateShifts>}
-            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
+            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
             <table className="table table-bordered mb-0">
                 <thead className="sticky">
                     <tr>
@@ -306,6 +365,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                     <Dropdown
                                                         CustomStyle="col-md-8 p-0"
                                                         options={getFormattedDropdownOptions(ws.shifts, 'id', 'time')}
+                                                        onSelectFunction={(e) => setShiftId(e)}
                                                     ></Dropdown>
                                                     <img className="shortcut-icon ml-2" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
                                                 </div>}

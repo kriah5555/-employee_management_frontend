@@ -9,12 +9,14 @@ import CalendarIcon from "../../static/icons/Calendar.svg";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { GetPlanCreationOptionsUrl, CreatePlanApiUrl, DeleteSinglePlan } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
+import { GetTimeDifference } from "../../utilities/CommonFunctions";
 
 
 
-export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh }) {
+export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh, enableShift }) {
 
-    const [rowArr, setRowArr] = useState(planData.length > 0 ? [...planData, 1] : [1]);
+    console.log(planData);
+    const [rowArr, setRowArr] = useState(planData.length > 0 ? enableShift ? planData : [...planData, 1] : [1]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
     const [selectedFunction, setSelectedFunction] = useState(dropDownData ? dropDownData['function'] : '');
     const [planningData, setPlanningData] = useState({
@@ -101,6 +103,11 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             if (field === 'time' || name === 'contract_hours') {
                 planning_data['timings'][index] = planning_data['timings'][index] ? planningData['timings'][index] : {}
                 planning_data['timings'][index][name] = value
+                if (name === 'start_time' && planning_data['timings'][index]?.end_time) {
+                    planning_data['timings'][index]['contract_hours'] = GetTimeDifference(value, planning_data['timings'][index]['end_time'])
+                } else if(name === 'end_time' && planning_data['timings'][index]?.start_time) {
+                    planning_data['timings'][index]['contract_hours'] = GetTimeDifference(planning_data['timings'][index]['start_time'], value)
+                }
             } else {
                 planning_data[name] = value
             }

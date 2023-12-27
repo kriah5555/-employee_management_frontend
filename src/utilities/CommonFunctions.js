@@ -50,7 +50,7 @@ export function GetTimeDifference(start_time, end_time) {
     } else {
         end_time_obj = new Date("1970-01-01 " + end_time);
     }
-    return ((end_time_obj - start_time_obj) / 1000 / 60 / 60);
+    return (JSON.stringify((end_time_obj - start_time_obj) / 1000 / 60 / 60).replace('.', ','));
 }
 
 // Function to check the break time based on location data
@@ -82,38 +82,54 @@ export function getWeekNumberByDate(date) {
     return weekNumber;
 }
 
-export function getFormattedDropdownOptions(options, value_key = 'id' , label_key = 'name') {
+export function getFormattedDropdownOptions(options, value_key = 'id', label_key = 'name') {
     if (options != undefined) {
         if (Array.isArray(options)) {
             let formattedData = []
             options.map((value) => {
-                let obj = {value: value[value_key], label: value[label_key]}
+                let obj = { value: value[value_key], label: value[label_key] }
                 formattedData.push(obj)
             })
             return formattedData;
         } else {
-            return {value: options[value_key], label: options[label_key]}
+            return { value: options[value_key], label: options[label_key] }
         }
     }
 }
 
-export function getFormattedRadioOptions(options, value_key = 'id' , label_key = 'name') {
+export function getFormattedRadioOptions(options, value_key = 'id', label_key = 'name') {
     if (options != undefined) {
         if (Array.isArray(options)) {
             let formattedData = []
             options.map((value) => {
-                let obj = {key: value[value_key], name: value[label_key]}
+                let obj = { key: value[value_key], name: value[label_key] }
                 formattedData.push(obj)
             })
             return formattedData;
         } else {
-            return {key: options[value_key], name: options[label_key]}
+            return { key: options[value_key], name: options[label_key] }
         }
     }
 }
+
+function isLeapYear(year) {
+    // Check if the year is evenly divisible by 4
+    if (year % 4 === 0) {
+      // If it is divisible by 100 and not divisible by 400, it's not a leap year
+      if (year % 100 === 0 && year % 400 !== 0) {
+        return false;
+      }
+      // Otherwise, it is a leap year
+      return true;
+    }
+    // If not divisible by 4, it's not a leap year
+    return false;
+  }
 
 export function getDatesForWeek(weekNumber, year) {
-    const startDate = new Date(year, 0, 2 + (weekNumber - 1) * 7);
+    let index = isLeapYear(year) ? 1:2
+    
+    const startDate = new Date(year, 0, index + (weekNumber - 1) * 7);
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6); // 6 days later is the end of the week
 
@@ -126,6 +142,7 @@ export function getDatesForWeek(weekNumber, year) {
     }
 
     return dates;
+
 }
 
 
