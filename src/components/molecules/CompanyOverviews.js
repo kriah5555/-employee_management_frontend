@@ -75,7 +75,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     const Resp_person_headers = [
         {
             title: 'Name',
-            field:'fullname',
+            field:'full_name',
             size: 200,
         },
         {
@@ -84,8 +84,8 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             size: 200,
         },
         {
-            title: 'Status',
-            field: 'status',
+            title: 'Role',
+            field: 'role',
             size: 250,
         }
 
@@ -144,11 +144,11 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             .then((result) => {
                 if (result?.success && result.data.length !== listData.length) {
                     if (overviewContent === 'company' || overviewContent === 'workstation' || overviewContent === 'cost center' || overviewContent === 'responsible_person') {
-                        
+
                         if(overviewContent === 'responsible_person') {
                             let arr = []
                             result.data.map((val)=>{
-                              let obj={...val,"fullname":val.user_basic_details.first_name+" "+val.user_basic_details.last_name}
+                              let obj={...val,"fullname":val.full_name}
                               arr.push(obj)
                             })
                             setListData(arr)

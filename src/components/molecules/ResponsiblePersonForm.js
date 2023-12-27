@@ -39,15 +39,15 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                 .then((result) => {
                     if (result?.success) {
                         let data = [{
-                            first_name: result.data.user_basic_details.first_name,
-                            last_name: result.data.user_basic_details.last_name,
-                            email: result.data.user_contact_details.email,
-                            phone_number: result.data.user_contact_details.phone_number,
+                            first_name: result.data.first_name,
+                            last_name: result.data.last_name,
+                            email: result.data.email,
+                            phone_number: result.data.phone_number,
                             social_security_number: result.data.social_security_number,
-                            date_of_birth: result.data.user_basic_details.date_of_birth,
-                            role: result.data.roles[0]
+                            date_of_birth: result.data.date_of_birth,
+                            role: result.data.role.value
                         }]
-                        setSelectedRole([{ value: result.data.roles[0], label: result.data.roles[0] }]);
+                        setSelectedRole([result.data.role]);
                         setCustomers(data);
                     }
                 })
