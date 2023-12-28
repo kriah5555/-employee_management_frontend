@@ -12,7 +12,7 @@ import AddLeavePopup from "../molecules/AddLeavePopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { FilterOptionsApiUrl, GetMonthlyPlanningApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
 import { GetFormattedDate, getWeekNumberByDate, getCurrentWeek } from '../../utilities/CommonFunctions';
-
+import { t } from "../../translations/Translation"; 
 
 
 export default function PlanningOverview() {
@@ -53,7 +53,7 @@ export default function PlanningOverview() {
     const [lastWeek, setLastWeek] = useState(getWeekNumberByDate(year + '-12-31'))
 
     // Day tab data
-    const Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const Months = [t("JANUARY"), t("FEBRUARY"), t("MARCH"), t("APRIL"), t("MAY"), t("JUNE"), t("JULY"), t("AUGUST"), t("SEPTEMBER"), t("OCTOBER"), t("NOVEMBER"), t("DECEMBER")]
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState();
@@ -61,9 +61,9 @@ export default function PlanningOverview() {
 
     // Planning overview tab list data
     const TabsData = [
-        { tabHeading: ("Month"), tabName: 'month' },
-        { tabHeading: ("Week"), tabName: 'week' },
-        { tabHeading: ("Day"), tabName: 'day' },
+        { tabHeading: t("MONTH"), tabName: 'month' },
+        { tabHeading: t("WEEK"), tabName: 'week' },
+        { tabHeading: t("DAY"), tabName: 'day' },
     ]
 
     useEffect(() => {
@@ -108,9 +108,9 @@ export default function PlanningOverview() {
 
     // Filter fields data
     const filterData = [
-        { title: 'Location', name: 'location', required: true, options: locationArr, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-4 float-left" },
-        { title: 'Workstation', name: 'workstation', required: false, options: selectedLocation.value && workstationArr[selectedLocation.value] !== undefined ? workstationArr[selectedLocation.value] : workstationArr, selectedOptions: selectedWorkstation, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
-        { title: 'Employee type', name: 'employee_type', required: false, options: employeeTypeArr, selectedOptions: selectedEmployeeType, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
+        { title: t("LOCATION"), name: 'location', required: true, options: locationArr, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-4 float-left" },
+        { title: t("WORK_STATION"), name: 'workstation', required: false, options: selectedLocation.value && workstationArr[selectedLocation.value] !== undefined ? workstationArr[selectedLocation.value] : workstationArr, selectedOptions: selectedWorkstation, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
+        { title: t("EMPLOYEE_TYPE"), name: 'employee_type', required: false, options: employeeTypeArr, selectedOptions: selectedEmployeeType, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
     ]
 
     // Function to set selected filters
@@ -212,8 +212,8 @@ export default function PlanningOverview() {
             </div>
 
             {tabIndex === 1 && <div className="d-flex justify-content-between">
-                <Switch label="Show Availability for selected week" id="switch4" styleClass="" lableClick={true} onChange={() => console.log(true)} checked={false} />
-                <Switch label="Use preferred shifts" id="switch4" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
+                <Switch label={t("AVAILABILITY_TEXT")} id="switch4" styleClass="" lableClick={true} onChange={() => console.log(true)} checked={false} />
+                <Switch label={t("PREFERRED_SHIFTS")} id="switch4" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
             </div>}
 
             <div className="monthly-overview bg-white mt-2">
@@ -233,16 +233,16 @@ export default function PlanningOverview() {
 
                         <div className="react-tabs__tab border-0 pt-0 float-right">
                             <div className="d-flex justify-content-end">
-                                <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={AddLeaveIcon} onClick={() => setAddLeave(true)}></img>
-                                <img className="planning-icon mr-4 mt-1 pointer" title="Import planning" src={ImportIcon}></img>
-                                <a href="/clone-plannings"><img className="planning-icon mr-2 mt-1 pointer" title="Clone planning" src={CloneIcon}></img></a>
+                                <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={AddLeaveIcon} onClick={() => setAddLeave(true)}></img>
+                                <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={ImportIcon}></img>
+                                <a href="/clone-plannings"><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon}></img></a>
                             </div>
                         </div>
                     </TabList>
 
                     <TabPanel>
                         <div className="px-3 pb-3"><CalendarLayout planningDates={planningDates} ChangeTab={ChangeTab} setYear={setYear} setMonthNumber={setMonthNumber}></CalendarLayout></div>
-                        {addLeave && <AddLeavePopup buttonName={'Cancel'} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
+                        {addLeave && <AddLeavePopup buttonName={t("CANCEL")} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
                     </TabPanel>
 
                     <TabPanel>
