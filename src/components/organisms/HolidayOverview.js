@@ -105,13 +105,13 @@ export default function HolidayOverview() {
 
     return (
         <div className="mt-1">
-            <div className="d-flex">
+            <div className="d-flex flex-row planning_body">
                 <div className="col-md-9 p-0 bg-white">
                     <Tabs>
-                        <TabList>
+                        <TabList className="d-flex p-0 mb-0">
                             {tabList.map((val, i) => {
                                 return (
-                                    <Tab key={val.tabName}>{val.tabHeading}</Tab>
+                                    <Tab className="planing_tabs" key={val.tabName}>{val.tabHeading}</Tab>
                                 )
                             })}
                         </TabList>

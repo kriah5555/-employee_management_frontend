@@ -88,7 +88,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                     if (result?.success) {
                         let resp = result.data
                         let design = <div>
-                            <div className="col-md-12 row m-0">
+                            <div className="col-md-12 row m-0 ">
                                 <div className="col-md-6 row m-0">
                                     <label>{"Start time:"}</label>
                                     <p className="pl-2">{resp.start_time}</p>
@@ -172,7 +172,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
 
 
     return (
-        <div className="col-md-12">
+        <div className="col-md-12 ">
             {startStopPlanPopup !== '' && <ModalPopup
                 size="lg"
                 title={!reasonStatus ? ('PLAN DETAILS') : type ? 'Start plan' : 'Stop plan'}
@@ -207,29 +207,30 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                 <Legend title={t('LEAVE')} styleClass1={""} styleClass2={"box background-red"}></Legend>
             </div>
 
-            <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        {times.map((time, index) => {
+            <div className="panning_overview_table">
+                <table className="table table-bordered ">
+                    <thead>
+                        <tr>
+                            {times.map((time, index) => {
+                                return (
+                                    <th key={time} className={time !== 'Employee' ? "border-x-none" : ""}>{time}</th>
+                                )
+                            })}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {dayData.map((employee, i) => {
                             return (
-                                <th key={time} className={time !== 'Employee' ? "border-x-none" : ""}>{time}</th>
+                                <tr key={i}>
+                                    <td>{employee.employee_name}</td>
+                                    <td colSpan="13" className="p-0 width-90"><PlanChart Plans={employee.plans} dayDate={dayDate} locId={locId} EmpTypeIds={EmpTypeIds} wsIds={wsIds} year={year} setStartStopPlanPopup={setStartStopPlanPopup}></PlanChart></td>
+                                </tr>
                             )
                         })}
-                    </tr>
-                </thead>
-                <tbody>
-                    {dayData.map((employee, i) => {
-                        return (
-                            <tr key={i}>
-                                <td>{employee.employee_name}</td>
-                                <td colSpan="13" className="p-0 width-90"><PlanChart Plans={employee.plans} dayDate={dayDate} locId={locId} EmpTypeIds={EmpTypeIds} wsIds={wsIds} year={year} setStartStopPlanPopup={setStartStopPlanPopup}></PlanChart></td>
-                            </tr>
-                        )
-                    })}
 
-                </tbody>
-            </table>
-
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

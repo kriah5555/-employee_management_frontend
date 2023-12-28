@@ -253,7 +253,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     }
 
     return (
-        <div className="col-md-12 p-0 text-center">
+        <div className="col-md-12 p-0 text-center panning_overview_table">
             {warningMessage && <ModalPopup
                 title={('WARNING')}
                 body={(warningMessage)}
