@@ -20,7 +20,7 @@ export default function Planning() {
 
     return (
         <div className="right-container">
-            <div className="company-tab-width mt-3">
+            <div className="company-tab-width mt-3 ">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <ToastContainer
                         position="top-center"
@@ -34,10 +34,10 @@ export default function Planning() {
                         pauseOnHover
                         theme="colored"
                     />
-                    <TabList>
+                    <TabList className="d-flex p-0 mb-0">
                         {TabsData.map((val) => {
                             return (
-                                <Tab key={val.tabName} >{val.tabHeading}</Tab>
+                                <Tab className="planing_tabs" key={val.tabName} >{val.tabHeading}</Tab>
                             )
                         })}
                     </TabList>

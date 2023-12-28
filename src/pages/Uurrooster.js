@@ -188,9 +188,9 @@ export default function Uurrooster() {
                             CustomStyle="col-md-8 my-2 px-0 mx-auto"
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
-                            <div className="button-style mr-5" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
+                            <div className="button-style mr-5 mr-sm-2" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
                             <p className="monthText mx-auto my-auto">{dayData}</p>
-                            <div className="button-style ml-5" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
+                            <div className="button-style ml-5 ml-sm-2" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
                         </div>
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
@@ -207,36 +207,38 @@ export default function Uurrooster() {
                         ></QRCode>
                     </div>
                 </div>
-                <table className="table table-bordered company-tab-width mt-3 mx-auto bg-right-container">
-                    <thead>
-                        <tr>
-                            {head_arr.map((title, index) => {
+                <div className="mt-3 uurrooster_table">
+                    <table className="table table-bordered company-tab-width  mx-auto bg-right-container">
+                        <thead>
+                            <tr>
+                                {head_arr.map((title, index) => {
+                                    return (
+                                        <th key={title.label} className={"text-center"} colSpan={title.colSpan}>{title.label}</th>
+                                    )
+                                })}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {planData.map((val, index) => {
                                 return (
-                                    <th key={title.label} className={"text-center"} colSpan={title.colSpan}>{title.label}</th>
+                                    <tr key={val.workstation_id}>
+                                        <td className="text-center">{val.workstation_name}</td>
+                                        <td className="text-center">{val.employee_name}</td>
+                                        <td className="text-center">{val.function_name}</td>
+                                        <td className="text-center">{val.plan_start}</td>
+                                        <td className="text-center">{val.start_time}</td>
+                                        <td className="text-center">{val.dimona_start}</td>
+                                        <td className="text-center">{val.pause}</td>
+                                        <td className="text-center">{val.plan_end}</td>
+                                        <td className="text-center">{val.end_time}</td>
+                                        <td className="text-center">{val.dimona_end}</td>
+                                        <td className="text-center">{val.cost}</td>
+                                    </tr>
                                 )
                             })}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {planData.map((val, index) => {
-                            return (
-                                <tr key={val.workstation_id}>
-                                    <td className="text-center">{val.workstation_name}</td>
-                                    <td className="text-center">{val.employee_name}</td>
-                                    <td className="text-center">{val.function_name}</td>
-                                    <td className="text-center">{val.plan_start}</td>
-                                    <td className="text-center">{val.start_time}</td>
-                                    <td className="text-center">{val.dimona_start}</td>
-                                    <td className="text-center">{val.pause}</td>
-                                    <td className="text-center">{val.plan_end}</td>
-                                    <td className="text-center">{val.end_time}</td>
-                                    <td className="text-center">{val.dimona_end}</td>
-                                    <td className="text-center">{val.cost}</td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )

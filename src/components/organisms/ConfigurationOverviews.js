@@ -280,7 +280,7 @@ export default function ConfigurationOverviews() {
                 </div>
 
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'calc(100vh - 190px)'} ></Table>
                 </div>
             </div>}
             {/* Minimum salary configurations */}

@@ -215,17 +215,17 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                 onConfirm={() => onConfirm()}
             ></Popup>}
             <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
-                <div className="d-flex">
+                <div className="d-flex col-xl-3 col-lg-4">
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
                     {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany ? selectedCompany.label : companyList[0].label}</h4>}
-                    {companyList.length > 1 && <div className="d-flex col-md-12">
+                    {companyList.length > 1 && <div className="d-flex  col-lg-8 col-xl-12">
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
                             onSelectFunction={(e) => onCompanySelect(e)}
-                            CustomStyle="col-md-12"
+                            CustomStyle="w-100"
                             // styleClass="company-dropdown"
                             isMulti={false}
                         >
@@ -242,7 +242,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                         )
                     })}
                     <li><h5 className="align-items-center pt-2 mb-0 ml-4 dark-color">{Time}</h5></li>
-                    <li className="mx-3 px-2">
+                    <li className="mx-3 px-2 w-max-content">
                         <Dropdown
                             options={LanguageOptions}
                             selectedOptions={activeLanguage}
