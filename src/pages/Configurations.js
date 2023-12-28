@@ -11,9 +11,7 @@ import SocialSecretaryIcon from "../static/icons/SocialSecretary.svg";
 import HolidayCodeIcon from "../static/icons/HolidayCode.svg";
 import Email from "../static/icons/EmailTemplate.svg";
 import TranslationIcon from "../static/icons/translate.svg";
-
 import { t } from "../translations/Translation";
-
 
 export default function Configurations() {
 
@@ -33,21 +31,21 @@ export default function Configurations() {
     ]
 
     const HolidayConfigurationTabs = [
-        { title: ('Holiday codes'), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code' },
-        { title: ('Holiday code configuration'), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code_configuration' },
+        { title: t("HOLIDAY_CODES"), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code' },
+        { title: t("HOLIDAY_CODE_CONFIGURATION"), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code_configuration' },
     ]
 
     const CommunicationTabs = [
-        { title: ('Email templates'), icon: Email, styleClass: subTabStyle, type: 'email' },
-        { title: ('Translations'), icon: TranslationIcon, styleClass: subTabStyle, type: 'translation' },
+        { title: t("EMAIL_TEMPLATES"), icon: Email, styleClass: subTabStyle, type: 'email' },
+        { title: t("TRANSLATIONS"), icon: TranslationIcon, styleClass: subTabStyle, type: 'translation' },
         // { title: ('Message '), icon: Email, styleClass: subTabStyle, type: 'message' },
-        { title: ('contract templates'), icon: ContractTypeIcon, styleClass: subTabStyle, type: 'contracts_template' },
+        { title: t("CONTRACT_TEMPLATES"), icon: ContractTypeIcon, styleClass: subTabStyle, type: 'contracts_template' },
     ]
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
-                <h2 className="text-center my-4 text-color font-weight-bold">Configurations</h2>
-                <h4 className="text-left pl-5 ml-4 text-color font-weight-bold">Employee configurations</h4>
+                <h2 className="text-center my-4 text-color font-weight-bold">{t("CONFIGURATIONS")}</h2>
+                <h4 className="text-left pl-5 ml-4 text-color font-weight-bold">{t("EMPLOYEE_CONFIGURATIONS")}</h4>
                 <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
                     {
                         ConfigurationTabs.map((val, index) => {
@@ -58,7 +56,7 @@ export default function Configurations() {
                     }
                 </div>
 
-                <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">Holiday configurations</h4>
+                <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">{t("HOLIDAY_CONFIGURATION")}</h4>
                 <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
                     {
                         HolidayConfigurationTabs.map((val, index) => {
@@ -68,7 +66,7 @@ export default function Configurations() {
                         })
                     }
                 </div>
-                <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">Communication configuration</h4>
+                <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">{t("COMMUNICATION_CONFIGURATION")}</h4>
                 <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
                     {
                         CommunicationTabs.map((val, index) => {

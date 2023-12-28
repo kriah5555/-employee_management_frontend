@@ -51,7 +51,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
 
     return (
         <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
-            {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
+            {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             {data && <div className={view === 'filters' ? "d-flex px-2" : "d-flex px-5"}>
                 <form className={view === 'filters' ? "col-md-12 px-0 border-blue" : "col-md-12 px-0 pb-4 border-blue"}>
                     {/* Text input field and dropdown based on the data given */}
@@ -125,7 +125,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                       value={formattedData !== undefined ? formattedData[field.name] : ''}
                                       setValue={(e) => SetValues(i, field.name, e, field.type)}
                                   ></TextArea>
-                                  {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>Configurations:</u></h4>}
+                                  {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>{t("CONFIGURATIONS") + (":")}</u></h4>}
                               </div>
                             )
                         } else if (field.type === 'checkbox') {
@@ -213,7 +213,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                                 <div className="col-md-10 d-flex mt-2">
                                                     <TextInput
                                                         key={field.name}
-                                                        title={"Hours"}
+                                                        title={t("HOURS")}
                                                         name={"hours"}
                                                         CustomStyle={'col-md-6'}
                                                         required={true}
@@ -223,7 +223,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                                     ></TextInput>
                                                     <TextInput
                                                         key={field.name}
-                                                        title={"Holiday code"}
+                                                        title={t("HOLIDAY_CODE")}
                                                         name={"holiday_code"}
                                                         CustomStyle={'col-md-6'}
                                                         required={true}
@@ -233,7 +233,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                                     ></TextInput>
                                                 </div>
                                                 <div className="col-md-2 mt-2">
-                                                    {<img className="header-icon mt-4 mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
+                                                    {<img className="header-icon mt-4 mr-4 pointer" src={AddIcon} onClick={() => AddNewRow()}></img>}
                                                     {multipleHolidayCodeCount.length > 1 && <img className="header-icon mt-4 mr-4" src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
                                                 </div>
                                             </div>

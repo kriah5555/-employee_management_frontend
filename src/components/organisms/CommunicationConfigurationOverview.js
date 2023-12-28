@@ -8,7 +8,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import CustomTable from "../atoms/CustomTable";
-
+import { t } from "../../translations/Translation";
 export default function CommunicationConfigurationOverview() {
 
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function CommunicationConfigurationOverview() {
     // Header data for Holiday code
     const communication_headers = [
         {
-            title: 'Email templates',
+            title: t("EMAIL_TEMPLATES"),
             field: 'template_type',
             size: 200,
         },

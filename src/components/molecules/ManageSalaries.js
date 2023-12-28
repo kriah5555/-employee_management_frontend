@@ -12,18 +12,19 @@ import { MTableEditField } from 'material-table';
 import ModalPopup from "../../utilities/popup/Popup";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { ToastContainer, toast } from 'react-toastify';
+import { t } from "../../translations/Translation";
 
 export default function ManageSalaries() {
 
     const navigate = useNavigate();
     const [selectedSector, setSelectedSector] = useState('');
-    const [noSectorMessage, setNoSectorMessage] = useState('Please select sector and Salary type to get the salaries');
+    const [noSectorMessage, setNoSectorMessage] = useState(t("SELECT_SECTOR_SALARY_TYPE"));
     const [salaryData, setSalaryData] = useState([]);
 
 
     const [headers, setHeaders] = useState();
     const [listData, setListData] = useState([]);
-    const [title, setTitle] = useState('Manage minimum salaries');
+    const [title, setTitle] = useState(t("MANAGE_MINIMUM_SALARIES"));
     const [sectors, setSectors] = useState([])
     const [incrementPage, setIncrementPage] = useState(false)
     const [coefficient, setCoefficient] = useState('');
@@ -54,7 +55,7 @@ export default function ManageSalaries() {
     // Header data for Salaries overview
     const salary_header = [
         {
-            title: 'Level',
+            title: t("LEVEL"),
             field: 'level',
             editable: 'never',
             size: 500,
@@ -64,11 +65,11 @@ export default function ManageSalaries() {
     const salaryTypeOptions = [
         {
             value: 1,
-            label: "Monthly"
+            label: t("MONTHLY")
         },
         {
             value: 2,
-            label: "Hourly"
+            label: t("HOURLY")
         }
     ]
 
@@ -139,18 +140,18 @@ export default function ManageSalaries() {
         setIncrementPage(val);
         // If increment page
         if (val) {
-            setNoSectorMessage(coefficient === '' ? 'Please enter the increment coefficent to check and confirm new minimum salaries' : '')
+            setNoSectorMessage(coefficient === '' ? t("INCREMENT_COEFFIFICENT_NEW_MMINIMUM_SALARIES") : '')
             // setListData([]);
-            setTitle('Increase minimum salaries');
+            setTitle(t("INCREASE_MINIMUM_SALARIES"));
             setHeaders([{
-                title: 'Level',
+                title: t("LEVEL"),
                 field: 'level',
                 editable: 'never',
                 size: 500,
             }])
         } else {
             // If back to manage page
-            setTitle('Manage minimum salaries');
+            setTitle(t("MANAGE_MINIMUM_SALARIES"));
             // setListData([]);
             setCoefficient('');
             setIncrementPage(false);
@@ -292,7 +293,7 @@ export default function ManageSalaries() {
     return (
         <div className="company-tab-width mt-3 border bg-white">
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={undoSalaries}
                 onHide={() => setWarningMessage('')}
@@ -315,12 +316,12 @@ export default function ManageSalaries() {
                 theme="colored"
             />
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-                <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => incrementPage ? clearNewData() : navigate('/configurations')} src={BackIcon}></img>{title}</h4>
+                <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => incrementPage ? clearNewData() : navigate('/configurations')} src={BackIcon}></img>{title}</h4>
             </div>
 
             <div className="col-md-12 mb-2 d-flex justify-content-between">
@@ -330,7 +331,7 @@ export default function ManageSalaries() {
                         selectedOptions={selectedSector}
                         onSelectFunction={(e) => setSelectedSector(e)}
                         CustomStyle="my-2 col-md-3"
-                        title={'Sectors'}
+                        title={t("SECTORS")}
                         required={true}
                         isMulti={false}
                     ></Dropdown>
@@ -339,13 +340,13 @@ export default function ManageSalaries() {
                         selectedOptions={salaryType}
                         onSelectFunction={(e) => setSalaryType(e)}
                         CustomStyle="my-2 col-md-3"
-                        title={'Salary type'}
+                        title={t("SALARY_TYPE")}
                         required={true}
                         isMulti={false}
                     ></Dropdown>
                     {incrementPage && <div className="col-md-4 px-0 row m-0">
                         <TextInput
-                            title={"Increment coefficient"}
+                            title={t("INCREMENT_COEFFICIENT")}
                             name={'increment_coef'}
                             CustomStyle={"col-md-8 mt-4"}
                             required={true}
@@ -353,18 +354,18 @@ export default function ManageSalaries() {
                             setValue={(e) => setCoefficient(e)}
                             age={true}
                         ></TextInput>
-                        <CustomButton buttonName={'Check'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
+                        <CustomButton buttonName={t("CHECK_TEXT")} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
                     </div>}
-                    {!incrementPage && <CustomButton buttonName={'Get salaries'} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
+                    {!incrementPage && <CustomButton buttonName={t("GET_SALARIES")} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
                 </div>
 
                 {incrementPage && coefficient && <div className="d-flex mr-5">
-                    <CustomButton buttonName={'Save'} ActionFunction={() => SaveSalaries(listData)} CustomStyle="mt-5 mb-3"></CustomButton>
-                    <CustomButton buttonName={'Undo'} ActionFunction={() => setWarningMessage('Are you sure you want to revert back the salaries')} CustomStyle="mt-5 mb-3"></CustomButton>
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveSalaries(listData)} CustomStyle="mt-5 mb-3"></CustomButton>
+                    <CustomButton buttonName={t("UNDO")} ActionFunction={() => setWarningMessage(t("CONFIRMATION_SLARIES_REVERT_BACK"))} CustomStyle="mt-5 mb-3"></CustomButton>
                 </div>}
 
                 {noSectorMessage === '' && !incrementPage && <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => getIncrementPage(true)}>
-                    <u>{'Increment salaries'}</u>
+                    <u>{t("INCREMENT_SALARIES")}</u>
                 </p>}
             </div>
 

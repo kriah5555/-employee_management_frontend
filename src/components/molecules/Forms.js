@@ -7,6 +7,7 @@ import CustomButton from "../atoms/CustomButton";
 import Dropdown from "../atoms/Dropdown";
 import BackIcon from "../../static/icons/BackIcon.png"
 import TimeInput from "../atoms/TimeInput";
+import { t } from "../../translations/Translation";
 export default function Forms({ formTitle, redirectURL, changeCheckbox, checkboxList, field1, field2, field3, field4, field5, field6, field7, field8, field9, error1, error2, error3, error4, error7, SetValues, onSave, view }) {
 
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
     // Forms for functions, employee type and sectors
     return (
         <div className={view !== 'sectors' ? "form-container my-5 border bg-white" : "pt-5 pb-5"}>
-            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
+            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             <div className="d-flex px-5">
                 <form className="col-md-12 px-0">
                     {/* Text input field */}
@@ -118,8 +119,8 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                 </form>
             </div>
             {view !== 'sectors' && <div className={"col-md-12 mt-4 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
-                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
-                <CustomButton buttonName={'Back'} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
+                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
+                <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
             </div>}
         </div>
     )

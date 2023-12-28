@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { ReasonsApiUrl } from "../../routes/ApiEndPoints"
-
+import { t } from "../../translations/Translation";
 
 export default function AddReasons() {
 
@@ -36,12 +36,12 @@ export default function AddReasons() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -91,9 +91,9 @@ export default function AddReasons() {
 
     const reasonFields = [
         // Reasons fields
-        { title: 'Reason name', name: 'name', required: true, type: 'text', style: 'col-md-12 mt-4 float-left' },
-        { title: 'Category', name: 'category', required: true, options: dropdownOptions.categories, isMulti: false, selectedOptions: category, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: t("REASON_NAME"), name: 'name', required: true, type: 'text', style: 'col-md-12 mt-4 float-left' },
+        { title: t("CATEGORY"), name: 'category', required: true, options: dropdownOptions.categories, isMulti: false, selectedOptions: category, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
     // Function to set values of reasons
@@ -150,7 +150,7 @@ export default function AddReasons() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
     return (
@@ -161,13 +161,13 @@ export default function AddReasons() {
             onHide={() => navigate('/manage-configurations/reasons')}
         ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <FormsNew
                 view="reasons"
-                formTitle={'Add Reasons'}
+                formTitle={t("ADD_REASONS")}
                 redirectURL={'/manage-configurations/reasons'}
                 formattedData={reasonsData}
                 data={reasonFields}

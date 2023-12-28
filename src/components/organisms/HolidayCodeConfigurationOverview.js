@@ -12,7 +12,7 @@ import FormsNew from "../molecules/FormsNew";
 import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
-
+import { t } from "../../translations/Translation";
 export default function HolidayCodeConfigurationOverview() {
 
     const navigate = useNavigate();
@@ -28,22 +28,22 @@ export default function HolidayCodeConfigurationOverview() {
     // Header data for Holiday code
     const holiday_code_headers = [
         {
-            title: 'title',
+            title: t("TITLE_TEXT"),
             field: 'holiday_code_name',
             size: 200,
         },
         {
-            title: 'Description',
+            title: t("DESCRIPTION"),
             field: 'description',
             size: 200,
         },
         {
-            title: 'Internal Code',
+            title: t("INETRNAL_CODE"),
             field: 'internal_code',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         },
@@ -52,12 +52,12 @@ export default function HolidayCodeConfigurationOverview() {
 
     const holiday_code_configuration_header = [
         {
-            title: 'Holiday code',
+            title: t("HOLIDAY_CODE"),
             field: 'holiday_code_name',
             size: 200,
         },
         {
-            title: 'company',
+            title: t("COMPANY_TEXT"),
             field: 'checkbox',
             size: 200,
         },
@@ -80,10 +80,10 @@ export default function HolidayCodeConfigurationOverview() {
         // Header data for Function overview
         if (overviewContent === 'holiday_code') {
             apiUrl = HolidayCodeApiUrl
-            setHeaders(holiday_code_headers); setTitle('Manage holiday code'); setAddTitle('Add holiday code'); setAddUrl('/add-holiday-code');
+            setHeaders(holiday_code_headers); setTitle(t("MANAGE_HOLIDAY_CODE")); setAddTitle(t("ADD_HOLIDAY_CODE")); setAddUrl('/add-holiday-code');
         } else if (overviewContent === 'holiday_code_configuration') {
             apiUrl = CompanyApiUrl
-            setHeaders(holiday_code_configuration_header); setTitle('Manage holiday code configuration'); setAddTitle(''); setAddUrl('/add-holiday-code');
+            setHeaders(holiday_code_configuration_header); setTitle(t("MANAGE_HOLIDAY_CODE_CONFIGURATION")); setAddTitle(''); setAddUrl('/add-holiday-code');
         }
 
         // Api call to get list data
@@ -131,7 +131,7 @@ export default function HolidayCodeConfigurationOverview() {
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage('Are you sure you want to delete this item?')
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY"))
         }
         if (overviewContent === 'holiday_code') {
             if (action === 'edit') {
@@ -225,7 +225,7 @@ export default function HolidayCodeConfigurationOverview() {
 
     //
     const companyDropdownFields = [
-        { title: "Select company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-12 float-left" },
+        { title: t("SELECT_COMPANY"), name: "company_id", placeholder: t("SELECT"), required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-12 float-left" },
     ]
 
     return (
@@ -243,17 +243,17 @@ export default function HolidayCodeConfigurationOverview() {
                 theme="colored"
             />
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
             <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-                    <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
+                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick align-items-center"}>
+                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center" onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
                         </p>}
                     </div>
@@ -271,14 +271,14 @@ export default function HolidayCodeConfigurationOverview() {
                                 ></FormsNew>
                             </div>
                             <div className="col-md-3 mt-3">
-                                <CustomButton buttonName={"Select company"} ActionFunction={() => getCompanyHolidayCodeData()} CustomStyle="my-4 mr-2"></CustomButton>
+                                <CustomButton buttonName={t("SELECT_COMPANY")} ActionFunction={() => getCompanyHolidayCodeData()} CustomStyle="my-4 mr-2"></CustomButton>
                             </div>
                         </div>
                     </div>}
                     <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "holiday_code_configuration" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? 'calc(100vh - 362px)' : 'calc(100vh - 162px)'} ></Table>
                     {overviewContent === "holiday_code_configuration" && <div className={"col-md-12 mb-3 text-right pr-5 mt-2"}>
-                        <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate("/configurations")} CustomStyle="mr-3"></CustomButton>
+                        <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/configurations")} CustomStyle="mr-3"></CustomButton>
                     </div>}
                 </div>
             </div>
