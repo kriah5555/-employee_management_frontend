@@ -6,6 +6,7 @@ import FormsNew from "../molecules/FormsNew";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 
 export default function AddInterimAgency() {
@@ -51,12 +52,12 @@ export default function AddInterimAgency() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -122,19 +123,19 @@ export default function AddInterimAgency() {
     // Interim agency fields data
     const interimAgencyFields = [
         // Interim agency fields
-        { title: 'Name', name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Companies', name: 'companies', required: false, options: companiesList, selectedOptions: companies, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: 'Email', name: 'email', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Employer id', name: 'employer_id', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Sender number', name: 'sender_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Username', name: 'username', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Joint commissioner number', name: 'joint_commissioner_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'RSZ number', name: 'rsz_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: "Street and house number", name: "street_house_no", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Postal code", name: "postal_code", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "City", name: "city", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Country", name: "country", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: 'Status', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" },
+        { title: t("NAME_TEXT"), name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("COMPANIES_TEXT"), name: 'companies', required: false, options: companiesList, selectedOptions: companies, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("EMAIL"), name: 'email', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("EMPLOYER_ID"), name: 'employer_id', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("SENDER_NUMBER"), name: 'sender_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("USERNAME"), name: 'username', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("JOINT_COMMISSIONER_NUMBER"), name: 'joint_commissioner_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("RSZ_NUMBER"), name: 'rsz_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("SECTOR_HOUSE_NUMBER"), name: "street_house_no", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("POSTAL_CODE"), name: "postal_code", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("CITY"), name: "city", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("COUNTRY"), name: "country", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("STATUS_TEXT"), required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" },
     ]
 
 
@@ -205,20 +206,20 @@ export default function AddInterimAgency() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
     return (
         <div className="right-container">
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <FormsNew
                 view="employee_types"
-                formTitle={'Add Interim agency'}
+                formTitle={t("ADD_INTERIM_AGENCY")}
                 redirectURL={'/manage-configurations/interim-agencies'}
                 formattedData={interimAgencyData}
                 data={interimAgencyFields}

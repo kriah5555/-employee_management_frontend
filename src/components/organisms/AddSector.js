@@ -15,6 +15,7 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import TimeInput from "../atoms/TimeInput";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function AddSector() {
 
@@ -52,23 +53,23 @@ export default function AddSector() {
 
     // Experience tab table header data
     const ExperienceHeaders = [
-        { title: 'Level', style: 'col-md-4 pl-3' },
-        { title: 'Experience range (in months)', style: 'col-md-4 text-center' },
-        { title: 'Actions', style: 'col-md-4 text-right pr-5' },
+        { title: t("LEVEL"), style: 'col-md-4 pl-3' },
+        { title: t("EXPERIENCE_RANGE"), style: 'col-md-4 text-center' },
+        { title: t("ACTIONS"), style: 'col-md-4 text-right pr-5' },
     ]
 
     const AgeHeaders = [
-        { title: 'Age', style: 'col-md-3 pl-3' },
-        { title: 'Salary percentage', style: 'col-md-3 text-center' },
-        { title: 'MaxTime', style: 'col-md-3 text-center' },
-        { title: 'Actions', style: 'col-md-3 text-right pr-5' },
+        { title: t("AGE"), style: 'col-md-3 pl-3' },
+        { title: t("SALARY_PERCENTAGE"), style: 'col-md-3 text-center' },
+        { title: t("MAX_TIME"), style: 'col-md-3 text-center' },
+        { title: t("ACTIONS"), style: 'col-md-3 text-right pr-5' },
     ]
 
     // Sectors tabs
     const TabsData = [
-        { tabHeading: ("Information"), tabName: 'information' },
-        { tabHeading: ("Experience"), tabName: 'experience' },
-        { tabHeading: ("Age"), tabName: 'age' },
+        { tabHeading: t("INFORMATION"), tabName: 'information' },
+        { tabHeading: t("EXPERIENCE"), tabName: 'experience' },
+        { tabHeading: t("AGE"), tabName: 'age' },
     ]
 
     const [ageRow, setAgeRow] = useState([1]);
@@ -93,12 +94,12 @@ export default function AddSector() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -159,30 +160,30 @@ export default function AddSector() {
 
     // Field data
     const sector_name = {
-        title: 'Sector name',
+        title: t("SECTOR_NAME"),
         name: 'sector_name',
-        placeholder: 'Enter sector name',
+        placeholder: t("ENTER_SECTOR_NAME"),
         required: true,
         value: sectorName,
     }
 
     const paritair_committee = {
-        title: 'Paritair committee',
+        title: t("PARITAIR_COMMITTEE"),
         name: 'paritair_committee',
-        placeholder: 'Enter paritair committee',
+        placeholder: t("ENTER_PARITAIR_COMMITTEE"),
         required: true,
         value: paritairCommittee
     }
 
     const sector_desc = {
-        title: 'Description',
+        title: t("DESCRIPTION"),
         name: 'sector_desc',
         required: false,
         value: description
     }
 
     const employee_type = {
-        title: 'Employee type',
+        title: t("EMPLOYEE_TYPE"),
         name: 'emp_type',
         required: true,
         options: employeeTypeList,
@@ -191,7 +192,7 @@ export default function AddSector() {
     }
 
     const category_number = {
-        title: 'Number of categories',
+        title: t("NUMBER_OF_CATEGORIES"),
         name: 'cat_num',
         required: true,
         options: categoriesList,
@@ -200,19 +201,19 @@ export default function AddSector() {
     }
 
     const sector_status = {
-        title: 'Status',
+        title: t("STATUS_TEXT"),
         required: true
     }
 
     const night_shift_start = {
-        title: "Night shift strart time",
+        title: t("NIGHT_SHIFT_START_TIME"),
         type: 'night_hour_start_time',
         value: nightHourStartTime,
         required: false
     }
 
     const night_shift_end = {
-        title: "Night shift end time",
+        title: t("NIGHT_SHIFT_END_TIME"),
         type: "night_hour_end_time",
         value: nightHourEndTime,
         required: false
@@ -337,7 +338,7 @@ export default function AddSector() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
@@ -400,12 +401,12 @@ export default function AddSector() {
                 onHide={() => navigate('/manage-configurations/sectors')}
             ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <div className="form-container my-5 border bg-white">
-                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{('Add Sectors')}</h2>
+                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{t("ADD_SECTORS")}</h2>
 
                 <Tabs selectedIndex={selectedTab} className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
                     <TabList>
@@ -478,8 +479,8 @@ export default function AddSector() {
                                                 </div>
                                             </div>
                                             {index === levelsCount.length - 1 && <div className="col-md-4 text-right pr-4">
-                                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow('experience')}></img>}
-                                                {levelsCount.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index, 'experience')}></img>}
+                                                {<img className="header-icon mr-4 pointer" src={AddIcon} onClick={() => AddNewRow('experience')} alt={t("ADD_TEXT")} title={t("ADD_TEXT")}></img>}
+                                                {levelsCount.length > 1 && <img className="header-icon pointer" src={DeleteIcon} onClick={() => DeleteRow(index, 'experience')} alt={t("DELETE")} title={t("DELETE")}></img>}
                                             </div>}
                                         </div>
                                     )
@@ -544,8 +545,8 @@ export default function AddSector() {
                                                 </div>
                                             </div>
                                             {index === ageRow.length - 1 && <div className="col-md-3 text-right pr-4">
-                                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow('age')}></img>}
-                                                {ageRow.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index, 'age')}></img>}
+                                                {<img className="header-icon mr-4 pointer" src={AddIcon} onClick={() => AddNewRow('age')} alt={t("ADD_TEXT")} title={t("ADD_TEXT")}></img>}
+                                                {ageRow.length > 1 && <img className="header-icon pointer" src={DeleteIcon} onClick={() => DeleteRow(index, 'age')} alt={t("DELETE")} title={t("DELETE")}></img>}
                                             </div>}
                                         </div>
                                     )
@@ -572,15 +573,15 @@ export default function AddSector() {
                         })}
                     </TabPanel> */}
                 </Tabs>
-                <div className={"col-md-12 my-4 text-right pr-2"}>
-                    <div className="div">
+                <div className={"col-md-12 my-4 text-right px-0"}>
+                    <div className="div ml-3 mr-4">
                         <div className="text-left">
-                            <CustomButton buttonName={'Cancel'} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3"></CustomButton>
+                            <CustomButton buttonName={t("CANCEL")} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3 ml-0"></CustomButton>
                         </div>
                         <div className="text-right">
-                            {selectedTab !== 0 && <CustomButton buttonName={'Prev'} ActionFunction={() => handlePrevious()} CustomStyle="mr-3"></CustomButton>}
-                            {selectedTab !== 2 && <CustomButton buttonName={'Next'} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
-                            {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                            {selectedTab !== 0 && <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => handlePrevious()} CustomStyle="mr-3"></CustomButton>}
+                            {selectedTab !== 2 && <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
+                            {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
                         </div>
                     </div>
                 </div>

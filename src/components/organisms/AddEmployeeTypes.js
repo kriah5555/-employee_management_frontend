@@ -7,7 +7,7 @@ import FormsNew from "../molecules/FormsNew";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-
+import { t } from "../../translations/Translation";
 
 export default function AddEmployeeTypes() {
 
@@ -53,7 +53,7 @@ export default function AddEmployeeTypes() {
         "contract_hours_split": false,
         "leave_access": false,
         "holiday_access": false,
-        "dimona_code":""
+        "dimona_code": ""
     });
 
     // Status checkbox data
@@ -68,12 +68,12 @@ export default function AddEmployeeTypes() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -126,12 +126,12 @@ export default function AddEmployeeTypes() {
                             "consecutive_days_limit": response.employee_type_config.consecutive_days_limit,
                             "icon_color": response.employee_type_config.icon_color,
                             "start_in_past": response.employee_type_config.start_in_past,
-                            "counters": response.employee_type_config.counters ?  response.employee_type_config.counters : false,
+                            "counters": response.employee_type_config.counters ? response.employee_type_config.counters : false,
                             "contract_hours_split": response.employee_type_config.contract_hours_split,
                             "leave_access": response.employee_type_config.leave_access,
                             "holiday_access": response.employee_type_config.holiday_access,
                             "salary_type": response.salary_type.value,
-                            "dimona_code":response.dimona_code,
+                            "dimona_code": response.dimona_code,
                         }
                         setEmployeeTypeData(data);
                         if (response.status) { setActive(true) } else { setInactive(true); setActive(false) }
@@ -149,22 +149,22 @@ export default function AddEmployeeTypes() {
     // Employee type fields data
     const employeeTypeFields = [
         // Employee type fields
-        { title: 'Employee type name', name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: 'Employee type category', name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
-        { title: 'Description', name: 'description', required: false, type: 'text-area', style:"col-md-12 mt-4 mb-5 float-left" },
+        { title: t("EMPLOYEE_TYPE_NAME"), name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("EMPLOYEE_TYPE_CATEGORY"), name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("DESCRIPTION"), name: 'description', required: false, type: 'text-area', style: "col-md-12 mt-4 mb-5 float-left" },
         // Employee type configuration fields
-        { title: 'Contract type', name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
-        { title: 'Dimona type', name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
-        { title: 'Dimona Code', name: 'dimona_code', required: true, type: 'text', style:"col-md-6 mt-4 float-left" },
-        { title: 'Consecutive days limit', name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
-        { title: 'Salary type', name: 'salary_type', required: true, options: salaryTypeList, selectedOptions: salaryType, isMulti: false, type: 'dropdown', style:"col-md-6 mt-2 float-left" },
-        { title: 'Start in past', name: 'start_in_past', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
+        { title: t("EMPLOYEE_CONTRACT_TYPES"), name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("DIMONA_TYPE"), name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("DIMONA_CODE"), name: 'dimona_code', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
+        { title: t("CONSECUTIVE_DAY_LIMIT"), name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("SALARY_TYPE"), name: 'salary_type', required: true, options: salaryTypeList, selectedOptions: salaryType, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("START_IN_PAST"), name: 'start_in_past', required: true, type: 'switch', style: "col-md-6 d-flex mt-4 float-left" },
         // { title: 'Enable counters', name: 'counters', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
-        { title: 'Contract hours split', name: 'contract_hours_split', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
-        { title: 'Leave access', name: 'leave_access', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
-        { title: 'Holiday access', name: 'holiday_access', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
-        { title: 'Icon color', name: 'icon_color', required: true, type: 'color', style:"col-md-6 mt-4 mb-2 d-flex float-left" },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style:"col-md-12 mt-4 mb-2 float-left" },
+        { title: t("CONTRACT_HOURS_SPLIT"), name: 'contract_hours_split', required: true, type: 'switch', style: "col-md-6 d-flex mt-4 float-left" },
+        { title: t("LEAVE_ACCESS"), name: 'leave_access', required: true, type: 'switch', style: "col-md-6 d-flex mt-4 float-left" },
+        { title: t("HOLIDAY_ACCESS"), name: 'holiday_access', required: true, type: 'switch', style: "col-md-6 d-flex mt-4 float-left" },
+        { title: t("ICON_COLOR"), name: 'icon_color', required: true, type: 'color', style: "col-md-6 mt-4 mb-2 d-flex float-left" },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" },
     ]
 
 
@@ -239,7 +239,7 @@ export default function AddEmployeeTypes() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
@@ -251,13 +251,13 @@ export default function AddEmployeeTypes() {
                 onHide={() => navigate('/manage-configurations/employee_type')}
             ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <FormsNew
                 view="employee_types"
-                formTitle={'Add Employee type'}
+                formTitle={t("ADD_EMPLOYEE_TYPE")}
                 redirectURL={'/manage-configurations/employee_type'}
                 formattedData={employeeTypeData}
                 data={employeeTypeFields}

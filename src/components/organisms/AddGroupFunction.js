@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-
+import { t } from "../../translations/Translation";
 export default function AddGroupFunction() {
 
     const [active, setActive] = useState(true);
@@ -39,12 +39,12 @@ export default function AddGroupFunction() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -119,14 +119,14 @@ export default function AddGroupFunction() {
 
     // Fields data
     const group_function_name = {
-        title: 'Group function name',
+        title: t("GROUP_FUNCTION_NAME"),
         name: 'function_name',
-        placeholder: 'Enter function name',
+        placeholder: t("ENTER_FUNCTION_NAME"),
         required: true,
         value: groupName,
     }
     const sectors = {
-        title: 'Sector',
+        title: t("SECTOR"),
         name: 'sector',
         placeholder: '',
         required: true,
@@ -135,7 +135,7 @@ export default function AddGroupFunction() {
         isMulti: false
     }
     const function_category = {
-        title: 'Function category',
+        title: t("FUNCTION_CATEGORY"),
         name: 'function_category',
         placeholder: '',
         required: true,
@@ -144,13 +144,13 @@ export default function AddGroupFunction() {
         isMulti: false
     }
     const group_function_desc = {
-        title: 'Description',
+        title: t("DESCRIPTION"),
         name: 'sector_desc',
         required: false,
         value: description
     }
     const group_function_status = {
-        title: 'Status',
+        title: t("STATUS_TEXT"),
         required: true
     }
 
@@ -225,24 +225,24 @@ export default function AddGroupFunction() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
     return (
         <div className="right-container">
             {successMessage && <ModalPopup
-                title={('SUCCESS')}
+                title={t("SUCCESS")}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/group_functions')}
             ></ModalPopup>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <Forms
-                formTitle={'Add Group Function'}
+                formTitle={t("ADD_GROUP_FUNCTION")}
                 redirectURL={'/manage-configurations/group_functions'}
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}
