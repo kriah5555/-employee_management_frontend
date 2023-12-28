@@ -6,7 +6,7 @@ import AvailableIcon from "../../static/icons/Available.svg"
 import UnAvailableIcon from "../../static/icons/Notavailable.svg"
 import RemarkIcon from "../../static/icons/warning.svg"
 import { GetFormattedDate } from '../CommonFunctions';
-
+import { t } from '../../translations/Translation';
 
 export default function CalendarLayout({ view, planningDates, ChangeTab, setYear, setMonthNumber }) {
   const [value, onChange] = useState(new Date());
@@ -33,19 +33,19 @@ export default function CalendarLayout({ view, planningDates, ChangeTab, setYear
     if (view === 'availability') {
       if (availableDates.includes(date)) {
         return (
-          <img className='m-0 p-0 calendar-icon h-0' src={AvailableIcon}></img>
+          <img className='m-0 p-0 calendar-icon h-0' src={AvailableIcon} alt={t("ICON")}></img>
         )
       } else if (remarks.includes(date)) {
         return (
           <>
-            <img className='m-0 p-0 calendar-icon h-0' src={UnAvailableIcon}></img>
+            <img className='m-0 p-0 calendar-icon h-0' src={UnAvailableIcon} alt={t("ICON")}></img>
             <br></br>
-            <img className='m-0 p-0 remark-icon h-0' src={RemarkIcon}></img>
+            <img className='m-0 p-0 remark-icon h-0' src={RemarkIcon} alt={t("ICON")}></img>
           </>
         )
       } else {
         return (
-          <img className='m-0 p-0 calendar-icon h-0' src={UnAvailableIcon}></img>
+          <img className='m-0 p-0 calendar-icon h-0' src={UnAvailableIcon} alt={t("ICON")}></img>
         )
       }
     } else {

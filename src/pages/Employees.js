@@ -18,7 +18,7 @@ export default function Employees() {
             <div className="company-tab-width mt-3 border bg-white">
                 <div className="col-md-12 row mt-3 mx-0 px-0 ">
                     <div className="col-md-6 float-left">
-                        <h4>{showDetails && <img className="shortcut-icon mr-2 mb-1" onClick={() => setShowDetails(false)} src={BackIcon}></img>}{t("EMPLOYEES_TITLE")}</h4>
+                        <h4 className="d-flex align-items-center">{showDetails && <img className="shortcut-icon mr-2 pointer" onClick={() => setShowDetails(false)} src={BackIcon}></img>}{t("EMPLOYEES_TITLE")}</h4>
                     </div>
                     <div className="col-md-6 float-right">
                         <ul className="float-right">

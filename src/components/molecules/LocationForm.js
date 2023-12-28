@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 import { LocationApiUrl, ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
-import { APICALL as AXIOS } from "../../services/AxiosServices"
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { t } from "../../translations/Translation";
 
 export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id, responsiblePerson, setResponsiblePerson, address }) {
 
@@ -125,8 +126,8 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
 
     //add location fields
     const locationFieldsArray = [
-        { title: "Location", name: "location_name", required: false, type: "input_field" },
-        { title: "Responsible persons", options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
+        { title: t("LOCATION"), name: "location_name", required: false, type: "input_field" },
+        { title: t("RESPONSIBLE_PERSONS"), options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
     ]
 
     //checkbox list
@@ -142,9 +143,9 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     //adress fields for company
     const locationAddressArray = [
         { title: "", checkboxList: statusCheckBoxList, changeCheckbox: setValues, type: "checkbox" },
-        { title: "Street and house number", name: "street_house_no", required: false, type: "input_field" },
-        { title: "Postal code", name: "postal_code", required: false, type: "input_field" },
-        { title: "City", name: "city", required: false, type: "input_field" },
+        { title: t("SECTOR_HOUSE_NUMBER"), name: "street_house_no", required: false, type: "input_field" },
+        { title: t("POSTAL_CODE"), name: "postal_code", required: false, type: "input_field" },
+        { title: t("CITY"), name: "city", required: false, type: "input_field" },
         { title: "Country", name: "country", required: false, type: "input_field" },
     ];
 
