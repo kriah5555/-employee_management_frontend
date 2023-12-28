@@ -131,7 +131,7 @@ export default function HolidayCodeConfigurationOverview() {
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY"))
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ("?"))
         }
         if (overviewContent === 'holiday_code') {
             if (action === 'edit') {

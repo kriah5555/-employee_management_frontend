@@ -207,7 +207,7 @@ export const GET_CONSTANTS = {
     'SEQUENCE_NUMBER': 'Sequence number',
     'NAME_TEXT': 'Name',
     'ROLE': 'Role',
-    'DELETE_CONFIRMATION_COMPANY': 'Are you sure you want to delete this item?',
+    'DELETE_CONFIRMATION_COMPANY': 'Are you sure you want to delete this item',
     'WARNING_TITLE': 'Warning',
     'DETAILS': 'Details',
     'VIEW': 'View',
@@ -455,6 +455,19 @@ export const GET_CONSTANTS = {
     'INCLUDE': 'Include',
     'EXCLUDE': 'Exclude',
     'LINK_COMPANIES': 'Link companies',
-    'PLAN_HOURS_IN_WEEKLY_HOURS':'Consider the plan hours in weekly hours',
+    'PLAN_HOURS_IN_WEEKLY_HOURS': 'Consider the plan hours in weekly hours',
+
+    // Email templates
+    'STRING': 'String',
+    'MANAGE_EMAIL_TEMPLATE': 'Manage email templates',
+    'MANAGE_CONTRACTS_TEMPLATE': 'Manage contracts templates',
+    'CREATE_CONTRACTS_TEMPLATE': 'Create contracts template',
+    'MANAGE_TRANSLATIONS': 'Manage translations',
+    'SUBJECT': 'Subject',
+    'PREVIEW': 'Preview',
+    'ADD_EMAIL_TEMPLATE': 'Add Email template',
+    'MANAGE_GENDERS': 'Manage Genders',
+    'SORT_ORDER': 'Sort order',
+    'AMOUNT_TEXT': 'Amount'
 
 };

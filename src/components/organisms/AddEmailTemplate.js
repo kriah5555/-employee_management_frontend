@@ -7,6 +7,7 @@ import FormsNew from "../molecules/FormsNew";
 import { EmailTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import Table from "../atoms/Table"
+import { t } from "../../translations/Translation";
 
 export default function AddEmailTemplate() {
 
@@ -72,19 +73,19 @@ export default function AddEmailTemplate() {
 
     //form fields array
     const fieldData = [
-        { title: "Subject", name: "subject", required: true, type: "text", style: "col-md-12 mt-4" },
-        { title: "Preview", name: "body", required: true, type: "editor", style: "col-md-12 mt-4" },
+        { title: t("SUBJECT"), name: "subject", required: true, type: "text", style: "col-md-12 mt-4" },
+        { title: t("PREVIEW"), name: "body", required: true, type: "editor", style: "col-md-12 mt-4" },
     ];
 
     //token table headers
     const TableHeader = [
         {
-            title: "Name",
+            title: t("NAME_TEXT"),
             field: "name",
             size: 20.
         },
         {
-            title: "Description",
+            title: t("DESCRIPTION"),
             field: "value",
             size: 20.
         }
@@ -114,7 +115,7 @@ export default function AddEmailTemplate() {
                 "subject": subject
             }
 
-            let apiUrl = EmailTemplateApiUrl + "/" + params.id 
+            let apiUrl = EmailTemplateApiUrl + "/" + params.id
 
 
             AXIOS.service(apiUrl, "PUT", data)
@@ -147,9 +148,9 @@ export default function AddEmailTemplate() {
         <div className="right-creation-container ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color d-flex ">
-                    <div className="col-md-6 float-left">
-                        <img className="shortcut-icon mr-2 mb-1 " onClick={() => navigate('/manage-communication-configurations/email')} src={BackIcon}></img>
-                        Add Email template
+                    <div className="col-md-6 float-left d-flex align-items-center">
+                        <img className="shortcut-icon mr-2 pointer " onClick={() => navigate('/manage-communication-configurations/email')} src={BackIcon}></img>
+                        {t("ADD_EMAIL_TEMPLATE")}
                     </div>
                     <div className="col-md-6 float-right">
                         <ul className="d-flex float-right mr-5">
@@ -161,7 +162,7 @@ export default function AddEmailTemplate() {
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -176,7 +177,7 @@ export default function AddEmailTemplate() {
                     OnSave={OnSave}
                 />
                 <div className="px-5 pb-4">
-                    <h4 className="mb-3">Tokens:</h4>
+                    <h4 className="mb-3">{t("TOKENS") + (":")}</h4>
                     <Table columns={TableHeader} rows={tokensList} tableName="tokens" />
                 </div>
             </div>

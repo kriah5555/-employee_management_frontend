@@ -29,7 +29,7 @@ export default function CommunicationConfigurationOverview() {
 
     const translation_headers = [
         {
-            title: 'String',
+            title: t("STRING"),
             field: 'key',
             size: 200,
         },
@@ -54,7 +54,7 @@ export default function CommunicationConfigurationOverview() {
     //Header data for contract templates
     const contracts_template_headers = [
         {
-            title: 'Employee Type',
+            title: t("EMPLOYEE_TYPE"),
             field: 'employee_type.name',
             size: '200',
         },
@@ -83,21 +83,21 @@ export default function CommunicationConfigurationOverview() {
     // ]
     // const [headers, setHeaders] = useState(communication_headers);
 
-    
+
     useEffect(() => {
         let apiUrl;
         // Header data for Function overview
         if (overviewContent == 'email') {
             apiUrl = EmailTemplateApiUrl
-            setHeaders(communication_headers); setTitle('Manage email templates'); setAddTitle(''); setAddUrl('/add-email-template'); setTableName("email_template");
+            setHeaders(communication_headers); setTitle(t("MANAGE_EMAIL_TEMPLATE")); setAddTitle(''); setAddUrl('/add-email-template'); setTableName("email_template");
         } else if (overviewContent == 'contracts_template') {
             apiUrl = ContractTemplateApiUrl
-            setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');setTableName("contract_template");
+            setHeaders(contracts_template_headers); setTitle(t("MANAGE_CONTRACTS_TEMPLATE")); setAddTitle(t("CREATE_CONTRACTS_TEMPLATE")); setAddUrl('/add-contracts-template/template'); setTableName("contract_template");
         } else {
             apiUrl = fetchTranslations
-            setTitle('Manage translations'); setAddTitle('');
+            setTitle(t("MANAGE_TRANSLATIONS")); setAddTitle('');
         }
-        
+
         // Api call to get list data
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
@@ -117,8 +117,8 @@ export default function CommunicationConfigurationOverview() {
             })
 
     }, [overviewContent, dataRefresh])
-    
-    
+
+
 
     // Api call to delete item from table
     const DeleteApiCall = () => {
@@ -148,7 +148,7 @@ export default function CommunicationConfigurationOverview() {
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage('Are you sure you want to delete this item?')
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ("?"))
         }
         if (overviewContent === 'email') {
             if (action === 'edit') {
@@ -186,7 +186,7 @@ export default function CommunicationConfigurationOverview() {
             .catch((error) => {
                 console.log(error);
             })
-        }
+    }
 
 
     return (
@@ -204,17 +204,17 @@ export default function CommunicationConfigurationOverview() {
                 theme="colored"
             />
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
             <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-                    <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
+                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick align-items-center"}>
+                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center " onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
                         </p>}
                     </div>

@@ -275,7 +275,7 @@ export default function HolidayCodeCreation() {
                 onHide={() => navigate('/manage-configurations/holiday_code')}
             ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={t("VALIDATION_ERROR")}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}

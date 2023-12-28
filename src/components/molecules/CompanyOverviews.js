@@ -215,7 +215,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
 
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY"))
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ("?"))
         }
         if (overviewContent === 'company') {
             if (action === 'edit') {

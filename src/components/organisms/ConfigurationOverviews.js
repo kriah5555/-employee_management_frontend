@@ -193,7 +193,7 @@ export default function ConfigurationOverviews() {
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY"))
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") +("?"))
         }
         if (overviewContent === 'employee_type') {
             if (action === 'edit') {
