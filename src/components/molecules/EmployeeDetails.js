@@ -245,6 +245,8 @@ export default function EmployeeDetails({ eid }) {
                 <div className="width-22 px-2">
                     <p className="mb-1"><img className="mr-2" src={RSZIcon}></img>{basicDetails.rsz}</p>
                 </div>
+                <a href="/oth-planning">Create oth plan</a>
+
             </div>
             <div className="col-md-12 p-0 employee-detail">
                 <Tabs onSelect={() => setEditStatus(false)}>

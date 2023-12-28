@@ -30,6 +30,7 @@ import AddEmailTemplate from '../components/organisms/AddEmailTemplate';
 import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 import Uurrooster from '../pages/Uurrooster';
 import ClonePlanning from '../components/molecules/ClonePlanning';
+import OthPlanning from '../components/organisms/OthPlanning';
 
 const BaseRouter = ({ setAuth, setCompany}) => (
     <Routes>
@@ -93,6 +94,8 @@ const BaseRouter = ({ setAuth, setCompany}) => (
         <Route exact path='/add-contracts-template/:addType/:id' element={<AddContractsTemplate></AddContractsTemplate>} />
 
         <Route exact path='/uurrooster' element={<Uurrooster></Uurrooster>} />
+
+        <Route exact path='/oth-planning' element={<OthPlanning></OthPlanning>} />
         
     </Routes>
 );
