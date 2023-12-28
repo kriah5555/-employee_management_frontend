@@ -349,8 +349,8 @@ export default function CompanyCreation({ setCompany }) {
                 {params.addType === 'cost_center' && <AddCostCenterForm></AddCostCenterForm>}
                 {params.addType === 'company-view' && <CompanyView></CompanyView>}
                 {params.addType !== 'company-view' && params.addType !== 'cost_center' && <div className="col-md-12 my-4 text-right pr-5">
-                    <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany(params.addType === 'company-single' ? 'company' : '')} CustomStyle=""></CustomButton>
-                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveCompany(params.addType === 'company-single' ? 'company' : '')} CustomStyle=""></CustomButton>
+                    <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
                 </div>}
             </div>}
         </div>

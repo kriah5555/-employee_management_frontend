@@ -122,6 +122,11 @@ export const GET_CONSTANTS = {
 
     // My profile constants
     'MY_PROFILE': 'My profile',
+    'MY_ADDRESS': 'My address',
+    'CHANGE_PASSWORD': 'Change password',
+    'MY_BANK_ACCOUNT': 'My bank account',
+    'BACK_TO_DASHBOARD': 'Back to Dashboard',
+    'LOGOUT': 'Logout',
 
     //Uurrooster constants
     'SELECT_LOCATION': 'Select location',
@@ -468,6 +473,37 @@ export const GET_CONSTANTS = {
     'ADD_EMAIL_TEMPLATE': 'Add Email template',
     'MANAGE_GENDERS': 'Manage Genders',
     'SORT_ORDER': 'Sort order',
-    'AMOUNT_TEXT': 'Amount'
+    'AMOUNT_TEXT': 'Amount',
+
+    'STREET': 'Street',
+    'HOUSE_NUMBER': 'House Number',
+    'BOX_NUMBER': 'Box Number',
+    'NO_ENTRIES_TO_SHOW': 'No entries to show',
+    'PASSWORD_GUIDELINES': 'Password should contain minimum 8 characters, with one UPPERCASE, lowercase, number and special character',
+    'STRONG_PASSWORD': 'Strong password',
+    'WEAK_PASSWORD': 'Weak passoword',
+    'PASSWORD_NOT_MATCHING': 'Confirm password not matching with new password',
+    'RESET_PASSWORD': 'Reset Password',
+    'NEW_PASSWORD': 'New Password',
+    'CONFIRM_PASSWORD': 'Confirm Password',
+    "PHOTO_OF_BANK_ACCOUNT": "Photo of bank account",
+    'UPLOAD_PHOTO': 'Upload photo',
+    'ENABLE_NOTIFICATION': 'Enable Notification',
+    'ENABLE_EMAIL_NOTIFICATION': 'Enable Email Notification',
+    'REQUIRED': 'Required',
+    'SELECT_FOR_MULTIPLE_PLANNINGS': 'Select for multiple plannings',
+    'CONTRACT_HOURS': 'Contract hours',
+    'ADD_PLANNING': "Add planning",
+    'ADD_EDIT_SHIFTS': 'Add/Edit Shifts',
+    'DRAG': 'Drag',
+    'DROP_YOUR_FILES': 'Drop your files',
+    'BROWSE': 'Browse',
+    'OR': 'or',
+    'CHOOSE_A_FILE': 'Choose a file',
+    'CHANGE_COMPANY': 'Change company',
+    'ADD_EMPLOYEE': 'Add employee',
+    'ADD_HOLIDAYS': 'Add holidays',
+    'SEND_INVOICES': 'Send invoices',
+    'PLEASE_SELECT_RESPONSIBLE_COMPANY':'Please select responsible company'
 
 };

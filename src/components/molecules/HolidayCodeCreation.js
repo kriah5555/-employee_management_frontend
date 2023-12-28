@@ -308,8 +308,8 @@ export default function HolidayCodeCreation() {
                     </TabPanel>}
                 </Tabs>
                 <div className={"col-md-12 my-4 text-right pr-2"}>
-                    {(params.id !== undefined || (params.id === undefined && selectedTab === 1)) && <CustomButton buttonName={'Save'} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
-                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate("/manage-holiday-configurations/holiday_code")} CustomStyle="mr-3"></CustomButton>
+                    {(params.id !== undefined || (params.id === undefined && selectedTab === 1)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
+                    <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/manage-holiday-configurations/holiday_code")} CustomStyle="mr-3"></CustomButton>
                 </div>
             </div>
         </div>

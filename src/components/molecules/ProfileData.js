@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import TextInput from "../atoms/formFields/TextInput";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
+import { t } from "../../translations/Translation";
 export default function ProfileData({ title, edit, setEditStatus, type }) {
 
     //set Profile data from api call
@@ -43,46 +44,46 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
 
 
     const profile = [
-        { label: 'First name', value: firstName, setValue: setFirstName },
-        { label: 'Last name', value: lastName, setValue: setLastName },
-        { label: 'Email', value: email, setValue: setEmail },
-        { label: 'Mobile number', value: mobileNumber, setValue: setMobileNumber },
-        { label: 'Gender', value: gender, setValue: setGender },
-        { label: 'DOB', value: DOB, setValue: setDOB },
-        { label: 'Place of birth', value: placeOfBirth, setValue: setPlaceofBirth },
-        { label: 'Nationality', value: city, setValue: setNationality },
-        { label: 'Social security number', value: SSCNumber, setValue: setSSCNumber },
+        { label: t("FIRST_NAME"), value: firstName, setValue: setFirstName },
+        { label: t("LAST_NAME"), value: lastName, setValue: setLastName },
+        { label: t("EMAIL"), value: email, setValue: setEmail },
+        { label: t("MOBILE_NUMBER"), value: mobileNumber, setValue: setMobileNumber },
+        { label: t("GENDER"), value: gender, setValue: setGender },
+        { label: t("DATE_OF_BIRTH"), value: DOB, setValue: setDOB },
+        { label: t("PLACE_OF_BIRTH"), value: placeOfBirth, setValue: setPlaceofBirth },
+        { label: t("NATIONALITY"), value: city, setValue: setNationality },
+        { label: t("SSN"), value: SSCNumber, setValue: setSSCNumber },
     ]
 
     // updatedProfileData
     const updatedProfile = [
-        { label: 'First name', value: updatedFirstname, setValue: setUpdatedFirstName },
-        { label: 'Last name', value: updatedLastName, setValue: setUpdatedLastName },
-        { label: 'Email', value: updatedEmail, setValue: setUpdatedEmail },
-        { label: 'Mobile number', value: updatedMobileNumber, setValue: setUpdatedMobileNumber, type: 'phoneInput' },
-        { label: 'Gender', value: updatedGender, setValue: setUpdatedGender },
-        { label: 'DOB', value: updatedDOB, setValue: setUpdatedDOB },
-        { label: 'Place of birth', value: updatedPlaceOfBirth, setValue: setUpdatedPlaceofBirth },
-        { label: 'Nationality', value: updatedNationality, setValue: setUpdatedNationality },
-        { label: 'Social security number', value: SSCNumber, setValue: setUpdatedSSCNumber, disabled: true },
+        { label: t("FIRST_NAME"), value: updatedFirstname, setValue: setUpdatedFirstName },
+        { label: t("LAST_NAME"), value: updatedLastName, setValue: setUpdatedLastName },
+        { label: t("EMAIL"), value: updatedEmail, setValue: setUpdatedEmail },
+        { label: t("MOBILE_NUMBER"), value: updatedMobileNumber, setValue: setUpdatedMobileNumber, type: 'phoneInput' },
+        { label: t("GENDER"), value: updatedGender, setValue: setUpdatedGender },
+        { label: t("DATE_OF_BIRTH"), value: updatedDOB, setValue: setUpdatedDOB },
+        { label: t("PLACE_OF_BIRTH"), value: updatedPlaceOfBirth, setValue: setUpdatedPlaceofBirth },
+        { label: t("NATIONALITY"), value: updatedNationality, setValue: setUpdatedNationality },
+        { label: t("SSN"), value: SSCNumber, setValue: setUpdatedSSCNumber, disabled: true },
     ]
 
     const address = [
-        { label: 'Street', value: street, setValue: setStreet },
-        { label: 'House Number', value: houseNumber, setValue: setHouseNumber },
-        { label: 'Box Number', value: boxNumber, setValue: setBoxNumber },
-        { label: 'Postal code', value: postalCode, setValue: setPostalCode },
-        { label: 'City', value: city, setValue: setCity },
-        { label: 'Country', value: country, setValue: setCountry },
+        { label: t("STREET"), value: street, setValue: setStreet },
+        { label: t("HOUSE_NUMBER"), value: houseNumber, setValue: setHouseNumber },
+        { label: t("BOX_NUMBER"), value: boxNumber, setValue: setBoxNumber },
+        { label: t("POSTAL_CODE"), value: postalCode, setValue: setPostalCode },
+        { label: t("CITY"), value: city, setValue: setCity },
+        { label: t("COUNTRY"), value: country, setValue: setCountry },
     ]
     //updated Address 
     const updatedAddress = [
-        { label: 'Street', value: updatedStreet, setValue: setUpdatedStreet },
-        { label: 'House Number', value: updatedHouseNumber, setValue: setUpdatedHouseNumber },
-        { label: 'Box Number', value: updatedBoxNumber, setValue: setUpdatedBoxNumber },
-        { label: 'Postal code', value: updatedpostalCode, setValue: setUpdatedPostalCode },
-        { label: 'City', value: updatedCity, setValue: setUpdatedCity },
-        { label: 'Country', value: updatedCountry, setValue: setUpdatedCountry },
+        { label: t("STREET"), value: updatedStreet, setValue: setUpdatedStreet },
+        { label: t("HOUSE_NUMBER"), value: updatedHouseNumber, setValue: setUpdatedHouseNumber },
+        { label: t("BOX_NUMBER"), value: updatedBoxNumber, setValue: setUpdatedBoxNumber },
+        { label: t("POSTAL_CODE"), value: updatedpostalCode, setValue: setUpdatedPostalCode },
+        { label: t("CITY"), value: updatedCity, setValue: setUpdatedCity },
+        { label: t("COUNTRY"), value: updatedCountry, setValue: setUpdatedCountry },
     ]
 
     let fieldData = [];
@@ -127,8 +128,8 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
             })}
         </div>
         {edit && <div className="float-right col-md-12 text-right mr-3 mb-1">
-            <CustomButton buttonName={'Save'} ActionFunction={() => setEditStatus(false)}></CustomButton>
-            <CustomButton buttonName={'Cancel'} ActionFunction={() => { setEditStatus(false); resetProfileData(); resetAddress() }}></CustomButton>
+            <CustomButton buttonName={t("SAVE")} ActionFunction={() => setEditStatus(false)}></CustomButton>
+            <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { setEditStatus(false); resetProfileData(); resetAddress() }}></CustomButton>
         </div>}
     </>
     );

@@ -325,7 +325,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>
                                             <td>
-                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon}></img>
+                                                <img className="shortcut-icon pointer" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon} title={t("DELETE")} alt={t("DELETE")}></img>
                                             </td>
                                         </tr>
                                     )

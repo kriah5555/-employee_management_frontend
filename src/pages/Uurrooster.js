@@ -185,19 +185,19 @@ export default function Uurrooster() {
                             options={locations}
                             selectedOptions={selectedLoc}
                             onSelectFunction={(e) => setSelectedLoc(e)}
-                            CustomStyle="col-md-8 my-2 px-0 mx-auto"
+                            CustomStyle="col-md-8 my-2 px-0 mx-auto pointer"
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
-                            <div className="button-style mr-5 mr-sm-2" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
+                            <div className="button-style mr-5 mr-sm-2" onClick={() => setNextPrev('prev')}><img className="planning-icon pointer" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
                             <p className="monthText mx-auto my-auto">{dayData}</p>
-                            <div className="button-style ml-5 ml-sm-2" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
+                            <div className="button-style ml-5 ml-sm-2" onClick={() => setNextPrev('next')}><img className="planning-icon pointer" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
                         </div>
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
                         <div className="float-left">
-                            <img className="mr-4" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}></img>
+                            <img className="mr-4 pointer" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}></img>
                             <br></br>
-                            <img className="mr-4 mt-4" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")}></img>
+                            <img className="mr-4 mt-4 pointer" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")}></img>
                         </div>
                         <QRCode
                             size={256}

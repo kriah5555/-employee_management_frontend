@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom"
 import { getFormattedDropdownOptions } from "../utilities/CommonFunctions"
 import Popup from "../utilities/popup/Popup"
 
-export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList}) {
+export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList }) {
 
     const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
@@ -31,7 +31,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
     const navigate = useNavigate()
-    
+
     // const [selectedCompany, setSelectedCompany] = useState("")
     const [isCompanyIdEmpty, setIsCompanyIdEmpty] = useState(false)
     const [message, setMessage] = useState(false)
@@ -72,7 +72,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                             //message popup if last company not matching  in company list
                             setIsCompanyIdEmpty(true)
                         }
-                    } 
+                    }
                     // else {
                     //     if (window.location.pathname !== "/manage-companies/company/0"){
                     //         setIsCompanyIdEmpty(true)
@@ -132,18 +132,18 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
 
     //Dummy data for menu content
     const MenuData = [
-        { title: 'My account', icon: '', url: '/my-account' },
-        { title: 'Change company', icon: '', url: '/change-company' },
-        { title: 'Change password', icon: '', url: '/change-password' },
-        { title: 'Logout', icon: '', url: '', ActionFunction: Logout },
+        { title: t("MY_ACCOUNT"), icon: '', url: '/my-account' },
+        { title: t("CHANGE_COMPANY"), icon: '', url: '/change-company' },
+        { title: t("CHANGE_PASSWORD"), icon: '', url: '/change-password' },
+        { title: t("LOGOUT"), icon: '', url: '', ActionFunction: Logout },
     ]
 
     const shortcutData = [
-        { title: 'Add planning', icon: AddPlanIcon, url: '/add-planning' },
-        { title: 'Add employee', icon: AddEmployeeIcon, url: '/add-employee' },
-        { title: 'Add holidays', icon: AddHolidayIcon, url: '/add-holidays' },
-        { title: 'Send invoices', icon: AddPlanIcon, url: '/send-incoices' },
-        { title: 'Add location', icon: AddLocation, url: '/add-location' },
+        { title: t("ADD_PLANNING"), icon: AddPlanIcon, url: '/add-planning' },
+        { title: t("ADD_EMPLOYEE"), icon: AddEmployeeIcon, url: '/add-employee' },
+        { title: t("ADD_HOLIDAYS"), icon: AddHolidayIcon, url: '/add-holidays' },
+        { title: t("SEND_INVOICES"), icon: AddPlanIcon, url: '/send-incoices' },
+        { title: t("ADD_LOCATION"), icon: AddLocation, url: '/add-location' },
     ]
 
     const NotificationData = [
@@ -193,7 +193,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                 body={
                     // companyList.length !== 0 ?
                     <>
-                        {message && <h6 className="text-danger">Please select responsible company</h6>}
+                        {message && <h6 className="text-danger">{t("PLEASE_SELECT_RESPONSIBLE_COMPANY")}</h6>}
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
@@ -202,7 +202,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                             styleClass=""
                             isMulti={false}
                         ></Dropdown>
-                    </> 
+                    </>
                     // :
                     // <>
                     //     <h6 className="text-danger">No companies found</h6>
@@ -211,7 +211,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                 }
                 onHide={() => setIsCompanyIdEmpty(false)}
                 backdrop="static"
-                title="Responsible company"
+                title={t("RESPONSIBLE_COMPANY")}
                 onConfirm={() => onConfirm()}
             ></Popup>}
             <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">

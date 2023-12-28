@@ -111,7 +111,7 @@ export default function AddContractType() {
         value: description
     }
     const contract_type_status = {
-        title: 'Status',
+        title: t("STATUS_TEXT"),
         required: true
     }
 

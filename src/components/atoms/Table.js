@@ -97,11 +97,11 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     }
 
 
-    const getViewIcon = () => { return (<img className="shortcut-icon" src={EyeIcon}></img>) }
-    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
-    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
-    const getLinkIcon = () => { return (<img className="planning-icon " src={LinkIcon}></img>) }
-    const getDetailIcon = () => { return (<img className="planning-icon" src={MoreIcon}></img>) }
+    const getViewIcon = () => { return (<img className="shortcut-icon pointer" src={EyeIcon}></img>) }
+    const getEditIcon = () => { return (<img className="header-icon pointer" src={EditIcon}></img>) }
+    const getDeleteIcon = () => { return (<img className="header-icon pointer" src={DeleteIcon}></img>) }
+    const getLinkIcon = () => { return (<img className="planning-icon pointer" src={LinkIcon}></img>) }
+    const getDetailIcon = () => { return (<img className="planning-icon pointer" src={MoreIcon}></img>) }
 
 
     //Define actions based on requirement (Below actions are for view and edit)
