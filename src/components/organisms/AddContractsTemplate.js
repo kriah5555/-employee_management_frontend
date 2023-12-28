@@ -7,7 +7,8 @@ import FormsNew from "../molecules/FormsNew";
 import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl, BASE_URL } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-import Table from "../atoms/Table"
+import Table from "../atoms/Table";
+import { t } from "../../translations/Translation";
 
 export default function AddContractsTemplate() {
 
@@ -49,12 +50,12 @@ export default function AddContractsTemplate() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -183,26 +184,26 @@ export default function AddContractsTemplate() {
 
     //form fields array
     const fieldData = (params.addType === 'company') ? [
-        { title: "Employee type", name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
+        { title: t("EMPLOYEE_TYPE"), name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
         // { title: "Upload file", name: "file", required: true, type: "file", style: "col-md-12 mt-2 float-left" },
-        { title: "Preview", name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: t("PREVIEW_TEXT"), name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ] : [
-        { title: "Employee type", name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
-        { title: 'Social secretary', name: 'social_secretary', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: "Preview", name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: t("EMPLOYEE_TYPE"), name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
+        { title: t("SOCIAL_SECRETARY"), name: 'social_secretary', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("PREVIEW_TEXT"), name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
     //token table headers
     const TableHeader = [
         {
-            title: "Name",
+            title: t("NAME_TEXT"),
             field: "name",
             size: 200.
         },
         {
-            title: "Description",
+            title: t("DESCRIPTION"),
             field: "value",
             size: 200.
         }
@@ -257,7 +258,7 @@ export default function AddContractsTemplate() {
                 })
         } else {
 
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
@@ -267,8 +268,8 @@ export default function AddContractsTemplate() {
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color d-flex ">
                     <div className="col-md-6 float-left">
-                        <img className="shortcut-icon mr-2 mb-1 " onClick={() => navigate(navigateUrl)} src={BackIcon}></img>
-                        Add contract template
+                        <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate(navigateUrl)} src={BackIcon}></img>
+                        {t("ADD_CONTRACT_TEMPLATE")}
                     </div>
                     <div className="col-md-6 float-right">
                         <ul className="d-flex float-right mr-5">
@@ -280,7 +281,7 @@ export default function AddContractsTemplate() {
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -295,7 +296,7 @@ export default function AddContractsTemplate() {
                     OnSave={OnSave}
                 />
                 <div className="px-5 pb-4">
-                    <h4 className="mb-3">Tokens:</h4>
+                    <h4 className="mb-3">{t("TOKENS") + (":")}</h4>
                     <Table columns={TableHeader} rows={tokensList} tableName="tokens" />
                 </div>
             </div>

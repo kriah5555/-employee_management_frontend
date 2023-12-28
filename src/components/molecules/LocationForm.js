@@ -134,7 +134,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     const statusCheckBoxList = [
         {
             key: "copy",
-            name: "Same as company address",
+            name: t("SAME_AS_COMPANY_ADDRESS"),
             // checked: addressCheckbox
         }
     ];
@@ -146,7 +146,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
         { title: t("SECTOR_HOUSE_NUMBER"), name: "street_house_no", required: false, type: "input_field" },
         { title: t("POSTAL_CODE"), name: "postal_code", required: false, type: "input_field" },
         { title: t("CITY"), name: "city", required: false, type: "input_field" },
-        { title: "Country", name: "country", required: false, type: "input_field" },
+        { title: t("COUNTRY"), name: "country", required: false, type: "input_field" },
     ];
 
 
@@ -156,22 +156,22 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                 return (
                     <div key={x}>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {locations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline" onClick={() => removeLocation(i)}>Remove</p>}
+                            {locations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline pointer" onClick={() => removeLocation(i)}>{t("REMOVE")}</p>}
                         </div>}
                         <CompanyForm
                             index={i}
                             view="location"
-                            title1={view !== 'location-single' ? 'Add location' : ''}
+                            title1={view !== 'location-single' ? t("ADD_LOCATION") : ''}
                             data1={locationFieldsArray}
                             formattedData1={locations}
-                            title2={'Address'}
+                            title2={t("ADDRESS_TITLE")}
                             data2={locationAddressArray}
                             formattedData2={locations[i]}
                             SetValues={setValues}
                             addressValues={addressCheckbox}
                         ></CompanyForm>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {i == locations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
+                            {i == locations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

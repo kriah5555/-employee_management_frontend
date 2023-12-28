@@ -224,8 +224,8 @@ export default function CompanyCreation({ setCompany }) {
         <div className="right-creation-container ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
-                    <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-companies#' + params.addType)} src={BackIcon}></img>
-                    {params.addType !== 'company-view' ? ((params.id !== '0' ? t("EDIT") : t("CREATE")) + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' || params.addType === 'responsible_person' ? params.addType.replace(/_/g, ' ') : params.addType))) : 'Company details'}
+                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-companies#' + params.addType)} src={BackIcon}></img>
+                    {params.addType !== 'company-view' ? ((params.id !== '0' ? t("EDIT") : t("CREATE")) + " " + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' || params.addType === 'responsible_person' ? params.addType.replace(/_/g, ' ') : params.addType))) : 'Company details'}
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
@@ -246,8 +246,8 @@ export default function CompanyCreation({ setCompany }) {
 
                     {tabType === 'company' && <TabPanel>
                         <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector} socialSecretary={socialSecretary} setSocialSecretary={setSocialSecretary} interimAgency={interimAgency} setInterimAgency={setInterimAgency}></AddCompanyForm></div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => SaveCompany('company')} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => SaveCompany('company')} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>}
 
                     <TabPanel>
@@ -264,25 +264,25 @@ export default function CompanyCreation({ setCompany }) {
                             theme="colored"
                         />
                         <div className=""><ResponsiblePersonForm customers={customers} setCustomers={setCustomers} getCustomerDropdownData={getCustomerDropdownData} selectedRole={selectedRole} setSelectedRole={setSelectedRole}></ResponsiblePersonForm></div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
                         {/* <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton> */}
                     </TabPanel>
 
                     <TabPanel>
                         <div className=""><AddLocationForm locations={locations} setLocations={setLocations} customerArray={customerArray} getLocationDropdownData={getLocationDropdownData} setLocationStatus={setLocationStatus} responsiblePerson={responsiblePerson} setResponsiblePerson={setResponsiblePerson} address={address}></AddLocationForm></div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("SKIP_LINK")} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
                         <div><WorkstationForm workstations={workstations} setWorkstations={setWorkstations} locationArray={locationArray} setWorkstationStatus={setWorkstationStatus} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} selectedFunction={selectedFunction} setSelectedFunction={setSelectedFunction} sector={companyData['sectors']}></WorkstationForm></div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
                         {/* <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton> */}
-                        <CustomButton buttonName={'Save'} ActionFunction={() => SaveCompany()} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveCompany()} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                         {/* <CustomButton buttonName={'Skip'} ActionFunction={() => setTabIndex(4)} CustomStyle="mr-3 my-3 float-right"></CustomButton> */}
                     </TabPanel>
 

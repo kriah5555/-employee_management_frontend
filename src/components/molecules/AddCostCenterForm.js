@@ -7,7 +7,7 @@ import { CostCenterApiUrl } from "../../routes/ApiEndPoints"
 import CompanyForm from "../molecules/CompanyForm";
 import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-
+import { t } from "../../translations/Translation";
 
 export default function AddCostCenterForm() {
 
@@ -48,12 +48,12 @@ export default function AddCostCenterForm() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -132,12 +132,12 @@ export default function AddCostCenterForm() {
 
     const costCenterFields = [
         // cost center fields
-        { title: 'Name', name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
-        { title: 'Cost center number', name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
-        { title: 'Location', name: 'location_id', required: true, options: getFormattedDropdownOptions(dropdownOptions.locations, "id", "location_name"), isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Workstations', name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Employees', name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees, "employee_profile_id", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: t("NAME_TEXT"), name: 'name', required: true, type: 'input_field', style: 'col-md-6 mt-4 float-left' },
+        { title: t("COST_CENTER_NUMBER"), name: 'cost_center_number', required: true, type: "input_field", style: 'col-md-6 mt-4 float-left' },
+        { title: t("LOCATION"), name: 'location_id', required: true, options: getFormattedDropdownOptions(dropdownOptions.locations, "id", "location_name"), isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: t("WORKSTATION"), name: 'workstations', required: true, options: workstationOptions, isMulti: true, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: t("EMPLOYEES_TITLE"), name: 'employees', required: false, options: getFormattedDropdownOptions(dropdownOptions.employees, "employee_profile_id", "full_name"), isMulti: true, selectedOptions: employees, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
     // Function to set values of cost center
@@ -204,14 +204,14 @@ export default function AddCostCenterForm() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
     return (
         <>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -222,8 +222,8 @@ export default function AddCostCenterForm() {
                 index={0}
             ></CompanyForm>
             <div className="col-md-12 my-4 text-right pr-5">
-                <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
-                <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
+                <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
+                <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
             </div>
         </>
     )

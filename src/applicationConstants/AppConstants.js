@@ -190,6 +190,7 @@ export const GET_CONSTANTS = {
     'EMAIL_ADDRESS': 'Email address',
     'SSN': 'Social security number',
     'SEARCH_TEXT': 'Search',
+    'SOCIAL_SECRETARY_NUMBER':'Social secretary number',
 
     // Manage companies
     'ADD_COMPANY': 'Add company',
@@ -290,7 +291,7 @@ export const GET_CONSTANTS = {
     'IDENTITY_INFO': 'Identity info',
     'CLOTHING_COMPENSAT': 'Clothing compensation',
     'MEAL_VOUCHER': 'Meal Voucher',
-    
+
     // Clone planning
     'CLONE_PLANNINGS': 'Clone plannings',
     'SELECT_WEEK_TO_COPY': 'Select a week to copy from',
@@ -328,5 +329,21 @@ export const GET_CONSTANTS = {
     'SECTOR_HOUSE_NUMBER': 'Street and house number',
     'CONTACT_EMAIL': 'Contact email',
     'SOCIAL_SECRETARY_DETAILS': 'Social secretary details',
+    'ROLES': 'Roles',
+    'REMOVE': 'Remove',
+    'ADD_ANOTHER': 'Add another',
+    'SAME_AS_COMPANY_ADDRESS': 'Same as company address',
+    'SKIP_LINK': 'Skip',
+    'WORKSTATION_NAME': 'Workstation name',
+    'ACTIVE': 'Active',
+    'INACTIVE':'Inactive',
+    'COST_CENTER_NUMBER':'Cost center number',
+    'PLEASE_FILL_REQUIRED_FIELDS':'Please fill required fields',
+    'PREVIEW_TEXT':'Preview',
+    'DESCRIPTION':'Description',
+    'ADD_CONTRACT_TEMPLATE':' Add contract template',
+    'TOKENS':'Tokens',
+    'COMPANY_DETAILS':'Company details',
+    'SECTOR_NAME':'Sector name'
 
 };
