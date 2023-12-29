@@ -196,9 +196,10 @@ export default function AddOpenShift(props) {
                         progress: undefined,
                         theme: "colored",
                     });
-                } else {
-                    setErrors([result.message[0]])
-                }
+                } 
+                // else {
+                //     setErrors([result.message[0]])
+                // }
             })
             .catch((error) => {
                 console.log(error);

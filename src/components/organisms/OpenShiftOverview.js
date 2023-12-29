@@ -282,8 +282,8 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown, showDetail
                         <CustomButton buttonName={"create shift"} ActionFunction={() => setOpenPopup(true)} CustomStyle="my-4 mr-2 mt-3"></CustomButton>
                     </div>
                 </div></>}
-                {!showDetails && <Table columns={headers} rows={showDrafts?draftedShiftList:deletedShiftList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>}
-                {showDetails && <Table columns={headers} rows={showDrafts?draftedShiftList:deletedShiftList} tableName={"open_shifts_overview"} showDetails={showDetails}></Table>}
+                {!showDetails && <Table columns={headers} rows={showDrafts?draftedShiftList:activeShiftList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>}
+                {showDetails && <Table columns={headers} rows={showDrafts?draftedShiftList:activeShiftList} tableName={"open_shifts_overview"} showDetails={showDetails}></Table>}
             </div>
         </div>
     )
