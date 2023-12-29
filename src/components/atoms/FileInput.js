@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import RequiredIcon from "../../static/icons/exclamation-mark1.png"
-
+import RequiredIcon from "../../static/icons/exclamation-mark1.png";
+import { t } from "../../translations/Translation";
 export default function FileInput({ title, CustomStyle, index, name, value, setValue, error, required, styleMargin }) {
 
   const [selectedFile, setSelectedFile] = useState(value)
@@ -24,7 +24,7 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
         </p>}
       </div>
       <div className="col-md-12 file-input-container ">
-        <span id="file-name-label" className="">Choose a file</span>
+        <span id="file-name-label" className="">{t("CHOOSE_A_FILE")}</span>
         <input name={name} type="file" className="file-input" onChange={handleFileInput} value={value} />
       </div>
     </div>)

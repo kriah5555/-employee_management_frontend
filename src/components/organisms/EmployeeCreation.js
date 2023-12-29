@@ -13,8 +13,6 @@ import AddEmployeeContractTypes from "../molecules/AddEmployeeContractTypes";
 import AddEmployeeFunctionSalaries from "../molecules/AddEmployeeFunctionSalaries";
 import AddEmployeeAdditionalInfo from "../molecules/AddEmployeeAdditionalInfo";
 
-
-
 export default function EmployeeCreation() {
 
     const navigate = useNavigate();
@@ -189,14 +187,14 @@ export default function EmployeeCreation() {
     return (
         <div className="right-creation-container ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
-                <h4 className="mb-0 text-color">
-                    <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees')} src={BackIcon}></img>
+                <h4 className="mb-0 text-color d-flex align-items-center">
+                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-employees')} src={BackIcon}></img>
                     {/* {(params.id !== '' ? 'Edit ' : 'Create ') + "employees"} */}
-                    Create employee
+                    {t("CREATE_EMPLOYEE")}
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -225,8 +223,8 @@ export default function EmployeeCreation() {
                                 childrenOptions={childrenOptions}
                             ></AddEmployeePersonalDetails>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => setTabIndex(1)} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
@@ -238,9 +236,9 @@ export default function EmployeeCreation() {
                                 selectedEmpTypeCategory={selectedEmpTypeCategory} setSelectedEmpTypeCategory={setSelectedEmpTypeCategory}
                             ></AddEmployeeContractTypes>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => setTabIndex(2)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => setTabIndex(0)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
@@ -253,9 +251,9 @@ export default function EmployeeCreation() {
                                 employeeContracts={employeeContracts} setEmployeeContracts={setEmployeeContracts}
                             ></AddEmployeeFunctionSalaries>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => setTabIndex(3)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => setTabIndex(1)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
@@ -269,9 +267,9 @@ export default function EmployeeCreation() {
                                 options={employeeCommuteOptions}
                             ></AddEmployeeFunctionSalaries>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
-                        <CustomButton buttonName={'Next'} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => setTabIndex(4)} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => setTabIndex(2)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                     <TabPanel>
@@ -285,9 +283,9 @@ export default function EmployeeCreation() {
                                 employeeData={employeeData} setEmployeeData={setEmployeeData}
                             ></AddEmployeeAdditionalInfo>
                         </div>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
-                        <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle="my-3 float-right"></CustomButton>
-                        <CustomButton buttonName={'Prev'} ActionFunction={() => setTabIndex(3)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-employees')} CustomStyle="my-3 ml-0 float-left"></CustomButton>
+                        <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle="my-3 float-right"></CustomButton>
+                        <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => setTabIndex(3)} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                     </TabPanel>
 
                 </Tabs>

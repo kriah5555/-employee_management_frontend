@@ -8,6 +8,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
+import { t } from "../../translations/Translation";
 
 export default function ConfigurationOverviews() {
 
@@ -21,12 +22,12 @@ export default function ConfigurationOverviews() {
     // Header data for employee and sector overview
     const emp_type_sector_headers = [
         {
-            title: 'Title',
+            title: t("TITLE_TEXT"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         },
@@ -35,12 +36,12 @@ export default function ConfigurationOverviews() {
     // Header data for Group function overview
     const group_function_headers = [
         {
-            title: 'Group function title',
+            title: t("GROUP_FUNCTION_TITLE"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Sector',
+            title: t("SECTOR"),
             field:'sector_id',
             size:200,
         },
@@ -50,7 +51,7 @@ export default function ConfigurationOverviews() {
         //     size: 200,
         // },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         },
@@ -59,17 +60,17 @@ export default function ConfigurationOverviews() {
     // Header data for reasons
     const reasons_headers = [
         {
-            title: 'Reason',
+            title: t("REASON"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Category',
+            title: t("CATEGORY"),
             field: 'category',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         },
@@ -77,12 +78,12 @@ export default function ConfigurationOverviews() {
     // Headers for social secretary
     const social_secretary_headers = [
         {
-            title: 'Social secretary',
+            title: t("SOCIAL_SECRETARY"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         }
@@ -90,17 +91,17 @@ export default function ConfigurationOverviews() {
     // Headers for social secretary
     const interim_agencies_headers = [
         {
-            title: 'Interim agency',
+            title: t("INTERIM_AGENCY"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Email',
+            title: t("EMAIL"),
             field: 'email',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         }
@@ -120,34 +121,34 @@ export default function ConfigurationOverviews() {
             setHeaders(emp_type_sector_headers);
             if (overviewContent === 'sectors') {
                 apiUrl = SectorApiUrl
-                setTitle('Manage sectors'); setAddTitle('Add sector'); setAddUrl('/add-sector');
+                setTitle(t("MANAGE_SECTORS")); setAddTitle(t("ADD_SECTOR")); setAddUrl('/add-sector');
             } else {
                 apiUrl = EmployeeTypeApiUrl
-                setTitle('Manage employee types'); setAddTitle('Add employee type'); setAddUrl('/add-employee-type');
+                setTitle(t("MANAGE_EMPLOYEE_TYPES")); setAddTitle(t("ADD_EMPLOYEE_TYPE")); setAddUrl('/add-employee-type');
             }
 
         } else if (overviewContent === 'functions') {
             apiUrl = FunctionApiUrl
-            setHeaders(emp_type_sector_headers); setTitle('Manage functions'); setAddTitle('Add function'); setAddUrl('/add-function');
+            setHeaders(emp_type_sector_headers); setTitle(t("MANAGE_FUNCTIONS")); setAddTitle(t("ADD_FUNCTION")); setAddUrl('/add-function');
 
         } else if (overviewContent === 'group_functions') {
             apiUrl = GroupFunctionApiUrl
-            setHeaders(group_function_headers); setTitle('Manage group functions'); setAddTitle('Add group function'); setAddUrl('/add-group-function');
+            setHeaders(group_function_headers); setTitle(t("MANAGE_GROUP_FUNCTION")); setAddTitle(t("ADD_GROUP_FUNCTION")); setAddUrl('/add-group-function');
 
         } else if (overviewContent === 'contract_type') {
             apiUrl = ContractTypeApiUrl
-            setHeaders(emp_type_sector_headers); setTitle('Manage contract types'); setAddTitle('Add contract type'); setAddUrl('/add-contract-type');
+            setHeaders(emp_type_sector_headers); setTitle(t("MANAGE_CONTRACT_TYPES")); setAddTitle(t("ADD_CONTRACT_TYPE")); setAddUrl('/add-contract-type');
 
         } else if (overviewContent === 'reasons') {
             apiUrl = ReasonsApiUrl
-            setHeaders(reasons_headers); setTitle('Manage reasons'); setAddTitle('Add reasons'); setAddUrl('/add-reasons');
+            setHeaders(reasons_headers); setTitle(t("MANAGE_REASONS")); setAddTitle(t("ADD_REASONS")); setAddUrl('/add-reasons');
 
         } else if (overviewContent === 'social_secretary') {
             apiUrl = SocialSecretaryApiUrl
-            setHeaders(social_secretary_headers); setTitle('Manage social secretary'); setAddTitle('Add social secretary'); setAddUrl('/add-social-secretary');
+            setHeaders(social_secretary_headers); setTitle(t("MANAGE_SOCIAL_SECRETARY")); setAddTitle(t("ADD_SOCIAL_SECRETARY")); setAddUrl('/add-social-secretary');
         } else if (overviewContent === 'interim-agencies') {
             apiUrl = InterimAgencyApiUrl
-            setHeaders(interim_agencies_headers); setTitle('Manage interim agencies'); setAddTitle('Add interim agency'); setAddUrl('/add-interim-agency');
+            setHeaders(interim_agencies_headers); setTitle(t("MANAGE_INTERIM_AGENCIES")); setAddTitle(t("ADD_INTERIM_AGENCIES")); setAddUrl('/add-interim-agency');
         }
 
         // Api call to get list data
@@ -192,7 +193,7 @@ export default function ConfigurationOverviews() {
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage('Are you sure you want to delete this item?')
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") +("?"))
         }
         if (overviewContent === 'employee_type') {
             if (action === 'edit') {
@@ -263,24 +264,24 @@ export default function ConfigurationOverviews() {
                 theme="colored"
             />
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
             {overviewContent !== 'min_salary' && <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick"}>
-                    <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
+                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick align-items-center"}>
+                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer" onClick={() => navigate(addUrl)}>
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center" onClick={() => navigate(addUrl)}>
                             <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
                         </p>}
                     </div>
                 </div>
 
                 <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'calc(100vh - 190px)'} ></Table>
                 </div>
             </div>}
             {/* Minimum salary configurations */}

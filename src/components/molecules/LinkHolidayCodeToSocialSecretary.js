@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import TextInput from "../atoms/formFields/TextInput";
 import BackIcon from "../../static/icons/BackIcon.png"
 import CustomButton from "../atoms/CustomButton";
-
+import { t } from "../../translations/Translation";
 
 export default function LinkHolidayCodeToSocialSecretary() {
 
@@ -87,16 +87,16 @@ export default function LinkHolidayCodeToSocialSecretary() {
                 onHide={() => setErrors([])}
             ></ErrorPopup>} */}
             <div className="form-container my-3 border bg-white">
-                <h3 className="col-md-12 px-3 pt-4 mb-0 ml-0 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate(redirectURL)} src={BackIcon}></img>Link holiday code</h3>
+                <h3 className="col-md-12 px-3 pt-4 mb-0 ml-0 text-color"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{t("LINK_HOLIDAY_CODE")}</h3>
                 <div className="row m-0 my-3 px-5 pt-3 table-head-bg">
                     <div className="col-md-4 text-start">
-                        <h5>Holiday code name</h5>
+                        <h5>{t("HOLIDAY_CODE_NAME")}</h5>
                     </div>
                     <div className="col-md-4">
-                        <h5>Internal code</h5>
+                        <h5>{t("INETRNAL_CODE")}</h5>
                     </div>
                     <div className="col-md-4">
-                        <h5>Social secretary code</h5>
+                        <h5>{t("SOCIAL_SECRETARY_CODE")}</h5>
                     </div>
                 </div>
                 {listData.map((val, i) => {
@@ -113,8 +113,8 @@ export default function LinkHolidayCodeToSocialSecretary() {
                     </div>)
                 })}
                 <div className="col-md-12 mb-3 text-right pr-5 my-5">
-                    <CustomButton buttonName={'Save'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
-                    <CustomButton buttonName={'Back'} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
+                    <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
                 </div>
             </div>
         </div>

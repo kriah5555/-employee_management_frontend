@@ -5,6 +5,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
+import { t } from "../../translations/Translation";
 
 export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany }) {
 
@@ -18,17 +19,17 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     // Header data for company overview
     const Company_headers = [
         {
-            title: 'Company',
+            title: t("COMPANY"),
             field: 'company_name',
             size: 200,
         },
         {
-            title: 'Email address',
+            title: t("EMAIL_ADDRESS"),
             field: 'email',
             size: 200,
         },
         {
-            title: 'Phone number',
+            title: t("PHONE_NUMBER"),
             field: 'phone',
             size: 200,
         },
@@ -37,17 +38,17 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     // Header data for location overview
     const Location_headers = [
         {
-            title: 'Location',
+            title: t("LOCATION_TITLE"),
             field: "location",
             size: 200,
         },
         {
-            title: 'Address',
+            title: t("ADDRESS_TITLE"),
             field: "address",
             size: 300,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         },
@@ -56,17 +57,17 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     // Header data for workstation overview
     const Workstation_headers = [
         {
-            title: 'Workstation',
+            title: t("WORK_STATION"),
             field: 'workstation_name',
             size: 200,
         },
         {
-            title: 'Sequence number',
+            title: t("SEQUENCE_NUMBER"),
             field: 'sequence_number',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 250,
         }
@@ -74,17 +75,17 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
 
     const Resp_person_headers = [
         {
-            title: 'Name',
+            title: t("NAME_TEXT"),
             field:'full_name',
             size: 200,
         },
         {
-            title: 'Social security number',
+            title: t("SSN"),
             field: 'social_security_number',
             size: 200,
         },
         {
-            title: 'Role',
+            title: t("ROLE"),
             field: 'role',
             size: 250,
         }
@@ -94,17 +95,17 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     //cost center headers
     const cost_center_headers = [
         {
-            title: 'Title',
+            title: t("TITLE_TEXT"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Location',
+            title: t("LOCATION_TITLE"),
             field: 'location.location_name',
             size: 200,
         },
         {
-            title: 'Status',
+            title: t("STATUS_TEXT"),
             field: 'status',
             size: 200,
         },
@@ -113,7 +114,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     //contract headers
     const contracts_template_headers = [
         {
-            title: 'Employee Type',
+            title: t("EMPLOYEE_TYPE"),
             field: 'employee_type.name',
             size: '200',
         },
@@ -214,7 +215,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
 
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage('Are you sure you want to delete this item?')
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ("?"))
         }
         if (overviewContent === 'company') {
             if (action === 'edit') {
@@ -264,7 +265,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     return (
         <>
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}

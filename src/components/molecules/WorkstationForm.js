@@ -4,7 +4,7 @@ import CustomButton from "../atoms/CustomButton";
 import { FunctionApiUrl, GetSectorFunctionsApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-
+import { t } from "../../translations/Translation";
 
 export default function WorkstationForm({ workstations, setWorkstations, locationArray, setLocationArray, setWorkstationStatus, view, update_id,
     selectedLocation, setSelectedLocation, selectedFunction, setSelectedFunction, sector }) {
@@ -131,10 +131,10 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
 
     // Workstation default fields array
     const workstationFieldsArray = [
-        { title: "Workstation name", name: "workstation_name", required: false, type: "input_field" },
-        { title: "Sequence Number", name: "sequence_number", required: false, type: "input_field" },
-        { title: "Locations", name: 'locations_index', options: locationArray, isMulti: true, selectedOptions: selectedLocation, required: false, type: "dropdown" },
-        { title: "Functions", name: "function_titles", options: functionOptions, isMulti: true, selectedOptions: selectedFunction, required: false, type: "dropdown" },
+        { title: t("WORKSTATION_NAME"), name: "workstation_name", required: false, type: "input_field" },
+        { title: t("SEQUENCE_NUMBER"), name: "sequence_number", required: false, type: "input_field" },
+        { title: t("LOCATIONS"), name: 'locations_index', options: locationArray, isMulti: true, selectedOptions: selectedLocation, required: false, type: "dropdown" },
+        { title: t("FUNCTIONS"), name: "function_titles", options: functionOptions, isMulti: true, selectedOptions: selectedFunction, required: false, type: "dropdown" },
     ];
 
     return (
@@ -143,18 +143,18 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                 return (
                     <div key={x}>
                         {view !== 'workstation-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {workstations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline" onClick={() => removeWorkstation(i)}>Remove</p>}
+                            {workstations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline pointer" onClick={() => removeWorkstation(i)}>{t("REMOVE")}</p>}
                         </div>}
                         <CompanyForm
                             index={i}
                             view="workstation"
-                            title1={view !== 'workstation-single' ? 'Add workstation' : ''}
+                            title1={view !== 'workstation-single' ? t("ADD_WORKSTATION") : ''}
                             data1={workstationFieldsArray}
                             formattedData1={workstations[i]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'workstation-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {i == workstations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => AddNewWorkstation()} CustomStyle="mr-5"></CustomButton>}
+                            {i == workstations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => AddNewWorkstation()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

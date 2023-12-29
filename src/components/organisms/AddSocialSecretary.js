@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { SocialSecretaryApiUrl } from "../../routes/ApiEndPoints"
-
+import { t } from "../../translations/Translation";
 
 export default function AddSocialSecretary() {
 
@@ -34,12 +34,12 @@ export default function AddSocialSecretary() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -71,8 +71,8 @@ export default function AddSocialSecretary() {
 
     // social secretary fields
     const socialSecretaryFields = [
-        { title: 'Social secretary name', name: 'name', required: true, type: 'text', style: 'col-md-12 mt-4 float-left' },
-        { title: 'Status', required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: t("SOCIAL_SECRETARY_NAME"), name: 'name', required: true, type: 'text', style: 'col-md-12 mt-4 float-left' },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ];
 
     // Function to set values of social secretary
@@ -124,7 +124,7 @@ export default function AddSocialSecretary() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
     return (
@@ -135,13 +135,13 @@ export default function AddSocialSecretary() {
             onHide={() => navigate('/manage-configurations/social_secretary')}
         ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <FormsNew
                 view="social secretary"
-                formTitle={'Add social secretary'}
+                formTitle={t("ADD_SOCIAL_SECRETARY")}
                 redirectURL={'/manage-configurations/social_secretary'}
                 formattedData={socialSecretaryData}
                 data={socialSecretaryFields}

@@ -13,9 +13,9 @@ export default function CreateShifts({ SaveShift, setShiftPopupOpen, shiftData, 
     const [rowArr, setRowArr] = useState(shiftData.shifts.length === 0 ? [1] : [...shiftData.shifts, 1]);
 
     const planFields = [
-        { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
-        { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
-        { title: 'Contract hours', name: 'contract_hours', required: true, type: 'text', style: "col-md-4 mt-2 float-left" },
+        { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
+        { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
+        { title: t("CONTRACT_HOURS"), name: 'contract_hours', required: true, type: 'text', style: "col-md-4 mt-2 float-left" },
     ]
 
     const setValues = (index, name, value, field) => {
@@ -81,7 +81,7 @@ export default function CreateShifts({ SaveShift, setShiftPopupOpen, shiftData, 
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" className='container' >
-                    ADD/EDIT SHIFTS
+                    {t("ADD_EDIT_SHIFTS")}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -98,7 +98,7 @@ export default function CreateShifts({ SaveShift, setShiftPopupOpen, shiftData, 
                                 />
                             </div>
                             <div className="col-md-1 ml-4 px-3 text-center py-4 border">
-                                <img className="shortcut-icon" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
+                                <img className="shortcut-icon pointer" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
                                     onClick={() => AddRemovePlanRow(rowArr.length - 1 === index ? 'add' : 'remove', index)}></img>
                             </div>
                         </div>
@@ -107,7 +107,7 @@ export default function CreateShifts({ SaveShift, setShiftPopupOpen, shiftData, 
             </Modal.Body>
             <Modal.Footer>
                 <Button className='button-style float-left' onClick={() => { SaveShift() }}> {/*setPlanPopup(false); */}
-                    {'Save'}
+                    {t("SAVE")}
                 </Button>
                 <Button className='button-style' onClick={() => setShiftPopupOpen(false)}>
                     {t('CLOSE')}

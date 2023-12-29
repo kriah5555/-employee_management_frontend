@@ -135,18 +135,18 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
 
     //Dummy data for menu content
     const MenuData = [
-        { title: 'My account', icon: '', url: '/my-account' },
-        { title: 'Change company', icon: '', url: '/change-company' },
-        { title: 'Change password', icon: '', url: '/change-password' },
-        { title: 'Logout', icon: '', url: '', ActionFunction: Logout },
+        { title: t("MY_ACCOUNT"), icon: '', url: '/my-account' },
+        { title: t("CHANGE_COMPANY"), icon: '', url: '/change-company' },
+        { title: t("CHANGE_PASSWORD"), icon: '', url: '/change-password' },
+        { title: t("LOGOUT"), icon: '', url: '', ActionFunction: Logout },
     ]
 
     const shortcutData = [
-        { title: 'Add planning', icon: AddPlanIcon, url: '/add-planning' },
-        { title: 'Add employee', icon: AddEmployeeIcon, url: '/add-employee' },
-        { title: 'Add holidays', icon: AddHolidayIcon, url: '/add-holidays' },
-        { title: 'Send invoices', icon: AddPlanIcon, url: '/send-incoices' },
-        { title: 'Add location', icon: AddLocation, url: '/add-location' },
+        { title: t("ADD_PLANNING"), icon: AddPlanIcon, url: '/add-planning' },
+        { title: t("ADD_EMPLOYEE"), icon: AddEmployeeIcon, url: '/add-employee' },
+        { title: t("ADD_HOLIDAYS"), icon: AddHolidayIcon, url: '/add-holidays' },
+        { title: t("SEND_INVOICES"), icon: AddPlanIcon, url: '/send-incoices' },
+        { title: t("ADD_LOCATION"), icon: AddLocation, url: '/add-location' },
     ]
 
     const NotificationData = [
@@ -196,7 +196,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                 body={
                     // companyList.length !== 0 ?
                     <>
-                        {message && <h6 className="text-danger">Please select responsible company</h6>}
+                        {message && <h6 className="text-danger">{t("PLEASE_SELECT_RESPONSIBLE_COMPANY")}</h6>}
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
@@ -214,21 +214,21 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                 }
                 onHide={() => setIsCompanyIdEmpty(false)}
                 backdrop="static"
-                title="Responsible company"
+                title={t("RESPONSIBLE_COMPANY")}
                 onConfirm={() => onConfirm()}
             ></Popup>}
             <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
-                <div className="d-flex">
+                <div className="d-flex col-xl-3 col-lg-4">
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
                     {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany ? selectedCompany.label : companyList[0].label}</h4>}
-                    {companyList.length > 1 && <div className="d-flex col-md-12">
+                    {companyList.length > 1 && <div className="d-flex  col-lg-8 col-xl-12">
                         <Dropdown
                             options={companyList}
                             selectedOptions={selectedCompany}
                             onSelectFunction={(e) => onCompanySelect(e)}
-                            CustomStyle="col-md-12"
+                            CustomStyle="w-100"
                             // styleClass="company-dropdown"
                             isMulti={false}
                         >
@@ -245,7 +245,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                         )
                     })}
                     <li><h5 className="align-items-center pt-2 mb-0 ml-4 dark-color">{Time}</h5></li>
-                    <li className="mx-3 px-2">
+                    <li className="mx-3 px-2 w-max-content">
                         <Dropdown
                             options={LanguageOptions}
                             selectedOptions={activeLanguage}

@@ -6,22 +6,23 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function AddEmployeeFunctionSalaries({ tabIndex, options, functionSalaries, setFunctionSalaries, locationTransport, setLocationTransport, functions, setFunctions, locations, setLocations, commute, setCommute, employeeContracts, setEmployeeContracts, }) {
 
     const FunctionSalariesHeaders = [
-        { title: 'Function', style: 'col-md-3 pl-3' },
-        { title: 'Experience', style: 'col-md-2 text-center' },
-        { title: 'Minimum salary', style: 'col-md-2 text-center' },
-        { title: 'Salary to be paid', style: 'col-md-3 text-center' },
-        { title: 'Actions', style: 'col-md-2 text-right pr-5' },
+        { title: t("FUNCTION_TITLE"), style: 'col-md-3 pl-3' },
+        { title: t("EXPERIENCE"), style: 'col-md-2 text-center' },
+        { title: t("MINIMUM_SALARY"), style: 'col-md-2 text-center' },
+        { title: t("SALARY_TO_BE_PAID"), style: 'col-md-3 text-center' },
+        { title: t("ACTIONS"), style: 'col-md-2 text-right pr-5' },
     ]
 
     const TransportationHeaders = [
-        { title: 'Location', style: 'col-md-3 pl-3' },
-        { title: 'Distance(kms)', style: 'col-md-3 text-center' },
-        { title: 'Commute', style: 'col-md-3 text-center' },
-        { title: 'Actions', style: 'col-md-3 text-right pr-5' },
+        { title: t("LOCATION"), style: 'col-md-3 pl-3' },
+        { title: t("DISTANCE_IN_KMS"), style: 'col-md-3 text-center' },
+        { title: t("COMMUTE"), style: 'col-md-3 text-center' },
+        { title: t("ACTIONS"), style: 'col-md-3 text-right pr-5' },
     ]
 
     const headers = (tabIndex === 2 ? FunctionSalariesHeaders : TransportationHeaders)
@@ -256,8 +257,8 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                             </div>
                             }
                             {index === rows.length - 1 && <div className={tabIndex === 3 ? "col-md-3 text-right pr-4" : "col-md-2 text-right pr-4"}>
-                                {<img className="header-icon mr-4" src={AddIcon} onClick={() => AddNewRow()}></img>}
-                                {rows.length > 1 && <img className="header-icon" src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
+                                {<img className="header-icon mr-4 pointer" title={t("ADD_TEXT")} src={AddIcon} onClick={() => AddNewRow()}></img>}
+                                {rows.length > 1 && <img className="header-icon pointer" title={t("DELETE")} src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
                             </div>}
                         </div>
                     )

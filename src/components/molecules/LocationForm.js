@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 import { LocationApiUrl, ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
-import { APICALL as AXIOS } from "../../services/AxiosServices"
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { t } from "../../translations/Translation";
 
 export default function Addlocation({ locations, setLocations, customerArray, getLocationDropdownData, setLocationStatus, view, update_id, responsiblePerson, setResponsiblePerson, address }) {
 
@@ -125,15 +126,15 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
 
     //add location fields
     const locationFieldsArray = [
-        { title: "Location", name: "location_name", required: false, type: "input_field" },
-        { title: "Responsible persons", options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
+        { title: t("LOCATION"), name: "location_name", required: false, type: "input_field" },
+        { title: t("RESPONSIBLE_PERSONS"), options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
     ]
 
     //checkbox list
     const statusCheckBoxList = [
         {
             key: "copy",
-            name: "Same as company address",
+            name: t("SAME_AS_COMPANY_ADDRESS"),
             // checked: addressCheckbox
         }
     ];
@@ -142,10 +143,10 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     //adress fields for company
     const locationAddressArray = [
         { title: "", checkboxList: statusCheckBoxList, changeCheckbox: setValues, type: "checkbox" },
-        { title: "Street and house number", name: "street_house_no", required: false, type: "input_field" },
-        { title: "Postal code", name: "postal_code", required: false, type: "input_field" },
-        { title: "City", name: "city", required: false, type: "input_field" },
-        { title: "Country", name: "country", required: false, type: "input_field" },
+        { title: t("SECTOR_HOUSE_NUMBER"), name: "street_house_no", required: false, type: "input_field" },
+        { title: t("POSTAL_CODE"), name: "postal_code", required: false, type: "input_field" },
+        { title: t("CITY"), name: "city", required: false, type: "input_field" },
+        { title: t("COUNTRY"), name: "country", required: false, type: "input_field" },
     ];
 
 
@@ -155,22 +156,22 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                 return (
                     <div key={x}>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {locations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline" onClick={() => removeLocation(i)}>Remove</p>}
+                            {locations.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline pointer" onClick={() => removeLocation(i)}>{t("REMOVE")}</p>}
                         </div>}
                         <CompanyForm
                             index={i}
                             view="location"
-                            title1={view !== 'location-single' ? 'Add location' : ''}
+                            title1={view !== 'location-single' ? t("ADD_LOCATION") : ''}
                             data1={locationFieldsArray}
                             formattedData1={locations}
-                            title2={'Address'}
+                            title2={t("ADDRESS_TITLE")}
                             data2={locationAddressArray}
                             formattedData2={locations[i]}
                             SetValues={setValues}
                             addressValues={addressCheckbox}
                         ></CompanyForm>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {i == locations.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
+                            {i == locations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

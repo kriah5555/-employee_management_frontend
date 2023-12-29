@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
+import { t } from "../../translations/Translation";
 
 
 export default function EmployeesOverview({ setShowDetails, showDetails, eid, setEid }) {
@@ -17,22 +18,22 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
     // Header data for employee overview
     const employeeHeaders = [
         {
-            title: 'Employee',
+            title: t("EMPLOYEE_TITLE"),
             field: 'employee',
             sorting: false
         },
         {
-            title: 'Mobile number',
+            title: t("MOBILE_NUMBER"),
             field: 'number',
             sorting: false
         },
         {
-            title: 'Email address',
+            title: t("EMAIL_ADDRESS"),
             field: 'email',
             sorting: false
         },
         {
-            title: 'Social security number',
+            title: t("SSN"),
             field: 'ssn',
             sorting: false
         },
@@ -41,7 +42,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
     //Header for employee list in employee details view
     const hidingHeaders = [
         {
-            title: 'Search',
+            title: t("SEARCH_TEXT"),
             field: 'employee',
             size: 100,
         }

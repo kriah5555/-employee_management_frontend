@@ -32,7 +32,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
 
     const checkboxList = [
         {
-            name: 'Select for multiple plannings',
+            name: t("SELECT_FOR_MULTIPLE_PLANNINGS"),
             key: 'active',
             checked: multipleDatesStatus,
         },
@@ -69,18 +69,18 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
     }
 
     const formFields = !updatePlan ? [
-        { title: 'Employee type', name: 'employee_type_id', required: true, options: employeeTypeOptions !== undefined ? employeeTypeOptions.employee_types : [], selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Function', name: 'function_id', required: true, options: employeeTypeOptions !== undefined && employeeTypeOptions.functions !== undefined ? employeeTypeOptions.functions[selectedEmployeeType !== undefined ? selectedEmployeeType.value : selectedEmployeeType] : [], selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("EMPLOYEE_TYPE"), name: 'employee_type_id', required: true, options: employeeTypeOptions !== undefined ? employeeTypeOptions.employee_types : [], selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("FUNCTION_TITLE"), name: 'function_id', required: true, options: employeeTypeOptions !== undefined && employeeTypeOptions.functions !== undefined ? employeeTypeOptions.functions[selectedEmployeeType !== undefined ? selectedEmployeeType.value : selectedEmployeeType] : [], selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: "col-md-12 mt-4 mb-2 float-left" }
     ] : [
-        { title: 'Employee type', name: 'employee_type_id', required: true, options: employeeTypeOptions !== undefined ? employeeTypeOptions.employee_types : [], selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Function', name: 'function_id', required: true, options: employeeTypeOptions !== undefined && employeeTypeOptions.functions !== undefined ? employeeTypeOptions.functions[selectedEmployeeType !== undefined ? selectedEmployeeType.value : selectedEmployeeType] : [], selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("EMPLOYEE_TYPE"), name: 'employee_type_id', required: true, options: employeeTypeOptions !== undefined ? employeeTypeOptions.employee_types : [], selectedOptions: selectedEmployeeType, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("FUNCTION_TITLE"), name: 'function_id', required: true, options: employeeTypeOptions !== undefined && employeeTypeOptions.functions !== undefined ? employeeTypeOptions.functions[selectedEmployeeType !== undefined ? selectedEmployeeType.value : selectedEmployeeType] : [], selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ]
 
     const planFields = [
-        { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
-        { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
-        { title: 'Contract hours', name: 'contract_hours', required: true, type: 'text', style: "col-md-4 mt-2 float-left" },
+        { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
+        { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-4 mt-2 float-left" },
+        { title: t("CONTRACT_HOURS"), name: 'contract_hours', required: true, type: 'text', style: "col-md-4 mt-2 float-left" },
     ]
 
     const multiDatePicker = [
@@ -198,7 +198,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" className='container' >
-                    ADD PLANNING
+                    {t("ADD_PLANNING")}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -219,7 +219,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                                     formattedData={planningData}
                                 />
                             </div>
-                            <img src={CalendarIcon} className="pb-3 ml-4 shortcut_icon"></img>
+                            <img src={CalendarIcon} className="pb-3 ml-4 shortcut_icon pointer"></img>
                         </div>
                     }
                     {rowArr.map((row, index) => {
@@ -235,7 +235,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                                     />
                                 </div>
                                 <div className="col-md-1 ml-4 px-3 text-center py-4 border">
-                                    <img className="shortcut-icon" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
+                                    <img className="shortcut-icon pointer" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
                                         onClick={() => AddRemovePlanRow(rowArr.length - 1 === index ? 'add' : 'remove', index, planningData['timings'][index])}></img>
                                 </div>
                                 {/* <div className=" ml-3 px-3 text-center py-4 border">
@@ -249,7 +249,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             </Modal.Body>
             <Modal.Footer>
                 <Button className='button-style float-left' onClick={() => { SavePlan() }}> {/*setPlanPopup(false); */}
-                    {'Save'}
+                    {t("SAVE")}
                 </Button>
                 <Button className='button-style' onClick={() => setPlanPopup(false)}>
                     {t('CLOSE')}

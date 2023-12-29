@@ -18,6 +18,7 @@ import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsFo
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { t } from "../../translations/Translation";
 
 export default function EmployeeDetails({ eid }) {
 
@@ -49,19 +50,19 @@ export default function EmployeeDetails({ eid }) {
     const [pastContracts, setPastContracts] = useState(false)
 
     const TabsData = [
-        { tabHeading: ("Personal details"), tabName: 'personal' },
-        { tabHeading: ("Contract details"), tabName: 'contracts' },
-        { tabHeading: ("Counters"), tabName: 'counters' },
-        { tabHeading: ("Documents"), tabName: 'documents' },
-        { tabHeading: ("Availability"), tabName: 'availability' },
-        { tabHeading: ("Extra benefits"), tabName: 'extra_benefits' }
+        { tabHeading: t("PERSONAL_DETAILS"), tabName: 'personal' },
+        { tabHeading: t("CONTRACT_DETAILS"), tabName: 'contracts' },
+        { tabHeading: t("COUNTERS"), tabName: 'counters' },
+        { tabHeading: t("DOCUMENTS"), tabName: 'documents' },
+        { tabHeading: t("EMPLOYEE_AVAILABILITY"), tabName: 'availability' },
+        { tabHeading: t("EXTRA_BENEFITS"), tabName: 'extra_benefits' }
     ]
 
     const tab2Data = [
-        { label: 'Employee type', value: 'Student' },
-        { label: 'Sub type', value: 'Daily contract' },
-        { label: 'Start date', value: '20/04/2023' },
-        { label: 'End date', value: '20/07/2023' },
+        { label: t("EMPLOYEE_TYPE"), value: 'Student' },
+        { label: t("SUB_TYPE"), value: 'Daily contract' },
+        { label: t("START_DATE"), value: '20/04/2023' },
+        { label: t("END_DATE"), value: '20/07/2023' },
         // { label: 'Function name', value: 'Chef' },
         // { label: 'Minimum salary', value: '€220.10' },
         // { label: 'Salary to be paid', value: '€235.20' },
@@ -73,19 +74,19 @@ export default function EmployeeDetails({ eid }) {
 
     // Employee type data
     const tab3Data = [
-        { label: 'Employee type', value: 'Student' },
-        { label: 'Contract type', value: 'Daily' }
+        { label: t("EMPLOYEE_TYPE"), value: 'Student' },
+        { label: t("EMPLOYEE_CONTRACT_TYPES"), value: 'Daily' }
     ]
 
     // Counters data
     const tab4Left = [
-        { label: 'Public', value: '10 days' },
-        { label: 'Optional', value: '05 days' }
+        { label: t("PUBLIC"), value: '10 days' },
+        { label: t("OPTIONAL"), value: '05 days' }
     ]
     const tab4Right = [
-        { label: 'Total', value: '100 days' },
-        { label: 'Used', value: '40 days' },
-        { label: 'Remaining', value: '60 days' }
+        { label: t("TOTAL_TITLE"), value: '100 days' },
+        { label: t("USED_TITLE"), value: '40 days' },
+        { label: t("REMAINING_TITLE"), value: '60 days' }
     ]
 
 
@@ -114,25 +115,25 @@ export default function EmployeeDetails({ eid }) {
                     setBasicDetails(basic_details)
                     setResponse(result.data)
                     let data_left = [
-                        { label: 'First name', value: result.data.first_name },
-                        { label: 'Last name', value: result.data.last_name },
-                        { label: 'Mobile number', value: result.data.phone_number },
-                        { label: 'Email', value: result.data.email },
-                        { label: 'Gender', value: result.data.gender?.name },
-                        { label: 'DOB', value: result.data.date_of_birth },
-                        { label: 'Place of birth', value: result.data.place_of_birth },
-                        { label: 'Nationality', value: result.data.nationality },
-                        { label: 'Address', value: result.data.street_house_no + ", " + result.data.city + ", " + result.data.country + ", " + result.data.postal_code },
+                        { label: t("FIRST_NAME"), value: result.data.first_name },
+                        { label: t("LAST_NAME"), value: result.data.last_name },
+                        { label: t("MOBILE_NUMBER"), value: result.data.phone_number },
+                        { label: t("EMAIL"), value: result.data.email },
+                        { label: t("GENDER"), value: result.data.gender?.name },
+                        { label: t("DATE_OF_BIRTH"), value: result.data.date_of_birth },
+                        { label: t("PLACE_OF_BIRTH"), value: result.data.place_of_birth },
+                        { label: t("NATIONALITY"), value: result.data.nationality },
+                        { label: t("ADDRESS_TITLE"), value: result.data.street_house_no + ", " + result.data.city + ", " + result.data.country + ", " + result.data.postal_code },
 
                     ]
                     let data_right = [
-                        { label: 'Social security number', value: result.data.social_security_number },
-                        { label: 'Expiry date', value: result.data.license_expiry_date },
-                        { label: 'Bank account number', value: result.data.account_number },
-                        { label: 'Language', value: result.data.language?.name },
-                        { label: 'Marital status', value: result.data.marital_status?.name },
-                        { label: 'Dependant spouse', value: result.data.dependent_spouse?.name },
-                        { label: 'Childrens', value: result.data.children },
+                        { label: t("SSN"), value: result.data.social_security_number },
+                        { label: t("EXPIRY_DATE"), value: result.data.license_expiry_date },
+                        { label: t("BANK_ACCOUNT_NUMBER"), value: result.data.account_number },
+                        { label: t("LANGUAGE"), value: result.data.language?.name },
+                        { label: t("MARITAL_STATUS"), value: result.data.marital_status?.name },
+                        { label: t("DEPENDANT_SPOUSE"), value: result.data.dependent_spouse?.name },
+                        { label: t("CHILDREN"), value: result.data.children },
                     ]
                     setDataLeft(data_left);
                     setDataRight(data_right)
@@ -176,13 +177,13 @@ export default function EmployeeDetails({ eid }) {
                     ]
 
                     let data_left = [
-                        { label: 'Social secretary number', value: result.data.social_secretary_number },
-                        { label: 'Contract number', value: result.data.contract_number },
-                        { label: 'Company car', value: benefits?.company_car ? "Yes" : "No" },
-                        { label: 'Company fuel card', value: benefits?.fuel_card ? "Yes" : "No" },
-                        { label: 'Clothing componsation', value: benefits?.clothing_compensation },
-                        { label: 'Meal voucher', value: benefits?.meal_voucher?.name },
-                        { label: 'Meal voucher amount', value: benefits?.meal_voucher?.amount_formatted },
+                        { label:  t("SSN"), value: result.data.social_secretary_number },
+                        { label: t("CONTRACT_NUMBER"), value: result.data.contract_number },
+                        { label: t("COMPANY_CAR"), value: benefits?.company_car ? "Yes" : "No" },
+                        { label: t("COMPANY_FUEL_CARD"), value: benefits?.fuel_card ? "Yes" : "No" },
+                        { label: t("CLOTHING_COMPENSAT"), value: benefits?.clothing_compensation },
+                        { label: t("MEAL_VOUCHER"), value: benefits?.meal_voucher?.name },
+                        { label: t("MEAL_VOUCHER_AMOUNT"), value: benefits?.meal_voucher?.amount_formatted },
                     ]
                     setExtraBenefitsLefttdata(data_left)
                     setExtraBenefitsRightdata(data_right)
@@ -235,7 +236,7 @@ export default function EmployeeDetails({ eid }) {
             ></AddContractPopup>}
 
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
-                <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon}></img>
+                <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon} alt={t("ICON")}></img>
                 <div className="width-22 px-2">
                     <p className="mb-1 font-22">{basicDetails.name}</p>
                     <p className="text-secondary font-18"></p>
@@ -259,7 +260,7 @@ export default function EmployeeDetails({ eid }) {
                     </TabList>
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setShowDetails(true)}></img>}
+                            {!editStatus && <img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => setShowDetails(true)} alt={t("EDIT")} title={t("EDIT")} />}
                             {!showDetails && <EmployeeUpdate tab="tab1" edit={editStatus} setEditStatus={setEditStatus} dataLeft={dataLeft} dataRight={dataRight} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails} ></EmployeeUpdate>}
                             {showDetails && <EmployeeDetailsUpdateForm tab="tab1" eid={eid} response={response} setShowAddress={setShowAddress} setShowDetails={setShowDetails} showAddress={showAddress} showDetails={showDetails} setDataRefresh={setDataRefresh} dataRefresh={dataRefresh} showExtraBenifits={showExtraBenifits} setShowExtraBenefits={setShowExtraBenefits}></EmployeeDetailsUpdateForm>}
                         </div>
@@ -269,17 +270,17 @@ export default function EmployeeDetails({ eid }) {
 
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             <div className="d-flex">
-                                <CustomButton buttonName={'Create'} ActionFunction={() => setOpenPopup(true)} CustomStyle="mx-3 mb-2"></CustomButton>
+                                <CustomButton buttonName={t("CREATE")} ActionFunction={() => setOpenPopup(true)} CustomStyle="mx-3 mb-2"></CustomButton>
                                 <CustomButton buttonName={'Oth plans'} ActionFunction={() => navigate("/oth-planning/" + eid)} CustomStyle="mx-3 mb-2"></CustomButton>
-                                <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" onChange={onChange} ></Switch>
+                                <Switch label={t("PAST_CONTRACTS")} id="switch4" styleClass="col-md-5 align-self-center row m-0" onChange={onChange} ></Switch>
                             </div>
                             {(pastContracts ? expiredContracts : activeContracts)?.map((contract, index) => {
                                 return (
                                     <div className="border shadow-sm rounded mx-3 px-2 my-2" key={contract.id}>
                                         <div className={"d-flex mx-4 mb-0 justify-content-between" + (toggleOpen === contract.id ? " border-bottom mb-2" : "")}><h5 className="pt-1">{"Contract " + (index + 1)}</h5><img className="shortcut-icon" src={DownArrow} onClick={() => { setToggleOpen(toggleOpen === contract.id ? "" : contract.id); setEditStatus(false) }}></img></div>
                                         {!editStatus && toggleOpen === contract.id && <>
-                                            <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>
-                                            <img className="float-right profile-icon pr-2 pb-2" src={DeleteIcon} onClick={() => deleteContract(contract.id)}></img>
+                                            <img className="float-right pr-5 pt-2 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />
+                                            <img className="float-right profile-icon pr-2 pb-2 pointer" src={DeleteIcon} onClick={() => deleteContract(contract.id)} alt={t("DELETE")} title={t("DELETE")} />
                                         </>}
                                         {/* {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>} */}
                                         {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm eid={eid} edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen} toggleOpen={toggleOpen} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} ></UpdateEmployeeContractDetailsForm>}
@@ -292,8 +293,8 @@ export default function EmployeeDetails({ eid }) {
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             <div className="border mx-3 px-2">
-                                <div className={"d-flex mx-4 my-1 mb-0 justify-content-between" + (toggleOpen ? " border-bottom mb-2" : "")}><h4 className="pt-2">Holidays counter</h4><img className="profile-icon" src={DownArrow} onClick={() => setToggleOpen(!toggleOpen)}></img></div>
-                                {!editStatus && toggleOpen && <img className="float-right pr-5 pt-2" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                                <div className={"d-flex mx-4 my-1 mb-0 justify-content-between" + (toggleOpen ? " border-bottom mb-2" : "")}><h4 className="pt-2">{t("HOLIDAY_COUNTER")}</h4><img className="profile-icon" src={DownArrow} onClick={() => setToggleOpen(!toggleOpen)} alt={t("ICON")} /></div>
+                                {!editStatus && toggleOpen && <img className="float-right pr-5 pt-2 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />}
                                 {toggleOpen && <EmployeeUpdate tab="tab3" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab3Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>}
                             </div>
                         </div>
@@ -301,20 +302,20 @@ export default function EmployeeDetails({ eid }) {
 
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                            {!editStatus && <img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />}
                             <EmployeeUpdate tab="tab4" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab4Left} dataRight={tab4Right} setDataLeft={setDataLeft} setDataRight={setDataRight}></EmployeeUpdate>
                         </div>
                     </TabPanel>
 
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {<img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => setEditStatus(true)}></img>}
+                            {<img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />}
                             <CalendarLayout view={'availability'}></CalendarLayout>
                         </div>
                     </TabPanel>
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0" src={EditIcon} onClick={() => { setShowExtraBenefits(true); setShowDetails(false); setShowAddress(false) }}></img>}
+                            {!editStatus && <img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => { setShowExtraBenefits(true); setShowDetails(false); setShowAddress(false) }} alt={t("EDIT")} title={t("EDIT")}></img>}
                             {!showExtraBenifits && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={exrtraBenefitsLeftData} dataRight={exrtraBenefitsRightData} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails}></EmployeeUpdate>}
                             {showExtraBenifits && <EmployeeDetailsUpdateForm tab="tab6" eid={eid} response={extraBenefitsData} setShowAddress={setShowAddress} setShowDetails={setShowDetails} showAddress={showAddress} showDetails={showDetails} setDataRefresh={setDataRefresh} dataRefresh={dataRefresh} showExtraBenifits={showExtraBenifits} setShowExtraBenefits={setShowExtraBenefits} ></EmployeeDetailsUpdateForm>}
                         </div>

@@ -102,7 +102,7 @@ export default function PlanningOverview() {
 
     useEffect(() => {
         if (weekNumber === weeknum) {
-            setWeekNumberData('Current week')
+            setWeekNumberData(t("CURRENT_WEEK"))
         }
         setDayData(date.getDate() + ' ' + Months[date.getMonth()] + ', ' + date.getFullYear());
 
@@ -202,7 +202,7 @@ export default function PlanningOverview() {
 
 
     return (
-        <div className="">
+        <div className="planning_body">
             <div className="bg-white">
                 <FormsNew
                     view="filters"
@@ -219,7 +219,7 @@ export default function PlanningOverview() {
                 <Switch label={t("PREFERRED_SHIFTS")} id="switch3" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
             </div>}
 
-            <div className="monthly-overview bg-white mt-2">
+            <div className="monthly-overview bg-white mt-2 flex-1">
                 <Tabs selectedIndex={parseInt(tabIndex)} onSelect={(index) => { setTabIndex(index); setWeekNumber(weeknum); setYear(currentDate.getFullYear()); setDate(currentDate); setDayDate(GetFormattedDate(currentDate, currentDate.getFullYear())); localStorage.setItem('week_tab', index) }}>
                     <TabList>
                         {tabIndex !== 0 && <div className="border-0 pt-0 d-flex float-left">
@@ -243,19 +243,18 @@ export default function PlanningOverview() {
                         </div>
                     </TabList>
 
-                    <TabPanel>
-                        <div className="px-3 pb-3"><CalendarLayout planningDates={planningDates} ChangeTab={ChangeTab} setYear={setYear} setMonthNumber={setMonthNumber}></CalendarLayout></div>
-                        {addLeave && <AddLeavePopup buttonName={t("CANCEL")} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
-                    </TabPanel>
+                        <TabPanel>
+                            <div className="px-3 pb-3"><CalendarLayout planningDates={planningDates} ChangeTab={ChangeTab} setYear={setYear} setMonthNumber={setMonthNumber}></CalendarLayout></div>
+                            {addLeave && <AddLeavePopup buttonName={t("CANCEL")} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
+                        </TabPanel>
 
-                    <TabPanel>
-                        <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
-                    </TabPanel>
+                        <TabPanel>
+                            <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
+                        </TabPanel>
 
-                    <TabPanel>
-                        <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']}></DayOverview></div>
-                    </TabPanel>
-
+                        <TabPanel>
+                            <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']}></DayOverview></div>
+                        </TabPanel>
                 </Tabs>
             </div>
         </div>

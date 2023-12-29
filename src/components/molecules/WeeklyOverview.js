@@ -6,7 +6,6 @@ import DeleteIcon from "../../static/icons/Delete.svg";
 import CostIcon from "../../static/icons/Euro.svg";
 import ContractHoursIcon from "../../static/icons/Contract.svg";
 import EditShiftIcon from "../../static/icons/EditShift.png";
-
 import Dropdown from "../atoms/Dropdown";
 import PlanItem from "./PlanItem";
 import CreatePlanPopup from "./CreatePlanPopup";
@@ -179,7 +178,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 "row_index": row_index,
             }
 
-            setWarningMessage('Are you sure, you want to delete complete week plans?')
+            setWarningMessage(t("WEEK_PLANNINGS_DELETE"))
             setDeleteRequestData(requestData);
 
         } else if (row_index !== 0) {
@@ -312,9 +311,9 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     }
 
     return (
-        <div className="col-md-12 p-0 text-center">
+        <div className="col-md-12 p-0 text-center panning_overview_table">
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
@@ -337,7 +336,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 <thead className="sticky">
                     <tr>
                         <th><img className="shortcut-icon" src={WorkStationIcon}></img></th>
-                        <th className="py-4">Employees</th>
+                        <th className="py-4">{t("EMPLOYEES_TITLE")}</th>
                         {days.map((val, index) => {
                             return (
                                 <th key={val} onClick={() => ChangeTab('day', new Date(GetReversedDate(dates[index])))}>
@@ -346,8 +345,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                 </th>
                             )
                         })}
-                        <th className="py-4">Total</th>
-                        <th className="py-4">Actions</th>
+                        <th className="py-4">{t("TOTAL_TITLE")}</th>
+                        <th className="py-4">{t("ACTIONS")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -386,7 +385,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>
                                             <td>
-                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon}></img>
+                                                <img className="shortcut-icon pointer" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon} title={t("DELETE")} alt={t("DELETE")}></img>
                                             </td>
                                         </tr>
                                     )
@@ -396,7 +395,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     }
                     {/* Below code is to display total data at the bottom row */}
                     <tr>
-                        <td className="border-0">Total</td>
+                        <td className="border-0">{t("TOTAL_TITLE")}</td>
                         <td className="border-0"></td>
                         {
                             totalData.map((data, index) => {

@@ -10,6 +10,7 @@ import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, 
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
+import { t } from "../../translations/Translation";
 
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
@@ -96,42 +97,42 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     }
 
 
-    const getViewIcon = () => { return (<img className="shortcut-icon" src={EyeIcon}></img>) }
-    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
-    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
-    const getLinkIcon = () => { return (<img className="planning-icon " src={LinkIcon}></img>) }
-    const getDetailIcon = () => { return (<img className="planning-icon" src={MoreIcon}></img>) }
+    const getViewIcon = () => { return (<img className="shortcut-icon pointer" src={EyeIcon}></img>) }
+    const getEditIcon = () => { return (<img className="header-icon pointer" src={EditIcon}></img>) }
+    const getDeleteIcon = () => { return (<img className="header-icon pointer" src={DeleteIcon}></img>) }
+    const getLinkIcon = () => { return (<img className="planning-icon pointer" src={LinkIcon}></img>) }
+    const getDetailIcon = () => { return (<img className="planning-icon pointer" src={MoreIcon}></img>) }
 
 
     //Define actions based on requirement (Below actions are for view and edit)
     const actionIconsList = [
         rowData => ({
             icon: () => getDetailIcon(),
-            tooltip: 'Details',
+            tooltip: t("DETAILS"),
             onClick: (event, rowData) => viewAction(rowData, 'details'),
             hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee') ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
-            tooltip: 'View',
+            tooltip: t("VIEW"),
             onClick: (event, rowData) => viewAction(rowData, 'view'),
             hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
-            tooltip: 'Link holiday code',
+            tooltip: t("LINK_HOLIDAY_CODE"),
             onClick: (event, rowData) => viewAction(rowData, 'link'),
             hidden: (tableName === 'social_secretary') ? false : true
         }),
         rowData => ({
             icon: () => getEditIcon(),
-            tooltip: 'Edit',
+            tooltip: t("EDIT"),
             onClick: (event, rowData) => viewAction(rowData, 'edit'),
             hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview') ? false : true
         }),
         rowData => ({
             icon: () => getDeleteIcon(),
-            tooltip: 'Delete',
+            tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
             hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
         })

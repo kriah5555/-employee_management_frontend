@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function AddFunction() {
 
@@ -36,12 +37,12 @@ export default function AddFunction() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -91,23 +92,23 @@ export default function AddFunction() {
 
     // Field data
     const function_title = {
-        title: 'Function title',
+        title: t("FUNCTION_TEXT"),
         name: 'function_title',
-        placeholder: 'Enter function title',
+        placeholder: t("ENTER_FUNCTION_TITLE"),
         required: true,
         value: functionTitle,
     }
 
     const function_code = {
-        title: 'Function code',
+        title: t("FUNCTION_CODE"),
         name: 'function_code',
-        placeholder: 'Enter function code',
+        placeholder: t("ENTER_FUNCTION_CODE"),
         required: true,
         value: functionCode
     }
 
     const function_group = {
-        title: 'Function categories',
+        title: t("FUNCTION_CATEGORIES"),
         name: 'function_group',
         required: true,
         options: FunctionsList,
@@ -116,14 +117,14 @@ export default function AddFunction() {
     }
 
     const function_desc = {
-        title: 'Function description',
+        title: t("FUNCTION_DESCRIPTION"),
         name: 'function_desc',
         required: false,
         value: functionDesc
     }
 
     const function_status = {
-        title: 'Status',
+        title: t("STATUS_TEXT"),
         required: true
     }
 
@@ -194,7 +195,7 @@ export default function AddFunction() {
                     console.log(error);
                 })
         }  else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
@@ -207,12 +208,12 @@ export default function AddFunction() {
                 onHide={() => navigate('/manage-configurations/functions')}
             ></ModalPopup>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <Forms
-                formTitle={'Add Function'}
+                formTitle={t("ADD_FUNCTION")}
                 redirectURL={'/manage-configurations/functions'}
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}

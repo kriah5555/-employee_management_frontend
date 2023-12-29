@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useNavigate, useParams } from "react-router-dom";
 import { CompanyApiUrl, LocationApiUrl, LocationListApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
-import { APICALL as AXIOS } from "../../services/AxiosServices"
-import indii from "../../static/icons/logo-temp.png"
-
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import indii from "../../static/icons/logo-temp.png";
+import { t } from '../../translations/Translation';
 export default function CompanyView() {
 
     const navigate = useNavigate();
@@ -16,8 +16,8 @@ export default function CompanyView() {
     const [socialSecretaryNumber, setSocialSecretaryNumber] = useState('')
 
     const TabsData = [
-        { tabHeading: ("Company details"), tabName: 'company_details' },
-        { tabHeading: ("Address"), tabName: 'address' },
+        { tabHeading: (t("COMPANY_DETAILS")), tabName: 'company_details' },
+        { tabHeading: (t("ADDRESS_TITLE")), tabName: 'address' },
     ]
 
 
@@ -42,22 +42,22 @@ export default function CompanyView() {
 
     //add company fields
     const CompanyFields = [
-        { title: "Company name", name: "company_name", value: companyData.company_name },
-        { title: "Sector name", name: "sectors", value: sector },
-        { title: "Email", name: "email", value: companyData.email },
-        { title: "Phone number", name: "phone", value: companyData.phone },
-        { title: "Vat number", name: "vat_number", value: companyData.vat_number },
-        { title: "Sender number", name: "sender_number", value: companyData.sender_number },
-        { title: "Username", name: "username", value: companyData.username },
-        { title: "RSZ number", name: "rsz_number", value: companyData.rsz_number },
-        { title: "Social secretary number", name: "social_secretary_number", value: socialSecretaryNumber },
+        { title: t("COMPANY_NAME"), name: "company_name", value: companyData.company_name },
+        { title: t("SECTOR_NAME"), name: "sectors", value: sector },
+        { title: t("EMAIL"), name: "email", value: companyData.email },
+        { title: t("PHONE_NUMBER"), name: "phone", value: companyData.phone },
+        { title: t("VAT_NUMBER"), name: "vat_number", value: companyData.vat_number },
+        { title: t("SENDER_NUMBER"), name: "sender_number", value: companyData.sender_number },
+        { title: t("USERNAME"), name: "username", value: companyData.username },
+        { title: t("RSZ_NUMBER"), name: "rsz_number", value: companyData.rsz_number },
+        { title: t("SOCIAL_SECRETARY_NUMBER"), name: "social_secretary_number", value: socialSecretaryNumber },
     ];
 
     const companyAddress = [
-        { title: "Street and house number", name: "street_house_no", value: address.street_house_no },
-        { title: "Postal code", name: "postal_code", value: address.postal_code },
-        { title: "City", name: "city", value: address.city },
-        { title: "Country", name: "country", value: address.country },
+        { title: t("SECTOR_HOUSE_NUMBER"), name: "street_house_no", value: address.street_house_no },
+        { title: t("POSTAL_CODE"), name: "postal_code", value: address.postal_code },
+        { title: t("CITY"), name: "city", value: address.city },
+        { title: t("COUNTRY"), name: "country", value: address.country },
     ];
 
 

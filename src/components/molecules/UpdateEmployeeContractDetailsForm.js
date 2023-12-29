@@ -7,6 +7,7 @@ import RadioInput from "../atoms/formFields/RadioInput";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { EmployeeContractApiUrl, LogoutApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
+import { t } from "../../translations/Translation";
 
 // import getFormattedDropdownOptions from
 
@@ -41,12 +42,12 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     let subTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.sub_types, "key", "value")
 
     let commonData = [
-        { label: "Employee type", value: data.employee_type },
-        { label: "Sub type", value: data.sub_type },
-        { label: "Start Date", value: data.start_date },
-        { label: "end date", value: data.end_date },
-        { label: "Weekly contract hours", value: data.weekly_contract_hours },
-        { label: "Work days per week", value: data.work_days_per_week }
+        { label: t("EMPLOYEE_TYPE"), value: data.employee_type },
+        { label: t("SUB_TYPE"), value: data.sub_type },
+        { label: t("START_DATE"), value: data.start_date },
+        { label: t("END_DATE"), value: data.end_date },
+        { label: t("WEEKLY_CONTRACT_HOURS"), value: data.weekly_contract_hours },
+        { label: t("WORK_DAYS_PER_WEEK"), value: data.work_days_per_week }
     ]
 
 
@@ -196,19 +197,19 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     }
 
     let commonDataFieldsArray = [
-        { title: "Employee Type", name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled: true, style: "col-md-6 float-left" },
-        { title: "Sub Type", name: "sub_type", type: "dropdown", options: subTypeList, selectedOptions: subType, required: true, isDisabled: true, style: "col-md-6 float-left mt-2" },
-        { title: "Start date", name: "start_date", type: "date", disabled: true, style: "col-md-6 float-left  mt-2" },
-        { title: "End date", name: "end_date", type: "date", disabled: (data.end_date) ? true : false, style: "col-md-6 float-left mt-2" },
-        { title: "Weekly contract hours", name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },
-        { title: "Work days per week", name: "work_days_per_week", type: "text", style: "col-md-6 float-left mt-2" },
-        { title: "Schedule type", name: "schedule_type", type: "radio", style: "col-md-6 float-left mt-2" },
+        { title: t("EMPLOYEE_TYPE"), name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled: true, style: "col-md-6 float-left" },
+        { title: t("SUB_TYPE"), name: "sub_type", type: "dropdown", options: subTypeList, selectedOptions: subType, required: true, isDisabled: true, style: "col-md-6 float-left mt-2" },
+        { title: t("START_DATE"), name: "start_date", type: "date", disabled: true, style: "col-md-6 float-left  mt-2" },
+        { title: t("END_DATE"), name: "end_date", type: "date", disabled: (data.end_date) ? true : false, style: "col-md-6 float-left mt-2" },
+        { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },
+        { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", type: "text", style: "col-md-6 float-left mt-2" },
+        { title: t("SCHEDULE_TYPE"), name: "schedule_type", type: "radio", style: "col-md-6 float-left mt-2" },
     ]
 
     let otherDataFieldsArray = [
-        { title: "Function name", name: "function_id", type: "dropdown", options: functionList, selectedOptions: functionName, required: true, style: "col-md-12 p-0" },
-        { title: "Salary", name: "salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
-        { title: "Experience", name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
+        { title: t("FUNCTION_NAME"), name: "function_id", type: "dropdown", options: functionList, selectedOptions: functionName, required: true, style: "col-md-12 p-0" },
+        { title: t("SALARY"), name: "salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
+        { title: t("EXPERIENCE"), name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
     ]
     return (
         <div>
@@ -230,7 +231,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                 </FormsNew>
                 {isLongTermContract && edit && <div className="col-md-6 ml-4 p-0 d-flex mb-2">
                     <RadioInput
-                        title={'Schedule type'}
+                        title={t("SCHEDULE_TYPE")}
                         radiobuttonsList={scheduleTypeArray}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'col-md-4'}
@@ -238,7 +239,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                         type={'schedule_type'}
                     ></RadioInput>
                     <RadioInput
-                        title={'Employement type'}
+                        title={t("EMPLOYEEMENT_TYPE")}
                         radiobuttonsList={employementTypeArray}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'col-md-4'}
@@ -251,13 +252,13 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             <div className=" col-md-12 d-flex flex-wrap">
                 {functionData?.map((val, index) => {
                     let otherData = [
-                        { label: "Function name", value: val.function_title },
-                        { label: "Salary", value: val.salary },
-                        { label: "Experience", value: val.experience },// need to add value for this
+                        { label: t("FUNCTION_NAME"), value: val.function_title },
+                        { label: t("SALARY"), value: val.salary },
+                        { label: t("EXPERIENCE"), value: val.experience },// need to add value for this
                     ]
                     return (
                         <div key={index} className={"border mt-2 mr-2 mb-2 function-card font-14"}>
-                            {showData && cardNumber !== index && <img className="float-right pr-2 pt-2" src={EditIcon} onClick={() => { setEditFunction(true); setCardNumber(index); setFuncitonIndex(index) }}></img>}
+                            {showData && cardNumber !== index && <img className="float-right pr-2 pt-2 pointer" src={EditIcon} onClick={() => { setEditFunction(true); setCardNumber(index); setFuncitonIndex(index) }} alt={t("EDIT")} title={t("EDIT")} />}
                             {showData && cardNumber !== index && otherData.map((data, index) => {
                                 return (
                                     <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2"}>
@@ -268,11 +269,11 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             })}
                             {cardNumber == index && editFunction && <>
                                 <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
-                                    <label className="col-md-6 mb-1 p-0 text-secondary">Minimum salary:</label>
+                                    <label className="col-md-6 mb-1 p-0 text-secondary">{t("MINIMUM_SALARY")}</label>
                                     <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.minimumSalary}</p>
                                 </div>
                                 <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2"}>
-                                    <label className="col-md-6 mb-1 p-0 text-secondary">Type:</label>
+                                    <label className="col-md-6 mb-1 p-0 text-secondary">{t("TYPE")}</label>
                                     <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.salary}</p>
                                 </div>
                                 <FormsNew
@@ -287,15 +288,15 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                             </>
                             }
                             {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
-                                <CustomButton buttonName={'ok'} ActionFunction={() => handleOk(index)}></CustomButton>
-                                <CustomButton buttonName={'Cancel'} ActionFunction={() => reset(index)}></CustomButton>
+                                <CustomButton buttonName={t("OK")} ActionFunction={() => handleOk(index)}></CustomButton>
+                                <CustomButton buttonName={t("CANCEL")} ActionFunction={() => reset(index)}></CustomButton>
                             </div>}
                         </div>
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                    {(editFunction || edit) && <CustomButton buttonName={'save'} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
-                    <CustomButton buttonName={'Cancel'} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
+                    {(editFunction || edit) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
+                    <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >
         </div >

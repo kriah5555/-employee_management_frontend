@@ -4,7 +4,7 @@ import BackIcon from "../../static/icons/BackIcon.png"
 import { getWeeksInYear } from "../../utilities/CommonFunctions";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../atoms/CustomButton";
-
+import { t } from "../../translations/Translation";
 
 export default function ClonePlanning() {
 
@@ -80,15 +80,15 @@ export default function ClonePlanning() {
 
     const FromClonePlanFields = [
         // Clone planning fields
-        { title: 'From year', name: 'from_year', required: true, options: years, selectedOptions: selectedFromYear, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'From week', name: 'from_week', required: true, options: fromWeeks, selectedOptions: selectedFromWeeks, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Emploee types', name: 'employee_types', required: true, options: employeeTypeOptions, selectedOptions: selectedEmpTypes, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("FROM_YEAR"), name: 'from_year', required: true, options: years, selectedOptions: selectedFromYear, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("FROM_WEEK"), name: 'from_week', required: true, options: fromWeeks, selectedOptions: selectedFromWeeks, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("EMPLOYEE_TYPES"), name: 'employee_types', required: true, options: employeeTypeOptions, selectedOptions: selectedEmpTypes, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ]
 
     const ToClonePlanFields = [
-        { title: 'To year', name: 'to_year', required: true, options: years, selectedOptions: selectedToYear, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'To week', name: 'to_week', required: true, options: toWeeks, selectedOptions: selectedToWeeks, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: 'Emploee names', name: 'employee_names', required: true, options: employeeOptions, selectedOptions: selectedEmployee, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("TO_YEAR"), name: 'to_year', required: true, options: years, selectedOptions: selectedToYear, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("TO_WEEK"), name: 'to_week', required: true, options: toWeeks, selectedOptions: selectedToWeeks, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("EMPLOYEE_NAMES"), name: 'employee_names', required: true, options: employeeOptions, selectedOptions: selectedEmployee, isMulti: true, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ]
 
     const setFromValues = (index, name, value, field) => {
@@ -143,24 +143,25 @@ export default function ClonePlanning() {
     return (
         <div className="right-container" >
             <div className="col-md-12 my-3 ">
-                <h2 id="text-indii-blue" className=" px-3 py-3 bg-white mb-0">
-                    <img className="shortcut-icon mr-2" onClick={() => navigate('/manage-plannings')} src={BackIcon}></img>{'Clone plannings'}
+                <h2 id="text-indii-blue" className=" px-3 py-3 bg-white mb-0 d-flex align-items-center">
+                    <img className="shortcut-icon mr-2 pointer" onClick={() => navigate('/manage-plannings')} src={BackIcon} />
+                    {t("CLONE_PLANNINGS")}
                 </h2>
                 <div className="my-3 py-3 bg-white">
-                    <h4 className="font-weight-bold text-color mt-3 pt-3 text-center">Select a week to copy from</h4>
+                    <h4 className="font-weight-bold text-color mt-3 pt-3 text-center">{t("SELECT_WEEK_TO_COPY")}</h4>
                     <FormsNew
                         formattedData={[]}
                         data={FromClonePlanFields}
                         SetValues={setFromValues}
                     ></FormsNew>
-                    <h4 className="font-weight-bold text-color mt-4 text-center">Select a week to clone to</h4>
+                    <h4 className="font-weight-bold text-color mt-4 text-center">{t("SELECT_WEEK_TO_CLONE")}</h4>
                     <FormsNew
                         formattedData={[]}
                         data={ToClonePlanFields}
                         SetValues={setToValues}
                     ></FormsNew>
                     <div className="text-right my-5 pr-5 mr-3">
-                        <CustomButton buttonName={'CLONE'} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
+                        <CustomButton buttonName={t("CLONE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
                     </div>
                 </div>
             </div>
