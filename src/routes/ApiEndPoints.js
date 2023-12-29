@@ -78,6 +78,10 @@ export const StopPlanApiUrl = BASE_URL + '/masterdata/stop-plan-by-manager'
 export const CreateShiftsApiUrl = BASE_URL + '/masterdata/store-planning-shifts'
 export const CreateShiftPlanApiUrl = BASE_URL + '/masterdata/create-shift-plan'
 
+export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
+export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
+export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
+
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';

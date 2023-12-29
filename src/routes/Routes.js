@@ -31,6 +31,7 @@ import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 import Uurrooster from '../pages/Uurrooster';
 import ClonePlanning from '../components/molecules/ClonePlanning';
 import OthPlanning from '../components/organisms/OthPlanning';
+import AddOthPlans from '../components/organisms/AddOthPlans';
 
 const BaseRouter = ({ setAuth, setCompany}) => (
     <Routes>
@@ -95,7 +96,8 @@ const BaseRouter = ({ setAuth, setCompany}) => (
 
         <Route exact path='/uurrooster' element={<Uurrooster></Uurrooster>} />
 
-        <Route exact path='/oth-planning' element={<OthPlanning></OthPlanning>} />
+        <Route exact path='/oth-planning/:id' element={<OthPlanning></OthPlanning>} />
+        <Route exact path='/create-oth-plans/:id' element={<AddOthPlans></AddOthPlans>} />
         
     </Routes>
 );

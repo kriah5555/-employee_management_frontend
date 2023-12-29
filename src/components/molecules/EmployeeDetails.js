@@ -17,9 +17,11 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 export default function EmployeeDetails({ eid }) {
 
+    const navigate = useNavigate()
     const [editStatus, setEditStatus] = useState(false);
     const [toggleOpen, setToggleOpen] = useState(false);
     const [popupOpen, setOpenPopup] = useState(false);
@@ -245,8 +247,6 @@ export default function EmployeeDetails({ eid }) {
                 <div className="width-22 px-2">
                     <p className="mb-1"><img className="mr-2" src={RSZIcon}></img>{basicDetails.rsz}</p>
                 </div>
-                <a href="/oth-planning">Create oth plan</a>
-
             </div>
             <div className="col-md-12 p-0 employee-detail">
                 <Tabs onSelect={() => setEditStatus(false)}>
@@ -270,6 +270,7 @@ export default function EmployeeDetails({ eid }) {
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             <div className="d-flex">
                                 <CustomButton buttonName={'Create'} ActionFunction={() => setOpenPopup(true)} CustomStyle="mx-3 mb-2"></CustomButton>
+                                <CustomButton buttonName={'Oth plans'} ActionFunction={() => navigate("/oth-planning/" + eid)} CustomStyle="mx-3 mb-2"></CustomButton>
                                 <Switch label="Past contracts" id="switch4" styleClass="col-md-5 align-self-center row m-0" onChange={onChange} ></Switch>
                             </div>
                             {(pastContracts ? expiredContracts : activeContracts)?.map((contract, index) => {

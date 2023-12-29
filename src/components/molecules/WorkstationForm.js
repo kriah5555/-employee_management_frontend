@@ -55,6 +55,8 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         response.push(result.data);
                         let loc_arr = []
                         let func_arr = []
+                        setSelectedLocation([getFormattedDropdownOptions(result.data.locations, 'id', 'location_name')]);
+                        setSelectedFunction([getFormattedDropdownOptions(result.data.function_titles, 'id', 'name')]);
                         let selected_locations = result.data.locations
                         let selected_function_titles = result.data.function_titles
                         selected_locations.map((loc, i) => {
@@ -67,8 +69,6 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         response[0]['locations'] = loc_arr
                         response[0]['function_titles'] = func_arr
                         setWorkstations(response);
-                        setSelectedLocation(getFormattedDropdownOptions(selected_locations, 'id', 'location_name'));
-                        setSelectedFunction(getFormattedDropdownOptions(selected_function_titles, 'id', 'name'));
                     }
                 })
                 .catch((error) => {
