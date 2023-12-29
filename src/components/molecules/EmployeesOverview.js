@@ -76,9 +76,10 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                 if (result?.success) {
                     let arr = []
                     result.data.map((val, index) => {
+                        let group_id = "group"+index;
                         let data = {
                             employee: val.employee_type,
-                            id: index + 1,
+                            id: group_id,
                             type: 'type',
                             parentOnly: val.employee_type,
                         }
@@ -91,7 +92,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                                 email: emp.user.user_contact_details.email,
                                 ssn: emp.user.social_security_number,
                                 id: emp.id,
-                                parentId: index + 1
+                                parentId: group_id
                             }
                             arr.push(employee)
 
