@@ -47,7 +47,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
             .catch((error) => {
                 console.log(error);
             })
-    }, [dayDate])
+    }, [dayDate, locId])
 
 
 

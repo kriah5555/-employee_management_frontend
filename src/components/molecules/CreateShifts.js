@@ -4,6 +4,7 @@ import { t } from "../../translations/Translation";
 import FormsNew from "./FormsNew";
 import DeleteIcon from "../../static/icons/Delete.svg";
 import AddIcon from "../../static/icons/AddPlusIcon.png";
+import { GetTimeDifference } from "../../utilities/CommonFunctions";
 
 
 
@@ -23,9 +24,19 @@ export default function CreateShifts({ SaveShift, setShiftPopupOpen, shiftData, 
         if (shift_data['shifts']?.length === 0) {
             shift_data['shifts'][index] = {}
             shift_data['shifts'][index][name] = value
+            if (name === 'start_time' && shift_data['shifts'][index]?.end_time) {
+                shift_data['shifts'][index]['contract_hours'] =  GetTimeDifference(value, shift_data['shifts'][index]['end_time'])
+            } else if(name === 'end_time' && shift_data['shifts'][index]?.start_time) {
+                shift_data['shifts'][index]['contract_hours'] = GetTimeDifference(shift_data['shifts'][index]['start_time'], value)
+            }
         } else {
             shift_data['shifts'][index] = shift_data['shifts'][index] ? shift_data['shifts'][index] : {}
             shift_data['shifts'][index][name] = value
+            if (name === 'start_time' && shift_data['shifts'][index]?.end_time) {
+                shift_data['shifts'][index]['contract_hours'] =  GetTimeDifference(value, shift_data['shifts'][index]['end_time'])
+            } else if(name === 'end_time' && shift_data['shifts'][index]?.start_time) {
+                shift_data['shifts'][index]['contract_hours'] = GetTimeDifference(shift_data['shifts'][index]['start_time'], value)
+            }
         }
         setShiftData(shift_data);
     }

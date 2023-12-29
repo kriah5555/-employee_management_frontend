@@ -5,20 +5,21 @@ import FilterIcon from "../static/icons/Filter.svg"
 import ExportIcon from "../static/icons/Export.svg"
 import EmployeeListWithDetails from "../components/organisms/EmployeeListWithDetails";
 import BackIcon from "../static/icons/BackIcon.png"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function Employees() {
 
     const navigate = useNavigate();
-    const [showDetails, setShowDetails] = useState(false);
+    const params = useParams();
+    const [showDetails, setShowDetails] = useState(params.id ? true : false);
 
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
                 <div className="col-md-12 row mt-3 mx-0 px-0 ">
                     <div className="col-md-6 float-left">
-                        <h4>{showDetails && <img className="shortcut-icon mr-2 mb-1" onClick={() => setShowDetails(false)} src={BackIcon}></img>}Employees</h4>
+                        <h4>{showDetails && <img className="shortcut-icon mr-2 mb-1" onClick={() => {setShowDetails(false); navigate('/manage-employees')}} src={BackIcon}></img>}Employees</h4>
                     </div>
                     <div className="col-md-6 float-right">
                         <ul className="float-right">

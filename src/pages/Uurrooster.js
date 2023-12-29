@@ -207,8 +207,8 @@ export default function Uurrooster() {
                         ></QRCode>
                     </div>
                 </div>
-                <table className="table table-bordered company-tab-width mt-3 mx-auto bg-right-container">
-                    <thead>
+                <table className="table table-bordered company-tab-width mt-3 mx-auto">
+                    <thead className="button-style">
                         <tr>
                             {head_arr.map((title, index) => {
                                 return (

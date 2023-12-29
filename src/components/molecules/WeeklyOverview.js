@@ -96,7 +96,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             .catch((error) => {
                 console.log(error);
             })
-    }, [dataRefresh, weekNumber])
+    }, [dataRefresh, weekNumber, locId])
 
     // Dummy data for weekly planning total cost and contract hours
     const totalData = [
@@ -242,10 +242,10 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                     let [start, end] = shiftId?.label.split('-')
                                     let contract_hr = GetTimeDifference(start, end)
                                     if (planData[date]) {
-                                        planData[date]['planning'] = [{'start_time': start, 'end_time': end, 'contract_hours': contract_hr}]
+                                        planData[date]['planning'] = [{ 'start_time': start, 'end_time': end, 'contract_hours': contract_hr }]
                                     } else {
                                         planData[date] = {}
-                                        planData[date]['planning'] = [{'start_time': start, 'end_time': end, 'contract_hours': contract_hr}]
+                                        planData[date]['planning'] = [{ 'start_time': start, 'end_time': end, 'contract_hours': contract_hr }]
                                     }
                                     setPlanningDetails(planData[date]['planning'])
                                 }
@@ -254,7 +254,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         .catch((error) => {
                             console.log(error);
                         })
-                } else{
+                } else {
                     toast.error('Please select shifts to add plan', {
                         position: "top-center",
                         autoClose: 2000,
@@ -371,7 +371,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>}
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_name}</td>
+                                            <td><a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a></td>
                                             <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId} openCreatePlanPopup={openCreatePlanPopup}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">

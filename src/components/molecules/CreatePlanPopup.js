@@ -15,7 +15,6 @@ import { GetTimeDifference } from "../../utilities/CommonFunctions";
 
 export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh, enableShift }) {
 
-    console.log(planData);
     const [rowArr, setRowArr] = useState(planData.length > 0 ? enableShift ? planData : [...planData, 1] : [1]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
     const [selectedFunction, setSelectedFunction] = useState(dropDownData ? dropDownData['function'] : '');

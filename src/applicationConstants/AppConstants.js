@@ -166,5 +166,10 @@ export const GET_CONSTANTS = {
     'REPORTING_MANAGER':'Reporting manager',
     'REQUESTED_ON':'Requested on',
     'APPLY':'Apply',
-    'RECENT':'Recent'
+    'RECENT':'Recent',
+
+    // Oth Planning
+    'ADD_OTH':'Add Oth auto planning',
+    'RENEW_OTH':"Renew plans automatically",
+    'SAVE':'Save',
 };

@@ -25,8 +25,16 @@ function App() {
    }, [auth])
 
    useEffect(() => {
-      GetTranslatedConstants()
+      GetTranslatedConstants();
+      if (!localStorage.getItem('week_tab')) {
+         localStorage.setItem('week_tab', 0)
+      }
+      if (!localStorage.getItem('active_language')) {
+         localStorage.setItem('active_language', 'nl')
+      }
    }, [])
+
+
 
    const onCompanySelect = (e, reload) => {
       if (e && e.value === undefined) {
@@ -48,7 +56,7 @@ function App() {
    }
 
    useEffect(() => {
-      if (company){
+      if (company) {
          onCompanySelect(company, 'no-reload')
       }
    }, [company])

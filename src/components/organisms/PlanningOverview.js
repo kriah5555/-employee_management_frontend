@@ -12,7 +12,7 @@ import AddLeavePopup from "../molecules/AddLeavePopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { FilterOptionsApiUrl, GetMonthlyPlanningApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
 import { GetFormattedDate, getWeekNumberByDate, getCurrentWeek } from '../../utilities/CommonFunctions';
-import { t } from "../../translations/Translation"; 
+import { t } from "../../translations/Translation";
 
 
 export default function PlanningOverview() {
@@ -26,7 +26,7 @@ export default function PlanningOverview() {
     const [selectedWorkstation, setSelectedWorkstation] = useState([]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState([]);
 
-    const [tabIndex, setTabIndex] = useState(0);
+    const [tabIndex, setTabIndex] = useState(localStorage.getItem('week_tab') ? parseInt(localStorage.getItem('week_tab')) : 0);
     const [enableShifts, setEnableshifts] = useState(false);
     const [addLeave, setAddLeave] = useState(false);
 
@@ -42,7 +42,7 @@ export default function PlanningOverview() {
             'month': currentDate.getMonth(),
             "location": "",
             "workstations": [],
-            "year": currentDate.getFullYear(),
+            "year": year,
             "employee_types": []
         }
     )
@@ -85,16 +85,19 @@ export default function PlanningOverview() {
     useEffect(() => {
         let month = { ...monthlyData }
         month['month'] = monthNumber + 1
-        AXIOS.service(GetMonthlyPlanningApiUrl, 'POST', month)
-            .then((result) => {
-                if (result?.success) {
-                    setPlanningDates(result.data)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [selectedLocation, selectedWorkstation, selectedEmployeeType, monthNumber])
+        month['year'] = year
+        if (tabIndex === 0) {
+            AXIOS.service(GetMonthlyPlanningApiUrl, 'POST', month)
+                .then((result) => {
+                    if (result?.success) {
+                        setPlanningDates(result.data)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } 
+    }, [selectedLocation, selectedWorkstation, selectedEmployeeType, monthNumber, tabIndex])
 
 
     useEffect(() => {
@@ -213,11 +216,11 @@ export default function PlanningOverview() {
 
             {tabIndex === 1 && <div className="d-flex justify-content-between">
                 <Switch label={t("AVAILABILITY_TEXT")} id="switch4" styleClass="" lableClick={true} onChange={() => console.log(true)} checked={false} />
-                <Switch label={t("PREFERRED_SHIFTS")} id="switch4" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
+                <Switch label={t("PREFERRED_SHIFTS")} id="switch3" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
             </div>}
 
             <div className="monthly-overview bg-white mt-2">
-                <Tabs selectedIndex={tabIndex} onSelect={(index) => { setTabIndex(index); setWeekNumber(weeknum); setYear(currentDate.getFullYear()); setDate(currentDate); setDayDate(GetFormattedDate(currentDate, currentDate.getFullYear())) }}>
+                <Tabs selectedIndex={parseInt(tabIndex)} onSelect={(index) => { setTabIndex(index); setWeekNumber(weeknum); setYear(currentDate.getFullYear()); setDate(currentDate); setDayDate(GetFormattedDate(currentDate, currentDate.getFullYear())); localStorage.setItem('week_tab', index) }}>
                     <TabList>
                         {tabIndex !== 0 && <div className="border-0 pt-0 d-flex float-left">
                             <button className="arrowButtons" onClick={() => setNextPrev('prev')}>‹</button>
