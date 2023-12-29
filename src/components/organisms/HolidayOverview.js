@@ -4,6 +4,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices";
 import FormsNew from "../molecules/FormsNew";
 import Table from "../atoms/Table";
 import CustomButton from "../atoms/CustomButton";
+import { t } from "../../translations/Translation";
 
 
 
@@ -18,17 +19,17 @@ export default function HolidayOverview() {
     const [filteredData, setFilteredData] = useState([])
     //status tab list
     const tabList = [
-        { tabHeading: ("Pending"), tabName: "pending" },
-        { tabHeading: ("Approved"), tabName: "approved" },
-        { tabHeading: ("Rejected"), tabName: "rejected" },
-        { tabHeading: ("Cancelled"), tabName: "cancelled" }
+        { tabHeading: t("PENDING"), tabName: "pending" },
+        { tabHeading: t("APPROVED"), tabName: "approved" },
+        { tabHeading: t("REJECTED"), tabName: "rejected" },
+        { tabHeading: t("CANCELLED"), tabName: "cancelled" }
     ]
     //fiedl for filter data
     const filterDataFields = [
-        { title: "Applied date", name: "applied_date", placeholder: "Select date", required: false, type: "date", style: "col-md-3 float-left" },
-        { title: "Manager", name: "manager", placeholder: "Manager", required: false, type: "text", style: "col-md-3 float-left" },
-        { title: "Employee", name: "employee", placeholder: "Employee", required: false, type: "text", style: "col-md-3 float-left" },
-        { title: "Leave date", name: "leave_date", placeholder: "Select date", required: false, type: "date", style: "col-md-3 float-left" }
+        { title: t("APPLIED_DATE"), name: "applied_date", placeholder: t("SELECT_DATE"), required: false, type: "date", style: "col-md-3 float-left" },
+        { title: t("MANAGER"), name: "manager", placeholder: t("MANAGER"), required: false, type: "text", style: "col-md-3 float-left" },
+        { title: t("EMPLOYEE_TITLE"), name: "employee", placeholder: t("EMPLOYEE_TITLE"), required: false, type: "text", style: "col-md-3 float-left" },
+        { title: t("LEAVE_DATE"), name: "leave_date", placeholder: t("SELECT_DATE"), required: false, type: "date", style: "col-md-3 float-left" }
     ]
 
     //dummy recent leaves
@@ -40,22 +41,22 @@ export default function HolidayOverview() {
     // table headers
     const tableHeaders = [
         {
-            title: "Tittle",
+            title: t("TITLE_TEXT"),
             field: "title",
             status: 200
         },
         {
-            title: "Applied by",
+            title: t("APPLIED_BY"),
             field: "applied_by",
             status: "200",
         },
         {
-            title: "Reporting manager",
+            title: t("REPORTING_MANAGER"),
             field: "reporting_manager",
             status: "200",
         },
         {
-            title: "Leave dates",
+            title: t("LEAVE_DATE"),
             field: "leave_date",
             status: "200",
         }
@@ -123,7 +124,7 @@ export default function HolidayOverview() {
                                 SetValues={setValues}
                             ></FormsNew>
                             <div className="">
-                                <CustomButton buttonName={"Apply"} ActionFunction={() => onApplyFilter()} CustomStyle="my-4 mr-2"></CustomButton>
+                                <CustomButton buttonName={t("APPLY")} ActionFunction={() => onApplyFilter()} CustomStyle="my-4 mr-2"></CustomButton>
                             </div>
                         </div>
                         <TabPanel><Table columns={tableHeaders} rows={row} tableName={"holiday_overview"}></Table></TabPanel>
@@ -133,7 +134,7 @@ export default function HolidayOverview() {
                     </Tabs>
                 </div>
                 <div className="col-md-3 bg-white border-left ">
-                    <h4 className="m-3 mt-4">Recent</h4>
+                    <h4 className="m-3 mt-4">{t("RECENT")}</h4>
                     <div className=" my-2">
                         <ul>
                             {dummyData.map((val, i) => {
