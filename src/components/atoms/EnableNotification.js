@@ -2,6 +2,7 @@ import React from "react";
 import Form from 'react-bootstrap/Form';
 import FormCheck from 'react-bootstrap/FormCheck';
 import Switch from "./Switch";
+
 export default function EnableNotification() {
 
     return (

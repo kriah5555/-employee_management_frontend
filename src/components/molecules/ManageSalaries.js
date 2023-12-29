@@ -193,7 +193,7 @@ export default function ManageSalaries() {
                                 Object.keys(val).map((cat, j) => {
                                     if (cat !== 'id' && cat !== 'level' && cat !== 'tableData') {
                                         // Calculate salaries based on coefficient added (Incrementing)
-                                        val[cat] = (parseFloat(val[cat]) + (parseFloat(val[cat]) * (parseFloat(coefficient) / 100))).toFixed(4);
+                                        val[cat] = (parseFloat(val[cat].replace(',', '.')) + (parseFloat(val[cat].replace(',', '.')) * (parseFloat(coefficient.replace(',','.')) / 100))).toFixed(4);
                                     }
                                 })
                                 incremented_salary.push(val);

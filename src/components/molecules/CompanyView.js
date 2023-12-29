@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CompanyApiUrl, LocationApiUrl, LocationListApiUrl, WorkstationApiUrl, WorkstationListApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import indii from "../../static/icons/logo-temp.png"
+
 export default function CompanyView() {
 
     const navigate = useNavigate();

@@ -8,24 +8,23 @@ import RedIcon from "../static/icons/RedDot.svg";
 import LeftArrowIcon from "../static/icons/LeftArrow.png";
 import RightArrowIcon from "../static/icons/RightArrow.png";
 import Dropdown from "../components/atoms/Dropdown";
-
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LocationApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
 import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
 import { GetFormattedDate, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
 import QRCode from "react-qr-code";
-
+import { t } from "../translations/Translation";
 
 export default function Uurrooster() {
 
     const head_arr = [
-        { label: 'WS', colSpan: 0 },
-        { label: 'Employee', colSpan: 0 },
-        { label: 'Function', colSpan: 0 },
-        { label: 'Start work', colSpan: 3 },
-        { label: 'Pause', colSpan: 0 },
-        { label: 'End work', colSpan: 3 },
-        { label: 'Total', colSpan: 0 },
+        { label: t("WS_TITLE"), colSpan: 0 },
+        { label: t("EMPLOYEE_TITLE"), colSpan: 0 },
+        { label: t("FUNCTION_TITLE"), colSpan: 0 },
+        { label: t("START_WORK_TITLE"), colSpan: 3 },
+        { label: t("PAUSE_TITLE"), colSpan: 0 },
+        { label: t("END_WORK_TITLE"), colSpan: 3 },
+        { label: t("TOTAL_TITLE"), colSpan: 0 },
     ]
 
     const [planData, setPlanData] = useState([]);
@@ -35,7 +34,7 @@ export default function Uurrooster() {
     const [qrcode, setQrcode] = useState('');
     const currentDate = new Date();
 
-    const Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const Months = [t("JANUARY"), t("FEBRUARY"), t("MARCH"), t("APRIL"), t("MAY"), t("JUNE"), t("JULY"), t("AUGUST"), t("SEPTEMBER"), t("OCTOBER"), t("NOVEMBER"), t("DECEMBER")]
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
@@ -50,14 +49,14 @@ export default function Uurrooster() {
                         'workstation_name': '',
                         'employee_name': '',
                         'function_name': '',
-                        'plan_start': 'Planning',
-                        'start_time': 'Started',
-                        'dimona_start': 'Dimona',
+                        'plan_start': t("PLANNING_TITLE"),
+                        'start_time': t("STARTED_TITLE"),
+                        'dimona_start': t("DIMONA"),
                         'pause': '',
-                        'plan_end': 'Planning',
-                        'end_time': 'Stopped',
-                        'dimona_end': 'Dimona',
-                        'cost': 'Cost'
+                        'plan_end': t("PLANNING_TITLE"),
+                        'end_time': t("STOPPED_TITLE"),
+                        'dimona_end': t("DIMONA"),
+                        'cost': t("COST_TITLE")
                     }
                 ]
                 setPlanData(uurroosterData)
@@ -78,14 +77,14 @@ export default function Uurrooster() {
                             'workstation_name': '',
                             'employee_name': '',
                             'function_name': '',
-                            'plan_start': 'Planning',
-                            'start_time': 'Started',
-                            'dimona_start': 'Dimona',
+                            'plan_start': t("PLANNING_TITLE"),
+                            'start_time': t("STARTED_TITLE"),
+                            'dimona_start': t("DIMONA"),
                             'pause': '',
-                            'plan_end': 'Planning',
-                            'end_time': 'Stopped',
-                            'dimona_end': 'Dimona',
-                            'cost': 'Cost'
+                            'plan_end': t("PLANNING_TITLE"),
+                            'end_time': t("STOPPED_TITLE"),
+                            'dimona_end': t("DIMONA"),
+                            'cost': t("COST_TITLE")
                         }
                     ]
                     let resp = result.data
@@ -181,7 +180,7 @@ export default function Uurrooster() {
                         <img className="" src={RedIcon}></img>
                     </div>
                     <div className="col-md-6">
-                        <p className="text-center mb-0 font-weight-bold">Select location</p>
+                        <p className="text-center mb-0 font-weight-bold">{t("SELECT_LOCATION")}</p>
                         <Dropdown
                             options={locations}
                             selectedOptions={selectedLoc}

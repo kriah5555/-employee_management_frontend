@@ -7,6 +7,7 @@ import "./static/common.css";
 import Header from './commonComponents/Header';
 import Sidebar from './commonComponents/Sidebar';
 import Login from './pages/Login';
+import { GetTranslatedConstants } from './translations/Translation';
 
 function App() {
 
@@ -22,6 +23,10 @@ function App() {
       }
       setAuth(localStorage.getItem('auth'));
    }, [auth])
+
+   useEffect(() => {
+      GetTranslatedConstants()
+   }, [])
 
    const onCompanySelect = (e, reload) => {
       if (e && e.value === undefined) {

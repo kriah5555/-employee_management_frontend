@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmailTemplateApiUrl, ContractTemplateApiUrl, fetchTranslations } from "../../routes/ApiEndPoints";
+import { EmailTemplateApiUrl, ContractTemplateApiUrl, fetchAllTranslations } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
@@ -94,7 +94,7 @@ export default function CommunicationConfigurationOverview() {
             apiUrl = ContractTemplateApiUrl
             setHeaders(contracts_template_headers); setTitle('Manage contracts templates'); setAddTitle('Create contracts template'); setAddUrl('/add-contracts-template/template');setTableName("contract_template");
         } else {
-            apiUrl = fetchTranslations
+            apiUrl = fetchAllTranslations
             setTitle('Manage translations'); setAddTitle('');
         }
         
@@ -168,7 +168,7 @@ export default function CommunicationConfigurationOverview() {
     // Function to call API on editing the row
     const UpdateRow = (newData) => {
 
-        AXIOS.service(fetchTranslations + '/' + newData.id, 'PUT', newData)
+        AXIOS.service(fetchAllTranslations + '/' + newData.id, 'PUT', newData)
             .then((result) => {
                 if (result?.success) {
                     toast.success(result.message[0], {

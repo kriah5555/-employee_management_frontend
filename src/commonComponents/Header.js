@@ -14,7 +14,7 @@ import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
 import AddHolidayIcon from "../static/icons/ManageHoliday.svg"
 import AddLocation from "../static/icons/AddLocation.svg"
 import DownArrowIcon from "../static/icons/arrow.png"
-import { t } from "../translations/Translation"
+import { GetTranslatedConstants, t } from "../translations/Translation"
 
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LogoutApiUrl, ResponsibleCompaniesApiUrl } from "../routes/ApiEndPoints";
@@ -22,16 +22,19 @@ import { useNavigate } from "react-router-dom"
 import { getFormattedDropdownOptions } from "../utilities/CommonFunctions"
 import Popup from "../utilities/popup/Popup"
 
-export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList}) {
+export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList }) {
 
     const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-    const [activeLanguage, setActiveLanguage] = useState({ value: 'en', label: 'EN' })
+    if (!localStorage.getItem('active_language')) {
+        localStorage.setItem('active_language', 'nl')
+    }
+    const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language'), label: (localStorage.getItem('active_language'))?.toUpperCase() })
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
     const navigate = useNavigate()
-    
+
     // const [selectedCompany, setSelectedCompany] = useState("")
     const [isCompanyIdEmpty, setIsCompanyIdEmpty] = useState(false)
     const [message, setMessage] = useState(false)
@@ -49,41 +52,41 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     }, [Time]);
 
 
-        useEffect(() => {
-            let lastCompanyId = localStorage.getItem('company_id')
+    useEffect(() => {
+        let lastCompanyId = localStorage.getItem('company_id')
 
-            AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
-                .then((result) => {
-                    if (result.success) {
-                        if (result.data.length !== 0) {
-                            let data = getFormattedDropdownOptions(result.data, "id", "company_name")
-                            setCompanyList(data)
-                            //filtering last selected company from company list
-                            const lastCompany = data.filter((obj) => {
-                                return obj.value == lastCompanyId;
-                            })
-                            //if only one company then select it without showing popup
-                            if (data.length == 1) {
-                                setSelectedCompany(data[0])
-                                //setting last selected company if it is present
-                            } else if (lastCompany.length != 0) {
-                                setSelectedCompany(lastCompany)
-                            } else {
-                                //message popup if last company not matching  in company list
-                                setIsCompanyIdEmpty(true)
-                            }
-                        } 
-                        // else {
-                        //     if (window.location.pathname !== "/manage-companies/company/0"){
-                        //         setIsCompanyIdEmpty(true)
-                        //     }
-                        // }
+        AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
+            .then((result) => {
+                if (result.success) {
+                    if (result.data.length !== 0) {
+                        let data = getFormattedDropdownOptions(result.data, "id", "company_name")
+                        setCompanyList(data)
+                        //filtering last selected company from company list
+                        const lastCompany = data.filter((obj) => {
+                            return obj.value == lastCompanyId;
+                        })
+                        //if only one company then select it without showing popup
+                        if (data.length == 1) {
+                            setSelectedCompany(data[0])
+                            //setting last selected company if it is present
+                        } else if (lastCompany.length != 0) {
+                            setSelectedCompany(lastCompany)
+                        } else {
+                            //message popup if last company not matching  in company list
+                            setIsCompanyIdEmpty(true)
+                        }
                     }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }, [])
+                    // else {
+                    //     if (window.location.pathname !== "/manage-companies/company/0"){
+                    //         setIsCompanyIdEmpty(true)
+                    //     }
+                    // }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
 
     //to set selected company
     // useEffect(() => {
@@ -202,7 +205,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                             styleClass=""
                             isMulti={false}
                         ></Dropdown>
-                    </> 
+                    </>
                     // :
                     // <>
                     //     <h6 className="text-danger">No companies found</h6>
@@ -246,7 +249,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                         <Dropdown
                             options={LanguageOptions}
                             selectedOptions={activeLanguage}
-                            onSelectFunction={(e) => setActiveLanguage(e)}
+                            onSelectFunction={(e) => { setActiveLanguage(e); localStorage.setItem('active_language', e?.value); window.location.reload(); }}
                             styleClass="language-dropdown"
                         ></Dropdown>
                     </li>
