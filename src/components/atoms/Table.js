@@ -13,7 +13,7 @@ import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-u
 
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
-// console.log(rows);
+    // console.log(rows);
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -49,10 +49,10 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     //Table options
     const options = {
         filtering: false,
-        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
+        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee'&& tableName!=="open_shifts_overview" ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
 
         //Search toolbar props
-        toolbar:(tableName !== 'tokens' && tableName !== 'holiday_overview')? true: false,
+        toolbar: (tableName !== 'tokens' && tableName !== 'holiday_overview') ? true : false,
         search: tableName !== 'min_salary' ? true : false,
         searchFieldAlignment: 'left',
         searchFieldStyle: searchStyle, //padding: '0px',
@@ -77,7 +77,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         },
 
         //Pagination props
-        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens'? false : true,
+        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens'|| tableName === 'open_shifts_overview' ? false : true,
         pageSize: 10,
         pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
@@ -109,13 +109,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: 'Details',
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview") ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -133,7 +133,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: 'Delete',
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
         })
     ]
 
@@ -148,7 +148,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         <MuiThemeProvider theme={theme}>
             <MaterialTable
                 title=''
-                style={{ width: "100%", height: tableName !== 'employee' ? height : 'calc(100vh - 156px)' }}
+                style={{ width: "100%", height: tableName !== 'employee' || tableName !== 'open_shifts_overview' ? height : 'calc(100vh - 156px)' }}
                 icons={tableIcon}
                 columns={columns}
                 data={rows}
@@ -186,7 +186,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                 options={options}
 
                 //Actions props
-                actions={showDetails || tableName === 'min_salary' ||tableName === 'tokens'||tableName ==='holiday_overview_rejected'  ? [] : actionIconsList}
+                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' ? [] : actionIconsList}
             />
         </MuiThemeProvider>
 

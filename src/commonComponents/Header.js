@@ -49,41 +49,41 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     }, [Time]);
 
 
-    useEffect(() => {
-        let lastCompanyId = localStorage.getItem('company_id')
+        useEffect(() => {
+            let lastCompanyId = localStorage.getItem('company_id')
 
-        AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
-            .then((result) => {
-                if (result.success) {
-                    if (result.data.length !== 0) {
-                        let data = getFormattedDropdownOptions(result.data, "id", "company_name")
-                        setCompanyList(data)
-                        //filtering last selected company from company list
-                        const lastCompany = data.filter((obj) => {
-                            return obj.value == lastCompanyId;
-                        })
-                        //if only one company then select it without showing popup
-                        if (data.length == 1) {
-                            setSelectedCompany(data[0])
-                            //setting last selected company if it is present
-                        } else if (lastCompany.length != 0) {
-                            setSelectedCompany(lastCompany)
-                        } else {
-                            //message popup if last company not matching  in company list
-                            setIsCompanyIdEmpty(true)
-                        }
-                    } 
-                    // else {
-                    //     if (window.location.pathname !== "/manage-companies/company/0"){
-                    //         setIsCompanyIdEmpty(true)
-                    //     }
-                    // }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
+            AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
+                .then((result) => {
+                    if (result.success) {
+                        if (result.data.length !== 0) {
+                            let data = getFormattedDropdownOptions(result.data, "id", "company_name")
+                            setCompanyList(data)
+                            //filtering last selected company from company list
+                            const lastCompany = data.filter((obj) => {
+                                return obj.value == lastCompanyId;
+                            })
+                            //if only one company then select it without showing popup
+                            if (data.length == 1) {
+                                setSelectedCompany(data[0])
+                                //setting last selected company if it is present
+                            } else if (lastCompany.length != 0) {
+                                setSelectedCompany(lastCompany)
+                            } else {
+                                //message popup if last company not matching  in company list
+                                setIsCompanyIdEmpty(true)
+                            }
+                        } 
+                        // else {
+                        //     if (window.location.pathname !== "/manage-companies/company/0"){
+                        //         setIsCompanyIdEmpty(true)
+                        //     }
+                        // }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }, [])
 
     //to set selected company
     // useEffect(() => {

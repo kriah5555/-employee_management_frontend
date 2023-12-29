@@ -80,6 +80,7 @@ export const GET_CONSTANTS = {
     'PLANNING_LOGS':'Planning logs',
     'HOLIDAY_LEAVE': 'Holiday/leave',
     'EVENT_PLANNING':'Event planning',
+    'OPEN_SHIFT':'Open shift',
 
     // Days constants
     'MONDAY': 'Monday',
