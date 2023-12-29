@@ -22,16 +22,19 @@ import { useNavigate } from "react-router-dom"
 import { getFormattedDropdownOptions } from "../utilities/CommonFunctions"
 import Popup from "../utilities/popup/Popup"
 
-export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList}) {
+export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList }) {
 
     const UserName = localStorage.getItem('name');
     const [Time, setTime] = useState(new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' }));
     const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-    const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language'), label: (localStorage.getItem('active_language')).toUpperCase() })
+    if (!localStorage.getItem('active_language')) {
+        localStorage.setItem('active_language', 'nl')
+    }
+    const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language'), label: (localStorage.getItem('active_language'))?.toUpperCase() })
     const [shortcutMenuOpen, setShortcutMenuOpen] = useState(false);
     const [notificationMenuOpen, setNotificationMenuOpen] = useState(false);
     const navigate = useNavigate()
-    
+
     // const [selectedCompany, setSelectedCompany] = useState("")
     const [isCompanyIdEmpty, setIsCompanyIdEmpty] = useState(false)
     const [message, setMessage] = useState(false)
@@ -72,7 +75,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                             //message popup if last company not matching  in company list
                             setIsCompanyIdEmpty(true)
                         }
-                    } 
+                    }
                     // else {
                     //     if (window.location.pathname !== "/manage-companies/company/0"){
                     //         setIsCompanyIdEmpty(true)
@@ -202,7 +205,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                             styleClass=""
                             isMulti={false}
                         ></Dropdown>
-                    </> 
+                    </>
                     // :
                     // <>
                     //     <h6 className="text-danger">No companies found</h6>
@@ -246,7 +249,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                         <Dropdown
                             options={LanguageOptions}
                             selectedOptions={activeLanguage}
-                            onSelectFunction={(e) => {setActiveLanguage(e); localStorage.setItem('active_language', e?.value); window.location.reload();}}
+                            onSelectFunction={(e) => { setActiveLanguage(e); localStorage.setItem('active_language', e?.value); window.location.reload(); }}
                             styleClass="language-dropdown"
                         ></Dropdown>
                     </li>
