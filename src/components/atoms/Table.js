@@ -53,7 +53,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
 
         //Search toolbar props
-        toolbar:(tableName !== 'tokens' && tableName !== 'holiday_overview')? true: false,
+        toolbar:(tableName !== 'tokens')? true: false,
         search: tableName !== 'min_salary' ? true : false,
         searchFieldAlignment: 'left',
         searchFieldStyle: searchStyle, //padding: '0px',

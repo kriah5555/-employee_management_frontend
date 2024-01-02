@@ -33,6 +33,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [dataRefresh, setDataRefresh] = useState(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteRequestData, setDeleteRequestData] = useState({});
+    const [totalData, setTotalData] = useState({});
 
     const [shiftPopupOpen, setShiftPopupOpen] = useState(false);
     const [shiftId, setShiftId] = useState('');
@@ -74,7 +75,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 if (result?.success) {
                     // setWeekData(result.data);
                     let arr = []
-                    result.data.map((val, i) => {
+                    result.data.workstation_data.map((val, i) => {
                         if (val.employee.length === 0) {
                             // addNewRow(val.workstation_id, i === 0 ? result.data : [])
                             val.employee = [{
@@ -90,25 +91,13 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         }
                     })
                     setWeekData(arr)
+                    setTotalData(result.data.total)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
     }, [dataRefresh, weekNumber, locId])
-
-    // Dummy data for weekly planning total cost and contract hours
-    const totalData = [
-        { cost: '124', contract_hours: '25' },
-        { cost: '126', contract_hours: '30' },
-        { cost: '130', contract_hours: '26' },
-        { cost: '135', contract_hours: '28' },
-        { cost: '111', contract_hours: '34' },
-        { cost: '200', contract_hours: '44' },
-        { cost: '122', contract_hours: '18' },
-        { cost: '230', contract_hours: '50' },
-    ]
-
 
     // Function to add new row for adding new employee
     const addNewRow = (wid, weekArrData) => {
@@ -200,10 +189,10 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     // Function to return total data element
     const getTotalData = (index, data) => {
         return (
-            <td key={data.cost} className={index === 7 ? " border-0" : "px-2"}>
+            <td key={data?.cost} className={index === 7 ? " border-0" : "px-2"}>
                 <div className="d-flex justify-content-between">
-                    <small><img src={CostIcon} className="plan-icon mr-1"></img>{data.cost}</small>
-                    <small><img src={ContractHoursIcon} className="plan-icon mr-1"></img>{data.contract_hours}</small>
+                    <small>{data?.cost && <img src={CostIcon} alt="cost" className="plan-icon mr-1"></img>}{data?.cost}</small>
+                    <small>{data?.contract_hours && <img src={ContractHoursIcon} alt="contract hour" className="plan-icon mr-1"></img>}{data?.contract_hours}</small>
                 </div>
             </td>
         )
@@ -398,8 +387,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         <td className="border-0">{t("TOTAL_TITLE")}</td>
                         <td className="border-0"></td>
                         {
-                            totalData.map((data, index) => {
-                                return (getTotalData(index, data))
+                            dates.map((date, index) => {
+                                return (getTotalData(index, totalData[date]))
                             })
                         }
                         <td className="border-0"></td>
