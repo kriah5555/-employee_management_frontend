@@ -61,7 +61,7 @@ export default function PlanChart({ Plans, dayDate, year, locId, EmpTypeIds, wsI
             day_data.push([
                 "Planning time",
                 plan['workstation_name'],
-                '<ul class="list-group"><li class="list-group-item">' + t('WORKSTATION') + ':&nbsp' + plan['workstation_name'] + '</li><li class="list-group-item">' + t('PLANNING_TIME') + ':&nbsp' + plan['start_time'] + "-" + plan['end_time'] + '</li></ul>',
+                '<ul className="list-group"><li className="list-group-item">' + t('WORKSTATION') + ':&nbsp' + plan['workstation_name'] + '</li><li class="list-group-item">' + t('PLANNING_TIME') + ':&nbsp' + plan['start_time'] + "-" + plan['end_time'] + '</li></ul>',
                 new Date(0, 0, 0, plan['start_time'].split(':')[0], plan['start_time'].split(':')[1], 0),
                 new Date(0, 0, 0, plan['end_time'].split(':')[0], plan['end_time'].split(':')[1], 0),
             ])

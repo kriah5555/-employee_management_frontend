@@ -8,16 +8,13 @@ import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png";
 import FunctionIcon from "../../static/icons/Settings.svg"
 import LocationIcon from "../../static/icons/Location.svg"
-export default function ViewOpenShiftDetails({shiftId, setShowDetails}) {
+export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
 
     const navigate = useNavigate();
 
     const params = useParams();
-    const [companyData, setCompanyData] = useState({});
-    const [address, setAddress] = useState({});
-    const [sector, setSector] = useState("");
-    const [socialSecretaryNumber, setSocialSecretaryNumber] = useState('')
-
+    const [shiftData, setShiftData] = useState({});
+    const [employeeTypeString, setEmployeeTypeString] = useState("")
     const TabsData = [
         { tabHeading: ("Requested"), tabName: 'requested' },
         { tabHeading: ("Approved"), tabName: 'approved' },
@@ -37,65 +34,89 @@ export default function ViewOpenShiftDetails({shiftId, setShowDetails}) {
 
     ]
 
+    const createEmployeeTypeString = (employeeType) => {
+        let resultString = '';
+
+        employeeType.map((val, index) => {
+            index == employeeType.length - 1 ? resultString += val.label : resultString += val.label + ", ";
+        })
+        return resultString;
+    }
+
     useEffect(() => {
-        if (shiftId!== '0') {
-            let editApiUrl = OpenShiftApiUrl + '/' + 1
-            // Api call to get detail data
-            AXIOS.service(editApiUrl, 'GET')
+        let editApiUrl = OpenShiftApiUrl + '/' + params.id
+        // Api call to get detail data
+        AXIOS.service(editApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setShiftData(result.data)
+                    setEmployeeTypeString(createEmployeeTypeString(result.data?.employee_types))
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+
+    }, [])
+    //dummy data
+    const data = [{ id: 1, employee_name: "employee 01" }]
+
+    const viewAction = (data, action) => {
+
+        if (action === 'accept') {
+
+            let data = {
+                "id": data.id,
+                "vacancy_id": data.vacancy_id,
+                "user_id": data.user_id,
+                "request_status": "1",
+                "vacancy_date": data.start_date,
+                "responded_by": "1",
+            }
+            AXIOS.service(OpenShiftApiUrl + "/respond-to-vacancy", 'POST', data)
                 .then((result) => {
                     if (result?.success) {
-                        console.log(result.data);
+                        setShiftData(result.data)
+                        setEmployeeTypeString(createEmployeeTypeString(result.data?.employee_types))
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
+
+        } else if (action === 'reject') {
+
         }
 
-
-    }, [shiftId])
-
-    const viewAction = (data, action) => {
-        if (action === 'delete') {
-            // setWarningMessage('Are you sure you want to delete this item?')
-        }
-        if (action === 'edit') {
-            // setOpenPopup(true)
-        } else if (action === 'view') {
-            // navigate('/manage-plannings/open-shift-view/' + 1)
-        } else {
-            // setDeleteUrl(HolidayCodeApiUrl + '/' + data.id)
-        }
 
     }
 
     return (
-        <div className="col-md-12 row m-0 p-0  border-bottom">
-            {/* <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
+        <div className="right-creation-container ">
+            <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
                     <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-plannings')} src={BackIcon}></img>
                     {'Shift details'}
                 </h4>
-            </div> */}
-            <div className="company-tab-width col-md-12 company_creation border p-0 bg-white">
+            </div>
+            <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
 
                 <div className="col-md-12 row m-0 py-3 px-4 border-bottom">
-                    {/* <img className="employee-icon-temp rounded-circle mx-2 " src={companyData.logo ? URL.createObjectURL(companyData.logo) : indii}></img> */}
                     <div className="width-22 px-3 mt-2 border-right">
-                        <h4 className="mb-3 font-22">{"Open Shift name"}</h4>
-                        <p className="text-secondary font-18">{"location: Location 01"}</p>
+                        <h4 className="mb-3 font-22">{shiftData?.name}</h4>
+                        <p className="text-secondary font-18">{shiftData?.location_name}</p>
                     </div>
                     <div className="width-22 px-3 mt-2">
-                        <p className="mb-1 font-22 d-flex">{"Function: "}<p className="text-secondary font-18">{"Assistant"}</p></p>
-                        <p className="font-22 d-flex">{"Repeat: "}<p className="text-secondary font-18">{"Daily"}</p></p>
+                        <p className="mb-1 font-22 d-flex">{"Function: "}<p className="text-secondary font-18">{shiftData?.function_name}</p></p>
+                        <p className="font-22 d-flex">{"Repeat: "}<p className="text-secondary font-18">{shiftData?.repeat_title}</p></p>
                     </div>
                     <div className="width-22 px-3 mt-2">
-                        <p className="mb-1 font-22 d-flex">{"Start Date: "}<p className="text-secondary font-18">{"28-12-2023"}</p></p>
-                        <p className="font-22 d-flex">{"End Date: "}<p className="text-secondary font-18">{"05-01-2024"}</p></p>
+                        <p className="mb-1 font-22 d-flex">{"Start Date: "}<p className="text-secondary font-18">{shiftData?.start_date}</p></p>
+                        <p className="font-22 d-flex">{"End Date: "}<p className="text-secondary font-18">{shiftData?.end_date}</p></p>
                     </div>
                     <div className="width-22 px-3 mt-2">
-                        <p className="font-22 d-flex">{"Employee type: "}<p className="text-secondary font-18">{" flex"}</p></p>
-                        {/* <p className="text-secondary font-18">{"location"}</p> */}
+                        <p className="font-22 d-flex">{"Employee type: "}<p className="text-secondary font-18">{employeeTypeString}</p></p>
                     </div>
                 </div>
                 <div className="col-md-12 p-0 employee-detail employee-detail-height">
@@ -108,17 +129,14 @@ export default function ViewOpenShiftDetails({shiftId, setShowDetails}) {
                             })}
                         </TabList>
                         <TabPanel>
-                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>
+                            <Table columns={requestedHeaders} rows={data} tableName={"applied_candidates"} viewAction={viewAction}></Table>
                         </TabPanel>
                         <TabPanel>
-                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>
+                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} ></Table>
                         </TabPanel>
                         <TabPanel>
-                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>
+                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} ></Table>
                         </TabPanel>
-                        {/* <TabPanel>
-                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>
-                        </TabPanel> */}
                     </Tabs>
                 </div>
             </div>

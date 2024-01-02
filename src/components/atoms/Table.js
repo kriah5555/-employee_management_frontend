@@ -4,6 +4,8 @@ import EditIcon from "../../static/icons/Edit.svg"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import LinkIcon from "../../static/icons/LinkingSocialSecretaryToHolidayCode.svg"
 import MoreIcon from "../../static/icons/menu.png"
+import AcceptIcon from "../../static/icons/Available.svg"
+import RejectIcon from "../../static/icons/Notavailable.svg"
 
 import MaterialTable from "material-table";
 import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear } from "@material-ui/icons";
@@ -13,7 +15,6 @@ import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-u
 
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
-    // console.log(rows);
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -49,7 +50,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     //Table options
     const options = {
         filtering: false,
-        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee'&& tableName!=="open_shifts_overview" ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
+        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' && tableName !== "open_shifts_overview" ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
 
         //Search toolbar props
         toolbar: (tableName !== 'tokens' && tableName !== 'holiday_overview') ? true : false,
@@ -77,7 +78,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         },
 
         //Pagination props
-        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens'|| tableName === 'open_shifts_overview' ? false : true,
+        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'open_shifts_overview' ? false : true,
         pageSize: 10,
         pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
@@ -101,7 +102,8 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
     const getLinkIcon = () => { return (<img className="planning-icon " src={LinkIcon}></img>) }
     const getDetailIcon = () => { return (<img className="planning-icon" src={MoreIcon}></img>) }
-
+    const getAcceptIcon = () => { return (<img className="planning-icon" src={AcceptIcon}></img>) }
+    const getRejectIcon = () => { return (<img className="planning-icon" src={RejectIcon}></img>) }
 
     //Define actions based on requirement (Below actions are for view and edit)
     const actionIconsList = [
@@ -109,13 +111,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: 'Details',
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview") ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates") ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: 'View',
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates") ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -127,14 +129,26 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getEditIcon(),
             tooltip: 'Edit',
             onClick: (event, rowData) => viewAction(rowData, 'edit'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview' && tableName !== "applied_candidates") ? false : true
         }),
         rowData => ({
             icon: () => getDeleteIcon(),
             tooltip: 'Delete',
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
-        })
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates") ? false : true
+        }),
+        rowData => ({
+            icon: () => getAcceptIcon(),
+            tooltip: 'Accept',
+            onClick: (event, rowData) => viewAction(rowData, 'accept'),
+            hidden: (!rowData.parentOnly && tableName === "applied_candidates") ? false : true
+        }),
+        rowData => ({
+            icon: () => getRejectIcon(),
+            tooltip: 'Reject',
+            onClick: (event, rowData) => viewAction(rowData, 'reject'),
+            hidden: (!rowData.parentOnly && tableName === "applied_candidates") ? false : true
+        }),
     ]
 
     // const localization = {

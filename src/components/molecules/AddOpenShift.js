@@ -29,7 +29,7 @@ export default function AddOpenShift(props) {
     const [errors, setErrors] = useState([]);
 
     const [formData, setFormData] = useState([{
-        "shift_name": "",
+        "name": "",
         "start_date": "",
         "start_time": "",
         "end_time": "",
@@ -37,7 +37,7 @@ export default function AddOpenShift(props) {
         "location": "",
         "workstations": "",
         "functions": "",
-        "count": "",
+        "vacancy_count": "",
         "repeat_type": repeatType,
         "employee_types": [],
         "approval_type": "1",
@@ -47,26 +47,68 @@ export default function AddOpenShift(props) {
     }]);
 
     useEffect(() => {
+        let companyDropdownList = []
         AXIOS.service(ResponsibleCompaniesApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
                     if (result.data.length !== 0) {
                         let data = getFormattedDropdownOptions(result.data, "id", "company_name")
                         setCompanyList(data)
+                        companyDropdownList = data
                     }
-
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
 
-            // if (props.shiftId==0) {
+        if (props.shiftId !== 0 && props.shiftId !== "") {
 
-            //     alert("hello")
-            // }
-            // console.log(props.shiftId);
+            AXIOS.service(OpenShiftApiUrl + "/" + props.shiftId, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        if (result.data.length !== 0) {
+                            let response = result.data
+                            let data = [{
+                                "name": response.name,
+                                "start_date": response.start_date,
+                                "start_time": response.start_time,
+                                "end_time": response.end_time,
+                                "end_date": response.end_date,
+                                "location": response.location_id,
+                                "workstations": response.workstation_id,
+                                "functions": response.function_id,
+                                "vacancy_count": response.vacancy_count,
+                                "repeat_type": response.repeat_type,
+                                "employee_types": response.employee_types,
+                                "approval_type": "1",
+                                "extra_info": response.extra_info,
+                                "status": response.status,
+                            }]
+                            // setFormData((prev) => {
+                            //     return data
+                            // })
+                            setFormData(data)
+                            props.setHeaderCompanyDropdown(localStorage.getItem("company_id"))
+                            companyDropdownList.map((item) => {
+                                if (item.value == localStorage.getItem("company_id")) {
+                                    setSelectedCompany(item)
+                                }
+                            })
+                            setLocation({ value: response.location_id, label: response.location_name })
+                            setRepeatType(response.repeat_type)
+                            setWorkstations({ value: response.workstation_id, label: response.workstation_name })
+                            setSelectedFunction({ value: response.function_id, label: response.function_name })
+                            setEmployeeTypes(response.employee_types)
 
+                        }
+
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
 
     }, [])
 
@@ -77,9 +119,8 @@ export default function AddOpenShift(props) {
                     if (result.data.length !== 0) {
                         let response = result.data
                         setDropdownOptions(response)
-                        if (formData[0]?.company_id) {
+                        if (selectedCompany !== 0 && selectedCompany !== undefined && selectedCompany !== "") {
                             setlocationList(response.locations)
-
                         }
                         setEmployeeTypeList(response.employeeTypes)
                     }
@@ -89,27 +130,33 @@ export default function AddOpenShift(props) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [formData[0]?.company_id])
+    }, [selectedCompany])
 
     // setting options based on location
     useEffect(() => {
-        if (formData[0].location !== "" && dropdownOptions.workstations) {
+        if (location && dropdownOptions.workstations) {
             let id = formData[0]?.location;
             const options = dropdownOptions?.workstations[id] || [];
             setWorkstationsList(options)
-            setWorkstations([])
+            if (props.shiftId == "" || props.shiftId == 0) {
+
+                setWorkstations([])
+            }
             setSelectedFunction([])
         }
-    }, [formData[0]?.location])
+        
+    }, [location])
 
     useEffect(() => {
-        if (formData[0].workstations !== "" && dropdownOptions.workstationsFunctions) {
+        if (workstations && dropdownOptions.workstationsFunctions) {
             let id = formData[0]?.workstations;
             const options = dropdownOptions?.workstationsFunctions[id] || [];
             setFunctionsList(options)
-            setSelectedFunction([])
+            if (props.shiftId == "" || props.shiftId == 0) {
+                setSelectedFunction([])
+            }
         }
-    }, [formData[0]?.workstations])
+    }, [workstations])
 
 
 
@@ -117,7 +164,6 @@ export default function AddOpenShift(props) {
         let newData = [...formData]
         if (type !== "dropdown") {
             newData[0][name] = value
-            console.log(name, value);
         } else {
             if (name == "company_id") {
                 newData[0][name] = value.value
@@ -145,12 +191,15 @@ export default function AddOpenShift(props) {
         setFormData(newData)
     }
     const onConfirm = () => {
-        if (formData[0].company_id && formData[0].shift_name) {
+        if (selectedCompany !== 0 && selectedCompany !== undefined && formData[0].name) {
+            let url = (props.shiftId !== 0 && props.shiftId !== "") ? OpenShiftApiUrl + "/" + props.shiftId : OpenShiftApiUrl
+            let method = (props.shiftId !== 0 && props.shiftId !== "") ? "PUT" : "POST"
             let data = [...formData]
             data[0].status = 1
-            AXIOS.service(OpenShiftApiUrl, 'POST', data[0])
+            AXIOS.service(url, method, data[0])
                 .then((result) => {
                     if (result?.success) {
+                        setSelectedCompany("")
                         props.setRefresh(!(props.refresh))
                         props.setOpenPopup(false)
                         toast.success(result.message[0], {
@@ -196,7 +245,7 @@ export default function AddOpenShift(props) {
                         progress: undefined,
                         theme: "colored",
                     });
-                } 
+                }
                 // else {
                 //     setErrors([result.message[0]])
                 // }
@@ -217,7 +266,7 @@ export default function AddOpenShift(props) {
     }
 
     //to handle switch
-    const onChange = () => {
+    const onRepeatToggle = () => {
         setRepeat(!repeat)
         setFormData((prev) =>
             prev.map((item, index) => (
@@ -240,7 +289,7 @@ export default function AddOpenShift(props) {
 
     const formFieldsArray1 = [
         { title: "Company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-6 float-left" },
-        { title: "Shift name", name: "shift_name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Shift name", name: "name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: "Start date", name: "start_date", required: true, type: "date", style: "col-md-12 mt-4 float-left" },
     ]
 
@@ -251,7 +300,7 @@ export default function AddOpenShift(props) {
         { title: 'Workstations', name: 'workstations', required: true, options: workstationList, isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: "Function", name: "functions", placeholder: "Select..", required: true, type: "dropdown", options: functionsList, selectedOptions: selectedFunction, style: "col-md-6 float-left" },
         { title: "Employee type", name: "employee_types", placeholder: "Select..", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 float-left" },
-        { title: "Vcancies count", name: "count", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: "Vcancies count", name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
     ]
 
     const formFieldsArray3 = repeat ? [
@@ -300,7 +349,7 @@ export default function AddOpenShift(props) {
                     >
                     </FormsNew>
                     <div className="col-md-12 pr-0 py-2 px-5 d-flex">
-                        <Switch label="Repeat" id="switch4" styleClass="col-md-3 align-self-center row m-0" onChange={onChange} ></Switch>
+                        <Switch label="Repeat" id="switch2" styleClass="col-md-3 align-self-center row m-0" onChange={onRepeatToggle} ></Switch>
                         {repeat && <RadioInput
                             title={''}
                             radiobuttonsList={optionsArray !== undefined ? optionsArray : []}
