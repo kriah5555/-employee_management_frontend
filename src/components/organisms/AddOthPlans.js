@@ -12,7 +12,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 
-
 export default function AddOthPlans() {
 
     let params = useParams();
@@ -20,11 +19,11 @@ export default function AddOthPlans() {
 
 
     const [othPlanData, setOthPlanData] = useState({
-        "employee_id": params.id,
+        "employee_id": params.eid,
         "start_date": "",
+        "end_date": "",
         "workstation_id": '',
         "location_id": '',
-        "function_id": '',
         "repeating_week": 1,
         "auto_renew": false,
         "plannings": []
@@ -59,7 +58,7 @@ export default function AddOthPlans() {
                     if (resp.locations?.length === 1) {
                         setSelectedLocation(resp.locations[0]);
                         othPlanData['location_id'] = resp.locations[0].value
-                        
+
                         let locId = resp.locations[0].value
                         setWorkstationList(resp.workstations[locId])
                         setSelectedWorkstation(resp.workstations[locId]?.length === 1 ? resp.workstations[locId][0] : [])
@@ -74,6 +73,46 @@ export default function AddOthPlans() {
             })
     }, [])
 
+    useEffect(() => {
+        if (params.id) {
+            AXIOS.service(CreateOthPlanApiUrl + '/' + params.id, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        let oth = { ...othPlanData }
+                        oth['start_date'] = result.data.start_date
+                        oth['end_date'] = result.data.end_date
+                        oth['location_id'] = result.data.location?.value
+                        setSelectedLocation(result.data.location)
+
+                        oth['workstation_id'] = result.data.workstation?.value
+                        setSelectedWorkstation(result.data.workstation)
+
+                        oth['repeating_week'] = result.data.repeating_week
+                        setSelectedRepeatation({ value: result.data.repeating_week, label: result.data.repeating_week })
+
+                        oth['auto_renew'] = result.data.auto_renew
+                        setAutoOn(result.data.auto_renew)
+                        oth['plannings'] = result.data.plannings
+
+                        let arr = []
+                        if (result.data.repeating_week !== repeatData.length) {
+                            for (let i = 0; i < result.data.repeating_week; i++) {
+                                arr.push(1)
+                            }
+                            setRepeatData(arr)
+                        }
+                        setOthPlanData(oth)
+
+                    } else {
+                        setErrors(result.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [])
+
     const days = [
         { value: 1, label: t('MONDAY') },
         { value: 2, label: t('TUESDAY') },
@@ -86,13 +125,15 @@ export default function AddOthPlans() {
     const daysArr = [t('MONDAY'), t('TUESDAY'), t('WEDNESDAY'), t('THURSDAY'), t('FRIDAY'), t('SATURDAY'), t('SUNDAY')]
 
     useEffect(() => {
-        let count = 1
-        let data = []
-        while (selectedRepeatation?.value >= count) {
-            data.push(1);
-            count = count + 1
+        if (!params.id) {
+            let count = 1
+            let data = []
+            while (selectedRepeatation?.value >= count) {
+                data.push(1);
+                count = count + 1
+            }
+            setRepeatData(data)
         }
-        setRepeatData(data)
     }, [selectedRepeatation])
 
     const AddNewRow = () => {
@@ -162,19 +203,18 @@ export default function AddOthPlans() {
     }
 
     const filterData = [
-        { title: 'Start date', name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
-        { title: 'End date', name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
-        // { title: 'Functions', name: 'function_id', required: true, options: functionList, selectedOptions: selectedFunction, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
-        { title: 'Location', name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
-        { title: 'Workstation', name: 'workstation_id', required: true, options: workstationList, selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
-        { title: 'Repetation', name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
+        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList, selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ]
 
     const planData = [
-        { title: 'Day', name: 'day', required: true, options: days, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
-        { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
-        { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
-        { title: 'Contract hours', name: 'contract_hours', required: true, type: 'text', style: "col-md-3 mt-3 float-left" },
+        { title: t('DAY'), name: 'day', required: true, options: days, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
+        { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
+        { title: t('CONTRACT_HOURS'), name: 'contract_hours', required: true, type: 'text', style: "col-md-3 mt-3 float-left" },
     ]
 
     const planDataWithoutLabel = [
@@ -185,8 +225,9 @@ export default function AddOthPlans() {
     ]
 
     const OnSave = () => {
-
-        AXIOS.service(CreateOthPlanApiUrl, 'POST', othPlanData)
+        let method = params.id ? 'PUT' : 'POST'
+        let url = params.id ? CreateOthPlanApiUrl + '/' + params.id : CreateOthPlanApiUrl
+        AXIOS.service(url, method, othPlanData)
             .then((result) => {
                 if (result?.success) {
                     // setDataRefresh(!dataRefresh);
@@ -201,6 +242,7 @@ export default function AddOthPlans() {
                         progress: undefined,
                         theme: "colored",
                     });
+                    navigate('/oth-planning/' + params.eid)
                 } else {
                     setErrors(result.message)
                 }
@@ -215,13 +257,13 @@ export default function AddOthPlans() {
         <div className="right-container">
             <div className="company-tab-width mt-3">
                 {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                    title={('Validation error!')}
+                    title={t('VALIDATION_ERROR')}
                     body={(errors)}
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}
                 <div className="d-flex justify-content-between bg-white">
                     <h4 className="py-2 px-3 bg-white">
-                        <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.id)} src={BackIcon}></img>
+                        <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>
                         {t('ADD_OTH')}</h4>
                     <Switch label={t("RENEW_OTH")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setAutoOn(!autoOn)} checked={autoOn} />
                 </div>
@@ -230,7 +272,7 @@ export default function AddOthPlans() {
                     <FormsNew
                         view="filters"
                         formTitle={''}
-                        formattedData={[]}
+                        formattedData={othPlanData}
                         data={filterData}
                         SetValues={SetValues}
                     // OnSave={OnSave}
@@ -239,11 +281,11 @@ export default function AddOthPlans() {
                 {
                     repeatData.map((val, index) => {
                         return (
-                            <div>
+                            <div key={index}>
                                 <div className="bg-white my-2">
                                     {row.map((data, i) => {
                                         return (
-                                            <div className="form-container my-3 bg-white pb-3">
+                                            <div className="form-container my-3 bg-white pb-3" key={i}>
                                                 <div className="d-flex px-2">
                                                     <OthPlanForm
                                                         planData={i === 0 ? planData : planDataWithoutLabel}
@@ -258,7 +300,7 @@ export default function AddOthPlans() {
                                         )
                                     })}
                                 </div>
-                                <CustomButton buttonName={'Add another +'} ActionFunction={() => AddNewRow()} CustomStyle="mr-5 my-2"></CustomButton>
+                                <CustomButton buttonName={t('ADD_ANOTHER') + ' +'} ActionFunction={() => AddNewRow()} CustomStyle="mr-5 my-2"></CustomButton>
                             </div>
                         )
                     })

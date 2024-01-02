@@ -186,8 +186,12 @@ export const GET_CONSTANTS = {
     'RECENT':'Recent',
 
     // Oth Planning
+    'OTH_TITLE': 'Oth auto planning',
+    'CREATE_OTH': 'Create oth plans',
     'ADD_OTH':'Add Oth auto planning',
     'RENEW_OTH':"Renew plans automatically",
+    'DELETE_OTH_WARNING': 'Are you sure, you want to delete this oth plan?',
+    'REPETATION': 'Repetation',
 
     // Manage employees 
     'EMPLOYEES_TITLE': 'Employees',

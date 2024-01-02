@@ -97,8 +97,10 @@ const BaseRouter = ({ setAuth, setCompany}) => (
 
         <Route exact path='/uurrooster' element={<Uurrooster></Uurrooster>} />
 
-        <Route exact path='/oth-planning/:id' element={<OthPlanning></OthPlanning>} />
-        <Route exact path='/create-oth-plans/:id' element={<AddOthPlans></AddOthPlans>} />
+        <Route exact path='/oth-planning/:eid' element={<OthPlanning></OthPlanning>} />
+        <Route exact path='/create-oth-plans/:eid' element={<AddOthPlans></AddOthPlans>} />
+        <Route exact path='/update-oth-plans/:eid/:id' element={<AddOthPlans></AddOthPlans>} />
+
         
     </Routes>
 );
