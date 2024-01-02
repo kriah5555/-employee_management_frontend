@@ -63,6 +63,8 @@ export default function AddOthPlans() {
                         setWorkstationList(resp.workstations[locId])
                         setSelectedWorkstation(resp.workstations[locId]?.length === 1 ? resp.workstations[locId][0] : [])
                         othPlanData['workstation_id'] = resp.workstations[locId]?.length === 1 ? resp.workstations[locId][0].value : ''
+                    } else {
+                        setWorkstationList(resp.workstations)
                     }
                 } else {
                     setErrors(result.message)
@@ -206,7 +208,7 @@ export default function AddOthPlans() {
         { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
-        { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList, selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ]
 
