@@ -122,10 +122,10 @@ export default function AddContractPopup(props) {
             </Modal.Body>
             <Modal.Footer>
                  <Button className='button-style float-left' onClick={() =>onConfirm()}>
-                    {'Save'}
+                    {t("SAVE")}
                 </Button>
                 <Button className='button-style' onClick={props.onHide}>
-                    {props.buttonName ? (props.buttonName) : ('Cancel')}
+                    {props.buttonName ? (props.buttonName) : t("CANCEL")}
                 </Button>
             </Modal.Footer>
         </Modal>

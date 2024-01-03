@@ -21,8 +21,8 @@ export default function Planning({ setHeaderCompanyDropdown }) {
         { tabHeading: t("OPEN_SHIFT"), tabName: 'workstation' }
     ]
     return (
-        !showDetails ? (<div className="right-container">
-            <div className="company-tab-width mt-3">
+        <div className="right-container">
+            <div className="company-tab-width mt-3 ">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <ToastContainer
                         position="top-center"
@@ -36,10 +36,10 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                         pauseOnHover
                         theme="colored"
                     />
-                    <TabList>
+                    <TabList className="d-flex p-0 mb-0">
                         {TabsData.map((val) => {
                             return (
-                                <Tab key={val.tabName} >{val.tabHeading}</Tab>
+                                <Tab className="planing_tabs" key={val.tabName} >{val.tabHeading}</Tab>
                             )
                         })}
                     </TabList>
@@ -64,18 +64,6 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     </TabPanel>
                 </Tabs>
             </div>
-        </div>) : (<div className="right-container">
-            <div className="company-tab-width mt-3 border bg-white">
-                <div className="col-md-12 row mt-3 mx-0 px-0 "> 
-                    <div className="col-md-6 float-left">
-                        <h4>{showDetails && <img className="shortcut-icon mr-2 mb-1" onClick={() => setShowDetails(false)} src={BackIcon}></img>}Open shifts</h4>
-                    </div>
-                    <div className="col-md-6 float-right">
-
-                    </div>
-                </div>
-                <OpenShiftListWithDetails setShowDetails={setShowDetails} showDetails={showDetails} shiftId={shiftId} setShiftId={setShiftId}></OpenShiftListWithDetails>
-            </div></div>)
-
+        </div>
     )
 }

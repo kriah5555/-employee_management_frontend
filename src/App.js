@@ -7,6 +7,7 @@ import "./static/common.css";
 import Header from './commonComponents/Header';
 import Sidebar from './commonComponents/Sidebar';
 import Login from './pages/Login';
+import { GetTranslatedConstants } from './translations/Translation';
 
 function App() {
 
@@ -22,6 +23,18 @@ function App() {
       }
       setAuth(localStorage.getItem('auth'));
    }, [auth])
+
+   useEffect(() => {
+      GetTranslatedConstants();
+      if (!localStorage.getItem('week_tab')) {
+         localStorage.setItem('week_tab', 0)
+      }
+      if (!localStorage.getItem('active_language')) {
+         localStorage.setItem('active_language', 'nl')
+      }
+   }, [])
+
+
 
    const onCompanySelect = (e, reload) => {
       if (e && e.value === undefined) {
@@ -43,7 +56,7 @@ function App() {
    }
 
    useEffect(() => {
-      if (company){
+      if (company) {
          onCompanySelect(company, 'no-reload')
       }
    }, [company])

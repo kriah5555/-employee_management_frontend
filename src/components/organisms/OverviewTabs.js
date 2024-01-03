@@ -13,7 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import SalariesIcon from "../../static/icons/Salaries.svg";
 import ContractTypeIcon from "../../static/icons/ContractType.svg";
 
-export default function OverviewTabs({setCompany}) {
+export default function OverviewTabs({ setCompany }) {
 
     const [addIcon, setAddIcon] = useState(AddCompanyIcon);
     const [addTitle, setAddTitle] = useState('Add company');
@@ -56,27 +56,27 @@ export default function OverviewTabs({setCompany}) {
 
         if (tabName === 'company') {
             setAddIcon(AddCompanyIcon);
-            setAddTitle('Add company');
+            setAddTitle(t("ADD_COMPANY"));
             setAddUrl('/manage-companies/company/0');
         } else if (tabName === 'location') {
             setAddIcon(AddLocationIcon);
-            setAddTitle('Add location');
+            setAddTitle(t("ADD_LOCATION"));
             setAddUrl('/manage-companies/location/0')
         } else if (tabName === 'workstation') {
             setAddIcon(AddWorkstationIcon);
-            setAddTitle('Add workstation');
+            setAddTitle(t("ADD_WORKSTATION"));
             setAddUrl('/manage-companies/workstation/0')
         } else if (tabName === 'responsible_person') {
             setAddIcon(AddWorkstationIcon);
-            setAddTitle('Add responsible person');
+            setAddTitle(t("ADD_RESPONSIBLE_PERSON"));
             setAddUrl('/manage-companies/responsible_person/0')
         } else if (tabName === 'cost center') {
             setAddIcon(SalariesIcon);
-            setAddTitle('Add cost center');
+            setAddTitle(t("ADD_COST_CENTER"));
             setAddUrl('/manage-companies/cost_center/0')
-        } else if ( tabName === 'contracts') {
+        } else if (tabName === 'contracts') {
             setAddIcon(ContractTypeIcon)
-            setAddTitle('Add contract');
+            setAddTitle(t("ADD_CONTRACT"));
             setAddUrl('/add-contracts-template/company');
         } else {
             setAddIcon('');
@@ -138,8 +138,8 @@ export default function OverviewTabs({setCompany}) {
                 })}
                 {addIcon && <div className="react-tabs__tab border-0 float-right width-20">
                     <div className="d-flex justify-content-end">
-                        {addTitle !== 'Add company' && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2" src={BackIcon}></img>Company overview</p>}
-                        {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p></a>}
+                        {addTitle !== t("ADD_COMPANY") && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p>}
+                        {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2 pointer" src={addIcon}></img>{addTitle}</p></a>}
                         {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                         {/* <img src={FilterIcon} className="header-icon ml-2"></img>
                         <img src={ExportIcon} className="header-icon ml-2"></img> */}
@@ -170,11 +170,11 @@ export default function OverviewTabs({setCompany}) {
             </TabPanel>
 
             <TabPanel>
-                <h3 className="text-center mt-3 ">Dimona</h3>
+                <h3 className="text-center mt-3 ">{t("DIMONA")}</h3>
             </TabPanel>
 
             <TabPanel>
-                <h3 className="text-center mt-3">Rules</h3>
+                <h3 className="text-center mt-3">{t("RULES")}</h3>
             </TabPanel>
         </Tabs>
     )

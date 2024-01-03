@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { GetReversedDate, getDatesForWeek } from "../../utilities/CommonFunctions";
+import { GetReversedDate, GetTimeDifference, getDatesForWeek, getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import WorkStationIcon from "../../static/icons/Workstation.svg";
 import { t } from "../../translations/Translation";
 import DeleteIcon from "../../static/icons/Delete.svg";
 import CostIcon from "../../static/icons/Euro.svg";
 import ContractHoursIcon from "../../static/icons/Contract.svg";
 import EditShiftIcon from "../../static/icons/EditShift.png";
-
 import Dropdown from "../atoms/Dropdown";
 import PlanItem from "./PlanItem";
 import CreatePlanPopup from "./CreatePlanPopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
+import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl, CreateShiftsApiUrl, CreateShiftPlanApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
+import CreateShifts from "./CreateShifts";
 
 
 export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab }) {
@@ -33,21 +33,15 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [dataRefresh, setDataRefresh] = useState(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteRequestData, setDeleteRequestData] = useState({});
+    const [totalData, setTotalData] = useState({});
 
-
-    // Dummy data for shifts dropdown
-    const shiftOptions = {
-        1: [
-            { value: '1', label: 'Shift 1' },
-            { value: '2', label: 'Shift 2' },
-            { value: '3', label: 'Shift 3' }
-        ],
-        2: [
-            { value: '1', label: 'Shift 1' },
-            { value: '2', label: 'Shift 2' },
-            { value: '3', label: 'Shift 3' }
-        ]
-    }
+    const [shiftPopupOpen, setShiftPopupOpen] = useState(false);
+    const [shiftId, setShiftId] = useState('');
+    const [shiftData, setShiftData] = useState({
+        'location_id': '',
+        'workstation_id': '',
+        'shifts': []
+    })
 
 
     useEffect(() => {
@@ -81,13 +75,13 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 if (result?.success) {
                     // setWeekData(result.data);
                     let arr = []
-                    result.data.map((val, i) => {
+                    result.data.workstation_data.map((val, i) => {
                         if (val.employee.length === 0) {
                             // addNewRow(val.workstation_id, i === 0 ? result.data : [])
                             val.employee = [{
                                 employee_name: <Dropdown options={employees} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
                                 // employee_id: employeeId,
-                                status:true,
+                                status: true,
                                 total: '',
                                 plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
                             }]
@@ -97,57 +91,13 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         }
                     })
                     setWeekData(arr)
+                    setTotalData(result.data.total)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
-        // let data = [
-        //     {
-        //         workstation_id: 1,
-        //         workstation_name: 'Workstation 1',
-        //         shiftOptions: shiftOptions,
-        //         employees: [
-        //             {
-        //                 employee_id: 1,
-        //                 employee_name: 'Employee 1',
-        //                 total: { cost: '120', contract_hours: '30' },
-        //                 plans: {
-        //                     "12-12-2023": {
-        //                         planning_time: ['09:00-12:00', '12:30-15:00'],
-        //                         contract_hours: '8',
-        //                         cost: '120'
-        //                     },
-        //                     "19-10-2023": {
-        //                         planning_time: ['09:00-12:00', '12:30-15:00'],
-        //                         contract_hours: '8',
-        //                         cost: '120'
-        //                     },
-        //                     "22-10-2023": {
-        //                         planning_time: ['09:00-12:00', '12:30-15:00'],
-        //                         contract_hours: '8',
-        //                         cost: '120'
-        //                     },
-        //                 }
-        //             }
-        //         ]
-        //     },
-        // ]
-        // setWeekData(data)
-    }, [dataRefresh])
-
-    // Dummy data for weekly planning total cost and contract hours
-    const totalData = [
-        { cost: '124', contract_hours: '25' },
-        { cost: '126', contract_hours: '30' },
-        { cost: '130', contract_hours: '26' },
-        { cost: '135', contract_hours: '28' },
-        { cost: '111', contract_hours: '34' },
-        { cost: '200', contract_hours: '44' },
-        { cost: '122', contract_hours: '18' },
-        { cost: '230', contract_hours: '50' },
-    ]
-
+    }, [dataRefresh, weekNumber, locId])
 
     // Function to add new row for adding new employee
     const addNewRow = (wid, weekArrData) => {
@@ -159,7 +109,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 emp_arr.push({
                     employee_name: <Dropdown options={employeeList} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
                     // employee_id: employeeId,
-                    status:true,
+                    status: true,
                     total: '',
                     plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
                 })
@@ -207,7 +157,6 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
 
     // Function to delete plan row for adding new employee
     const removeRow = (wid, row_index, eid, plans) => {
-        console.log(plans);
         if (!plans.status) {
             let requestData = {
                 "employee_id": eid,
@@ -218,7 +167,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 "row_index": row_index,
             }
 
-            setWarningMessage('Are you sure, you want to delete complete week plans?')
+            setWarningMessage(t("WEEK_PLANNINGS_DELETE"))
             setDeleteRequestData(requestData);
 
         } else if (row_index !== 0) {
@@ -234,25 +183,81 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 }
             })
             setWeekData(week_arr)
-
         }
-
     }
 
     // Function to return total data element
     const getTotalData = (index, data) => {
         return (
-            <td key={data.cost} className={index === 7 ? " border-0" : "px-2"}>
+            <td key={data?.cost} className={index === 7 ? " border-0" : "px-2"}>
                 <div className="d-flex justify-content-between">
-                    <small><img src={CostIcon} className="plan-icon mr-1"></img>{data.cost}</small>
-                    <small><img src={ContractHoursIcon} className="plan-icon mr-1"></img>{data.contract_hours}</small>
+                    <small>{data?.cost && <img src={CostIcon} alt="cost" className="plan-icon mr-1"></img>}{data?.cost}</small>
+                    <small>{data?.contract_hours && <img src={ContractHoursIcon} alt="contract hour" className="plan-icon mr-1"></img>}{data?.contract_hours}</small>
                 </div>
             </td>
         )
     }
 
     const openCreatePlanPopup = (eid, date, ws, planData) => {
-        if (eid) { setEmployeeId(eid); setPlanPopup(true); }
+        if (eid) {
+            setEmployeeId(eid);
+            if (enableShifts) {
+                if (shiftId) {
+                    let reqData = {
+                        "employee_id": eid,
+                        "location_id": locId,
+                        "workstation_id": ws,
+                        "shift_id": shiftId?.value,
+                        "date": date
+                    }
+                    AXIOS.service(CreateShiftPlanApiUrl, 'POST', reqData)
+                        .then((result) => {
+                            if (result?.success) {
+                                if (result.plan_created) {
+                                    setDataRefresh(!dataRefresh);
+                                    toast.success(result.message[0], {
+                                        position: "top-center",
+                                        autoClose: 2000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: "colored",
+                                    });
+                                } else {
+                                    setPlanPopup(true);
+                                    let [start, end] = shiftId?.label.split('-')
+                                    let contract_hr = GetTimeDifference(start, end)
+                                    if (planData[date]) {
+                                        planData[date]['planning'] = [{ 'start_time': start, 'end_time': end, 'contract_hours': contract_hr }]
+                                    } else {
+                                        planData[date] = {}
+                                        planData[date]['planning'] = [{ 'start_time': start, 'end_time': end, 'contract_hours': contract_hr }]
+                                    }
+                                    setPlanningDetails(planData[date]['planning'])
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                } else {
+                    toast.error('Please select shifts to add plan', {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            } else {
+                setPlanPopup(true);
+            }
+        }
 
         setPlanningDate(date)
         setPlanWid(ws);
@@ -271,10 +276,33 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         setUpdatePlan(planData && planData[date] !== undefined ? true : false)
     }
 
+    const SaveShift = () => {
+        AXIOS.service(CreateShiftsApiUrl, 'POST', shiftData)
+            .then((result) => {
+                if (result?.success) {
+                    setDataRefresh(!dataRefresh);
+                    setShiftPopupOpen(false)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     return (
-        <div className="col-md-12 p-0 text-center">
+        <div className="col-md-12 p-0 text-center panning_overview_table">
             {warningMessage && <ModalPopup
-                title={('WARNING')}
+                title={t("WARNING_TITLE")}
                 body={(warningMessage)}
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
@@ -291,12 +319,13 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 pauseOnHover
                 theme="colored"
             />
-            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
+            {shiftPopupOpen && <CreateShifts setShiftPopupOpen={setShiftPopupOpen} setShiftData={setShiftData} shiftData={shiftData} SaveShift={SaveShift}></CreateShifts>}
+            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
             <table className="table table-bordered mb-0">
                 <thead className="sticky">
                     <tr>
                         <th><img className="shortcut-icon" src={WorkStationIcon}></img></th>
-                        <th className="py-4">Employees</th>
+                        <th className="py-4">{t("EMPLOYEES_TITLE")}</th>
                         {days.map((val, index) => {
                             return (
                                 <th key={val} onClick={() => ChangeTab('day', new Date(GetReversedDate(dates[index])))}>
@@ -305,8 +334,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                 </th>
                             )
                         })}
-                        <th className="py-4">Total</th>
-                        <th className="py-4">Actions</th>
+                        <th className="py-4">{t("TOTAL_TITLE")}</th>
+                        <th className="py-4">{t("ACTIONS")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -322,14 +351,15 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id, [])}>+</h2>
                                                 {enableShifts && <div className="row m-0 justify-content-center p-0">
                                                     <Dropdown
-                                                        CustomStyle="p-0"
-                                                        options={shiftOptions[ws.workstation_id]}
+                                                        CustomStyle="col-md-8 p-0"
+                                                        options={getFormattedDropdownOptions(ws.shifts, 'id', 'time')}
+                                                        onSelectFunction={(e) => setShiftId(e)}
                                                     ></Dropdown>
-                                                    <img className="shortcut-icon ml-2" src={EditShiftIcon}></img>
+                                                    <img className="shortcut-icon ml-2" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
                                                 </div>}
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_name}</td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
                                             <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId} openCreatePlanPopup={openCreatePlanPopup}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
@@ -344,7 +374,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>
                                             <td>
-                                                <img className="shortcut-icon" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon}></img>
+                                                <img className="shortcut-icon pointer" onClick={() => removeRow(ws.workstation_id, ws_emp_index, ws_employee.employee_id, ws_employee)} src={DeleteIcon} title={t("DELETE")} alt={t("DELETE")}></img>
                                             </td>
                                         </tr>
                                     )
@@ -354,11 +384,11 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     }
                     {/* Below code is to display total data at the bottom row */}
                     <tr>
-                        <td className="border-0">Total</td>
+                        <td className="border-0">{t("TOTAL_TITLE")}</td>
                         <td className="border-0"></td>
                         {
-                            totalData.map((data, index) => {
-                                return (getTotalData(index, data))
+                            dates.map((date, index) => {
+                                return (getTotalData(index, totalData[date]))
                             })
                         }
                         <td className="border-0"></td>

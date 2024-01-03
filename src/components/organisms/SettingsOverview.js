@@ -3,7 +3,7 @@ import CustomTable from "../../components/atoms/CustomTable";
 import { ToastContainer, toast } from 'react-toastify';
 import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl, CommuteTypesApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-
+import { t } from "../../translations/Translation";
 
 export default function SettingsOverview({ overviewContent, type, title, setErrors }) {
 
@@ -13,12 +13,12 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
     //table headers
     const headers = [
         {
-            title: 'Title',
+            title: t("TITLE_TEXT"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Sort order',
+            title: t("SORT_ORDER"),
             field: 'sort_order',
             size: 200,
         },
@@ -26,17 +26,17 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
 
     const meal_voucher_headers = [
         {
-            title: 'Title',
+            title: t("TITLE_TEXT"),
             field: 'name',
             size: 200,
         },
         {
-            title: 'Amount',
+            title: t("AMOUNT_TEXT"),
             field: 'amount_formatted',
             size: 200,
         },
         {
-            title: 'Sort order',
+            title: t("SORT_ORDER"),
             field: 'sort_order',
             size: 200,
         },

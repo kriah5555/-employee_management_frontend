@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import RequiredIcon from "../../../static/icons/exclamation-mark1.png"
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/high-res.css';
+import { t } from "../../../translations/Translation";
 // import "react-phone-input-2/lib/style.css";
 // import 'react-phone-input-2/lib/bootstrap.css';
 
@@ -27,8 +28,8 @@ export default function CustomPhoneInput({ title, name, placeholder, required, C
           value={value}//it should be string
           onChange={e => setValue(e)}
           placeholder={placeholder ? placeholder : "+32 (123) 12 34 56"}
-          searchPlaceholder="Search"
-          searchNotFound="No entries to show"
+          searchPlaceholder={t("SEARCH_TEXT")}
+          searchNotFound={t("NO_ENTRIES_TO_SHOW")}
           disabled={disabled}
           disableSearchIcon={true}
           inputProps={

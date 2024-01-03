@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function AddContractType() {
 
@@ -38,12 +39,12 @@ export default function AddContractType() {
     }
     const checkboxList = [
         {
-            name: 'Active',
+            name: t("ACTIVE"),
             key: 'active',
             checked: active,
         },
         {
-            name: 'Inactive',
+            name: t("INACTIVE"),
             key: 'inactive',
             checked: inactive,
         }
@@ -88,14 +89,14 @@ export default function AddContractType() {
 
     // Fields data
     const contract_type_name = {
-        title: 'Contract type name',
+        title: t("CONTRACT_TYPE_NAME"),
         name: 'contract_type_name',
         placeholder: 'Enter contract type',
         required: true,
         value: contractType,
     }
     const contract_renewal_period = {
-        title: 'Contract renewal period',
+        title: t("CONTRACT_RENEWAL_PERIOD"),
         name: 'contract_renewal',
         placeholder: '',
         required: true,
@@ -104,13 +105,13 @@ export default function AddContractType() {
         isMulti: false
     }
     const desc = {
-        title: 'Description',
+        title: t("DESCRIPTION"),
         name: 'description',
         required: false,
         value: description
     }
     const contract_type_status = {
-        title: 'Status',
+        title: t("STATUS_TEXT"),
         required: true
     }
 
@@ -179,7 +180,7 @@ export default function AddContractType() {
                     console.log(error);
                 })
         } else {
-            setErrors(['Please fill required fields'])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
     }
 
@@ -191,12 +192,12 @@ export default function AddContractType() {
                 onHide={() => navigate('/manage-configurations/contract_type')}
             ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <Forms
-                formTitle={'Add Contract type'}
+                formTitle={t("ADD_CONTRACT_TYPE")}
                 redirectURL={'/manage-configurations/contract_type'}
                 changeCheckbox={changeCheckbox}
                 checkboxList={checkboxList}

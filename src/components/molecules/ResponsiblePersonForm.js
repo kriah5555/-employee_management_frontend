@@ -3,9 +3,10 @@ import CustomButton from "../atoms/CustomButton";
 import CompanyForm from "./CompanyForm";
 import { ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
+import { t } from "../../translations/Translation";
 
 
-export default function ResponsiblePersonForm({ customers, setCustomers, getCustomerDropdownData, selectedRole, setSelectedRole, view, update_id }) {
+export default function ResponsiblePersonForm({ customers, setCustomers, selectedRole, setSelectedRole, getCustomerDropdownData, view, update_id }) {
 
     // const [customers, setCustomers] = useState([{
     //     first_name: "",
@@ -24,7 +25,12 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
         AXIOS.service(ResponsiblePersonApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setRoleList(result.data.roles)
+                    setRoleList(result.data.roles);
+                    result.data.roles.map((val, i) => {
+                        if (val.value === customers[0]?.role) {
+                            setSelectedRole([val])
+                        }
+                    })
                 }
             })
             .catch((error) => {
@@ -39,15 +45,15 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                 .then((result) => {
                     if (result?.success) {
                         let data = [{
-                            first_name: result.data.user_basic_details.first_name,
-                            last_name: result.data.user_basic_details.last_name,
-                            email: result.data.user_contact_details.email,
-                            phone_number: result.data.user_contact_details.phone_number,
+                            first_name: result.data.first_name,
+                            last_name: result.data.last_name,
+                            email: result.data.email,
+                            phone_number: result.data.phone_number,
                             social_security_number: result.data.social_security_number,
-                            date_of_birth: result.data.user_basic_details.date_of_birth,
-                            role: result.data.roles[0]
+                            date_of_birth: result.data.date_of_birth,
+                            role: result.data.role.value
                         }]
-                        setSelectedRole([{ value: result.data.roles[0], label: result.data.roles[0] }]);
+                        setSelectedRole([result.data.role]);
                         setCustomers(data);
                     }
                 })
@@ -121,13 +127,13 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
 
     //responsible person fields for company
     const CustomerfieldsData = [
-        { title: "First name", name: "first_name", required: true, type: "input_field" },
-        { title: "Last name", name: "last_name", required: true, type: "input_field" },
-        { title: "Rsz number", name: "social_security_number", required: true, type: "input_field" },
-        { title: "Email", name: "email", required: true, type: "input_field" },
-        { title: "Phone number", name: "phone_number", required: true, type: "phone_input" },
-        { title: "Roles", options: rolesList, isMulti: false, selectedOptions: selectedRole, required: true, type: "dropdown" },
-        { title: "DOB", name: "date_of_birth", required: true, type: "date" },
+        { title: t("FIRST_NAME"), name: "first_name", required: true, type: "input_field" },
+        { title: t("LAST_NAME"), name: "last_name", required: true, type: "input_field" },
+        { title: t("RSZ_NUMBER"), name: "social_security_number", required: true, type: "input_field" },
+        { title: t("EMAIL"), name: "email", required: true, type: "input_field" },
+        { title: t("PHONE_NUMBER"), name: "phone_number", required: true, type: "phone_input" },
+        { title: t("ROLES"), options: rolesList, isMulti: false, selectedOptions: selectedRole, required: true, type: "dropdown" },
+        { title: t("DATE_OF_BIRTH"), name: "date_of_birth", required: true, type: "date" },
 
     ];
 
@@ -138,18 +144,18 @@ export default function ResponsiblePersonForm({ customers, setCustomers, getCust
                 return (
                     <div key={index}>
                         {view !== 'responsible-person-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {customers.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline" onClick={() => RemoveCustomer(index)}>Remove</p>}
+                            {customers.length > 1 && <p className="pos-absolute mx-5 text-danger text-decoration-underline pointer" onClick={() => RemoveCustomer(index)}>{t("REMOVE")}</p>}
                         </div>}
                         <CompanyForm
                             index={index}
                             view="customer"
-                            title1={view !== 'responsible-person-single' ? 'Add Responsible person' : ''}
+                            title1={view !== 'responsible-person-single' ? t("ADD_RESPONSIBLE_PERSON") : ''}
                             data1={CustomerfieldsData}
                             formattedData1={customers[index]}
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'responsible-person-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {index == customers.length - 1 && <CustomButton buttonName={'Add another +'} ActionFunction={() => AddNewCustomer()} CustomStyle="mr-5"></CustomButton>}
+                            {index == customers.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => AddNewCustomer()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

@@ -12,7 +12,7 @@ export default function Settings() {
     const subTabStyle = "col-md-3 my-3 mx-3 shadow text-center border-0";
 
     const [overviewContent, setOverviewContent] = useState('gender')
-    const [title, setTitle] = useState(('Manage Genders'));
+    const [title, setTitle] = useState(t("MANAGE_GENDERS"));
     const [type, setType] = useState("");
 
     const [errors, setErrors] = useState([]);
@@ -41,7 +41,7 @@ export default function Settings() {
     return (
         <div className="right-container p-3" >
             <div className="col-md-3 bg-white border-right">
-                <h2 className="text-center my-4 text-color">Configurations</h2>
+                <h2 className="text-center my-4 text-color">{t("CONFIGURATIONS")}</h2>
                 <ul className="p-0 mt-2">
                     {
                         settingTabs.map((val) => {
@@ -73,7 +73,7 @@ export default function Settings() {
                     theme="colored"
                 />
                 {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                    title={('Validation error!')}
+                    title={t("VALIDATION_ERROR") + ("!")}
                     body={(errors)}
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}

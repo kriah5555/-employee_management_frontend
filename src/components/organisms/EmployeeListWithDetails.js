@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import EmployeesOverview from "../molecules/EmployeesOverview";
 import EmployeeDetails from "../molecules/EmployeeDetails";
+import { useParams } from "react-router-dom";
 
 export default function EmployeeListWithDetails({ showDetails, setShowDetails }) {
 
-    const [eid, setEid] = useState();
+    const params = useParams();
+    const [eid, setEid] = useState(params.id ? params.id : '');
 
     return (
         <div className="row m-0">

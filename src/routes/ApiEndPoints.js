@@ -57,6 +57,7 @@ export const InterimAgencyApiUrl = BASE_URL + '/masterdata/interim-agencies'
 export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsible-companies"
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
 export const HolidayCodeConfigurationApiUrl = BASE_URL + "/masterdata/holiday-code-config"
+export const GetHolidaysByStatusApiUrl = BASE_URL + '/masterdata/holidays-list/'
 
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
@@ -76,7 +77,15 @@ export const GetStopPlanReasonsApiUrl = BASE_URL + '/masterdata/stop-plan-reason
 export const StartPlanApiUrl = BASE_URL + '/masterdata/start-plan-by-manager'
 export const StopPlanApiUrl = BASE_URL + '/masterdata/stop-plan-by-manager'
 export const OpenShiftApiUrl = BASE_URL + '/masterdata/vacancy'
+export const CreateShiftsApiUrl = BASE_URL + '/masterdata/store-planning-shifts'
+export const CreateShiftPlanApiUrl = BASE_URL + '/masterdata/create-shift-plan'
+
+export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
+export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
+export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
+
+
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
-export const fetchTranslations = BASE_URL + '/masterdata/translations';
-// export const fetchAllTranslations = BASE_URL + 'translations/get-all-strings';
+export const fetchTranslations = BASE_URL + '/masterdata/translate';
+export const fetchAllTranslations = BASE_URL + '/masterdata/translations';

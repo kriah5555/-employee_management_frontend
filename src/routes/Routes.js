@@ -30,8 +30,10 @@ import AddEmailTemplate from '../components/organisms/AddEmailTemplate';
 import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 import Uurrooster from '../pages/Uurrooster';
 import ClonePlanning from '../components/molecules/ClonePlanning';
-import ViewOpenShiftDetails from '../components/molecules/ViewOpenShiftDetails';
 import OpenShiftListWithDetails from '../components/organisms/OpenShiftListWithDetails';
+import OthPlanning from '../components/organisms/OthPlanning';
+import AddOthPlans from '../components/organisms/AddOthPlans';
+
 const BaseRouter = ({ setAuth, setCompany}) => (
     <Routes>
         {/* route starts here */}
@@ -40,6 +42,7 @@ const BaseRouter = ({ setAuth, setCompany}) => (
         <Route exact path="/login" element={<Login></Login>} />
 
         <Route exact path="/manage-employees" element={<Employees></Employees>} />
+        <Route exact path="/manage-employees/:id" element={<Employees></Employees>} />
         <Route exact path="/add-employees" element={<EmployeeCreation></EmployeeCreation>} />
 
         <Route exact path="/manage-companies" element={<Companies setCompany={setCompany}></Companies>} />
@@ -95,6 +98,11 @@ const BaseRouter = ({ setAuth, setCompany}) => (
         <Route exact path='/add-contracts-template/:addType/:id' element={<AddContractsTemplate></AddContractsTemplate>} />
 
         <Route exact path='/uurrooster' element={<Uurrooster></Uurrooster>} />
+
+        <Route exact path='/oth-planning/:eid' element={<OthPlanning></OthPlanning>} />
+        <Route exact path='/create-oth-plans/:eid' element={<AddOthPlans></AddOthPlans>} />
+        <Route exact path='/update-oth-plans/:eid/:id' element={<AddOthPlans></AddOthPlans>} />
+
         
     </Routes>
 );

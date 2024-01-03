@@ -8,24 +8,23 @@ import RedIcon from "../static/icons/RedDot.svg";
 import LeftArrowIcon from "../static/icons/LeftArrow.png";
 import RightArrowIcon from "../static/icons/RightArrow.png";
 import Dropdown from "../components/atoms/Dropdown";
-
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LocationApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
 import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
 import { GetFormattedDate, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
 import QRCode from "react-qr-code";
-
+import { t } from "../translations/Translation";
 
 export default function Uurrooster() {
 
     const head_arr = [
-        { label: 'WS', colSpan: 0 },
-        { label: 'Employee', colSpan: 0 },
-        { label: 'Function', colSpan: 0 },
-        { label: 'Start work', colSpan: 3 },
-        { label: 'Pause', colSpan: 0 },
-        { label: 'End work', colSpan: 3 },
-        { label: 'Total', colSpan: 0 },
+        { label: t("WS_TITLE"), colSpan: 0 },
+        { label: t("EMPLOYEE_TITLE"), colSpan: 0 },
+        { label: t("FUNCTION_TITLE"), colSpan: 0 },
+        { label: t("START_WORK_TITLE"), colSpan: 3 },
+        { label: t("PAUSE_TITLE"), colSpan: 0 },
+        { label: t("END_WORK_TITLE"), colSpan: 3 },
+        { label: t("TOTAL_TITLE"), colSpan: 0 },
     ]
 
     const [planData, setPlanData] = useState([]);
@@ -35,7 +34,7 @@ export default function Uurrooster() {
     const [qrcode, setQrcode] = useState('');
     const currentDate = new Date();
 
-    const Months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const Months = [t("JANUARY"), t("FEBRUARY"), t("MARCH"), t("APRIL"), t("MAY"), t("JUNE"), t("JULY"), t("AUGUST"), t("SEPTEMBER"), t("OCTOBER"), t("NOVEMBER"), t("DECEMBER")]
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
@@ -50,14 +49,14 @@ export default function Uurrooster() {
                         'workstation_name': '',
                         'employee_name': '',
                         'function_name': '',
-                        'plan_start': 'Planning',
-                        'start_time': 'Started',
-                        'dimona_start': 'Dimona',
+                        'plan_start': t("PLANNING_TITLE"),
+                        'start_time': t("STARTED_TITLE"),
+                        'dimona_start': t("DIMONA"),
                         'pause': '',
-                        'plan_end': 'Planning',
-                        'end_time': 'Stopped',
-                        'dimona_end': 'Dimona',
-                        'cost': 'Cost'
+                        'plan_end': t("PLANNING_TITLE"),
+                        'end_time': t("STOPPED_TITLE"),
+                        'dimona_end': t("DIMONA"),
+                        'cost': t("COST_TITLE")
                     }
                 ]
                 setPlanData(uurroosterData)
@@ -78,14 +77,14 @@ export default function Uurrooster() {
                             'workstation_name': '',
                             'employee_name': '',
                             'function_name': '',
-                            'plan_start': 'Planning',
-                            'start_time': 'Started',
-                            'dimona_start': 'Dimona',
+                            'plan_start': t("PLANNING_TITLE"),
+                            'start_time': t("STARTED_TITLE"),
+                            'dimona_start': t("DIMONA"),
                             'pause': '',
-                            'plan_end': 'Planning',
-                            'end_time': 'Stopped',
-                            'dimona_end': 'Dimona',
-                            'cost': 'Cost'
+                            'plan_end': t("PLANNING_TITLE"),
+                            'end_time': t("STOPPED_TITLE"),
+                            'dimona_end': t("DIMONA"),
+                            'cost': t("COST_TITLE")
                         }
                     ]
                     let resp = result.data
@@ -176,29 +175,29 @@ export default function Uurrooster() {
             <div className="company-tab-width mt-3 border bg-white">
                 <div className="col-md-12 d-flex mt-4">
                     <div className="col-md-3">
-                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon}></img>{selectedLoc?.label}</p>
-                        <p className=""><img className="mr-2 planning-icon" src={CalendarIcon}></img>{dayData}</p>
-                        <img className="" src={RedIcon}></img>
+                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon} alt={t("LOCATION_TITLE")}></img>{selectedLoc?.label}</p>
+                        <p className=""><img className="mr-2 planning-icon" src={CalendarIcon} alt={t("CALENDAR")}></img>{dayData}</p>
+                        <img className="" src={RedIcon} alt={t("ICON")}></img>
                     </div>
                     <div className="col-md-6">
-                        <p className="text-center mb-0 font-weight-bold">Select location</p>
+                        <p className="text-center mb-0 font-weight-bold">{t("SELECT_LOCATION")}</p>
                         <Dropdown
                             options={locations}
                             selectedOptions={selectedLoc}
                             onSelectFunction={(e) => setSelectedLoc(e)}
-                            CustomStyle="col-md-8 my-2 px-0 mx-auto"
+                            CustomStyle="col-md-8 my-2 px-0 mx-auto pointer"
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
-                            <div className="button-style mr-5" onClick={() => setNextPrev('prev')}><img className="planning-icon" src={LeftArrowIcon}></img></div>
+                            <div className="button-style mr-5 mr-sm-2" onClick={() => setNextPrev('prev')}><img className="planning-icon pointer" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
                             <p className="monthText mx-auto my-auto">{dayData}</p>
-                            <div className="button-style ml-5" onClick={() => setNextPrev('next')}><img className="planning-icon" src={RightArrowIcon}></img></div>
+                            <div className="button-style ml-5 ml-sm-2" onClick={() => setNextPrev('next')}><img className="planning-icon pointer" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
                         </div>
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
                         <div className="float-left">
-                            <img className="mr-4" src={FilterIcon}></img>
+                            <img className="mr-4 pointer" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}></img>
                             <br></br>
-                            <img className="mr-4 mt-4" src={ExportIcon}></img>
+                            <img className="mr-4 mt-4 pointer" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")}></img>
                         </div>
                         <QRCode
                             size={256}
@@ -208,36 +207,38 @@ export default function Uurrooster() {
                         ></QRCode>
                     </div>
                 </div>
-                <table className="table table-bordered company-tab-width mt-3 mx-auto bg-right-container">
-                    <thead>
-                        <tr>
-                            {head_arr.map((title, index) => {
+                <div className="mt-3 uurrooster_table">
+                    <table className="table table-bordered company-tab-width mx-auto">
+                        <thead className="button-style">
+                            <tr>
+                                {head_arr.map((title, index) => {
+                                    return (
+                                        <th key={title.label} className={"text-center"} colSpan={title.colSpan}>{title.label}</th>
+                                    )
+                                })}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {planData.map((val, index) => {
                                 return (
-                                    <th key={title.label} className={"text-center"} colSpan={title.colSpan}>{title.label}</th>
+                                    <tr key={val.workstation_id}>
+                                        <td className="text-center">{val.workstation_name}</td>
+                                        <td className="text-center">{val.employee_name}</td>
+                                        <td className="text-center">{val.function_name}</td>
+                                        <td className="text-center">{val.plan_start}</td>
+                                        <td className="text-center">{val.start_time}</td>
+                                        <td className="text-center">{val.dimona_start}</td>
+                                        <td className="text-center">{val.pause}</td>
+                                        <td className="text-center">{val.plan_end}</td>
+                                        <td className="text-center">{val.end_time}</td>
+                                        <td className="text-center">{val.dimona_end}</td>
+                                        <td className="text-center">{val.cost}</td>
+                                    </tr>
                                 )
                             })}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {planData.map((val, index) => {
-                            return (
-                                <tr key={val.workstation_id}>
-                                    <td className="text-center">{val.workstation_name}</td>
-                                    <td className="text-center">{val.employee_name}</td>
-                                    <td className="text-center">{val.function_name}</td>
-                                    <td className="text-center">{val.plan_start}</td>
-                                    <td className="text-center">{val.start_time}</td>
-                                    <td className="text-center">{val.dimona_start}</td>
-                                    <td className="text-center">{val.pause}</td>
-                                    <td className="text-center">{val.plan_end}</td>
-                                    <td className="text-center">{val.end_time}</td>
-                                    <td className="text-center">{val.dimona_end}</td>
-                                    <td className="text-center">{val.cost}</td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )

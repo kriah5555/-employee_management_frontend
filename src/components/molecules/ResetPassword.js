@@ -4,7 +4,7 @@ import PasswordInput from "../../components/atoms/formFields/PasswordInput";
 import CustomButton from "../../components/atoms/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-
+import { t } from "../../translations/Translation";
 
 export default function ResetPassword() {
 
@@ -25,19 +25,19 @@ export default function ResetPassword() {
 
     useEffect(() => {
         if (newPassword === '') {
-            setValidationError("Password should contain minimum 8 characters, with one UPPERCASE, lowercase, number and special character: @$! % * ? &");
+            setValidationError(t("PASSWORD_GUIDELINES") + (": @$! % * ? &"));
             setColour("default");
         } else if (validatePasswordStrength(newPassword)) {
-            setValidationError('Strong password');
+            setValidationError(t("STRONG_PASSWORD"));
             setColour("pass");
         } else {
-            setValidationError('Weak passoword');
+            setValidationError(t("WEAK_PASSWORD"));
             setColour("fail");
         }
 
         if (confirmPassword !== newPassword && confirmPassword !== "") {
 
-            setValidationError('confirm password not matching with new password');
+            setValidationError(t("PASSWORD_NOT_MATCHING"));
             setColour("fail");
         }
     }, [newPassword, confirmPassword]);
@@ -61,18 +61,18 @@ export default function ResetPassword() {
         //     })
     }
     return (<>
-        <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5" id="text-indii-blue">Reset Password</h2>
+        <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5" id="text-indii-blue">{t("RESET_PASSWORD")}</h2>
         <div className="col-md-8 mx-auto mt-5 h-50 pt-5">
             {validationError && <div className="mb-3 text-center" >
                 <span id={messageColour === "default" ? "text-indii-blue" : ""} className={messageColour === "fail" ? "text-red font-weight-bolder" : (messageColour === "pass" ? "text-green font-weight-bolder" : "")}>{validationError}</span>
             </div>}
             <br></br>
-            <PasswordInput title={('New Password')} name={"new_password"} setValue={setNewPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true} type="text"></PasswordInput>
+            <PasswordInput title={t("NEW_PASSWORD")} name={"new_password"} setValue={setNewPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true} type="text"></PasswordInput>
             <br></br>
-            <PasswordInput title={('Confirm Password')} name={"confirm_password"} setValue={setConfirmPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true} type="password" ></PasswordInput>
+            <PasswordInput title={t("CONFIRM_PASSWORD")} name={"confirm_password"} setValue={setConfirmPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true} type="password" ></PasswordInput>
             <br></br>
             <div className="col-md-8 mx-auto">
-                <CustomButton buttonName={'Save'} ActionFunction={() => sendRequest()} CustomStyle={"col-md-12 mx-auto"}></CustomButton>
+                <CustomButton buttonName={t("SAVE")} ActionFunction={() => sendRequest()} CustomStyle={"col-md-12 mx-auto"}></CustomButton>
             </div>
         </div>
     </>

@@ -44,7 +44,7 @@ export default function Dashboard() {
 
     return (
         <div className="right-container bg-white">
-            <div className="col-md-9 d-inline-flex mb-0 mt-2 pt-1 flex-wrap">  {/* mb-5 */}
+            <div className="col-md-9 d-inline-flex mb-0 mt-2 pt-1 flex-wrap dashboard_height">  {/* mb-5 */}
                 {
                     dashboardTabs.map((val, index) => {
                         return (

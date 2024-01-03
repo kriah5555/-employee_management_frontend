@@ -15,7 +15,7 @@ export default function Login({ setAuth }) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const [message, setMessage] = useState('Enter username below to get reset password link');
+    const [message, setMessage] = useState(t("FORGOT_PASSWORD_INSTRUCTION"));
     // Function to call login Api
     const Authenticate = () => {
 
@@ -43,7 +43,7 @@ export default function Login({ setAuth }) {
 
     // Function to call login Api
     const getLink = () => {
-        setMessage('Mail sent successfully. Please check your mail for reset password link');
+        setMessage(t("FORGOT_PASSWORD_SUCCESS_MESSAGE"));
 
         //     let data = {
         //         'username': userName,
@@ -73,14 +73,14 @@ export default function Login({ setAuth }) {
 
                 {/* LOGIN */}
                 {window.location.hash === '' && <>
-                    <TextInput title={('Username')} name={"username"} setValue={setUserName} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
+                    <TextInput title={t('USERNAME')} name={"username"} setValue={setUserName} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                     <br></br>
-                    <TextInput title={('Password')} name={"password"} setValue={setPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
+                    <TextInput title={t('PASSWORD')} name={"password"} setValue={setPassword} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                     <p className="mt-3 font-weight-bold text-right col-md-8 mx-auto" >
-                        <a className="text-color" href="#forgot-password">Forgot your password?</a>
+                        <a className="text-color" href="#forgot-password">{t("FORGOT_YOUR_PASSWORD")}?</a>
                     </p>
                     <div className="col-md-8 mx-auto">
-                        <CustomButton buttonName={'Login'} ActionFunction={() => Authenticate()} CustomStyle={"col-md-12 mx-auto"}></CustomButton>
+                        <CustomButton buttonName={t("LOGIN")} ActionFunction={() => Authenticate()} CustomStyle={"col-md-12 mx-auto"}></CustomButton>
                     </div>
                 </>}
 
@@ -90,11 +90,11 @@ export default function Login({ setAuth }) {
                         <h5><span id="text-indii-blue">{message}</span></h5>
                     </div>
                     <br></br>
-                    <TextInput title={('Username')} name={"username"} setValue={setUserName} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
+                    <TextInput title={t('USERNAME')} name={"username"} setValue={setUserName} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                     <br></br>
                     <div className="col-md-8 mx-auto pt-3 d-flex justify-content-end">
-                        <CustomButton buttonName={'Get Link'} ActionFunction={() => getLink()} CustomStyle={"col-md-3"}></CustomButton>
-                        <CustomButton buttonName={'Back'} ActionFunction={() => navigate('/login')} CustomStyle={"col-md-3"}></CustomButton>
+                        <CustomButton buttonName={t("GET_LINK")} ActionFunction={() => getLink()} CustomStyle={"col-md-3"}></CustomButton>
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/login')} CustomStyle={"col-md-3"}></CustomButton>
                     </div>
                 </>}
 
