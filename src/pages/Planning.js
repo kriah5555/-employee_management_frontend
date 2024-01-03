@@ -7,22 +7,22 @@ import HolidayOverview from "../components/organisms/HolidayOverview"
 import OpenShiftOverview from "../components/organisms/OpenShiftOverview"
 import OpenShiftListWithDetails from "../components/organisms/OpenShiftListWithDetails";
 import BackIcon from "../static/icons/BackIcon.png"
+
 export default function Planning({ setHeaderCompanyDropdown }) {
 
     const [tabIndex, setTabIndex] = useState(0);
     const [showDetails, setShowDetails] = useState(false);
-    const [shiftId, setShiftId] = useState();
     // Planning tabs list data
     const TabsData = [
         { tabHeading: t("OVERVIEW"), tabName: 'company' },
         { tabHeading: t("PLANNING_LOGS"), tabName: 'location' },
         { tabHeading: t("HOLIDAY_LEAVE"), tabName: 'workstation' },
         { tabHeading: t("EVENT_PLANNING"), tabName: 'cost center' },
-        { tabHeading: t("OPEN_SHIFT"), tabName: 'workstation' }
+        { tabHeading: t("OPEN_SHIFT"), tabName: 'open shift' }
     ]
     return (
         <div className="right-container">
-            <div className="company-tab-width mt-3 ">
+            <div className="company-tab-width mt-3">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <ToastContainer
                         position="top-center"
@@ -59,11 +59,11 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                         <div className="tablescroll"></div>
                     </TabPanel>
                     <TabPanel>
-                        <div className="tablescroll">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown} setShowDetails={setShowDetails} showDetails={showDetails} shiftId={shiftId} setShiftId={setShiftId}></OpenShiftOverview></div>
-                        {/* <div className="tablescroll"><OpenShiftListWithDetails handleView={handleView} ></OpenShiftListWithDetails></div> */}
+                        <div className="tablescroll">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
                     </TabPanel>
                 </Tabs>
             </div>
         </div>
+
     )
 }

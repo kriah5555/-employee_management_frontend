@@ -30,7 +30,6 @@ import AddEmailTemplate from '../components/organisms/AddEmailTemplate';
 import AddContractsTemplate from '../components/organisms/AddContractsTemplate'
 import Uurrooster from '../pages/Uurrooster';
 import ClonePlanning from '../components/molecules/ClonePlanning';
-import OpenShiftListWithDetails from '../components/organisms/OpenShiftListWithDetails';
 import OthPlanning from '../components/organisms/OthPlanning';
 import AddOthPlans from '../components/organisms/AddOthPlans';
 
@@ -86,7 +85,7 @@ const BaseRouter = ({ setAuth, setCompany}) => (
 
 
         <Route exact path="/manage-plannings" element={<Planning setHeaderCompanyDropdown={setCompany}></Planning>} />
-        <Route exact path="/manage-plannings/:type/:id" element={<OpenShiftListWithDetails></OpenShiftListWithDetails>} />
+        <Route exact path="/manage-plannings/:type/:id" element={<ViewOpenShiftDetails></ViewOpenShiftDetails>} />
         <Route exact path="/clone-plannings" element={<ClonePlanning></ClonePlanning>} />
 
         <Route exact path='/add-email-template' element={<AddEmailTemplate></AddEmailTemplate>} />

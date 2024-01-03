@@ -52,8 +52,8 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     }, [Time]);
 
 
-        useEffect(() => {
-            let lastCompanyId = localStorage.getItem('company_id')
+    useEffect(() => {
+        let lastCompanyId = localStorage.getItem('company_id')
 
         AXIOS.service(ResponsibleCompaniesApiUrl, "GET")
             .then((result) => {
