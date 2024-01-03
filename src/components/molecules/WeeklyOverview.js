@@ -359,7 +359,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>}
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td><a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a></td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
                                             <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId} openCreatePlanPopup={openCreatePlanPopup}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
