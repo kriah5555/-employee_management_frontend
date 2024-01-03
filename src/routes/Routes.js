@@ -32,6 +32,7 @@ import Uurrooster from '../pages/Uurrooster';
 import ClonePlanning from '../components/molecules/ClonePlanning';
 import OthPlanning from '../components/organisms/OthPlanning';
 import AddOthPlans from '../components/organisms/AddOthPlans';
+import ViewOpenShiftDetails from '../components/molecules/ViewOpenShiftDetails';
 
 const BaseRouter = ({ setAuth, setCompany}) => (
     <Routes>

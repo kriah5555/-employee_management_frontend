@@ -197,7 +197,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     key={field.name}
                                     title={field.title}
                                     setTime={(e) => SetValues(planIndex, field.name, e, field.type)}
-                                    value={formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : ''}
+                                    value={planIndex !== undefined ? (formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : '') : formattedData[field.name]}
                                     type={field.type}
                                     index={planIndex}
                                     required={field.required}

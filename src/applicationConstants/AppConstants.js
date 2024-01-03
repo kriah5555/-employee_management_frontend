@@ -81,6 +81,8 @@ export const GET_CONSTANTS = {
     'HOLIDAY_LEAVE': 'Holiday/leave',
     'EVENT_PLANNING':'Event planning',
     'OPEN_SHIFT':'Open shift',
+    'DRAFTED': 'Drafted',
+    'REPEAT': 'Repeat',
 
     // Days constants
     'MONDAY': 'Monday',

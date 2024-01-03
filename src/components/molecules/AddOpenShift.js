@@ -8,21 +8,31 @@ import RadioInput from "../atoms/formFields/RadioInput";
 import Switch from "../atoms/Switch";
 import { toast } from 'react-toastify';
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import DateInput from "../atoms/formFields/DateInput";
+import TextArea from "../atoms/formFields/TextArea";
+import { set } from "date-fns";
+import ModalPopup from "../../utilities/popup/Popup";
+import { t } from "../../translations/Translation";
 
-export default function AddOpenShift(props) {
+export default function AddOpenShift({ shiftId, onHide }) {
 
-    const [companyList, setCompanyList] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState("");
+
     const [location, setLocation] = useState('');
     const [locationList, setlocationList] = useState([]);
+
     const [workstationList, setWorkstationsList] = useState([]);
     const [workstations, setWorkstations] = useState('');
+
     const [functionsList, setFunctionsList] = useState([]);
     const [selectedFunction, setSelectedFunction] = useState('');
+
     const [employeeTypeList, setEmployeeTypeList] = useState([]);
     const [employeeTypes, setEmployeeTypes] = useState('');
+
     const [repeat, setRepeat] = useState(false);
     const [repeatType, setRepeatType] = useState(0)// "0" for only one time
+
     const [status, setStatus] = useState(1)
     const [isRepeatTypeSelected, setIsRepeatTypeSelected] = useState(false)
     const [dropdownOptions, setDropdownOptions] = useState([])
@@ -47,24 +57,50 @@ export default function AddOpenShift(props) {
     }]);
 
     useEffect(() => {
-        let companyDropdownList = []
-        AXIOS.service(ResponsibleCompaniesApiUrl, 'GET')
+        AXIOS.service(OpenShiftApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
                     if (result.data.length !== 0) {
-                        let data = getFormattedDropdownOptions(result.data, "id", "company_name")
-                        setCompanyList(data)
-                        companyDropdownList = data
+                        let response = result.data
+                        // setDropdownOptions(response)
+                        setEmployeeTypeList(response.employeeTypes)
+                        setlocationList(response.locations)
+                        let shiftData = [...formData]
+                        if (response.locations?.length === 1) {
+                            shiftData[0]['location'] = response.locations[0].value
+                            setLocation(response.locations[0])
+
+                            let locId = response.locations[0].value
+                            setWorkstationsList(response.workstations[locId])
+                            if (response.workstations[locId]?.length === 1) {
+                                shiftData[0]['workstations'] = response.workstations[locId][0].value
+                                setWorkstations(response.workstations[locId][0])
+
+                                let wId = response.workstations[locId][0].value
+                                setFunctionsList(response.workstationsFunctions[wId])
+                                if (response.workstationsFunctions[wId]?.length === 1) {
+                                    setSelectedFunction(response.workstationsFunctions[wId][0])
+                                    shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
+                                }
+                            }
+                            setFormData(shiftData)
+                        } else {
+                            setWorkstations(response.workstations)
+                            setFunctionsList(response.workstationsFunctions)
+                        }
                     }
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
+    }, [])
 
-        if (props.shiftId !== 0 && props.shiftId !== "") {
 
-            AXIOS.service(OpenShiftApiUrl + "/" + props.shiftId, 'GET')
+    useEffect(() => {
+        if (shiftId !== 0 && shiftId !== "") {
+
+            AXIOS.service(OpenShiftApiUrl + "/" + shiftId, 'GET')
                 .then((result) => {
                     if (result?.success) {
                         if (result.data.length !== 0) {
@@ -89,12 +125,7 @@ export default function AddOpenShift(props) {
                             //     return data
                             // })
                             setFormData(data)
-                            props.setHeaderCompanyDropdown(localStorage.getItem("company_id"))
-                            companyDropdownList.map((item) => {
-                                if (item.value == localStorage.getItem("company_id")) {
-                                    setSelectedCompany(item)
-                                }
-                            })
+
                             setLocation({ value: response.location_id, label: response.location_name })
                             setRepeatType(response.repeat_type)
                             setWorkstations({ value: response.workstation_id, label: response.workstation_name })
@@ -109,55 +140,7 @@ export default function AddOpenShift(props) {
                     console.log(error);
                 })
         }
-
-    }, [])
-
-    useEffect(() => {
-        AXIOS.service(OpenShiftApiUrl + '/create', 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    if (result.data.length !== 0) {
-                        let response = result.data
-                        setDropdownOptions(response)
-                        if (selectedCompany !== 0 && selectedCompany !== undefined && selectedCompany !== "") {
-                            setlocationList(response.locations)
-                        }
-                        setEmployeeTypeList(response.employeeTypes)
-                    }
-
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [selectedCompany])
-
-    // setting options based on location
-    useEffect(() => {
-        if (location && dropdownOptions.workstations) {
-            let id = formData[0]?.location;
-            const options = dropdownOptions?.workstations[id] || [];
-            setWorkstationsList(options)
-            if (props.shiftId == "" || props.shiftId == 0) {
-
-                setWorkstations([])
-            }
-            setSelectedFunction([])
-        }
-        
-    }, [location])
-
-    useEffect(() => {
-        if (workstations && dropdownOptions.workstationsFunctions) {
-            let id = formData[0]?.workstations;
-            const options = dropdownOptions?.workstationsFunctions[id] || [];
-            setFunctionsList(options)
-            if (props.shiftId == "" || props.shiftId == 0) {
-                setSelectedFunction([])
-            }
-        }
-    }, [workstations])
-
+    }, [shiftId])
 
 
     const setValues = (index, name, value, type) => {
@@ -165,12 +148,7 @@ export default function AddOpenShift(props) {
         if (type !== "dropdown") {
             newData[0][name] = value
         } else {
-            if (name == "company_id") {
-                newData[0][name] = value.value
-                setSelectedCompany(value)
-                props.setHeaderCompanyDropdown(value.value)
-                localStorage.setItem('company_id', value.value);
-            } else if (name == "location") {
+            if (name == "location") {
                 newData[0][name] = value.value
                 setLocation(value)
             } else if (name == "workstations") {
@@ -190,18 +168,17 @@ export default function AddOpenShift(props) {
         }
         setFormData(newData)
     }
+
+
     const onConfirm = () => {
-        if (selectedCompany !== 0 && selectedCompany !== undefined && formData[0].name) {
-            let url = (props.shiftId !== 0 && props.shiftId !== "") ? OpenShiftApiUrl + "/" + props.shiftId : OpenShiftApiUrl
-            let method = (props.shiftId !== 0 && props.shiftId !== "") ? "PUT" : "POST"
+        if (formData[0].name) {
+            let url = (shiftId !== 0 && shiftId !== "") ? OpenShiftApiUrl + "/" + shiftId : OpenShiftApiUrl
+            let method = (shiftId !== 0 && shiftId !== "") ? "PUT" : "POST"
             let data = [...formData]
             data[0].status = 1
             AXIOS.service(url, method, data[0])
                 .then((result) => {
                     if (result?.success) {
-                        setSelectedCompany("")
-                        props.setRefresh(!(props.refresh))
-                        props.setOpenPopup(false)
                         toast.success(result.message[0], {
                             position: "top-center",
                             autoClose: 2000,
@@ -212,16 +189,17 @@ export default function AddOpenShift(props) {
                             progress: undefined,
                             theme: "colored",
                         });
+                        onHide()
 
                     } else {
-                        setErrors([result.message[0]])
+                        setErrors(result.message)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 })
         } else {
-            setErrors(["Plrease fill required fields"])
+            setErrors(["Please fill required fields"])
         }
 
     }
@@ -233,8 +211,6 @@ export default function AddOpenShift(props) {
         AXIOS.service(OpenShiftApiUrl, 'POST', data[0])
             .then((result) => {
                 if (result?.success) {
-                    props.setRefresh(!(props.refresh))
-                    props.setOpenPopup(false)
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
@@ -245,10 +221,10 @@ export default function AddOpenShift(props) {
                         progress: undefined,
                         theme: "colored",
                     });
+                    onHide()
+                } else {
+                    setErrors(result.message)
                 }
-                // else {
-                //     setErrors([result.message[0]])
-                // }
             })
             .catch((error) => {
                 console.log(error);
@@ -267,12 +243,6 @@ export default function AddOpenShift(props) {
 
     //to handle switch
     const onRepeatToggle = () => {
-        setRepeat(!repeat)
-        setFormData((prev) =>
-            prev.map((item, index) => (
-                { ...item, repeat_type: 0 })
-            )
-        );
         if (!repeat) {
             setRepeat(!repeat)
             setFormData((prev) =>
@@ -281,38 +251,46 @@ export default function AddOpenShift(props) {
                 )
             );
             setIsRepeatTypeSelected(false)
+        } else {
+            setRepeat(!repeat)
+            setFormData((prev) =>
+                prev.map((item, index) => (
+                    { ...item, repeat_type: 0 })
+                )
+            );
         }
+
     }
 
 
     let optionsArray = [{ name: "Daily", key: 1 }, { name: "Weekly", key: 2 }, { name: "Monthly", key: 3 }]
 
     const formFieldsArray1 = [
-        { title: "Company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-6 float-left" },
+        // { title: "Company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-6 float-left" },
         { title: "Shift name", name: "name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Start date", name: "start_date", required: true, type: "date", style: "col-md-12 mt-4 float-left" },
-    ]
-
-    const formFieldsArray2 = [
-        { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-6 float-left" },
-        { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-6  float-left" },
+        { title: "Start date", name: "start_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
+        { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
+        { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
         { title: 'Location', name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Workstations', name: 'workstations', required: true, options: workstationList, isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: "Function", name: "functions", placeholder: "Select..", required: true, type: "dropdown", options: functionsList, selectedOptions: selectedFunction, style: "col-md-6 float-left" },
-        { title: "Employee type", name: "employee_types", placeholder: "Select..", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 float-left" },
-        { title: "Vcancies count", name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: 'Workstations', name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[location?.value], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: "Function", name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList[workstations?.value], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
+        { title: "Employee type", name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-2 float-left" },
+        { title: "Vacancies count", name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-2 float-left" },
+
     ]
 
-    const formFieldsArray3 = repeat ? [
+    const formFieldsArray3 = [
         { title: "Repeat end date", name: "end_date", required: false, type: "date", style: "col-md-6 float-left" },
         { title: 'Extra info', name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" },
-    ] : [{ title: 'Extra info', name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" }]
+    ]
+
+    const form4 = [{ title: 'Extra info', name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" }]
 
 
     return (
         <Modal
             show={true}
-            onHide={props.onHide}
+            onHide={onHide}
             size="xl"
             className=""
             aria-labelledby="contained-modal-title-vcenter"
@@ -329,27 +307,18 @@ export default function AddOpenShift(props) {
                     body={(errors)}
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}
-                <div className="popup-tabs border">
+                <div className="border">
                     <FormsNew
                         view={""}
                         formTitle={""}
                         data={formFieldsArray1}
                         SetValues={setValues}
-                        formattedData={formData}
-                        planIndex={0}
-                    >
-                    </FormsNew>
-                    <FormsNew
-                        view={""}
-                        formTitle={""}
-                        data={formFieldsArray2}
-                        SetValues={setValues}
-                        formattedData={formData}
-                        planIndex={0}
-                    >
-                    </FormsNew>
-                    <div className="col-md-12 pr-0 py-2 px-5 d-flex">
-                        <Switch label="Repeat" id="switch2" styleClass="col-md-3 align-self-center row m-0" onChange={onRepeatToggle} ></Switch>
+                        formattedData={formData[0]}
+                    ></FormsNew>
+                    <div className="pl-5 d-flex">
+                        <Switch label={t("REPEAT")} id="switch4" styleClass="col-md-3 align-self-center row m-0" lableClick={true} onChange={() => onRepeatToggle()} checked={repeat} />
+
+                        {/* <Switch label={t("REPEAT")} id="switch2" styleClass="col-md-3 align-self-center row m-0" onChange={() => onRepeatToggle} ></Switch> */}
                         {repeat && <RadioInput
                             title={''}
                             radiobuttonsList={optionsArray !== undefined ? optionsArray : []}
@@ -358,14 +327,17 @@ export default function AddOpenShift(props) {
                             changeCheckbox={onRadioSelect}
                             type={"repeatType"}
                         ></RadioInput>}
+
                     </div>
-                    <FormsNew
-                        view={""}
-                        formTitle={""}
-                        data={formFieldsArray3}
-                        SetValues={setValues}
-                        formattedData={formData[0]}
-                    ></FormsNew>
+                    <div>
+                        <FormsNew
+                            view={""}
+                            formTitle={""}
+                            data={repeat ? formFieldsArray3 : form4}
+                            SetValues={setValues}
+                            formattedData={formData[0]}
+                        ></FormsNew>
+                    </div>
                 </div>
             </Modal.Body>
             <Modal.Footer>
@@ -375,8 +347,8 @@ export default function AddOpenShift(props) {
                 <Button className='button-style float-left' onClick={() => saveAsDraft()}>
                     {'Save as draft'}
                 </Button>
-                <Button className='button-style' onClick={props.onHide}>
-                    {props.buttonName ? (props.buttonName) : ('Cancel')}
+                <Button className='button-style' onClick={onHide}>
+                    {'Cancel'}
                 </Button>
             </Modal.Footer>
         </Modal>
