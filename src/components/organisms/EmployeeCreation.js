@@ -194,17 +194,17 @@ export default function EmployeeCreation() {
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={t("VALIDATION_ERROR") + ("!")}
+                title={t('VALIDATION_ERROR')}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             {/* Employee creation multi step form */}
             <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-                    <TabList className="d-flex m-0 p-0 align-items-center">
+                    <TabList className="d-flex m-0 p-0">
                         {TabsData.map((val, index) => {
                             return (
-                                <Tab key={val.tabName + index} >{val.tabHeading}</Tab>
+                                <Tab className="react-tabs__tab d-flex align-items-center justify-content-center" key={val.tabName + index} >{val.tabHeading}</Tab>
                             )
                         })}
                     </TabList>

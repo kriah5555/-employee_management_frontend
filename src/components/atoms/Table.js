@@ -13,8 +13,8 @@ import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-u
 import { t } from "../../translations/Translation";
 
 
-export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
-// console.log(rows);
+export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose }) {
+    // console.log(rows);
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -50,10 +50,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     //Table options
     const options = {
         filtering: false,
-        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
+        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : multiPurpose ? 'calc(100vh - 308px)' : tableName !== 'employee' ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
+        // maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)': multiPurpose ? 'calc(100vh - 300px)' // Set your custom height here
+        //     : 'calc(100vh - 264px)'
+        //   : 'calc(100vh - 220px)',
 
         //Search toolbar props
-        toolbar:(tableName !== 'tokens' && tableName !== 'holiday_overview')? true: false,
+        toolbar: (tableName !== 'tokens' && tableName !== 'holiday_overview') ? true : false,
         search: tableName !== 'min_salary' ? true : false,
         searchFieldAlignment: 'left',
         searchFieldStyle: searchStyle, //padding: '0px',
@@ -78,7 +81,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         },
 
         //Pagination props
-        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens'? false : true,
+        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens' ? false : true,
         pageSize: 10,
         pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
@@ -110,13 +113,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: t("DETAILS"),
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee') ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: t("VIEW"),
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary'&& tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -134,7 +137,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee'&& tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview') ? false : true
         })
     ]
 
@@ -187,7 +190,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                 options={options}
 
                 //Actions props
-                actions={showDetails || tableName === 'min_salary' ||tableName === 'tokens'||tableName ==='holiday_overview_rejected'  ? [] : actionIconsList}
+                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' ? [] : actionIconsList}
             />
         </MuiThemeProvider>
 

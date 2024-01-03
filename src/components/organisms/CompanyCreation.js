@@ -245,7 +245,7 @@ export default function CompanyCreation({ setCompany }) {
                     </TabList>
 
                     {tabType === 'company' && <TabPanel>
-                        <div className=""><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector} socialSecretary={socialSecretary} setSocialSecretary={setSocialSecretary} interimAgency={interimAgency} setInterimAgency={setInterimAgency}></AddCompanyForm></div>
+                        <div><AddCompanyForm companyData={companyData} setCompanyData={setCompanyData} sector={sector} setSector={setSector} socialSecretary={socialSecretary} setSocialSecretary={setSocialSecretary} interimAgency={interimAgency} setInterimAgency={setInterimAgency}></AddCompanyForm></div>
                         <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies')} CustomStyle="my-3 float-left"></CustomButton>
                         <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => SaveCompany('company')} CustomStyle="my-3 float-right"></CustomButton>
                     </TabPanel>}

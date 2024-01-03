@@ -15,7 +15,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
 
     // Forms for functions, employee type and sectors
     return (
-        <div className={view !== 'sectors' ? "form-container my-5 border bg-white" : "pt-5 pb-5"}>
+        <div className={view !== 'sectors' ? "form-container mt-3 mb-2 border bg-white" : "pt-5 pb-5"}>
             {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             <div className="d-flex px-5">
                 <form className="col-md-12 px-0">

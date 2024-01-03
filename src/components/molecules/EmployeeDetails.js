@@ -175,7 +175,7 @@ export default function EmployeeDetails({ eid }) {
                     ]
 
                     let data_left = [
-                        { label:  t("SSN"), value: result.data.social_secretary_number },
+                        { label: t("SSN"), value: result.data.social_secretary_number },
                         { label: t("CONTRACT_NUMBER"), value: result.data.contract_number },
                         { label: t("COMPANY_CAR"), value: benefits?.company_car ? "Yes" : "No" },
                         { label: t("COMPANY_FUEL_CARD"), value: benefits?.fuel_card ? "Yes" : "No" },
@@ -234,16 +234,18 @@ export default function EmployeeDetails({ eid }) {
             ></AddContractPopup>}
 
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
-                <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon} alt={t("ICON")}></img>
-                <div className="width-22 px-2">
-                    <p className="mb-1 font-22">{basicDetails.name}</p>
-                    <p className="text-secondary font-18"></p>
-                </div>
-                <div className="width-22 px-2">
+             
+                    <div className="manage_employee_tabs d-flex px-2 align-items-center">
+                        <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon} alt={t("ICON")}></img>
+                        <p className="mb-1 font-22">{basicDetails.name}</p>
+                        <p className="text-secondary font-18"></p>
+                    </div>
+             
+                <div className="manage_employee_tabs px-2">
                     <p className="mb-1"><img className="mr-2" src={PhoneIcon}></img>{basicDetails.phone}</p>
                     <p className="mb-1"><img className="mr-2" src={EmailIcon}></img> {basicDetails.email}</p>
                 </div>
-                <div className="width-22 px-2">
+                <div className="manage_employee_tabs px-2">
                     <p className="mb-1"><img className="mr-2" src={RSZIcon}></img>{basicDetails.rsz}</p>
                 </div>
             </div>
@@ -258,7 +260,7 @@ export default function EmployeeDetails({ eid }) {
                     </TabList>
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => setShowDetails(true)} alt={t("EDIT")} title={t("EDIT")} />}
+                            {!editStatus && <img className="float-right pr-3 pt-0 pointer mt-3" src={EditIcon} onClick={() => setShowDetails(true)} alt={t("EDIT")} title={t("EDIT")} />}
                             {!showDetails && <EmployeeUpdate tab="tab1" edit={editStatus} setEditStatus={setEditStatus} dataLeft={dataLeft} dataRight={dataRight} setDataLeft={setDataLeft} setDataRight={setDataRight} setShowDetails={setShowDetails} ></EmployeeUpdate>}
                             {showDetails && <EmployeeDetailsUpdateForm tab="tab1" eid={eid} response={response} setShowAddress={setShowAddress} setShowDetails={setShowDetails} showAddress={showAddress} showDetails={showDetails} setDataRefresh={setDataRefresh} dataRefresh={dataRefresh} showExtraBenifits={showExtraBenifits} setShowExtraBenefits={setShowExtraBenefits}></EmployeeDetailsUpdateForm>}
                         </div>

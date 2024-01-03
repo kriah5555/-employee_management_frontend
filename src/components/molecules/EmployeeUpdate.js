@@ -108,7 +108,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
                 {tab === 'tab4' && <h4 className="pl-4 ml-1 pb-2 font-weight-bold">{t("EXT_COUNTER")}</h4>}
                 {dataRight.map((val, index) => {
                     return (
-                        <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1"}>
+                        <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1 mt-3"}>
                             <label className="col-md-4 mb-1 pr-0 text-secondary">{val.label}:</label>
                             {edit && <input type="text" className="col-md-8 mb-3 form-control font-weight-bold pt-0" name={val.label} value={val.value} />}
                             {!edit && <p className="mb-0 col-md-8">{val.value}</p>}

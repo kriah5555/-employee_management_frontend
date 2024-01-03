@@ -405,7 +405,7 @@ export default function AddSector() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="form-container my-5 border bg-white">
+            <div className="form-container mt-3 mb-2 border bg-white ">
                 <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{t("ADD_SECTORS")}</h2>
 
                 <Tabs selectedIndex={selectedTab} className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
@@ -418,23 +418,25 @@ export default function AddSector() {
                     </TabList>
 
                     <TabPanel>
-                        <Forms
-                            formTitle={''}
-                            redirectURL={'/manage-configurations/sectors'}
-                            changeCheckbox={changeCheckbox}
-                            checkboxList={checkboxList}
-                            field1={sector_name}
-                            field2={paritair_committee}
-                            field3={employee_type}
-                            field4={category_number}
-                            field5={sector_desc}
-                            field6={sector_status}
-                            field8={night_shift_start}
-                            field9={night_shift_end}
-                            SetValues={SetValues}
-                            onSave={OnSave}
-                            view={'sectors'}
-                        ></Forms>
+                        <div className="add_sectors_body">
+                            <Forms
+                                formTitle={''}
+                                redirectURL={'/manage-configurations/sectors'}
+                                changeCheckbox={changeCheckbox}
+                                checkboxList={checkboxList}
+                                field1={sector_name}
+                                field2={paritair_committee}
+                                field3={employee_type}
+                                field4={category_number}
+                                field5={sector_desc}
+                                field6={sector_status}
+                                field8={night_shift_start}
+                                field9={night_shift_end}
+                                SetValues={SetValues}
+                                onSave={OnSave}
+                                view={'sectors'}
+                            ></Forms>
+                        </div>
                     </TabPanel>
 
                     <TabPanel>
@@ -574,7 +576,7 @@ export default function AddSector() {
                     </TabPanel> */}
                 </Tabs>
                 <div className={"col-md-12 my-4 text-right px-0"}>
-                    <div className="div ml-3 mr-4">
+                    <div className="d-flex justify-content-between ml-3 mr-4">
                         <div className="text-left">
                             <CustomButton buttonName={t("CANCEL")} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3 ml-0"></CustomButton>
                         </div>

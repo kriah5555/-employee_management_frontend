@@ -264,6 +264,11 @@ li,
 }
 
 /* for add-company form */
+.add_company_form {
+  height: calc(100vh - 275px);
+  overflow-y: auto;
+}
+
 .button-confirm {
   color: #fff;
   background-color: #073763;
@@ -393,6 +398,17 @@ li,
 }
 
 /* Company overview css */
+.manage_company_tabs {
+  width: calc(100% / 7);
+  border: 3px solid #f3f3f3;
+  border-width: 1px 1px 0px 1px !important;
+  color: black;
+  border-radius: 0px;
+  bottom: 1px;
+  padding: 12px 12px;
+  text-align: center;
+  display: inline-block;
+}
 
 /* Monthly overview tabs */
 .monthly-overview div ul {
@@ -462,6 +478,10 @@ li,
   width: 25% !important;
 }
 
+.manage_employee_tabs {
+  width: 22%;
+}
+
 .right-end-tab {
   padding: 0px;
   width: 24% !important;
@@ -473,7 +493,7 @@ li,
     border-bottom: 1px solid #fff;
     border-width: 0px 0px 3px 0px;
     margin-top: 1px; */
-  width: 15% !important;
+  width: max-content !important;
 }
 
 /* .selected_emp_tab{
@@ -626,6 +646,10 @@ textarea {
   padding-top: 20px;
 }
 
+.employee-detail-height {
+  overflow: auto;
+  height: calc(100vh - 390px);
+}
 /* Media query css for bigger screens */
 @media screen and (min-width: 1590px) {
   .font-12 {
@@ -658,11 +682,6 @@ textarea {
     font-size: 1rem;
   }
 
-  .employee-detail-height {
-    overflow: auto;
-    height: 65.5vh;
-  }
-
   .font-details {
     font-size: 16px;
   }
@@ -673,7 +692,7 @@ textarea {
 }
 
 .my-account-menu {
-  height: 4rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -897,6 +916,11 @@ html .ui-button.ui-state-disabled:active {
   bottom: 6px;
 }
 
+.add_contracts_body {
+  height: calc(100vh - 175px);
+  overflow-y: auto;
+}
+
 .contract-hours-pos {
   position: absolute;
   right: 8px;
@@ -1072,7 +1096,8 @@ html .ui-button.ui-state-disabled:active {
   list-style: none;
 }
 
-.planing_tabs:focus-visible {
+.planing_tabs:focus-visible,
+.manage_company_tabs:focus-visible {
   outline: none !important;
 }
 
@@ -1093,7 +1118,20 @@ html .ui-button.ui-state-disabled:active {
   outline: 1px solid gray !important;
 }
 
+.add_sectors_body {
+  height: calc(100vh - 333px);
+  overflow-y: auto;
+}
+.form_body {
+  height: calc(100vh - 315px);
+  overflow: auto;
+}
+
 @media (max-width: 1400px) {
+  body,
+  html {
+    font-size: 14px !important;
+  }
   .dashboard-icon {
     width: 3.5rem;
     height: 6rem;
@@ -1108,11 +1146,93 @@ html .ui-button.ui-state-disabled:active {
     height: calc(100vh - 265px);
     overflow-y: auto;
   }
+  .manage_employee_tabs {
+    width: 25%;
+  }
+
+  .manage_employee_left_block .MuiToolbar-gutters {
+    padding: 0 !important;
+  }
+
+  .add_employee_block {
+    height: calc(100vh - 255px);
+    overflow-y: auto;
+  }
+
+  .add_company_form {
+    height: calc(100vh - 252px);
+  }
+
+  .employee-detail-height {
+    overflow: auto;
+    height: calc(100vh - 360px);
+  }
+
+  .add_contracts_body {
+    height: calc(100vh - 158px);
+  }
+
+  .add_sectors_body {
+    height: calc(100vh - 304px);
+  }
+  .form_body {
+    height: calc(100vh - 286px);
+    overflow: auto;
+  }
 }
 
 @media (max-width: 1200px) {
-  .add_employee_block {
-    height: calc(100vh - 300px);
+  /* .add_employee_block {
+    height: calc(100vh - 266px);
     overflow-y: auto;
+  } */
+}
+
+@media (max-width: 1718px) {
+  .manage_company_tabs {
+    width: calc(100% / 7);
+    border: 3px solid #f3f3f3;
+    border-width: 1px 1px 0px 1px !important;
+    color: black;
+    border-radius: 0px;
+    bottom: 1px;
+    padding: 12px 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .manage_company_header {
+    flex-direction: column-reverse;
+  }
+
+  .add_company_block {
+    text-align: right;
+    width: 100%;
+    margin: 1rem 0px 0.5rem 0px;
   }
 }
+
+/* custom scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #61bfb5 !important;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* custom scrollbar */

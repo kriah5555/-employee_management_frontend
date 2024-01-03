@@ -171,7 +171,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
 
 
     return (
-        <div>
+        <div className="add_company_form">
             <CompanyForm
                 view="company"
                 title1={t("ADD_COMPANY")}
