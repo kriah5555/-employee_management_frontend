@@ -304,26 +304,30 @@ li,
 .side-bar {
   min-width: 7% !important;
   min-height: 89.5vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .side-bar-open {
-  position: absolute;
+  /* position: absolute; */
   background-color: white;
   z-index: 2;
-  width: max-content;
-  /* transition: right 100s ease-in-out; */
+  width: 7%;
+  transition: right 100s ease-in-out;
   transition: all 0.3s;
 }
 .side-bar-open .side-bar {
   padding-right: 4rem;
+  width: max-content;
+  background: white;
+  overflow: visible;
+  margin-bottom: 0px;
 }
 
 .sidebar-moving {
-  /* transition: right 100s ease-in-out; */
+  transition: right 100s ease-in-out;
   animation: mymove 1s alternate;
-  /* animation-timing-function: ease-out;
-    animation-iteration-count: 1; */
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
 }
 
 @keyframes mymove {
@@ -1236,3 +1240,10 @@ html .ui-button.ui-state-disabled:active {
   background: #555;
 }
 /* custom scrollbar */
+
+.add_btn {
+  background-color: #073763;
+  color: white;
+  text-decoration: none !important;
+  padding: 10px 20px;
+}
