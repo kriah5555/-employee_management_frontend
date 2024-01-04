@@ -12,9 +12,11 @@ import DateInput from "../atoms/formFields/DateInput";
 import TextArea from "../atoms/formFields/TextArea";
 import { set } from "date-fns";
 import ModalPopup from "../../utilities/popup/Popup";
+import BackIcon from "../../static/icons/BackIcon.png"
+
 import { t } from "../../translations/Translation";
 
-export default function AddOpenShift({ shiftId, onHide }) {
+export default function AddOpenShift({ shiftId, onHide, createData }) {
 
     const [selectedCompany, setSelectedCompany] = useState("");
 
@@ -33,9 +35,7 @@ export default function AddOpenShift({ shiftId, onHide }) {
     const [repeat, setRepeat] = useState(false);
     const [repeatType, setRepeatType] = useState(0)// "0" for only one time
 
-    const [status, setStatus] = useState(1)
     const [isRepeatTypeSelected, setIsRepeatTypeSelected] = useState(false)
-    const [dropdownOptions, setDropdownOptions] = useState([])
     const [errors, setErrors] = useState([]);
 
     const [formData, setFormData] = useState([{
@@ -57,43 +57,37 @@ export default function AddOpenShift({ shiftId, onHide }) {
     }]);
 
     useEffect(() => {
-        AXIOS.service(OpenShiftApiUrl + '/create', 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    if (result.data.length !== 0) {
-                        let response = result.data
-                        // setDropdownOptions(response)
-                        setEmployeeTypeList(response.employeeTypes)
-                        setlocationList(response.locations)
-                        let shiftData = [...formData]
-                        if (response.locations?.length === 1) {
-                            shiftData[0]['location'] = response.locations[0].value
-                            setLocation(response.locations[0])
 
-                            let locId = response.locations[0].value
-                            setWorkstationsList(response.workstations[locId])
-                            if (response.workstations[locId]?.length === 1) {
-                                shiftData[0]['workstations'] = response.workstations[locId][0].value
-                                setWorkstations(response.workstations[locId][0])
+        if (createData !== undefined) {
+            let response = createData
+            setEmployeeTypeList(response.employeeTypes)
+            setlocationList(response.locations)
+            let shiftData = [...formData]
+            if (response.locations?.length === 1) {
+                shiftData[0]['location'] = response.locations[0].value
+                setLocation(response.locations[0])
 
-                                let wId = response.workstations[locId][0].value
-                                setFunctionsList(response.workstationsFunctions[wId])
-                                if (response.workstationsFunctions[wId]?.length === 1) {
-                                    setSelectedFunction(response.workstationsFunctions[wId][0])
-                                    shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
-                                }
-                            }
-                            setFormData(shiftData)
-                        } else {
-                            setWorkstations(response.workstations)
-                            setFunctionsList(response.workstationsFunctions)
-                        }
+                let locId = response.locations[0].value
+                setWorkstationsList(response.workstations[locId])
+                if (response.workstations[locId]?.length === 1) {
+                    shiftData[0]['workstations'] = response.workstations[locId][0].value
+                    setWorkstations(response.workstations[locId][0])
+
+                    let wId = response.workstations[locId][0].value
+                    setFunctionsList(response.workstationsFunctions[wId])
+                    if (response.workstationsFunctions[wId]?.length === 1) {
+                        setSelectedFunction(response.workstationsFunctions[wId][0])
+                        shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
                     }
                 }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                setFormData(shiftData)
+            } else {
+                setWorkstations(response.workstations)
+                setFunctionsList(response.workstationsFunctions)
+            }
+        }
+
+
     }, [])
 
 
@@ -105,22 +99,22 @@ export default function AddOpenShift({ shiftId, onHide }) {
                     if (result?.success) {
                         if (result.data.length !== 0) {
                             let response = result.data
-                            let data = [{
-                                "name": response.name,
-                                "start_date": response.start_date,
-                                "start_time": response.start_time,
-                                "end_time": response.end_time,
-                                "end_date": response.end_date,
-                                "location": response.location_id,
-                                "workstations": response.workstation_id,
-                                "functions": response.function_id,
-                                "vacancy_count": response.vacancy_count,
-                                "repeat_type": response.repeat_type,
-                                "employee_types": response.employee_types,
-                                "approval_type": "1",
-                                "extra_info": response.extra_info,
-                                "status": response.status,
-                            }]
+                            let data = [...formData]
+                            data[0]["name"] = response.name
+                            data[0]["start_date"] = response.start_date
+                            data[0]["start_time"] = response.start_time
+                            data[0]["end_time"] = response.end_time
+                            data[0]["end_date"] = response.end_date
+                            data[0]["location"] = response.location_id
+                            data[0]["workstations"] = response.workstation_id
+                            data[0]["functions"] = response.function_id
+                            data[0]["vacancy_count"] = response.vacancy_count
+                            data[0]["repeat_type"] = response.repeat_type
+                            data[0]["employee_types"] = response.employee_types
+                            data[0]["approval_type"] = "1"
+                            data[0]["extra_info"] = response.extra_info
+                            data[0]["status"] = response.status
+
                             // setFormData((prev) => {
                             //     return data
                             // })
@@ -140,7 +134,7 @@ export default function AddOpenShift({ shiftId, onHide }) {
                     console.log(error);
                 })
         }
-    }, [shiftId])
+    }, [])
 
 
     const setValues = (index, name, value, type) => {
@@ -272,8 +266,8 @@ export default function AddOpenShift({ shiftId, onHide }) {
         { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
         { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
         { title: 'Location', name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Workstations', name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[location?.value], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: "Function", name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList[workstations?.value], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
+        { title: 'Workstations', name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList !== undefined ? workstationList[location?.value] : [], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: "Function", name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value]: [], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
         { title: "Employee type", name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-2 float-left" },
         { title: "Vacancies count", name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-2 float-left" },
 
@@ -288,69 +282,57 @@ export default function AddOpenShift({ shiftId, onHide }) {
 
 
     return (
-        <Modal
-            show={true}
-            onHide={onHide}
-            size="xl"
-            className=""
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    {('Create open shift')}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                    title={('Validation error!')}
-                    body={(errors)}
-                    onHide={() => setErrors([])}
-                ></ErrorPopup>}
-                <div className="border">
+        <div>
+            <div className="d-flex my-2 py-2 bg-white">
+                <div className="col-md-10">
+                    <h4 className="mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => onHide()} src={BackIcon}></img>{('Create open shift')}</h4>
+                </div>
+            </div>
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                title={('Validation error!')}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
+            <div className="bg-white mb-2">
+                <FormsNew
+                    view={""}
+                    formTitle={""}
+                    data={formFieldsArray1}
+                    SetValues={setValues}
+                    formattedData={formData[0]}
+                ></FormsNew>
+                <div className="pl-5 d-flex margin-minus">
+                    <Switch label={t("REPEAT")} id="switch4" styleClass="col-md-1 align-self-center row m-0" lableClick={true} onChange={() => onRepeatToggle()} checked={repeat} />
+                    {repeat && <RadioInput
+                        title={''}
+                        radiobuttonsList={optionsArray !== undefined ? optionsArray : []}
+                        CustomStyle={'d-flex mt-3 ml-4'}
+                        selectedOption={repeatType}
+                        changeCheckbox={onRadioSelect}
+                        type={"repeatType"}
+                    ></RadioInput>}
+                </div>
+                <div>
                     <FormsNew
                         view={""}
                         formTitle={""}
-                        data={formFieldsArray1}
+                        data={repeat ? formFieldsArray3 : form4}
                         SetValues={setValues}
                         formattedData={formData[0]}
                     ></FormsNew>
-                    <div className="pl-5 d-flex">
-                        <Switch label={t("REPEAT")} id="switch4" styleClass="col-md-3 align-self-center row m-0" lableClick={true} onChange={() => onRepeatToggle()} checked={repeat} />
-
-                        {/* <Switch label={t("REPEAT")} id="switch2" styleClass="col-md-3 align-self-center row m-0" onChange={() => onRepeatToggle} ></Switch> */}
-                        {repeat && <RadioInput
-                            title={''}
-                            radiobuttonsList={optionsArray !== undefined ? optionsArray : []}
-                            CustomStyle={'d-flex'}
-                            selectedOption={repeatType}
-                            changeCheckbox={onRadioSelect}
-                            type={"repeatType"}
-                        ></RadioInput>}
-
-                    </div>
-                    <div>
-                        <FormsNew
-                            view={""}
-                            formTitle={""}
-                            data={repeat ? formFieldsArray3 : form4}
-                            SetValues={setValues}
-                            formattedData={formData[0]}
-                        ></FormsNew>
-                    </div>
                 </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button className='button-style float-left' onClick={() => onConfirm()}>
-                    {'Save'}
-                </Button>
-                <Button className='button-style float-left' onClick={() => saveAsDraft()}>
-                    {'Save as draft'}
-                </Button>
-                <Button className='button-style' onClick={onHide}>
-                    {'Cancel'}
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                <div>
+                    <Button className='mr-3 mb-2 button-style float-right' onClick={() => onConfirm()}>
+                        {'Save'}
+                    </Button>
+                    <Button className='mr-3 mb-2 button-style float-right' onClick={() => saveAsDraft()}>
+                        {'Save as draft'}
+                    </Button>
+                    <Button className='ml-3 mb-2 button-style' onClick={() => onHide()}>
+                        {'Back'}
+                    </Button>
+                </div>
+            </div>
+        </div>
     )
 }

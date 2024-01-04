@@ -101,11 +101,13 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                 if (value.length < 15) {
                     company[index][name] = [6, 10].includes(value.length) ? (value + '.') : value
                 }
-            } else if (name === 'rsz_number') {
-                if (value.length <= 15) {
-                    company[index][name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
-                }
-            } else {
+            } 
+            // else if (name === 'rsz_number') {
+            //     if (value.length <= 15) {
+            //         company[index][name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+            //     }
+            // } 
+            else {
                 company[index][name] = value
             }
         } else {

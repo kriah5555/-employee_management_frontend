@@ -127,7 +127,7 @@ export default function AddOthPlans() {
     const daysArr = [t('MONDAY'), t('TUESDAY'), t('WEDNESDAY'), t('THURSDAY'), t('FRIDAY'), t('SATURDAY'), t('SUNDAY')]
 
     useEffect(() => {
-        if (!params.id) {
+        // if (!params.id) {
             let count = 1
             let data = []
             while (selectedRepeatation?.value >= count) {
@@ -135,7 +135,16 @@ export default function AddOthPlans() {
                 count = count + 1
             }
             setRepeatData(data)
-        }
+        // } else {
+        //     let count = 1
+        //     let data = []
+
+        //     while (selectedRepeatation?.value >= count) {
+        //         data.push(1);
+        //         count = count + 1
+        //     }
+        //     setRepeatData(data)
+        // }
     }, [selectedRepeatation])
 
     const AddNewRow = () => {

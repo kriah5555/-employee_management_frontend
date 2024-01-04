@@ -74,6 +74,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             .then((result) => {
                 if (result?.success) {
                     // setWeekData(result.data);
+
                     let arr = []
                     result.data.workstation_data.map((val, i) => {
                         if (val.employee.length === 0) {
@@ -387,8 +388,10 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         <td className="border-0">{t("TOTAL_TITLE")}</td>
                         <td className="border-0"></td>
                         {
-                            dates.map((date, index) => {
-                                return (getTotalData(index, totalData[date]))
+                            Object.keys(totalData).map(function (key, index) {
+                                return (
+                                    getTotalData(index, totalData[key])
+                                )
                             })
                         }
                         <td className="border-0"></td>

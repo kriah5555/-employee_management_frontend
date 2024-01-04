@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
 
-    const times = [t("EMPLOYEE_TITLE"), '00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00']
+    const times = [t("EMPLOYEE_TITLE"), '', '', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
     // const times = ['Employee', "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22"];
     let current_time = new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' })
 

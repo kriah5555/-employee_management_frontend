@@ -95,7 +95,7 @@ export default function CommunicationConfigurationOverview() {
             apiUrl = ContractTemplateApiUrl
             setHeaders(contracts_template_headers); setTitle(t("MANAGE_CONTRACTS_TEMPLATE")); setAddTitle(t("CREATE_CONTRACTS_TEMPLATE")); setAddUrl('/add-contracts-template/template'); setTableName("contract_template");
         } else {
-            apiUrl = fetchTranslations
+            apiUrl = fetchAllTranslations
             setTitle(t("MANAGE_TRANSLATIONS")); setAddTitle('');
         }
 

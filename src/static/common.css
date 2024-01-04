@@ -298,7 +298,8 @@ li,
 }
 
 .side-bar-open {
-  position: absolute;
+  /* position: absolute; */
+  position: relative;
   background-color: white;
   z-index: 2;
   width: max-content;
@@ -1088,6 +1089,10 @@ html .ui-button.ui-state-disabled:active {
   background-color: #61bfb5 !important;
   color: white;
   outline: 1px solid gray !important;
+}
+
+.margin-minus {
+  margin-top: -25px;
 }
 
 @media (max-width: 1400px) {

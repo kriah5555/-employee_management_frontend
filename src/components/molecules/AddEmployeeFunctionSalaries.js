@@ -228,6 +228,20 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                             </div>}
                             {tabIndex === 3 && <div className="col-md-3">
                                 <div className="row m-0 justify-content-center">
+                                    <TextInput
+                                        key={'location' + val}
+                                        title={''}
+                                        name={'distance'}
+                                        CustomStyle="col-md-8 float-left"
+                                        required={false}
+                                        value={locationTransport[index]['distance']}
+                                        setValue={(e) => SetValues(e, 'distance', index)}
+                                    // error={''}
+                                    ></TextInput>
+                                </div>
+                            </div>}
+                            {tabIndex === 3 && <div className="col-md-3">
+                                <div className="row m-0 justify-content-center">
                                     <Dropdown
                                         options={getFormattedDropdownOptions(options.commute_types)}
                                         selectedOptions={commute[index]}
@@ -241,21 +255,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     ></Dropdown>
                                 </div>
                             </div>}
-                            {tabIndex === 3 && <div className="col-md-3">
-                                <div className="row m-0 justify-content-center">
-                                    <TextInput
-                                        key={'location' + val}
-                                        title={''}
-                                        name={'distance'}
-                                        CustomStyle="col-md-8 float-left"
-                                        required={false}
-                                        value={locationTransport[index]['distance']}
-                                        setValue={(e) => SetValues(e, 'distance', index)}
-                                    // error={''}
-                                    ></TextInput>
-                                </div>
-                            </div>
-                            }
+                            
                             {index === rows.length - 1 && <div className={tabIndex === 3 ? "col-md-3 text-right pr-4" : "col-md-2 text-right pr-4"}>
                                 {<img className="header-icon mr-4 pointer" title={t("ADD_TEXT")} src={AddIcon} onClick={() => AddNewRow()}></img>}
                                 {rows.length > 1 && <img className="header-icon pointer" title={t("DELETE")} src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}

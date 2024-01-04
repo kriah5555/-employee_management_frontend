@@ -29,6 +29,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
     const [errors, setErrors] = useState([]);
     const [deleteUrl, setDeleteUrl] = useState('');
     const [warningMessage, setWarningMessage] = useState('');
+    const [createData, setCreateData] = useState([])
 
 
     const draftHeaders = [
@@ -96,6 +97,23 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
         showDrafts ? setHeaders(draftHeaders) : setHeaders(activeHeaders)
     }, [showDrafts])
 
+
+    useEffect(() => {
+        if (popupOpen) {
+            AXIOS.service(OpenShiftApiUrl + '/create', 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        if (result.data.length !== 0) {
+                            setCreateData(result.data)
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [popupOpen])
+
     useEffect(() => {
         //to get all vacancies and seggrigating
         AXIOS.service(OpenShiftApiUrl, "GET")
@@ -126,7 +144,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
             .catch((error) => {
                 console.log(error)
             })
-    }, [refresh, popupOpen])
+    }, [refresh])
 
 
     const deleteShift = () => {
@@ -171,7 +189,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
 
     const OnHides = () => {
         setShiftId("");
-        setOpenPopup(false)        
+        setOpenPopup(false)
     }
 
 
@@ -180,6 +198,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
             {popupOpen && <AddOpenShift
                 onHide={() => OnHides()}
                 shiftId={shiftId}
+                createData={createData}
             ></AddOpenShift>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={('Validation error!')}
@@ -193,7 +212,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                 onHide={() => setWarningMessage('')}
                 close={true}
             ></ModalPopup>}
-            <div className="col-md-12 p-0 bg-white">
+            {!popupOpen && <div className="col-md-12 p-0 bg-white">
                 <div className="d-flex">
                     <div className="col-md-10">
                         <Switch label={t("DRAFTED")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setShowDrafts(!showDrafts)} checked={showDrafts} />
@@ -203,7 +222,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                     </div>
                 </div>
                 <Table columns={headers} rows={showDrafts ? draftedShiftList : activeShiftList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>
-            </div>
+            </div>}
         </div>
     )
 }   
