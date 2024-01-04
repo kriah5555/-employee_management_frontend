@@ -127,6 +127,7 @@ export const GET_CONSTANTS = {
     'MY_BANK_ACCOUNT': 'My bank account',
     'BACK_TO_DASHBOARD': 'Back to Dashboard',
     'LOGOUT': 'Logout',
+    "SIGNATURE_DETAILS":'Signature Details',
 
     //Uurrooster constants
     'SELECT_LOCATION': 'Select location',

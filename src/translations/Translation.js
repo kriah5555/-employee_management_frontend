@@ -32,7 +32,7 @@ export async function GetTranslatedConstants() {
   let lang = localStorage.getItem('active_language') || 'en'
   let result = await translate(GET_CONSTANTS);
 
-  Object.keys(GET_CONSTANTS).map(async (key, index) => {
+  Object.keys(GET_CONSTANTS)?.map(async (key, index) => {
     if (GET_CONSTANTS[key] === result[index]['key']) {
       translations['en'][key] = result[index]['en'];
       translations['nl'][key] = result[index]['nl'];

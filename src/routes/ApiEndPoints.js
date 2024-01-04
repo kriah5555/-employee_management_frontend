@@ -58,6 +58,8 @@ export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsib
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
 export const HolidayCodeConfigurationApiUrl = BASE_URL + "/masterdata/holiday-code-config"
 export const GetHolidaysByStatusApiUrl = BASE_URL + '/masterdata/holidays-list/'
+export const UpdateHolidayStatusApiUrl = BASE_URL + '/masterdata/holidays-status' 
+export const HolidaysApiUrl = BASE_URL + '/masterdata/holidays' //to GET, DELETE, UPDATE holiday
 
 // export const SectorApiUrl = BASE_URL + '/sectors'
 
