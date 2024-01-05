@@ -6,12 +6,19 @@ import Table from "../atoms/Table";
 import CustomButton from "../atoms/CustomButton";
 import { t } from "../../translations/Translation";
 import { GetHolidaysByStatusApiUrl } from "../../routes/ApiEndPoints";
-
-
+import { Navigate, useNavigate } from "react-router-dom";
+import ActionsPopup from "../molecules/ActionsPopup.js";
 
 export default function HolidayOverview() {
 
+    const navigate = useNavigate();
     const [tabIndex, setTabIndex] = useState(0);
+    const [holidayList, setHolidayList] = useState([])
+    const [openPopUp, setOpenPopUp] = useState(false)
+    const [actionList, setActionList] = useState([])
+    const [popupBody, setPopupBody] = useState()
+    const [individualHolidayData, setIndividualHolidayData] = useState({})
+    const [refresh, setRefresh] = useState("")
 
     //tab list
     const tabList = [
@@ -31,13 +38,8 @@ export default function HolidayOverview() {
     // table headers
     const tableHeaders = [
         {
-            title: t("TITLE_TEXT"),
-            field: "title",
-            status: 200
-        },
-        {
             title: t("APPLIED_BY"),
-            field: "applied_by",
+            field: "employee.full_name",
             status: "200",
         },
         {
@@ -47,12 +49,12 @@ export default function HolidayOverview() {
         },
         {
             title: t("REPORTING_MANAGER"),
-            field: "reporting_manager",
+            field: "manager.full_name",
             status: "200",
         },
         {
             title: t("LEAVE_DATE"),
-            field: "leave_date",
+            field: 'dates_string',
             status: "200",
         }
     ]
@@ -71,13 +73,19 @@ export default function HolidayOverview() {
         AXIOS.service(GetHolidaysByStatusApiUrl + status, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    // setEmployeeList(result.data)
+                    let response = result.data
+                    let data = []
+                    response.map((item, index) => {
+                        item.dates_string = item?.absence_dates?.absence_dates_array.join(", ")
+                        data.push(item)
+                    })
+                    setHolidayList(data)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
-    }, [tabIndex])
+    }, [tabIndex, refresh])
 
     //dummy row data
     const row = [
@@ -88,12 +96,24 @@ export default function HolidayOverview() {
 
 
     //function to filter
-    const viewAction = () => {
-
+    const viewAction = (data, action) => {
+        if (action == "actions") {
+            setActionList(data.actions, openPopUp)
+            setOpenPopUp(true)
+            setIndividualHolidayData(data)
+        }
     }
+
+
+    const onHide = () => {
+        setOpenPopUp(false)
+    }
+
+
 
     return (
         <div className="mt-1">
+            {openPopUp && <ActionsPopup onHide={onHide} actions={actionList} openPopUp={openPopUp} setOpenPopUp={setOpenPopUp} data={individualHolidayData} refresh={refresh} setRefresh={setRefresh}></ActionsPopup>}
             <div className="d-flex flex-row planning_body">
                 <div className="col-md-9 p-0 bg-white">
                     <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -104,10 +124,10 @@ export default function HolidayOverview() {
                                 )
                             })}
                         </TabList>
-                        <TabPanel><Table columns={tableHeaders} rows={row} tableName={"holiday_overview"} viewAction={viewAction}></Table></TabPanel>
-                        <TabPanel><Table columns={tableHeaders} rows={row} tableName={"holiday_overview"} viewAction={viewAction}></Table></TabPanel>
-                        <TabPanel><Table columns={tableHeaders} rows={row} tableName={"holiday_overview_rejected"} viewAction={viewAction}></Table></TabPanel>
-                        <TabPanel><Table columns={tableHeaders} rows={row} tableName={"holiday_overview"} viewAction={viewAction}></Table></TabPanel>
+                        <TabPanel><Table columns={tableHeaders} rows={holidayList} tableName={"holiday_overview"} viewAction={viewAction} ></Table></TabPanel>
+                        <TabPanel><Table columns={tableHeaders} rows={holidayList} tableName={"holiday_overview"} viewAction={viewAction}></Table></TabPanel>
+                        <TabPanel><Table columns={tableHeaders} rows={holidayList} tableName={"holiday_overview_rejected"} viewAction={viewAction}></Table></TabPanel>
+                        <TabPanel><Table columns={tableHeaders} rows={holidayList} tableName={"holiday_overview_rejected"} viewAction={viewAction}></Table></TabPanel>
                     </Tabs>
                 </div>
                 <div className="col-md-3 bg-white border-left ">

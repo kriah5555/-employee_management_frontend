@@ -34,7 +34,7 @@ import OthPlanning from '../components/organisms/OthPlanning';
 import AddOthPlans from '../components/organisms/AddOthPlans';
 import ViewOpenShiftDetails from '../components/molecules/ViewOpenShiftDetails';
 
-const BaseRouter = ({ setAuth, setCompany}) => (
+const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
         {/* route starts here */}
         {/* <Route exact path={active language}  element={<Component name />} /> */}
@@ -103,7 +103,6 @@ const BaseRouter = ({ setAuth, setCompany}) => (
         <Route exact path='/create-oth-plans/:eid' element={<AddOthPlans></AddOthPlans>} />
         <Route exact path='/update-oth-plans/:eid/:id' element={<AddOthPlans></AddOthPlans>} />
 
-        
     </Routes>
 );
 

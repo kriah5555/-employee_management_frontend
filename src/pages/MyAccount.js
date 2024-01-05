@@ -12,6 +12,7 @@ import EnableNotification from "../components/atoms/EnableNotification";
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LogoutApiUrl } from "../routes/ApiEndPoints";
 import { t } from '../translations/Translation';
+// import SignatureMain from "../components/SignatureFlow/organisms/SignatureMain"
 
 export default function MyAccount({ setAuth }) {
 
@@ -26,6 +27,7 @@ export default function MyAccount({ setAuth }) {
         { title: t("CHANGE_PASSWORD"), icon: '', url: '#changePassword' },
         { title: t("MY_BANK_ACCOUNT"), icon: '', url: '#bankAccountDetails' },
         { title: t("NOTIFICATIONS"), icon: '', url: '#enableNotification' },
+        { title: t("SIGNATURE_DETAILS"), icon: '', url: '#signatureDetails' },
     ];
 
     useEffect(() => {
@@ -67,6 +69,7 @@ export default function MyAccount({ setAuth }) {
                 {window.location.hash == "#changePassword" && <ResetPassword />}
                 {window.location.hash == "#bankAccountDetails" && <BankAccount edit={editStatus} setEditStatus={setEditStatus} />}
                 {window.location.hash == "#enableNotification" && <EnableNotification edit={editStatus} setEditStatus={setEditStatus} />}
+                {/* {window.location.hash == "#signatureDetails" && <SignatureMain edit={editStatus} setEditStatus={setEditStatus} />} */}
             </div>
         </div>
     );
