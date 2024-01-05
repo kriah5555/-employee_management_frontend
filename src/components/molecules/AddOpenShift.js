@@ -58,17 +58,16 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
 
     useEffect(() => {
 
-        if (createData !== undefined) {
             let response = createData
-            setEmployeeTypeList(response.employeeTypes)
-            setlocationList(response.locations)
+            setEmployeeTypeList(response?.employeeTypes)
+            setlocationList(response?.locations)
             let shiftData = [...formData]
-            if (response.locations?.length === 1) {
-                shiftData[0]['location'] = response.locations[0].value
-                setLocation(response.locations[0])
+            if (response?.locations?.length === 1) {
+                shiftData[0]['location'] = response?.locations[0].value
+                setLocation(response?.locations[0])
 
-                let locId = response.locations[0].value
-                setWorkstationsList(response.workstations[locId])
+                let locId = response?.locations[0].value
+                setWorkstationsList(response?.workstations[locId])
                 if (response.workstations[locId]?.length === 1) {
                     shiftData[0]['workstations'] = response.workstations[locId][0].value
                     setWorkstations(response.workstations[locId][0])
@@ -85,10 +84,8 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                 setWorkstations(response.workstations)
                 setFunctionsList(response.workstationsFunctions)
             }
-        }
 
-
-    }, [])
+    }, [createData])
 
 
     useEffect(() => {
