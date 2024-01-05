@@ -89,6 +89,7 @@ export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/cr
 
 export const EmployeeSignApiUrl = BASE_URL + '/masterdata/get-employee-contracts/employee-signature/'
 export const SignContractApiUrl = BASE_URL + '/masterdata/employee-sign-plan-contract'
+export const EmployeeAvailabilityApiUrl = BASE_URL + '/masterdata/get-employee-availability'
 
 
 //Translations API urls starts here
