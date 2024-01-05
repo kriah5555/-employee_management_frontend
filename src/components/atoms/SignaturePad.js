@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import CustomButton from './CustomButton';
+import { t } from '../../translations/Translation';
 
 export default function SignaturePad({ sendSignatureData, sign, setSign, signData, refresh, view }) {
 
@@ -27,15 +28,15 @@ export default function SignaturePad({ sendSignatureData, sign, setSign, signDat
                     canvasProps={{ width: 750, height: 200, className: 'signature-canvas' }}
                 />
                 <div className=''>
-                    <CustomButton buttonName={'Cancel'} CustomStyle="float-right mt-2" ActionFunction={() => {view === 'myAccount' ? setSign(false) : setSign(!refresh)}}></CustomButton>
-                    <CustomButton buttonName={'Clear'} CustomStyle="float-right mt-2" ActionFunction={clearSignature}></CustomButton>
-                    <CustomButton buttonName={'Save'} CustomStyle="float-right mt-2" ActionFunction={saveSignature}></CustomButton>
+                    <CustomButton buttonName={t('CANCEL')} CustomStyle="float-right mt-2" ActionFunction={() => {view === 'myAccount' ? setSign(false) : setSign(!refresh)}}></CustomButton>
+                    <CustomButton buttonName={t('CLEAR')} CustomStyle="float-right mt-2" ActionFunction={clearSignature}></CustomButton>
+                    <CustomButton buttonName={t('SAVE')} CustomStyle="float-right mt-2" ActionFunction={saveSignature}></CustomButton>
                 </div>
             </div>}
             {!sign && <div>
                 {signatureData && <img src={signatureData} alt="Signature" />}
                 <div className=''>
-                    <CustomButton buttonName={'Update'} CustomStyle="float-right mt-2" ActionFunction={() => setSign(true)}></CustomButton>
+                    <CustomButton buttonName={t('UPDATE')} CustomStyle="float-right mt-2" ActionFunction={() => setSign(true)}></CustomButton>
                 </div>
             </div>}
         </div>
