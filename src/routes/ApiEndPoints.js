@@ -85,6 +85,8 @@ export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
 export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
 export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
 
+export const SignContractApiUrl = BASE_URL+ '/masterdata/get-employee-contracts/employee-signature/'
+
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';

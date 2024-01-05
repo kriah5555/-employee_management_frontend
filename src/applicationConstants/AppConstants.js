@@ -83,6 +83,7 @@ export const GET_CONSTANTS = {
     'OPEN_SHIFT':'Open shift',
     'DRAFTED': 'Drafted',
     'REPEAT': 'Repeat',
+    'SIGN': 'Sign contract',
 
     // Days constants
     'MONDAY': 'Monday',

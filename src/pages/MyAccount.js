@@ -47,6 +47,8 @@ export default function MyAccount({ setAuth }) {
                 }
             })
     }
+
+    
     return (
         <div className="right-container">
             <div className="col-md-3 mt-3 border bg-white text-center">

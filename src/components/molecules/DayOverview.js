@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Legend from "../atoms/Legend";
 import { t } from "../../translations/Translation";
 import PlanChart from "./PlanChart";
-import { GetDayPlans, GetPlanDetails, GetStartPlanReasonsApiUrl, GetStopPlanReasonsApiUrl, StartPlanApiUrl, StopPlanApiUrl } from "../../routes/ApiEndPoints";
+import { GetDayPlans, GetPlanDetails, GetStartPlanReasonsApiUrl, GetStopPlanReasonsApiUrl, SignContractApiUrl, StartPlanApiUrl, StopPlanApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import ModalPopup from "../../utilities/popup/Popup";
 import { Button } from "react-bootstrap";
@@ -10,6 +10,8 @@ import TimeInput from "../atoms/TimeInput";
 import { getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 import RadioInput from "../atoms/formFields/RadioInput";
 import { toast } from "react-toastify";
+import CustomButton from "../atoms/CustomButton";
+import SignaturePad from "../atoms/SignaturePad";
 
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
@@ -26,7 +28,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     const [selectedReason, setSelectedReason] = useState('');
     const [reasons, setReasons] = useState('');
     const [reasonStatus, setReasonStatus] = useState(false);
-    const [type, setType] = useState('')
+    const [type, setType] = useState('');
 
     useEffect(() => {
         setStartStopPlanPopup('')
@@ -50,10 +52,39 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     }, [dayDate, locId])
 
 
+    const sendSignatureData = (data) => {
+        let req_data = {
+            'signature_data' : data
+        }
+        AXIOS.service(SignContractApiUrl + startStopPlanPopup, 'POST', req_data)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    setStartStopPlanPopup(startStopPlanPopup)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
 
     const pdfOpen = (data) => {
-        // setPlanDetails(<div><iframe src={data} width="100%" height="500px" title="PDF Viewer" /></div>)
-        setPlanDetails(<object data={data} type="application/pdf" width="100%" height="500px"></object>)
+        // setPlanDetails(<div><iframe src={'https://www.clickdimensions.com/links/TestPDFfile.pdf'} width="100%" height="500px" title="PDF Viewer" /></div>)
+        setPlanDetails(
+            <div>
+                <object data={data} type="application/pdf" width="100%" height="500px"></object>
+                <CustomButton buttonName={t("SIGN")} ActionFunction={() => setPlanDetails(<SignaturePad sendSignatureData={sendSignatureData} sign={true}></SignaturePad>)} CustomStyle="float-right mt-2"></CustomButton>
+            </div>
+        )
     }
 
     const onRadioSelect = (type, key) => {
@@ -87,6 +118,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                 .then((result) => {
                     if (result?.success) {
                         let resp = result.data
+                        console.log(resp);
                         let design = <div>
                             <div className="col-md-12 row m-0 ">
                                 <div className="col-md-6 row m-0">
@@ -175,7 +207,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
         <div className="col-md-12 ">
             {startStopPlanPopup !== '' && <ModalPopup
                 size="lg"
-                title={!reasonStatus ? t("PLAN_DETAILS") : type ?  t("START_PLAN") : t("STOP_PLAN")}
+                title={!reasonStatus ? t("PLAN_DETAILS") : type ? t("START_PLAN") : t("STOP_PLAN")}
                 body={!reasonStatus ? planDetails : <div>
                     <TimeInput
                         key={'time'}
