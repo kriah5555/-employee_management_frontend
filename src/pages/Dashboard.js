@@ -10,23 +10,26 @@ import HolidaysIcon from "../static/icons/ManageHoliday.svg";
 import DeviceIcon from "../static/icons/DeviceActivate.svg";
 import Messageboard from "../components/molecules/Messageboard";
 import { t } from "../translations/Translation";
+import Uurrooster from "./Uurrooster";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Dashboard() {
 
+    const navigate = useNavigate();
     const mainTabStyle = "col-md-4 my-3 mx-3 background-indii-blue text-center text-white";
     const subTabStyle = "col-md-3 my-3 mx-3 shadow text-center border-0";
 
     // Dashboard content
     const dashboardTabs = [
-        { title:t('PLANNING'),        icon:PlanningIcon,             styleClass:mainTabStyle },
-        { title:t('TIME_TABLE'),      icon:UurrosterIcon,            styleClass:subTabStyle },
-        { title:t('AVAILABILITY'),    icon:EmployeeAvailabilityIcon, styleClass:subTabStyle },
-        { title:t('NEW_EMPLOYEE'),    icon:AddEmployeeIcon,          styleClass:mainTabStyle },
-        { title:t('QRCODE'),          icon:QRCode,                   styleClass:subTabStyle },
-        { title:t('HOLIDAY'),         icon:HolidaysIcon,             styleClass:subTabStyle },
-        { title:t('DIMONA'),          icon:DimonaIcon,               styleClass:mainTabStyle },
-        { title:t('DEVICE_ACTIVATE'), icon:DeviceIcon,               styleClass:subTabStyle },
+        { title:t('PLANNING'),        icon:PlanningIcon,             styleClass:mainTabStyle,   actionLink:"/manage-plannings"  },
+        { title:t('TIME_TABLE'),      icon:UurrosterIcon,            styleClass:subTabStyle ,   actionLink:"/uurrooster"  },
+        { title:t('AVAILABILITY'),    icon:EmployeeAvailabilityIcon, styleClass:subTabStyle,    actionLink:""},
+        { title:t('NEW_EMPLOYEE'),    icon:AddEmployeeIcon,          styleClass:mainTabStyle,   actionLink:"/add-employees"} ,
+        { title:t('QRCODE'),          icon:QRCode,                   styleClass:subTabStyle ,   actionLink:""},
+        { title:t('HOLIDAY'),         icon:HolidaysIcon,             styleClass:subTabStyle ,   actionLink:"/manage-plannings"},
+        { title:t('DIMONA'),          icon:DimonaIcon,               styleClass:mainTabStyle ,  actionLink:""},
+        { title:t('DEVICE_ACTIVATE'), icon:DeviceIcon,               styleClass:subTabStyle,    actionLink:""} ,
     ]
 
     // Messages to display in message board (API will be called to fetch this data)
@@ -48,7 +51,7 @@ export default function Dashboard() {
                 {
                     dashboardTabs.map((val, index) => {
                         return (
-                            <Card key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} view={'dashboard'}></Card>
+                            <Card key={val.title} title={val.title} icon={val.icon} actionLink={val.actionLink} styleClass={val.styleClass} view={'dashboard'}></Card>
                         )
                     })
                 }

@@ -14,7 +14,8 @@ import { t } from "../../translations/Translation";
 import HamburgerIcon from "../../static/icons/Hamburger.svg"
 
 
-export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries }) {
+export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose }) {
+    // console.log(rows);
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -50,7 +51,10 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     //Table options
     const options = {
         filtering: false,
-        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' && tableName !== "open_shifts_overview" ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
+        maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : multiPurpose ? 'calc(100vh - 308px)' : tableName !== 'employee' && tableName !== "open_shifts_overview" ? 'calc(100vh - 264px)' : 'calc(100vh - 220px)', //'83.5vh',
+        // maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)': multiPurpose ? 'calc(100vh - 300px)' // Set your custom height here
+        //     : 'calc(100vh - 264px)'
+        //   : 'calc(100vh - 220px)',
 
         //Search toolbar props
         toolbar: (tableName !== 'tokens') ? true : false,

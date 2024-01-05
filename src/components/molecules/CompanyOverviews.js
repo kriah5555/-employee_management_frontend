@@ -270,7 +270,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
-            <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
+            <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true}></Table>
         </>
     )
 }

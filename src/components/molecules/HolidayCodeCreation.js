@@ -279,7 +279,7 @@ export default function HolidayCodeCreation() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="form-container my-5 border bg-white">
+            <div className="form-container mt-3 mb-2 border bg-white">
                 <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/manage-holiday-configurations/holiday_code")} src={BackIcon}></img>{t("ADD_HOLIDAY_CODE")}</h2>
 
                 <Tabs className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
@@ -291,12 +291,14 @@ export default function HolidayCodeCreation() {
                         })}
                     </TabList>
                     <TabPanel>
-                        <FormsNew
-                            view={"holiday codes"}
-                            data={fieldData}
-                            SetValues={SetValues}
-                            formattedData={holidayCodeFormData}
-                        ></FormsNew>
+                        <div className="form_body">
+                            <FormsNew
+                                view={"holiday codes"}
+                                data={fieldData}
+                                SetValues={SetValues}
+                                formattedData={holidayCodeFormData}
+                            ></FormsNew>
+                        </div>
                     </TabPanel>
                     {!hideCompaniesTab && <TabPanel>
                         <FormsNew
@@ -307,7 +309,7 @@ export default function HolidayCodeCreation() {
                         ></FormsNew>
                     </TabPanel>}
                 </Tabs>
-                <div className={"col-md-12 my-4 text-right pr-2"}>
+                <div className={"col-md-12 mt-4 mb-2 text-right pr-2"}>
                     {(params.id !== undefined || (params.id === undefined && selectedTab === 1)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
                     <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/manage-holiday-configurations/holiday_code")} CustomStyle="mr-3"></CustomButton>
                 </div>

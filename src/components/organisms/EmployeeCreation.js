@@ -194,23 +194,23 @@ export default function EmployeeCreation() {
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={t("VALIDATION_ERROR") + ("!")}
+                title={t('VALIDATION_ERROR')}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             {/* Employee creation multi step form */}
             <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-                    <TabList>
+                    <TabList className="d-flex m-0 p-0">
                         {TabsData.map((val, index) => {
                             return (
-                                <Tab key={val.tabName + index} >{val.tabHeading}</Tab>
+                                <Tab className="react-tabs__tab d-flex align-items-center justify-content-center" key={val.tabName + index} >{val.tabHeading}</Tab>
                             )
                         })}
                     </TabList>
 
                     <TabPanel>
-                        <div className="">
+                        <div className="add_employee_block">
                             <AddEmployeePersonalDetails
                                 tabIndex={tabIndex}
                                 gender={gender} setGender={setGender}
@@ -228,7 +228,7 @@ export default function EmployeeCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="">
+                        <div className="add_employee_block">
                             <AddEmployeeContractTypes
                                 tabIndex={tabIndex} options={employeeContractOptions}
                                 setEmployeeContracts={setEmployeeContracts} employeeContracts={employeeContracts}
@@ -242,7 +242,7 @@ export default function EmployeeCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="">
+                        <div className="add_employee_block">
                             <AddEmployeeFunctionSalaries
                                 tabIndex={tabIndex}
                                 functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
@@ -257,7 +257,7 @@ export default function EmployeeCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="">
+                        <div className="add_employee_block">
                             <AddEmployeeFunctionSalaries
                                 tabIndex={tabIndex}
                                 locationTransport={locationTransport} setLocationTransport={setLocationTransport}
@@ -273,7 +273,7 @@ export default function EmployeeCreation() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="">
+                        <div className="add_employee_block">
                             <AddEmployeeAdditionalInfo
                                 tabIndex={tabIndex}
                                 options={employeeBenefitsOptions}

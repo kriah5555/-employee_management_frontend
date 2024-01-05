@@ -77,13 +77,14 @@ export default function Sidebar() {
     const handleClick = (url, title,) => {
         navigate(url);
         setActiveIcon(title);
+        setSidebardOpen(false)
         localStorage.setItem('activeIcon', title)
     }
 
     return (
         <div className={"side-bar shadow border-right" + (displaySidebar ? " side-bar-open" : " d-flex justify-content-center")} > {/* onMouseLeave={() => setSidebardOpen(false)} onMouseEnter={() => setSidebardOpen(true)} */}
             <ul className={displaySidebar ? "side-bar shadow" : "no-padd"}>
-                <li className="d-flex my-4" onClick={() => setSidebardOpen(!displaySidebar)}>
+                <li className="d-flex py-4" onClick={() => setSidebardOpen(!displaySidebar)}>
                     <img className="shortcut-icon sidebar-icon" src={HamburgerIcon}></img>
                 </li>
                 {sideBarData.map((val, index) => {

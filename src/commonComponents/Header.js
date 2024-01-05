@@ -143,7 +143,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
 
     const shortcutData = [
         { title: t("ADD_PLANNING"), icon: AddPlanIcon, url: '/add-planning' },
-        { title: t("ADD_EMPLOYEE"), icon: AddEmployeeIcon, url: '/add-employee' },
+        { title: t("ADD_EMPLOYEE"), icon: AddEmployeeIcon, url: '/add-employees' },
         { title: t("ADD_HOLIDAYS"), icon: AddHolidayIcon, url: '/add-holidays' },
         { title: t("SEND_INVOICES"), icon: AddPlanIcon, url: '/send-incoices' },
         { title: t("ADD_LOCATION"), icon: AddLocation, url: '/add-location' },

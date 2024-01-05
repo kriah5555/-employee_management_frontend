@@ -131,51 +131,59 @@ export default function OverviewTabs({ setCompany }) {
                 theme="colored"
             />
             <TabList>
-                {TabsData.map((val) => {
-                    return (
-                        <Tab key={val.tabName} onClick={() => getRightHeaderContent(val.tabName)} >{val.tabHeading}</Tab>
-                    )
-                })}
-                {addIcon && <div className="react-tabs__tab border-0 float-right width-20">
-                    <div className="d-flex justify-content-end">
-                        {addTitle !== t("ADD_COMPANY") && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p>}
-                        {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2 pointer" src={addIcon}></img>{addTitle}</p></a>}
-                        {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
-                        {/* <img src={FilterIcon} className="header-icon ml-2"></img>
-                        <img src={ExportIcon} className="header-icon ml-2"></img> */}
+                <div className="d-flex align-items-center manage_company_header">
+                    <div className="w-100 d-flex">
+                        {TabsData.map((val) => {
+                            return (
+                                <Tab className="manage_company_tabs" key={val.tabName} onClick={() => getRightHeaderContent(val.tabName)} >{val.tabHeading}</Tab>
+                            )
+                        })}
                     </div>
-                </div>}
+
+                    {addIcon && <div className=" border-0  add_company_block">
+                        <div className="d-flex justify-content-end mx-3">
+                            {addTitle !== t("ADD_COMPANY") && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p>}
+                            {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2 pointer" src={addIcon}></img>{addTitle}</p></a>}
+                            {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
+                            {/* <img src={FilterIcon} className="header-icon ml-2"></img>
+                        <img src={ExportIcon} className="header-icon ml-2"></img> */}
+                        </div>
+                    </div>}
+                </div>
+
             </TabList>
 
-            {!companySelected && <TabPanel>
-                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected}></CompanyOverviews></div>
-            </TabPanel>}
+            <div>
+                {!companySelected && <TabPanel>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected}></CompanyOverviews></div>
+                </TabPanel>}
 
-            <TabPanel>
-                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'location'}></CompanyOverviews></div>
-            </TabPanel>
+                <TabPanel>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'location'}></CompanyOverviews></div>
+                </TabPanel>
 
-            <TabPanel>
-                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'workstation'}></CompanyOverviews></div>
-            </TabPanel>
-            <TabPanel>
-                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'responsible_person'}></CompanyOverviews></div>
-            </TabPanel>
-            <TabPanel>
-                <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'cost center'}></CompanyOverviews></div>
-            </TabPanel>
+                <TabPanel>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'workstation'}></CompanyOverviews></div>
+                </TabPanel>
+                <TabPanel>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'responsible_person'}></CompanyOverviews></div>
+                </TabPanel>
+                <TabPanel>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'cost center'}></CompanyOverviews></div>
+                </TabPanel>
 
-            <TabPanel>
-                <h3 className="text-center mt-3"><CompanyOverviews setCompany={setCompany} overviewContent={'contracts'}></CompanyOverviews></h3>
-            </TabPanel>
+                <TabPanel>
+                    <h3 className="text-center mt-3"><CompanyOverviews setCompany={setCompany} overviewContent={'contracts'}></CompanyOverviews></h3>
+                </TabPanel>
 
-            <TabPanel>
-                <h3 className="text-center mt-3 ">{t("DIMONA")}</h3>
-            </TabPanel>
+                <TabPanel>
+                    <h3 className="text-center mt-3 ">{t("DIMONA")}</h3>
+                </TabPanel>
 
-            <TabPanel>
-                <h3 className="text-center mt-3">{t("RULES")}</h3>
-            </TabPanel>
+                <TabPanel>
+                    <h3 className="text-center mt-3">{t("RULES")}</h3>
+                </TabPanel>
+            </div>
         </Tabs>
     )
 }

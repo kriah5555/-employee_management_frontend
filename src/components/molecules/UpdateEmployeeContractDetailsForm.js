@@ -257,7 +257,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                         { label: t("EXPERIENCE"), value: val.experience },// need to add value for this
                     ]
                     return (
-                        <div key={index} className={"border mt-2 mr-2 mb-2 function-card font-14"}>
+                        <div key={index} className={"border mt-2 mr-2 mb-2 function-card font-14 w-50"}>
                             {showData && cardNumber !== index && <img className="float-right pr-2 pt-2 pointer" src={EditIcon} onClick={() => { setEditFunction(true); setCardNumber(index); setFuncitonIndex(index) }} alt={t("EDIT")} title={t("EDIT")} />}
                             {showData && cardNumber !== index && otherData.map((data, index) => {
                                 return (

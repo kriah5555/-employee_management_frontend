@@ -147,7 +147,7 @@ export default function ClonePlanning() {
                     <img className="shortcut-icon mr-2 pointer" onClick={() => navigate('/manage-plannings')} src={BackIcon} />
                     {t("CLONE_PLANNINGS")}
                 </h2>
-                <div className="my-3 py-3 bg-white">
+                <div className="mt-3 py-3 bg-white">
                     <h4 className="font-weight-bold text-color mt-3 pt-3 text-center">{t("SELECT_WEEK_TO_COPY")}</h4>
                     <FormsNew
                         formattedData={[]}
