@@ -218,7 +218,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                         <Switch label={t("DRAFTED")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setShowDrafts(!showDrafts)} checked={showDrafts} />
                     </div>
                     <div className="col-md-2 text-right">
-                        <CustomButton buttonName={"create shift"} ActionFunction={() => setOpenPopup(true)} CustomStyle="my-2 mr-2"></CustomButton>
+                        <CustomButton buttonName={"Create shift"} ActionFunction={() => setOpenPopup(true)} CustomStyle="my-2 mr-2"></CustomButton>
                     </div>
                 </div>
                 <Table columns={headers} rows={showDrafts ? draftedShiftList : activeShiftList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>

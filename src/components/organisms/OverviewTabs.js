@@ -143,7 +143,7 @@ export default function OverviewTabs({ setCompany }) {
                     {addIcon && <div className=" border-0  add_company_block">
                         <div className="d-flex justify-content-end mx-3">
                             {addTitle !== t("ADD_COMPANY") && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p>}
-                            {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2 pointer" src={addIcon}></img>{addTitle}</p></a>}
+                            {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2 pointer" src={addIcon}></img><span className="add_btn">{addTitle}</span></p></a>}
                             {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                             {/* <img src={FilterIcon} className="header-icon ml-2"></img>
                         <img src={ExportIcon} className="header-icon ml-2"></img> */}
