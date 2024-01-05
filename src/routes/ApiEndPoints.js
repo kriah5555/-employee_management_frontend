@@ -58,7 +58,7 @@ export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsib
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
 export const HolidayCodeConfigurationApiUrl = BASE_URL + "/masterdata/holiday-code-config"
 export const GetHolidaysByStatusApiUrl = BASE_URL + '/masterdata/holidays-list/'
-export const UpdateHolidayStatusApiUrl = BASE_URL + '/masterdata/holidays-status' 
+export const UpdateHolidayStatusApiUrl = BASE_URL + '/masterdata/holidays-status'
 export const HolidaysApiUrl = BASE_URL + '/masterdata/holidays' //to GET, DELETE, UPDATE holiday
 
 // export const SectorApiUrl = BASE_URL + '/sectors'
@@ -87,8 +87,8 @@ export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
 export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
 export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
 
-export const SignContractApiUrl = BASE_URL+ '/masterdata/get-employee-contracts/employee-signature/'
-
+export const SignContractApiUrl = BASE_URL + '/masterdata/get-employee-contracts/employee-signature/'
+export const EmployeeSignApiUrl = BASE_URL + '/masterdata/get-employee-contracts/employee-signature'
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
