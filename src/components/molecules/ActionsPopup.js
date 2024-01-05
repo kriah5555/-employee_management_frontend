@@ -35,7 +35,6 @@ export default function ActionsPopup(props) {
                 if (result?.success) {
                     setManagersList(getFormattedDropdownOptions(result.data, "id", "full_name"))
                 }
-
             })
             .catch((error) => {
                 console.log(error);
@@ -49,7 +48,6 @@ export default function ActionsPopup(props) {
         newdata.manager_id = value.value
         setFormData(newdata)
         setSelectedManager(value)
-
     }
 
     const handleChangeManager = () => {
@@ -114,7 +112,6 @@ export default function ActionsPopup(props) {
         { title: "Reporting manager", name: "manager_id", required: true, type: "dropdown", options: managersList, selectedOptions: selectedManager, style: "col-md-12 mt-2 ml-5" }
     ]
 
-
     return (
         <Modal
             show={props.openPopUp}
@@ -133,17 +130,12 @@ export default function ActionsPopup(props) {
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}
                 <Modal.Title id="contained-modal-title-vcenter" className='container' >
-                    {/* <div className="row">
-                        <div className='col-md-12 text-center'>
-                            {"Actions"}
-                        </div>
-                    </div> */}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {/* <p>{props.body}</p> */}
                 <div className='d-flex justify-content-center '>
-                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "approve")} src={AcceptIcon}></img><p className='mr-5'>Accept</p></>}
+                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "approve")} src={AcceptIcon}></img><p className='mr-5'>Approve</p></>}
                     {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "reject")} src={RejectIcon}></img><p className='mr-5'>Reject</p></>}
                     {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "cancel")} src={RejectIcon}></img><p className='mr-5'>Cancel</p></>}
                     {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon}></img><p className='mr-5'>change manager</p></>}
@@ -153,14 +145,6 @@ export default function ActionsPopup(props) {
                     <div className='col-md-8'><FormsNew data={formFields} formattedData={formData} SetValues={setValues}></FormsNew></div><div className='col-md-4'><Button className='button-style float-left mt-5' onClick={() => saveManager()}>Save</Button></div>
                 </div>}
             </Modal.Body>
-            {/* <Modal.Footer>
-                <Button className='button-style float-left' onClick={() => props.onSave()}>
-                    {t("SAVE")}
-                </Button>
-                <Button className='button-style' onClick={() => props.onHide()}>
-                    {props.buttonName ? (props.buttonName) : t('CLOSE')}
-                </Button>
-            </Modal.Footer> */}
         </Modal>
     );
 }
