@@ -10,9 +10,10 @@ import EditIcon from "../static/icons/edit-dark.svg";
 import BankAccount from "../components/atoms/BankAccount";
 import EnableNotification from "../components/atoms/EnableNotification";
 import { APICALL as AXIOS } from "../services/AxiosServices";
-import { LogoutApiUrl } from "../routes/ApiEndPoints";
+import { LogoutApiUrl, EmployeeSignApiUrl } from "../routes/ApiEndPoints";
 import { t } from '../translations/Translation';
-// import SignatureMain from "../components/SignatureFlow/organisms/SignatureMain"
+import SignaturePad from '../components/atoms/SignaturePad'
+import { toast } from 'react-toastify';
 
 export default function MyAccount({ setAuth }) {
 
@@ -20,6 +21,8 @@ export default function MyAccount({ setAuth }) {
     const [userName, setUserName] = useState("Employee 01 super admin");
     const [editStatus, setEditStatus] = useState(false);
     const [myProfileURL, setMyProfileURL] = useState("");
+    const [sign, setSign] = useState(false);
+    const [signData, setSignData] = useState("");
 
     const MenuData = [
         { title: t("MY_PROFILE"), icon: '', url: myProfileURL },
@@ -34,9 +37,43 @@ export default function MyAccount({ setAuth }) {
         setEditStatus(false);
         if (window.location.hash !== "") {
             setMyProfileURL("#myProfile")
+        } else if (window.location.hash !== "#signatureDetails") {
+
+            AXIOS.service(EmployeeSignApiUrl, "GET")
+                .then((result) => {
+                    if (result?.success) {
+                        setSignData(result.data?.signature_data)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
+        setSign(false)
     }, [window.location.hash])
 
+    const sendSignatureData = (signatureData) => {
+
+        AXIOS.service(EmployeeSignApiUrl, "POST", { signature_data: signatureData })
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    setSign(false)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
     // Function to call Logout Api call 
     const Logout = () => {
         AXIOS.service(LogoutApiUrl, 'GET')
@@ -50,7 +87,7 @@ export default function MyAccount({ setAuth }) {
             })
     }
 
-    
+
     return (
         <div className="right-container">
             <div className="col-md-3 mt-3 border bg-white text-center">
@@ -63,13 +100,13 @@ export default function MyAccount({ setAuth }) {
                 <CustomButton buttonName={t("LOGOUT")} CustomStyle={"mx-auto"} ActionFunction={Logout} ></CustomButton>
             </div>
             <div className="col-md-8 mt-3 ml-4 border bg-white">
-                {(window.location.hash !== "#changePassword" && window.location.hash !== "#enableNotification") && !editStatus && <img className="float-right  pt-2 mt-4 mr-3 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")}></img>}
+                {(window.location.hash !== "#changePassword" && window.location.hash !== "#enableNotification" && window.location.hash !== "#signatureDetails") && !editStatus && <img className="float-right  pt-2 mt-4 mr-3 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")}></img>}
                 {(window.location.hash == "#myProfile" || window.location.hash == "") && <ProfileData title={t("MY_PROFILE")} edit={editStatus} setEditStatus={setEditStatus} />}
                 {window.location.hash == "#address" && <ProfileData title={t("MY_ADDRESS")} edit={editStatus} setEditStatus={setEditStatus} type="address" />}
                 {window.location.hash == "#changePassword" && <ResetPassword />}
                 {window.location.hash == "#bankAccountDetails" && <BankAccount edit={editStatus} setEditStatus={setEditStatus} />}
                 {window.location.hash == "#enableNotification" && <EnableNotification edit={editStatus} setEditStatus={setEditStatus} />}
-                {/* {window.location.hash == "#signatureDetails" && <SignatureMain edit={editStatus} setEditStatus={setEditStatus} />} */}
+                {window.location.hash == "#signatureDetails" && <div className="mt-3"><SignaturePad view={'myAccount'} sendSignatureData={sendSignatureData} signData={signData} sign={sign} setSign={setSign} /></div>}
             </div>
         </div>
     );

@@ -7,7 +7,7 @@ import CustomButton from "../atoms/CustomButton";
 import { t } from "../../translations/Translation";
 import { GetHolidaysByStatusApiUrl } from "../../routes/ApiEndPoints";
 import { Navigate, useNavigate } from "react-router-dom";
-import ActionsPopup from "../molecules/ActionsPopup.js";
+import ActionsPopup from "../molecules/ActionsPopup";
 
 export default function HolidayOverview() {
 

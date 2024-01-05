@@ -87,7 +87,7 @@ export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
 export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
 export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
 
-export const EmployeeSignApiUrl = BASE_URL + '/masterdata/get-employee-contracts/employee-signature/'
+export const EmployeeSignApiUrl = BASE_URL + '/masterdata/employee-signature'
 export const SignContractApiUrl = BASE_URL + '/masterdata/employee-sign-plan-contract'
 export const EmployeeAvailabilityApiUrl = BASE_URL + '/masterdata/get-employee-availability'
 
