@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import CustomButton from './CustomButton';
 
-export default function SignaturePad({ sendSignatureData, sign, setSign, signData }) {
+export default function SignaturePad({ sendSignatureData, sign, setSign, signData, refresh, view }) {
 
     const signatureRef = useRef(null);
     const [signatureData, setSignatureData] = useState(signData)
@@ -27,12 +27,13 @@ export default function SignaturePad({ sendSignatureData, sign, setSign, signDat
                     canvasProps={{ width: 750, height: 200, className: 'signature-canvas' }}
                 />
                 <div className=''>
+                    <CustomButton buttonName={'Cancel'} CustomStyle="float-right mt-2" ActionFunction={() => {view === 'myAccount' ? setSign(false) : setSign(!refresh)}}></CustomButton>
                     <CustomButton buttonName={'Clear'} CustomStyle="float-right mt-2" ActionFunction={clearSignature}></CustomButton>
                     <CustomButton buttonName={'Save'} CustomStyle="float-right mt-2" ActionFunction={saveSignature}></CustomButton>
                 </div>
             </div>}
             {!sign && <div>
-                { signatureData && <img src={signatureData} alt="Signature" /> }
+                {signatureData && <img src={signatureData} alt="Signature" />}
                 <div className=''>
                     <CustomButton buttonName={'Update'} CustomStyle="float-right mt-2" ActionFunction={() => setSign(true)}></CustomButton>
                 </div>

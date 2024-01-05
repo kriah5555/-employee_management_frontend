@@ -29,6 +29,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     const [reasons, setReasons] = useState('');
     const [reasonStatus, setReasonStatus] = useState(false);
     const [type, setType] = useState('');
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         setStartStopPlanPopup('')
@@ -52,45 +53,6 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     }, [dayDate, locId])
 
 
-    const sendSignatureData = (data) => {
-        let req_data = {
-            'signature_data' : data
-        }
-        AXIOS.service(SignContractApiUrl + startStopPlanPopup, 'POST', req_data)
-            .then((result) => {
-                if (result?.success) {
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                    setStartStopPlanPopup(startStopPlanPopup)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    const pdfOpen = (data) => {
-        // setPlanDetails(<div><iframe src={'https://www.clickdimensions.com/links/TestPDFfile.pdf'} width="100%" height="500px" title="PDF Viewer" /></div>)
-        setPlanDetails(
-            <div>
-                <object data={data} type="application/pdf" width="100%" height="500px"></object>
-                <CustomButton buttonName={t("SIGN")} ActionFunction={() => setPlanDetails(<SignaturePad sendSignatureData={sendSignatureData} sign={true}></SignaturePad>)} CustomStyle="float-right mt-2"></CustomButton>
-            </div>
-        )
-    }
-
-    const onRadioSelect = (type, key) => {
-        setSelectedReason(key);
-    }
-
     const StartStopPopup = (type) => {
         setType(type)
         let ApiUrl = GetStartPlanReasonsApiUrl
@@ -107,10 +69,50 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
             .catch((error) => {
                 console.log(error);
             })
-
-
-
     }
+
+
+    const sendSignatureData = (data) => {
+        let req_data = {
+            'plan_id': startStopPlanPopup,
+            'signature': data
+        }
+        AXIOS.service(SignContractApiUrl, 'POST', req_data)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    StartStopPopup(true)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    const pdfOpen = (data) => {
+        // setPlanDetails(<div><iframe src={'https://www.clickdimensions.com/links/TestPDFfile.pdf'} width="100%" height="500px" title="PDF Viewer" /></div>)
+        setPlanDetails(
+            <div>
+                <object data={data} type="application/pdf" width="100%" height="500px"></object>
+                <CustomButton buttonName={'Cancel'} CustomStyle="float-right mt-2" ActionFunction={() => setRefresh(!refresh)}></CustomButton>
+                <CustomButton buttonName={t("SIGN")} ActionFunction={() => setPlanDetails(<SignaturePad view="contractSign" sendSignatureData={sendSignatureData} sign={true} setSign={setRefresh} refresh={refresh}></SignaturePad>)} CustomStyle="float-right mt-2"></CustomButton>
+            </div>
+        )
+    }
+
+    const onRadioSelect = (type, key) => {
+        setSelectedReason(key);
+    }
+
 
     useEffect(() => {
         if (startStopPlanPopup) {
@@ -155,7 +157,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                                 })}
                             </div>}
                             <div className="col-md-12 mt-2 d-flex justify-content-center">
-                                {resp.contract && <Button className='col-md-4 px-auto text-center button-style' onClick={() => pdfOpen(resp.contract)}>{t("VIEW_CONTRACT")}</Button>}
+                                {resp.contract && <Button className='col-md-4 px-auto mr-2 text-center button-style' onClick={() => pdfOpen(resp.contract)}>{t("VIEW_CONTRACT")}</Button>}
                                 {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => StartStopPopup(resp.start_plan)}>
                                     {resp.start_plan ? t("START_PLAN") : t("STOP_PLAN")}
                                 </Button>}
@@ -169,7 +171,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                 })
         }
 
-    }, [startStopPlanPopup])
+    }, [startStopPlanPopup, refresh])
 
     // Function to start and stop plans
     const StartStopApiCall = () => {
@@ -194,7 +196,6 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         theme: "colored",
                     });
                     setStartStopPlanPopup(''); setPlanDetails(''); setReasonStatus(false);
-
                 }
             })
             .catch((error) => {
@@ -231,7 +232,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                 onConfirm={reasonStatus && StartStopApiCall}
                 startplanButton={type ? t("START_TEXT") : t("STOP_TEXT")}
 
-                onHide={() => { setStartStopPlanPopup(''); setPlanDetails(''); }}
+                onHide={() => { setStartStopPlanPopup(''); setPlanDetails(''); setReasonStatus(false); setType('') }}
                 close={true}
             ></ModalPopup>}
             <div className="d-flex justify-content-end col-md-12 mx-auto bg-white px-">
