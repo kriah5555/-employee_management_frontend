@@ -51,7 +51,7 @@ export default function Configurations() {
                         {
                             ConfigurationTabs.map((val, index) => {
                                 return (
-                                    <Card className="p-2" key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-configurations/' + val.type} view={'configuration'}></Card>
+                                    <Card className="p-3" key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-configurations/' + val.type} view={'configuration'}></Card>
                                 )
                             })
                         }
