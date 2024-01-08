@@ -1,29 +1,63 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './calendar.css';
 import AvailableIcon from "../../static/icons/Available.svg"
 import UnAvailableIcon from "../../static/icons/Notavailable.svg"
 import RemarkIcon from "../../static/icons/warning.svg"
-import { GetFormattedDate } from '../CommonFunctions';
+import { GetFormattedDate, padTo2Digits } from '../CommonFunctions';
 import { t } from '../../translations/Translation';
+import { EmployeeAvailabilityApiUrl } from '../../routes/ApiEndPoints';
+import { APICALL as AXIOS } from "../../services/AxiosServices";
 
-export default function CalendarLayout({ view, planningDates, ChangeTab, setYear, setMonthNumber }) {
+
+
+
+export default function CalendarLayout({ view, planningDates, ChangeTab, setYear, setMonthNumber, eid }) {
+
   const [value, onChange] = useState(new Date());
+  const [availableDates, setAvailableDates] = useState([])
+  const [unavailableDates, setUnavailableDates] = useState([])
+  const [remarks, setRemarks] = useState({})
 
-  // Dummy data for showing availability and unavailability with remarks
-  const availableDates = []
 
-  const remarks = []
+  const getAvailability = (data) => {
+
+    AXIOS.service(EmployeeAvailabilityApiUrl, "POST", data)
+      .then((result) => {
+        if (result?.success) {
+          setAvailableDates(result.data?.available_dates);
+          setUnavailableDates(result.data?.not_available_dates);
+          setRemarks(result.data?.remarks);
+
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
+  useEffect(() => {
+    let data = {
+      "employee_profile_id": eid,
+      "period": padTo2Digits(value.getMonth() + 1) + "-" + value.getFullYear()
+    }
+    getAvailability(data)
+  }, [])
+
+
 
   const UpdateYear = (e) => {
-    setYear(e.activeStartDate.getFullYear());
-    setMonthNumber(e.activeStartDate.getMonth());
-    // localStorage.setItem('year', e.activeStartDate.getFullYear());
-    // let lastWeek = getWeekNumberByDate(e.activeStartDate.getFullYear()+'-12-31');
-    // localStorage.setItem('last_week', lastWeek);
-    // localStorage.setItem('month', e.activeStartDate.getMonth() + 1);
-    // props.changeMonth();
+    if (view === 'availability') {
+      let data = {
+        "employee_profile_id": eid,
+        "period": padTo2Digits(e.activeStartDate.getMonth() + 1) + "-" + e.activeStartDate.getFullYear()
+      }
+      getAvailability(data)
+    } else {
+      setYear(e.activeStartDate.getFullYear());
+      setMonthNumber(e.activeStartDate.getMonth());
+    }
   }
 
 
@@ -33,19 +67,19 @@ export default function CalendarLayout({ view, planningDates, ChangeTab, setYear
     if (view === 'availability') {
       if (availableDates.includes(date)) {
         return (
-          <img className='m-0 p-0 calendar-icon h-0' src={AvailableIcon} alt={t("ICON")}></img>
+          <>
+            <img className='m-0 p-0 calendar-icon h-0' src={AvailableIcon} alt={t("ICON")}></img>
+            <br></br>
+            {remarks[date] && <img className='m-0 p-0 remark-icon h-0' src={RemarkIcon} alt={t("ICON")} title={remarks[date]}></img>}
+          </>
         )
-      } else if (remarks.includes(date)) {
+      } else if (unavailableDates.includes(date)) {
         return (
           <>
             <img className='m-0 p-0 calendar-icon h-0' src={UnAvailableIcon} alt={t("ICON")}></img>
             <br></br>
-            <img className='m-0 p-0 remark-icon h-0' src={RemarkIcon} alt={t("ICON")}></img>
+            {remarks[date] && <img className='m-0 p-0 remark-icon h-0' src={RemarkIcon} alt={t("ICON")} title={remarks[date]}></img>}
           </>
-        )
-      } else {
-        return (
-          <img className='m-0 p-0 calendar-icon h-0' src={UnAvailableIcon} alt={t("ICON")}></img>
         )
       }
     } else {
@@ -72,10 +106,10 @@ export default function CalendarLayout({ view, planningDates, ChangeTab, setYear
         next2Label={null}
         prev2Label={null}
         locale={localStorage.getItem('active_language') || 'en'}
-        onClickWeekNumber={(e) => ChangeTab('week', e)}
-        onActiveStartDateChange={ (e) => {UpdateYear(e)} }
-        onClickDay={(e) =>  ChangeTab('day', e) }
-        onClickMonth={(e) => {UpdateYear(e)}}
+        onClickWeekNumber={(e) => {view !== 'availability' && ChangeTab('week', e)}}
+        onActiveStartDateChange={(e) => { UpdateYear(e) }}
+        onClickDay={(e) => {view !== 'availability' && ChangeTab('day', e)}}
+        onClickMonth={(e) => { UpdateYear(e) }}
         tileContent={(e) => getIcon(GetFormattedDate(e.date, e.date.getFullYear()))}
       />
     </div>

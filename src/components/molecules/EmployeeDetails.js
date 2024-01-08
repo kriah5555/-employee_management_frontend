@@ -312,7 +312,7 @@ export default function EmployeeDetails({ eid }) {
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
                             {<img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />}
-                            <CalendarLayout view={'availability'}></CalendarLayout>
+                            <CalendarLayout view={'availability'} eid={eid}></CalendarLayout>
                         </div>
                     </TabPanel>
                     <TabPanel>

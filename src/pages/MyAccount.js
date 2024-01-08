@@ -107,7 +107,7 @@ export default function MyAccount({ setAuth }) {
                 {window.location.hash == "#changePassword" && <ResetPassword />}
                 {window.location.hash == "#bankAccountDetails" && <BankAccount edit={editStatus} setEditStatus={setEditStatus} />}
                 {window.location.hash == "#enableNotification" && <EnableNotification edit={editStatus} setEditStatus={setEditStatus} />}
-                {window.location.hash == "#signatureDetails" && <div className="mt-3"><SignaturePad sendSignatureData={sendSignatureData} signData={signData} sign={sign} setSign={setSign} /></div>}
+                {window.location.hash == "#signatureDetails" && <div className="mt-3"><SignaturePad view={'myAccount'} sendSignatureData={sendSignatureData} signData={signData} sign={sign} setSign={setSign} /></div>}
             </div>
         </div>
     );

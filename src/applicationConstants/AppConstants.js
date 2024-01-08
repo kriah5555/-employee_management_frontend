@@ -84,6 +84,9 @@ export const GET_CONSTANTS = {
     'DRAFTED': 'Drafted',
     'REPEAT': 'Repeat',
     'SIGN': 'Sign contract',
+    'UPDATE':'Update',
+    'CLEAR':'Clear',
+
 
     // Days constants
     'MONDAY': 'Monday',

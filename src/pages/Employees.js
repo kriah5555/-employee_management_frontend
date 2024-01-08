@@ -26,7 +26,7 @@ export default function Employees() {
                             {!showDetails &&
                                 <li className="list-group d-inline" onClick={() => navigate('/add-employees')}>
                                     <img className="header-icon mr-1 pr-1" src={AddEmployeeIcon}></img>
-                                    <u>{t("CREATE_EMPLOYEE")}</u>
+                                    <span className="add_btn">{t("CREATE_EMPLOYEE")}</span>
                                 </li>}
                             <li className="list-group d-inline ml-5"><img className="header-icon " src={EmailForwardersIcon} alt={t("EMAIL_FORWARD")} title={t("EMAIL_FORWARD")} /></li>
                             <li className="list-group d-inline ml-3"><img className="header-icon " src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}/></li>

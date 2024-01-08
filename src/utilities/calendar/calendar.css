@@ -30,7 +30,10 @@
 }
 
 .react-calendar__tile:enabled:hover,
-.react-calendar__tile--active:enabled:focus,
+.react-calendar__tile--active:enabled:focus {
+    background-color: #c6f6e7 !important;
+}
+
 .react-calendar__navigation__arrow:hover,
 .react-calendar__navigation__label:hover {
     background-color: #61bfb5 !important;
