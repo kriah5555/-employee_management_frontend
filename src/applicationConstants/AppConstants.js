@@ -387,6 +387,11 @@ export const GET_CONSTANTS = {
     'ADD_SOCIAL_SECRETARY': 'Add social secretary',
     'MANAGE_INTERIM_AGENCIES': 'Manage interim agencies',
     'ADD_INTERIM_AGENCIES': 'Add interim agencies',
+    'PUBLIC_HOLIDAY_CONFIGURATION':'Public holiday configuration',
+    'MANAGE_PUBLIC_HOLIDAY':'Manage public holiday',
+    'ADD_PUBLIC_HOLIDAY':'Add public holiday',
+    'HOLIDAY_NAME':'Holiday name',
+    'DATE':'date',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',

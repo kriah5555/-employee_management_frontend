@@ -10,7 +10,7 @@ import AcceptIcon from "../../static/icons/Available.svg"
 import RejectIcon from "../../static/icons/Notavailable.svg"
 import RequestCancelIcon from "../../static/icons/RequestCancel.svg"
 import ChangeReportingManagerIcon from "../../static/icons/ChangeReportingManager.svg"
-import { UpdateHolidayStatusApiUrl, ResponsiblePersonApiUrl, HolidaysApiUrl } from '../../routes/ApiEndPoints';
+import { UpdateHolidayStatusApiUrl, ResponsiblePersonApiUrl, ChangeReportingManagerForHOliday } from '../../routes/ApiEndPoints';
 import { getFormattedDropdownOptions } from '../../utilities/CommonFunctions';
 import { toast } from 'react-toastify';
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
@@ -55,7 +55,7 @@ export default function ActionsPopup(props) {
     }
 
     const saveManager = () => {
-        AXIOS.service(HolidaysApiUrl + "/" + props.data?.id, 'PUT', formData)//api url need to change
+        AXIOS.service(ChangeReportingManagerForHOliday, 'POST', formData)//api url need to change
             .then((result) => {
                 if (result?.success) {
                     props.setOpenPopUp(false)

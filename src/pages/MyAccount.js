@@ -10,7 +10,7 @@ import EditIcon from "../static/icons/edit-dark.svg";
 import BankAccount from "../components/atoms/BankAccount";
 import EnableNotification from "../components/atoms/EnableNotification";
 import { APICALL as AXIOS } from "../services/AxiosServices";
-import { LogoutApiUrl, EmployeeSignApiUrl } from "../routes/ApiEndPoints";
+import { LogoutApiUrl, EmployeeSignApiUrl, UserDetailsApiUrl } from "../routes/ApiEndPoints";
 import { t } from '../translations/Translation';
 import SignaturePad from '../components/atoms/SignaturePad'
 import { toast } from 'react-toastify';
@@ -34,11 +34,9 @@ export default function MyAccount({ setAuth }) {
     ];
 
     useEffect(() => {
-        setEditStatus(false);
-        if (window.location.hash !== "") {
-            setMyProfileURL("#myProfile")
-        } else if (window.location.hash !== "#signatureDetails") {
 
+        setEditStatus(false);
+        if (window.location.hash === "#signatureDetails") {
             AXIOS.service(EmployeeSignApiUrl, "GET")
                 .then((result) => {
                     if (result?.success) {
@@ -48,8 +46,11 @@ export default function MyAccount({ setAuth }) {
                 .catch((error) => {
                     console.log(error);
                 })
+        } else if (window.location.hash !== "") {
+            setMyProfileURL("#myProfile")
         }
         setSign(false)
+
     }, [window.location.hash])
 
     const sendSignatureData = (signatureData) => {

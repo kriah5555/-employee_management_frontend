@@ -1,135 +1,222 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomButton from "../atoms/CustomButton";
 import TextInput from "../atoms/formFields/TextInput";
 import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import { t } from "../../translations/Translation";
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { UserDetailsApiUrl, EmployeeCreateApiUrl, UpdateUserDetailsApiUrl } from "../../routes/ApiEndPoints";
+import FormsNew from "./FormsNew";
+import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { toast } from 'react-toastify';
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
+
 export default function ProfileData({ title, edit, setEditStatus, type }) {
 
     //set Profile data from api call
     const [firstName, setFirstName] = useState("Employee");
     const [lastName, setLastName] = useState("01");
     const [mobileNumber, setMobileNumber] = useState("32123456789");
-    const [gender, setGender] = useState("male");
-    const [email, setEmail] = useState("example1@gmail.com");
-    const [DOB, setDOB] = useState("04/02/1992");
-    const [placeOfBirth, setPlaceofBirth] = useState("Merksem");
-    const [nationality, setNationality] = useState("Belgium");
-    const [SSCNumber, setSSCNumber] = useState("84071938582");
+    const [gender, setGender] = useState("");
+    const [genderList, setGenderList] = useState([])
 
-    const [street, setStreet] = useState("8th");
-    const [houseNumber, setHouseNumber] = useState("Rietschoorvelden 101");
-    const [boxNumber, setBoxNumber] = useState("Rietschoorvelden 101");
-    const [postalCode, setPostalCode] = useState("2101");
-    const [city, setCity] = useState("Antwerpen");
-    const [country, setCountry] = useState("België");
+    const [initialData, setInitialData] = useState({})
+    const [formData, setFormData] = useState({
 
-    //data to set fields if edit is enabled and edited
-    const [updatedFirstname, setUpdatedFirstName] = useState("Employee");
-    const [updatedLastName, setUpdatedLastName] = useState("01");
-    const [updatedMobileNumber, setUpdatedMobileNumber] = useState("32123456789");
-    const [updatedGender, setUpdatedGender] = useState("male");
-    const [updatedEmail, setUpdatedEmail] = useState("example1@gmail.com");
-    const [updatedDOB, setUpdatedDOB] = useState("04/02/1992");
-    const [updatedPlaceOfBirth, setUpdatedPlaceofBirth] = useState("Merksem");
-    const [updatedNationality, setUpdatedNationality] = useState("Belgium");
-    const [updatedSSCNumber, setUpdatedSSCNumber] = useState("84071938582");
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "phone_number": "",
+        "gender_id": "",
+        "date_of_birth": "",
+        "place_of_birth": "",
+        "nationality": "",
+        "social_security_number": "",
+        "street_house_no": "",
+        "city": "",
+        "country": "",
+        "postal_code": "",
+    })
 
-    const [updatedStreet, setUpdatedStreet] = useState("8th");
-    const [updatedHouseNumber, setUpdatedHouseNumber] = useState("Rietschoorvelden 101");
-    const [updatedBoxNumber, setUpdatedBoxNumber] = useState("Rietschoorvelden 101");
-    const [updatedpostalCode, setUpdatedPostalCode] = useState("2101");
-    const [updatedCity, setUpdatedCity] = useState("Antwerpen");
-    const [updatedCountry, setUpdatedCountry] = useState("België");
+    const [refresh, setRefresh] = useState(false)
+    const [errors, setErrors] = useState([]);
 
 
+
+    useEffect(() => {
+
+        let genderArrays = []
+        AXIOS.service(EmployeeCreateApiUrl + "/create", "GET")
+            .then((result) => {
+                if (result?.success) {
+                    let data = result.data
+                    setGenderList(getFormattedDropdownOptions(data.genders))
+                    genderArrays = getFormattedDropdownOptions(data.genders)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        AXIOS.service(UserDetailsApiUrl, "GET")
+            .then((result) => {
+                if (result?.success) {
+                    let data = result.data
+                    data.user_id = localStorage.getItem("userId")
+                    setFormData(data)
+                    setInitialData(data)
+                    genderArrays = genderArrays.filter((item) => {
+                        if (result.data?.gender_id == item.value) {
+                            return item;
+                        }
+                    })
+                    setGender(genderArrays[0])
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [refresh])
 
     const profile = [
-        { label: t("FIRST_NAME"), value: firstName, setValue: setFirstName },
-        { label: t("LAST_NAME"), value: lastName, setValue: setLastName },
-        { label: t("EMAIL"), value: email, setValue: setEmail },
-        { label: t("MOBILE_NUMBER"), value: mobileNumber, setValue: setMobileNumber },
-        { label: t("GENDER"), value: gender, setValue: setGender },
-        { label: t("DATE_OF_BIRTH"), value: DOB, setValue: setDOB },
-        { label: t("PLACE_OF_BIRTH"), value: placeOfBirth, setValue: setPlaceofBirth },
-        { label: t("NATIONALITY"), value: city, setValue: setNationality },
-        { label: t("SSN"), value: SSCNumber, setValue: setSSCNumber },
-    ]
-
-    // updatedProfileData
-    const updatedProfile = [
-        { label: t("FIRST_NAME"), value: updatedFirstname, setValue: setUpdatedFirstName },
-        { label: t("LAST_NAME"), value: updatedLastName, setValue: setUpdatedLastName },
-        { label: t("EMAIL"), value: updatedEmail, setValue: setUpdatedEmail },
-        { label: t("MOBILE_NUMBER"), value: updatedMobileNumber, setValue: setUpdatedMobileNumber, type: 'phoneInput' },
-        { label: t("GENDER"), value: updatedGender, setValue: setUpdatedGender },
-        { label: t("DATE_OF_BIRTH"), value: updatedDOB, setValue: setUpdatedDOB },
-        { label: t("PLACE_OF_BIRTH"), value: updatedPlaceOfBirth, setValue: setUpdatedPlaceofBirth },
-        { label: t("NATIONALITY"), value: updatedNationality, setValue: setUpdatedNationality },
-        { label: t("SSN"), value: SSCNumber, setValue: setUpdatedSSCNumber, disabled: true },
+        { label: t("FIRST_NAME"), value: initialData.first_name },
+        { label: t("LAST_NAME"), value: initialData.last_name },
+        { label: t("EMAIL"), value: initialData.email },
+        { label: t("MOBILE_NUMBER"), value: initialData.phone_number },
+        { label: t("GENDER"), value: gender?.label },
+        { label: t("DATE_OF_BIRTH"), value: initialData.date_of_birth },
+        { label: t("PLACE_OF_BIRTH"), value: initialData.place_of_birth },
+        { label: t("NATIONALITY"), value: initialData.nationality },
+        { label: t("SSN"), value: initialData.social_security_number },
     ]
 
     const address = [
-        { label: t("STREET"), value: street, setValue: setStreet },
-        { label: t("HOUSE_NUMBER"), value: houseNumber, setValue: setHouseNumber },
-        { label: t("BOX_NUMBER"), value: boxNumber, setValue: setBoxNumber },
-        { label: t("POSTAL_CODE"), value: postalCode, setValue: setPostalCode },
-        { label: t("CITY"), value: city, setValue: setCity },
-        { label: t("COUNTRY"), value: country, setValue: setCountry },
-    ]
-    //updated Address 
-    const updatedAddress = [
-        { label: t("STREET"), value: updatedStreet, setValue: setUpdatedStreet },
-        { label: t("HOUSE_NUMBER"), value: updatedHouseNumber, setValue: setUpdatedHouseNumber },
-        { label: t("BOX_NUMBER"), value: updatedBoxNumber, setValue: setUpdatedBoxNumber },
-        { label: t("POSTAL_CODE"), value: updatedpostalCode, setValue: setUpdatedPostalCode },
-        { label: t("CITY"), value: updatedCity, setValue: setUpdatedCity },
-        { label: t("COUNTRY"), value: updatedCountry, setValue: setUpdatedCountry },
+        { label: t("STREET_HOUSE"), value: initialData.street_house_no },
+        { label: t("POSTAL_CODE"), value: initialData.postal_code },
+        { label: t("CITY"), value: initialData.city },
+        { label: t("COUNTRY"), value: initialData.country },
     ]
 
-    let fieldData = [];
-    if (type == "address") {
-        edit ? fieldData = updatedAddress : fieldData = address;
-    } else {
-        edit ? fieldData = updatedProfile : fieldData = profile;
+    let fieldData = (type == "address") ? address : profile
+
+    let fieldsArray = (type == "address") ? [
+        { title: t("STREET_HOUSE"), name: "street_house_no", type: "text", required: true, style: "col-md-12 float-left mt-3" },
+        { title: t("CITY"), name: "city", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+        { title: t("COUNTRY"), name: "country", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+        { title: t("POSTAL_CODE"), name: "postal_code", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+    ] : [
+        { title: t("FIRST_NAME"), name: "first_name", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+        { title: t("LAST_NAME"), name: "last_name", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+        { title: t("EMAIL"), name: "email", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+        { title: t("MOBILE_NUMBER"), name: "phone_number", type: "phone_input", required: true, style: "col-md-6 float-left mt-3" },
+        { title: t("PLACE_OF_BIRTH"), name: "place_of_birth", type: "text", required: false, style: "col-md-6 float-left mt-3" },
+        { title: t("NATIONALITY"), name: "nationality", type: "text", required: true, style: "col-md-6 mt-3 float-left" },
+
+        { title: t("DATE_OF_BIRTH"), name: "date_of_birth", type: "date", required: true, style: "col-md-6 float-left mt-4" },
+        { title: t("GENDER"), name: "gender_id", type: "dropdown", options: genderList, selectedOptions: gender, required: true, style: "col-md-6 float-left" },
+        { title: t("SSN"), name: "social_security_number", type: "text", required: true, style: "col-md-6 float-left mt-3" },
+    ]
+
+    function formatDate(value) {
+
+        const firstSixDigits = value.toString().replace(/[^\d]/g, '').slice(0, 6);
+        // Check if the extracted 6 digits are not digits
+        if (!/^\d+$/.test(firstSixDigits)) {
+            return ""; // Return an empty string if not digits
+        }
+
+        const yy = firstSixDigits.slice(0, 2);
+        const xx = yy >= 23 ? '19' : '20';
+        const formattedDate = `${firstSixDigits.slice(4, 6)}-${firstSixDigits.slice(2, 4)}-${xx}${yy}`;
+        return formattedDate;
+
     }
 
-    const resetProfileData = () => {
-        setUpdatedFirstName(firstName);
-        setUpdatedLastName(lastName);
-        setUpdatedMobileNumber(mobileNumber);
-        setUpdatedGender(gender);
-        setUpdatedEmail(email);
-        setUpdatedDOB(DOB);
-        setUpdatedPlaceofBirth(placeOfBirth);
-        setUpdatedNationality(nationality);
+    const setValues = (index, name, value, field) => {
+        const newData = { ...formData };
+        if (field !== 'dropdown') {
+            if (name === 'social_security_number') {
+                if (value.length <= 15) {
+                    newData[name] = [2, 5, 8, 12].includes(value.length) ? (value + (value.length === 8 ? '-' : '.')) : value
+                }
+                if (value.length >= 8) {
+                    newData["date_of_birth"] = formatDate(value)
+                }
+            } else {
+                newData[name] = value
+            }
+        } else {
+            if (name === 'gender_id') {
+                setGender(value);
+                newData[name] = value.value
+            }
+        }
+        setFormData(newData);
     }
 
-    const resetAddress = () => {
-        setUpdatedStreet(street);
-        setUpdatedHouseNumber(houseNumber);
-        setUpdatedBoxNumber(boxNumber);
-        setUpdatedPostalCode(postalCode);
-        setUpdatedCity(city);
-        setUpdatedCountry(country);
+    const onSave = () => {
+
+        AXIOS.service(UpdateUserDetailsApiUrl, "POST", formData)
+            .then((result) => {
+                if (result?.success) {
+                    setRefresh(!refresh)
+                    setEditStatus(false)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                } else {
+                    setErrors([result.message]) //in back end error msg coming in the form of string ,it should be an array
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
+
+    const onCancel = () => {
+        setEditStatus(false)
+        setFormData(initialData)
+    }
+
 
     return (<>
+        {errors !== undefined && errors.length !== 0 && <ErrorPopup
+            title={t("VALIDATION_ERROR") + ("!")}
+            body={(errors)}
+            onHide={() => setErrors([])}
+        ></ErrorPopup>}
         <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5 " id="text-indii-blue">{title}</h2>
         <div className="col-md-12 font-details pt-2">
-            {(fieldData).map((val, index) => {
+            {!edit && (fieldData).map((val, index) => {
                 return (
                     <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1"}>
                         <label className="col-md-3 mb-1 pr-0 text-secondary">{val.label}:</label>
-                        {(edit && val.type === 'phoneInput') && (<CustomPhoneInput value={val.value} setValue={val.setValue} CustomStyle={"col-md-9 mb-3 font-weight-bold"} />)}
-                        {(edit && val.type !== 'phoneInput') && (<TextInput name={val.label} CustomStyle={"col-md-9 mb-3 font-weight-bold"} value={val.value} setValue={val.setValue} disabled={val.disabled} />)}
-                        {!edit && <p className="mb-0 col-md-9 mb-3">{val.value}</p>}
+                        <p className="mb-0 col-md-9 mb-3">{val.value}</p>
                     </div>
+
                 )
             })}
+            {edit &&
+                <FormsNew
+                    view={"filters"}
+                    data={fieldsArray}
+                    SetValues={setValues}
+                    formattedData={formData}
+                    actionButtons={false}
+                ></FormsNew>
+            }
         </div>
         {edit && <div className="float-right col-md-12 text-right mr-3 mb-1">
-            <CustomButton buttonName={t("SAVE")} ActionFunction={() => setEditStatus(false)}></CustomButton>
-            <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { setEditStatus(false); resetProfileData(); resetAddress() }}></CustomButton>
+            <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()}></CustomButton>
+            <CustomButton buttonName={t("CANCEL")} ActionFunction={() => onCancel()}></CustomButton>
         </div>}
     </>
     );

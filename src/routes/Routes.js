@@ -33,7 +33,7 @@ import ClonePlanning from '../components/molecules/ClonePlanning';
 import OthPlanning from '../components/organisms/OthPlanning';
 import AddOthPlans from '../components/organisms/AddOthPlans';
 import ViewOpenShiftDetails from '../components/molecules/ViewOpenShiftDetails';
-
+import AddPublicHoliday from '../components/molecules/AddPublicHoliday';
 const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
         {/* route starts here */}
@@ -75,7 +75,7 @@ const BaseRouter = ({ setAuth, setCompany }) => (
         <Route exact path='/my-account' element={<MyAccount setAuth={setAuth}></MyAccount>} />
         <Route exact path='/settings' element={<Settings></Settings>} />
         <Route exact path='/manage-holiday-configurations/:type' element={<HolidayCodeConfigurationOverview></HolidayCodeConfigurationOverview>} />
-
+        
         <Route exact path='/add-reasons' element={<AddReasons></AddReasons>} />
         <Route exact path='/add-reasons/:id' element={<AddReasons></AddReasons>} />
 
@@ -102,6 +102,9 @@ const BaseRouter = ({ setAuth, setCompany }) => (
         <Route exact path='/oth-planning/:eid' element={<OthPlanning></OthPlanning>} />
         <Route exact path='/create-oth-plans/:eid' element={<AddOthPlans></AddOthPlans>} />
         <Route exact path='/update-oth-plans/:eid/:id' element={<AddOthPlans></AddOthPlans>} />
+
+        <Route exact path='/add-public-holiday' element={<AddPublicHoliday></AddPublicHoliday>} />
+        <Route exact path='/add-public-holiday/:id' element={<AddPublicHoliday></AddPublicHoliday>} />
 
     </Routes>
 );

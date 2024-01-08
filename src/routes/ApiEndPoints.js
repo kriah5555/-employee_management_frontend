@@ -88,7 +88,13 @@ export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plan
 export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
 
 export const SignContractApiUrl = BASE_URL + '/masterdata/get-employee-contracts/employee-signature/'
-export const EmployeeSignApiUrl = BASE_URL + '/masterdata/get-employee-contracts/employee-signature'
+export const EmployeeSignApiUrl = BASE_URL + '/masterdata/employee-signature'
+export const ChangeReportingManagerForHOliday = BASE_URL + "/masterdata/holidays-change-reporting-manager"
+
+export const UserDetailsApiUrl = BASE_URL + '/masterdata/user-details'
+export const UpdateUserDetailsApiUrl = BASE_URL + '/masterdata/employee-update'
+
+export const PublicHolidayCodeApiUrl = BASE_URL + '/masterdata/public-holidays'
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
