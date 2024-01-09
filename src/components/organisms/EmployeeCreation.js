@@ -149,18 +149,40 @@ export default function EmployeeCreation() {
         "social_secretary_number": "",
         "contract number": "",
         "extra_info": "",
+        "id_card_front": "",
+        "id_card_back": "",
+
     });
 
 
     const OnSave = () => {
         employeeData['employee_function_details'] = functionSalaries
         employeeData['employee_commute_details'] = locationTransport
-        employeeData['employee_contract_details'] = employeeContracts
+        employeeData['employee_contract_details'] = [employeeContracts]
+
         let ApiUrl = EmployeeApiUrl
         let Method = 'POST'
         let requestData = employeeData
 
-        AXIOS.service(ApiUrl, Method, requestData)
+        const formData = new FormData();
+        for (const key in requestData) {
+
+            if (Array.isArray(requestData[key])) {
+                //converting array to json string
+                const arr = JSON.stringify(requestData[key])
+                formData.append(key, arr)
+
+            } else if (typeof requestData[key] == 'boolean') {
+                //converting  values type boolean to 1 or 0 as true and false are treated as string in formData
+                const numValue = requestData[key] ? 1 : 0;
+                formData.append(key, numValue);
+
+            } else {
+                // If not an array, append as usual
+                formData.append(key, requestData[key]);
+            }
+        }
+        AXIOS.service(ApiUrl, Method, formData)
             .then((result) => {
                 if (result?.success) {
                     navigate('/manage-employees')

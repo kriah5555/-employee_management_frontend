@@ -200,7 +200,7 @@ function headers() {
        // credentials: "same-origin",
         headers: {
             "Company-ID": localStorage.getItem('company_id'),
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             // "Authorization": "Bearer aAqbVgy30qDmSqT0m32rB2xON0EE_3OW",
             "Authorization" : localStorage.getItem('token'),
             // 'Access-Control-Allow-Origin': '*',
@@ -210,7 +210,7 @@ function headers() {
             // 'X-Authenticated-Userid': '15000500000@1',
 
             // "Content-Type": "application/x-www-form-urlencoded",
-            // 'Content-Type': 'multipart/form-data',
+            'Content-Type': 'multipart/form-data',
         },
         // manual, *follow, error
 //        redirect: "follow",

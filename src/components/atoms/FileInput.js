@@ -9,7 +9,7 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
     setValue(index, name, file);
     if (file) {
       const selectedFileName = e.target.files[0].name;
-      const fileNameLabel = document.getElementById("file-name-label");
+      const fileNameLabel = document.getElementById(`file-name-label-${index}`);
       fileNameLabel.textContent = selectedFileName;
     }
   };
@@ -24,7 +24,7 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
         </p>}
       </div>
       <div className="col-md-12 file-input-container ">
-        <span id="file-name-label" className="">{t("CHOOSE_A_FILE")}</span>
+        <span id={`file-name-label-${index}`} className="file-name-label"><div className="col-md-8"></div>{t("CHOOSE_A_FILE")}</span>
         <input name={name} type="file" className="file-input" onChange={handleFileInput} value={value} />
       </div>
     </div>)

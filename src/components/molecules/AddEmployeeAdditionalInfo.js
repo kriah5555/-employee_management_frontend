@@ -24,9 +24,9 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
     ]
 
     const extraPersonalInfo = [
-        { title: t("ID_CARD_FRONT"), name: "id_card_front", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: t("ID_CARD_BACK"), name: "id_card_back", required: true, type: "text-area", style: "col-md-4 mt-4 float-left" },
-        { title: t("EXTRA_INFORMATION"), name: 'extra_info', required: false, type: 'text-area', style: "col-md-4 mt-4 mb-5 float-left" },
+        { title: t("ID_CARD_FRONT"), name: "id_card_front", required: true, type: "file", style: "col-md-6 mt-4 float-left" },
+        { title: t("ID_CARD_BACK"), name: "id_card_back", required: true, type: "file", style: "col-md-6 mt-4 float-left" },
+        { title: t("EXTRA_INFORMATION"), name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 mb-5 float-left" },
 
     ]
 
