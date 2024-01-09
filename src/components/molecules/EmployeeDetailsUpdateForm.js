@@ -273,7 +273,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: t("CONTRACT_NUMBER"), name: "contract_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("COMPANY_CAR"), name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: t("CLOTHING_COMPENSATION"), name: "clothing_compensation", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("CLOTHING_COMPENSATION"), name: "clothing_compensation", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("MEAL_VOUCHER_TYPE"), name: "meal_voucher_id", required: false, options: mealVoucherList, selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: t("MEAL_VOUCHER_AMOUNT"), name: "meal_voucher_amount", required: false, type: "text", disabled: true, style: "col-md-6 mt-4 float-left" },
     ];

@@ -88,7 +88,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                         val.employees.map((emp, i) => {
                             let employee = {
                                 // employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name, val.employee_type),
-                                employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name + " " + emp.user.user_basic_details.last_name, val.employee_type, emp.id),
+                                employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name + " " + emp.user.user_basic_details.last_name, emp.user.username, emp.id),
                                 number: emp.user.user_contact_details.phone_number,
                                 email: emp.user.user_contact_details.email,
                                 ssn: emp.user.social_security_number,
@@ -118,11 +118,11 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
     }
 
     //Function to render employee name with image
-    const getEmployeeWithIcon = (name, employee_type, id) => {
+    const getEmployeeWithIcon = (name, username, id) => {
         return (
             <div key={id} className="row m-0" onClick={() => showUserDetails(id)}>
                 {!showDetails && <div><img className="employee-icon mr-2 rounded-circle" src={EmployeeIcon}></img></div>}
-                <div><h6 className="mb-0 font-inherit">{name}</h6><p className="mb-0 mt-1 font-12 text-secondary">{employee_type}</p></div>
+                <div><h6 className="mb-0 font-inherit">{name}</h6><p className="mb-0 mt-1 font-12 text-secondary">{username}</p></div>
             </div>
         )
     }
