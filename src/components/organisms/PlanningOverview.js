@@ -29,6 +29,7 @@ export default function PlanningOverview() {
     const [tabIndex, setTabIndex] = useState(localStorage.getItem('week_tab') ? parseInt(localStorage.getItem('week_tab')) : 0);
     const [enableShifts, setEnableshifts] = useState(false);
     const [addLeave, setAddLeave] = useState(false);
+    const [availableSwitch, setAvailableSwitch] = useState(false);
 
     const currentDate = new Date();
     let weeknum = getCurrentWeek()
@@ -215,7 +216,7 @@ export default function PlanningOverview() {
             </div>
 
             {tabIndex === 1 && <div className="d-flex justify-content-between">
-                <Switch label={t("AVAILABILITY_TEXT")} id="switch4" styleClass="" lableClick={true} onChange={() => console.log(true)} checked={false} />
+                <Switch label={t("AVAILABILITY_TEXT")} id="switch4" styleClass="" lableClick={true} onChange={() => setAvailableSwitch(!availableSwitch)} checked={availableSwitch} />
                 <Switch label={t("PREFERRED_SHIFTS")} id="switch3" styleClass="" lableClick={true} onChange={() => setEnableshifts(!enableShifts)} checked={enableShifts} />
             </div>}
 
@@ -249,7 +250,7 @@ export default function PlanningOverview() {
                         </TabPanel>
 
                         <TabPanel>
-                            <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
+                            <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} availableSwitch={availableSwitch} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
                         </TabPanel>
 
                         <TabPanel>

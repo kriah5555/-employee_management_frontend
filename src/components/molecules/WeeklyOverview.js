@@ -16,7 +16,7 @@ import ModalPopup from "../../utilities/popup/Popup";
 import CreateShifts from "./CreateShifts";
 
 
-export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab }) {
+export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab, availableSwitch }) {
 
     // Const for days
     const days = [t('MONDAY'), t('TUESDAY'), t('WEDNESDAY'), t('THURSDAY'), t('FRIDAY'), t('SATURDAY'), t('SUNDAY')]
@@ -44,6 +44,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         'workstation_id': '',
         'shifts': []
     })
+
 
     const setEmployee = (wid, index, eid) => {
         let employee_ids = { ...employeeId }
@@ -129,12 +130,23 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     week_data.map((val, i) => {
                         if (val.workstation_id === ws) {
                             let employees = [...val.employee]
-                            employees.map((empData, j) => {
-                                if (empData.employee_id === eid) {
-                                    employees[j] = result.data
-                                    val.employee = employees
-                                }
-                            })
+                            if (employees?.length === 0 || employees[0]?.employee_id === undefined) {
+                                employees.push(result.data)
+                                val.employee = employees
+                            } else {
+                                employees.map((empData, j) => {
+                                    if (empData.employee_id !== undefined) {
+                                        if (empData.employee_id === eid) {
+                                            employees[j] = result.data
+                                            val.employee = employees
+                                        }
+                                    } else {
+                                        if (employeeId[ws][j + 1] === eid)
+                                            employees[j] = result.data
+                                        val.employee = employees
+                                    }
+                                })
+                            }
                         }
                     })
                     setWeekData(week_data);
@@ -354,7 +366,6 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             })
     }
 
-
     return (
         <div className="col-md-12 p-0 text-center panning_overview_table">
             {warningMessage && <ModalPopup
@@ -416,7 +427,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             </td>}
                                             {/* Employee and plan data rows */}
                                             <td>{ws_employee.employee_id ? <a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
-                                            <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index}></PlanItem>
+                                            <PlanItem PlansData={ws_employee.plans} availableSwitch={availableSwitch} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index} weekNumber={weekNumber} year={year}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
                                                     {ws_employee.total.cost && <small>

@@ -98,6 +98,7 @@ export const PublicHolidayCodeApiUrl = BASE_URL + '/masterdata/public-holidays'
 export const EmployeeSignApiUrl = BASE_URL + '/masterdata/employee-signature'
 export const SignContractApiUrl = BASE_URL + '/masterdata/employee-sign-plan-contract'
 export const EmployeeAvailabilityApiUrl = BASE_URL + '/masterdata/get-employee-availability'
+export const GetAvailabilitiesApiUrl = BASE_URL + '/masterdata/get-weekly-availability'
 
 
 //Translations API urls starts here
