@@ -130,7 +130,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     week_data.map((val, i) => {
                         if (val.workstation_id === ws) {
                             let employees = [...val.employee]
-                            if (employees?.length === 0 || employees[0]?.employee_id === undefined) {
+                            if (employees?.length === 0) {
                                 employees.push(result.data)
                                 val.employee = employees
                             } else {
@@ -141,9 +141,14 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             val.employee = employees
                                         }
                                     } else {
-                                        if (employeeId[ws][j + 1] === eid)
+                                        console.log(employeeId);
+                                        if (employees?.length > 1 && employeeId[ws][j + 1] === eid) {
                                             employees[j] = result.data
-                                        val.employee = employees
+                                            val.employee = employees
+                                        } else if (employees?.length === 1 && employeeId[ws][j] === eid) {
+                                            employees[j] = result.data
+                                            val.employee = employees
+                                        }
                                     }
                                 })
                             }
