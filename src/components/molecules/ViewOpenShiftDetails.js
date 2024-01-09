@@ -8,6 +8,7 @@ import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png";
 import FunctionIcon from "../../static/icons/Settings.svg"
 import LocationIcon from "../../static/icons/Location.svg"
+import { t } from "../../translations/Translation";
 export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
 
     const navigate = useNavigate();
@@ -16,15 +17,15 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
     const [shiftData, setShiftData] = useState({});
     const [employeeTypeString, setEmployeeTypeString] = useState("")
     const TabsData = [
-        { tabHeading: ("Requested"), tabName: 'requested' },
-        { tabHeading: ("Approved"), tabName: 'approved' },
-        { tabHeading: ("Rejected"), tabName: 'rejected' },
+        { tabHeading: t("REQUESTED"), tabName: 'requested' },
+        { tabHeading: t("APPROVED"), tabName: 'approved' },
+        { tabHeading: t("REJECTED"), tabName: 'rejected' },
         // { tabHeading: ("Drafts"), tabName: 'drafts' },
     ]
 
     const requestedHeaders = [
         {
-            title: "Employee Name",
+            title: t("EMPLOYEE_NAME"),
             field: "employee_name",
             status: "200",
         },
@@ -96,8 +97,8 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
         <div className="right-creation-container ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
-                    <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-plannings')} src={BackIcon}></img>
-                    {'Shift details'}
+                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-plannings')} src={BackIcon}></img>
+                    {t("SHIFT_DETAILS")}
                 </h4>
             </div>
             <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
@@ -108,15 +109,15 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
                         <p className="text-secondary font-18">{shiftData?.location_name}</p>
                     </div>
                     <div className="width-22 px-3 mt-2">
-                        <p className="mb-1 font-22 d-flex">{"Function: "}<p className="text-secondary font-18">{shiftData?.function_name}</p></p>
-                        <p className="font-22 d-flex">{"Repeat: "}<p className="text-secondary font-18">{shiftData?.repeat_title}</p></p>
+                        <p className="mb-1 font-22 d-flex">{t("FUNCTION_TITLE") + (":")} &nbsp;<p className="text-secondary font-18">{shiftData?.function_name}</p></p>
+                        <p className="font-22 d-flex">{t("REPEAT") + (":")}&nbsp;<p className="text-secondary font-18">{shiftData?.repeat_title}</p></p>
                     </div>
                     <div className="width-22 px-3 mt-2">
-                        <p className="mb-1 font-22 d-flex">{"Start Date: "}<p className="text-secondary font-18">{shiftData?.start_date}</p></p>
-                        <p className="font-22 d-flex">{"End Date: "}<p className="text-secondary font-18">{shiftData?.end_date}</p></p>
+                        <p className="mb-1 font-22 d-flex">{t("START_DATE") + (":")}&nbsp;<p className="text-secondary font-18">{shiftData?.start_date}</p></p>
+                        <p className="font-22 d-flex">{t("END_DATE")+(":")} &nbsp;<p className="text-secondary font-18">{shiftData?.end_date}</p></p>
                     </div>
                     <div className="width-22 px-3 mt-2">
-                        <p className="font-22 d-flex">{"Employee type: "}<p className="text-secondary font-18">{employeeTypeString}</p></p>
+                        <p className="font-22 d-flex">{t("EMPLOYEE_TYPE") + (":")}<p className="text-secondary font-18">{employeeTypeString}</p></p>
                     </div>
                 </div>
                 <div className="col-md-12 p-0 employee-detail employee-detail-height">

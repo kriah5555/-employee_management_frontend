@@ -34,27 +34,27 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
 
     const draftHeaders = [
         {
-            title: "Tittle",
+            title: t("TITLE_TEXT"),
             field: "name",
             status: 200
         },
         {
-            title: "Start date",
+            title: t("START_DATE"),
             field: "start_date",
             status: "200",
         },
         {
-            title: "Vacancy",
+            title: t("VACANCY"),
             field: "vacancy_count",
             status: "200",
         },
         {
-            title: "Function name",
+            title: t("FUNCTION_NAME"),
             field: "function_name",
             status: "200",
         },
         {
-            title: "Repeat type",
+            title: t("REPEAT_TYPE"),
             field: "repeat_title",
             status: "200",
         }
@@ -62,32 +62,32 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
 
     const activeHeaders = [
         {
-            title: "Shift name",
+            title: t("SHIFT_NAME"),
             field: "name",
             status: 200
         },
         {
-            title: "Start date",
+            title: t("START_DATE"),
             field: "start_date",
             status: "200",
         },
         {
-            title: "Function name",
+            title: t("FUNCTION_NAME"),
             field: "function_name",
             status: "200",
         },
         {
-            title: "Location",
+            title: t("LOCATION"),
             field: "location_name",
             status: "200",
         },
         {
-            title: "Applied",
+            title: t("APPLIED"),
             field: "applied",
             status: "200",
         },
         {
-            title: "filled positions",
+            title: t("FILLED_POSITIONS"),
             field: "filled_position",
             status: "200",
         },
@@ -181,7 +181,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
             setShiftId(data.id)
             navigate('/manage-plannings/open-shift-view/' + data.id)
         } else {
-            setWarningMessage('Are you sure you want to delete this item?')
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ('?'))
             setDeleteUrl(OpenShiftApiUrl + "/" + data.id)
         }
 
@@ -201,7 +201,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                 createData={createData}
             ></AddOpenShift>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ('!')}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -218,7 +218,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                         <Switch label={t("DRAFTED")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setShowDrafts(!showDrafts)} checked={showDrafts} />
                     </div>
                     <div className="col-md-2 text-right">
-                        <CustomButton buttonName={"Create shift"} ActionFunction={() => setOpenPopup(true)} CustomStyle="my-2 mr-2"></CustomButton>
+                        <CustomButton buttonName={t("CREATE_SHIFT")} ActionFunction={() => setOpenPopup(true)} CustomStyle="my-2 mr-2"></CustomButton>
                     </div>
                 </div>
                 <Table columns={headers} rows={showDrafts ? draftedShiftList : activeShiftList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>

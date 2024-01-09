@@ -225,7 +225,7 @@ export default function CompanyCreation({ setCompany }) {
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
                     <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-companies#' + params.addType)} src={BackIcon}></img>
-                    {params.addType !== 'company-view' ? ((params.id !== '0' ? t("EDIT") : t("CREATE")) + " " + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' || params.addType === 'responsible_person' ? params.addType.replace(/_/g, ' ') : params.addType))) : 'Company details'}
+                    {params.addType !== 'company-view' ? ((params.id !== '0' ? t("EDIT") : t("CREATE")) + " " + (params.addType === 'company-single' ? "company" : (params.addType === 'cost_center' || params.addType === 'responsible_person' ? params.addType.replace(/_/g, ' ') : params.addType))) : t("COMPANY_DETAILS")}
                 </h4>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup

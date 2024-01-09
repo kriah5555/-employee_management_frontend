@@ -80,13 +80,13 @@ export const GET_CONSTANTS = {
     'OVERVIEW': 'Overview',
     'PLANNING_LOGS': 'Planning logs',
     'HOLIDAY_LEAVE': 'Holiday/leave',
-    'EVENT_PLANNING':'Event planning',
-    'OPEN_SHIFT':'Open shift',
+    'EVENT_PLANNING': 'Event planning',
+    'OPEN_SHIFT': 'Open shift',
     'DRAFTED': 'Drafted',
     'REPEAT': 'Repeat',
     'SIGN': 'Sign contract',
-    'UPDATE':'Update',
-    'CLEAR':'Clear',
+    'UPDATE': 'Update',
+    'CLEAR': 'Clear',
 
 
     // Days constants
@@ -135,7 +135,7 @@ export const GET_CONSTANTS = {
     'MY_BANK_ACCOUNT': 'My bank account',
     'BACK_TO_DASHBOARD': 'Back to Dashboard',
     'LOGOUT': 'Logout',
-    "SIGNATURE_DETAILS":'Signature Details',
+    "SIGNATURE_DETAILS": 'Signature Details',
 
     //Uurrooster constants
     'SELECT_LOCATION': 'Select location',
@@ -179,26 +179,26 @@ export const GET_CONSTANTS = {
     'CANCEL': 'Cancel',
 
     // Holiday/Leave constants
-    'PENDING':'Pending',
-    'APPROVED':'Approved',
-    'REJECTED':'Rejected',
-    'CANCELLED':'Cancelled',
-    'APPLIED_DATE':'Applied date',
-    'MANAGER':'Manager',
-    'LEAVE_DATE':'Leave date',
-    'SELECT_DATE':'Select date',
-    'TITLE_TEXT':'Title',
-    'APPLIED_BY':'Applied by',
-    'REPORTING_MANAGER':'Reporting manager',
-    'REQUESTED_ON':'Requested on',
-    'APPLY':'Apply',
-    'RECENT':'Recent',
+    'PENDING': 'Pending',
+    'APPROVED': 'Approved',
+    'REJECTED': 'Rejected',
+    'CANCELLED': 'Cancelled',
+    'APPLIED_DATE': 'Applied date',
+    'MANAGER': 'Manager',
+    'LEAVE_DATE': 'Leave date',
+    'SELECT_DATE': 'Select date',
+    'TITLE_TEXT': 'Title',
+    'APPLIED_BY': 'Applied by',
+    'REPORTING_MANAGER': 'Reporting manager',
+    'REQUESTED_ON': 'Requested on',
+    'APPLY': 'Apply',
+    'RECENT': 'Recent',
 
     // Oth Planning
     'OTH_TITLE': 'Oth auto planning',
     'CREATE_OTH': 'Create oth plans',
-    'ADD_OTH':'Add Oth auto planning',
-    'RENEW_OTH':"Renew plans automatically",
+    'ADD_OTH': 'Add Oth auto planning',
+    'RENEW_OTH': "Renew plans automatically",
     'DELETE_OTH_WARNING': 'Are you sure, you want to delete this oth plan?',
     'REPETATION': 'Repetation',
 
@@ -239,7 +239,7 @@ export const GET_CONSTANTS = {
     'HOLIDAY_CODE': 'Holiday code',
 
     // Employee creation
-    'VALIDATION_ERROR': 'Validation error!',
+    'VALIDATION_ERROR': 'Validation error',
     'FIRST_NAME': 'First name',
     'LAST_NAME': 'Last name',
     'EMAIL': 'Email',
@@ -391,11 +391,11 @@ export const GET_CONSTANTS = {
     'ADD_SOCIAL_SECRETARY': 'Add social secretary',
     'MANAGE_INTERIM_AGENCIES': 'Manage interim agencies',
     'ADD_INTERIM_AGENCIES': 'Add interim agencies',
-    'PUBLIC_HOLIDAY_CONFIGURATION':'Public holiday configuration',
-    'MANAGE_PUBLIC_HOLIDAY':'Manage public holiday',
-    'ADD_PUBLIC_HOLIDAY':'Add public holiday',
-    'HOLIDAY_NAME':'Holiday name',
-    'DATE':'date',
+    'PUBLIC_HOLIDAY_CONFIGURATION': 'Public holiday configuration',
+    'MANAGE_PUBLIC_HOLIDAY': 'Manage public holiday',
+    'ADD_PUBLIC_HOLIDAY': 'Add public holiday',
+    'HOLIDAY_NAME': 'Holiday name',
+    'DATE': 'date',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',
@@ -526,6 +526,28 @@ export const GET_CONSTANTS = {
     'ADD_EMPLOYEE': 'Add employee',
     'ADD_HOLIDAYS': 'Add holidays',
     'SEND_INVOICES': 'Send invoices',
-    'PLEASE_SELECT_RESPONSIBLE_COMPANY':'Please select responsible company'
+    'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company',
+
+
+    'VACANCY': 'Vacancy',
+    'REPEAT_TYPE': 'Repeat type',
+    'SHIFT_NAME': 'Shift name',
+    'APPLIED': 'Applied',
+    'FILLED_POSITIONS': 'Filled positions',
+    'CREATE_SHIFT': 'Create shift',
+    'DAILY': 'Daily',
+    'WEEKLY': 'Weekly',
+    'VACANCIES_COUNT': 'Vacancies count',
+    'REPEAT_END_DATE': 'Repeat end date',
+    'EXTRA_INFO': 'Extra info',
+    'CREATE_OPEN_SHIFT': 'Create open shift',
+    'SAVE_AS_DRAFT': 'Save as draft',
+    'REQUESTED': 'Requested',
+    'EMPLOYEE_NAME': 'Employee name',
+    'SHIFT_DETAILS': 'Shift details',
+    'NO_OPTIONS': 'No options',
+    'ROW': 'row',
+    'ROWS': 'rows',
+    'NO_RECORDS_TO_DISPLAY': 'No records to display'
 
 };

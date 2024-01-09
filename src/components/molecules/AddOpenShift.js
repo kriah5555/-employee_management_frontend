@@ -58,32 +58,32 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
 
     useEffect(() => {
 
-            let response = createData
-            setEmployeeTypeList(response?.employeeTypes)
-            setlocationList(response?.locations)
-            let shiftData = [...formData]
-            if (response?.locations?.length === 1) {
-                shiftData[0]['location'] = response?.locations[0].value
-                setLocation(response?.locations[0])
+        let response = createData
+        setEmployeeTypeList(response?.employeeTypes)
+        setlocationList(response?.locations)
+        let shiftData = [...formData]
+        if (response?.locations?.length === 1) {
+            shiftData[0]['location'] = response?.locations[0].value
+            setLocation(response?.locations[0])
 
-                let locId = response?.locations[0].value
-                setWorkstationsList(response?.workstations[locId])
-                if (response.workstations[locId]?.length === 1) {
-                    shiftData[0]['workstations'] = response.workstations[locId][0].value
-                    setWorkstations(response.workstations[locId][0])
+            let locId = response?.locations[0].value
+            setWorkstationsList(response?.workstations[locId])
+            if (response.workstations[locId]?.length === 1) {
+                shiftData[0]['workstations'] = response.workstations[locId][0].value
+                setWorkstations(response.workstations[locId][0])
 
-                    let wId = response.workstations[locId][0].value
-                    setFunctionsList(response.workstationsFunctions[wId])
-                    if (response.workstationsFunctions[wId]?.length === 1) {
-                        setSelectedFunction(response.workstationsFunctions[wId][0])
-                        shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
-                    }
+                let wId = response.workstations[locId][0].value
+                setFunctionsList(response.workstationsFunctions[wId])
+                if (response.workstationsFunctions[wId]?.length === 1) {
+                    setSelectedFunction(response.workstationsFunctions[wId][0])
+                    shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
                 }
-                setFormData(shiftData)
-            } else {
-                setWorkstations(response.workstations)
-                setFunctionsList(response.workstationsFunctions)
             }
+            setFormData(shiftData)
+        } else {
+            setWorkstations(response.workstations)
+            setFunctionsList(response.workstationsFunctions)
+        }
 
     }, [createData])
 
@@ -190,7 +190,7 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                     console.log(error);
                 })
         } else {
-            setErrors(["Please fill required fields"])
+            setErrors([t("PLEASE_FILL_REQUIRED_FIELDS")])
         }
 
     }
@@ -254,39 +254,39 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
     }
 
 
-    let optionsArray = [{ name: "Daily", key: 1 }, { name: "Weekly", key: 2 }, { name: "Monthly", key: 3 }]
+    let optionsArray = [{ name: t("DAILY"), key: 1 }, { name: t("WEEKLY"), key: 2 }, { name: t("MONTHLY"), key: 3 }]
 
     const formFieldsArray1 = [
         // { title: "Company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-6 float-left" },
-        { title: "Shift name", name: "name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: "Start date", name: "start_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
-        { title: "Start time", name: "start_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
-        { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
-        { title: 'Location', name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: 'Workstations', name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList !== undefined ? workstationList[location?.value] : [], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: "Function", name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value]: [], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
-        { title: "Employee type", name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-2 float-left" },
-        { title: "Vacancies count", name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-2 float-left" },
+        { title: t("SHIFT_NAME"), name: "name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("START_DATE"), name: "start_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
+        { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
+        { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
+        { title: t("LOCATION"), name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: t("WORKSTATION"), name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList !== undefined ? workstationList[location?.value] : [], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
+        { title: t("FUNCTION_TITLE"), name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value] : [], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
+        { title: t("EMPLOYEE_TYPE"), name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-2 float-left" },
+        { title: t("VACANCIES_COUNT"), name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-2 float-left" },
 
     ]
 
     const formFieldsArray3 = [
-        { title: "Repeat end date", name: "end_date", required: false, type: "date", style: "col-md-6 float-left" },
-        { title: 'Extra info', name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" },
+        { title: t("REPEAT_END_DATE"), name: "end_date", required: false, type: "date", style: "col-md-6 float-left" },
+        { title: t("EXTRA_INFO"), name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" },
     ]
 
-    const form4 = [{ title: 'Extra info', name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" }]
+    const form4 = [{ title: t("EXTRA_INFO"), name: 'extra_info', required: false, type: 'text-area', style: "col-md-12 mt-4 float-left" }]
 
 
     return (
         <div>
             <div className="d-flex my-2 py-2 bg-white">
                 <div className="col-md-10">
-                    <h4 className="mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => onHide()} src={BackIcon}></img>{('Create open shift')}</h4>
+                    <h4 className="mb-0"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => onHide()} src={BackIcon}></img>{t('CREATE_OPEN_SHIFT')}</h4>
                 </div>
             </div>
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={('Validation error!')}
+                title={t("VALIDATION_ERROR") + ('!')}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -320,13 +320,13 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                 </div>
                 <div>
                     <Button className='mr-3 mb-2 button-style float-right' onClick={() => onConfirm()}>
-                        {'Save'}
+                        {t("SAVE")}
                     </Button>
                     <Button className='mr-3 mb-2 button-style float-right' onClick={() => saveAsDraft()}>
-                        {'Save as draft'}
+                        {t("SAVE_AS_DRAFT")}
                     </Button>
                     <Button className='ml-3 mb-2 button-style' onClick={() => onHide()}>
-                        {'Back'}
+                        {t("BACK_LINK")}
                     </Button>
                 </div>
             </div>
