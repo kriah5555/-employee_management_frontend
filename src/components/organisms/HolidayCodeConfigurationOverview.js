@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { HolidayCodeApiUrl, CompanyApiUrl, HolidayCodeConfigurationApiUrl } from "../../routes/ApiEndPoints";
+import { HolidayCodeApiUrl, CompanyApiUrl, HolidayCodeConfigurationApiUrl, PublicHolidayCodeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -63,6 +63,21 @@ export default function HolidayCodeConfigurationOverview() {
         },
     ]
 
+    const public_holiday_header = [
+
+        {
+            title: t("HOLIDAY_NAME"),
+            field: 'name',
+            size: 200,
+        },
+        {
+            title: t("DATE"),
+            field: 'date',
+            size: 200,
+        },
+
+    ]
+
     const [company, setCompany] = useState({
         "company_id": "",
         "holiday_code_ids": []
@@ -84,6 +99,9 @@ export default function HolidayCodeConfigurationOverview() {
         } else if (overviewContent === 'holiday_code_configuration') {
             apiUrl = CompanyApiUrl
             setHeaders(holiday_code_configuration_header); setTitle(t("MANAGE_HOLIDAY_CODE_CONFIGURATION")); setAddTitle(''); setAddUrl('/add-holiday-code');
+        } else if (overviewContent === 'public_holiday_configuration') {
+            apiUrl = PublicHolidayCodeApiUrl
+            setHeaders(public_holiday_header); setTitle(t("MANAGE_PUBLIC_HOLIDAY")); setAddTitle(t("ADD_PUBLIC_HOLIDAY")); setAddUrl('/add-public-holiday');
         }
 
         // Api call to get list data
@@ -140,6 +158,12 @@ export default function HolidayCodeConfigurationOverview() {
                 setDeleteUrl(HolidayCodeApiUrl + '/' + data.id)
             }
 
+        } else if (overviewContent === 'public_holiday_configuration') {
+            if (action === 'edit') {
+                navigate('/add-public-holiday/' + data.id)
+            } else {
+                setDeleteUrl(PublicHolidayCodeApiUrl + '/' + data.id)
+            }
         }
     }
     // function to call linked holiday codes of selected company

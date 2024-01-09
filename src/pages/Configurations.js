@@ -35,6 +35,7 @@ export default function Configurations() {
     const HolidayConfigurationTabs = [
         { title: t("HOLIDAY_CODES"), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code' },
         { title: t("HOLIDAY_CODE_CONFIGURATION"), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'holiday_code_configuration' },
+        { title: t("PUBLIC_HOLIDAY_CONFIGURATION"), icon: HolidayCodeIcon, styleClass: subTabStyle, type: 'public_holiday_configuration' },
     ]
 
     const CommunicationTabs = [
