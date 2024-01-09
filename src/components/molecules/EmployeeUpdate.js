@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import CustomButton from "../atoms/CustomButton";
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import { t } from "../../translations/Translation";
+import EmployeeDocumentsOverview from "./EmployeeDocumentsOverview";
+
 export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dataRight }) {
 
     // Dummy data of employee details
@@ -92,8 +94,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
     return (
         <div className="row m-0">
             <div className="col-md-6 font-details ">
-                {tab === 'tab4' && <h4 className="pl-4 ml-1 pb-2 font-weight-bold">{t("HOLIDAY_COUNTER")}</h4>}
-                {dataLeft.map((val, index) => {
+                {tab !== 'tab4' && dataLeft.map((val, index) => {
                     return (
                         <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1 mt-3"}>
                             <label className="col-md-4 mb-1 pr-0 text-secondary">{val.label}:</label>
@@ -105,8 +106,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
                 {/* {tab == "tab2" && <UpdateEmployeeContractDetailsForm data={dataLeft} edit={edit} />} */}
             </div>
             <div className="col-md-6 font-details">
-                {tab === 'tab4' && <h4 className="pl-4 ml-1 pb-2 font-weight-bold">{t("EXT_COUNTER")}</h4>}
-                {dataRight.map((val, index) => {
+                {tab !== 'tab4' && dataRight.map((val, index) => {
                     return (
                         <div key={val.label} className={"font-weight-bold col-md-12 row m-0 mb-1 mt-3"}>
                             <label className="col-md-4 mb-1 pr-0 text-secondary">{val.label}:</label>
@@ -116,6 +116,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
                     )
                 })}
             </div>
+            {tab === 'tab4' && <EmployeeDocumentsOverview></EmployeeDocumentsOverview>}
             {edit && <div className="float-right col-md-12 text-right mb-3">
                 <CustomButton buttonName={t("SAVE")} ActionFunction={() => setEditStatus(false)}></CustomButton>
                 <CustomButton buttonName={t("CANCEL")} ActionFunction={() => setEditStatus(false)}></CustomButton>

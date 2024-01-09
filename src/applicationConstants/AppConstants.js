@@ -212,6 +212,7 @@ export const GET_CONSTANTS = {
     'SSN': 'Social security number',
     'SEARCH_TEXT': 'Search',
     'SOCIAL_SECRETARY_NUMBER': 'Social secretary number',
+    'DOCUMENT_NAME':'Document name',
 
     // Manage companies
     'ADD_COMPANY': 'Add company',

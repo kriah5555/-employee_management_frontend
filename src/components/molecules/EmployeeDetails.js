@@ -117,6 +117,7 @@ export default function EmployeeDetails({ eid }) {
                     let data_left = [
                         { label: t("FIRST_NAME"), value: result.data.first_name },
                         { label: t("LAST_NAME"), value: result.data.last_name },
+                        { label: t("USERNAME"), value: result.data.username },
                         { label: t("MOBILE_NUMBER"), value: result.data.phone_number },
                         { label: t("EMAIL"), value: result.data.email },
                         { label: t("GENDER"), value: result.data.gender?.name },
@@ -303,8 +304,7 @@ export default function EmployeeDetails({ eid }) {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            {!editStatus && <img className="float-right pr-3 pt-0 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />}
+                        <div className="customscroll employee-detail-height px-0 border m-3">
                             <EmployeeUpdate tab="tab4" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab4Left} dataRight={tab4Right} setDataLeft={setDataLeft} setDataRight={setDataRight}></EmployeeUpdate>
                         </div>
                     </TabPanel>

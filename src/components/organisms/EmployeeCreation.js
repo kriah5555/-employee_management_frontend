@@ -182,7 +182,7 @@ export default function EmployeeCreation() {
                 formData.append(key, requestData[key]);
             }
         }
-        AXIOS.service(ApiUrl, Method, formData)
+        AXIOS.service(ApiUrl, Method, formData, true)
             .then((result) => {
                 if (result?.success) {
                     navigate('/manage-employees')
