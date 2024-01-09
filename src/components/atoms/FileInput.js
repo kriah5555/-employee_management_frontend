@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RequiredIcon from "../../static/icons/exclamation-mark1.png";
 import { t } from "../../translations/Translation";
+
 export default function FileInput({ title, CustomStyle, index, name, value, setValue, error, required, styleMargin }) {
 
   const [selectedFile, setSelectedFile] = useState(value)

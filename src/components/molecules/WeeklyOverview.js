@@ -10,7 +10,7 @@ import Dropdown from "../atoms/Dropdown";
 import PlanItem from "./PlanItem";
 import CreatePlanPopup from "./CreatePlanPopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl, CreateShiftsApiUrl, CreateShiftPlanApiUrl } from "../../routes/ApiEndPoints";
+import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl, CreateShiftsApiUrl, CreateShiftPlanApiUrl, GetEmployeeWeekPlansApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import CreateShifts from "./CreateShifts";
@@ -24,7 +24,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [weekData, setWeekData] = useState([]);
     const [planPopup, setPlanPopup] = useState(false);
     const [employeeList, setEmployeeList] = useState([]);
-    const [employeeId, setEmployeeId] = useState();
+    const [employeeId, setEmployeeId] = useState({});
     const [planningDate, setPlanningDate] = useState();
     const [planWid, setPlanWid] = useState();
     const [planningDetails, setPlanningDetails] = useState([]);
@@ -34,6 +34,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteRequestData, setDeleteRequestData] = useState({});
     const [totalData, setTotalData] = useState({});
+    const [createIndex, setCreateIndex] = useState()
+    const [newEmployeeStatus, seNewEmployeeStatus] = useState(false);
 
     const [shiftPopupOpen, setShiftPopupOpen] = useState(false);
     const [shiftId, setShiftId] = useState('');
@@ -42,6 +44,17 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         'workstation_id': '',
         'shifts': []
     })
+
+    const setEmployee = (wid, index, eid) => {
+        let employee_ids = { ...employeeId }
+        if (employee_ids[wid] !== undefined) {
+            employee_ids[wid][index] = eid
+        } else {
+            employee_ids[wid] = {}
+            employee_ids[wid][index] = eid
+        }
+        setEmployeeId(employee_ids)
+    }
 
 
     useEffect(() => {
@@ -78,10 +91,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     let arr = []
                     result.data.workstation_data.map((val, i) => {
                         if (val.employee.length === 0) {
-                            // addNewRow(val.workstation_id, i === 0 ? result.data : [])
                             val.employee = [{
-                                employee_name: <Dropdown options={employees} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
-                                // employee_id: employeeId,
+                                employee_name: <Dropdown options={employees} onSelectFunction={(e) => setEmployee(val.workstation_id, 0, e.value)}></Dropdown>,
                                 status: true,
                                 total: '',
                                 plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
@@ -100,16 +111,49 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             })
     }, [dataRefresh, weekNumber, locId])
 
+    const GetEmployeePlans = (eid, ws) => {
+        let requestData = {
+            'location': locId,
+            'workstations': wsIds,
+            'employee_types': EmpTypeIds,
+            'week': weekNumber,
+            'year': year,
+            'employee_profile_id': eid
+        }
+
+        AXIOS.service(GetEmployeeWeekPlansApiUrl, 'POST', requestData)
+            .then((result) => {
+                if (result?.success) {
+                    // setWeekData(result.data);
+                    let week_data = [...weekData]
+                    week_data.map((val, i) => {
+                        if (val.workstation_id === ws) {
+                            let employees = [...val.employee]
+                            employees.map((empData, j) => {
+                                if (empData.employee_id === eid) {
+                                    employees[j] = result.data
+                                    val.employee = employees
+                                }
+                            })
+                        }
+                    })
+                    setWeekData(week_data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     // Function to add new row for adding new employee
-    const addNewRow = (wid, weekArrData) => {
+    const addNewRow = (wid, weekArrData, empIndex) => {
         let week_arr = weekArrData.length === 0 ? [...weekData] : [...weekArrData]
         week_arr.map((data, index) => {
             if (data.workstation_id === wid) {
                 let data_arr = { ...data }
                 let emp_arr = [...data.employee]
                 emp_arr.push({
-                    employee_name: <Dropdown options={employeeList} onSelectFunction={(e) => setEmployeeId(e.value)}></Dropdown>,
-                    // employee_id: employeeId,
+                    employee_name: <Dropdown options={employeeList} onSelectFunction={(e) => setEmployee(wid, emp_arr.length, e.value)}></Dropdown>,
                     status: true,
                     total: '',
                     plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]
@@ -199,9 +243,18 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         )
     }
 
-    const openCreatePlanPopup = (eid, date, ws, planData) => {
+    const openCreatePlanPopup = (emp_id, date, ws, planData, ws_emp_index) => {
+        let eid = emp_id
+
+        if (eid === undefined) {
+            eid = employeeId[ws][ws_emp_index + 1]
+            setCreateIndex(ws_emp_index + 1)
+        } else {
+            setEmployee(ws, ws_emp_index, emp_id)
+            setCreateIndex(ws_emp_index)
+        }
+
         if (eid) {
-            setEmployeeId(eid);
             if (enableShifts) {
                 if (shiftId) {
                     let reqData = {
@@ -215,7 +268,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         .then((result) => {
                             if (result?.success) {
                                 if (result.plan_created) {
-                                    setDataRefresh(!dataRefresh);
+                                    // setDataRefresh(!dataRefresh);
+                                    GetEmployeePlans(eid, ws)
                                     toast.success(result.message[0], {
                                         position: "top-center",
                                         autoClose: 2000,
@@ -300,6 +354,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             })
     }
 
+
     return (
         <div className="col-md-12 p-0 text-center panning_overview_table">
             {warningMessage && <ModalPopup
@@ -321,7 +376,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 theme="colored"
             />
             {shiftPopupOpen && <CreateShifts setShiftPopupOpen={setShiftPopupOpen} setShiftData={setShiftData} shiftData={shiftData} SaveShift={SaveShift}></CreateShifts>}
-            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></CreatePlanPopup>}
+            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId[planWid] !== undefined ? employeeId[planWid][createIndex] : ''} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} GetEmployeePlans={GetEmployeePlans}></CreatePlanPopup>}
             <table className="table table-bordered mb-0">
                 <thead className="sticky">
                     <tr>
@@ -349,7 +404,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             {/* Workstation column data */}
                                             {ws_emp_index === 0 && <td key={ws.workstation_id} className="justify-content-center py-3" rowSpan={ws.employee.length}>
                                                 <p className="mb-0">{ws.workstation_name}</p>
-                                                <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id, [])}>+</h2>
+                                                <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id, [], ws_emp_index)}>+</h2>
                                                 {enableShifts && <div className="row m-0 justify-content-center p-0">
                                                     <Dropdown
                                                         CustomStyle="col-md-8 p-0"
@@ -361,7 +416,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             </td>}
                                             {/* Employee and plan data rows */}
                                             <td>{ws_employee.employee_id ? <a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
-                                            <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId} openCreatePlanPopup={openCreatePlanPopup}></PlanItem>
+                                            <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
                                                     {ws_employee.total.cost && <small>

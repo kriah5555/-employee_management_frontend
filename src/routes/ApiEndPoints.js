@@ -67,6 +67,7 @@ export const HolidaysApiUrl = BASE_URL + '/masterdata/holidays' //to GET, DELETE
 export const FilterOptionsApiUrl = BASE_URL + '/masterdata/planning/get-planning-options'
 export const GetMonthlyPlanningApiUrl = BASE_URL + '/masterdata/planning/get-monthly-planning'
 export const GetWeeklyPlanningApiUrl = BASE_URL + '/masterdata/planning/get-week-planning'
+export const GetEmployeeWeekPlansApiUrl = BASE_URL + '/masterdata/get-week-planning-employee'
 export const GetEmployeeOptionsApiUrl = BASE_URL + '/masterdata/get-active-contract-employees'
 export const GetPlanCreationOptionsUrl = BASE_URL + '/masterdata/get-employee-plan-creation-options'
 export const CreatePlanApiUrl = BASE_URL + '/masterdata/save-plans'
