@@ -18,7 +18,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
     const extraBenefitFields = [
         { title: t("COMPANY_FUEL_CARD"), name: "fuel_card", required: true, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: t("COMPANY_CAR"), name: "company_car", required: true, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: t("CLOTHING_COMPENSATION"), name: "clothing_compensation", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("CLOTHING_COMPENSATION"), name: "clothing_compensation", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: t("MEAL_VOUCHER_TYPE"), name: "meal_voucher_id", required: false, options: getFormattedDropdownOptions(options.meal_vouchers), selectedOptions: mealVoucher, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
         { title: t("MEAL_VOUCHER_AMOUNT"), name: "meal_voucher_amount", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ]

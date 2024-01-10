@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GetReversedDate, GetTimeDifference, getDatesForWeek, getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-import WorkStationIcon from "../../static/icons/Workstation.svg";
+// import WorkStationIcon from "../../static/icons/Workstation.svg";
 import { t } from "../../translations/Translation";
 import DeleteIcon from "../../static/icons/Delete.svg";
 import CostIcon from "../../static/icons/Euro.svg";
@@ -14,6 +14,7 @@ import { DeleteWeekPlans, GetEmployeeOptionsApiUrl, GetWeeklyPlanningApiUrl, Cre
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import CreateShifts from "./CreateShifts";
+import Workstation from "../../static/icons/Workstation";
 
 
 export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab }) {
@@ -325,7 +326,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             <table className="table table-bordered mb-0">
                 <thead className="sticky">
                     <tr>
-                        <th><img className="shortcut-icon" src={WorkStationIcon}></img></th>
+                        <th><span><Workstation/></span></th>
                         <th className="py-4">{t("EMPLOYEES_TITLE")}</th>
                         {days.map((val, index) => {
                             return (

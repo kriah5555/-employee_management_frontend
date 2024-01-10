@@ -1,17 +1,25 @@
 import React from "react";
 import Card from "../components/atoms/Card";
-import PlanningIcon from "../static/icons/PlanningWhite.svg";
-import AddEmployeeIcon from "../static/icons/AddEmployeeWhite.svg";
-import DimonaIcon from "../static/icons/DimonaWhite.svg";
-import UurrosterIcon from "../static/icons/Uurrooster.svg";
-import EmployeeAvailabilityIcon from "../static/icons/EmployeeAvailability.svg";
-import QRCode from "../static/icons/QRCode.svg";
-import HolidaysIcon from "../static/icons/ManageHoliday.svg";
-import DeviceIcon from "../static/icons/DeviceActivate.svg";
+// import PlanningIcon from "../static/icons/PlanningWhite.svg";
+// import AddEmployeeIcon from "../static/icons/AddEmployeeWhite.svg";
+// import DimonaIcon from "../static/icons/DimonaWhite.svg";
+// import UurrosterIcon from "../static/icons/Uurrooster.svg";
+// import EmployeeAvailabilityIcon from "../static/icons/EmployeeAvailability.svg";
+// import QRCode from "../static/icons/QRCode.svg";
+// import HolidaysIcon from "../static/icons/ManageHoliday.svg";
+// import DeviceIcon from "../static/icons/DeviceActivate.svg";
 import Messageboard from "../components/molecules/Messageboard";
 import { t } from "../translations/Translation";
-import Uurrooster from "./Uurrooster";
+// import Uurrooster from "./Uurrooster";
 import { useNavigate } from "react-router-dom";
+import PlanningWhite from "../static/icons/PlanningWhite";
+import Uurrooster from "../static/icons/Uurrooster";
+import EmployeeAvailability from "../static/icons/EmployeeAvailability";
+import AddEmployeeWhite from "../static/icons/AddEmployeeWhite";
+import QRCode from "../static/icons/QRCode";
+import ManageHoliday from "../static/icons/ManageHoliday";
+import DimonaWhite from "../static/icons/DimonaWhite";
+import DeviceActivate from "../static/icons/DeviceActivate";
 
 
 export default function Dashboard() {
@@ -22,26 +30,26 @@ export default function Dashboard() {
 
     // Dashboard content
     const dashboardTabs = [
-        { title:t('PLANNING'),        icon:PlanningIcon,             styleClass:mainTabStyle,   actionLink:"/manage-plannings"  },
-        { title:t('TIME_TABLE'),      icon:UurrosterIcon,            styleClass:subTabStyle ,   actionLink:"/uurrooster"  },
-        { title:t('AVAILABILITY'),    icon:EmployeeAvailabilityIcon, styleClass:subTabStyle,    actionLink:""},
-        { title:t('NEW_EMPLOYEE'),    icon:AddEmployeeIcon,          styleClass:mainTabStyle,   actionLink:"/add-employees"} ,
-        { title:t('QRCODE'),          icon:QRCode,                   styleClass:subTabStyle ,   actionLink:""},
-        { title:t('HOLIDAY'),         icon:HolidaysIcon,             styleClass:subTabStyle ,   actionLink:"/manage-plannings"},
-        { title:t('DIMONA'),          icon:DimonaIcon,               styleClass:mainTabStyle ,  actionLink:""},
-        { title:t('DEVICE_ACTIVATE'), icon:DeviceIcon,               styleClass:subTabStyle,    actionLink:""} ,
+        { title: t('PLANNING'), icon: <PlanningWhite />, styleClass: mainTabStyle, actionLink: "/manage-plannings" },
+        { title: t('TIME_TABLE'), icon: <Uurrooster />, styleClass: subTabStyle, actionLink: "/uurrooster" },
+        { title: t('AVAILABILITY'), icon:<EmployeeAvailability/>, styleClass: subTabStyle, actionLink: "" },
+        { title: t('NEW_EMPLOYEE'), icon: <AddEmployeeWhite/>, styleClass: mainTabStyle, actionLink: "/add-employees" },
+        { title: t('QRCODE'), icon: <QRCode/>, styleClass: subTabStyle, actionLink: "" },
+        { title: t('HOLIDAY'), icon: <ManageHoliday/>, styleClass: subTabStyle, actionLink: "/manage-plannings" },
+        { title: t('DIMONA'), icon: <DimonaWhite/>, styleClass: mainTabStyle, actionLink: "" },
+        { title: t('DEVICE_ACTIVATE'), icon: <DeviceActivate/>, styleClass: subTabStyle, actionLink: "" },
     ]
 
     // Messages to display in message board (API will be called to fetch this data)
     const messages = [
-        {message: "Happy New Year!!", styleClass:"indii-message text-blue"},
-        {message: "Don't forget to check who can work as flex next quarter.",   styleClass:"indii-message text-blue"},
-        {message: "Dimona failure code 00000-000 server government offline.",   styleClass:"dimona-message text-red"},
-        {message: "Dimona failure code 90378-460 Laatijdige aangifte.",   styleClass:"dimona-message text-red"},
-        {message: "Dimona failure code 00024-003 Ongeldig rijkregisternummer.",   styleClass:"dimona-message text-red"},
-        {message: "Dimona failure code 00024-003 Ongeldig rijkregisternummer.",   styleClass:"dimona-message text-red"},
-        {message: "Leon can't work tomorrow because of illness.",   styleClass:"employee-message text-green"},
-        {message: "Leon has applied for a holiday from December 1st till December 31st.",   styleClass:"employee-message text-green"},
+        { message: "Happy New Year!!", styleClass: "indii-message text-blue" },
+        { message: "Don't forget to check who can work as flex next quarter.", styleClass: "indii-message text-blue" },
+        { message: "Dimona failure code 00000-000 server government offline.", styleClass: "dimona-message text-red" },
+        { message: "Dimona failure code 90378-460 Laatijdige aangifte.", styleClass: "dimona-message text-red" },
+        { message: "Dimona failure code 00024-003 Ongeldig rijkregisternummer.", styleClass: "dimona-message text-red" },
+        { message: "Dimona failure code 00024-003 Ongeldig rijkregisternummer.", styleClass: "dimona-message text-red" },
+        { message: "Leon can't work tomorrow because of illness.", styleClass: "employee-message text-green" },
+        { message: "Leon has applied for a holiday from December 1st till December 31st.", styleClass: "employee-message text-green" },
     ]
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
+// import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
 import EmailForwardersIcon from "../static/icons/EmailForwarders.svg"
 import FilterIcon from "../static/icons/Filter.svg"
 import ExportIcon from "../static/icons/Export.svg"
@@ -7,6 +7,7 @@ import EmployeeListWithDetails from "../components/organisms/EmployeeListWithDet
 import BackIcon from "../static/icons/BackIcon.png"
 import { useNavigate, useParams } from "react-router-dom";
 import { t } from "../translations/Translation";
+import AddEmployee from "../static/icons/AddEmployee";
 
 export default function Employees() {
 
@@ -24,9 +25,9 @@ export default function Employees() {
                     <div className="col-md-6 float-right">
                         <ul className="float-right">
                             {!showDetails &&
-                                <li className="list-group d-inline" onClick={() => navigate('/add-employees')}>
-                                    <img className="header-icon mr-1 pr-1" src={AddEmployeeIcon}></img>
-                                    <span className="add_btn">{t("CREATE_EMPLOYEE")}</span>
+                                <li className="list-group d-inline add_btn" onClick={() => navigate('/add-employees')}>
+                                    <AddEmployee/>
+                                    <span className="">{t("CREATE_EMPLOYEE")}</span>
                                 </li>}
                             <li className="list-group d-inline ml-5"><img className="header-icon " src={EmailForwardersIcon} alt={t("EMAIL_FORWARD")} title={t("EMAIL_FORWARD")} /></li>
                             <li className="list-group d-inline ml-3"><img className="header-icon " src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}/></li>
