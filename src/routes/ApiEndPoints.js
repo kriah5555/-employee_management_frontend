@@ -98,7 +98,7 @@ export const EmployeeSignApiUrl = BASE_URL + '/masterdata/employee-signature'
 export const SignContractApiUrl = BASE_URL + '/masterdata/employee-sign-plan-contract'
 export const EmployeeAvailabilityApiUrl = BASE_URL + '/masterdata/get-employee-availability'
 
-
+export const UploadIdCardApiUrl =BASE_URL + '/masterdata'//Endpoint need to to be add
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 export const fetchTranslations = BASE_URL + '/masterdata/translate';

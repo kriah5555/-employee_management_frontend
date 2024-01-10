@@ -6,7 +6,7 @@ import { t } from "../../translations/Translation";
 import BackIcon from "../../static/icons/BackIcon.png";
 import CustomButton from "../atoms/CustomButton";
 import AddEmployeePersonalDetails from "../molecules/AddEmployeePersonalDetails";
-import { EmployeeApiUrl, EmployeeCreateApiUrl, EmployeeContractApiUrl, EmployeeCommutetApiUrl, EmployeeBenefitsApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeCreateApiUrl, EmployeeContractApiUrl, EmployeeCommutetApiUrl, EmployeeBenefitsApiUrl, UploadIdCardApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import AddEmployeeContractTypes from "../molecules/AddEmployeeContractTypes";
@@ -155,34 +155,13 @@ export default function EmployeeCreation() {
     });
 
 
-    const OnSave = () => {
-        employeeData['employee_function_details'] = functionSalaries
-        employeeData['employee_commute_details'] = locationTransport
-        employeeData['employee_contract_details'] = [employeeContracts]
+    const uploadIdCard = (employeeId) => {
 
-        let ApiUrl = EmployeeApiUrl
-        let Method = 'POST'
-        let requestData = employeeData
+        const fileData = new FormData();
+        fileData.append("id_card_front", employeeData.id_card_front)
+        fileData.append("id_card_back", employeeData.id_card_back)
 
-        const formData = new FormData();
-        for (const key in requestData) {
-
-            if (Array.isArray(requestData[key])) {
-                //converting array to json string
-                const arr = JSON.stringify(requestData[key])
-                formData.append(key, arr)
-
-            } else if (typeof requestData[key] == 'boolean') {
-                //converting  values type boolean to 1 or 0 as true and false are treated as string in formData
-                const numValue = requestData[key] ? 1 : 0;
-                formData.append(key, numValue);
-
-            } else {
-                // If not an array, append as usual
-                formData.append(key, requestData[key]);
-            }
-        }
-        AXIOS.service(ApiUrl, Method, formData, true)
+        AXIOS.service(UploadIdCardApiUrl + "/" + employeeId, "POST", fileData, true)
             .then((result) => {
                 if (result?.success) {
                     navigate('/manage-employees')
@@ -196,6 +175,33 @@ export default function EmployeeCreation() {
                         progress: undefined,
                         theme: "colored",
                     });
+
+                } else {
+                    setErrors(result.message);
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+
+    const OnSave = () => {
+        employeeData['employee_function_details'] = functionSalaries
+        employeeData['employee_commute_details'] = locationTransport
+        employeeData['employee_contract_details'] = employeeContracts
+
+        let ApiUrl = EmployeeApiUrl
+        let Method = 'POST'
+        let requestData = employeeData
+
+        AXIOS.service(ApiUrl, Method, requestData)
+            .then((result) => {
+                if (result?.success) {
+                    let id = result.data?.id
+                    uploadIdCard(id)
+
                 } else {
                     setErrors(result.message)
                 }

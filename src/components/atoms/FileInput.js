@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RequiredIcon from "../../static/icons/exclamation-mark1.png";
 import { t } from "../../translations/Translation";
+
 export default function FileInput({ title, CustomStyle, index, name, value, setValue, error, required, styleMargin }) {
 
   const [selectedFile, setSelectedFile] = useState(value)
@@ -14,6 +15,18 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
     }
   };
 
+  const retainFile = () => {
+    const selectedFileName = value?.name;;
+    const fileNameLabel = document.getElementById(`file-name-label-${index}`);
+    fileNameLabel.textContent = selectedFileName
+  }
+
+  useEffect(() => {
+    if (value?.name!=="" && value?.name!==undefined ) {
+      retainFile()
+    }
+  },[])
+
   return (
     <div className={" font-weight-bold " + CustomStyle}>
       <div className={"d-flex justify-content-between " + (error ? '' : styleMargin)} >
@@ -25,7 +38,7 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
       </div>
       <div className="col-md-12 file-input-container ">
         <span id={`file-name-label-${index}`} className="file-name-label"><div className="col-md-8"></div>{t("CHOOSE_A_FILE")}</span>
-        <input name={name} type="file" className="file-input" onChange={handleFileInput} value={value} />
+        <input name={name} type="file" className="file-input" onChange={handleFileInput} />
       </div>
     </div>)
 

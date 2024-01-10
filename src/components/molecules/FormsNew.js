@@ -191,6 +191,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     setValue={SetValues}
                                     CustomStyle={field.style}
                                     required={field.required}
+                                    value={formattedData !== undefined ? formattedData[field.name] : {}}
                                 />
                             )
                         } else if (field.type === 'time') {
