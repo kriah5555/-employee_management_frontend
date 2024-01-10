@@ -12,6 +12,7 @@ import HolidayCodeIcon from "../static/icons/HolidayCode.svg";
 import Email from "../static/icons/EmailTemplate.svg";
 import TranslationIcon from "../static/icons/translate.svg";
 import { t } from "../translations/Translation";
+import ParameterIcon from "../static/icons/term.png";
 
 export default function Configurations() {
 
@@ -27,6 +28,7 @@ export default function Configurations() {
         { title: t('REASONS'), icon: ReasonsIcon, styleClass: subTabStyle, type: 'reasons' },
         { title: t('SOCIAL_SECRETARY'), icon: SocialSecretaryIcon, styleClass: subTabStyle, type: 'social_secretary' },
         { title: t('INTERIM_AGENCIES'), icon: SocialSecretaryIcon, styleClass: subTabStyle, type: 'interim-agencies' },
+        { title: t('PARAMETER'), icon: ParameterIcon, styleClass: subTabStyle, type: 'parameter' },
 
     ]
 

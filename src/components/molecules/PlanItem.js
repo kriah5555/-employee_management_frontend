@@ -3,12 +3,12 @@ import TimeIcon from "../../static/icons/Time.svg";
 import CostIcon from "../../static/icons/Euro.svg";
 import ContractHoursIcon from "../../static/icons/Contract.svg";
 
-export default function PlanItem({ PlansData, Dates, openCreatePlanPopup, employeeId, wid }) {
+export default function PlanItem({ PlansData, Dates, openCreatePlanPopup, employeeId, wid, ws_emp_index }) {
 
     return (
         Dates.map((date) => {
             return (
-                <td key={date} className="py-2 px-0 height-10 planning-position shadow-sm" onClick={() => openCreatePlanPopup(employeeId, date, wid, PlansData)}>
+                <td key={date} className="py-2 px-0 height-10 planning-position shadow-sm" onClick={() => openCreatePlanPopup(employeeId, date, wid, PlansData, ws_emp_index)}>
                     {PlansData[date] && <>
                         {PlansData[date]['planning'].map((plan) => {
                             return (

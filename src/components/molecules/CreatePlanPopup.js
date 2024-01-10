@@ -13,7 +13,7 @@ import { GetTimeDifference } from "../../utilities/CommonFunctions";
 
 
 
-export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh, enableShift }) {
+export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh, enableShift, GetEmployeePlans }) {
 
     const [rowArr, setRowArr] = useState(planData.length > 0 ? enableShift ? planData : [...planData, 1] : [1]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
@@ -165,7 +165,8 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             .then((result) => {
                 if (result?.success) {
                     setPlanPopup(false);
-                    setDataRefresh(!dataRefresh);
+                    // setDataRefresh(!dataRefresh);
+                    GetEmployeePlans(employeeId, wid)
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
