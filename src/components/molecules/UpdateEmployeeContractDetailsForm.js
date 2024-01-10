@@ -268,11 +268,11 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                                 )
                             })}
                             {cardNumber == index && editFunction && <>
-                                <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
+                                {/* <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
                                     <label className="col-md-6 mb-1 p-0 text-secondary">{t("MINIMUM_SALARY")}</label>
                                     <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.minimumSalary}</p>
-                                </div>
-                                <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2"}>
+                                </div> */}
+                                <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
                                     <label className="col-md-6 mb-1 p-0 text-secondary">{t("TYPE")}</label>
                                     <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.salary}</p>
                                 </div>

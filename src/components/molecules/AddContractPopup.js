@@ -108,7 +108,7 @@ export default function AddContractPopup(props) {
 
                         <TabPanel>
                             <div className="">
-                                <AddEmployeeFunctionSalaries
+                                <AddEmployeeFunctionSalaries    
                                     tabIndex={2}
                                     functionSalaries={functionSalaries} setFunctionSalaries={setFunctionSalaries}
                                     functions={functions} setFunctions={setFunctions}
