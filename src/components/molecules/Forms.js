@@ -15,10 +15,10 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
 
     // Forms for functions, employee type and sectors
     return (
-        <div className={view !== 'sectors' ? "form-container mt-3 mb-2 border bg-white" : "pt-5 pb-5"}>
-            {view !== 'sectors' && <h2 id="text-indii-blue" className="col-md-12 p-5 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
-            <div className="d-flex px-5">
-                <form className="col-md-12 px-0">
+        <div className={view !== 'sectors' ? "form-container mt-3 border bg-white d-flex flex-column" : "pt-5 pb-5"}>
+            {view !== 'sectors' && <h2 id="text-indii-blue" className="p-4 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
+            <div className="d-flex px-4 flex-column flex-1">
+                <form className="col-md-12 px-0 flex-1">
                     {/* Text input field */}
                     <TextInput
                         title={field1.title}
@@ -77,25 +77,25 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         isMulti={field7.isMulti}
                         error={error7}
                     ></Dropdown>}
-                    { view === 'sectors' &&
-                         <TimeInput
-                         setTime={(e) => SetValues(e, 'night_hour_start_time')}
-                         value={field8.value}
-                         type={field8.type}
-                         title={field8.title}
-                         required={field8.required}
-                         customStyle= "col-md-6 float-left mt-4"
-                     ></TimeInput>
+                    {view === 'sectors' &&
+                        <TimeInput
+                            setTime={(e) => SetValues(e, 'night_hour_start_time')}
+                            value={field8.value}
+                            type={field8.type}
+                            title={field8.title}
+                            required={field8.required}
+                            customStyle="col-md-6 float-left mt-4"
+                        ></TimeInput>
                     }
-                    { view === 'sectors' &&
-                         <TimeInput
-                         setTime={(e) => SetValues(e, 'night_hour_end_time')}
-                         value={field9.value}
-                         type={field9.type}
-                         title={field9.title}
-                         required={field9.required}
-                         customStyle= "col-md-6 float-left mt-4"
-                     ></TimeInput>
+                    {view === 'sectors' &&
+                        <TimeInput
+                            setTime={(e) => SetValues(e, 'night_hour_end_time')}
+                            value={field9.value}
+                            type={field9.type}
+                            title={field9.title}
+                            required={field9.required}
+                            customStyle="col-md-6 float-left mt-4"
+                        ></TimeInput>
                     }
 
                     {/* Text area input field */}
@@ -117,11 +117,15 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         CustomStyle={"col-md-12 my-4 float-left"}
                     ></CustomCheckBox>
                 </form>
+                <div className="my-3">
+                    {view !== 'sectors' && <div className={"mt-4 text-right " + (view === 'sectors' ? 'pb-5' : '')}>
+                        {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
+                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)}></CustomButton>
+                    </div>}
+                </div>
             </div>
-            {view !== 'sectors' && <div className={"col-md-12 mt-4 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
-                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
-                <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
-            </div>}
+
+
         </div>
     )
 }
