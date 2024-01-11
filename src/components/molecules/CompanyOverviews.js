@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, CompanyContractTemplateApiUrl, ResponsiblePersonApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl, LocationApiUrl, WorkstationApiUrl, WorkstationListApiUrl, CostCenterApiUrl, CompanyContractTemplateApiUrl, ResponsiblePersonApiUrl, EmployeeTypeDimonaConfigurationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import { t } from "../../translations/Translation";
+import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
+import CustomButton from "../atoms/CustomButton";
 
 export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany }) {
 
@@ -15,6 +17,10 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     const [dataRefresh, setDataRefresh] = useState(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteUrl, setDeleteUrl] = useState('');
+    const [temp, setTemp] = useState([])
+    const [dimonaConfigurationData, setDimonaConfigurationData] = useState({
+        "employee_type_ids": []
+    })
 
     // Header data for company overview
     const Company_headers = [
@@ -76,7 +82,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     const Resp_person_headers = [
         {
             title: t("NAME_TEXT"),
-            field:'full_name',
+            field: 'full_name',
             size: 200,
         },
         {
@@ -140,17 +146,19 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
         } else if (overviewContent === 'contracts') {
             setHeaders(contracts_template_headers)
             ApiUrl = CompanyContractTemplateApiUrl
+        } else if (overviewContent === 'dimona') {
+            ApiUrl = EmployeeTypeDimonaConfigurationApiUrl + "/" + localStorage.getItem("company_id")
         }
         AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
                 if (result?.success && result.data.length !== listData.length) {
                     if (overviewContent === 'company' || overviewContent === 'workstation' || overviewContent === 'cost center' || overviewContent === 'responsible_person') {
 
-                        if(overviewContent === 'responsible_person') {
+                        if (overviewContent === 'responsible_person') {
                             let arr = []
-                            result.data.map((val)=>{
-                              let obj={...val,"fullname":val.full_name}
-                              arr.push(obj)
+                            result.data.map((val) => {
+                                let obj = { ...val, "fullname": val.full_name }
+                                arr.push(obj)
                             })
                             setListData(arr)
                         } else {
@@ -179,6 +187,13 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                         });
 
                         setListData(filteredData)
+                    } else if (overviewContent == 'dimona') {
+
+                        let data = result.data
+                        setTemp(data)
+                        setListData(data)
+
+
                     }
                 }
             })
@@ -262,6 +277,60 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
         }
     }
 
+    const handleCheckBox = (val) => {
+
+        setTemp((prevTemp) => {
+            let arr = [];
+            prevTemp.forEach((value) => {
+                if (value.employee_type_id === val.employee_type_id) {
+                    let data = { ...value, status: !value.status };
+                    arr.push(data);
+                } else {
+                    arr.push(value);
+                }
+            });
+            setListData(arr)
+
+            //setting employee type ids array for payload
+            let arr1 = []
+            arr.map((val) => {
+
+                if (val.status == true) {
+                    arr1.push(val.id)
+                }
+            })
+            setDimonaConfigurationData((prev) => ({
+                ...prev, "employee_type_ids": arr1
+            }))
+            return arr
+        })
+
+    }
+
+    const onSave = () => {
+        AXIOS.service(EmployeeTypeDimonaConfigurationApiUrl + "/" + localStorage.getItem("company_id"), "PUT", dimonaConfigurationData)
+            .then((result) => {
+                if (result?.success) {
+                    setDataRefresh(!dataRefresh);
+                    setWarningMessage('')
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
     return (
         <>
             {warningMessage && <ModalPopup
@@ -270,7 +339,27 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
-            <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true}></Table>
+            {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true}></Table>}
+            {overviewContent === 'dimona' && <> <div className="col-md-12 p-0 "> <table className="col-md-12 " >
+                <tr className="table-head-bg">
+                    <th className="col-md-6 py-2">{t("EMPLOYEE_TYPE")}</th>
+                    <th className="col-md-6 py-2">Enable/Disable</th>
+                </tr>
+                {listData.map((val, index) => {
+                    return (
+                        <tr key={val.id} className="">
+                            <td className="col-md-6 "><h6 className="my-auto">{val.name}</h6></td>
+                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key: val.id, value: val.employee_type }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status == true ? true : false}></CustomCheckBox> </td>
+                        </tr>)
+                })}
+            </table >
+            </div>
+                <div className="company-tab-width mt-2 mb-3 mx-auto bg-white">
+                    <CustomButton buttonName={"Save"} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={"Cancel"} ActionFunction={() => navigate("/manage-companies")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                </div>
+            </>
+            }
         </>
     )
 }

@@ -177,7 +177,7 @@ export default function OverviewTabs({ setCompany }) {
                 </TabPanel>
 
                 <TabPanel>
-                    <h3 className="text-center mt-3 ">{t("DIMONA")}</h3>
+                    <h3 className="text-center mt-3 "><CompanyOverviews setCompany={setCompany} overviewContent={'dimona'}></CompanyOverviews></h3>
                 </TabPanel>
 
                 <TabPanel>

@@ -27,10 +27,12 @@ export default function AddContractPopup(props) {
     }
 
     const onConfirm = () => {
-        localStorage.setItem("auth",false)
-        navigate('/invite-employee')
+        localStorage.setItem("auth", false)
+        window.open('/invite-employee', '_blank')
+        props.onHide()
+        // navigate('/invite-employee')
         // let url = EmployeeContractApiUrl
-        
+
         // AXIOS.service(url, "POST", inviteData)
         //     .then((result) => {
         //         if (result?.success) {

@@ -100,6 +100,8 @@ export const SignContractApiUrl = BASE_URL + '/masterdata/employee-sign-plan-con
 export const EmployeeAvailabilityApiUrl = BASE_URL + '/masterdata/get-employee-availability'
 
 export const UploadIdCardApiUrl =BASE_URL + '/masterdata'//Endpoint need to to be add
+
+export const EmployeeTypeDimonaConfigurationApiUrl =BASE_URL + "/masterdata/employee-type-dimona-config"
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 export const fetchTranslations = BASE_URL + '/masterdata/translate';
