@@ -33,21 +33,25 @@ export default function CommunicationConfigurationOverview() {
             title: t("STRING"),
             field: 'key',
             size: 200,
+            editable: 'never',
         },
         {
             title: 'EN',
             field: 'text.en',
             size: 200,
+            editable: 'onUpdate'
         },
         {
             title: 'NL',
             field: 'text.nl',
             size: 200,
+            editable: 'onUpdate'
         },
         {
             title: 'FR',
             field: 'text.fr',
             size: 200,
+            editable: 'onUpdate'
         },
 
     ]

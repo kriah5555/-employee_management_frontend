@@ -15,7 +15,6 @@ import HamburgerIcon from "../../static/icons/Hamburger.svg"
 
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose }) {
-    // console.log(rows);
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -108,7 +107,6 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     const getDetailIcon = () => { return (<img className="planning-icon" src={MoreIcon}></img>) }
     const getAcceptIcon = () => { return (<img className="planning-icon" src={AcceptIcon}></img>) }
     const getRejectIcon = () => { return (<img className="planning-icon" src={RejectIcon}></img>) }
-    const getHamburgerIcon = () => { return (<img className="planning-icon" src={HamburgerIcon}></img>) }
 
 
     //Define actions based on requirement (Below actions are for view and edit)
@@ -117,13 +115,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: t("DETAILS"),
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates" && tableName !== 'holiday_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates" && tableName !== 'holiday_overview' && tableName !== 'rules') ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: t("VIEW"),
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates") ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -141,7 +139,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates") ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules') ? false : true
         }),
         rowData => ({
             icon: () => getAcceptIcon(),

@@ -12,6 +12,7 @@ import AddWorkstationIcon from "../../static/icons/Workstation.svg"
 import { ToastContainer } from 'react-toastify';
 import SalariesIcon from "../../static/icons/Salaries.svg";
 import ContractTypeIcon from "../../static/icons/ContractType.svg";
+import Rules from "../molecules/Rules";
 
 export default function OverviewTabs({ setCompany }) {
 
@@ -181,7 +182,9 @@ export default function OverviewTabs({ setCompany }) {
                 </TabPanel>
 
                 <TabPanel>
-                    <h3 className="text-center mt-3">{t("RULES")}</h3>
+                    {/* <div className="tablescroll"> */}
+                        <Rules overviewContent={'rules'}></Rules>
+                        {/* </div> */}
                 </TabPanel>
             </div>
         </Tabs>

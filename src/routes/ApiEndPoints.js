@@ -100,6 +100,17 @@ export const SignContractApiUrl = BASE_URL + '/masterdata/employee-sign-plan-con
 export const EmployeeAvailabilityApiUrl = BASE_URL + '/masterdata/get-employee-availability'
 export const GetAvailabilitiesApiUrl = BASE_URL + '/masterdata/get-weekly-availability'
 
+export const GetDefaultParamApiUrl = BASE_URL + '/masterdata/get-default-parameters'
+export const UpdateDefaultParamApiUrl = BASE_URL + '/masterdata/update-default-parameter'
+
+export const GetParametersApiUrl = BASE_URL + '/masterdata/get-parameters'
+export const UpdateParameterApiUrl = BASE_URL + '/masterdata/update-parameter'
+
+export const GetCompanyParametersApiUrl = BASE_URL + '/masterdata/get-company-parameters'
+export const UpdateCompanyParametersApiUrl = BASE_URL + '/masterdata/update-company-parameter'
+
+
+export const GetParametersOptionsApiUrl = BASE_URL + '/masterdata/get-manage-parameter-options'
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';

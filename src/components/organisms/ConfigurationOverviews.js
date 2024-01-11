@@ -9,6 +9,7 @@ import ManageSalaries from "../molecules/ManageSalaries";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import { t } from "../../translations/Translation";
+import Rules from "../molecules/Rules";
 
 export default function ConfigurationOverviews() {
 
@@ -152,6 +153,7 @@ export default function ConfigurationOverviews() {
         }
 
         // Api call to get list data
+        if (overviewContent !== 'default_param' && overviewContent !== 'parameters')
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
@@ -248,7 +250,7 @@ export default function ConfigurationOverviews() {
         }
     }
 
-
+    
     return (
         <div className="right-container">
             <ToastContainer
@@ -270,7 +272,7 @@ export default function ConfigurationOverviews() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            {overviewContent !== 'min_salary' && <div className="company-tab-width mt-3 border bg-white">
+            {overviewContent !== 'min_salary' &&  overviewContent !== 'default_param' && overviewContent !== 'parameters' && <div className="company-tab-width mt-3 border bg-white">
                 <div className={"d-flex col-md-12 justify-content-between py-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
@@ -286,6 +288,7 @@ export default function ConfigurationOverviews() {
             </div>}
             {/* Minimum salary configurations */}
             {overviewContent === 'min_salary' && <ManageSalaries></ManageSalaries>}
+            {(overviewContent === 'default_param' || overviewContent === 'parameters') && <Rules overviewContent={overviewContent}></Rules>}
         </div>
 
     )

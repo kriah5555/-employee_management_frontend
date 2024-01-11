@@ -114,15 +114,15 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                 arr.push(val.value)
             })
             if (name === 'locations_index') {
-                const selected_locations = [...selectedLocation]
-                selected_locations[index] = value
-                setSelectedLocation(selected_locations);
+                // const selected_locations = [...selectedLocation]
+                // selected_locations[index] = value
+                setSelectedLocation(value);
                 workstations[index]['locations'] = arr
                 workstations[index]['locations_index'] = arr
             } else {
-                const selected_functions = [...selectedFunction]
-                selected_functions[index] = value
-                setSelectedFunction(selected_functions);
+                // const selected_functions = [...selectedFunction]
+                // selected_functions[index] = value
+                setSelectedFunction(value);
                 workstations[index]['function_titles'] = arr
             }
         }

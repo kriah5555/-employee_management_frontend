@@ -83,6 +83,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                             id: group_id,
                             type: 'type',
                             parentOnly: val.employee_type,
+                            tableData: { isTreeExpanded: false }
                         }
                         arr.push(data)
                         val.employees.map((emp, i) => {
@@ -142,7 +143,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                 pauseOnHover
                 theme="colored"
             />
-            {!showDetails && <Table columns={headers} rows={listData} tableName="employee" viewAction={viewAction}></Table>}
+            {!showDetails && <Table columns={headers} rows={listData} tableName="employee" setRows={setListData} viewAction={viewAction}></Table>}
             {showDetails && <Table columns={headers} rows={listData} tableName="employee" showDetails={showDetails} empId={eid} parentId={parentId}></Table>}
 
         </>
