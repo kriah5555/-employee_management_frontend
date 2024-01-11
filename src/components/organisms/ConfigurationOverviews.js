@@ -272,7 +272,7 @@ export default function ConfigurationOverviews() {
             ></ModalPopup>}
             {/* All configurations */}
             {overviewContent !== 'min_salary' && <div className="company-tab-width d-flex flex-column mt-3 border bg-white">
-                <div className={"d-flex justify-content-between py-2 border-thick align-items-center"}>
+                <div className={"d-flex justify-content-between p-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
                         {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>

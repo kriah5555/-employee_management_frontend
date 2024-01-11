@@ -382,7 +382,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 <thead className="sticky">
                     <tr>
                         <th><span><Workstation/></span></th>
-                        <th className="py-4">{t("EMPLOYEES_TITLE")}</th>
+                        <th className="py-4 ">{t("EMPLOYEES_TITLE")}</th>
                         {days.map((val, index) => {
                             return (
                                 <th key={val} onClick={() => ChangeTab('day', new Date(GetReversedDate(dates[index])))}>
@@ -416,7 +416,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>}
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_id ? <a className="text-dark" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
                                             <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">

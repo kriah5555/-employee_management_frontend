@@ -12,7 +12,7 @@ import Card from "../components/atoms/Card";
 // import Email from "../static/icons/EmailTemplate.svg";
 // import TranslationIcon from "../static/icons/translate.svg";
 import { t } from "../translations/Translation";
-import ParameterIcon from "../static/icons/term.png";
+// import ParameterIcon from "../static/icons/term.png";
 import Salaries from "../static/icons/Salaries";
 import ContractType from "../static/icons/ContractType";
 import EmployeeType from "../static/icons/EmployeeType";
@@ -24,6 +24,7 @@ import SocialSecretary from "../static/icons/SocialSecretary";
 import HolidayCode from "../static/icons/HolidayCode";
 import EmailTemplate from "../static/icons/EmailTemplate";
 import Translate from "../static/icons/Translate";
+import ParameterIcon from "../static/icons/ParameterIcon";
 
 export default function Configurations() {
 
@@ -39,7 +40,7 @@ export default function Configurations() {
         { title: t('REASONS'), icon: <Reasons />, styleClass: subTabStyle, type: 'reasons' },
         { title: t('SOCIAL_SECRETARY'), icon: <SocialSecretary />, styleClass: subTabStyle, type: 'social_secretary' },
         { title: t('INTERIM_AGENCIES'), icon: <SocialSecretary />, styleClass: subTabStyle, type: 'interim-agencies' },
-        { title: t('PARAMETER'), icon: ParameterIcon, styleClass: subTabStyle, type: 'parameter' },
+        { title: t('PARAMETER'), icon: <ParameterIcon/>, styleClass: subTabStyle, type: 'parameter' },
 
     ]
 

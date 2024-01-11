@@ -194,7 +194,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
 
 
     return (
-        <div className="mt-1">
+        <div className="mt-1 h-100">
             {popupOpen && <AddOpenShift
                 onHide={() => OnHides()}
                 shiftId={shiftId}

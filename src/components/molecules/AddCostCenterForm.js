@@ -101,7 +101,7 @@ export default function AddCostCenterForm() {
                         workstationList.map((val, i) => {
                             work_stations.push(val.value)
                         });
-                        setEmployees(response?.employees?.employees||[])
+                        setEmployees(response?.employees?.employees || [])
                         let selected_employees = []
                         response.employees_value?.map((val, i) => {
                             selected_employees.push(val.value)
@@ -210,18 +210,20 @@ export default function AddCostCenterForm() {
 
     return (
         <>
-            {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={t("VALIDATION_ERROR") + ("!")}
-                body={(errors)}
-                onHide={() => setErrors([])}
-            ></ErrorPopup>}
-            <CompanyForm
-                data1={costCenterFields}
-                formattedData1={costCenterData[0]}
-                SetValues={setValues}
-                index={0}
-            ></CompanyForm>
-            <div className="col-md-12 my-4 text-right pr-5">
+            <div className="flex-1">
+                {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                    title={t("VALIDATION_ERROR") + ("!")}
+                    body={(errors)}
+                    onHide={() => setErrors([])}
+                ></ErrorPopup>}
+                <CompanyForm
+                    data1={costCenterFields}
+                    formattedData1={costCenterData[0]}
+                    SetValues={setValues}
+                    index={0}
+                ></CompanyForm>
+            </div>
+            <div className="my-3 text-right pr-5">
                 <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>
                 <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
             </div>

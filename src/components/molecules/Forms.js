@@ -118,7 +118,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                     ></CustomCheckBox>
                 </form>
                 <div className="my-3">
-                    {view !== 'sectors' && <div className={"mt-4 text-right " + (view === 'sectors' ? 'pb-5' : '')}>
+                    {view !== 'sectors' && <div className={"text-right " + (view === 'sectors' ? 'pb-5' : '')}>
                         {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
                         <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)}></CustomButton>
                     </div>}

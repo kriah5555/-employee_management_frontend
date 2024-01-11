@@ -50,10 +50,10 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
 
 
     return (
-        <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container my-3 border bg-white" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
-            {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className="col-md-12 px-5 pt-4 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
-            {data && <div className={view === 'filters' ? "d-flex px-2" : "d-flex px-5"}>
-                <form className={view === 'filters' ? "col-md-12 px-0 border-blue" : "col-md-12 px-0 pb-4 border-blue"}>
+        <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container mt-3 border bg-white d-flex flex-column" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
+            {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className=" px-4 pt-4 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
+            {data && <div className={view === 'filters' ? "d-flex px-2" : "d-flex px-4" + " flex-1 overflow-auto"}>
+                <form className={view === 'filters' ? " px-0 border-blue row w-100" : "col-md-12 px-0 pb-4 border-blue"}>
                     {/* Text input field and dropdown based on the data given */}
                     {data.map((field, i) => {
                         if (field.type === "text") {
@@ -64,7 +64,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     name={field.name}
                                     CustomStyle={field.style}
                                     required={field.required}
-                                    value={formattedData !== undefined ? field.name === 'contract_hours' &&  formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : formattedData[field.name] : ''}
+                                    value={formattedData !== undefined ? field.name === 'contract_hours' && formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : formattedData[field.name] : ''}
                                     setValue={(e) => SetValues((field.name === 'contract_hours' ? planIndex : i), field.name, e, field.type, functionIndex)}
                                     error={''}
                                     placeholder={field.placeholder ? field.placeholder : ''}
@@ -115,18 +115,18 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                             )
                         } else if (field.type === 'text-area') {
                             return (
-                              <div>
-                                  <TextArea
-                                      key={field.name}
-                                      title={field.title}
-                                      name={field.name}
-                                      required={field.required}
-                                      CustomStyle={field.style}
-                                      value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                      setValue={(e) => SetValues(i, field.name, e, field.type)}
-                                  ></TextArea>
-                                  {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>{t("CONFIGURATIONS") + (":")}</u></h4>}
-                              </div>
+                                <div>
+                                    <TextArea
+                                        key={field.name}
+                                        title={field.title}
+                                        name={field.name}
+                                        required={field.required}
+                                        CustomStyle={field.style}
+                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                        setValue={(e) => SetValues(i, field.name, e, field.type)}
+                                    ></TextArea>
+                                    {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>{t("CONFIGURATIONS") + (":")}</u></h4>}
+                                </div>
                             )
                         } else if (field.type === 'checkbox') {
                             return (
@@ -245,10 +245,13 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                     })}
                 </form>
             </div>}
-            {view !== 'sectors' && view !== 'holiday codes' && formTitle && <div className={"col-md-12 mb-3 text-right pr-5" + (view === 'sectors' ? 'pb-5' : '')}>
-                {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
-                <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)} CustomStyle="mr-3"></CustomButton>
-            </div>}
+            <div className="my-3 px-4">
+                {view !== 'sectors' && view !== 'holiday codes' && formTitle && <div className={"text-right" + (view === 'sectors' ? 'pb-5' : '')}>
+                    {((view === 'sectors' && params.id !== undefined) || view !== 'sectors') && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                    <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate(redirectURL)} CustomStyle=""></CustomButton>
+                </div>}
+            </div>
+
         </div>
     );
 

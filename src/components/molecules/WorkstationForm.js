@@ -138,7 +138,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
     ];
 
     return (
-        <div className="">
+        <div className="flex-1">
             {workstations.map((x, i) => {
                 return (
                     <div key={x}>

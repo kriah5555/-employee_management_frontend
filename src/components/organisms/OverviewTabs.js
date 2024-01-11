@@ -8,7 +8,6 @@ import BackIcon from "../../static/icons/BackIcon.png"
 import FilterIcon from "../../static/icons/Filter.svg";
 import ExportIcon from "../../static/icons/Export.svg";
 
-import AddWorkstationIcon from "../../static/icons/Workstation.svg"
 import { ToastContainer } from 'react-toastify';
 // import SalariesIcon from "../../static/icons/Salaries.svg";
 // import ContractTypeIcon from "../../static/icons/ContractType.svg";
