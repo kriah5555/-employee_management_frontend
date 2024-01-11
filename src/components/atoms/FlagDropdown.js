@@ -6,7 +6,7 @@ import { t } from "../../translations/Translation";
 export default function FlagDropdown({ options, selectedOptions, onSelectFunction, styleClass, CustomStyle, title, required, isMulti, error, isDisabled, placeholder }) {
     return (
         <div className={CustomStyle}>
-            {title && <div className={"d-flex justify-content-between " + (error ? '' : 'my-2')}>
+            {/* {title && <div className={"d-flex justify-content-between " + (error ? '' : 'my-2')}>
                 <label className="font-weight-bold row mx-0 my-auto">{title} {required && <p className="text-danger my-auto">&nbsp;*</p>} </label>
                 {error && title && <p className="pt-1 pb-0 px-4 m-1 text-danger required-bg rounded font-weight-normal">
                     <img className="box mr-1 mb-1" src={RequiredIcon}></img>
@@ -23,7 +23,7 @@ export default function FlagDropdown({ options, selectedOptions, onSelectFunctio
                 disabled={isDisabled}
                 fullWidth={true}
                 searchable={true}
-            ></ReactFlagsSelect>
+            ></ReactFlagsSelect> */}
         </div>
     )
 
