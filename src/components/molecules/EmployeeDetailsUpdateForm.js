@@ -82,18 +82,18 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         setLangaugeList(getFormattedDropdownOptions(data.languages, "key", "value"))
                         setMaritalStatusList(getFormattedDropdownOptions(data.marital_statuses))
                         setDependentSpouseList(getFormattedDropdownOptions(data.dependent_spouse_options, "key", "value"))
-                        setLanguage({ "value": response.language.id, "label": response.language.name })
-                        setMaritalStatus({ "value": response.marital_status.id, "label": response.marital_status.name })
-                        setGender({ "value": response.gender.id, "label": response.gender.name })
-                        setDependantSpouse({ "value": response.dependent_spouse.id, "label": response.dependent_spouse.name })
+                        setLanguage({ "value": response.language?.id, "label": response.language?.name })
+                        setMaritalStatus({ "value": response.marital_status?.id, "label": response.marital_status?.name })
+                        setGender({ "value": response.gender?.id, "label": response.gender?.name })
+                        setDependantSpouse({ "value": response.dependent_spouse?.id, "label": response.dependent_spouse?.name })
                         setChildren(selectedOptions(childrenOptions, response.children))
 
                         //modifying response passed from emp details.js as required for update
                         let userData = { ...response }
-                        userData["marital_status_id"] = response.marital_status.id
+                        userData["marital_status_id"] = response.marital_status?.id
                         userData["gender_id"] = response.gender.id
-                        userData["dependent_spouse"] = response.dependent_spouse.id
-                        userData["language"] = response.language.id
+                        userData["dependent_spouse"] = response.dependent_spouse?.id
+                        userData["language"] = response.language?.id
                         userData["place_of_birth"] = response.place_of_birth == null ? "" : response.place_of_birth
                         userData["license_expiry_date"] = response.license_expiry_date == null ? "" : response.license_expiry_date
                         setFormData(userData)
@@ -245,6 +245,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
         { title: t("SSN"), name: "social_security_number", type: "text", required: true, style: "col-md-6 float-left mt-2" },
         { title: t("LAST_NAME"), name: "last_name", type: "text", required: true, style: "col-md-6 float-left mt-2" },
         { title: t("EXPIRY_DATE"), name: "license_expiry_date", type: "date", required: false, style: "col-md-6 float-left mt-2" },
+        { title: t("USERNAME"), name: "username", type: "text", required: true, style: "col-md-6 float-left mt-2" },
         { title: t("MOBILE_NUMBER"), name: "phone_number", type: "text", required: true, style: "col-md-6 float-left mt-2" },
         { title: t("BANK_ACCOUNT_NUMBER"), name: "account_number", type: "text", required: false, style: "col-md-6 float-left mt-2" },
         { title: t("EMAIL"), name: "email", type: "text", required: true, style: "col-md-6 float-left mt-2" },

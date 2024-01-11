@@ -6,7 +6,7 @@ import { t } from "../../translations/Translation";
 import BackIcon from "../../static/icons/BackIcon.png";
 import CustomButton from "../atoms/CustomButton";
 import AddEmployeePersonalDetails from "../molecules/AddEmployeePersonalDetails";
-import { EmployeeApiUrl, EmployeeCreateApiUrl, EmployeeContractApiUrl, EmployeeCommutetApiUrl, EmployeeBenefitsApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeCreateApiUrl, EmployeeContractApiUrl, EmployeeCommutetApiUrl, EmployeeBenefitsApiUrl, UploadIdCardApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import AddEmployeeContractTypes from "../molecules/AddEmployeeContractTypes";
@@ -149,18 +149,19 @@ export default function EmployeeCreation() {
         "social_secretary_number": "",
         "contract number": "",
         "extra_info": "",
+        "id_card_front": "",
+        "id_card_back": "",
+
     });
 
 
-    const OnSave = () => {
-        employeeData['employee_function_details'] = functionSalaries
-        employeeData['employee_commute_details'] = locationTransport
-        employeeData['employee_contract_details'] = employeeContracts
-        let ApiUrl = EmployeeApiUrl
-        let Method = 'POST'
-        let requestData = employeeData
+    const uploadIdCard = (employeeId) => {
 
-        AXIOS.service(ApiUrl, Method, requestData)
+        const fileData = new FormData();
+        fileData.append("id_card_front", employeeData.id_card_front)
+        fileData.append("id_card_back", employeeData.id_card_back)
+
+        AXIOS.service(UploadIdCardApiUrl + "/" + employeeId, "POST", fileData, true)
             .then((result) => {
                 if (result?.success) {
                     navigate('/manage-employees')
@@ -174,6 +175,33 @@ export default function EmployeeCreation() {
                         progress: undefined,
                         theme: "colored",
                     });
+
+                } else {
+                    setErrors(result.message);
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+
+    const OnSave = () => {
+        employeeData['employee_function_details'] = functionSalaries
+        employeeData['employee_commute_details'] = locationTransport
+        employeeData['employee_contract_details'] = employeeContracts
+
+        let ApiUrl = EmployeeApiUrl
+        let Method = 'POST'
+        let requestData = employeeData
+
+        AXIOS.service(ApiUrl, Method, requestData)
+            .then((result) => {
+                if (result?.success) {
+                    let id = result.data?.id
+                    uploadIdCard(id)
+
                 } else {
                     setErrors(result.message)
                 }

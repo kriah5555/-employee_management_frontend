@@ -4,45 +4,23 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { ResponsibleCompaniesApiUrl, PublicHolidayCodeApiUrl } from "../../routes/ApiEndPoints"
+import { PublicHolidayCodeApiUrl } from "../../routes/ApiEndPoints"
 import { t } from "../../translations/Translation";
-import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 
 export default function AddPublicHoliday() {
 
     const [formData, setFormData] = useState({
         "name": "",
         "date": "",
-        "companies": [],
         "status": 1,
     })
 
-    const [companies, setCompanies] = useState([])
-    const [companyList, setCompanyList] = useState([])
     const [errors, setErrors] = useState([]);
     const [active, setActive] = useState(1);
     const [inactive, setInactive] = useState(0);
-
     const navigate = useNavigate();
     const params = useParams();
 
-
-
-    useEffect(() => {
-        AXIOS.service(ResponsibleCompaniesApiUrl, 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    let resp = getFormattedDropdownOptions(result.data, "id", "company_name")
-                    setCompanyList(resp);
-                } else {
-                    setErrors(result.message)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-    }, [])
 
     useEffect(() => {
         if (params.id !== undefined) {
@@ -53,11 +31,9 @@ export default function AddPublicHoliday() {
                         result.data?.companies_value.map((val) => {
                             selectedCompanyList.push(val.value)
                         })
-                        setCompanies(result.data?.companies_value)
                         let data = {
                             "name": result.data?.name,
                             "date": result.data?.date,
-                            "companies": selectedCompanyList,
                             "status": result.data?.status,
                         }
                         setFormData(data)
@@ -76,16 +52,7 @@ export default function AddPublicHoliday() {
 
     const setValues = (index, name, value, field) => {
         const newData = { ...formData };
-        if (field !== 'dropdown') {
-            newData[name] = value
-        } else {
-            setCompanies(value);
-            let arr = []
-            value.map((val, i) => {
-                arr.push(val.value)
-            })
-            newData[name] = arr
-        }
+        newData[name] = value
         setFormData(newData);
     }
 
@@ -156,7 +123,6 @@ export default function AddPublicHoliday() {
     const publicHolidayFields = [
         { title: t("HOLIDAY_NAME"), name: "name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("DATE"), name: "date", type: "date", required: true, style: "col-md-6 float-left mt-4" },
-        { title: t("COMPANIES_TEXT"), name: "companies", required: true, options: companyList, isMulti: true, selectedOptions: companies, type: "dropdown", style: "col-md-6 float-left" },
         { title: t("STATUS_TEXT"), checkboxList: statusCheckBoxList, changeCheckbox: changeCheckbox, type: "checkbox", style: "col-md-12 mt-4 mb-2 float-left" },
 
     ];

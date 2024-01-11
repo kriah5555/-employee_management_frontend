@@ -115,7 +115,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: t("DETAILS"),
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates" && tableName !== 'holiday_overview' && tableName !== 'rules') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates" && tableName !== 'holiday_overview' && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
@@ -133,13 +133,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getEditIcon(),
             tooltip: t("EDIT"),
             onClick: (event, rowData) => viewAction(rowData, 'edit'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview' && tableName !== "applied_candidates") ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'documents_overview') ? false : true
         }),
         rowData => ({
             icon: () => getDeleteIcon(),
             tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
         }),
         rowData => ({
             icon: () => getAcceptIcon(),

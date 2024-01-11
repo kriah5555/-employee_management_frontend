@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RequiredIcon from "../../static/icons/exclamation-mark1.png";
 import { t } from "../../translations/Translation";
 
@@ -10,10 +10,22 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
     setValue(index, name, file);
     if (file) {
       const selectedFileName = e.target.files[0].name;
-      const fileNameLabel = document.getElementById("file-name-label");
+      const fileNameLabel = document.getElementById(`file-name-label-${index}`);
       fileNameLabel.textContent = selectedFileName;
     }
   };
+
+  const retainFile = () => {
+    const selectedFileName = value?.name;;
+    const fileNameLabel = document.getElementById(`file-name-label-${index}`);
+    fileNameLabel.textContent = selectedFileName
+  }
+
+  useEffect(() => {
+    if (value?.name!=="" && value?.name!==undefined ) {
+      retainFile()
+    }
+  },[])
 
   return (
     <div className={" font-weight-bold " + CustomStyle}>
@@ -25,8 +37,8 @@ export default function FileInput({ title, CustomStyle, index, name, value, setV
         </p>}
       </div>
       <div className="col-md-12 file-input-container ">
-        <span id="file-name-label" className="">{t("CHOOSE_A_FILE")}</span>
-        <input name={name} type="file" className="file-input" onChange={handleFileInput} value={value} />
+        <span id={`file-name-label-${index}`} className="file-name-label"><div className="col-md-8"></div>{t("CHOOSE_A_FILE")}</span>
+        <input name={name} type="file" className="file-input" onChange={handleFileInput} />
       </div>
     </div>)
 

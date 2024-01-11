@@ -112,6 +112,7 @@ export const UpdateCompanyParametersApiUrl = BASE_URL + '/masterdata/update-comp
 
 export const GetParametersOptionsApiUrl = BASE_URL + '/masterdata/get-manage-parameter-options'
 
+export const UploadIdCardApiUrl =BASE_URL + '/masterdata'//Endpoint need to to be add
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 export const fetchTranslations = BASE_URL + '/masterdata/translate';

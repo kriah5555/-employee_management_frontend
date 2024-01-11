@@ -57,6 +57,7 @@ async function service(
   urlendpoint = "",
   httpmethod = "",
   data = "",
+  content_type = "",
   refresh = "",
   file = 0,
   loading = 1
@@ -70,7 +71,7 @@ async function service(
       // POST method
       if (httpmethod === "POST") {
         return await axios
-          .post(urlendpoint, data, headers())
+          .post(urlendpoint, data, headers(content_type))
           .then((result) => {
             if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
               document.getElementById("loading-icon").setAttribute("style", "display:none;");
@@ -98,7 +99,7 @@ async function service(
       // PUT method
       else if (httpmethod === "PUT") {
         return await axios
-          .put(urlendpoint, data, headers())
+          .put(urlendpoint, data, headers(content_type))
           .then((result) => {
             if ( loading === 1 && document.getElementById("loading-icon") !== null ) {
               document.getElementById("loading-icon").setAttribute("style", "display:none;");
@@ -154,7 +155,7 @@ async function service(
       // GET method
       else {
         return await axios
-          .get(urlendpoint, headers())
+          .get(urlendpoint, headers(content_type))
           .then((result) => {
             if (loading === 1 && document.getElementById("loading-icon") !== null) {
                 document.getElementById("loading-icon").setAttribute("style", "display:none;");
@@ -185,7 +186,7 @@ async function service(
 *@param httpmethod=METHOD
 *returns headers for the Ajax
 */
-function headers() {
+function headers(content_type) {
 
 
     var header = {
@@ -200,7 +201,7 @@ function headers() {
        // credentials: "same-origin",
         headers: {
             "Company-ID": localStorage.getItem('company_id'),
-            "Content-Type": "application/json",
+            "Content-Type": content_type?'multipart/form-data':"application/json",
             // "Authorization": "Bearer aAqbVgy30qDmSqT0m32rB2xON0EE_3OW",
             "Authorization" : localStorage.getItem('token'),
             // 'Access-Control-Allow-Origin': '*',

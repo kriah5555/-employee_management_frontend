@@ -1074,6 +1074,14 @@ html .ui-button.ui-state-disabled:active {
   color: gray;
 }
 
+.file-name-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: gray;
+}
+
 .popup-tabs div ul li {
   width: 50% !important;
 }

@@ -15,6 +15,8 @@ import FileInput from "../atoms/FileInput";
 import AddIcon from "../../static/icons/AddPlusIcon.png"
 import DeleteIcon from "../../static/icons/Delete.svg"
 import TimeInput from "../atoms/TimeInput";
+import FlagDropdown from "../atoms/FlagDropdown";
+
 import { t } from "../../translations/Translation";
 
 export default function FormsNew({ view, data, formTitle, SetValues, formattedData, redirectURL, OnSave, planIndex, functionIndex }) {
@@ -64,7 +66,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     name={field.name}
                                     CustomStyle={field.style}
                                     required={field.required}
-                                    value={formattedData !== undefined ? field.name === 'contract_hours' &&  formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : formattedData[field.name] : ''}
+                                    value={formattedData !== undefined ? field.name === 'contract_hours' && formattedData[planIndex] !== undefined ? formattedData[planIndex][field.name] : formattedData[field.name] : ''}
                                     setValue={(e) => SetValues((field.name === 'contract_hours' ? planIndex : i), field.name, e, field.type, functionIndex)}
                                     error={''}
                                     placeholder={field.placeholder ? field.placeholder : ''}
@@ -115,18 +117,18 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                             )
                         } else if (field.type === 'text-area') {
                             return (
-                              <div>
-                                  <TextArea
-                                      key={field.name}
-                                      title={field.title}
-                                      name={field.name}
-                                      required={field.required}
-                                      CustomStyle={field.style}
-                                      value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                      setValue={(e) => SetValues(i, field.name, e, field.type)}
-                                  ></TextArea>
-                                  {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>{t("CONFIGURATIONS") + (":")}</u></h4>}
-                              </div>
+                                <div>
+                                    <TextArea
+                                        key={field.name}
+                                        title={field.title}
+                                        name={field.name}
+                                        required={field.required}
+                                        CustomStyle={field.style}
+                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                        setValue={(e) => SetValues(i, field.name, e, field.type)}
+                                    ></TextArea>
+                                    {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>{t("CONFIGURATIONS") + (":")}</u></h4>}
+                                </div>
                             )
                         } else if (field.type === 'checkbox') {
                             return (
@@ -189,6 +191,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                     setValue={SetValues}
                                     CustomStyle={field.style}
                                     required={field.required}
+                                    value={formattedData !== undefined ? formattedData[field.name] : {}}
                                 />
                             )
                         } else if (field.type === 'time') {
@@ -240,6 +243,22 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                         )
                                     })}
                                 </>
+                            )
+                        } else if (field.type === 'flag') {
+                            return (
+                                <FlagDropdown
+                                    key={field.name}
+                                    options={field.options}
+                                    title={field.title}
+                                    CustomStyle={field.style}
+                                    className={field.styleClass}
+                                    selected={field.selectedOptions}
+                                    onSelectFunction={(e) => SetValues(i, field.name, e, field.type, functionIndex)}
+                                    placeholder={field.placeholder ? field.placeholder : "select"}
+                                    disabled={field.isDisabled}
+                                    required={field.required}
+                                    error={''}
+                                ></FlagDropdown>
                             )
                         }
                     })}
