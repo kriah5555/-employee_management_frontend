@@ -58,32 +58,32 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
 
     useEffect(() => {
 
-            let response = createData
-            setEmployeeTypeList(response?.employeeTypes)
-            setlocationList(response?.locations)
-            let shiftData = [...formData]
-            if (response?.locations?.length === 1) {
-                shiftData[0]['location'] = response?.locations[0].value
-                setLocation(response?.locations[0])
+        let response = createData
+        setEmployeeTypeList(response?.employeeTypes)
+        setlocationList(response?.locations)
+        let shiftData = [...formData]
+        if (response?.locations?.length === 1) {
+            shiftData[0]['location'] = response?.locations[0].value
+            setLocation(response?.locations[0])
 
-                let locId = response?.locations[0].value
-                setWorkstationsList(response?.workstations[locId])
-                if (response.workstations[locId]?.length === 1) {
-                    shiftData[0]['workstations'] = response.workstations[locId][0].value
-                    setWorkstations(response.workstations[locId][0])
+            let locId = response?.locations[0].value
+            setWorkstationsList(response?.workstations[locId])
+            if (response.workstations[locId]?.length === 1) {
+                shiftData[0]['workstations'] = response.workstations[locId][0].value
+                setWorkstations(response.workstations[locId][0])
 
-                    let wId = response.workstations[locId][0].value
-                    setFunctionsList(response.workstationsFunctions[wId])
-                    if (response.workstationsFunctions[wId]?.length === 1) {
-                        setSelectedFunction(response.workstationsFunctions[wId][0])
-                        shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
-                    }
+                let wId = response.workstations[locId][0].value
+                setFunctionsList(response.workstationsFunctions[wId])
+                if (response.workstationsFunctions[wId]?.length === 1) {
+                    setSelectedFunction(response.workstationsFunctions[wId][0])
+                    shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
                 }
-                setFormData(shiftData)
-            } else {
-                setWorkstations(response.workstations)
-                setFunctionsList(response.workstationsFunctions)
             }
+            setFormData(shiftData)
+        } else {
+            setWorkstations(response.workstations)
+            setFunctionsList(response.workstationsFunctions)
+        }
 
     }, [createData])
 
@@ -264,7 +264,7 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
         { title: "End time", name: "end_time", required: true, type: "time", style: "col-md-6 mt-2 float-left" },
         { title: 'Location', name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
         { title: 'Workstations', name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList !== undefined ? workstationList[location?.value] : [], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: "Function", name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value]: [], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
+        { title: "Function", name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value] : [], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
         { title: "Employee type", name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-2 float-left" },
         { title: "Vacancies count", name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-2 float-left" },
 
@@ -279,7 +279,7 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
 
 
     return (
-        <div>
+        <div className="d-flex flex-column h-100">
             <div className="d-flex my-2 py-2 bg-white">
                 <div className="col-md-10">
                     <h4 className="mb-0"><img className="shortcut-icon mr-2 mb-1" onClick={() => onHide()} src={BackIcon}></img>{('Create open shift')}</h4>
@@ -290,35 +290,38 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="bg-white mb-2">
-                <FormsNew
-                    view={""}
-                    formTitle={""}
-                    data={formFieldsArray1}
-                    SetValues={setValues}
-                    formattedData={formData[0]}
-                ></FormsNew>
-                <div className="pl-5 d-flex margin-minus">
-                    <Switch label={t("REPEAT")} id="switch4" styleClass="col-md-1 align-self-center row m-0" lableClick={true} onChange={() => onRepeatToggle()} checked={repeat} />
-                    {repeat && <RadioInput
-                        title={''}
-                        radiobuttonsList={optionsArray !== undefined ? optionsArray : []}
-                        CustomStyle={'d-flex mt-3 ml-4'}
-                        selectedOption={repeatType}
-                        changeCheckbox={onRadioSelect}
-                        type={"repeatType"}
-                    ></RadioInput>}
-                </div>
-                <div>
+            <div className="bg-white mb-2 d-flex flex-column flex-1 overflow-auto">
+                <div className="h-100 overflow-auto">
                     <FormsNew
                         view={""}
                         formTitle={""}
-                        data={repeat ? formFieldsArray3 : form4}
+                        data={formFieldsArray1}
                         SetValues={setValues}
                         formattedData={formData[0]}
                     ></FormsNew>
+
+                    <div className="pl-5 d-flex margin-minus">
+                        <Switch label={t("REPEAT")} id="switch4" styleClass="col-md-1 align-self-center row m-0" lableClick={true} onChange={() => onRepeatToggle()} checked={repeat} />
+                        {repeat && <RadioInput
+                            title={''}
+                            radiobuttonsList={optionsArray !== undefined ? optionsArray : []}
+                            CustomStyle={'d-flex mt-3 ml-4'}
+                            selectedOption={repeatType}
+                            changeCheckbox={onRadioSelect}
+                            type={"repeatType"}
+                        ></RadioInput>}
+                    </div>
+                    <div>
+                        <FormsNew
+                            view={""}
+                            formTitle={""}
+                            data={repeat ? formFieldsArray3 : form4}
+                            SetValues={setValues}
+                            formattedData={formData[0]}
+                        ></FormsNew>
+                    </div>
                 </div>
-                <div>
+                <div className="my-3">
                     <Button className='mr-3 mb-2 button-style float-right' onClick={() => onConfirm()}>
                         {'Save'}
                     </Button>

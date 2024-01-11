@@ -132,7 +132,7 @@
   overflow: auto;
 }
 
-.dashboard-icon svg{
+.dashboard-icon svg {
   width: 3.5rem;
   height: 8rem;
 }
@@ -142,7 +142,7 @@
   overflow-y: auto;
 }
 
-.configuration-icon svg{
+.configuration-icon svg {
   width: 3rem;
   height: 3rem;
 }
@@ -266,7 +266,7 @@ li,
 
 /* for add-company form */
 .add_company_form {
-  height: calc(100vh - 275px);
+  height: calc(100vh - 300px);
   overflow-y: auto;
 }
 
@@ -281,6 +281,7 @@ li,
   display: inline-flex;
   justify-content: center;
   background-color: #f3f3f3;
+  height: 89.5vh;
 }
 
 /* Dynamic content part */
@@ -679,7 +680,7 @@ textarea {
     font-size: 1.5rem;
   }
 
-  .dashboard-icon svg{
+  .dashboard-icon svg {
     width: 5rem;
     height: 8rem;
   }
@@ -1195,7 +1196,7 @@ html .ui-button.ui-state-disabled:active {
   }
 
   .add_company_form {
-    height: calc(100vh - 252px);
+    height: calc(100vh - 280px);
   }
 
   .employee-detail-height {
@@ -1307,3 +1308,12 @@ a:hover {
   fill: #073763;
 }
 
+.open_shift_Main {
+  height: 93%;
+}
+
+.plannign_overview_weekly_employee_title {
+  max-width: 9vw;
+  /* width: 100%; */
+  display: inline-block;
+}

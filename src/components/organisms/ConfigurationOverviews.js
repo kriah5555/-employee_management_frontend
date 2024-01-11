@@ -273,8 +273,8 @@ export default function ConfigurationOverviews() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            {overviewContent !== 'min_salary' &&  overviewContent !== 'default_param' && overviewContent !== 'parameters' && <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-2 border-thick align-items-center"}>
+            {overviewContent !== 'min_salary' &&  overviewContent !== 'default_param' && overviewContent !== 'parameters' && <div className="company-tab-width d-flex flex-column mt-3 border bg-white">
+                <div className={"d-flex justify-content-between p-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
                         {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
@@ -283,8 +283,8 @@ export default function ConfigurationOverviews() {
                     </div>
                 </div>
 
-                <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' : 'function'} viewAction={viewAction} height={'calc(100vh - 190px)'} ></Table>
+                <div className="tablescroll flex-1">
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'100%'} ></Table>
                 </div>
             </div>}
             {/* Minimum salary configurations */}

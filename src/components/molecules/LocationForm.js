@@ -151,7 +151,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
 
 
     return (
-        <div className="">
+        <div className="flex-1">
             {locations.map((x, i) => {
                 return (
                     <div key={x}>

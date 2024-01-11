@@ -95,7 +95,7 @@ export default function MyAccount({ setAuth }) {
                 <ProfileImage />
                 <h4 className="text-center mx-auto mb-3 text-color" >{userName}</h4>
                 <a href="/" className="text-decoration-none p-2 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/")} src={BackIcon}></img><u>{t("BACK_TO_DASHBOARD")}</u></a>
-                <div className="m-5">
+                <div className="m-3 m-xl-4 m-xxl-5">
                     <MenuContent className="bg-primary" content={MenuData} type="myAccountMenu" />
                 </div>
                 <CustomButton buttonName={t("LOGOUT")} CustomStyle={"mx-auto"} ActionFunction={Logout} ></CustomButton>
