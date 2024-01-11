@@ -8,6 +8,7 @@ import Header from './commonComponents/Header';
 import Sidebar from './commonComponents/Sidebar';
 import Login from './pages/Login';
 import { GetTranslatedConstants } from './translations/Translation';
+import EmployeeBasicDetails from './components/organisms/EmployeeBasicDetails';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
    const [companyList, setCompanyList] = useState([]);
 
    const [company, setCompany] = useState('');
+   const [path, setPath] = useState(window.location.pathname)
 
    useEffect(() => {
       if (localStorage.getItem('auth') === null) {
@@ -68,7 +70,8 @@ function App() {
             <Router>
                {/* Display the contents with base routes */}
                {/* Common layout with header and sidebar */}
-               {auth === 'true' && <>
+               {auth === 'false' && path === '/invite-employee' && <EmployeeBasicDetails></EmployeeBasicDetails>}
+               {auth === 'true' && path !== '/invite-employee' && <>
                   <Header
                      setAuth={setAuth}
                      selectedCompany={selectedCompany}
@@ -82,7 +85,7 @@ function App() {
                      <BaseRouter setAuth={setAuth} setCompany={setCompany}></BaseRouter>
                   </div>
                </>}
-               {auth === 'false' &&
+               {auth === 'false' && path !== '/invite-employee' &&
                   <Login setAuth={setAuth}></Login>
                }
             </Router>

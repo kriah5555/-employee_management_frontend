@@ -34,6 +34,8 @@ import OthPlanning from '../components/organisms/OthPlanning';
 import AddOthPlans from '../components/organisms/AddOthPlans';
 import ViewOpenShiftDetails from '../components/molecules/ViewOpenShiftDetails';
 import AddPublicHoliday from '../components/molecules/AddPublicHoliday';
+import EmployeeBasicDetails from '../components/organisms/EmployeeBasicDetails';
+
 const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
         {/* route starts here */}
@@ -75,7 +77,7 @@ const BaseRouter = ({ setAuth, setCompany }) => (
         <Route exact path='/my-account' element={<MyAccount setAuth={setAuth}></MyAccount>} />
         <Route exact path='/settings' element={<Settings></Settings>} />
         <Route exact path='/manage-holiday-configurations/:type' element={<HolidayCodeConfigurationOverview></HolidayCodeConfigurationOverview>} />
-        
+
         <Route exact path='/add-reasons' element={<AddReasons></AddReasons>} />
         <Route exact path='/add-reasons/:id' element={<AddReasons></AddReasons>} />
 

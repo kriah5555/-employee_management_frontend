@@ -216,6 +216,8 @@ export const GET_CONSTANTS = {
     'SEARCH_TEXT': 'Search',
     'SOCIAL_SECRETARY_NUMBER': 'Social secretary number',
     'DOCUMENT_NAME':'Document name',
+    'INVITE_EMPLOYEE':'Invite employee',
+    'SEND':'send',
 
     // Manage companies
     'ADD_COMPANY': 'Add company',
