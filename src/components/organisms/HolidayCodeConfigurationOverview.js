@@ -13,6 +13,7 @@ import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import { t } from "../../translations/Translation";
+import Add from "../../static/icons/Add";
 export default function HolidayCodeConfigurationOverview() {
 
     const navigate = useNavigate();
@@ -277,9 +278,9 @@ export default function HolidayCodeConfigurationOverview() {
                 <div className={"d-flex col-md-12 justify-content-between py-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center" onClick={() => navigate(addUrl)}>
-                            <img src={AddIcon} className="header-icon mr-1"></img>
-                            <span className="add_btn">{addTitle}</span>
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
+                            <Add/>
+                            <span>{addTitle}</span>
                         </p>}
                     </div>
                 </div>

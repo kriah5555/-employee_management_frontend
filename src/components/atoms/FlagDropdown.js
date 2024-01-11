@@ -1,5 +1,5 @@
 import React from "react";
-import ReactFlagsSelect from "react-flags-select";
+// import ReactFlagsSelect from "react-flags-select";
 import RequiredIcon from "../../static/icons/exclamation-mark1.png"
 import { t } from "../../translations/Translation";
 
