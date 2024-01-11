@@ -221,7 +221,7 @@ export default function CompanyCreation({ setCompany }) {
 
 
     return (
-        <div className="right-creation-container ">
+        <div className="right-creation-container d-flex flex-column ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
                     <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-companies#' + params.addType)} src={BackIcon}></img>
@@ -234,7 +234,7 @@ export default function CompanyCreation({ setCompany }) {
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             {/* Company creation multi step form */}
-            {params.addType === 'company' && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
+            {params.addType === 'company' && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white flex-1">
                 <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <TabList>
                         {(tabType === 'company' ? TabsData1 : TabsData2).map((val) => {
@@ -295,7 +295,7 @@ export default function CompanyCreation({ setCompany }) {
                 </Tabs>
             </div>}
             {/* Code for single forms */}
-            {params.addType !== 'company' && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
+            {params.addType !== 'company' && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white flex-1 d-flex flex-column">
                 {/* Edit company details form */}
                 {params.addType === 'company-single' && <AddCompanyForm
                     view='company-single'
@@ -348,7 +348,7 @@ export default function CompanyCreation({ setCompany }) {
                 ></ResponsiblePersonForm>}
                 {params.addType === 'cost_center' && <AddCostCenterForm></AddCostCenterForm>}
                 {params.addType === 'company-view' && <CompanyView></CompanyView>}
-                {params.addType !== 'company-view' && params.addType !== 'cost_center' && <div className="col-md-12 my-4 text-right pr-5">
+                {params.addType !== 'company-view' && params.addType !== 'cost_center' && <div className="my-3 text-right pr-5">
                     <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveCompany(params.addType === 'company-single' ? 'company' : '')} CustomStyle=""></CustomButton>
                     <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate('/manage-companies#' + params.addType)} CustomStyle="mr-3"></CustomButton>
                 </div>}

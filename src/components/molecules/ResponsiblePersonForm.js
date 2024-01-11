@@ -139,7 +139,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, selecte
 
 
     return (
-        <div className="">
+        <div className="flex-1">
             {customers.map((customer, index) => {
                 return (
                     <div key={index}>

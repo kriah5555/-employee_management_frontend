@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import AddIcon from "../../static/icons/add.png";
+// import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl, InterimAgencyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
@@ -9,6 +9,8 @@ import ManageSalaries from "../molecules/ManageSalaries";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import { t } from "../../translations/Translation";
+import Rules from "../molecules/Rules";
+import Add from "../../static/icons/Add";
 
 export default function ConfigurationOverviews() {
 
@@ -42,8 +44,8 @@ export default function ConfigurationOverviews() {
         },
         {
             title: t("SECTOR"),
-            field:'sector_id',
-            size:200,
+            field: 'sector_id',
+            size: 200,
         },
         // {
         //     title: 'Description',
@@ -152,6 +154,7 @@ export default function ConfigurationOverviews() {
         }
 
         // Api call to get list data
+        if (overviewContent !== 'default_param' && overviewContent !== 'parameters')
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
@@ -193,7 +196,7 @@ export default function ConfigurationOverviews() {
     // Function for onclick of actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'delete') {
-            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") +("?"))
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ("?"))
         }
         if (overviewContent === 'employee_type') {
             if (action === 'edit') {
@@ -234,7 +237,7 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'social_secretary') {
             if (action === 'edit') {
                 navigate('/add-social-secretary/' + data.id)
-            } else if (action === 'link'){
+            } else if (action === 'link') {
                 navigate('/link-holiday-code/' + data.id)
             } else {
                 setDeleteUrl(SocialSecretaryApiUrl + '/' + data.id)
@@ -248,7 +251,7 @@ export default function ConfigurationOverviews() {
         }
     }
 
-
+    
     return (
         <div className="right-container">
             <ToastContainer
@@ -270,22 +273,23 @@ export default function ConfigurationOverviews() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            {overviewContent !== 'min_salary' && <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-2 border-thick align-items-center"}>
+            {overviewContent !== 'min_salary' &&  overviewContent !== 'default_param' && overviewContent !== 'parameters' && <div className="company-tab-width d-flex flex-column mt-3 border bg-white">
+                <div className={"d-flex justify-content-between p-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center" onClick={() => navigate(addUrl)}>
-                            <img src={AddIcon} className="header-icon mr-1"></img><span className="add_btn">{addTitle}</span>
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
+                            <Add /><span>{addTitle}</span>
                         </p>}
                     </div>
                 </div>
 
-                <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'calc(100vh - 190px)'} ></Table>
+                <div className="tablescroll flex-1">
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'100%'} ></Table>
                 </div>
             </div>}
             {/* Minimum salary configurations */}
             {overviewContent === 'min_salary' && <ManageSalaries></ManageSalaries>}
+            {(overviewContent === 'default_param' || overviewContent === 'parameters') && <Rules overviewContent={overviewContent}></Rules>}
         </div>
 
     )

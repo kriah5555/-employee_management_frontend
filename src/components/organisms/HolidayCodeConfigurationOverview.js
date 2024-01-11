@@ -13,6 +13,7 @@ import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import { t } from "../../translations/Translation";
+import Add from "../../static/icons/Add";
 export default function HolidayCodeConfigurationOverview() {
 
     const navigate = useNavigate();
@@ -273,18 +274,18 @@ export default function HolidayCodeConfigurationOverview() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-2 border-thick align-items-center"}>
+            <div className="company-tab-width mt-3 border bg-white d-flex flex-column">
+                <div className={"d-flex px-3 justify-content-between py-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center" onClick={() => navigate(addUrl)}>
-                            <img src={AddIcon} className="header-icon mr-1"></img>
-                            <span className="add_btn">{addTitle}</span>
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
+                            <Add />
+                            <span>{addTitle}</span>
                         </p>}
                     </div>
                 </div>
-                <div className="tablescroll">
-                    {overviewContent === "holiday_code_configuration" && <div className="col-md-12">
+                <div className="tablescroll flex-1 d-flex flex-column">
+                    {overviewContent === "holiday_code_configuration" && <div className="">
                         <div className="mb-2 d-flex border-top pt-1 container-fluid pt-3">
                             <div className="col-md-6">
                                 <FormsNew
@@ -300,8 +301,10 @@ export default function HolidayCodeConfigurationOverview() {
                             </div>
                         </div>
                     </div>}
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "holiday_code_configuration" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? 'calc(100vh - 362px)' : 'calc(100vh - 162px)'} ></Table>
-                    {overviewContent === "holiday_code_configuration" && <div className={"col-md-12 mb-3 text-right pr-5 mt-2"}>
+                    <div className="flex-1">
+                        <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "holiday_code_configuration" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>
+                    </div>
+                    {overviewContent === "holiday_code_configuration" && <div className={" mb-3 text-right pr-3 mt-2"}>
                         <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
                         <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/configurations")} CustomStyle="mr-3"></CustomButton>
                     </div>}

@@ -14,6 +14,7 @@ import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
 import { GetFormattedDate, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
 import QRCode from "react-qr-code";
 import { t } from "../translations/Translation";
+import DateInput from "../components/atoms/formFields/DateInput";
 
 export default function Uurrooster() {
 
@@ -90,27 +91,12 @@ export default function Uurrooster() {
                     let resp = result.data
                     setQrcode(resp.qr_token);
                     resp.planning_data.map((val, i) => {
-                        // let obj = {}
-                        // obj['workstation_name'] = val.workstation_name
-                        // val.plannings.map((arr_data, i) => {
-                        // obj['employee_name'] = arr_data?.employee_name
-                        // obj['function_name'] = arr_data?.function_name
-                        // obj['plan_start'] = arr_data?.start_time
-                        // obj['start_time'] = arr_data?.actual_start_timings[0]
-                        // obj['dimona_start'] = arr_data?.start_dimona_status[0]
-                        // obj['pause'] = arr_data?.break_timings[0]
-                        // obj['plan_end'] = arr_data?.end_time
-                        // obj['end_time'] = arr_data?.actual_end_timings[0]
-                        // obj['dimona_end'] = arr_data?.end_dimona_status[0]
-                        // obj['cost'] = arr_data?.cost
-                        // uurroosterData.push(obj);
-                        // })
-
                         val.plannings.map((arr_data, i) => {
                             if (arr_data?.actual_start_timings?.length >= 1) {
                                 arr_data?.actual_start_timings.map((value, j) => {
                                     if (j === 0) {
                                         let extra_obj = {
+                                            'ws_name': val.workstation_name,
                                             'workstation_name': i == 0 ? val.workstation_name : '',
                                             'employee_name': j === 0 ? arr_data?.employee_name : '',
                                             'function': j === 0 ? arr_data?.function_name : '',
@@ -121,13 +107,15 @@ export default function Uurrooster() {
                                             'plan_end': j === 0 ? arr_data?.end_time : '',
                                             'end_time': arr_data?.actual_end_timings[j],
                                             'dimona_end': arr_data?.end_dimona_status[j],
-                                            'cost': j === 0 ? arr_data?.cost : ''
+                                            'cost': j === 0 ? arr_data?.cost : '',
+                                            'count': val.plannings?.length
                                         }
                                         uurroosterData.push(extra_obj);
                                     }
                                 })
                             } else {
                                 let extra_obj = {
+                                    'ws_name': val.workstation_name,
                                     'workstation_name': val.workstation_name,
                                     'employee_name': arr_data?.employee_name,
                                     'function_name': arr_data?.function_name,
@@ -138,7 +126,8 @@ export default function Uurrooster() {
                                     'plan_end': '',
                                     'end_time': '',
                                     'dimona_end': '',
-                                    'cost': ''
+                                    'cost': '',
+                                    'count': val.plannings?.length
                                 }
                                 uurroosterData.push(extra_obj);
 
@@ -155,19 +144,29 @@ export default function Uurrooster() {
     // Next or previous arrow action
     const setNextPrev = (type) => {
         if (type === 'prev') {
-            const prevDate = new Date(date);
-            prevDate.setDate(date.getDate() - 1);
+            const [day, month, year] = dayDate.split('-');
+            let date_obj = new Date(year, month - 1, day)
+            const prevDate = new Date(date_obj);
+            prevDate.setDate(date_obj.getDate() - 1);
             setDate(prevDate);
             setDayDate(GetFormattedDate(prevDate, prevDate.getFullYear()))
             setDayData(prevDate.getDate() + ' ' + Months[prevDate.getMonth()] + ', ' + prevDate.getFullYear())
         } else {
-            const nextDate = new Date(date);
-            nextDate.setDate(date.getDate() + 1);
+            const [day, month, year] = dayDate.split('-');
+            let date_obj = new Date(year, month - 1, day)
+            const nextDate = new Date(date_obj);
+            nextDate.setDate(date_obj.getDate() + 1);
             setDayDate(GetFormattedDate(nextDate, nextDate.getFullYear()))
             setDate(nextDate)
             setDayData(nextDate.getDate() + ' ' + Months[nextDate.getMonth()] + ', ' + nextDate.getFullYear())
         }
     }
+
+    useEffect(() => {
+        const [day, month, year] = dayDate.split('-');
+        let date_obj = new Date(year, month - 1, day)
+        setDayData(date_obj.getDate() + ' ' + Months[date_obj.getMonth()] + ', ' + date_obj.getFullYear())
+    }, [dayDate])
 
 
     return (
@@ -188,9 +187,17 @@ export default function Uurrooster() {
                             CustomStyle="col-md-8 my-2 px-0 mx-auto pointer"
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
-                            <div className="button-style mr-5 mr-sm-2" onClick={() => setNextPrev('prev')}><img className="planning-icon pointer" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
-                            <p className="monthText mx-auto my-auto">{dayData}</p>
-                            <div className="button-style ml-5 ml-sm-2" onClick={() => setNextPrev('next')}><img className="planning-icon pointer" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
+                            <div className="button-style" onClick={() => setNextPrev('prev')}><img className="planning-icon pointer" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
+                            {/* <p className="monthText mx-auto my-auto">{dayData}</p> */}
+                            <DateInput
+                                key={'calendar'}
+                                title={''}
+                                name={'date'}
+                                CustomStyle={'w-100'}
+                                value={dayDate}
+                                setValue={(e) => setDayDate(e)}
+                            ></DateInput>
+                            <div className="button-style" onClick={() => setNextPrev('next')}><img className="planning-icon pointer" src={RightArrowIcon} alt={t("NEXT_ARROW")}></img></div>
                         </div>
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
@@ -222,7 +229,8 @@ export default function Uurrooster() {
                             {planData.map((val, index) => {
                                 return (
                                     <tr key={val.workstation_id}>
-                                        <td className="text-center">{val.workstation_name}</td>
+                                        {index === 0 && <td className="text-center" >{''}</td>}
+                                        {index === 1 && <td className="text-center" rowSpan={val.count}>{val.ws_name}</td>}
                                         <td className="text-center">{val.employee_name}</td>
                                         <td className="text-center">{val.function_name}</td>
                                         <td className="text-center">{val.plan_start}</td>

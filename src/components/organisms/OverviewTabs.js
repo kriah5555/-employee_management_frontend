@@ -3,19 +3,22 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { t } from "../../translations/Translation";
 import CompanyOverviews from "../molecules/CompanyOverviews";
 import 'react-tabs/style/react-tabs.css';
-import AddCompanyIcon from "../../static/icons/AddCompany.svg";
+
 import BackIcon from "../../static/icons/BackIcon.png"
 import FilterIcon from "../../static/icons/Filter.svg";
 import ExportIcon from "../../static/icons/Export.svg";
-import AddLocationIcon from "../../static/icons/AddLocation.svg"
-import AddWorkstationIcon from "../../static/icons/Workstation.svg"
+
 import { ToastContainer } from 'react-toastify';
-import SalariesIcon from "../../static/icons/Salaries.svg";
-import ContractTypeIcon from "../../static/icons/ContractType.svg";
+import Rules from "../molecules/Rules";
+import AddCompany from "../../static/icons/AddCompany";
+import AddLocation from "../../static/icons/AddLocation";
+import Workstation from "../../static/icons/Workstation";
+import Salaries from "../../static/icons/Salaries";
+import ContractType from "../../static/icons/ContractType";
 
 export default function OverviewTabs({ setCompany }) {
 
-    const [addIcon, setAddIcon] = useState(AddCompanyIcon);
+    const [addIcon, setAddIcon] = useState(<AddCompany/>);
     const [addTitle, setAddTitle] = useState('Add company');
     const [addUrl, setAddUrl] = useState('/manage-companies/company/0');
     const [tabIndex, setTabIndex] = useState(0);
@@ -55,27 +58,27 @@ export default function OverviewTabs({ setCompany }) {
     const getRightHeaderContent = (tabName) => {
 
         if (tabName === 'company') {
-            setAddIcon(AddCompanyIcon);
+            setAddIcon(<AddCompany/>);
             setAddTitle(t("ADD_COMPANY"));
             setAddUrl('/manage-companies/company/0');
         } else if (tabName === 'location') {
-            setAddIcon(AddLocationIcon);
+            setAddIcon(<AddLocation/>);
             setAddTitle(t("ADD_LOCATION"));
             setAddUrl('/manage-companies/location/0')
         } else if (tabName === 'workstation') {
-            setAddIcon(AddWorkstationIcon);
+            setAddIcon(<Workstation/>);
             setAddTitle(t("ADD_WORKSTATION"));
             setAddUrl('/manage-companies/workstation/0')
         } else if (tabName === 'responsible_person') {
-            setAddIcon(AddWorkstationIcon);
+            setAddIcon(<Workstation/>);
             setAddTitle(t("ADD_RESPONSIBLE_PERSON"));
             setAddUrl('/manage-companies/responsible_person/0')
         } else if (tabName === 'cost center') {
-            setAddIcon(SalariesIcon);
+            setAddIcon(<Salaries/>);
             setAddTitle(t("ADD_COST_CENTER"));
             setAddUrl('/manage-companies/cost_center/0')
         } else if (tabName === 'contracts') {
-            setAddIcon(ContractTypeIcon)
+            setAddIcon(<ContractType/>)
             setAddTitle(t("ADD_CONTRACT"));
             setAddUrl('/add-contracts-template/company');
         } else {
@@ -143,7 +146,7 @@ export default function OverviewTabs({ setCompany }) {
                     {addIcon && <div className=" border-0  add_company_block">
                         <div className="d-flex justify-content-end mx-3">
                             {addTitle !== t("ADD_COMPANY") && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p>}
-                            {<a href={addUrl}><p className="mb-0 text-dark text-nowrap"><img className="header-icon mr-2 pointer" src={addIcon}></img><span className="add_btn">{addTitle}</span></p></a>}
+                            {<a href={addUrl}><span className="mb-0 text-nowrap add_btn">{addIcon}<span>{addTitle}</span></span></a>}
                             {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                             {/* <img src={FilterIcon} className="header-icon ml-2"></img>
                         <img src={ExportIcon} className="header-icon ml-2"></img> */}
@@ -181,7 +184,9 @@ export default function OverviewTabs({ setCompany }) {
                 </TabPanel>
 
                 <TabPanel>
-                    <h3 className="text-center mt-3">{t("RULES")}</h3>
+                    {/* <div className="tablescroll"> */}
+                        <Rules overviewContent={'rules'}></Rules>
+                        {/* </div> */}
                 </TabPanel>
             </div>
         </Tabs>

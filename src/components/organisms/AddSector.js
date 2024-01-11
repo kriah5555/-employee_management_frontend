@@ -405,159 +405,161 @@ export default function AddSector() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="form-container mt-3 mb-2 border bg-white ">
-                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{t("ADD_SECTORS")}</h2>
+            <div className="form-container mt-3 mb-2 border bg-white d-flex flex-column ">
+                <h2 id="text-indii-blue" className="p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{t("ADD_SECTORS")}</h2>
 
-                <Tabs selectedIndex={selectedTab} className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
-                    <TabList>
-                        {TabsData.map((val) => {
-                            return (
-                                <Tab key={val.tabName} >{val.tabHeading}</Tab>
-                            )
-                        })}
-                    </TabList>
-
-                    <TabPanel>
-                        <div className="add_sectors_body">
-                            <Forms
-                                formTitle={''}
-                                redirectURL={'/manage-configurations/sectors'}
-                                changeCheckbox={changeCheckbox}
-                                checkboxList={checkboxList}
-                                field1={sector_name}
-                                field2={paritair_committee}
-                                field3={employee_type}
-                                field4={category_number}
-                                field5={sector_desc}
-                                field6={sector_status}
-                                field8={night_shift_start}
-                                field9={night_shift_end}
-                                SetValues={SetValues}
-                                onSave={OnSave}
-                                view={'sectors'}
-                            ></Forms>
-                        </div>
-                    </TabPanel>
-
-                    <TabPanel>
-                        <div className="d-flex">
-                            <div className="col-md-12 px-0 border pb-5">
-                                <div className="row col-md-12 table-head-bg p-2 m-0">
-                                    {ExperienceHeaders.map((head, i) => {
-                                        return (
-                                            <div className={head.style} key={head.title}>
-                                                <p className="mb-0 font-weight-bold">{head.title}</p>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-
-                                {levelsCount.map((val, index) => {
+                <div className="d-flex flex-column flex-1">
+                    <div className="flex-1">
+                        <Tabs selectedIndex={selectedTab} className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
+                            <TabList>
+                                {TabsData.map((val) => {
                                     return (
-                                        <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
-                                            <div className="col-md-4 pl-3">
-                                                <p className="mb-0">{index}</p>
-                                            </div>
-                                            <div className="col-md-4">
-                                                <div className="row m-0 justify-content-center">
-                                                    <TextInput
-                                                        title={''}
-                                                        name={'from_range'}
-                                                        CustomStyle={"col-md-4 float-left"}
-                                                        required={false}
-                                                        value={experience[index]['from'] !== '' ? experience[index]['from'] : undefined}
-                                                        setValue={(e) => SetValues(e, 'from', index)}
-                                                        error={''}
-                                                    ></TextInput>
-                                                    <TextInput
-                                                        title={''}
-                                                        name={'to_range'}
-                                                        CustomStyle={"col-md-4 float-left"}
-                                                        required={false}
-                                                        value={experience[index]['to'] ? experience[index]['to'] : undefined}
-                                                        setValue={(e) => SetValues(e, 'to', index)}
-                                                        error={''}
-                                                    ></TextInput>
-                                                </div>
-                                            </div>
-                                            {index === levelsCount.length - 1 && <div className="col-md-4 text-right pr-4">
-                                                {<img className="header-icon mr-4 pointer" src={AddIcon} onClick={() => AddNewRow('experience')} alt={t("ADD_TEXT")} title={t("ADD_TEXT")}></img>}
-                                                {levelsCount.length > 1 && <img className="header-icon pointer" src={DeleteIcon} onClick={() => DeleteRow(index, 'experience')} alt={t("DELETE")} title={t("DELETE")}></img>}
-                                            </div>}
-                                        </div>
+                                        <Tab key={val.tabName} >{val.tabHeading}</Tab>
                                     )
                                 })}
-                            </div>
-                        </div>
-                    </TabPanel>
+                            </TabList>
 
-                    <TabPanel>
-                        <div className="d-flex">
-                            <div className="col-md-12 px-0 border pb-5">
-                                <div className="row col-md-12 table-head-bg p-2 m-0">
-                                    {AgeHeaders.map((head, i) => {
-                                        return (
-                                            <div className={head.style} key={head.title}>
-                                                <p className="mb-0 font-weight-bold">{head.title}</p>
-                                            </div>
-                                        )
-                                    })}
+                            <TabPanel>
+                                <div className="add_sectors_body">
+                                    <Forms
+                                        formTitle={''}
+                                        redirectURL={'/manage-configurations/sectors'}
+                                        changeCheckbox={changeCheckbox}
+                                        checkboxList={checkboxList}
+                                        field1={sector_name}
+                                        field2={paritair_committee}
+                                        field3={employee_type}
+                                        field4={category_number}
+                                        field5={sector_desc}
+                                        field6={sector_status}
+                                        field8={night_shift_start}
+                                        field9={night_shift_end}
+                                        SetValues={SetValues}
+                                        onSave={OnSave}
+                                        view={'sectors'}
+                                    ></Forms>
                                 </div>
+                            </TabPanel>
 
-                                {ageRow.map((val, index) => {
-                                    return (
-                                        <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
-                                            <div className="col-md-3 pl-0">
-                                                <Dropdown
-                                                    options={ageData}
-                                                    selectedOptions={[{ value: age[index]['age'], label: age[index]['age'] }]}
-                                                    onSelectFunction={(e) => SetValues(e, 'age', index)}
-                                                    CustomStyle="col-md-4 pl-0 float-left"
-                                                    title={''}
-                                                    required={false}
-                                                    isMulti={false}
-                                                    error={''}
-                                                    styleMargin={''}
-                                                ></Dropdown>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <div className="row m-0 justify-content-center">
-                                                    <TextInput
-                                                        key={ageData.age}
-                                                        title={''}
-                                                        name={ageData.age}
-                                                        CustomStyle={"col-md-5 float-left"}
-                                                        required={false}
-                                                        value={age[index]['percentage'] ? age[index]['percentage'] : undefined}
-                                                        setValue={(e) => SetValues(e, 'salary', index)}
-                                                        // error={''}
-                                                        age={true}
-                                                    ></TextInput>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <div className="row m-0 justify-content-center">
-                                                    <TimeInput
-                                                        setTime={(e) => SetValues(e, 'max_time', index)}
-                                                        value={age[index]['max_time_to_work']}
-                                                        type="max_time"
-                                                        index={index}
-                                                        customStyle='col-5'
-                                                    ></TimeInput>
-                                                </div>
-                                            </div>
-                                            {index === ageRow.length - 1 && <div className="col-md-3 text-right pr-4">
-                                                {<img className="header-icon mr-4 pointer" src={AddIcon} onClick={() => AddNewRow('age')} alt={t("ADD_TEXT")} title={t("ADD_TEXT")}></img>}
-                                                {ageRow.length > 1 && <img className="header-icon pointer" src={DeleteIcon} onClick={() => DeleteRow(index, 'age')} alt={t("DELETE")} title={t("DELETE")}></img>}
-                                            </div>}
+                            <TabPanel>
+                                <div className="d-flex">
+                                    <div className="col-md-12 px-0 border pb-5">
+                                        <div className="row col-md-12 table-head-bg p-2 m-0">
+                                            {ExperienceHeaders.map((head, i) => {
+                                                return (
+                                                    <div className={head.style} key={head.title}>
+                                                        <p className="mb-0 font-weight-bold">{head.title}</p>
+                                                    </div>
+                                                )
+                                            })}
                                         </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    </TabPanel>
 
-                    {/* <TabPanel>
+                                        {levelsCount.map((val, index) => {
+                                            return (
+                                                <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
+                                                    <div className="col-md-4 pl-3">
+                                                        <p className="mb-0">{index}</p>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="row m-0 justify-content-center">
+                                                            <TextInput
+                                                                title={''}
+                                                                name={'from_range'}
+                                                                CustomStyle={"col-md-4 float-left"}
+                                                                required={false}
+                                                                value={experience[index]['from'] !== '' ? experience[index]['from'] : undefined}
+                                                                setValue={(e) => SetValues(e, 'from', index)}
+                                                                error={''}
+                                                            ></TextInput>
+                                                            <TextInput
+                                                                title={''}
+                                                                name={'to_range'}
+                                                                CustomStyle={"col-md-4 float-left"}
+                                                                required={false}
+                                                                value={experience[index]['to'] ? experience[index]['to'] : undefined}
+                                                                setValue={(e) => SetValues(e, 'to', index)}
+                                                                error={''}
+                                                            ></TextInput>
+                                                        </div>
+                                                    </div>
+                                                    {index === levelsCount.length - 1 && <div className="col-md-4 text-right pr-4">
+                                                        {<img className="header-icon mr-4 pointer" src={AddIcon} onClick={() => AddNewRow('experience')} alt={t("ADD_TEXT")} title={t("ADD_TEXT")}></img>}
+                                                        {levelsCount.length > 1 && <img className="header-icon pointer" src={DeleteIcon} onClick={() => DeleteRow(index, 'experience')} alt={t("DELETE")} title={t("DELETE")}></img>}
+                                                    </div>}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </TabPanel>
+
+                            <TabPanel>
+                                <div className="d-flex">
+                                    <div className="col-md-12 px-0 border pb-5">
+                                        <div className="row col-md-12 table-head-bg p-2 m-0">
+                                            {AgeHeaders.map((head, i) => {
+                                                return (
+                                                    <div className={head.style} key={head.title}>
+                                                        <p className="mb-0 font-weight-bold">{head.title}</p>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+
+                                        {ageRow.map((val, index) => {
+                                            return (
+                                                <div className="row col-md-12 p-3 m-0 border-bottom" key={val}>
+                                                    <div className="col-md-3 pl-0">
+                                                        <Dropdown
+                                                            options={ageData}
+                                                            selectedOptions={[{ value: age[index]['age'], label: age[index]['age'] }]}
+                                                            onSelectFunction={(e) => SetValues(e, 'age', index)}
+                                                            CustomStyle="col-md-4 pl-0 float-left"
+                                                            title={''}
+                                                            required={false}
+                                                            isMulti={false}
+                                                            error={''}
+                                                            styleMargin={''}
+                                                        ></Dropdown>
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <div className="row m-0 justify-content-center">
+                                                            <TextInput
+                                                                key={ageData.age}
+                                                                title={''}
+                                                                name={ageData.age}
+                                                                CustomStyle={"col-md-5 float-left"}
+                                                                required={false}
+                                                                value={age[index]['percentage'] ? age[index]['percentage'] : undefined}
+                                                                setValue={(e) => SetValues(e, 'salary', index)}
+                                                                // error={''}
+                                                                age={true}
+                                                            ></TextInput>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <div className="row m-0 justify-content-center">
+                                                            <TimeInput
+                                                                setTime={(e) => SetValues(e, 'max_time', index)}
+                                                                value={age[index]['max_time_to_work']}
+                                                                type="max_time"
+                                                                index={index}
+                                                                customStyle='col-5'
+                                                            ></TimeInput>
+                                                        </div>
+                                                    </div>
+                                                    {index === ageRow.length - 1 && <div className="col-md-3 text-right pr-4">
+                                                        {<img className="header-icon mr-4 pointer" src={AddIcon} onClick={() => AddNewRow('age')} alt={t("ADD_TEXT")} title={t("ADD_TEXT")}></img>}
+                                                        {ageRow.length > 1 && <img className="header-icon pointer" src={DeleteIcon} onClick={() => DeleteRow(index, 'age')} alt={t("DELETE")} title={t("DELETE")}></img>}
+                                                    </div>}
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </TabPanel>
+
+                            {/* <TabPanel>
                         {ageData.map((ageData, index) => {
                             return (
                                 <TextInput
@@ -574,16 +576,18 @@ export default function AddSector() {
                             )
                         })}
                     </TabPanel> */}
-                </Tabs>
-                <div className={"col-md-12 my-4 text-right px-0"}>
-                    <div className="d-flex justify-content-between ml-3 mr-4">
-                        <div className="text-left">
-                            <CustomButton buttonName={t("CANCEL")} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3 ml-0"></CustomButton>
-                        </div>
-                        <div className="text-right">
-                            {selectedTab !== 0 && <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => handlePrevious()} CustomStyle="mr-3"></CustomButton>}
-                            {selectedTab !== 2 && <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
-                            {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                        </Tabs>
+                    </div>
+                    <div className={" my-4 text-right px-0"}>
+                        <div className="d-flex justify-content-between ml-3 mr-4">
+                            <div className="text-left">
+                                <CustomButton buttonName={t("CANCEL")} ActionFunction={() => navigate('/manage-configurations/sectors')} CustomStyle="mr-3 ml-0"></CustomButton>
+                            </div>
+                            <div className="text-right">
+                                {selectedTab !== 0 && <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => handlePrevious()} CustomStyle="mr-3"></CustomButton>}
+                                {selectedTab !== 2 && <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
+                                {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                            </div>
                         </div>
                     </div>
                 </div>

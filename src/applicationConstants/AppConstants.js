@@ -74,7 +74,9 @@ export const GET_CONSTANTS = {
     'COST_CENTER': 'Cost center',
     'SOCIAL_SECRETARY': 'Social secretary',
     'INTERIM_AGENCIES': 'Interim agencies',
-    'PARAMETER': 'Rules & parameters',
+    'DEFAULT_PARAMETER': 'default parameters',
+    'PARAMETER': 'Parameters',
+    
 
     // Planning Constants
     'OVERVIEW': 'Overview',
@@ -399,6 +401,13 @@ export const GET_CONSTANTS = {
     'ADD_PUBLIC_HOLIDAY':'Add public holiday',
     'HOLIDAY_NAME':'Holiday name',
     'DATE':'date',
+    'MANAGE_DEFAULT_PARAM':'Manage default parameter',
+    'MANAGE_PARAM': 'Manage parameters',
+    'TYPE':'Type',
+    'VALUE': 'Value',
+    'DEFAULT_VALUE': 'Default value',
+    'UPDATE_RULE': 'Update rule',
+    'COPY_DEFAULT':'Use default value',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',

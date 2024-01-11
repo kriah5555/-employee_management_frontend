@@ -279,10 +279,10 @@ export default function HolidayCodeCreation() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="form-container mt-3 mb-2 border bg-white">
-                <h2 id="text-indii-blue" className="col-md-12 p-3 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/manage-holiday-configurations/holiday_code")} src={BackIcon}></img>{t("ADD_HOLIDAY_CODE")}</h2>
+            <div className="form-container mt-3 border bg-white d-flex flex-column">
+                <h2 id="text-indii-blue" className="p-3 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/manage-holiday-configurations/holiday_code")} src={BackIcon}></img>{t("ADD_HOLIDAY_CODE")}</h2>
 
-                <Tabs className={"mx-4 mt-3 border"} onSelect={(index) => setSelectedTab(index)}>
+                <Tabs className={"mx-4 mt-3 border flex-1"} onSelect={(index) => setSelectedTab(index)}>
                     <TabList>
                         {TabsData.map((val) => {
                             return (
@@ -309,7 +309,8 @@ export default function HolidayCodeCreation() {
                         ></FormsNew>
                     </TabPanel>}
                 </Tabs>
-                <div className={"col-md-12 mt-4 mb-2 text-right pr-2"}>
+
+                <div className={"my-3 text-right"}>
                     {(params.id !== undefined || (params.id === undefined && selectedTab === 1)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>}
                     <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/manage-holiday-configurations/holiday_code")} CustomStyle="mr-3"></CustomButton>
                 </div>

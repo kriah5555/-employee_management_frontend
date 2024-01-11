@@ -58,8 +58,8 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
         //Search toolbar props
         toolbar: true,
         search: true,
-        searchFieldAlignment: tableName === 'translation' ? 'left' : 'right',
-        searchFieldStyle: tableName === 'translation' ? searchStyle : {},
+        searchFieldAlignment: tableName === 'translation' || tableName === 'rules' ? 'left' : 'right',
+        searchFieldStyle: tableName === 'translation' || tableName === 'rules' ? searchStyle : {},
         // searchFieldAlignment: 'right',
         // searchFieldStyle: searchStyle, //padding: '0px',
 
@@ -111,7 +111,7 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
                 data={rows}
                 isLoading={rows ? false : true}
                 options={options}
-                editable={tableName === 'translation' ? {
+                editable={tableName === 'translation' || tableName === 'rules' ? {
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
                             setTimeout(() => {

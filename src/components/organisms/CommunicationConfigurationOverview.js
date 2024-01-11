@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import CustomTable from "../atoms/CustomTable";
 import { t } from "../../translations/Translation";
+import Add from "../../static/icons/Add";
 
 export default function CommunicationConfigurationOverview() {
 
@@ -33,21 +34,25 @@ export default function CommunicationConfigurationOverview() {
             title: t("STRING"),
             field: 'key',
             size: 200,
+            editable: 'never',
         },
         {
             title: 'EN',
             field: 'text.en',
             size: 200,
+            editable: 'onUpdate'
         },
         {
             title: 'NL',
             field: 'text.nl',
             size: 200,
+            editable: 'onUpdate'
         },
         {
             title: 'FR',
             field: 'text.fr',
             size: 200,
+            editable: 'onUpdate'
         },
 
     ]
@@ -211,17 +216,17 @@ export default function CommunicationConfigurationOverview() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            <div className="company-tab-width mt-3 border bg-white">
-                <div className={"d-flex col-md-12 justify-content-between py-3 border-thick align-items-center"}>
+            <div className="company-tab-width mt-3 border bg-white d-flex flex-column">
+                <div className={"d-flex px-3 justify-content-between py-3 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
-                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center " onClick={() => navigate(addUrl)}>
-                            <img src={AddIcon} className="header-icon mr-1"></img>{addTitle}
+                        {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
+                            <Add/><span>{addTitle}</span>
                         </p>}
                     </div>
                 </div>
-                {overviewContent !== 'translation' && <div className="tablescroll">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={tableName} viewAction={viewAction} height={'calc(100vh - 162px)'} ></Table>
+                {overviewContent !== 'translation' && <div className="tablescroll flex-1">
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={tableName} viewAction={viewAction} height={'100%'} ></Table>
                 </div>}
                 {overviewContent === 'translation' && <CustomTable title={''} columns={translation_headers} rows={listData} setRows={setListData} tableName={'translation'} height={'calc(100vh - 162px)'} UpdateRow={UpdateRow}></CustomTable>}
 

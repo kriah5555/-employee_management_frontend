@@ -9,10 +9,10 @@ import NotificationIcon from "../static/icons/Notification.svg"
 import DummyIcon from "../static/icons/Profile.png"
 import MenuContent from "../components/atoms/MenuContent"
 import Dropdown from "../components/atoms/Dropdown"
-import AddPlanIcon from "../static/icons/Uurrooster.svg"
-import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
-import AddHolidayIcon from "../static/icons/ManageHoliday.svg"
-import AddLocation from "../static/icons/AddLocation.svg"
+// import AddPlanIcon from "../static/icons/Uurrooster.svg"
+// import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
+// import AddHolidayIcon from "../static/icons/ManageHoliday.svg"
+// import AddLocation from "../static/icons/AddLocation.svg"
 import DownArrowIcon from "../static/icons/arrow.png"
 import { GetTranslatedConstants, t } from "../translations/Translation"
 
@@ -21,6 +21,10 @@ import { LogoutApiUrl, ResponsibleCompaniesApiUrl } from "../routes/ApiEndPoints
 import { useNavigate } from "react-router-dom"
 import { getFormattedDropdownOptions } from "../utilities/CommonFunctions"
 import Popup from "../utilities/popup/Popup"
+import AddEmployee from "../static/icons/AddEmployee"
+import AddLocation from "../static/icons/AddLocation"
+import Uurrooster from "../static/icons/Uurrooster"
+import ManageHoliday from "../static/icons/ManageHoliday"
 
 export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList }) {
 
@@ -142,11 +146,11 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     ]
 
     const shortcutData = [
-        { title: t("ADD_PLANNING"), icon: AddPlanIcon, url: '/add-planning' },
-        { title: t("ADD_EMPLOYEE"), icon: AddEmployeeIcon, url: '/add-employees' },
-        { title: t("ADD_HOLIDAYS"), icon: AddHolidayIcon, url: '/add-holidays' },
-        { title: t("SEND_INVOICES"), icon: AddPlanIcon, url: '/send-incoices' },
-        { title: t("ADD_LOCATION"), icon: AddLocation, url: '/add-location' },
+        { title: t("ADD_PLANNING"), icon: <Uurrooster />, url: '/add-planning' },
+        { title: t("ADD_EMPLOYEE"), icon: <AddEmployee/>, url: '/add-employees' },
+        { title: t("ADD_HOLIDAYS"), icon: <ManageHoliday/>, url: '/add-holidays' },
+        { title: t("SEND_INVOICES"), icon: <Uurrooster />, url: '/send-incoices' },
+        { title: t("ADD_LOCATION"), icon: <AddLocation/>, url: '/add-location' },
     ]
 
     const NotificationData = [

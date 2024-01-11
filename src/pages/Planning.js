@@ -23,7 +23,7 @@ export default function Planning({ setHeaderCompanyDropdown }) {
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3">
-                <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+                <Tabs className="h-100" selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                     <ToastContainer
                         position="top-center"
                         autoClose={2000}
@@ -58,8 +58,9 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     <TabPanel>
                         <div className="tablescroll"></div>
                     </TabPanel>
-                    <TabPanel>
-                        <div className="tablescroll">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
+
+                    <TabPanel className="open_shift_Main react-tabs__tab-panel">
+                        <div className="tablescroll h-100">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
                     </TabPanel>
                 </Tabs>
             </div>
