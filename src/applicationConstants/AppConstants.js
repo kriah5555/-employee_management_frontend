@@ -76,19 +76,19 @@ export const GET_CONSTANTS = {
     'INTERIM_AGENCIES': 'Interim agencies',
     'DEFAULT_PARAMETER': 'default parameters',
     'PARAMETER': 'Parameters',
-    
+
 
     // Planning Constants
     'OVERVIEW': 'Overview',
     'PLANNING_LOGS': 'Planning logs',
     'HOLIDAY_LEAVE': 'Holiday/leave',
-    'EVENT_PLANNING':'Event planning',
-    'OPEN_SHIFT':'Open shift',
+    'EVENT_PLANNING': 'Event planning',
+    'OPEN_SHIFT': 'Open shift',
     'DRAFTED': 'Drafted',
     'REPEAT': 'Repeat',
     'SIGN': 'Sign contract',
-    'UPDATE':'Update',
-    'CLEAR':'Clear',
+    'UPDATE': 'Update',
+    'CLEAR': 'Clear',
 
 
     // Days constants
@@ -137,7 +137,7 @@ export const GET_CONSTANTS = {
     'MY_BANK_ACCOUNT': 'My bank account',
     'BACK_TO_DASHBOARD': 'Back to Dashboard',
     'LOGOUT': 'Logout',
-    "SIGNATURE_DETAILS":'Signature Details',
+    "SIGNATURE_DETAILS": 'Signature Details',
 
     //Uurrooster constants
     'SELECT_LOCATION': 'Select location',
@@ -181,26 +181,26 @@ export const GET_CONSTANTS = {
     'CANCEL': 'Cancel',
 
     // Holiday/Leave constants
-    'PENDING':'Pending',
-    'APPROVED':'Approved',
-    'REJECTED':'Rejected',
-    'CANCELLED':'Cancelled',
-    'APPLIED_DATE':'Applied date',
-    'MANAGER':'Manager',
-    'LEAVE_DATE':'Leave date',
-    'SELECT_DATE':'Select date',
-    'TITLE_TEXT':'Title',
-    'APPLIED_BY':'Applied by',
-    'REPORTING_MANAGER':'Reporting manager',
-    'REQUESTED_ON':'Requested on',
-    'APPLY':'Apply',
-    'RECENT':'Recent',
+    'PENDING': 'Pending',
+    'APPROVED': 'Approved',
+    'REJECTED': 'Rejected',
+    'CANCELLED': 'Cancelled',
+    'APPLIED_DATE': 'Applied date',
+    'MANAGER': 'Manager',
+    'LEAVE_DATE': 'Leave date',
+    'SELECT_DATE': 'Select date',
+    'TITLE_TEXT': 'Title',
+    'APPLIED_BY': 'Applied by',
+    'REPORTING_MANAGER': 'Reporting manager',
+    'REQUESTED_ON': 'Requested on',
+    'APPLY': 'Apply',
+    'RECENT': 'Recent',
 
     // Oth Planning
     'OTH_TITLE': 'Oth auto planning',
     'CREATE_OTH': 'Create oth plans',
-    'ADD_OTH':'Add Oth auto planning',
-    'RENEW_OTH':"Renew plans automatically",
+    'ADD_OTH': 'Add Oth auto planning',
+    'RENEW_OTH': "Renew plans automatically",
     'DELETE_OTH_WARNING': 'Are you sure, you want to delete this oth plan?',
     'REPETATION': 'Repetation',
 
@@ -215,9 +215,9 @@ export const GET_CONSTANTS = {
     'SSN': 'Social security number',
     'SEARCH_TEXT': 'Search',
     'SOCIAL_SECRETARY_NUMBER': 'Social secretary number',
-    'DOCUMENT_NAME':'Document name',
-    'INVITE_EMPLOYEE':'Invite employee',
-    'SEND':'send',
+    'DOCUMENT_NAME': 'Document name',
+    'INVITE_EMPLOYEE': 'Invite employee',
+    'SEND': 'send',
 
     // Manage companies
     'ADD_COMPANY': 'Add company',
@@ -396,18 +396,33 @@ export const GET_CONSTANTS = {
     'ADD_SOCIAL_SECRETARY': 'Add social secretary',
     'MANAGE_INTERIM_AGENCIES': 'Manage interim agencies',
     'ADD_INTERIM_AGENCIES': 'Add interim agencies',
-    'PUBLIC_HOLIDAY_CONFIGURATION':'Public holiday configuration',
-    'MANAGE_PUBLIC_HOLIDAY':'Manage public holiday',
-    'ADD_PUBLIC_HOLIDAY':'Add public holiday',
-    'HOLIDAY_NAME':'Holiday name',
-    'DATE':'date',
-    'MANAGE_DEFAULT_PARAM':'Manage default parameter',
+    'PUBLIC_HOLIDAY_CONFIGURATION': 'Public holiday configuration',
+    'MANAGE_PUBLIC_HOLIDAY': 'Manage public holiday',
+    'ADD_PUBLIC_HOLIDAY': 'Add public holiday',
+    'HOLIDAY_NAME': 'Holiday name',
+    'DATE': 'date',
+    'MANAGE_DEFAULT_PARAM': 'Manage default parameter',
     'MANAGE_PARAM': 'Manage parameters',
-    'TYPE':'Type',
+    'TYPE': 'Type',
     'VALUE': 'Value',
     'DEFAULT_VALUE': 'Default value',
     'UPDATE_RULE': 'Update rule',
-    'COPY_DEFAULT':'Use default value',
+    'COPY_DEFAULT': 'Use default value',
+    'TAXES': 'Taxes',
+    'SOCIAL_SECRETARY_AND_REPORTING': 'Social secretary and reporting',
+    'TAX_FROM_DATE': 'Tax from date',
+    'TAX_TO_DATE': 'Tax to date',
+    'HOURLY_TAX': 'Hourly tax',
+    'DAILY_MAXIMUM_TAX': 'Daily maximum tax',
+    'EMPLOYEE_TAX': 'Employee tax',
+    'EMPLOYER_TAX':'Employer tax',
+    'YEAR_END_BONUS': 'Year End Bonus',
+    'HOLIDAY_PAY': 'Holiday bonus',
+    'PAY_TYPE_TAX_PERCENTAGE': 'Pay type tax percentage',
+    'MANAGE_TAXES':'Manage taxes',
+    'ADD_TAXES':'Add taxes',
+    'MANAGE_COEFFICIENT':'Manage coefficient',
+    'SALARY_COEFFICIENT':'Salary coefficient',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',
@@ -538,6 +553,6 @@ export const GET_CONSTANTS = {
     'ADD_EMPLOYEE': 'Add employee',
     'ADD_HOLIDAYS': 'Add holidays',
     'SEND_INVOICES': 'Send invoices',
-    'PLEASE_SELECT_RESPONSIBLE_COMPANY':'Please select responsible company'
+    'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company'
 
 };

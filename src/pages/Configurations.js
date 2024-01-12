@@ -57,6 +57,11 @@ export default function Configurations() {
         // { title: ('Message '), icon: Email, styleClass: subTabStyle, type: 'message' },
         { title: t("CONTRACT_TEMPLATES"), icon: <ContractType />, styleClass: subTabStyle, type: 'contracts_template' },
     ]
+
+    const SocialSecretaryAndConfigurationTabs = [
+        { title: t("TAXES"), icon:<SocialSecretary />, styleClass: subTabStyle, type: 'taxes' },
+        { title: t("SALARY_COEFFICIENT"), icon:<Salaries />, styleClass: subTabStyle, type: 'salary-coefficient' },
+    ]
     return (
         <div className="right-container">
             <div className="company-tab-width mt-3 border bg-white">
@@ -89,6 +94,16 @@ export default function Configurations() {
                             CommunicationTabs.map((val, index) => {
                                 return (
                                     <Card className="p-3 py-4" key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-communication-configurations/' + val.type} view={'configuration'}></Card>
+                                )
+                            })
+                        }
+                    </div>
+                    <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">{t("SOCIAL_SECRETARY_AND_REPORTING")}</h4>
+                    <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
+                        {
+                            SocialSecretaryAndConfigurationTabs.map((val, index) => {
+                                return (
+                                    <Card className="p-3 py-4" key={val.title} title={val.title} icon={val.icon} styleClass={val.styleClass} actionLink={'/manage-social-secretary-and-reporting-configurations/' + val.type} view={'configuration'}></Card>
                                 )
                             })
                         }
