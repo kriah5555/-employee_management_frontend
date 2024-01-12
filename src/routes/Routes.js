@@ -35,6 +35,8 @@ import AddOthPlans from '../components/organisms/AddOthPlans';
 import ViewOpenShiftDetails from '../components/molecules/ViewOpenShiftDetails';
 import AddPublicHoliday from '../components/molecules/AddPublicHoliday';
 import EmployeeBasicDetails from '../components/organisms/EmployeeBasicDetails';
+import SocialSecretaryAndReportingConfigurationOverview from "../components/organisms/SocialSecretaryAndReportingConfigurationOverview"
+import AddTaxes from "../components/molecules/AddTaxes"
 
 const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
@@ -107,6 +109,9 @@ const BaseRouter = ({ setAuth, setCompany }) => (
 
         <Route exact path='/add-public-holiday' element={<AddPublicHoliday></AddPublicHoliday>} />
         <Route exact path='/add-public-holiday/:id' element={<AddPublicHoliday></AddPublicHoliday>} />
+
+        <Route exact path='/manage-social-secretary-and-reporting-configurations/:type' element={<SocialSecretaryAndReportingConfigurationOverview></SocialSecretaryAndReportingConfigurationOverview>} />
+        <Route exact path= '/add-taxes' element={<AddTaxes></AddTaxes>}/>
 
     </Routes>
 );

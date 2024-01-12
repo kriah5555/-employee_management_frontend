@@ -65,7 +65,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
         {
             title: t("WORK_STATION"),
             field: 'workstation_name',
-            size: 200,
+            size: 200,dimonaConfigurationData
         },
         {
             title: t("SEQUENCE_NUMBER"),
@@ -296,9 +296,10 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             arr.map((val) => {
 
                 if (val.status == true) {
-                    arr1.push(val.id)
+                    arr1.push(val.employee_type_id)
                 }
             })
+            console.log(arr1);
             setDimonaConfigurationData((prev) => ({
                 ...prev, "employee_type_ids": arr1
             }))
@@ -340,21 +341,21 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true}></Table>}
-            {overviewContent === 'dimona' && <> <div className="col-md-12 p-0 "> <table className="col-md-12 " >
-                <tr className="table-head-bg">
+            {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 " >
+                <tr className="table-head-bg mb-2">
                     <th className="col-md-6 py-2">{t("EMPLOYEE_TYPE")}</th>
                     <th className="col-md-6 py-2">Enable/Disable</th>
                 </tr>
                 {listData.map((val, index) => {
                     return (
-                        <tr key={val.id} className="">
-                            <td className="col-md-6 "><h6 className="my-auto">{val.name}</h6></td>
-                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key: val.id, value: val.employee_type }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status == true ? true : false}></CustomCheckBox> </td>
+                        <tr key={val.id} className="my-2">
+                            <td className="col-md-6 "><h6 className="my-auto text-center pl-5">{val.employee_type_name}</h6></td>
+                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key:val.employee_type_id, value: val.employee_type_name }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status == true ? true : false}></CustomCheckBox> </td>
                         </tr>)
                 })}
             </table >
             </div>
-                <div className="company-tab-width mt-2 mb-3 mx-auto bg-white">
+                <div className="mt-2 mb-3 mx-auto bg-white p-5">
                     <CustomButton buttonName={"Save"} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
                     <CustomButton buttonName={"Cancel"} ActionFunction={() => navigate("/manage-companies")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                 </div>
