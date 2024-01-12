@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import CreateShifts from "./CreateShifts";
 import Workstation from "../../static/icons/Workstation";
+import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
 
 
 export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab, availableSwitch }) {
@@ -394,7 +395,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             />
             {shiftPopupOpen && <CreateShifts setShiftPopupOpen={setShiftPopupOpen} setShiftData={setShiftData} shiftData={shiftData} SaveShift={SaveShift}></CreateShifts>}
             {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId[planWid] !== undefined ? employeeId[planWid][createIndex] : ''} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} GetEmployeePlans={GetEmployeePlans}></CreatePlanPopup>}
-            <table className="table table-bordered mb-0">
+            <table className="table table-bordered mb-0 Overview_table_workstation">
                 <thead className="sticky">
                     <tr>
                         <th><span><Workstation /></span></th>
@@ -432,7 +433,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>}
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} >{ws_employee.employee_name}</a> : ws_employee.employee_name}</td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}<div> {ws_employee.employee_id && <span><EmployeeType_icon /></span>}</div></td>
                                             <PlanItem PlansData={ws_employee.plans} availableSwitch={availableSwitch} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index} weekNumber={weekNumber} year={year}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">

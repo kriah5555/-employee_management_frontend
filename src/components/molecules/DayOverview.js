@@ -255,7 +255,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         {dayData.map((employee, i) => {
                             return (
                                 <tr key={i}>
-                                    <td>{employee.employee_name}</td>
+                                    <td className="text-truncate day_overview_name" title={employee.employee_name}>{employee.employee_name}</td>
                                     <td colSpan="13" className="p-0 width-90"><PlanChart Plans={employee.plans} dayDate={dayDate} locId={locId} EmpTypeIds={EmpTypeIds} wsIds={wsIds} year={year} setStartStopPlanPopup={setStartStopPlanPopup}></PlanChart></td>
                                 </tr>
                             )
