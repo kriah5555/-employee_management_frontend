@@ -382,7 +382,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             <table className="table table-bordered mb-0 Overview_table_workstation">
                 <thead className="sticky">
                     <tr>
-                        <th><span><Workstation/></span></th>
+                        <th><span><Workstation /></span></th>
                         <th className="py-4 ">{t("EMPLOYEES_TITLE")}</th>
                         {days.map((val, index) => {
                             return (
@@ -405,19 +405,21 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                         <tr key={ws_employee.employee_name}>
                                             {/* Workstation column data */}
                                             {ws_emp_index === 0 && <td key={ws.workstation_id} className="justify-content-center py-3" rowSpan={ws.employee.length}>
-                                                <p className="mb-0">{ws.workstation_name}</p>
-                                                <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id, [], ws_emp_index)}>+</h2>
-                                                {enableShifts && <div className="row m-0 justify-content-center p-0">
-                                                    <Dropdown
-                                                        CustomStyle="col-md-8 p-0"
-                                                        options={getFormattedDropdownOptions(ws.shifts, 'id', 'time')}
-                                                        onSelectFunction={(e) => setShiftId(e)}
-                                                    ></Dropdown>
-                                                    <img className="shortcut-icon ml-2" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
-                                                </div>}
+                                                <div className="position-sticky top_100px"> 
+                                                    <p className="mb-0">{ws.workstation_name}</p>
+                                                    <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id, [], ws_emp_index)}>+</h2>
+                                                    {enableShifts && <div className="row m-0 justify-content-center p-0">
+                                                        <Dropdown
+                                                            CustomStyle="col-md-8 p-0"
+                                                            options={getFormattedDropdownOptions(ws.shifts, 'id', 'time')}
+                                                            onSelectFunction={(e) => setShiftId(e)}
+                                                        ></Dropdown>
+                                                        <img className="shortcut-icon ml-2" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
+                                                    </div>}
+                                                </div>
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}<div> <span><EmployeeType_icon/></span></div></td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}<div> <span><EmployeeType_icon /></span></div></td>
                                             <PlanItem PlansData={ws_employee.plans} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
