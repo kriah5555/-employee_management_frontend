@@ -1309,3 +1309,11 @@ a:hover {
   /* width: 100%; */
   display: inline-block;
 }
+
+.day_overview_name {
+  max-width: 8vw;
+}
+
+.Overview_table_workstation tbody td {
+  vertical-align: middle;
+}
