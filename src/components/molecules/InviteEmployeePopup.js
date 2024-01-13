@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeInviteApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
@@ -9,7 +9,7 @@ import CustomButton from "../atoms/CustomButton";
 import { toast } from 'react-toastify';
 import FormsNew from "./FormsNew";
 
-export default function AddContractPopup(props) {
+export default function InviteEmployeePopup(props) {
 
     const navigate = useNavigate()
     const [inviteData, setInviteData] = useState(
@@ -27,30 +27,30 @@ export default function AddContractPopup(props) {
     }
 
     const onConfirm = () => {
-        localStorage.setItem("auth",false)
-        navigate('/invite-employee')
+        // localStorage.setItem("auth", false)
+        // navigate('/invite-employee/sjdsjdbfhds')
+        // window.open('/invite-employee/jhjhdffg', '_blank')
         // let url = EmployeeContractApiUrl
-        
-        // AXIOS.service(url, "POST", inviteData)
-        //     .then((result) => {
-        //         if (result?.success) {
-        //             navigate('/employee-details')
-        //             props.setOpenPopup(false)
-        //             toast.success(result.message[0], {
-        //                 position: "top-center",
-        //                 autoClose: 2000,
-        //                 hideProgressBar: false,
-        //                 closeOnClick: true,
-        //                 pauseOnHover: true,
-        //                 draggable: true,
-        //                 progress: undefined,
-        //                 theme: "colored",
-        //             });
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+
+        AXIOS.service(EmployeeInviteApiUrl, "POST", inviteData)
+            .then((result) => {
+                if (result?.success) {
+                    props.setOpenPopup(false)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const fieldsArray = [

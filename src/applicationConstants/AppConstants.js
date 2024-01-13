@@ -240,6 +240,7 @@ export const GET_CONSTANTS = {
     'EDIT': 'Edit',
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
+    'OAUTH_KEY':'Oauth key',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error!',

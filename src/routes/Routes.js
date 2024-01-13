@@ -111,4 +111,11 @@ const BaseRouter = ({ setAuth, setCompany }) => (
     </Routes>
 );
 
+const InviteRoute = () => (
+    <Routes>
+        <Route exact path='/employee-invitations/:validtoken' element={<EmployeeBasicDetails></EmployeeBasicDetails>} />
+    </Routes>
+)
+
 export default BaseRouter;
+export { InviteRoute }

@@ -25,7 +25,7 @@ export default function Employees() {
 
     return (
         <div className="right-container">
-            {openPopup ? <InviteEmployeePopup onHide={onHide}></InviteEmployeePopup> :
+            {openPopup ? <InviteEmployeePopup onHide={onHide} setOpenPopup={setOpenPopup} openPopup={openPopup}></InviteEmployeePopup> :
                 <div className="company-tab-width mt-3 border bg-white">
                     <div className="col-md-12 row mt-3 mx-0 px-0 ">
                         <div className="col-md-6 float-left">
