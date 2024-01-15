@@ -78,10 +78,13 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                     setSelectedFunction(response.workstationsFunctions[wId][0])
                     shiftData[0]['functions'] = response.workstationsFunctions[wId][0].value
                 }
+            } else {
+                setFunctionsList(response.workstationsFunctions)
+
             }
             setFormData(shiftData)
         } else {
-            setWorkstations(response.workstations)
+            setWorkstationsList(response.workstations)
             setFunctionsList(response.workstationsFunctions)
         }
 

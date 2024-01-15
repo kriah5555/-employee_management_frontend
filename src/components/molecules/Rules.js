@@ -129,6 +129,10 @@ export default function Rules({ overviewContent }) {
     const UpdateRow = (newData) => {
 
         newData['type'] = selectedType?.value
+        newData['id'] = selectedId?.value
+        newData['sector_id'] = selectedSectorId?.value
+        newData['value'] = value
+        newData['use_default'] = defaultValueStatus
 
         let apiUrl;
         apiUrl = overviewContent === 'default_param' ? UpdateDefaultParamApiUrl : overviewContent === 'parameters' ? UpdateParameterApiUrl : UpdateCompanyParametersApiUrl

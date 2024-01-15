@@ -6,6 +6,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { t } from "../../translations/Translation";
+import ModalPopup from "../../utilities/popup/Popup";
 
 
 export default function EmployeesOverview({ setShowDetails, showDetails, eid, setEid }) {
@@ -13,6 +14,9 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
     const [parentId, setParentId] = useState('');
     // const [eid, setEid] = useState('');
     const [listData, setListData] = useState([]);
+    const [deleteUrl, setDeleteUrl] = useState('');
+    const [warningMessage, setWarningMessage] = useState('');
+    const [dataRefresh, setDataRefresh] = useState(false);
 
 
     // Header data for employee overview
@@ -50,11 +54,40 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
 
     const [headers, setHeaders] = useState(employeeHeaders)
 
+    const DeleteApiCall = () => {
+        AXIOS.service(deleteUrl, 'DELETE')
+            .then((result) => {
+                if (result?.success) {
+                    setWarningMessage('')
+                    setDataRefresh(!dataRefresh)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     //Function to redirect to employee details page
-    const viewAction = (data) => {
-        setParentId(data.parentId);
-        setEid(data.id);
-        setShowDetails(true);
+    const viewAction = (data, action) => {
+        if (action === 'edit') {
+            setParentId(data.parentId);
+            setEid(data.id);
+            setShowDetails(true);
+        } else {
+            setWarningMessage(t("DELETE_CONFIRMATION_COMPANY") + ("?"))
+            setDeleteUrl(EmployeeApiUrl + '/' + data.id)
+        }
+
     }
 
 
@@ -77,7 +110,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                 if (result?.success) {
                     let arr = []
                     result.data.map((val, index) => {
-                        let group_id = "group"+index;
+                        let group_id = "group" + index;
                         let data = {
                             employee: val.employee_type,
                             id: group_id,
@@ -109,9 +142,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
             .catch((error) => {
                 console.log(error);
             })
-
-
-    }, [])
+    }, [dataRefresh])
 
     const showUserDetails = (id) => {
         setShowDetails(true);
@@ -143,6 +174,12 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                 pauseOnHover
                 theme="colored"
             />
+            {warningMessage && <ModalPopup
+                title={t("WARNING_TITLE")}
+                body={(warningMessage)}
+                onConfirm={DeleteApiCall}
+                onHide={() => setWarningMessage('')}
+            ></ModalPopup>}
             {!showDetails && <Table columns={headers} rows={listData} tableName="employee" setRows={setListData} viewAction={viewAction}></Table>}
             {showDetails && <Table columns={headers} rows={listData} tableName="employee" showDetails={showDetails} empId={eid} parentId={parentId}></Table>}
 

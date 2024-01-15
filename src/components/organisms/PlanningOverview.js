@@ -74,7 +74,7 @@ export default function PlanningOverview() {
                     setSelectedLocation(result.data.locations?.length === 1 ? result.data.locations[0] : '');
                     monthlyData['location'] = result.data.locations?.length === 1 ? result.data.locations[0].value : ''
                     setLocationArr(result.data.locations);
-                    setWorkstationArr(result.data.locations?.length === 1 ? result.data.workstations[result.data.locations[0].value] : result.data.workstations);
+                    setWorkstationArr(result.data.workstations)
                     setEmployeeTypeArr(result.data.employee_types);
                 }
             })
@@ -109,11 +109,10 @@ export default function PlanningOverview() {
 
     }, [tabIndex])
 
-
     // Filter fields data
     const filterData = [
         { title: t("LOCATION"), name: 'location', required: true, options: locationArr, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-4 float-left" },
-        { title: t("WORK_STATION"), name: 'workstation', required: false, options: selectedLocation.value && workstationArr[selectedLocation.value] !== undefined ? workstationArr[selectedLocation.value] : workstationArr, selectedOptions: selectedWorkstation, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
+        { title: t("WORK_STATION"), name: 'workstation', required: false, options: selectedLocation.value ? workstationArr[selectedLocation.value] : [], selectedOptions: selectedWorkstation, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
         { title: t("EMPLOYEE_TYPE"), name: 'employee_type', required: false, options: employeeTypeArr, selectedOptions: selectedEmployeeType, isMulti: true, type: 'dropdown', style: "col-md-4 float-left" },
     ]
 

@@ -139,7 +139,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
         }),
         rowData => ({
             icon: () => getAcceptIcon(),
