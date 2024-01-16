@@ -172,7 +172,7 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
                         theme: "colored",
                     });
                 } else {
-                    setErrors(result.message[0]) //in back end error msg coming in the form of string ,it should be an array
+                    setErrors(result.message)
                 }
             })
             .catch((error) => {
