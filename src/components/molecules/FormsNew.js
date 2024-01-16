@@ -131,6 +131,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                 </div>
                             )
                         } else if (field.type === 'checkbox') {
+                            if (field.checkboxList?.length !== 0)
                             return (
                                 <CustomCheckBox
                                     key={field.name}

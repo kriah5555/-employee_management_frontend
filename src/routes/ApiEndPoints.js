@@ -119,6 +119,10 @@ export const EmployeeTypeDimonaConfigurationApiUrl =BASE_URL + "/masterdata/empl
 export const TaxesApiUrl = BASE_URL + "/masterdata/"
 export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata"
 
+export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"
+export const GetPlansForLeavesApiUrl = BASE_URL + "/masterdata/get-plans-for-leave"
+
+
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 export const fetchTranslations = BASE_URL + '/masterdata/translate';

@@ -213,6 +213,7 @@ export default function PlanningOverview() {
                 // OnSave={OnSave}
                 ></FormsNew>
             </div>
+            {addLeave && <AddLeavePopup buttonName={t("CANCEL")} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
 
             {tabIndex === 1 && <div className="d-flex justify-content-between">
                 <Switch label={t("AVAILABILITY_TEXT")} id="switch4" styleClass="" lableClick={true} onChange={() => setAvailableSwitch(!availableSwitch)} checked={availableSwitch} />
@@ -245,7 +246,6 @@ export default function PlanningOverview() {
 
                         <TabPanel>
                             <div className="px-3 pb-3"><CalendarLayout planningDates={planningDates} ChangeTab={ChangeTab} setYear={setYear} setMonthNumber={setMonthNumber}></CalendarLayout></div>
-                            {addLeave && <AddLeavePopup buttonName={t("CANCEL")} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
                         </TabPanel>
 
                         <TabPanel>

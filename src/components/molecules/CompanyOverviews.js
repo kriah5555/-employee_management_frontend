@@ -299,7 +299,6 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                     arr1.push(val.employee_type_id)
                 }
             })
-            console.log(arr1);
             setDimonaConfigurationData((prev) => ({
                 ...prev, "employee_type_ids": arr1
             }))
