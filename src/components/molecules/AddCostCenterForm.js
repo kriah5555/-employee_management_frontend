@@ -101,7 +101,7 @@ export default function AddCostCenterForm() {
                         workstationList.map((val, i) => {
                             work_stations.push(val.value)
                         });
-                        setEmployees(response?.employees?.employees || [])
+                        setEmployees(response?.employees || [])
                         let selected_employees = []
                         response.employees_value?.map((val, i) => {
                             selected_employees.push(val.value)

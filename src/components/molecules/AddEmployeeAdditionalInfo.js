@@ -11,7 +11,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
 
     //add employee personal detail fields
     const socialSecurityFields = [
-        { title: t("SSN"), name: "social_secretary_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("SOCIAL_SECRETARY_NUMBER"), name: "social_secretary_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: t("CONTRACT_NUMBER"), name: "contract_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
     ];
 
@@ -63,7 +63,7 @@ export default function AddEmployeeAdditionalInfo({ tabIndex, employeeData, setE
 
     return (
         <div className="pt-4">
-            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{t("SSN")}</span>
+            <span className="col-md-12 pl-5 ml-3 form-subHeading pos-relative">{t("SOCIAL_SECRETARY_NUMBER")}</span>
             <FormsNew
                 view="employees"
                 formTitle={''}

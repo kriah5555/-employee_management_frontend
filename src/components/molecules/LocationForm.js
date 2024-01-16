@@ -26,9 +26,9 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
         AXIOS.service(ResponsiblePersonApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                let options = []
+                    let options = []
                     result.data.map((val, i) => {
-                        let option = {value: val.id, label: val.full_name}
+                        let option = { value: val.id, label: val.full_name }
                         options.push(option);
                     })
                     setUpdateCustomerArr(options);
@@ -44,11 +44,18 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
             AXIOS.service(editApiUrl, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        let response = [];
-                        response['location_name'] = result.data.location_name
-                        response['responsiblePerson'] = result.data.responsible_person_details !== null ? [{ value: result.data.responsible_person_details.employee_profile_id, label: result.data.responsible_person_details.full_name}] : []
-                        setResponsiblePerson([result.data.responsible_person_details !== null ? { value: result.data.responsible_person_details.employee_profile_id, label: result.data.responsible_person_details.full_name} : ''])
-                        response.push(result.data);
+                        // console.log(result);
+                        let response = [...locations];
+                        response[0] = result.data
+
+                        let arr = []
+                        let dropdown_arr = []
+                        result.data.responsible_persons.map((val, i) => {
+                            arr.push(val.id)
+                            dropdown_arr.push({ value: val?.id, label: val?.full_name })
+                        })
+                        response[0]['responsiblePerson'] = arr
+                        setResponsiblePerson(dropdown_arr)
                         setLocations(response);
                     }
                 })
@@ -111,9 +118,9 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
             locationsArray[index][name] = value
             if (name === 'location_name') { getLocationDropdownData(index, value) }
         } else {
-            const resp_person = [...responsiblePerson]
-            resp_person[index] = value
-            setResponsiblePerson(resp_person);
+            // const resp_person = [...responsiblePerson]
+            // resp_person[index] = value
+            setResponsiblePerson(value);
             let arr = []
             value.map((val, i) => {
                 arr.push(val.value)
@@ -150,6 +157,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     ];
 
 
+    console.log(locations);
     return (
         <div className="flex-1">
             {locations.map((x, i) => {
@@ -163,7 +171,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                             view="location"
                             title1={view !== 'location-single' ? t("ADD_LOCATION") : ''}
                             data1={locationFieldsArray}
-                            formattedData1={locations}
+                            formattedData1={locations[i]}
                             title2={t("ADDRESS_TITLE")}
                             data2={locationAddressArray}
                             formattedData2={locations[i]}

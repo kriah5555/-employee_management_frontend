@@ -38,7 +38,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, selecte
             })
 
 
-        if (update_id !== '0' && update_id !== undefined) {
+        if (update_id && update_id !== '0' && update_id !== undefined) {
             let editApiUrl = ResponsiblePersonApiUrl + '/' + update_id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')
@@ -129,7 +129,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, selecte
     const CustomerfieldsData = [
         { title: t("FIRST_NAME"), name: "first_name", required: true, type: "input_field" },
         { title: t("LAST_NAME"), name: "last_name", required: true, type: "input_field" },
-        { title: t("RSZ_NUMBER"), name: "social_security_number", required: true, type: "input_field" },
+        { title: t("SSN"), name: "social_security_number", required: true, type: "input_field" },
         { title: t("EMAIL"), name: "email", required: true, type: "input_field" },
         { title: t("PHONE_NUMBER"), name: "phone_number", required: true, type: "phone_input" },
         { title: t("ROLES"), options: rolesList, isMulti: false, selectedOptions: selectedRole, required: true, type: "dropdown" },

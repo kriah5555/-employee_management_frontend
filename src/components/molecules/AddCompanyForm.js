@@ -112,8 +112,8 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
             }
         } else {
             if (name === 'sector') {
-                const sector_arr = [...sector]
-                sector_arr.push(value)
+                // const sector_arr = [...sector]
+                // sector_arr.push(value)
                 // sector_arr[index] = value
                 setSector(value);
                 let arr = []
@@ -128,11 +128,11 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
                 setInterimAgency(value)
                 company[index][name] = value.value
 
-                const interim_arr = [...interimAgency]
-                interim_arr.push(value)
-                interim_arr[index] = value
+                // const interim_arr = [...interimAgency]
+                // interim_arr.push(value)
+                // interim_arr[index] = value
                 // if ()
-                setInterimAgency(interim_arr);
+                setInterimAgency(value);
                 let arr = []
                 value.map((val, i) => {
                     arr.push(val.value)
@@ -167,7 +167,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
     const companySocialSectretaryFieldsArray = [
         // { title: "Social secretary", name: "social_secretary", options: socialSecretaryList, isMulti: false, selectedOptions: sector, required: false, type: "dropdown" },
         { title: t("SOCIAL_SECRETARY"), name: "social_secretary_id", options: socialSecretaryList, isMulti: false, selectedOptions: socialSecretary, required: false, type: "dropdown" },
-        { title: t("SSN"), name: "social_secretary_number", required: false, type: "input_field" },
+        { title: t("SOCIAL_SECRETARY_NUMBER"), name: "social_secretary_number", required: false, type: "input_field" },
         { title: t("CONTACT_EMAIL"), name: "contact_email", required: false, type: "input_field" },
     ]
 
