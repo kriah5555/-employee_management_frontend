@@ -79,7 +79,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
 
     //Function to redirect to employee details page
     const viewAction = (data, action) => {
-        if (action === 'edit') {
+        if (action === 'view') {
             setParentId(data.parentId);
             setEid(data.id);
             setShowDetails(true);
