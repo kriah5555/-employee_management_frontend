@@ -2,7 +2,7 @@ import React from "react";
 import RequiredIcon from "../../../static/icons/exclamation-mark1.png";
 import { t } from "../../../translations/Translation";
 
-export default function TextArea({ title, name, required, CustomStyle, value, setValue, error }) {
+export default function TextArea({ title, name, required, CustomStyle, value, setValue, error, rows }) {
     return (
         <div className={"font-weight-bold " + CustomStyle}>
             <div className="d-flex justify-content-between">
@@ -12,7 +12,7 @@ export default function TextArea({ title, name, required, CustomStyle, value, se
                     {t("REQUIRED")}
                 </p>}
             </div>
-            <textarea className="form-control" name={name} rows={4} value={value == null ? '' : value} onChange={(e) => setValue(e.target.value)} />
+            <textarea className="form-control" name={name} rows={rows ? rows : 4} value={value == null ? '' : value} onChange={(e) => setValue(e.target.value)} />
         </div>
     )
 }

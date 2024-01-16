@@ -553,6 +553,13 @@ export const GET_CONSTANTS = {
     'ADD_EMPLOYEE': 'Add employee',
     'ADD_HOLIDAYS': 'Add holidays',
     'SEND_INVOICES': 'Send invoices',
-    'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company'
+    'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company',
+
+    //counters
+    'TOTAL_COUNT':'Total count',
+    'USED_HOLIDAYS':'Used holidays',
+    'REMAINING_HOLIDAYS':'Remaining holidays',
+    'AVAILABLE_COUNT':'Available count',
+    'EMPLOYEE_COUNT':'Employee count',
 
 };

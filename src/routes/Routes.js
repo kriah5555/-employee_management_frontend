@@ -113,6 +113,7 @@ const BaseRouter = ({ setAuth, setCompany }) => (
         <Route exact path='/manage-social-secretary-and-reporting-configurations/:type' element={<SocialSecretaryAndReportingConfigurationOverview></SocialSecretaryAndReportingConfigurationOverview>} />
         <Route exact path= '/add-taxes' element={<AddTaxes></AddTaxes>}/>
 
+
     </Routes>
 );
 

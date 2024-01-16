@@ -19,6 +19,7 @@ import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { t } from "../../translations/Translation";
+import HolidyCountersOverview from "../organisms/HolidyCountersOverview";
 
 export default function EmployeeDetails({ eid }) {
 
@@ -48,6 +49,7 @@ export default function EmployeeDetails({ eid }) {
     const [activeContracts, setActiveContracts] = useState([])
     const [expiredContracts, setExpieredContracts] = useState([])
     const [pastContracts, setPastContracts] = useState(false)
+    const [countersType, setCounterType] = useState("holiday")
 
     const TabsData = [
         { tabHeading: t("PERSONAL_DETAILS"), tabName: 'personal' },
@@ -87,6 +89,10 @@ export default function EmployeeDetails({ eid }) {
         { label: t("TOTAL_TITLE"), value: '100 days' },
         { label: t("USED_TITLE"), value: '40 days' },
         { label: t("REMAINING_TITLE"), value: '60 days' }
+    ]
+    const countersTypeArray = [
+        { counter_type: t("HOLIDAY_COUNTER"), type: "holiday" },
+        // { counter_type: "Leave", type: "leave" },    
     ]
 
 
@@ -237,13 +243,13 @@ export default function EmployeeDetails({ eid }) {
             ></AddContractPopup>}
 
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
-             
-                    <div className="manage_employee_tabs d-flex px-2 align-items-center">
-                        <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon} alt={t("ICON")}></img>
-                        <p className="mb-1 font-22">{basicDetails.name}</p>
-                        <p className="text-secondary font-18"></p>
-                    </div>
-             
+
+                <div className="manage_employee_tabs d-flex px-2 align-items-center">
+                    <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon} alt={t("ICON")}></img>
+                    <p className="mb-1 font-22">{basicDetails.name}</p>
+                    <p className="text-secondary font-18"></p>
+                </div>
+
                 <div className="manage_employee_tabs px-2">
                     <p className="mb-1"><img className="mr-2" src={PhoneIcon}></img>{basicDetails.phone}</p>
                     <p className="mb-1"><img className="mr-2" src={EmailIcon}></img> {basicDetails.email}</p>
@@ -295,17 +301,25 @@ export default function EmployeeDetails({ eid }) {
 
                     <TabPanel>
                         <div className="customscroll employee-detail-height py-3 px-0 border m-3">
-                            <div className="border mx-3 px-2">
+                            {countersTypeArray.map((item, index) => {
+                                return (
+                                    <div className="border mx-3 px-2">
+                                        <div className={"d-flex mx-4 my-1 mb-0 justify-content-between"}><h4 className="pt-2">{item.counter_type}</h4><img className="profile-icon" src={DownArrow} onClick={() => { setCounterType(item.type); setToggleOpen(!toggleOpen); setEditStatus(false); }} alt={t("ICON")} /></div>
+                                        {!editStatus && countersType === 'holiday' && index == 0 && toggleOpen && <HolidyCountersOverview type={item.type} eid={eid}></HolidyCountersOverview>}
+                                    </div>
+                                )
+                            })}
+                            {/* <div className="border mx-3 px-2">
                                 <div className={"d-flex mx-4 my-1 mb-0 justify-content-between" + (toggleOpen ? " border-bottom mb-2" : "")}><h4 className="pt-2">{t("HOLIDAY_COUNTER")}</h4><img className="profile-icon" src={DownArrow} onClick={() => setToggleOpen(!toggleOpen)} alt={t("ICON")} /></div>
                                 {!editStatus && toggleOpen && <img className="float-right pr-5 pt-2 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />}
                                 {toggleOpen && <EmployeeUpdate tab="tab3" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab3Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>}
-                            </div>
+                            </div> */}
                         </div>
                     </TabPanel>
 
                     <TabPanel>
                         <div className="customscroll employee-detail-height px-0 border m-3">
-                            <EmployeeUpdate tab="tab4" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab4Left} dataRight={tab4Right} setDataLeft={setDataLeft} setDataRight={setDataRight}></EmployeeUpdate>
+                            <EmployeeUpdate tab="tab4" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab4Left} dataRight={tab4Right} setDataLeft={setDataLeft} setDataRight={setDataRight} eid={eid}></EmployeeUpdate>
                         </div>
                     </TabPanel>
 

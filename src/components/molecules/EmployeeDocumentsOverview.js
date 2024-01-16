@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import Table from "../atoms/Table";
 import { APICALL as axios } from "../../services/AxiosServices";
 import { t } from "../../translations/Translation";
-import { useNavigate, useParams } from "react-router-dom";
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { GetEmployeeDocumentsApiUrl } from "../../routes/ApiEndPoints";
 
-export default function EmployeeDocumentsOverview() {
+export default function EmployeeDocumentsOverview({ eid }) {
 
-    const [documents, setDocuments] = useState([])
-
-    const params = useParams();
-    const navigate = useNavigate()
+    const [documentsData, setDocumentsData] = useState([])
 
     const tableHeaders = [
         {
             title: t("DOCUMENT_NAME"),
-            field: "name",
+            field: "file_name",
             status: "200",
         },
         {
@@ -24,25 +22,35 @@ export default function EmployeeDocumentsOverview() {
         },
     ]
 
-    const dummyData = [
-        { id: 1, name: 'Document-01', type: "Id Card" },
-        { id: 2, name: 'Document-02', type: "Contract" },
-        { id: 2, name: 'Document-03', type: "Leave" },
-        { id: 1, name: 'Document-01', type: "Id Card" },
-        { id: 2, name: 'Document-02', type: "Contract" },
-    ]
+    useEffect(() => {
+        AXIOS.service(GetEmployeeDocumentsApiUrl + "/" + eid, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    let arr = []
+                    result.data.map((item, index) => {
+                        item.id = item.file_id
+                        arr.push(item)
+                    })
+                    setDocumentsData(arr)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
 
     const viewAction = (data, action) => {
 
-        if (action === 'edit') {
-            console.log(data);
-        } else if (action === 'view') {
-            console.log(data);
+        if (action === 'view') {
+            window.open(data.file_url, '_blank')
         }
 
     }
 
     return (
-        <Table columns={tableHeaders} rows={dummyData} tableName={"documents_overview"} viewAction={viewAction} ></Table>
+        <Table columns={tableHeaders} rows={documentsData} tableName={"documents_overview"} viewAction={viewAction} ></Table>
     )
 }

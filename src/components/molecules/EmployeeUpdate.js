@@ -4,7 +4,7 @@ import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsFo
 import { t } from "../../translations/Translation";
 import EmployeeDocumentsOverview from "./EmployeeDocumentsOverview";
 
-export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dataRight }) {
+export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dataRight, eid }) {
 
     // Dummy data of employee details
     // Personal data
@@ -116,7 +116,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
                     )
                 })}
             </div>
-            {tab === 'tab4' && <EmployeeDocumentsOverview></EmployeeDocumentsOverview>}
+            {tab === 'tab4' && <EmployeeDocumentsOverview eid={eid}></EmployeeDocumentsOverview>}
             {edit && <div className="float-right col-md-12 text-right mb-3">
                 <CustomButton buttonName={t("SAVE")} ActionFunction={() => setEditStatus(false)}></CustomButton>
                 <CustomButton buttonName={t("CANCEL")} ActionFunction={() => setEditStatus(false)}></CustomButton>

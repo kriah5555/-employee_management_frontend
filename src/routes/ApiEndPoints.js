@@ -112,12 +112,17 @@ export const UpdateCompanyParametersApiUrl = BASE_URL + '/masterdata/update-comp
 
 export const GetParametersOptionsApiUrl = BASE_URL + '/masterdata/get-manage-parameter-options'
 
-export const UploadIdCardApiUrl =BASE_URL + '/masterdata'//Endpoint need to to be add
+export const UploadIdCardApiUrl = BASE_URL + '/masterdata'//Endpoint need to to be add
 
-export const EmployeeTypeDimonaConfigurationApiUrl =BASE_URL + "/masterdata/employee-type-dimona-config"
+export const EmployeeTypeDimonaConfigurationApiUrl = BASE_URL + "/masterdata/employee-type-dimona-config"
 
 export const TaxesApiUrl = BASE_URL + "/masterdata/"
 export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata"
+
+export const GetEmployeeDocumentsApiUrl = BASE_URL + "/masterdata/get-employee-documents"
+
+export const EmployeeHolidayCountsOverViewApiUrl = BASE_URL + "/masterdata/employee-holiday-count-overview"
+export const EmployeeHolidayCountsApiUrl = BASE_URL + "/masterdata/employee-holiday-count"
 
 //Translations API urls starts here
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
