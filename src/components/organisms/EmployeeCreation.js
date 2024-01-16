@@ -200,7 +200,7 @@ export default function EmployeeCreation() {
             .then((result) => {
                 if (result?.success) {
                     let id = result.data?.id
-                    uploadIdCard(id)
+                    // uploadIdCard(id)
 
                 } else {
                     setErrors(result.message)
