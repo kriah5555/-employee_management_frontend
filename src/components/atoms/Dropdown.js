@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import Select from 'react-select';
 import RequiredIcon from "../../static/icons/exclamation-mark1.png"
 import { t } from "../../translations/Translation";
 
 export default function Dropdown({ options, selectedOptions, onSelectFunction, styleClass, CustomStyle, title, required, isMulti, error, isDisabled }) {
-
+    const menuPortalTarget = useRef(document.body);
 
     const customStyle = {
         control: base => ({
@@ -20,7 +20,12 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
             ...base,
             color: "black",// Custom colour
             padding: 1
-        })
+        }),
+        menu: (provided, state) => ({
+            ...provided,
+            overflow: 'visible', // Set overflow to 'visible' to ensure options are always visible
+        }),
+        menuPortal: base => ({ ...base, zIndex: 9999 }),
     };
 
     return (
@@ -51,6 +56,8 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
                         primary: '#61bfb5',
                     }
                 })}
+                menuPlacement="auto" // Automatically adjust placement based on available space
+                menuPortalTarget={menuPortalTarget.current} // Set the target for rendering the menu outside the DOM hierarchy
             />
         </div>
     )

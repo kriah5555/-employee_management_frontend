@@ -213,12 +213,12 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                 close={true}
             ></ModalPopup>}
             {!popupOpen && <div className="col-md-12 p-0 bg-white">
-                <div className="d-flex">
+                <div className="d-flex align-items-center">
                     <div className="col-md-10">
                         <Switch label={t("DRAFTED")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setShowDrafts(!showDrafts)} checked={showDrafts} />
                     </div>
-                    <div className="col-md-2 text-right">
-                        <CustomButton buttonName={"Create shift"} ActionFunction={() => setOpenPopup(true)} CustomStyle="my-2 mr-2"></CustomButton>
+                    <div className="col-md-2 text-right my-2">
+                        <CustomButton buttonName={"Create shift"} ActionFunction={() => setOpenPopup(true)} CustomStyle="add_btn"></CustomButton>
                     </div>
                 </div>
                 <Table columns={headers} rows={showDrafts ? draftedShiftList : activeShiftList} tableName={"open_shifts_overview"} viewAction={viewAction}></Table>

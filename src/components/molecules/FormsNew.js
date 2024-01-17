@@ -54,8 +54,9 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
     return (
         <div className={view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle ? "form-container mt-3 border bg-white d-flex flex-column" : (view === 'filters' ? "pb-3" : "pt-2 pb-3")}>
             {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className=" px-4 pt-4 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
-            {data && <div className={view === 'filters' ? "d-flex px-2" : "d-flex px-4" + " flex-1 overflow-auto"}>
-                <form className={view === 'filters' ? " px-0 border-blue row w-100" : "col-md-12 px-0 pb-4 border-blue"}>
+            {data && <div className={view === 'filters' ? "d-flex px-2" : (view === 'contracts' ? "d-flex px-4" : "d-flex px-4 flex-1 overflow-auto")}>
+                <form className={view === 'filters' ? " px-0 border-blue row w-100" : "col-md-12 px-0 pb-4 border-blue row mx-0"}>
+                    
                     {/* Text input field and dropdown based on the data given */}
                     {data.map((field, i) => {
                         if (field.type === "text") {

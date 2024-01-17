@@ -262,6 +262,7 @@ li,
   font-weight: 600;
   background-color: #61bfb5;
   border: #61bfb5;
+  text-transform: capitalize;
 }
 
 /* for add-company form */
@@ -307,6 +308,11 @@ li,
   min-width: 7% !important;
   min-height: 89.5vh;
   /* overflow: hidden; */
+  transition: all 0.5s !important;
+}
+
+.side-bar ul {
+  transition: all 0.5s !important;
 }
 
 .side-bar-open {
@@ -325,6 +331,7 @@ li,
   background: white;
   overflow: visible;
   margin-bottom: 0px;
+  height: 100%;
 }
 
 .sidebar-moving {
@@ -400,8 +407,8 @@ li,
 
 .notification-menu {
   position: absolute;
-  right: 0;
-  top: 100%;
+  right: 21%;
+  top: 75%;
   z-index: 2;
 }
 
@@ -690,9 +697,9 @@ textarea {
     height: 3rem;
   }
 
-  .side-bar {
+  /* .side-bar {
     min-height: 91vh !important;
-  }
+  } */
 
   .font-inherit {
     font-size: 1rem;
@@ -1216,6 +1223,13 @@ html .ui-button.ui-state-disabled:active {
     height: calc(100vh - 286px);
     overflow: auto;
   }
+
+  .notification-menu {
+    right: 25%;
+  }
+  .shortcut-menu {
+    right: 35%;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -1223,6 +1237,12 @@ html .ui-button.ui-state-disabled:active {
     height: calc(100vh - 266px);
     overflow-y: auto;
   } */
+  .notification-menu {
+    right: 33%;
+  }
+  .shortcut-menu {
+    right: 46%;
+  }
 }
 
 @media (max-width: 1718px) {
@@ -1326,10 +1346,19 @@ a:hover {
   vertical-align: middle;
 }
 
-.top_100px{
+.top_100px {
   top: 100px;
 }
 
-.sticky tr th{
+.sticky tr th {
   outline: 1px solid #918e8e;
+}
+
+tr th:last-child {
+  width: auto !important;
+}
+
+.css-5736gi-menu{
+  position: absolute;
+  z-index: 9999;
 }
