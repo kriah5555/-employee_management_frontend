@@ -65,7 +65,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
         {
             title: t("WORK_STATION"),
             field: 'workstation_name',
-            size: 200,dimonaConfigurationData
+            size: 200, dimonaConfigurationData
         },
         {
             title: t("SEQUENCE_NUMBER"),
@@ -340,16 +340,18 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true}></Table>}
-            {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 " >
-                <tr className="table-head-bg mb-2">
-                    <th className="col-md-6 py-2">{t("EMPLOYEE_TYPE")}</th>
-                    <th className="col-md-6 py-2">Enable/Disable</th>
-                </tr>
+            {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 table border" >
+                <thead>
+                    <tr className="table-head-bg py-3 mb-2">
+                        <th className="py-3 col-6">{t("EMPLOYEE_TYPE")}</th>
+                        <th className="py-3 col-6">Enable/Disable</th>
+                    </tr>
+                </thead>
                 {listData.map((val, index) => {
                     return (
                         <tr key={val.id} className="my-2">
                             <td className="col-md-6 "><h6 className="my-auto text-center pl-5">{val.employee_type_name}</h6></td>
-                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key:val.employee_type_id, value: val.employee_type_name }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status == true ? true : false}></CustomCheckBox> </td>
+                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key: val.employee_type_id, value: val.employee_type_name }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status == true ? true : false}></CustomCheckBox> </td>
                         </tr>)
                 })}
             </table >

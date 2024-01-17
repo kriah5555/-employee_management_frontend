@@ -180,7 +180,7 @@ export default function OverviewTabs({ setCompany }) {
                 </TabPanel>
 
                 <TabPanel>
-                    <h3 className="text-center mt-3 "><CompanyOverviews setCompany={setCompany} overviewContent={'dimona'}></CompanyOverviews></h3>
+                    <div className="text-center mt-3 "><CompanyOverviews setCompany={setCompany} overviewContent={'dimona'}></CompanyOverviews></div>
                 </TabPanel>
 
                 <TabPanel>

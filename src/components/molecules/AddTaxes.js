@@ -101,7 +101,7 @@ export default function AddTaxes() {
     ];
 
     return (
-        <div className="right-container">
+        <div className="right-container add_taxes">
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
