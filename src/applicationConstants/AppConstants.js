@@ -245,7 +245,7 @@ export const GET_CONSTANTS = {
     'OAUTH_KEY':'Oauth key',
 
     // Employee creation
-    'VALIDATION_ERROR': 'Validation error!',
+    'VALIDATION_ERROR': 'Validation error',
     'FIRST_NAME': 'First name',
     'LAST_NAME': 'Last name',
     'EMAIL': 'Email',
@@ -563,5 +563,26 @@ export const GET_CONSTANTS = {
     'REMAINING_HOLIDAYS':'Remaining holidays',
     'AVAILABLE_COUNT':'Available count',
     'EMPLOYEE_COUNT':'Employee count',
+
+    'VACANCY': 'Vacancy',
+    'REPEAT_TYPE': 'Repeat type',
+    'SHIFT_NAME': 'Shift name',
+    'APPLIED': 'Applied',
+    'FILLED_POSITIONS': 'Filled positions',
+    'CREATE_SHIFT': 'Create shift',
+    'DAILY': 'Daily',
+    'WEEKLY': 'Weekly',
+    'VACANCIES_COUNT': 'Vacancies count',
+    'REPEAT_END_DATE': 'Repeat end date',
+    'EXTRA_INFO': 'Extra info',
+    'CREATE_OPEN_SHIFT': 'Create open shift',
+    'SAVE_AS_DRAFT': 'Save as draft',
+    'REQUESTED': 'Requested',
+    'EMPLOYEE_NAME': 'Employee name',
+    'SHIFT_DETAILS': 'Shift details',
+    'NO_OPTIONS': 'No options',
+    'ROW': 'row',
+    'ROWS': 'rows',
+    'NO_RECORDS_TO_DISPLAY': 'No records to display'
 
 };

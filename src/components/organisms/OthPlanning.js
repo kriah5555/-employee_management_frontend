@@ -41,27 +41,27 @@ export default function OthPlanning() {
 
     const headers = [
         {
-            title: 'Location',
+            title: t("LOCATION_TITLE"),
             field: 'location.label',
             size: 200,
         },
         {
-            title: 'Workstation',
+            title: t("WORK_STATION"),
             field: 'workstation.label',
             size: 200,
         },
         {
-            title: 'Function',
+            title: t("FUNCTION_TITLE"),
             field: 'function.label',
             size: 200,
         },
         {
-            title: 'Start date',
+            title: t("START_DATE"),
             field: 'start_date',
             size: 200,
         },
         {
-            title: 'End date',
+            title: t("END_DATE"),
             field: 'end_date',
             size: 200,
         },

@@ -126,6 +126,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             .then((result) => {
                 if (result?.success) {
                     setDataRefresh(!dataRefresh);
+                    setPlanPopup(false);
                     // setWarningMessage('')
                     toast.success(result.message[0], {
                         position: "top-center",

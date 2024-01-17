@@ -47,6 +47,8 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
                 components={{
                     IndicatorSeparator: () => null,
                 }}
+                noOptionsMessage={() => t("NO_OPTIONS")}
+                placeholder={t("SELECT")}
                 styles={customStyle}
                 theme={(theme) => ({
                     ...theme,

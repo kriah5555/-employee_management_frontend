@@ -41,7 +41,7 @@ export default function Settings() {
     return (
         <div className="right-container p-3" >
             <div className="col-md-3 bg-white border-right">
-                <h2 className="text-center my-4 text-color">{t("CONFIGURATIONS")}</h2>
+                <h2 className="text-center my-4 text-color">{t("SETTINGS")}</h2>
                 <ul className="p-0 mt-2">
                     {
                         settingTabs.map((val) => {

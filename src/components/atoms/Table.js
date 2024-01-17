@@ -208,7 +208,26 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
 
                 //Options for table modifications
                 options={options}
+                localization={{
+                    pagination: {
+                        labelDisplayedRows: '{from}-{to} of {count}',
+                        labelRowsSelect: t("ROWS"),
+                    },
+                    toolbar: {
+                        nRowsSelected: `${`0`} ${t("ROW")}(s) selected` ,
+                        searchPlaceholder: t("SEARCH_TEXT")
 
+                    },
+                    header: {
+                        actions: t("ACTIONS")
+                    },
+                    body: {
+                        emptyDataSourceMessage: t("NO_RECORDS_TO_DISPLAY"),
+                        filterRow: {
+                            filterTooltip: 'Filter'
+                        }
+                    }
+                }}
                 //Actions props
                 actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' ? [] : actionIconsList}
             />
