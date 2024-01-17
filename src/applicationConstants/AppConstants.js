@@ -89,6 +89,8 @@ export const GET_CONSTANTS = {
     'SIGN': 'Sign contract',
     'UPDATE': 'Update',
     'CLEAR': 'Clear',
+    'NORMAL': 'normal',
+    'TESTER': 'Tester',
 
 
     // Days constants
@@ -242,7 +244,7 @@ export const GET_CONSTANTS = {
     'EDIT': 'Edit',
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
-    'OAUTH_KEY':'Oauth key',
+    'OAUTH_KEY': 'Oauth key',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error',
@@ -295,7 +297,7 @@ export const GET_CONSTANTS = {
     'SUB_TYPES': 'Sub types',
     'SCHEDULE_TYPE': 'Schedule type',
     'EMPLOYEEMENT_TYPE': 'Employement type',
-    'EXPERIENCE_IN_MONTHS':'Experience in months',
+    'EXPERIENCE_IN_MONTHS': 'Experience in months',
 
     // Function salaries
     'EXPERIENCE': 'Experience',
@@ -417,14 +419,14 @@ export const GET_CONSTANTS = {
     'HOURLY_TAX': 'Hourly tax',
     'DAILY_MAXIMUM_TAX': 'Daily maximum tax',
     'EMPLOYEE_TAX': 'Employee tax',
-    'EMPLOYER_TAX':'Employer tax',
+    'EMPLOYER_TAX': 'Employer tax',
     'YEAR_END_BONUS': 'Year End Bonus',
     'HOLIDAY_PAY': 'Holiday bonus',
     'PAY_TYPE_TAX_PERCENTAGE': 'Pay type tax percentage',
-    'MANAGE_TAXES':'Manage taxes',
-    'ADD_TAXES':'Add taxes',
-    'MANAGE_COEFFICIENT':'Manage coefficient',
-    'SALARY_COEFFICIENT':'Salary coefficient',
+    'MANAGE_TAXES': 'Manage taxes',
+    'ADD_TAXES': 'Add taxes',
+    'MANAGE_COEFFICIENT': 'Manage coefficient',
+    'SALARY_COEFFICIENT': 'Salary coefficient',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',
@@ -558,11 +560,31 @@ export const GET_CONSTANTS = {
     'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company',
 
     //counters
-    'TOTAL_COUNT':'Total count',
-    'USED_HOLIDAYS':'Used holidays',
-    'REMAINING_HOLIDAYS':'Remaining holidays',
-    'AVAILABLE_COUNT':'Available count',
-    'EMPLOYEE_COUNT':'Employee count',
+    'TOTAL_COUNT': 'Total count',
+    'USED_HOLIDAYS': 'Used holidays',
+    'REMAINING_HOLIDAYS': 'Remaining holidays',
+    'AVAILABLE_COUNT': 'Available count',
+    'EMPLOYEE_COUNT': 'Employee count',
+    'ENABLE_DISABLE': 'Enable/Disable',
+
+    // Employee Registration
+    'EMPLOYEE_REGISTRATION': 'Employee Registration',
+
+    // Action popup
+
+    'APPROVE': 'Approve',
+    'REJECT': 'Reject',
+    'CHANGE_MANAGER': 'Change manager',
+    'REQUEST_CANCEL': 'Request cancel',
+
+    // Contract
+    'CREATE_CONTRACT': 'Create contract',
+    'FULL_NAME': 'Full name',
+    'EMPLOYEE_TYPE_SECTOR': 'Employee type and sector',
+    'PLEASE_SELECT_SHIFTS_TO_ADD_PLAN': 'Please select shifts to add plan',
+    'ENTER_CONTRACT_TYPE': 'Enter contract type',
+    'MANAGE_COMMUNICATION': 'Manage communication',
+    'CREATE_EMAIL_TEMPLATE':'Create email template',
 
     'VACANCY': 'Vacancy',
     'REPEAT_TYPE': 'Repeat type',

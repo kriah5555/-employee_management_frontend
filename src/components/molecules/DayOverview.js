@@ -103,7 +103,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
         setPlanDetails(
             <div>
                 <object data={data} type="application/pdf" width="100%" height="500px"></object>
-                <CustomButton buttonName={'Cancel'} CustomStyle="float-right mt-2" ActionFunction={() => setRefresh(!refresh)}></CustomButton>
+                <CustomButton buttonName={t("CANCEL")} CustomStyle="float-right mt-2" ActionFunction={() => setRefresh(!refresh)}></CustomButton>
                 <CustomButton buttonName={t("SIGN")} ActionFunction={() => setPlanDetails(<SignaturePad view="contractSign" sendSignatureData={sendSignatureData} sign={true} setSign={setRefresh} refresh={refresh}></SignaturePad>)} CustomStyle="float-right mt-2"></CustomButton>
             </div>
         )

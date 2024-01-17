@@ -203,7 +203,7 @@ export default function AddFunction() {
     return (
         <div className="right-container">
             {successMessage && <ModalPopup
-                title={('SUCCESS')}
+                title={t('SUCCESS')}
                 body={(successMessage)}
                 onHide={() => navigate('/manage-configurations/functions')}
             ></ModalPopup>}

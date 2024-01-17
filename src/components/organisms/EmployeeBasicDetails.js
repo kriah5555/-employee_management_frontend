@@ -8,6 +8,7 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import Logo from "../../static/icons/Logo.png"
 import FormsNew from "../molecules/FormsNew";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
+import { t } from "../../translations/Translation";
 
 export default function EmployeeBasicDetails() {
 
@@ -160,30 +161,30 @@ export default function EmployeeBasicDetails() {
     }
 
     const addEmployeeDetailsFields = [
-        { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("SSN"), name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: "First name", name: "first_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Last name", name: "last_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Mobile number", name: "phone_number", required: true, type: "phone_input", style: "col-md-4 mt-4 float-left" },
+        { title: t("FIRST_NAME"), name: "first_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("LAST_NAME"), name: "last_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("MOBILE_NUMBER"), name: "phone_number", required: true, type: "phone_input", style: "col-md-4 mt-4 float-left" },
 
-        { title: "Email", name: "email", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "DOB", name: "date_of_birth", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: "Place of birth", name: "place_of_birth", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("EMAIL"), name: "email", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("DATE_OF_BIRTH"), name: "date_of_birth", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
+        { title: t("PLACE_OF_BIRTH"), name: "place_of_birth", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: "Gender", name: "gender_id", required: true, options: getFormattedDropdownOptions(employeeCreateOptions.genders), selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("GENDER"), name: "gender_id", required: true, options: getFormattedDropdownOptions(employeeCreateOptions.genders), selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
 
-        { title: "Address: Street + House num", name: "street_house_no", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Postal code", name: "postal_code", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "City", name: "city", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("ADDRESS_STREET_HOUSE"), name: "street_house_no", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("POSTAL_CODE"), name: "postal_code", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("CITY"), name: "city", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: "Country", name: "country", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Nationality", name: "nationality", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: "Bank account number", name: "account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("COUNTRY"), name: "country", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("NATIONALITY"), name: "nationality", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: t("BANK_ACCOUNT_NUMBER"), name: "account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: "Language", name: "language", required: true, options: getFormattedDropdownOptions(employeeCreateOptions.languages, 'key', 'value'), selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Marital status", name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(employeeCreateOptions.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Dependent spouse", name: "dependent_spouse", required: true, options: getFormattedDropdownOptions(employeeCreateOptions.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: "Children", name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("LANGUAGE"), name: "language", required: true, options: getFormattedDropdownOptions(employeeCreateOptions.languages, 'key', 'value'), selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("MARITAL_STATUS"), name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(employeeCreateOptions.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("DEPENDANT_SPOUSE"), name: "dependent_spouse", required: true, options: getFormattedDropdownOptions(employeeCreateOptions.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("CHILDREN"), name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
     ];
 
 
@@ -191,18 +192,18 @@ export default function EmployeeBasicDetails() {
         <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
             <div className="d-flex col-xl-3 col-lg-4">
                 <div className=" align-items-center">
-                    <a className="navbar-brand p-0" href="/"><img alt={"logo"} className="logo" src={Logo}></img></a>
+                    <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                 </div>
             </div>
         </nav>
         <div className="col-md-12 d-flex align-items-center p-0 flex-1">
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={'Validation error'}
+                title={t("VALIDATION_ERROR")+ ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             {showForm && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
-                <h2 className="p-0 mt-4 ml-5 text-center" id="text-indii-blue">{"Employee Registration"}</h2>
+                <h2 className="p-0 mt-4 ml-5 text-center" id="text-indii-blue">{t("EMPLOYEE_REGISTRATION")}</h2>
                 <FormsNew
                     view="employees"
                     formTitle={''}
@@ -212,8 +213,8 @@ export default function EmployeeBasicDetails() {
                     SetValues={setValues}
                 ></FormsNew>
                 <div className="company-tab-width mt-2 mb-3 mx-auto bg-white">
-                    <CustomButton buttonName={"Save"} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
-                    <CustomButton buttonName={"Cancel"} ActionFunction={() => { navigate("/login"); window.location.reload() }} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { navigate("/login"); window.location.reload() }} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                 </div>
             </div>}
             {!showForm && <div className="company-tab-width full-page-height company_creation mt-2 mb-3 mx-auto border bg-white"> <h2 className="col-md-10 p-0 mt-4 ml-5 text-center text-danger " >{"Un Authorized"}</h2></div>}

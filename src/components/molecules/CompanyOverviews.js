@@ -344,7 +344,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 <thead>
                     <tr className="table-head-bg py-3 mb-2">
                         <th className="py-3 col-6">{t("EMPLOYEE_TYPE")}</th>
-                        <th className="py-3 col-6">Enable/Disable</th>
+                        <th className="py-3 col-6">{t("ENABLE_DISABLE")}</th>
                     </tr>
                 </thead>
                 {listData.map((val, index) => {
@@ -357,8 +357,8 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             </table >
             </div>
                 <div className="mt-2 mb-3 mx-auto bg-white p-5">
-                    <CustomButton buttonName={"Save"} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
-                    <CustomButton buttonName={"Cancel"} ActionFunction={() => navigate("/manage-companies")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={t("CANCEL")} ActionFunction={() => navigate("/manage-companies")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                 </div>
             </>
             }

@@ -81,7 +81,7 @@ export default function AddContractPopup(props) {
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {('Create contract')}
+                    {t('CREATE_CONTRACT')}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

@@ -91,7 +91,7 @@ export default function AddContractType() {
     const contract_type_name = {
         title: t("CONTRACT_TYPE_NAME"),
         name: 'contract_type_name',
-        placeholder: 'Enter contract type',
+        placeholder: t("ENTER_CONTRACT_TYPE"),
         required: true,
         value: contractType,
     }
