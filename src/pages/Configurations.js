@@ -60,7 +60,7 @@ export default function Configurations() {
 
     const SocialSecretaryAndConfigurationTabs = [
         { title: t("TAXES"), icon:<SocialSecretary />, styleClass: subTabStyle, type: 'taxes' },
-        { title: t("SALARY_COEFFICIENT"), icon:<Salaries />, styleClass: subTabStyle, type: 'salary-coefficient' },
+        { title: t("SALARY_COEFFICIENT"), icon:<Salaries />, styleClass: subTabStyle, type: 'salary_coefficient' },
     ]
     return (
         <div className="right-container">

@@ -78,14 +78,22 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
         {
             title: t('EMPLOYEE_TYPE'),
             field: 'employee_type_name',
-            size: 200
+            size: 200,
+            editable: 'never'
+
         },
         {
             title: t('SALARY_COEFFICIENT'),
             field: 'salary_coefficient',
-            size: 200
+            size: 200,
+            editable: 'onUpdate'
         }
 
+    ]
+    const dummyData = [
+        { id: 1, "employee_type_name": 'student', 'salary_coefficient': '1.5' },
+        { id: 2, "employee_type_name": 'student', 'salary_coefficient': '1.8' },
+        { id: 3, "employee_type_name": 'student', 'salary_coefficient': '1.7' }
     ]
 
 
@@ -101,24 +109,29 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
         if (overviewContent === 'taxes') {
             apiUrl = TaxesApiUrl
             setHeaders(taxes_header); setTitle(t("MANAGE_TAXES")); setAddTitle(t("ADD_TAXES")); setAddUrl('/add-taxes');
-        } else if (overviewContent === 'salary-coefficient') {
+        } else if (overviewContent === 'salary_coefficient') {
             apiUrl = SalaryCoefficientApiUrl
             setHeaders(salary_coefficient_headers); setTitle(t("MANAGE_COEFFICIENT")); setAddTitle(''); setAddUrl("/add-salary-coefficient");
         }
 
         // Api call to get list data
-        AXIOS.service(apiUrl, 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    if (overviewContent === "holiday_code_configuration") {
-                    } else {
-                        setListData(result.data);
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        // AXIOS.service(apiUrl, 'GET')
+        //     .then((result) => {
+        //         if (result?.success) {
+        //             if (overviewContent === "holiday_code_configuration") {
+
+        //             } else {
+        //                 setListData(result.data);
+        //             }
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+        if (overviewContent === 'salary_coefficient') {
+
+            setListData(dummyData)
+        }
     }, [overviewContent, dataRefresh])
 
 
@@ -159,8 +172,9 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
                 setDeleteUrl(TaxesApiUrl + '/' + data.id)
             }
 
-        } else if (overviewContent === 'salary-coefficient') {
+        } else if (overviewContent === 'salary_coefficient') {
             if (action === 'edit') {
+                console.log(data);
                 // navigate('/add-public-holiday/' + data.id)
             } else {
                 // setDeleteUrl(PublicHolidayCodeApiUrl + '/' + data.id)
@@ -171,6 +185,32 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
 
     const setValues = (index, name, value, field) => {
 
+    }
+
+    const UpdateRow = (newData) => {
+
+        // newData['salary_coefficient'] = selectedType?.value
+        console.log(newData);
+        // let apiUrl = ""
+        // AXIOS.service(apiUrl + '/' + newData.id, 'PUT', newData)
+        //     .then((result) => {
+        //         if (result?.success) {
+        //             setDataRefresh(!dataRefresh)
+        //             toast.success(result.message[0], {
+        //                 position: "top-center",
+        //                 autoClose: 2000,
+        //                 hideProgressBar: false,
+        //                 closeOnClick: true,
+        //                 pauseOnHover: true,
+        //                 draggable: true,
+        //                 progress: undefined,
+        //                 theme: "colored",
+        //             });
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
     }
 
     const onSave = () => {
@@ -231,12 +271,12 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
                 <div className="tablescroll flex-1 d-flex flex-column">
                     <div className="flex-1">
                         {overviewContent === 'taxes' && <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "taxes" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>}
-                        {overviewContent === 'salary-coefficient' && <CustomTable columns={headers}></CustomTable>}
+                        {overviewContent === 'salary_coefficient' && <CustomTable columns={headers} rows={listData} setRows={setListData} UpdateRow={UpdateRow} tableName={'salary_coefficient'}></CustomTable>}
                     </div>
-                    {overviewContent === "salary-coefficient" && <div className={" mb-3 text-right pr-3 mt-2"}>
+                    {/* {overviewContent === "salary-coefficient"&& <div className={" mb-3 text-right pr-3 mt-2"}>
                         <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
                         <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/configurations")} CustomStyle="mr-3"></CustomButton>
-                    </div>}
+                    </div>} */}
                 </div>
             </div>
         </div>
