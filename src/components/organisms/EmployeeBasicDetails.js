@@ -160,7 +160,7 @@ export default function EmployeeBasicDetails() {
     }
 
     const addEmployeeDetailsFields = [
-        { title: "SSN", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
+        { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
 
         { title: "First name", name: "first_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: "Last name", name: "last_name", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
@@ -195,7 +195,7 @@ export default function EmployeeBasicDetails() {
                 </div>
             </div>
         </nav>
-        <div className="col-md-12 d-flex align-items-center p-0">
+        <div className="col-md-12 d-flex align-items-center p-0 flex-1">
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={'Validation error'}
                 body={(errors)}
