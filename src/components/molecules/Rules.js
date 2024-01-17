@@ -26,15 +26,15 @@ export default function Rules({ overviewContent }) {
     const [value, setValue] = useState('');
     const [popupData, setPopupData] = useState();
     const types = overviewContent === 'parameters' ? [
-        { value: 1, label: 'Employee type' },
-        { value: 2, label: 'Sector' },
-        { value: 3, label: 'Employee type and sector' },
+        { value: 1, label: t("EMPLOYEE_TYPE") },
+        { value: 2, label: t("SECTOR") },
+        { value: 3, label: t("EMPLOYEE_TYPE_SECTOR") },
     ] : [
-        { value: 1, label: 'Employee type' },
-        { value: 2, label: 'Sector' },
-        { value: 3, label: 'Employee type and sector' },
-        { value: 4, label: 'Company' },
-        { value: 5, label: 'Location' }
+        { value: 1, label: t("EMPLOYEE_TYPE") },
+        { value: 2, label: t("SECTOR") },
+        { value: 3, label: t("EMPLOYEE_TYPE_SECTOR") },
+        { value: 4, label: t("COMPANY") },
+        { value: 5, label: t("LOCATION") }
     ]
     const [defaultValueStatus, setDefaultValueStatus] = useState(false);
     // let count = 1
@@ -247,7 +247,7 @@ export default function Rules({ overviewContent }) {
                         selectedOptions={selectedId}
                         onSelectFunction={(e) => setSelectedId(e)}
                         CustomStyle="my-2 col-md-3"
-                        title={selectedType?.value === 2 ? 'Sector' : selectedType?.value === 5 ? 'Locations' : 'Employee type'}
+                        title={selectedType?.value === 2 ? t("SECTOR") : selectedType?.value === 5 ? t("LOCATIONS") : t("EMPLOYEE_TYPE")}
                         required={true}
                         isMulti={false}
                     ></Dropdown>}
@@ -256,7 +256,7 @@ export default function Rules({ overviewContent }) {
                         selectedOptions={selectedSectorId}
                         onSelectFunction={(e) => setSelectedSectorId(e)}
                         CustomStyle="my-2 col-md-3"
-                        title={'Sector'}
+                        title={t("SECTOR")}
                         required={true}
                         isMulti={false}
                     ></Dropdown>}

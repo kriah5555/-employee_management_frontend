@@ -343,7 +343,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 " >
                 <tr className="table-head-bg mb-2">
                     <th className="col-md-6 py-2">{t("EMPLOYEE_TYPE")}</th>
-                    <th className="col-md-6 py-2">Enable/Disable</th>
+                    <th className="col-md-6 py-2">{t("ENABLE_DISABLE")}</th>
                 </tr>
                 {listData.map((val, index) => {
                     return (
@@ -355,8 +355,8 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             </table >
             </div>
                 <div className="mt-2 mb-3 mx-auto bg-white p-5">
-                    <CustomButton buttonName={"Save"} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
-                    <CustomButton buttonName={"Cancel"} ActionFunction={() => navigate("/manage-companies")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={t("CANCEL")} ActionFunction={() => navigate("/manage-companies")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                 </div>
             </>
             }

@@ -256,7 +256,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             <td key={data?.cost} className={index === 7 ? " border-0" : "px-2"}>
                 <div className="d-flex justify-content-between">
                     <small>{data?.cost && <img src={CostIcon} alt="cost" className="plan-icon mr-1"></img>}{data?.cost}</small>
-                    <small>{data?.contract_hours && <img src={ContractHoursIcon} alt="contract hour" className="plan-icon mr-1"></img>}{data?.contract_hours}</small>
+                    <small>{data?.contract_hours && <img src={ContractHoursIcon} alt={t("CONTRACT_HOURS")} className="plan-icon mr-1"></img>}{data?.contract_hours}</small>
                 </div>
             </td>
         )
@@ -317,7 +317,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                             console.log(error);
                         })
                 } else {
-                    toast.error('Please select shifts to add plan', {
+                    toast.error(t("PLEASE_SELECT_SHIFTS_TO_ADD_PLAN"), {
                         position: "top-center",
                         autoClose: 2000,
                         hideProgressBar: false,

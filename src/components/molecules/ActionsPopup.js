@@ -109,7 +109,7 @@ export default function ActionsPopup(props) {
     }
 
     const formFields = [
-        { title: "Reporting manager", name: "manager_id", required: true, type: "dropdown", options: managersList, selectedOptions: selectedManager, style: "col-md-12 mt-2 ml-5" }
+        { title: t("REPORTING_MANAGER"), name: "manager_id", required: true, type: "dropdown", options: managersList, selectedOptions: selectedManager, style: "col-md-12 mt-2 ml-5" }
     ]
 
     return (
@@ -135,14 +135,14 @@ export default function ActionsPopup(props) {
             <Modal.Body>
                 {/* <p>{props.body}</p> */}
                 <div className='d-flex justify-content-center '>
-                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "approve")} src={AcceptIcon}></img><p className='mr-5'>Approve</p></>}
-                    {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "reject")} src={RejectIcon}></img><p className='mr-5'>Reject</p></>}
-                    {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "cancel")} src={RejectIcon}></img><p className='mr-5'>Cancel</p></>}
-                    {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon}></img><p className='mr-5'>change manager</p></>}
-                    {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "request_cancel")} src={RequestCancelIcon}></img><p className='mr-5'>Request cancel</p></>}
+                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "approve")} src={AcceptIcon}></img><p className='mr-5'>{t("APPROVE")}</p></>}
+                    {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "reject")} src={RejectIcon}></img><p className='mr-5'>{t("REJECT")}</p></>}
+                    {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "cancel")} src={RejectIcon}></img><p className='mr-5'>{t("CANCEL")}</p></>}
+                    {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon}></img><p className='mr-5'>{t("CHANGE_MANAGER")}</p></>}
+                    {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "request_cancel")} src={RequestCancelIcon}></img><p className='mr-5'>{t("REQUEST_CANCEL")}</p></>}
                 </div>
                 {showDropDown && <div className='text-center d-flex border-top mt-2'>
-                    <div className='col-md-8'><FormsNew data={formFields} formattedData={formData} SetValues={setValues}></FormsNew></div><div className='col-md-4'><Button className='button-style float-left mt-5' onClick={() => saveManager()}>Save</Button></div>
+                    <div className='col-md-8'><FormsNew data={formFields} formattedData={formData} SetValues={setValues}></FormsNew></div><div className='col-md-4'><Button className='button-style float-left mt-5' onClick={() => saveManager()}>{t("SAVE")}</Button></div>
                 </div>}
             </Modal.Body>
         </Modal>

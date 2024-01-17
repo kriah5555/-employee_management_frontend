@@ -193,7 +193,7 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                     console.log(error);
                 })
         } else {
-            setErrors(["Please fill required fields"])
+            setErrors(t("PLEASE_FILL_REQUIRED_FIELDS"))
         }
 
     }

@@ -111,8 +111,8 @@ export default function ConfigurationOverviews() {
 
     const [headers, setHeaders] = useState(emp_type_sector_headers);
     const [listData, setListData] = useState([]);
-    const [title, setTitle] = useState('Manage employee types');
-    const [addTitle, setAddTitle] = useState('Add employee type');
+    const [title, setTitle] = useState(t("MANAGE_EMPLOYEE_TYPES"));
+    const [addTitle, setAddTitle] = useState(t("ADD_EMPLOYEE_TYPE"));
     const [addUrl, setAddUrl] = useState('/add_employee_type');
 
     useEffect(() => {

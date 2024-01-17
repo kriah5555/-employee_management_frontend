@@ -27,7 +27,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
             sorting: false
         },
         {
-            title: "Full name",
+            title: t("FULL_NAME"),
             field: 'fullname',
             sorting: false,
             searchable: true,
@@ -58,7 +58,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
             size: 100,
         },
         {
-            title: "Full name",
+            title: t("FULL_NAME"),
             field: 'fullname',
             sorting: false,
             searchable: true,

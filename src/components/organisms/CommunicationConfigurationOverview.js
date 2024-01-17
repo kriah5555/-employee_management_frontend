@@ -68,8 +68,8 @@ export default function CommunicationConfigurationOverview() {
 
     const [headers, setHeaders] = useState(communication_headers);
     const [listData, setListData] = useState([]);
-    const [title, setTitle] = useState('Manage communication');
-    const [addTitle, setAddTitle] = useState('Create email template');
+    const [title, setTitle] = useState(t("MANAGE_COMMUNICATION"));
+    const [addTitle, setAddTitle] = useState(t("CREATE_EMAIL_TEMPLATE"));
     const [addUrl, setAddUrl] = useState('/add-email-template');
     const [tableName, setTableName] = useState("");
 

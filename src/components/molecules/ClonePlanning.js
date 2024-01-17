@@ -47,11 +47,11 @@ export default function ClonePlanning() {
     })
 
     const employeeTypeOptions = [
-        { value: 1, label: 'normal' }
+        { value: 1, label: t("NORMAL") }
     ]
 
     const employeeOptions = [
-        { value: 1, label: 'tester' }
+        { value: 1, label: t("TESTER") }
     ]
 
 
