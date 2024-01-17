@@ -148,7 +148,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, selecte
                         </div>}
                         <CompanyForm
                             index={index}
-                            view="customer"
+                            view={view !== 'responsible-person-single' ? "multi" : "customer"}
                             title1={view !== 'responsible-person-single' ? t("ADD_RESPONSIBLE_PERSON") : ''}
                             data1={CustomerfieldsData}
                             formattedData1={customers[index]}

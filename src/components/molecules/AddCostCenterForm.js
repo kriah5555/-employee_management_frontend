@@ -81,7 +81,7 @@ export default function AddCostCenterForm() {
             let id = costCenterData[0].location_id;
             const options = getFormattedDropdownOptions(dropdownOptions.workstations[id], "id", "workstation_name") || [];
             setWorkstationsOptions(options)
-            setWorkstations([])
+            if (params.id === '' || params.id === 0) setWorkstations([])
         }
     }, [costCenterData[0]?.location_id])
 
@@ -128,7 +128,6 @@ export default function AddCostCenterForm() {
         }
     }, [])
 
-    const location_options = getFormattedDropdownOptions(dropdownOptions.locations, 'id', 'location_name');
 
     const costCenterFields = [
         // cost center fields

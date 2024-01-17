@@ -55,16 +55,23 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         response.push(result.data);
                         let loc_arr = []
                         let func_arr = []
-                        setSelectedLocation(getFormattedDropdownOptions(result.data.locations, 'id', 'location_name'));
-                        setSelectedFunction(getFormattedDropdownOptions(result.data.function_titles, 'id', 'name'));
+                        let dropdown_loc_arr = []
+                        let dropdown_func_arr = []
+                        // setSelectedLocation(getFormattedDropdownOptions(result.data.locations, 'id', 'location_name'));
+                        // setSelectedFunction(getFormattedDropdownOptions(result.data.function_titles, 'id', 'name'));
+
                         let selected_locations = result.data.locations
-                        let selected_function_titles = result.data.function_titles
+                        // let selected_function_titles = result.data.function_titles
                         selected_locations.map((loc, i) => {
                             loc_arr.push(loc.id);
+                            dropdown_loc_arr.push({ value: loc?.id, label: loc?.location_name })
                         })
-                        selected_function_titles.map((func, i) => {
+                        result.data.function_titles.map((func, i) => {
                             func_arr.push(func.id);
+                            dropdown_func_arr.push({ value: func?.id, label: func?.name })
                         })
+                        setSelectedLocation([dropdown_loc_arr]);
+                        setSelectedFunction([dropdown_func_arr]);
                         response[0]['locations'] = []
                         response[0]['locations'] = loc_arr
                         response[0]['function_titles'] = func_arr
@@ -114,15 +121,15 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                 arr.push(val.value)
             })
             if (name === 'locations_index') {
-                // const selected_locations = [...selectedLocation]
-                // selected_locations[index] = value
-                setSelectedLocation(value);
+                const selected_locations = [...selectedLocation]
+                selected_locations[index] = value
+                setSelectedLocation(selected_locations);
                 workstations[index]['locations'] = arr
                 workstations[index]['locations_index'] = arr
             } else {
-                // const selected_functions = [...selectedFunction]
-                // selected_functions[index] = value
-                setSelectedFunction(value);
+                const selected_functions = [...selectedFunction]
+                selected_functions[index] = value
+                setSelectedFunction(selected_functions);
                 workstations[index]['function_titles'] = arr
             }
         }
@@ -147,7 +154,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                         </div>}
                         <CompanyForm
                             index={i}
-                            view="workstation"
+                            view={"multi"}
                             title1={view !== 'workstation-single' ? t("ADD_WORKSTATION") : ''}
                             data1={workstationFieldsArray}
                             formattedData1={workstations[i]}

@@ -5,7 +5,7 @@ import CustomPhoneInput from "../atoms/formFields/CustomPhoneInput";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import DateInput from "../atoms/formFields/DateInput";
 
-export default function CompanyForm({ data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2, formattedData3, addressValues }) {
+export default function CompanyForm({ view, data1, data2, data3, title1, title2, title3, SetValues, index, formattedData1, formattedData2, formattedData3, addressValues }) {
 
     return (
         <div className="mt-3">
@@ -60,7 +60,7 @@ export default function CompanyForm({ data1, data2, data3, title1, title2, title
                                 <Dropdown
                                     key={field.name}
                                     options={field.options}
-                                    selectedOptions={field.isMulti ? field.selectedOptions : field.selectedOptions[index]}
+                                    selectedOptions={!field.isMulti || view === "multi" ? field.selectedOptions[index] : field.selectedOptions}
                                     onSelectFunction={(e) => SetValues(index, field.name, e, field.type)}
                                     CustomStyle="col-md-6 mt-2 float-left"
                                     title={field.title}

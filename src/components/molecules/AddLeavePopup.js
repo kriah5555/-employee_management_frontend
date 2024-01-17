@@ -5,13 +5,14 @@ import { t } from '../../translations/Translation';
 import "../../utilities/popup/popup.css";
 import FormsNew from './FormsNew';
 import { APICALL as AXIOS } from '../../services/AxiosServices';
-import { AddLeaveApiUrl, GetPlansForLeavesApiUrl } from "../../routes/ApiEndPoints";
+import { AddLeaveApiUrl, GetLeaveOptionsApiUrl, GetPlansForLeavesApiUrl } from "../../routes/ApiEndPoints";
+import { getFormattedDropdownOptions } from '../../utilities/CommonFunctions';
 
 const AddLeavePopup = (props) => {
     const [employee, setEmployee] = useState();
-    const [employeeList, setEmployeeList] = useState([{ value: 2, label: 'Test user' }]);
+    const [employeeList, setEmployeeList] = useState([]);
     const [holidayCode, setHolidayCode] = useState([]);
-    const [holidayCodeList, setHolidayCodeList] = useState([{ value: 2, label: 'dummy holiday code' }])
+    const [holidayCodeList, setHolidayCodeList] = useState([])
     const [formData, setFormData] = useState({
         "employee_profile_id": "5",
         "duration_type": '1',
@@ -35,17 +36,19 @@ const AddLeavePopup = (props) => {
     ]
 
 
-    // useEffect(() => {
-    //     AXIOS.service(ResponsiblePersonApiUrl, 'GET')
-    //         .then((result) => {
-    //             if (result?.success) {
-    //                 setEmployeeList(result.data)
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }, [])
+    useEffect(() => {
+        AXIOS.service(GetLeaveOptionsApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeList(getFormattedDropdownOptions(result.data.employees, 'employee_profile_id', 'full_name' ))
+                    setHolidayCodeList(getFormattedDropdownOptions(result.data.leave_codes, 'id', 'holiday_code_name' ))
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
 
     const changeCheckbox = () => {
         SetMultipleDays(!multipleDays)

@@ -54,8 +54,8 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                             arr.push(val.id)
                             dropdown_arr.push({ value: val?.id, label: val?.full_name })
                         })
-                        response[0]['responsiblePerson'] = arr
-                        setResponsiblePerson(dropdown_arr)
+                        response[0]['responsible_persons'] = arr
+                        setResponsiblePerson([dropdown_arr])
                         setLocations(response);
                     }
                 })
@@ -118,9 +118,9 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
             locationsArray[index][name] = value
             if (name === 'location_name') { getLocationDropdownData(index, value) }
         } else {
-            // const resp_person = [...responsiblePerson]
-            // resp_person[index] = value
-            setResponsiblePerson(value);
+            const resp_person = [...responsiblePerson]
+            resp_person[index] = value
+            setResponsiblePerson(resp_person);
             let arr = []
             value.map((val, i) => {
                 arr.push(val.value)
@@ -134,7 +134,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     //add location fields
     const locationFieldsArray = [
         { title: t("LOCATION"), name: "location_name", required: false, type: "input_field" },
-        { title: t("RESPONSIBLE_PERSONS"), options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
+        { title: t("RESPONSIBLE_PERSONS"), name: 'responsible_persons', options: view !== 'location-single' ? customerArray : customerUpdateArr, isMulti: true, selectedOptions: responsiblePerson, error: (responsiblePerson.length > 0) ? "" : 'Required', required: false, type: "dropdown" },
     ]
 
     //checkbox list
@@ -157,7 +157,6 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
     ];
 
 
-    console.log(locations);
     return (
         <div className="flex-1">
             {locations.map((x, i) => {
@@ -168,7 +167,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                         </div>}
                         <CompanyForm
                             index={i}
-                            view="location"
+                            view={"multi"}
                             title1={view !== 'location-single' ? t("ADD_LOCATION") : ''}
                             data1={locationFieldsArray}
                             formattedData1={locations[i]}
