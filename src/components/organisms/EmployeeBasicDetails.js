@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddEmployeePersonalDetails from "../molecules/AddEmployeePersonalDetails";
-import { EmployeeApiUrl, EmployeeCreateApiUrl, EmployeeContractApiUrl, EmployeeCommutetApiUrl, EmployeeBenefitsApiUrl, UploadIdCardApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeCreateApiUrl, ValidateEmployeeInvitation, EmployeeRegistrationApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,8 +23,13 @@ export default function EmployeeBasicDetails() {
     const [children, setChildren] = useState([]);
 
     const [errors, setErrors] = useState([]);
+    const [validToken, setValidToken] = useState({
+        "token": params.validtoken
+    })
+    const [showForm, setShowForm] = useState(false)
 
     const [employeeData, setEmployeeData] = useState({
+        "token":validToken.token,
         "first_name": "",
         "last_name": "",
         "date_of_birth": "",
@@ -50,21 +54,41 @@ export default function EmployeeBasicDetails() {
         count = count + 1
     }
 
-    useEffect(() => {
-        AXIOS.service(EmployeeCreateApiUrl + '/create', 'GET')
+    const validateToken = () => {
+
+        AXIOS.service(ValidateEmployeeInvitation, 'POST', validToken)
             .then((result) => {
                 if (result?.success) {
-                    setEmployeeCreateOptions(result.data)
-                } else {
-                    // setErrors(result.message)
+                    setShowForm(true)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
 
-        // localStorage.setItem("auth",false)
-    }, [])
+    }
+
+    useEffect(() => {
+
+        validateToken()
+
+        if (showForm) {
+            AXIOS.service(EmployeeCreateApiUrl + '/create', 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setEmployeeCreateOptions(result.data)
+                    } else {
+                        setErrors(result.message[0])
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
+        localStorage.setItem("auth", false)
+
+    }, [showForm])
 
     function formatDate(value) {
 
@@ -114,7 +138,25 @@ export default function EmployeeBasicDetails() {
     }
 
     const onSave = () => {
-        console.log(employeeData);
+
+        AXIOS.service(EmployeeRegistrationApiUrl, "POST", employeeData)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const addEmployeeDetailsFields = [
@@ -159,7 +201,7 @@ export default function EmployeeBasicDetails() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
+            {showForm && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
                 <h2 className="col-md-10 p-0 mt-4 ml-5 text-center" id="text-indii-blue">{"Add Basic Details"}</h2>
                 <FormsNew
                     view="employees"
@@ -171,9 +213,10 @@ export default function EmployeeBasicDetails() {
                 ></FormsNew>
                 <div className="company-tab-width mt-2 mb-3 mx-auto bg-white">
                     <CustomButton buttonName={"Save"} ActionFunction={() => onSave()} CustomStyle="my-3 float-right"></CustomButton>
-                    <CustomButton buttonName={"Cancel"} ActionFunction={() => navigate("/manage-employees")} CustomStyle="mr-3 my-3 float-right"></CustomButton>
+                    <CustomButton buttonName={"Cancel"} ActionFunction={() => { navigate("/login"); window.location.reload() }} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                 </div>
-            </div>
+            </div>}
+            {!showForm && <div className="company-tab-width full-page-height company_creation mt-2 mb-3 mx-auto border bg-white"> <h2 className="col-md-10 p-0 mt-4 ml-5 text-center text-danger " >{"Un Authorized"}</h2></div>}
         </div>
     </>
     )

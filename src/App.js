@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import BaseRouter from "./routes/Routes";
+import BaseRouter, { InviteRoute } from "./routes/Routes";
 import { AppContext } from "./routes/ContextLib";
 import './App.css';
 import "./static/common.css";
@@ -8,7 +8,8 @@ import Header from './commonComponents/Header';
 import Sidebar from './commonComponents/Sidebar';
 import Login from './pages/Login';
 import { GetTranslatedConstants } from './translations/Translation';
-import EmployeeBasicDetails from './components/organisms/EmployeeBasicDetails';
+import { useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
 
    const [company, setCompany] = useState('');
    const [path, setPath] = useState(window.location.pathname)
+   const params = useParams()
 
    useEffect(() => {
       if (localStorage.getItem('auth') === null) {
@@ -70,8 +72,8 @@ function App() {
             <Router>
                {/* Display the contents with base routes */}
                {/* Common layout with header and sidebar */}
-               {auth === 'false' && path === '/invite-employee' && <EmployeeBasicDetails></EmployeeBasicDetails>}
-               {auth === 'true' && path !== '/invite-employee' && <>
+               {auth === 'false' && path.startsWith('/employee-invitations/') && <InviteRoute></InviteRoute>}
+               {auth === 'true' && !path.startsWith('/employee-invitations/') && <>
                   <Header
                      setAuth={setAuth}
                      selectedCompany={selectedCompany}
@@ -85,7 +87,7 @@ function App() {
                      <BaseRouter setAuth={setAuth} setCompany={setCompany}></BaseRouter>
                   </div>
                </>}
-               {auth === 'false' && path !== '/invite-employee' &&
+               {auth === 'false' && !path.startsWith('/employee-invitations/') &&
                   <Login setAuth={setAuth}></Login>
                }
             </Router>

@@ -155,6 +155,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
         { title: t("USERNAME"), name: "username", required: false, type: "input_field" },
         { title: t("RSZ_NUMBER"), name: "rsz_number", required: false, type: "input_field" },
         { title: t("INTERIM_AGENCY"), name: "interim_agencies", options: interimAgencyList, isMulti: true, selectedOptions: interimAgency, required: false, type: "dropdown" },
+        { title: t("OAUTH_KEY"), name: "oauth_key", required: false, type: "input_field" },
     ];
     //adress fields for company
     const companyAddressFieldsArray = [

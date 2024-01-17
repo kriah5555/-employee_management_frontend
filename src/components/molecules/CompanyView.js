@@ -51,6 +51,7 @@ export default function CompanyView() {
         { title: t("USERNAME"), name: "username", value: companyData.username },
         { title: t("RSZ_NUMBER"), name: "rsz_number", value: companyData.rsz_number },
         { title: t("SOCIAL_SECRETARY_NUMBER"), name: "social_secretary_number", value: socialSecretaryNumber },
+        { title: t("OAUTH_KEY"), name: "oauth_key", value: companyData.oauth_key  },
     ];
 
     const companyAddress = [
