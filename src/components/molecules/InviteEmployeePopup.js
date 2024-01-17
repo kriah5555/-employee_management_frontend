@@ -3,15 +3,13 @@ import { Button, Modal } from "react-bootstrap";
 import { EmployeeInviteApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { useNavigate, useParams } from "react-router-dom";
-import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { t } from "../../translations/Translation";
-import CustomButton from "../atoms/CustomButton";
 import { toast } from 'react-toastify';
 import FormsNew from "./FormsNew";
 
 export default function InviteEmployeePopup(props) {
 
-    const navigate = useNavigate()
+    const [error, setError] = useState([]);
     const [inviteData, setInviteData] = useState(
         {
             "first_name": '',
@@ -46,6 +44,8 @@ export default function InviteEmployeePopup(props) {
                         progress: undefined,
                         theme: "colored",
                     });
+                } else {
+                    setError(result.message)
                 }
             })
             .catch((error) => {
@@ -76,6 +76,11 @@ export default function InviteEmployeePopup(props) {
             </Modal.Header> */}
             <Modal.Body>
                 <h2 className="col-md-10 p-0 mt-4 mb-3 ml-5 text-center border-bottom pb-3" id="text-indii-blue">{t("INVITE_EMPLOYEE")}</h2>
+                {error?.length !== 0 && error.map((err, i) => {
+                    return (
+                        <p className="text-danger mb-0 text-center">{err}</p>
+                    )
+                })}
                 <FormsNew
                     view="invite_employee"
                     data={fieldsArray}
