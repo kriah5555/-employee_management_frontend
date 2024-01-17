@@ -209,7 +209,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     let otherDataFieldsArray = [
         { title: t("FUNCTION_NAME"), name: "function_id", type: "dropdown", options: functionList, selectedOptions: functionName, required: true, style: "col-md-12 p-0" },
         { title: t("SALARY"), name: "salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
-        { title: t("EXPERIENCE"), name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
+        { title: t("EXPERIENCE_IN_MONTHS"), name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
     ]
     return (
         <div>
@@ -254,7 +254,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                     let otherData = [
                         { label: t("FUNCTION_NAME"), value: val.function_title },
                         { label: t("SALARY"), value: val.salary },
-                        { label: t("EXPERIENCE"), value: val.experience },// need to add value for this
+                        { label: t("EXPERIENCE_IN_MONTHS"), value: val.experience },// need to add value for this
                     ]
                     return (
                         <div key={index} className={"border mt-2 mr-2 mb-2 function-card font-14 w-50"}>
@@ -295,7 +295,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                     )
                 })}
                 <div className="float-right col-md-12 mb-2 text-right">
-                    {(editFunction || edit) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>}
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => { /*setCardNumber(""); setToggleOpen("") */ onSave() }}></CustomButton>
                     <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { setCardNumber(""); setToggleOpen("") }}></CustomButton>
                 </div>
             </div >

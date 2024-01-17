@@ -295,6 +295,7 @@ export const GET_CONSTANTS = {
     'SUB_TYPES': 'Sub types',
     'SCHEDULE_TYPE': 'Schedule type',
     'EMPLOYEEMENT_TYPE': 'Employement type',
+    'EXPERIENCE_IN_MONTHS':'Experience in months',
 
     // Function salaries
     'EXPERIENCE': 'Experience',

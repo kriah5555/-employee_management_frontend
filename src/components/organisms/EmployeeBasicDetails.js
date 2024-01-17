@@ -202,7 +202,7 @@ export default function EmployeeBasicDetails() {
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             {showForm && <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white">
-                <h2 className="col-md-10 p-0 mt-4 ml-5 text-center" id="text-indii-blue">{"Add Basic Details"}</h2>
+                <h2 className="col-md-10 p-0 mt-4 ml-5 text-center" id="text-indii-blue">{"Employee Registration"}</h2>
                 <FormsNew
                     view="employees"
                     formTitle={''}
