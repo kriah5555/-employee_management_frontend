@@ -1356,6 +1356,7 @@ a:hover {
 
 tr th:last-child {
   width: auto !important;
+  min-width: 150px !important;
 }
 
 .add_taxes form,
