@@ -28,17 +28,17 @@ export default function AddTaxes() {
 
     useEffect(() => {
         if (params.id !== undefined) {
-            AXIOS.service(TaxesApiUrl + '/' + params.id, 'GET')
-                .then((result) => {
-                    if (result?.success) {
+        //     AXIOS.service(TaxesApiUrl + '/' + params.id, 'GET')
+        //         .then((result) => {
+        //             if (result?.success) {
 
-                    } else {
-                        setErrors(result.message)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+        //             } else {
+        //                 setErrors(result.message)
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             console.log(error);
+        //         })
 
         }
     }, [])
@@ -62,27 +62,27 @@ export default function AddTaxes() {
             method = 'PUT'
         }
         // APICall for create and updation of holiday code
-        AXIOS.service(url, method, formData)
-            .then((result) => {
-                if (result?.success) {
-                    navigate('/manage-social-secretary-and-reporting-configurations/taxes');
-                    toast.success(result.message[0], {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                } else {
-                    setErrors(result.message)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        // AXIOS.service(url, method, formData)
+        //     .then((result) => {
+        //         if (result?.success) {
+        //             navigate('/manage-social-secretary-and-reporting-configurations/taxes');
+        //             toast.success(result.message[0], {
+        //                 position: "top-center",
+        //                 autoClose: 2000,
+        //                 hideProgressBar: false,
+        //                 closeOnClick: true,
+        //                 pauseOnHover: true,
+        //                 draggable: true,
+        //                 progress: undefined,
+        //                 theme: "colored",
+        //             });
+        //         } else {
+        //             setErrors(result.message)
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
 
     }
 

@@ -27,6 +27,13 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
             sorting: false
         },
         {
+            title: "Full name",
+            field: 'fullname',
+            sorting: false,
+            searchable: true,
+            hidden: true
+        },
+        {
             title: t("MOBILE_NUMBER"),
             field: 'number',
             sorting: false
@@ -49,7 +56,14 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
             title: t("SEARCH_TEXT"),
             field: 'employee',
             size: 100,
-        }
+        },
+        {
+            title: "Full name",
+            field: 'fullname',
+            sorting: false,
+            searchable: true,
+            hidden: true
+        },
     ]
 
     const [headers, setHeaders] = useState(employeeHeaders)
@@ -127,7 +141,8 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                                 email: emp.user.user_contact_details.email,
                                 ssn: emp.user.social_security_number,
                                 id: emp.id,
-                                parentId: group_id
+                                parentId: group_id,
+                                fullname: emp.user.user_basic_details.first_name + " " + emp.user.user_basic_details.last_name
                             }
                             arr.push(employee)
 
