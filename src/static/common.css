@@ -1356,9 +1356,10 @@ a:hover {
 
 tr th:last-child {
   width: auto !important;
+  min-width: 150px !important;
 }
 
-.css-5736gi-menu{
-  position: absolute;
-  z-index: 9999;
+.add_taxes form,
+.add_public_holidays form {
+  display: block;
 }

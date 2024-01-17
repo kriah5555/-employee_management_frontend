@@ -128,7 +128,7 @@ export default function AddPublicHoliday() {
     ];
 
     return (
-        <div className="right-container">
+        <div className="right-container add_public_holidays">
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
