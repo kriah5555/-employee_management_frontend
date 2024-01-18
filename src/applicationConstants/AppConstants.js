@@ -414,6 +414,7 @@ export const GET_CONSTANTS = {
     'DEFAULT_VALUE': 'Default value',
     'UPDATE_RULE': 'Update rule',
     'COPY_DEFAULT': 'Use default value',
+    //TAXES
     'TAXES': 'Taxes',
     'SOCIAL_SECRETARY_AND_REPORTING': 'Social secretary and reporting',
     'TAX_FROM_DATE': 'Tax from date',
@@ -427,8 +428,18 @@ export const GET_CONSTANTS = {
     'PAY_TYPE_TAX_PERCENTAGE': 'Pay type tax percentage',
     'MANAGE_TAXES': 'Manage taxes',
     'ADD_TAXES': 'Add taxes',
+    //SALARY COEFFICIENT
     'MANAGE_COEFFICIENT': 'Manage coefficient',
     'SALARY_COEFFICIENT': 'Salary coefficient',
+    //EXPORT CONFIGURATION
+    'EXPORT_CONFIGURATION': 'Export configuration',
+    'START_TIME_TYPE':'Start time type',
+    'END_TIME_TYPE':'End time type',
+    'WORK_TIME':'Work time',
+    'DEFAULT_BREAK_TIME':'Default break time',
+    'MEASURED_BREAK_TIME':'Measured break time',
+    'NIGHT_WORKED_HOURS':'Night worked hours',
+    'MANAGE_EXPORT_CONFIGURATION':'Managage export configuration',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',
@@ -586,7 +597,7 @@ export const GET_CONSTANTS = {
     'PLEASE_SELECT_SHIFTS_TO_ADD_PLAN': 'Please select shifts to add plan',
     'ENTER_CONTRACT_TYPE': 'Enter contract type',
     'MANAGE_COMMUNICATION': 'Manage communication',
-    'CREATE_EMAIL_TEMPLATE':'Create email template',
+    'CREATE_EMAIL_TEMPLATE': 'Create email template',
 
     'VACANCY': 'Vacancy',
     'REPEAT_TYPE': 'Repeat type',
