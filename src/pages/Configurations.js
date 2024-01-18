@@ -25,6 +25,7 @@ import HolidayCode from "../static/icons/HolidayCode";
 import EmailTemplate from "../static/icons/EmailTemplate";
 import Translate from "../static/icons/Translate";
 import ParameterIcon from "../static/icons/ParameterIcon";
+import ExportIcon from "../static/icons/ExportIcon"
 
 export default function Configurations() {
 
@@ -61,6 +62,7 @@ export default function Configurations() {
     const SocialSecretaryAndConfigurationTabs = [
         { title: t("TAXES"), icon:<SocialSecretary />, styleClass: subTabStyle, type: 'taxes' },
         { title: t("SALARY_COEFFICIENT"), icon:<Salaries />, styleClass: subTabStyle, type: 'salary_coefficient' },
+        { title: t("EXPORT_CONFIGURATION"), icon:<ExportIcon/>, styleClass: subTabStyle, type: 'export_configuration' },
     ]
     return (
         <div className="right-container">
