@@ -1363,3 +1363,8 @@ tr th:last-child {
 .add_public_holidays form {
   display: block;
 }
+
+.add_leave_popup > div > div:nth-child(1) {
+  overflow: unset !important;
+}
+

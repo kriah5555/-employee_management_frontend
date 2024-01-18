@@ -118,7 +118,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                             )
                         } else if (field.type === 'text-area') {
                             return (
-                                <div>
+                                <>
                                     <TextArea
                                         key={field.name}
                                         title={field.title}
@@ -129,7 +129,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                                         setValue={(e) => SetValues(i, field.name, e, field.type)}
                                     ></TextArea>
                                     {view === 'employee_types' && <h4 id="text-indii-blue" className="col-md-12 float-left pb-3 mb-0"><u>{t("CONFIGURATIONS") + (":")}</u></h4>}
-                                </div>
+                                </>
                             )
                         } else if (field.type === 'checkbox') {
                             if (field.checkboxList?.length !== 0)

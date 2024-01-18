@@ -40,8 +40,8 @@ const AddLeavePopup = (props) => {
         AXIOS.service(GetLeaveOptionsApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    setEmployeeList(getFormattedDropdownOptions(result.data.employees, 'employee_profile_id', 'full_name' ))
-                    setHolidayCodeList(getFormattedDropdownOptions(result.data.leave_codes, 'id', 'holiday_code_name' ))
+                    setEmployeeList(getFormattedDropdownOptions(result.data.employees, 'employee_profile_id', 'full_name'))
+                    setHolidayCodeList(getFormattedDropdownOptions(result.data.leave_codes, 'id', 'holiday_code_name'))
 
                 }
             })
@@ -216,11 +216,13 @@ const AddLeavePopup = (props) => {
             </Modal.Header>
             <Modal.Body>
                 {/* <p>{props.body}</p> */}
-                <FormsNew
-                    data={multipleDays ? multipleDaysArrayField : defaultFieldsArray}
-                    SetValues={setValue}
-                    formattedData={formData}
-                />
+                <div className='add_leave_popup'>
+                    <FormsNew
+                        data={multipleDays ? multipleDaysArrayField : defaultFieldsArray}
+                        SetValues={setValue}
+                        formattedData={formData}
+                    />
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button className='button-style float-left' onClick={() => onSave()}>
