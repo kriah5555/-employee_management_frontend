@@ -289,6 +289,7 @@ export const GET_CONSTANTS = {
     'USED_TITLE': 'Used',
     'REMAINING_TITLE': 'Remaining',
     'STREET_HOUSE': 'Street+house no',
+    'CREATE_EMPLOYEE_SUCCESS_MESSAGE':'Employee created successfully',
 
     // Employee contract types
     'WEEKLY_CONTRACT_HOURS': 'Weekly contract hours',
