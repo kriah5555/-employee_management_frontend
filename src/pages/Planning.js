@@ -7,6 +7,7 @@ import HolidayOverview from "../components/organisms/HolidayOverview"
 import OpenShiftOverview from "../components/organisms/OpenShiftOverview"
 import OpenShiftListWithDetails from "../components/organisms/OpenShiftListWithDetails";
 import BackIcon from "../static/icons/BackIcon.png"
+import AddOthPlans from "../components/organisms/AddOthPlans";
 
 export default function Planning({ setHeaderCompanyDropdown }) {
 
@@ -18,7 +19,8 @@ export default function Planning({ setHeaderCompanyDropdown }) {
         { tabHeading: t("PLANNING_LOGS"), tabName: 'location' },
         { tabHeading: t("HOLIDAY_LEAVE"), tabName: 'workstation' },
         { tabHeading: t("EVENT_PLANNING"), tabName: 'cost center' },
-        { tabHeading: t("OPEN_SHIFT"), tabName: 'open shift' }
+        { tabHeading: t("OPEN_SHIFT"), tabName: 'open shift' },
+        // { tabHeading: t("OTH_PLANNING"), tabName: 'oth planning' }
     ]
     return (
         <div className="right-container">
@@ -55,6 +57,7 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     <TabPanel>
                         <div className="tablescroll"><HolidayOverview></HolidayOverview></div>
                     </TabPanel>
+
                     <TabPanel>
                         <div className="tablescroll"></div>
                     </TabPanel>
@@ -62,6 +65,10 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     <TabPanel className="open_shift_Main react-tabs__tab-panel">
                         <div className="tablescroll h-100">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
                     </TabPanel>
+                    
+                    {/* <TabPanel>
+                        <div className="tablescroll h-100"><AddOthPlans></AddOthPlans></div>
+                    </TabPanel> */}
                 </Tabs>
             </div>
         </div>

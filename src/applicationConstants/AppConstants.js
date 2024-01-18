@@ -205,6 +205,7 @@ export const GET_CONSTANTS = {
     'RENEW_OTH': "Renew plans automatically",
     'DELETE_OTH_WARNING': 'Are you sure, you want to delete this oth plan?',
     'REPETATION': 'Repetation',
+    'OTH_PLANNING': 'Oth planning',
 
     // Manage employees 
     'EMPLOYEES_TITLE': 'Employees',

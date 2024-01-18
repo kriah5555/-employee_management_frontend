@@ -127,17 +127,17 @@ export default function Rules({ overviewContent }) {
     }, [selectedType])
 
     const UpdateRow = (newData) => {
-
+        let id = newData.id
         newData['type'] = selectedType?.value
         newData['id'] = selectedId?.value
         newData['sector_id'] = selectedSectorId?.value
-        newData['value'] = value
+        newData['value'] = overviewContent === 'rules' ? value : newData['value']
         newData['use_default'] = defaultValueStatus
 
         let apiUrl;
         apiUrl = overviewContent === 'default_param' ? UpdateDefaultParamApiUrl : overviewContent === 'parameters' ? UpdateParameterApiUrl : UpdateCompanyParametersApiUrl
 
-        AXIOS.service(apiUrl + '/' + newData.id, 'PUT', newData)
+        AXIOS.service(apiUrl + '/' + id, 'PUT', newData)
             .then((result) => {
                 if (result?.success) {
                     if (overviewContent === 'rules') { setPopupOpen(false) }

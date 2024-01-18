@@ -37,6 +37,9 @@ export default function AddOthPlans() {
     const [locationList, setLocationList] = useState([]);
     const [workstationList, setWorkstationList] = useState([]);
 
+    const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [employeeList, setEmployeeList] = useState([]);
+
     const [row, setRow] = useState([1, 1, 1, 1, 1, 1, 1])
     const [autoOn, setAutoOn] = useState(false)
     const [repeatData, setRepeatData] = useState([1]);
@@ -128,13 +131,13 @@ export default function AddOthPlans() {
 
     useEffect(() => {
         // if (!params.id) {
-            let count = 1
-            let data = []
-            while (selectedRepeatation?.value >= count) {
-                data.push(1);
-                count = count + 1
-            }
-            setRepeatData(data)
+        let count = 1
+        let data = []
+        while (selectedRepeatation?.value >= count) {
+            data.push(1);
+            count = count + 1
+        }
+        setRepeatData(data)
         // } else {
         //     let count = 1
         //     let data = []
@@ -213,11 +216,18 @@ export default function AddOthPlans() {
         setOthPlanData(PlanData);
     }
 
-    const filterData = [
+    const filterData = params?.eid ? [
         { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
+    ] : [
+        { title: t('EMPLOYEES_TITLE'), name: 'employees', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: true, type: 'dropdown', style: "col-md-2 float-left" },
+        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
+        { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ]
 
@@ -265,8 +275,8 @@ export default function AddOthPlans() {
     }
 
     return (
-        <div className="right-container">
-            <div className="company-tab-width mt-3">
+        <div className={params?.eid ? "right-container" : "col-md-12 p-0"}>
+            <div className={params?.eid ? "company-tab-width mt-3" : "col-md-12 p-0 mt-1"}>
                 {errors !== undefined && errors.length !== 0 && <ErrorPopup
                     title={t('VALIDATION_ERROR')}
                     body={(errors)}
@@ -274,7 +284,7 @@ export default function AddOthPlans() {
                 ></ErrorPopup>}
                 <div className="d-flex justify-content-between bg-white">
                     <h4 className="py-2 px-3 bg-white">
-                        <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>
+                        {params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>}
                         {t('ADD_OTH')}</h4>
                     <Switch label={t("RENEW_OTH")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setAutoOn(!autoOn)} checked={autoOn} />
                 </div>
