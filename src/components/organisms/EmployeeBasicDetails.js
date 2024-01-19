@@ -118,6 +118,14 @@ export default function EmployeeBasicDetails() {
                 if (value.length >= 8) {
                     employees["date_of_birth"] = formatDate(value)
                 }
+            } else if (name === 'account_number') {
+                if (value.length <= 19) {
+                    if (value !== '' && value.includes('BE')) {
+                        employees['account_number'] = [4, 9, 14].includes(value.length) && employees['account_number'].length < value.length ? (value + ' ') : value
+                    } else {
+                        employees['account_number'] = value
+                    }
+                }
             } else {
                 employees[name] = value
             }

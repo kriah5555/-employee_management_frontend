@@ -15,16 +15,18 @@ import AddLocation from "../../static/icons/AddLocation";
 import Workstation from "../../static/icons/Workstation";
 import Salaries from "../../static/icons/Salaries";
 import ContractType from "../../static/icons/ContractType";
+import Switch from "../../components/atoms/Switch"
 
 export default function OverviewTabs({ setCompany }) {
 
-    const [addIcon, setAddIcon] = useState(<AddCompany/>);
+    const [addIcon, setAddIcon] = useState(<AddCompany />);
     const [addTitle, setAddTitle] = useState('Add company');
     const [addUrl, setAddUrl] = useState('/manage-companies/company/0');
     const [tabIndex, setTabIndex] = useState(0);
     const [TabsData, setTabsData] = useState([{ tabHeading: t("COMPANY"), tabName: 'company' }])
 
     const [companySelected, setCompanySelected] = useState(false);
+    const [isArchived, setIsArchived] = useState(false)
 
     useEffect(() => {
         if (window.location.hash !== '' && window.location.hash !== '#') {
@@ -58,27 +60,27 @@ export default function OverviewTabs({ setCompany }) {
     const getRightHeaderContent = (tabName) => {
 
         if (tabName === 'company') {
-            setAddIcon(<AddCompany/>);
+            setAddIcon(<AddCompany />);
             setAddTitle(t("ADD_COMPANY"));
             setAddUrl('/manage-companies/company/0');
         } else if (tabName === 'location') {
-            setAddIcon(<AddLocation/>);
+            setAddIcon(<AddLocation />);
             setAddTitle(t("ADD_LOCATION"));
             setAddUrl('/manage-companies/location/0')
         } else if (tabName === 'workstation') {
-            setAddIcon(<Workstation/>);
+            setAddIcon(<Workstation />);
             setAddTitle(t("ADD_WORKSTATION"));
             setAddUrl('/manage-companies/workstation/0')
         } else if (tabName === 'responsible_person') {
-            setAddIcon(<Workstation/>);
+            setAddIcon(<Workstation />);
             setAddTitle(t("ADD_RESPONSIBLE_PERSON"));
             setAddUrl('/manage-companies/responsible_person/0')
         } else if (tabName === 'cost center') {
-            setAddIcon(<Salaries/>);
+            setAddIcon(<Salaries />);
             setAddTitle(t("ADD_COST_CENTER"));
             setAddUrl('/manage-companies/cost_center/0')
         } else if (tabName === 'contracts') {
-            setAddIcon(<ContractType/>)
+            setAddIcon(<ContractType />)
             setAddTitle(t("ADD_CONTRACT"));
             setAddUrl('/add-contracts-template/company');
         } else {
@@ -118,6 +120,11 @@ export default function OverviewTabs({ setCompany }) {
         }
     }, [companySelected])
 
+    const getArchived = () => {
+        setIsArchived(!isArchived)
+
+    }
+
 
     return (
         <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -145,8 +152,9 @@ export default function OverviewTabs({ setCompany }) {
 
                     {addIcon && <div className=" border-0  add_company_block">
                         <div className="d-flex justify-content-end mx-3">
-                            {addTitle !== t("ADD_COMPANY") && <p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p>}
-                            {<a href={addUrl}><span className="mb-0 text-nowrap add_btn">{addIcon}<span>{addTitle}</span></span></a>}
+                            {addTitle === t("ADD_COMPANY") && <div><Switch label={"Archived"} id="switch3" lableClick={true} styleClass="text-nowrap mb-0 pr-3 " onChange={getArchived} ></Switch></div>}
+                            {addTitle !== t("ADD_COMPANY") && <div><p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p></div>}
+                            {<div className="align-self-center"><a href={addUrl}><span className="mb-0 text-nowrap mt-5 add_btn">{addIcon}<span>{addTitle}</span></span></a></div>}
                             {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                             {/* <img src={FilterIcon} className="header-icon ml-2"></img>
                         <img src={ExportIcon} className="header-icon ml-2"></img> */}
@@ -158,7 +166,7 @@ export default function OverviewTabs({ setCompany }) {
 
             <div>
                 {!companySelected && <TabPanel>
-                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected}></CompanyOverviews></div>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected} isArchived={isArchived}></CompanyOverviews></div>
                 </TabPanel>}
 
                 <TabPanel>
@@ -185,8 +193,8 @@ export default function OverviewTabs({ setCompany }) {
 
                 <TabPanel>
                     {/* <div className="tablescroll"> */}
-                        <Rules overviewContent={'rules'}></Rules>
-                        {/* </div> */}
+                    <Rules overviewContent={'rules'}></Rules>
+                    {/* </div> */}
                 </TabPanel>
             </div>
         </Tabs>

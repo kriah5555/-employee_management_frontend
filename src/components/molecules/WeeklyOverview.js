@@ -436,7 +436,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}<div> {ws_employee.employee_id && <span><EmployeeType_icon /></span>}</div></td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}<div> {ws_employee.employee_id && <span><EmployeeType_icon IconColour={ws_employee.employee_type_colour?ws_employee.employee_type_colour:" #61bfb5"} /></span>}</div></td>
                                             <PlanItem PlansData={ws_employee.plans} availableSwitch={availableSwitch} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index} weekNumber={weekNumber} year={year}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
