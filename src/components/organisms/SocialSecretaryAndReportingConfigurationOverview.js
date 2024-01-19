@@ -12,6 +12,8 @@ import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import { t } from "../../translations/Translation";
 import Add from "../../static/icons/Add";
 import CustomTable from "../atoms/CustomTable";
+import FormsNew from "../molecules/FormsNew";
+import ExportConfiguration from "../molecules/ExportConfiguration"
 
 export default function SocialSecretaryAndReportingConfigurationOverview() {
 
@@ -112,6 +114,9 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
         } else if (overviewContent === 'salary_coefficient') {
             apiUrl = SalaryCoefficientApiUrl
             setHeaders(salary_coefficient_headers); setTitle(t("MANAGE_COEFFICIENT")); setAddTitle(''); setAddUrl("/add-salary-coefficient");
+        } else if (overviewContent === 'export_configuration') {
+            apiUrl = ""
+            setTitle(t("MANAGE_EXPORT_CONFIGURATION"))
         }
 
         // Api call to get list data
@@ -272,6 +277,7 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
                     <div className="flex-1">
                         {overviewContent === 'taxes' && <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "taxes" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>}
                         {overviewContent === 'salary_coefficient' && <CustomTable columns={headers} rows={listData} setRows={setListData} UpdateRow={UpdateRow} tableName={'salary_coefficient'}></CustomTable>}
+                        {overviewContent === 'export_configuration' && <ExportConfiguration></ExportConfiguration>}
                     </div>
                     {/* {overviewContent === "salary-coefficient"&& <div className={" mb-3 text-right pr-3 mt-2"}>
                         <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
