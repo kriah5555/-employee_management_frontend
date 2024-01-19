@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import { useNavigate } from "react-router-dom";
-import { SectorApiUrl, MonthlyMinimumSalariesApiurl, HourlyMinimumSalariesApiurl } from "../../routes/ApiEndPoints";
+import { SectorApiUrl, MonthlyMinimumSalariesApiurl, HourlyMinimumSalariesApiurl, getIncrementedSalariesApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -161,7 +161,7 @@ export default function ManageSalaries() {
 
 
     // Function to get incremented salaries
-    const getSalaries = () => {
+    const   getSalaries = () => {
         if (selectedSector && salaryType) {
             if (!incrementPage) {
                 setNoSectorMessage('')
@@ -170,8 +170,14 @@ export default function ManageSalaries() {
             }
             let incremented_salary = []
             if (coefficient) {
-                let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
-                AXIOS.service(ApiUrl + '/' + selectedSector.value + '/get')
+                // let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+                let reqData = {
+                    "sector_id":selectedSector?.value,
+                    "coefficient": coefficient,
+                    "type": salaryType?.value
+                }
+
+                AXIOS.service(getIncrementedSalariesApiUrl, "POST", reqData)
                     .then((result) => {
                         if (result?.success) {
                             let categories = new Array(result.data.categories).fill(1);
@@ -191,12 +197,6 @@ export default function ManageSalaries() {
                             salary_data.map((val, i) => {
                                 setHeaders(header_arr);
                                 val['id'] = i + 1;
-                                Object.keys(val).map((cat, j) => {
-                                    if (cat !== 'id' && cat !== 'level' && cat !== 'tableData') {
-                                        // Calculate salaries based on coefficient added (Incrementing)
-                                        val[cat] = (parseFloat(val[cat].replace(',', '.')) + (parseFloat(val[cat].replace(',', '.')) * (parseFloat(coefficient.replace(',','.')) / 100))).toFixed(4);
-                                    }
-                                })
                                 incremented_salary.push(val);
                             })
                             setListData(incremented_salary);
