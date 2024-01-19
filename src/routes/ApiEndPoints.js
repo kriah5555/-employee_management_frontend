@@ -46,15 +46,14 @@ export const CostCenterApiUrl = BASE_URL + '/masterdata/cost-centers'
 export const ResponsibleCompaniesApiUrl = BASE_URL + "/masterdata/user/responsible-companies"
 export const CompanyContractTemplateApiUrl = BASE_URL + '/masterdata/company-contract-templates'
 
-
 // Employee api urls
 export const EmployeeApiUrl = BASE_URL + '/masterdata/employees'
 export const EmployeeContractApiUrl = BASE_URL + '/masterdata/employee-contracts'
 export const EmployeeCommutetApiUrl = BASE_URL + '/masterdata/employee-commute'
 export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
 export const GetEmployeeDocumentsApiUrl = BASE_URL + "/masterdata/get-employee-documents"
-export const UploadIdCardApiUrl = BASE_URL + '/masterdata'//Endpoint need to to be add
 export const GetEmployeesApiUrl = BASE_URL + '/masterdata/get-company-employees'
+export const UploadIdCardApiUrl = BASE_URL + '/masterdata/employee-id-card'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
@@ -131,8 +130,8 @@ export const GetDimonaPlansApiUrl = BASE_URL + "/masterdata/get-plans-to-send-di
 export const SendDimonaApiUrl = BASE_URL + "/masterdata/send-dimona"
 
 // Social secretary Configuration api urls
-export const TaxesApiUrl = BASE_URL + "/masterdata/"
-export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata"
+export const TaxesApiUrl = BASE_URL + "/masterdata/taxes"
+export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata/"
 
 // Leave api urls
 export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"

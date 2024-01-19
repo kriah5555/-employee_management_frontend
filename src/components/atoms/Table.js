@@ -116,13 +116,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: t("DETAILS"),
             onClick: (event, rowData) => viewAction(rowData, 'details'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates" && tableName !== 'holiday_overview' && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== 'contracts' && tableName !== "contract_template" && tableName !== 'employee' && tableName !== "open_shifts_overview" && tableName !== "applied_candidates" && tableName !== 'holiday_overview' && tableName !== 'rules' && tableName !== 'documents_overview' && tableName !=='taxes') ? false : true
         }),
         rowData => ({
             icon: () => getViewIcon(),
             tooltip: t("VIEW"),
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'dimona_overview' && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'dimona_overview' && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !=='taxes') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),

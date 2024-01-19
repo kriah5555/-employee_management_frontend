@@ -31,12 +31,12 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
     const taxes_header = [
         {
             title: t("TAX_FROM_DATE"),
-            field: 'tax_from_date',
+            field: 'from_date',
             size: 200,
         },
         {
             title: t("TAX_TO_DATE"),
-            field: 'tax_to_date',
+            field: 'to_date',
             size: 200,
         },
         {
@@ -46,7 +46,7 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
         },
         {
             title: t("DAILY_MAXIMUM_TAX"),
-            field: 'daily_maximum_tax',
+            field: 'max_per_day',
             size: 200,
         },
         {
@@ -71,7 +71,7 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
         },
         {
             title: t("PAY_TYPE_TAX_PERCENTAGE"),
-            field: 'pay_type_tax_percentage',
+            field: 'percentage_on_pay_type',
             size: 200,
         }
     ]
@@ -120,19 +120,19 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
         }
 
         // Api call to get list data
-        // AXIOS.service(apiUrl, 'GET')
-        //     .then((result) => {
-        //         if (result?.success) {
-        //             if (overviewContent === "holiday_code_configuration") {
+        AXIOS.service(apiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    if (overviewContent === "holiday_code_configuration") {
 
-        //             } else {
-        //                 setListData(result.data);
-        //             }
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+                    } else {
+                        setListData(result.data);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         if (overviewContent === 'salary_coefficient') {
 
             setListData(dummyData)
@@ -147,7 +147,6 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
             .then((result) => {
                 if (result?.success) {
                     setDataRefresh(!dataRefresh);
-                    setWarningMessage('')
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
@@ -158,6 +157,7 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
                         progress: undefined,
                         theme: "colored",
                     });
+                    setWarningMessage('')
                 }
             })
             .catch((error) => {
@@ -275,7 +275,7 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
                 </div>
                 <div className="tablescroll flex-1 d-flex flex-column">
                     <div className="flex-1">
-                        {overviewContent === 'taxes' && <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "taxes" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>}
+                        {overviewContent === 'taxes' && <Table columns={headers} rows={listData} setRows={setListData} tableName={"taxes"} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>}
                         {overviewContent === 'salary_coefficient' && <CustomTable columns={headers} rows={listData} setRows={setListData} UpdateRow={UpdateRow} tableName={'salary_coefficient'}></CustomTable>}
                         {overviewContent === 'export_configuration' && <ExportConfiguration></ExportConfiguration>}
                     </div>

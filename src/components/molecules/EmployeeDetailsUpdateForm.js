@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { t } from "../../translations/Translation";
 
 export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, response, redirectURL, setShowAddress, showAddress, setShowDetails, showDetails, setDataRefresh, dataRefresh, tab, showExtraBenifits, setShowExtraBenefits }) {
+   console.log(response);
     const [langaugeList, setLangaugeList] = useState([])
     const [maritalStausList, setMaritalStatusList] = useState([])
     const [genderList, setGenderList] = useState([])
@@ -91,13 +92,12 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         //modifying response passed from emp details.js as required for update
                         let userData = { ...response }
                         userData["marital_status_id"] = response.marital_status?.id
-                        userData["gender_id"] = response.gender.id
+                        userData["gender_id"] = response.gender?.id
                         userData["dependent_spouse"] = response.dependent_spouse?.id
                         userData["language"] = response.language?.id
                         userData["place_of_birth"] = response.place_of_birth == null ? "" : response.place_of_birth
                         userData["license_expiry_date"] = response.license_expiry_date == null ? "" : response.license_expiry_date
                         setFormData(userData)
-
                     }
                 })
                 .catch((error) => {

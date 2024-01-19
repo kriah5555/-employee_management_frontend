@@ -10,15 +10,15 @@ import { t } from "../../translations/Translation";
 export default function AddTaxes() {
 
     const [formData, setFormData] = useState({
-        "tax_from_date": "",
-        "tax_to_date": "",
+        "from_date": "",
+        "to_date": "",
         "hourly_tax": "",
-        "daily_max_tax": "",
+        "max_per_day": "",
         "employee_tax": "",
         "employer_tax": "",
         "year_end_bonus": "",
         "holiday_pay": "",
-        "pay_type_tax_percentage": "",
+        "percentage_on_pay_type": "",
     })
 
     const [errors, setErrors] = useState([]);
@@ -28,17 +28,17 @@ export default function AddTaxes() {
 
     useEffect(() => {
         if (params.id !== undefined) {
-        //     AXIOS.service(TaxesApiUrl + '/' + params.id, 'GET')
-        //         .then((result) => {
-        //             if (result?.success) {
-
-        //             } else {
-        //                 setErrors(result.message)
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             console.log(error);
-        //         })
+            AXIOS.service(TaxesApiUrl + '/' + params.id, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setFormData(result.data)
+                    } else {
+                        setErrors(result.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
 
         }
     }, [])
@@ -56,48 +56,48 @@ export default function AddTaxes() {
         let url = TaxesApiUrl
         let method = 'POST'
 
-        // Updation url and method
+        // Update url and method
         if (params.id !== undefined) {
             url = TaxesApiUrl + '/' + params.id
             method = 'PUT'
         }
-        // APICall for create and updation of holiday code
-        // AXIOS.service(url, method, formData)
-        //     .then((result) => {
-        //         if (result?.success) {
-        //             navigate('/manage-social-secretary-and-reporting-configurations/taxes');
-        //             toast.success(result.message[0], {
-        //                 position: "top-center",
-        //                 autoClose: 2000,
-        //                 hideProgressBar: false,
-        //                 closeOnClick: true,
-        //                 pauseOnHover: true,
-        //                 draggable: true,
-        //                 progress: undefined,
-        //                 theme: "colored",
-        //             });
-        //         } else {
-        //             setErrors(result.message)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+        // APICall for create and update of Taxes
+        AXIOS.service(url, method, formData)
+            .then((result) => {
+                if (result?.success) {
+                    navigate('/manage-social-secretary-and-reporting-configurations/taxes');
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                } else {
+                    setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }
 
 
 
     const Taxfields = [
-        { title: t("TAX_FROM_DATE"), name: "tax_from_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
-        { title: t("TAX_TO_DATE"), name: "tax_to_date", type: "date", required: true, style: "col-md-6 float-left mt-4" },
+        { title: t("TAX_FROM_DATE"), name: "from_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
+        { title: t("TAX_TO_DATE"), name: "to_date", type: "date", required: true, style: "col-md-6 float-left mt-4" },
         { title: t("HOURLY_TAX"), name: "hourly_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("DAILY_MAXIMUM_TAX"), name: "daily_max_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("DAILY_MAXIMUM_TAX"), name: "max_per_day", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("EMPLOYEE_TAX"), name: "employee_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("EMPLOYER_TAX"), name: "employer_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("YEAR_END_BONUS"), name: "year_end_bonus", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("HOLIDAY_PAY"), name: "holiday_pay", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("PAY_TYPE_TAX_PERCENTAGE"), name: "pay_type_tax_percentage", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("PAY_TYPE_TAX_PERCENTAGE"), name: "percentage_on_pay_type", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
     ];
 
     return (

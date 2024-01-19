@@ -158,14 +158,15 @@ export default function EmployeeCreation() {
     const uploadIdCard = (employeeId) => {
 
         const fileData = new FormData();
+        fileData.append("employee_profile_id", employeeId)
         fileData.append("id_card_front", employeeData.id_card_front)
         fileData.append("id_card_back", employeeData.id_card_back)
 
-        AXIOS.service(UploadIdCardApiUrl + "/" + employeeId, "POST", fileData, true)
+        AXIOS.service(UploadIdCardApiUrl, "POST", fileData, true)
             .then((result) => {
                 if (result?.success) {
                     navigate('/manage-employees')
-                    toast.success(result.message[0], {
+                    toast.success(t("CREATE_EMPLOYEE_SUCCESS_MESSAGE"), {// !!!!!....this message is not from backend
                         position: "top-center",
                         autoClose: 2000,
                         hideProgressBar: false,
@@ -200,7 +201,7 @@ export default function EmployeeCreation() {
             .then((result) => {
                 if (result?.success) {
                     let id = result.data?.id
-                    // uploadIdCard(id)
+                    uploadIdCard(id)
 
                 } else {
                     setErrors(result.message)
