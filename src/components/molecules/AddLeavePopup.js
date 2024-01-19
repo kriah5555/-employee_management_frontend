@@ -175,22 +175,22 @@ const AddLeavePopup = (props) => {
     }
 
     const multipleDaysArrayField = [
-        { title: t("EMPLOYEE_TITLE"), name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, isMulti: false, style: "col-md-4 mt-2" },
-        { title: t("FROM_DATE"), name: "from_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: t("TO_DATE"), name: "to_date", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
-        { title: t("HOLIDAY_CODE"), name: "holiday_code_id", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
-        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: 'col-md-12 mt-4 float-left' },
-        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
+        { title: t("EMPLOYEE_TITLE"), name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, isMulti: false, style: " col-md-4 mt-2" },
+        { title: t("FROM_DATE"), name: "from_date", required: true, type: "date", style: " col-md-4 mt-4 float-left" },
+        { title: t("TO_DATE"), name: "to_date", required: true, type: "date", style: " col-md-4 mt-4 float-left" },
+        { title: t("HOLIDAY_CODE"), name: "holiday_code_id", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: " col-md-4 mt-2 float-left" },
+        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: ' col-md-12 mt-4 float-left' },
+        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: ' col-md-12 mt-4 float-left' },
+        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: " col-md-12 mt-4 float-left" },
     ]
 
     const defaultFieldsArray = [
-        { title: t("EMPLOYEE_TITLE"), name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, isMulti: false, style: "col-md-4 mt-2" },
-        { title: t("MULTIPLE_DATES"), name: "dates", required: true, type: "date", style: "col-md-4 mt-4 float-left", isMulti: true },
-        { title: t("HOLIDAY_CODE"), name: "holiday_code_id", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: "col-md-4 mt-2 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
-        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: 'col-md-12 mt-4 float-left' },
-        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: "col-md-12 mt-4 float-left" },
+        { title: t("EMPLOYEE_TITLE"), name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, isMulti: false, style: " col-md-4 mt-2" },
+        { title: t("MULTIPLE_DATES"), name: "dates", required: true, type: "date", style: " col-md-4 mt-4 float-left", isMulti: true },
+        { title: t("HOLIDAY_CODE"), name: "holiday_code_id", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: " col-md-4 mt-2 float-left" },
+        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: ' col-md-12 mt-4 float-left' },
+        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: ' col-md-12 mt-4 float-left' },
+        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: " col-md-12 mt-4 float-left" },
     ]
 
 

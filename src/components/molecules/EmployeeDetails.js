@@ -246,16 +246,16 @@ export default function EmployeeDetails({ eid }) {
 
                 <div className="manage_employee_tabs d-flex px-2 align-items-center">
                     <img className="employee-icon rounded-circle mx-2 " src={EmployeeIcon} alt={t("ICON")}></img>
-                    <p className="mb-1 font-22">{basicDetails.name}</p>
+                    <p className="mb-1 font-22 text-truncate">{basicDetails.name}</p>
                     <p className="text-secondary font-18"></p>
                 </div>
 
                 <div className="manage_employee_tabs px-2">
-                    <p className="mb-1"><img className="mr-2" src={PhoneIcon}></img>{basicDetails.phone}</p>
-                    <p className="mb-1"><img className="mr-2" src={EmailIcon}></img> {basicDetails.email}</p>
+                    <p className="mb-1 text-truncate"><img className="mr-2" src={PhoneIcon}></img>{basicDetails.phone}</p>
+                    <p className="mb-1 text-truncate"><img className="mr-2" src={EmailIcon}></img> {basicDetails.email}</p>
                 </div>
                 <div className="manage_employee_tabs px-2">
-                    <p className="mb-1"><img className="mr-2" src={RSZIcon}></img>{basicDetails.rsz}</p>
+                    <p className="mb-1 text-truncate"><img className="mr-2" src={RSZIcon}></img>{basicDetails.rsz}</p>
                 </div>
             </div>
             <div className="col-md-12 p-0 employee-detail">

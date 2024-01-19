@@ -105,18 +105,18 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
 
                 <div className="col-md-12 row m-0 py-3 px-4 border-bottom">
                     <div className="width-22 px-3 mt-2 border-right">
-                        <h4 className="mb-3 font-22">{shiftData?.name}</h4>
-                        <p className="text-secondary font-18">{shiftData?.location_name}</p>
+                        <h4 className="mb-3 font-22 text-truncate">{shiftData?.name}</h4>
+                        <p className="text-secondary font-18 text-truncate">{shiftData?.location_name}</p>
                     </div>
-                    <div className="width-22 px-3 mt-2">
+                    <div className="width-22 px-3 mt-2 text-truncate">
                         <p className="mb-1 font-22 d-flex">{t("FUNCTION_TITLE") + (":")} &nbsp;<p className="text-secondary font-18">{shiftData?.function_name}</p></p>
                         <p className="font-22 d-flex">{t("REPEAT") + (":")}&nbsp;<p className="text-secondary font-18">{shiftData?.repeat_title}</p></p>
                     </div>
-                    <div className="width-22 px-3 mt-2">
+                    <div className="width-22 px-3 mt-2 text-truncate">
                         <p className="mb-1 font-22 d-flex">{t("START_DATE") + (":")}&nbsp;<p className="text-secondary font-18">{shiftData?.start_date}</p></p>
                         <p className="font-22 d-flex">{t("END_DATE")+(":")} &nbsp;<p className="text-secondary font-18">{shiftData?.end_date}</p></p>
                     </div>
-                    <div className="width-22 px-3 mt-2">
+                    <div className="width-22 px-3 mt-2 text-truncate">
                         <p className="font-22 d-flex">{t("EMPLOYEE_TYPE") + (":")}<p className="text-secondary font-18">{employeeTypeString}</p></p>
                     </div>
                 </div>
