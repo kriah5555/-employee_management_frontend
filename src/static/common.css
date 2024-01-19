@@ -127,6 +127,11 @@
   height: 30px;
 }
 
+.planning-icon svg {
+  width: 30px;
+  height: 38px;
+}
+
 .dashboard_height {
   height: calc(100vh - 100px);
   overflow: auto;

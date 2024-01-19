@@ -8,11 +8,13 @@ import OpenShiftOverview from "../components/organisms/OpenShiftOverview"
 import OpenShiftListWithDetails from "../components/organisms/OpenShiftListWithDetails";
 import BackIcon from "../static/icons/BackIcon.png"
 import AddOthPlans from "../components/organisms/AddOthPlans";
+import DimonaOverview from "../components/organisms/DimonaOverview";
 
 export default function Planning({ setHeaderCompanyDropdown }) {
 
     const [tabIndex, setTabIndex] = useState(0);
     const [showDetails, setShowDetails] = useState(false);
+    
     // Planning tabs list data
     const TabsData = [
         { tabHeading: t("OVERVIEW"), tabName: 'company' },
@@ -20,7 +22,8 @@ export default function Planning({ setHeaderCompanyDropdown }) {
         { tabHeading: t("HOLIDAY_LEAVE"), tabName: 'workstation' },
         { tabHeading: t("EVENT_PLANNING"), tabName: 'cost center' },
         { tabHeading: t("OPEN_SHIFT"), tabName: 'open shift' },
-        // { tabHeading: t("OTH_PLANNING"), tabName: 'oth planning' }
+        { tabHeading: t("DIMONA_OVERVIEW"), tabName: 'dimona overview' },
+        { tabHeading: t("OTH_PLANNING"), tabName: 'oth planning' }
     ]
     return (
         <div className="right-container">
@@ -65,10 +68,14 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     <TabPanel className="open_shift_Main react-tabs__tab-panel">
                         <div className="tablescroll h-100">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
                     </TabPanel>
-                    
-                    {/* <TabPanel>
+
+                    <TabPanel>
+                        <div className="mt-1"><DimonaOverview></DimonaOverview></div>
+                    </TabPanel>
+
+                    <TabPanel>
                         <div className="tablescroll h-100"><AddOthPlans></AddOthPlans></div>
-                    </TabPanel> */}
+                    </TabPanel>
                 </Tabs>
             </div>
         </div>

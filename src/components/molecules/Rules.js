@@ -47,6 +47,7 @@ export default function Rules({ overviewContent }) {
 
 
     useEffect(() => {
+        setSelectedId('')
         AXIOS.service(GetParametersOptionsApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
@@ -92,7 +93,7 @@ export default function Rules({ overviewContent }) {
         },
         {
             title: t('DEFAULT_VALUE'),
-            field: 'value',
+            field: 'default_value',
             size: 200,
         },
         {
@@ -101,6 +102,10 @@ export default function Rules({ overviewContent }) {
             size: 200,
         },
     ]
+
+    useEffect(() => {
+        setSelectedId(''); setSelectedSectorId('')
+    }, [selectedType])
 
     useEffect(() => {
         if (selectedType?.value) {
@@ -114,6 +119,8 @@ export default function Rules({ overviewContent }) {
                 .then((result) => {
                     if (result?.success) {
                         setListData(result.data)
+                    } else {
+                        setListData([])
                     }
                 })
                 .catch((error) => {
@@ -122,22 +129,20 @@ export default function Rules({ overviewContent }) {
         }
     }, [selectedType, selectedId, selectedSectorId])
 
-    useEffect(() => {
-        setSelectedId(''); setSelectedSectorId('')
-    }, [selectedType])
 
     const UpdateRow = (newData) => {
+        let req_data = { ...newData }
         let id = newData.id
-        newData['type'] = selectedType?.value
-        newData['id'] = selectedId?.value
-        newData['sector_id'] = selectedSectorId?.value
-        newData['value'] = overviewContent === 'rules' ? value : newData['value']
-        newData['use_default'] = defaultValueStatus
+        req_data['type'] = selectedType?.value
+        req_data['id'] = selectedId?.value
+        req_data['sector_id'] = selectedSectorId?.value
+        req_data['value'] = overviewContent === 'rules' ? value : newData['value']
+        req_data['use_default'] = defaultValueStatus
 
         let apiUrl;
         apiUrl = overviewContent === 'default_param' ? UpdateDefaultParamApiUrl : overviewContent === 'parameters' ? UpdateParameterApiUrl : UpdateCompanyParametersApiUrl
 
-        AXIOS.service(apiUrl + '/' + id, 'PUT', newData)
+        AXIOS.service(apiUrl + '/' + newData.id, 'PUT', req_data)
             .then((result) => {
                 if (result?.success) {
                     if (overviewContent === 'rules') { setPopupOpen(false) }
@@ -162,7 +167,7 @@ export default function Rules({ overviewContent }) {
         setPopupOpen(true)
         setPopupData(data)
         setDefaultValueStatus(data?.use_default)
-        setValue(data?.use_default ? data?.value : '')
+        setValue(data?.use_default ? data?.value : data?.value)
     }
 
 
@@ -207,7 +212,7 @@ export default function Rules({ overviewContent }) {
                         </div>
                         <div className="col-12 px-0 d-flex">
                             <label className="col-md-4 mb-1 pr-0 font-weight-bold">{t('DEFAULT_VALUE')}:</label>
-                            <p className="mb-0 col-md-8">{popupData?.value}</p>
+                            <p className="mb-0 col-md-8">{popupData?.default_value}</p>
                         </div>
                         <div className="col-12 px-0 d-flex mt-3">
                             <CustomCheckBox

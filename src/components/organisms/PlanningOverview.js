@@ -13,7 +13,9 @@ import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { FilterOptionsApiUrl, GetMonthlyPlanningApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
 import { GetFormattedDate, getWeekNumberByDate, getCurrentWeek } from '../../utilities/CommonFunctions';
 import { t } from "../../translations/Translation";
-
+import DimonaIcon from "../../static/icons/Dimona.svg";
+import DimonaWhite from "../../static/icons/DimonaWhite";
+import SendDimonaPopup from "../molecules/SendDimonaPopup";
 
 export default function PlanningOverview() {
 
@@ -30,6 +32,7 @@ export default function PlanningOverview() {
     const [enableShifts, setEnableshifts] = useState(false);
     const [addLeave, setAddLeave] = useState(false);
     const [availableSwitch, setAvailableSwitch] = useState(false);
+    const [dimonaStatus, setDimonaStatus] = useState(false)
 
     const currentDate = new Date();
     let weeknum = getCurrentWeek()
@@ -57,7 +60,7 @@ export default function PlanningOverview() {
     const Months = [t("JANUARY"), t("FEBRUARY"), t("MARCH"), t("APRIL"), t("MAY"), t("JUNE"), t("JULY"), t("AUGUST"), t("SEPTEMBER"), t("OCTOBER"), t("NOVEMBER"), t("DECEMBER")]
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
-    const [dayDate, setDayDate] = useState();
+    const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
 
 
     // Planning overview tab list data
@@ -97,7 +100,7 @@ export default function PlanningOverview() {
                 .catch((error) => {
                     console.log(error);
                 })
-        } 
+        }
     }, [selectedLocation, selectedWorkstation, selectedEmployeeType, monthNumber, tabIndex])
 
 
@@ -214,6 +217,7 @@ export default function PlanningOverview() {
                 ></FormsNew>
             </div>
             {addLeave && <AddLeavePopup buttonName={t("CANCEL")} setAddLeave={setAddLeave} addLeave={addLeave}></AddLeavePopup>}
+            {dimonaStatus && <SendDimonaPopup setDimonaStatus={setDimonaStatus} date={dayDate} setDate={setDayDate} selectedLocation={selectedLocation}></SendDimonaPopup>}
 
             {tabIndex === 1 && <div className="d-flex justify-content-between">
                 <Switch label={t("AVAILABILITY_TEXT")} id="switch4" styleClass="" lableClick={true} onChange={() => setAvailableSwitch(!availableSwitch)} checked={availableSwitch} />
@@ -237,6 +241,7 @@ export default function PlanningOverview() {
 
                         <div className="react-tabs__tab border-0 pt-0 float-right">
                             <div className="d-flex justify-content-end">
+                                <span className={'planning-icon mr-4 pointer'} title={t("SEND_DIMONA")} onClick={() => setDimonaStatus(true)}><DimonaWhite color={"#000"}/></span>
                                 <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={AddLeaveIcon} onClick={() => setAddLeave(true)}></img>
                                 <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={ImportIcon}></img>
                                 <a href="/clone-plannings"><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon}></img></a>
@@ -244,17 +249,17 @@ export default function PlanningOverview() {
                         </div>
                     </TabList>
 
-                        <TabPanel>
-                            <div className="px-3 pb-3"><CalendarLayout planningDates={planningDates} ChangeTab={ChangeTab} setYear={setYear} setMonthNumber={setMonthNumber}></CalendarLayout></div>
-                        </TabPanel>
+                    <TabPanel>
+                        <div className="px-3 pb-3"><CalendarLayout planningDates={planningDates} ChangeTab={ChangeTab} setYear={setYear} setMonthNumber={setMonthNumber}></CalendarLayout></div>
+                    </TabPanel>
 
-                        <TabPanel>
-                            <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} availableSwitch={availableSwitch} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
-                        </TabPanel>
+                    <TabPanel>
+                        <div className="px-3 pb-3"><WeeklyOverview weekNumber={weekNumber} ChangeTab={ChangeTab} year={year} availableSwitch={availableSwitch} enableShifts={enableShifts} locId={selectedLocation.value}></WeeklyOverview></div>
+                    </TabPanel>
 
-                        <TabPanel>
-                            <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']}></DayOverview></div>
-                        </TabPanel>
+                    <TabPanel>
+                        <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']}></DayOverview></div>
+                    </TabPanel>
                 </Tabs>
             </div>
         </div>

@@ -606,6 +606,27 @@ export const GET_CONSTANTS = {
     'NO_OPTIONS': 'No options',
     'ROW': 'row',
     'ROWS': 'rows',
-    'NO_RECORDS_TO_DISPLAY': 'No records to display'
+    'NO_RECORDS_TO_DISPLAY': 'No records to display',
+
+    // Dimona overview
+    'DIMONA_OVERVIEW': 'Dimona overview',
+    'PLAN_DATE': 'Plan date',
+    'PLAN_START_TIME': 'Plan start time',
+    'PLAN_END_TIME':'Plan end time',
+    'WORKING_TOO_LONG': 'Working too long',
+    'DIMONA_STATUS':'Dimona status',
+    'WORKED_DATE': 'Worked date',
+    'PLANNED_DATE': 'Planned date',
+    'PLANNED_PERIOD': 'Planned period',
+    'DETAILED_OVERVIEW': 'Detailed overview',
+    'DIMONA_TYPE': 'Dimona type',
+    'DIMONA_PERIOD_ID':' dimona period id',
+    'START_DATE_TIME': 'Start date/time',
+    'IN_TIME':'In time',
+    'OUT_TIME': 'Out time',
+    'SHORT_BREAK': 'Short break',
+    'ERROR_CODE': 'Error code',
+    'SEND_DIMONA':'Send dimona',
+    'PLAN_TIMINGS': 'Plan timings',
 
 };

@@ -6,7 +6,7 @@ import Switch from "../atoms/Switch";
 import BackIcon from "../../static/icons/BackIcon.png"
 import OthPlanForm from "../molecules/OthPlanForm";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { CreateOthPlanApiUrl, GetOthOptionsApiUrl } from "../../routes/ApiEndPoints";
+import { CreateOthPlanApiUrl, GetEmployeesApiUrl, GetOthOptionsApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
@@ -31,13 +31,13 @@ export default function AddOthPlans() {
 
     // const [selectedFunction, setSelectedFunction] = useState([]);
     const [selectedRepeatation, setSelectedRepeatation] = useState({ value: 1, label: '1' });
-    const [selectedLocation, setSelectedLocation] = useState([]);
-    const [selectedWorkstation, setSelectedWorkstation] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState();
+    const [selectedWorkstation, setSelectedWorkstation] = useState();
 
     const [locationList, setLocationList] = useState([]);
     const [workstationList, setWorkstationList] = useState([]);
 
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [selectedEmployees, setSelectedEmployees] = useState();
     const [employeeList, setEmployeeList] = useState([]);
 
     const [row, setRow] = useState([1, 1, 1, 1, 1, 1, 1])
@@ -51,6 +51,20 @@ export default function AddOthPlans() {
         { value: 3, label: 3 },
         { value: 4, label: 4 },
     ]
+
+    useEffect(() => {
+        AXIOS.service(GetEmployeesApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setEmployeeList(result.data)
+                } else {
+                    setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
 
     useEffect(() => {
         AXIOS.service(GetOthOptionsApiUrl, 'GET')
@@ -209,6 +223,8 @@ export default function AddOthPlans() {
                     setSelectedWorkstation(value);
                 } else if (name === 'repeating_week') {
                     setSelectedRepeatation(value)
+                } else if (name === 'employee_id') {
+                    setSelectedEmployees(value)
                 }
                 PlanData[name] = value.value
             }
@@ -223,7 +239,7 @@ export default function AddOthPlans() {
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ] : [
-        { title: t('EMPLOYEES_TITLE'), name: 'employees', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: true, type: 'dropdown', style: "col-md-2 float-left" },
+        { title: t('EMPLOYEES_TITLE'), name: 'employee_id', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
         { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
@@ -263,7 +279,24 @@ export default function AddOthPlans() {
                         progress: undefined,
                         theme: "colored",
                     });
-                    navigate('/oth-planning/' + params.eid)
+                    if (params.eid) {
+                        navigate('/oth-planning/' + params.eid)
+                    } else {
+                        setOthPlanData({
+                            "employee_id": params.eid,
+                            "start_date": "",
+                            "end_date": "",
+                            "workstation_id": '',
+                            "location_id": '',
+                            "repeating_week": 1,
+                            "auto_renew": false,
+                            "plannings": []
+                        });
+                        setSelectedEmployees('')
+                        setSelectedLocation('');
+                        setSelectedWorkstation('');
+                        setSelectedRepeatation({ value: 1, label: '1' });
+                    }
                 } else {
                     setErrors(result.message)
                 }

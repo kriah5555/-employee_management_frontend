@@ -54,6 +54,7 @@ export const EmployeeCommutetApiUrl = BASE_URL + '/masterdata/employee-commute'
 export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
 export const GetEmployeeDocumentsApiUrl = BASE_URL + "/masterdata/get-employee-documents"
 export const UploadIdCardApiUrl = BASE_URL + '/masterdata'//Endpoint need to to be add
+export const GetEmployeesApiUrl = BASE_URL + '/masterdata/get-company-employees'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
@@ -126,6 +127,8 @@ export const GetParametersOptionsApiUrl = BASE_URL + '/masterdata/get-manage-par
 
 // Dimona api urls
 export const EmployeeTypeDimonaConfigurationApiUrl = BASE_URL + "/masterdata/employee-type-dimona-config"
+export const GetDimonaPlansApiUrl = BASE_URL + "/masterdata/get-plans-to-send-dimona"
+export const SendDimonaApiUrl = BASE_URL + "/masterdata/send-dimona"
 
 // Social secretary Configuration api urls
 export const TaxesApiUrl = BASE_URL + "/masterdata/"

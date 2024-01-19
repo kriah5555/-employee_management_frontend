@@ -157,6 +157,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         }
                     })
                     setWeekData(week_data);
+                    setTotalData(result.data.total)
                 }
             })
             .catch((error) => {

@@ -12,6 +12,7 @@ import RadioInput from "../atoms/formFields/RadioInput";
 import { toast } from "react-toastify";
 import CustomButton from "../atoms/CustomButton";
 import SignaturePad from "../atoms/SignaturePad";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
@@ -30,6 +31,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     const [reasonStatus, setReasonStatus] = useState(false);
     const [type, setType] = useState('');
     const [refresh, setRefresh] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     useEffect(() => {
         setStartStopPlanPopup('')
@@ -91,6 +93,8 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         theme: "colored",
                     });
                     StartStopPopup(true)
+                } else {
+                    setErrorMessages(result.message);
                 }
             })
             .catch((error) => {
@@ -124,32 +128,32 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         let design = <div>
                             <div className="col-md-12 row m-0 ">
                                 <div className="col-md-6 row m-0">
-                                    <label>{t("START_TIME")}</label>
+                                    <label>{t("START_TIME") + ':'}</label>
                                     <p className="pl-2">{resp.start_time}</p>
                                 </div>
                                 <div className="col-md-6 row m-0">
-                                    <label>{t("END_TIME")}</label>
+                                    <label>{t("END_TIME") + ':'}</label>
                                     <p className="pl-2">{resp.end_time}</p>
                                 </div>
                             </div>
                             <div className="col-md-12 row m-0">
                                 <div className="col-md-6 row m-0">
-                                    <label>{t("EMPLOYEE_TYPE")}</label>
+                                    <label>{t("EMPLOYEE_TYPE") + ':'}</label>
                                     <p className="pl-2">{resp.employee_type}</p>
                                 </div>
                                 <div className="col-md-6 row m-0">
-                                    <label>{t("FUNCTION_TITLE")}</label>
+                                    <label>{t("FUNCTION_TITLE") + ':'}</label>
                                     <p className="pl-2">{resp.function}</p>
                                 </div>
                             </div>
                             <div className="col-md-12 row m-0">
                                 <div className="col-md-6 row m-0">
-                                    <label>{t("WORK_STATION")}</label>
+                                    <label>{t("WORK_STATION") + ':'}</label>
                                     <p className="pl-2">{resp.workstation}</p>
                                 </div>
                             </div>
                             {resp.activity?.length !== 0 && <div className="col-md-12 pl-4 my-2">
-                                <h5>{t("ACTIVITIES")}</h5>
+                                <h5>{t("ACTIVITIES") + ':'}</h5>
                                 {resp.activity.map((text, i) => {
                                     return (
                                         <p key={text}>{text}</p>
@@ -196,6 +200,8 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         theme: "colored",
                     });
                     setStartStopPlanPopup(''); setPlanDetails(''); setReasonStatus(false);
+                } else {
+                    setErrorMessages(result.message)
                 }
             })
             .catch((error) => {
@@ -206,6 +212,11 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
 
     return (
         <div className="col-md-12 ">
+            {errorMessages !== undefined && errorMessages.length !== 0 && <ErrorPopup
+                title={t("VALIDATION_ERROR") + ("!")}
+                body={(errorMessages)}
+                onHide={() => setErrorMessages([])}
+            ></ErrorPopup>}
             {startStopPlanPopup !== '' && <ModalPopup
                 size="lg"
                 title={!reasonStatus ? t("PLAN_DETAILS") : type ? t("START_PLAN") : t("STOP_PLAN")}

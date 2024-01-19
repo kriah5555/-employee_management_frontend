@@ -14,7 +14,7 @@ import { t } from "../../translations/Translation";
 import HamburgerIcon from "../../static/icons/Hamburger.svg"
 
 
-export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose }) {
+export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose, setDimonaData }) {
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -44,7 +44,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
 
     // const searchStyle = showDetails ? { width: '' } : { width: '200%', border: '0.5px solid #ABABAB', borderRadius: '5px' }
 
-    const searchStyle = showDetails ? { width: '' } : { width: '200%' }
+    const searchStyle = showDetails || tableName === 'send_dimona' ? { width: '' } : { width: '200%' }
 
 
     //Table options
@@ -54,10 +54,11 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         // maxBodyHeight: showDetails ? 'calc(100vh - 222px)' : tableName !== 'employee' ? 'calc(100vh - 264px)': multiPurpose ? 'calc(100vh - 300px)' // Set your custom height here
         //     : 'calc(100vh - 264px)'
         //   : 'calc(100vh - 220px)',
+        selection: (tableName === 'send_dimona' ? true : false),
 
         //Search toolbar props
-        toolbar: (tableName !== 'tokens') ? true : false,
-        search: tableName !== 'min_salary' ? true : false,
+        toolbar: (tableName !== 'tokens' && tableName !== 'no_action_dimona') ? true : false,
+        search: tableName !== 'min_salary' && tableName !== 'no_action_dimona' ? true : false,
         searchFieldAlignment: 'left',
         searchFieldStyle: searchStyle, //padding: '0px',
 
@@ -81,7 +82,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
         },
 
         //Pagination props
-        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'open_shifts_overview' ? false : true,
+        paging: tableName === 'employee' || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'open_shifts_overview' || tableName === 'send_dimona' ? false : true,
         pageSize: 10,
         pageSizeOptions: [5, 10, 50],
         emptyRowsWhenPaging: false,
@@ -121,7 +122,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getViewIcon(),
             tooltip: t("VIEW"),
             onClick: (event, rowData) => viewAction(rowData, 'view'),
-            hidden: (!rowData.parentOnly && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'dimona_overview' && tableName !== 'location' && tableName !== 'workstation' && tableName !== 'responsible_person' && tableName !== 'function' && tableName !== 'social_secretary' && tableName !== 'cost center' && tableName !== "email_template" && tableName !== "contract_template" && tableName !== 'contracts' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules') ? false : true
         }),
         rowData => ({
             icon: () => getLinkIcon(),
@@ -133,13 +134,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getEditIcon(),
             tooltip: t("EDIT"),
             onClick: (event, rowData) => viewAction(rowData, 'edit'),
-            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'documents_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== 'employee' && tableName !== 'dimona_overview' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'documents_overview') ? false : true
         }),
         rowData => ({
             icon: () => getDeleteIcon(),
             tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== "email_template" && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== "email_template" && tableName !== 'dimona_overview' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
         }),
         rowData => ({
             icon: () => getAcceptIcon(),
@@ -208,13 +209,16 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
 
                 //Options for table modifications
                 options={options}
+
+                onSelectionChange={(rows) => setDimonaData(rows)}
+
                 localization={{
                     pagination: {
                         labelDisplayedRows: '{from}-{to} of {count}',
                         labelRowsSelect: t("ROWS"),
                     },
                     toolbar: {
-                        nRowsSelected: `${`0`} ${t("ROW")}(s) selected` ,
+                        nRowsSelected: '', // `${`0`} ${t("ROW")}(s) selected` ,
                         searchPlaceholder: t("SEARCH_TEXT")
 
                     },
@@ -229,7 +233,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                     }
                 }}
                 //Actions props
-                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' ? [] : actionIconsList}
+                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' || tableName === 'no_action_dimona' || tableName === 'send_dimona' ? [] : actionIconsList}
             />
         </MuiThemeProvider>
 
