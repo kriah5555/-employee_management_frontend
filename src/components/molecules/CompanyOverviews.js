@@ -9,7 +9,7 @@ import { t } from "../../translations/Translation";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import CustomButton from "../atoms/CustomButton";
 
-export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany }) {
+export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany, isArchived }) {
 
     const navigate = useNavigate();
     const [listData, setListData] = useState([]);
@@ -151,7 +151,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
         }
         AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
-                if (result?.success && result.data.length !== listData.length) {
+                if (result?.success) {
                     if (overviewContent === 'company' || overviewContent === 'workstation' || overviewContent === 'cost center' || overviewContent === 'responsible_person') {
 
                         if (overviewContent === 'responsible_person') {
@@ -161,6 +161,8 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                                 arr.push(obj)
                             })
                             setListData(arr)
+                        } else if (overviewContent === 'company') {
+                           setListData( isArchived? result.data?.archived:result.data?.active)
                         } else {
                             setListData(result.data)
                         }
@@ -200,7 +202,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             .catch((error) => {
                 console.log(error);
             })
-    }, [overviewContent, dataRefresh])
+    }, [overviewContent, dataRefresh, isArchived])
 
     // Api call to delete item from table
     const DeleteApiCall = () => {

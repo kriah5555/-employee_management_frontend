@@ -12,6 +12,7 @@ import RadioInput from "../atoms/formFields/RadioInput";
 import { toast } from "react-toastify";
 import CustomButton from "../atoms/CustomButton";
 import SignaturePad from "../atoms/SignaturePad";
+import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
 
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
@@ -255,7 +256,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         {dayData.map((employee, i) => {
                             return (
                                 <tr key={i}>
-                                    <td className="text-truncate day_overview_name" title={employee.employee_name}>{employee.employee_name}</td>
+                                    <td className="text-truncate day_overview_name" title={employee.employee_name}>{employee.employee_name}<div> {employee.employee_id && <span><EmployeeType_icon IconColour={employee.employee_type_colour?employee.employee_type_colour:" #61bfb5"} /></span>}</div></td>
                                     <td colSpan="13" className="p-0 width-90"><PlanChart Plans={employee.plans} dayDate={dayDate} locId={locId} EmpTypeIds={EmpTypeIds} wsIds={wsIds} year={year} setStartStopPlanPopup={setStartStopPlanPopup}></PlanChart></td>
                                 </tr>
                             )
