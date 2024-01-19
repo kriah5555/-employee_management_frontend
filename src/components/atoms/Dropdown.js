@@ -9,24 +9,36 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
     const customStyle = {
         control: base => ({
             ...base,
-            // This line disable the blue border
+            // This line disables the blue border
             boxShadow: 'none',
         }),
         valueContainer: (provided, state) => ({
             ...provided,
-            minWidth: 10
+            minWidth: 10,
         }),
         dropdownIndicator: base => ({
             ...base,
-            color: "black",// Custom colour
-            padding: 1
+            color: "black", // Custom color
+            padding: 1,
         }),
         menu: (provided, state) => ({
             ...provided,
             overflow: 'visible', // Set overflow to 'visible' to ensure options are always visible
         }),
         menuPortal: base => ({ ...base, zIndex: 9999 }),
+        option: (provided, state) => ({
+            ...provided,
+            whiteSpace: 'nowrap', // Prevent line breaks
+            overflow: 'hidden', // Hide overflowing text
+            textOverflow: 'ellipsis', // Display an ellipsis (...) when text is truncated
+        }),
     };
+
+    const formatOptionLabel = ({ value, label, title }) => (
+        <div title={label} className="text-truncate">
+            {label}
+        </div>
+    );
 
     return (
         <div className={CustomStyle}>
@@ -60,6 +72,8 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
                 })}
                 menuPlacement="auto" // Automatically adjust placement based on available space
                 menuPortalTarget={menuPortalTarget.current} // Set the target for rendering the menu outside the DOM hierarchy
+                formatOptionLabel={formatOptionLabel} // Set the custom formatOptionLabel function
+
             />
         </div>
     )
