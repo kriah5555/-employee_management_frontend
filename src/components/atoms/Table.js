@@ -14,7 +14,7 @@ import { t } from "../../translations/Translation";
 import HamburgerIcon from "../../static/icons/Hamburger.svg"
 
 
-export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose, setDimonaData }) {
+export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose, setDimonaData, isArchived }) {
     // const [rowData, setRowData] = useState(rows);
 
     //Theme added for table
@@ -140,7 +140,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDeleteIcon(),
             tooltip: t("DELETE"),
             onClick: (event, rowData) => viewAction(rowData, 'delete'),
-            hidden: (!rowData.parentOnly && tableName !== "email_template" && tableName !== 'dimona_overview' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview') ? false : true
+            hidden: (!rowData.parentOnly && tableName !== "email_template" && tableName !== 'dimona_overview' && tableName !== 'holiday_overview' && tableName !== "applied_candidates" && tableName !== 'rules' && tableName !== 'documents_overview' && !isArchived) ? false : true
         }),
         rowData => ({
             icon: () => getAcceptIcon(),

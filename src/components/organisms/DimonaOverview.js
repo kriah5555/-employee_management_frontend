@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormsNew from "../molecules/FormsNew";
 import { t } from "../../translations/Translation";
 import { GetFormattedDate } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png"
+import { APICALL as AXIOS } from "../../services/AxiosServices";
+import { GetDimonaApiUrl } from "../../routes/ApiEndPoints";
 
 
 export default function DimonaOverview() {
@@ -19,11 +21,11 @@ export default function DimonaOverview() {
     })
 
     const manage_header = [
-        {
-            title: t("PLAN_DATE"),
-            field: "plan_date",
-            status: "200",
-        },
+        // {
+        //     title: t("PLAN_DATE"),
+        //     field: "plan_date",
+        //     status: "200",
+        // },
         {
             title: t("EMPLOYEE_NAME"),
             field: "employee_name",
@@ -31,12 +33,12 @@ export default function DimonaOverview() {
         },
         {
             title: t("PLAN_START_TIME"),
-            field: "start_time",
+            field: "start_date_time",
             status: "200",
         },
         {
             title: t("PLAN_END_TIME"),
-            field: "end_time",
+            field: "end_date_time",
             status: "200",
         },
         {
@@ -109,9 +111,21 @@ export default function DimonaOverview() {
         },
     ]
 
+    useEffect(() => {
+        AXIOS.service(GetDimonaApiUrl, 'POST', formattedData)
+            .then((result) => {
+                if (result?.success) {
+                    console.log(result);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [formattedData])  
+
     const manage_listData = [
-        { id: 1, plan_date: '18-01-2023', employee_name: 'Emp1', start_time: '10:30', end_time: '14:30', overtime: '', employee_type: 'Normal employee', dimona_status: 'green' },
-        { id: 2, plan_date: '18-01-2023', employee_name: 'Emp2', start_time: '14:30', end_time: '16:30', overtime: '', employee_type: 'Occasional employee', dimona_status: 'green' }
+        { id: 1, employee_name: 'Emp1', start_date_time: '18-01-2023 10:30', end_date_time: '18-01-2023 14:30', overtime: '', employee_type: 'Normal employee', dimona_status: 'green' },
+        { id: 2, employee_name: 'Emp2', start_date_time: '18-01-2023 14:30', end_date_time: '18-01-2023 16:30', overtime: '', employee_type: 'Occasional employee', dimona_status: 'green' }
     ]
 
     const detail_listData = [
@@ -125,8 +139,16 @@ export default function DimonaOverview() {
         { title: t("TO_DATE"), name: 'to_date', required: false, type: 'date', style: "col-md-3 mt-3 float-left" },
     ]
 
-    const setValues = () => {
-
+    const setValues = (index, name, value, field) => {
+        let dimona_data = { ...formattedData }
+        dimona_data[name] = value
+        if (field !== 'dropdown') {
+            dimona_data[name] = value
+        } else {
+            setSelectedType(value)
+            dimona_data[name] = value.value
+        }
+        setFormattedData(dimona_data);
     }
 
     const viewAction = () => {

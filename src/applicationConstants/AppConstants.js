@@ -623,8 +623,8 @@ export const GET_CONSTANTS = {
     // Dimona overview
     'DIMONA_OVERVIEW': 'Dimona overview',
     'PLAN_DATE': 'Plan date',
-    'PLAN_START_TIME': 'Plan start time',
-    'PLAN_END_TIME':'Plan end time',
+    'PLAN_START_TIME': 'Start date time',
+    'PLAN_END_TIME':'End date time',
     'WORKING_TOO_LONG': 'Working too long',
     'DIMONA_STATUS':'Dimona status',
     'WORKED_DATE': 'Worked date',
