@@ -341,7 +341,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
-            {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true}></Table>}
+            {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true} isArchived={isArchived}></Table>}
             {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 table border" >
                 <thead>
                     <tr className="table-head-bg py-3 mb-2">
