@@ -132,7 +132,7 @@ export const SendDimonaApiUrl = BASE_URL + "/masterdata/send-dimona"
 
 // Social secretary Configuration api urls
 export const TaxesApiUrl = BASE_URL + "/masterdata/taxes"
-export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata/"
+export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata/salary-coefficients"
 
 // Leave api urls
 export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"

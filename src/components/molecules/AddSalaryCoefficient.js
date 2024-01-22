@@ -4,22 +4,17 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { TaxesApiUrl } from "../../routes/ApiEndPoints"
+import { SalaryCoefficientApiUrl, TaxesApiUrl } from "../../routes/ApiEndPoints"
 import { t } from "../../translations/Translation";
 
-export default function AddTaxes() {
+export default function AddSalaryCoefficient() {
 
     const [formData, setFormData] = useState({
         "from_date": "",
         "to_date": "",
-        "hourly_tax": "",
-        "max_per_day": "",
-        "employee_tax": "",
-        "employer_tax": "",
-        "year_end_bonus": "",
-        "holiday_pay": "",
-        "percentage_on_pay_type": "",
-        "sector_id": ''
+        "coefficient": "",
+        "sector_id": "",
+        "employee_type_id": "",
     })
 
     const [errors, setErrors] = useState([]);
@@ -27,14 +22,18 @@ export default function AddTaxes() {
     const params = useParams();
     const [sectorList, setSectorList] = useState([])
     const [sector, setSector] = useState([])
+    const [employeeType, setEmployeeType] = useState("")
+    const [employeeTypeList, setEmployeeTypeList] = useState([])
+
 
 
     useEffect(() => {
 
-        AXIOS.service(TaxesApiUrl + '/create', 'GET')
+        AXIOS.service(SalaryCoefficientApiUrl + '/create', 'GET')
             .then((result) => {
                 if (result?.success) {
                     setSectorList(result.data.sectors)
+                    setEmployeeTypeList(result.data.employee_types)
                 }
             })
             .catch((error) => {
@@ -42,13 +41,19 @@ export default function AddTaxes() {
             })
 
         if (params.id !== undefined) {
-            AXIOS.service(TaxesApiUrl + '/' + params.id, 'GET')
+            AXIOS.service(SalaryCoefficientApiUrl + '/' + params.id, 'GET')
                 .then((result) => {
                     if (result?.success) {
-                        let data = result.data
-                        data.sector_id = result.data.sector?.value
+                        let data = {
+                            "from_date": result.data.from_date,
+                            "to_date": result.data.to_date,
+                            "coefficient": result.data.coefficient, 
+                            "sector_id": result.data.sector?.value,
+                            "employee_type_id": result.data.employee_type?.value,
+                        }
                         setFormData(data)
                         setSector(result.data.sector)
+                        setEmployeeType(result.data.employee_type)
                     } else {
                         setErrors(result.message)
                     }
@@ -66,8 +71,13 @@ export default function AddTaxes() {
         if (field !== 'dropdown') {
             newData[name] = value
         } else {
-            setSector(value)
-            newData[name] = value.value
+            if (name === 'sector_id') {
+                setSector(value)
+                newData[name] = value.value
+            } else if (name === 'employee_type_id') {
+                setEmployeeType(value)
+                newData[name] = value.value
+            }
         }
         setFormData(newData);
     }
@@ -75,19 +85,19 @@ export default function AddTaxes() {
 
     const onSave = () => {
 
-        let url = TaxesApiUrl
+        let url = SalaryCoefficientApiUrl
         let method = 'POST'
 
         // Update url and method
         if (params.id !== undefined) {
-            url = TaxesApiUrl + '/' + params.id
+            url = SalaryCoefficientApiUrl + '/' + params.id
             method = 'PUT'
         }
-        // APICall for create and update of Taxes
+        // APICall for create and update of salary coefficient
         AXIOS.service(url, method, formData)
             .then((result) => {
                 if (result?.success) {
-                    navigate('/manage-social-secretary-and-reporting-configurations/taxes');
+                    navigate('/manage-social-secretary-and-reporting-configurations/salary_coefficient');
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,
@@ -111,16 +121,11 @@ export default function AddTaxes() {
 
 
     const Taxfields = [
+        { title: t("EMPLOYEE_TYPE"), name: "employee_type_id", options: employeeTypeList, isMulti: false, selectedOptions: employeeType, required: true, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: t("SECTOR"), name: "sector_id", options: sectorList, isMulti: false, selectedOptions: sector, required: true, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: t("TAX_FROM_DATE"), name: "from_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
         { title: t("TAX_TO_DATE"), name: "to_date", type: "date", required: true, style: "col-md-6 float-left mt-4" },
-        { title: t("HOURLY_TAX"), name: "hourly_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("DAILY_MAXIMUM_TAX"), name: "max_per_day", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("EMPLOYEE_TAX"), name: "employee_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("EMPLOYER_TAX"), name: "employer_tax", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("YEAR_END_BONUS"), name: "year_end_bonus", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("HOLIDAY_PAY"), name: "holiday_pay", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("PAY_TYPE_TAX_PERCENTAGE"), name: "percentage_on_pay_type", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("SECTOR"), name: "sector_id", options: sectorList, isMulti: false, selectedOptions: sector, required: true, type: "dropdown", style: "col-md-6 mt-2 float-left" },
+        { title: t("SALARY_COEFFICIENT"), name: "coefficient", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
     ];
 
     return (
@@ -129,11 +134,12 @@ export default function AddTaxes() {
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
+                // buttonName={"CLOSE"}
             ></ErrorPopup>}
             <FormsNew
                 view="public_holiday"
-                formTitle={t("ADD_TAXES")}
-                redirectURL={'/manage-social-secretary-and-reporting-configurations/taxes'}
+                formTitle={t("ADD_COEFFICIENT")}
+                redirectURL={'/manage-social-secretary-and-reporting-configurations/salary_coefficient'}
                 formattedData={formData}
                 data={Taxfields}
                 SetValues={setValues}

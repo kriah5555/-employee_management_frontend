@@ -32,7 +32,7 @@ const ModalPopup = (props) => {
                 {props.onConfirm && <Button className='button-style float-left' onClick={() => props.onConfirm()}>
                     {props.startplanButton ? props.startplanButton : t('YES')}
                 </Button>}
-                {props.title !== t("RESPONSIBLE_COMPANY") || props.title !== t("PLAN_DETAILS") && <Button className='button-style' onClick={props.onHide}>
+                {(props.title !== t("RESPONSIBLE_COMPANY") || props.title !== t("PLAN_DETAILS") )&& <Button className='button-style' onClick={props.onHide}>
                     {props.buttonName ? (props.buttonName) : t('CLOSE')}
                 </Button>}
             </Modal.Footer>
