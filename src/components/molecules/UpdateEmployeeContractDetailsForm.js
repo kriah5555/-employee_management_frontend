@@ -124,7 +124,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     const setValues = (index, name, value, field, functionIndex) => {
         let newData = { ...formData }
         if (field !== "dropdown") {
-            if (name === "salary" || name === "experience") {
+            if (name === "salary_european" || name === "experience") {
                 newData['employee_function_details'][functionIndex][name] = value
             } else {
                 newData[name] = value
@@ -208,7 +208,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
 
     let otherDataFieldsArray = [
         { title: t("FUNCTION_NAME"), name: "function_id", type: "dropdown", options: functionList, selectedOptions: functionName, required: true, style: "col-md-12 p-0" },
-        { title: t("SALARY"), name: "salary", type: "text", style: "col-md-12 p-0 float-right mt-2" },
+        { title: t("SALARY"), name: "salary_european", type: "text", style: "col-md-12 p-0 float-right mt-2" },
         { title: t("EXPERIENCE_IN_MONTHS"), name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
     ]
     return (
@@ -253,7 +253,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                 {functionData?.map((val, index) => {
                     let otherData = [
                         { label: t("FUNCTION_NAME"), value: val.function_title },
-                        { label: t("SALARY"), value: val.salary },
+                        { label: t("SALARY"), value: val.salary_european },
                         { label: t("EXPERIENCE_IN_MONTHS"), value: val.experience },// need to add value for this
                     ]
                     return (
@@ -274,7 +274,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                                 </div> */}
                                 <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
                                     <label className="col-md-6 mb-1 p-0 text-secondary">{t("TYPE")}</label>
-                                    <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.salary}</p>
+                                    <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.salary_european}</p>
                                 </div>
                                 <FormsNew
                                     view={'filters'}

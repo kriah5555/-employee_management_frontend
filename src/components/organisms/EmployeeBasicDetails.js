@@ -225,7 +225,7 @@ export default function EmployeeBasicDetails() {
                     <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { navigate("/login"); window.location.reload() }} CustomStyle="mr-3 my-3 float-right"></CustomButton>
                 </div>
             </div>}
-            {!showForm && <div className="company-tab-width full-page-height company_creation mt-2 mb-3 mx-auto border bg-white"> <h2 className="col-md-10 p-0 mt-4 ml-5 text-center text-danger " >{"Un Authorized"}</h2></div>}
+            {!showForm && <div className="company-tab-width full-page-height company_creation mt-2 mb-3 mx-auto border bg-white"> <h2 className="col-md-10 p-0 mt-4 ml-5 text-center text-danger " >{"Unauthorized"}</h2></div>}
         </div>
     </>
     )

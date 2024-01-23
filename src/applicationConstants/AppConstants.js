@@ -432,6 +432,8 @@ export const GET_CONSTANTS = {
     //SALARY COEFFICIENT
     'MANAGE_COEFFICIENT': 'Manage coefficient',
     'SALARY_COEFFICIENT': 'Salary coefficient',
+    'ADD_COEFFICIENT':'Add salary coefficient',
+    'ADD_SALARY_COEFFICIENT':'Add salary coefficient',
     //EXPORT CONFIGURATION
     'EXPORT_CONFIGURATION': 'Export configuration',
     'START_TIME_TYPE':'Start time type',
