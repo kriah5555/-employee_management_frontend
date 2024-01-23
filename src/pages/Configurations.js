@@ -100,7 +100,7 @@ export default function Configurations() {
                             })
                         }
                     </div>
-                    <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">{t("SOCIAL_SECRETARY_AND_REPORTING")}</h4>
+                    {/* <h4 className="text-left pl-5 mt-4 ml-4 text-color font-weight-bold">{t("SOCIAL_SECRETARY_AND_REPORTING")}</h4>
                     <div className="d-flex mx-5 mb-0 pb-4 flex-wrap border-bottom">
                         {
                             SocialSecretaryAndConfigurationTabs.map((val, index) => {
@@ -109,7 +109,7 @@ export default function Configurations() {
                                 )
                             })
                         }
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
