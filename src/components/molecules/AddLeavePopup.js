@@ -7,6 +7,8 @@ import FormsNew from './FormsNew';
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { AddLeaveApiUrl, GetLeaveOptionsApiUrl, GetPlansForLeavesApiUrl } from "../../routes/ApiEndPoints";
 import { getFormattedDropdownOptions } from '../../utilities/CommonFunctions';
+import { toast } from 'react-toastify';
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 const AddLeavePopup = (props) => {
     const [employee, setEmployee] = useState();
@@ -18,7 +20,8 @@ const AddLeavePopup = (props) => {
         "duration_type": '1',
         "dates": [],
         "reason": "",
-        "holiday_code_id": ''
+        "holiday_code_id": '',
+        "plan_ids": []
     })
     const [PlanCheckboxList, setPlanCheckboxList] = useState([]);
 
@@ -26,6 +29,8 @@ const AddLeavePopup = (props) => {
     const [multipleDays, SetMultipleDays] = useState(false);
     const [multipleHolidayCode, setMultipleHOlidayCode] = useState(false)
     const [formFields, setFormFields] = useState([])
+    const [planIds, setPlanIds] = useState([])
+    const [errors, setErrors] = useState([]);
 
     let checkboxList = [
         {
@@ -56,13 +61,26 @@ const AddLeavePopup = (props) => {
     }
 
     const PlanCheckboxChange = (key) => {
+
         let arr_plans = [...PlanCheckboxList]
+        let plan_ids_array = []
+
         arr_plans.map((val, i) => {
-            if (val[key] === key) {
+            // if (val[key] === key) {
+            //     val.shift_leave = true
+            // }
+            if (val["key"] === key) {
+                val["checked"] = !(val["checked"])
                 val.shift_leave = true
             }
+            if (val["checked"] === true) {
+                plan_ids_array.push(val["key"])
+            }
         })
+        setPlanIds(plan_ids_array)
         setPlanCheckboxList(arr_plans)
+
+
     }
 
     //based on selected checkbox altering the checkbox list to keep only required checkbox
@@ -102,7 +120,7 @@ const AddLeavePopup = (props) => {
 
     useEffect(() => {
         let request_Data = {
-            "employee_profile_id": 5, //employee?.value,
+            "employee_profile_id": employee?.value, //employee?.value,
             "dates": formData['dates'],
             "from_data": formData['from_date'],
             "to_date": formData['to_date']
@@ -112,11 +130,11 @@ const AddLeavePopup = (props) => {
             .then((result) => {
                 let arr = []
                 if (result?.success) {
-                    result.data.map(() => {
+                    result.data.map((item) => {
                         arr.push(
                             {
-                                name: "07:00-10:00 4,0",
-                                key: "07:00-10:00 4,0",
+                                name: item.plan_time,
+                                key: item.plan_id,
                                 checked: multipleDays,
                             }
                         )
@@ -162,16 +180,32 @@ const AddLeavePopup = (props) => {
         props.setAddLeave(false)
     }
     const onSave = () => {
-        AXIOS.service(AddLeaveApiUrl, 'POST', formData)
+        let newData = { ...formData }
+        newData["plan_ids"] = planIds
+        setFormData(newData)
+        AXIOS.service(AddLeaveApiUrl, 'POST', newData)
             .then((result) => {
                 if (result?.success) {
                     // console.log(result.data)
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    props.setAddLeave(false)
+                } else {
+                    setErrors(result?.message)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
-        props.setAddLeave(false)
+       
     }
 
     const multipleDaysArrayField = [
@@ -208,6 +242,11 @@ const AddLeavePopup = (props) => {
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" className='container' >
                     <div className="row">
+                    {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                    title={t("VALIDATION_ERROR") + ("!")}
+                    body={(errors)}
+                    onHide={() => setErrors([])}
+                ></ErrorPopup>}
                         <div className='col-md-12 text-center'>
                             {t("ADD_LEAVE")}
                         </div>

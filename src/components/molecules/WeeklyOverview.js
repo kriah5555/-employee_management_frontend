@@ -16,6 +16,7 @@ import ModalPopup from "../../utilities/popup/Popup";
 import CreateShifts from "./CreateShifts";
 import Workstation from "../../static/icons/Workstation";
 import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
+import AddLeaveForPlanPopup from "./AddLeaveForPlanPopup";
 
 
 export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab, availableSwitch }) {
@@ -47,6 +48,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         'shifts': []
     })
 
+    const [leavePopup, setLeavePopup] = useState(false)
+    const [planIdForLeave, setPlanIdForLeave] = useState("")
 
     const setEmployee = (wid, index, eid) => {
         let employee_ids = { ...employeeId }
@@ -395,7 +398,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 theme="colored"
             />
             {shiftPopupOpen && <CreateShifts setShiftPopupOpen={setShiftPopupOpen} setShiftData={setShiftData} shiftData={shiftData} SaveShift={SaveShift}></CreateShifts>}
-            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId[planWid] !== undefined ? employeeId[planWid][createIndex] : ''} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} GetEmployeePlans={GetEmployeePlans}></CreatePlanPopup>}
+            {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId[planWid] !== undefined ? employeeId[planWid][createIndex] : ''} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} GetEmployeePlans={GetEmployeePlans} setLeavePopup={setLeavePopup} setPlanIdForLeave={setPlanIdForLeave}></CreatePlanPopup>}
+            {leavePopup && <AddLeaveForPlanPopup leavePopup={leavePopup} setLeavePopup={setLeavePopup} setPlanPopup={setPlanPopup} planIdForLeave={planIdForLeave} setPlanIdForLeave={setPlanIdForLeave} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></AddLeaveForPlanPopup>}
             <table className="table table-bordered mb-0 Overview_table_workstation">
                 <thead className="sticky">
                     <tr>

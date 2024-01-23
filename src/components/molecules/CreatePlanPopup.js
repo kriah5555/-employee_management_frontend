@@ -10,11 +10,11 @@ import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { GetPlanCreationOptionsUrl, CreatePlanApiUrl, DeleteSinglePlan } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { GetTimeDifference } from "../../utilities/CommonFunctions";
+import AddLeaveIcon from "../../static/icons/addLeave.svg";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 
-
-export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh, enableShift, GetEmployeePlans }) {
-
+export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate, wid, locId, planData, dropDownData, updatePlan, setDataRefresh, dataRefresh, enableShift, GetEmployeePlans, setLeavePopup, setPlanIdForLeave }) {
     const [rowArr, setRowArr] = useState(planData.length > 0 ? enableShift ? planData : [...planData, 1] : [1]);
     const [selectedEmployeeType, setSelectedEmployeeType] = useState(dropDownData ? dropDownData['employee_type'] : '');
     const [selectedFunction, setSelectedFunction] = useState(dropDownData ? dropDownData['function'] : '');
@@ -29,6 +29,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
     });
     const [multipleDatesStatus, setMultipleDatesStatus] = useState(false);
     const [employeeTypeOptions, setEmployeeTypeOptions] = useState([]);
+    const [errors, setErrors] = useState([]);
 
     const checkboxList = [
         {
@@ -47,10 +48,10 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
             .then((result) => {
                 if (result?.success) {
                     setEmployeeTypeOptions(result.data)
-                    if (result.data.employee_types?.length === 1){
+                    if (result.data.employee_types?.length === 1) {
                         setSelectedEmployeeType(result.data.employee_types[0])
                         planningData['employee_type_id'] = result.data.employee_types[0].value
-                        if (result.data.functions[result.data.employee_types[0].value]?.length === 1){
+                        if (result.data.functions[result.data.employee_types[0].value]?.length === 1) {
                             setSelectedFunction(result.data.functions[result.data.employee_types[0].value][0])
                             planningData['function_id'] = result.data.functions[result.data.employee_types[0].value][0].value
                         }
@@ -104,7 +105,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                 planning_data['timings'][index][name] = value
                 if (name === 'start_time' && planning_data['timings'][index]?.end_time) {
                     planning_data['timings'][index]['contract_hours'] = GetTimeDifference(value, planning_data['timings'][index]['end_time'])
-                } else if(name === 'end_time' && planning_data['timings'][index]?.start_time) {
+                } else if (name === 'end_time' && planning_data['timings'][index]?.start_time) {
                     planning_data['timings'][index]['contract_hours'] = GetTimeDifference(planning_data['timings'][index]['start_time'], value)
                 }
             } else {
@@ -161,6 +162,12 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
 
     }
 
+    const handleLeaveForPlanPopup = (planId) => {
+        setLeavePopup(true)
+        setPlanPopup(false)
+        setPlanIdForLeave(planId)
+    }
+
     const SavePlan = () => {
         AXIOS.service(CreatePlanApiUrl, 'POST', planningData)
             .then((result) => {
@@ -179,6 +186,8 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                         theme: "colored",
                     });
                     // setEmployeeList(result.data)
+                } else {
+                    setErrors(result?.message)
                 }
             })
             .catch((error) => {
@@ -200,6 +209,11 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" className='container' >
+                    {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                        title={t("VALIDATION_ERROR") + ("!")}
+                        body={(errors)}
+                        onHide={() => setErrors([])}
+                    ></ErrorPopup>}
                     {t("ADD_PLANNING")}
                 </Modal.Title>
             </Modal.Header>
@@ -227,7 +241,7 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                     {rowArr.map((row, index) => {
                         return (
                             <div key={row} className="col-md-12 d-flex mb-3">
-                                <div className="col-md-10 ml-2 p-0 border">
+                                <div className="col-md-9 ml-2 p-0 border">
                                     <FormsNew
                                         view="filters"
                                         planIndex={index}
@@ -240,6 +254,10 @@ export default function CreatePlanPopup({ setPlanPopup, employeeId, planningDate
                                     <img className="shortcut-icon pointer" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
                                         onClick={() => AddRemovePlanRow(rowArr.length - 1 === index ? 'add' : 'remove', index, planningData['timings'][index])}></img>
                                 </div>
+                                {index < rowArr.length - 1 && <div className="col-md-1 ml-4 px-3 text-center py-4 border">
+                                    <img className="shortcut-icon pointer" src={AddLeaveIcon}
+                                        onClick={() => handleLeaveForPlanPopup(row.plan_id)}></img>
+                                </div>}
                                 {/* <div className=" ml-3 px-3 text-center py-4 border">
                                     <img className="shortcut-icon" src={rowArr.length - 1 === index ? AddIcon : DeleteIcon}
                                         onClick={() => AddRemovePlanRow(rowArr.length - 1 === index ? 'add' : 'remove', index)}></img>

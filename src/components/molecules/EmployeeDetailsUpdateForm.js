@@ -8,9 +8,9 @@ import EditIcon from "../../static/icons/edit-dark.svg"
 import CustomButton from "../atoms/CustomButton"
 import { toast } from 'react-toastify';
 import { t } from "../../translations/Translation";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, response, redirectURL, setShowAddress, showAddress, setShowDetails, showDetails, setDataRefresh, dataRefresh, tab, showExtraBenifits, setShowExtraBenefits }) {
-   console.log(response);
     const [langaugeList, setLangaugeList] = useState([])
     const [maritalStausList, setMaritalStatusList] = useState([])
     const [genderList, setGenderList] = useState([])
@@ -26,6 +26,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     const [mealVoucher, setMealVoucher] = useState("")
     const [mealVoucherList, setMealVoucherList] = useState([])
     const [mealVoucherDetails, setMealVoucherDetails] = useState([])
+    const [errors, setErrors] = useState([]);
 
     const MaximumChildren = 10;
     let count = 0
@@ -239,6 +240,8 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                             progress: undefined,
                             theme: "colored",
                         });
+                    } else {
+                        setErrors(result?.message)
                     }
                 })
                 .catch((error) => {
@@ -289,6 +292,11 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
 
     return (
         <>
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                title={t("VALIDATION_ERROR") + ("!")}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             {tab == "tab1" && <FormsNew
                 data={detailsArray}
                 SetValues={setValues}

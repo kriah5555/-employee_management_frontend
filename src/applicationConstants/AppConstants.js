@@ -91,6 +91,7 @@ export const GET_CONSTANTS = {
     'CLEAR': 'Clear',
     'NORMAL': 'normal',
     'TESTER': 'Tester',
+    'PLEASE_SELECT_LOCATION':'Please select location',
 
 
     // Days constants
