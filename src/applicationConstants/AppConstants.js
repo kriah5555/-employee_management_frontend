@@ -644,4 +644,9 @@ export const GET_CONSTANTS = {
     'SEND_DIMONA':'Send dimona',
     'PLAN_TIMINGS': 'Plan timings',
 
+    //Activate and deactivate location
+    'ACTIVATE_ON_THIS_DEVICE':'Activate on this device',
+    'DE_ACTIVATE_ON_THIS_DEVICE':'De-activate on this device',
+    'DE_ACTIVATE_ON_ALL_DEVICES':'De-activate on all devices',
+
 };

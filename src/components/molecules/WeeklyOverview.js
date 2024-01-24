@@ -17,6 +17,7 @@ import CreateShifts from "./CreateShifts";
 import Workstation from "../../static/icons/Workstation";
 import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
 import AddLeaveForPlanPopup from "./AddLeaveForPlanPopup";
+import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 
 export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, wsIds, EmpTypeIds, ChangeTab, availableSwitch }) {
@@ -50,6 +51,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
 
     const [leavePopup, setLeavePopup] = useState(false)
     const [planIdForLeave, setPlanIdForLeave] = useState("")
+    const [errors, setErrors] = useState([]);
 
     const setEmployee = (wid, index, eid) => {
         let employee_ids = { ...employeeId }
@@ -370,6 +372,8 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         progress: undefined,
                         theme: "colored",
                     });
+                } else {
+                    setErrors(result?.message)
                 }
             })
             .catch((error) => {
@@ -397,6 +401,11 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                 pauseOnHover
                 theme="colored"
             />
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                        title={t("VALIDATION_ERROR") + ("!")}
+                        body={(errors)}
+                        onHide={() => setErrors([])}
+                    ></ErrorPopup>}
             {shiftPopupOpen && <CreateShifts setShiftPopupOpen={setShiftPopupOpen} setShiftData={setShiftData} shiftData={shiftData} SaveShift={SaveShift}></CreateShifts>}
             {planPopup && <CreatePlanPopup setPlanPopup={setPlanPopup} wid={planWid} enableShift={enableShifts} employeeId={employeeId[planWid] !== undefined ? employeeId[planWid][createIndex] : ''} planningDate={planningDate} locId={locId} planData={planningDetails} dropDownData={dropDownData} updatePlan={updatePlan} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} GetEmployeePlans={GetEmployeePlans} setLeavePopup={setLeavePopup} setPlanIdForLeave={setPlanIdForLeave}></CreatePlanPopup>}
             {leavePopup && <AddLeaveForPlanPopup leavePopup={leavePopup} setLeavePopup={setLeavePopup} setPlanPopup={setPlanPopup} planIdForLeave={planIdForLeave} setPlanIdForLeave={setPlanIdForLeave} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh}></AddLeaveForPlanPopup>}
@@ -426,7 +435,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                         <tr key={ws_employee.employee_name}>
                                             {/* Workstation column data */}
                                             {ws_emp_index === 0 && <td key={ws.workstation_id} className="justify-content-center py-3" rowSpan={ws.employee.length}>
-                                                <div className="position-sticky top_100px"> 
+                                                <div className="position-sticky top_100px">
                                                     <p className="mb-0">{ws.workstation_name}</p>
                                                     <h2 className="pointer" onClick={() => addNewRow(ws.workstation_id, [], ws_emp_index)}>+</h2>
                                                     {enableShifts && <div className="row m-0 justify-content-center p-0">
@@ -440,7 +449,15 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                 </div>
                                             </td>}
                                             {/* Employee and plan data rows */}
-                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}<div> {ws_employee.employee_id && <span><EmployeeType_icon IconColour={ws_employee.employee_type_colour?ws_employee.employee_type_colour:" #61bfb5"} /></span>}</div></td>
+                                            <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}
+                                                <div> {ws_employee.employee_id && Object.keys(ws_employee.employee_types).length !== 0 &&
+                                                    //mapping employeetype and its colour
+                                                    Object.keys(ws_employee.employee_types).map((key, index) => {
+                                                        return (
+                                                            <span key={index} title={key}><EmployeeType_icon IconColour={ws_employee.employee_types[key] ? ws_employee.employee_types[key] : " #61bfb5"} /></span>
+                                                        )
+                                                    })
+                                                }</div></td>
                                             <PlanItem PlansData={ws_employee.plans} availableSwitch={availableSwitch} wid={ws.workstation_id} Dates={dates} employeeId={ws_employee.employee_id !== undefined ? ws_employee.employee_id : employeeId !== undefined && employeeId[ws.workstation_id] !== undefined ? employeeId[ws.workstation_id][ws_emp_index] : ''} openCreatePlanPopup={openCreatePlanPopup} ws_emp_index={ws_emp_index} weekNumber={weekNumber} year={year}></PlanItem>
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
