@@ -16,6 +16,8 @@ import { t } from "../../translations/Translation";
 import DimonaIcon from "../../static/icons/Dimona.svg";
 import DimonaWhite from "../../static/icons/DimonaWhite";
 import SendDimonaPopup from "../molecules/SendDimonaPopup";
+import Popup from "../../utilities/popup/Popup"
+import Dropdown from "../atoms/Dropdown";
 
 export default function PlanningOverview() {
 
@@ -61,7 +63,7 @@ export default function PlanningOverview() {
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
-
+    const [showlocationPopup, setLocationPopup] = useState(true)
 
     // Planning overview tab list data
     const TabsData = [
@@ -127,7 +129,7 @@ export default function PlanningOverview() {
                 setSelectedWorkstation([])
                 monthData['workstations'] = []
             }
-            monthData['locations'] = value.value
+            monthData['location'] = value.value
             setSelectedLocation(value);
         } else if (name === 'workstation') {
             let arr = []
@@ -206,6 +208,23 @@ export default function PlanningOverview() {
 
     return (
         <div className="planning_body">
+            {!selectedLocation && showlocationPopup && <Popup
+                body={
+                    <>
+                        <Dropdown
+                            options={locationArr}
+                            selectedOptions={selectedLocation}
+                            onSelectFunction={(e) => setValues("", "location", e, "dropdown")}
+                            CustomStyle="company-dropdown"
+                            styleClass=""
+                            isMulti={false}
+                        ></Dropdown>
+                    </>
+                }
+                onHide={() => setLocationPopup(false)}
+                backdrop="static"
+                title={t("PLEASE_SELECT_LOCATION")}
+            ></Popup>}
             <div className="bg-white">
                 <FormsNew
                     view="filters"
@@ -241,7 +260,7 @@ export default function PlanningOverview() {
 
                         <div className="react-tabs__tab border-0 pt-0 float-right">
                             <div className="d-flex justify-content-end">
-                                <span className={'planning-icon mr-4 pointer'} title={t("SEND_DIMONA")} onClick={() => setDimonaStatus(true)}><DimonaWhite color={"#000"}/></span>
+                                <span className={'planning-icon mr-4 pointer'} title={t("SEND_DIMONA")} onClick={() => setDimonaStatus(true)}><DimonaWhite color={"#000"} /></span>
                                 <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={AddLeaveIcon} onClick={() => setAddLeave(true)}></img>
                                 <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={ImportIcon}></img>
                                 <a href="/clone-plannings"><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon}></img></a>
