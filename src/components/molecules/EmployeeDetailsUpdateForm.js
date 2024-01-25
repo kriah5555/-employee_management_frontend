@@ -278,7 +278,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     const YesNoOptions = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }]
 
     const extraBenefitsArray = [
-        { title: t("SSN"), name: "social_secretary_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("SOCIAL_SECRETARY_NUMBER"), name: "social_secretary_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("CONTRACT_NUMBER"), name: "contract_number", required: false, type: "text", style: "col-md-6 mt-4 float-left" },
         { title: t("COMPANY_CAR"), name: "company_car", required: false, options: YesNoOptions, selectedOptions: companyCar, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: "Company fuel card", name: "fuel_card", required: false, options: YesNoOptions, selectedOptions: fuelCard, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },

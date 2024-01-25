@@ -11,13 +11,15 @@ import { GetDimonaApiUrl } from "../../routes/ApiEndPoints";
 export default function DimonaOverview() {
 
     const [typeList, setTypeList] = useState([{ value: 'plan', label: 'Plan' }, { value: 'longterm', label: 'Long term' }]);
-    const [selectedType, setSelectedType] = useState();
+    const [selectedType, setSelectedType] = useState({ value: 'plan', label: 'Plan' });
     const [manageStatus, setManageStatus] = useState(true);
+    const [manageListData, setManageListData] = useState([])
     let date_obj = new Date()
     let currentDate = GetFormattedDate(date_obj, date_obj.getFullYear())
     const [formattedData, setFormattedData] = useState({
         "from_date": currentDate,
         "to_date": currentDate,
+        "type": 'plan'
     })
 
     const manage_header = [
@@ -114,14 +116,21 @@ export default function DimonaOverview() {
     useEffect(() => {
         AXIOS.service(GetDimonaApiUrl, 'POST', formattedData)
             .then((result) => {
-                if (result?.success) {
-                    console.log(result);
+                if (result?.status || result?.success) {
+                    let arr = []
+                    result.data.map((val, i) => {
+                        if (val?.employee_name) {
+                            val['id'] = i
+                            arr.push(val)
+                        }
+                    })
+                    setManageListData(arr);
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
-    }, [formattedData])  
+    }, [formattedData])
 
     const manage_listData = [
         { id: 1, employee_name: 'Emp1', start_date_time: '18-01-2023 10:30', end_date_time: '18-01-2023 14:30', overtime: '', employee_type: 'Normal employee', dimona_status: 'green' },
@@ -190,7 +199,7 @@ export default function DimonaOverview() {
                 </div>}
             </div>
             <div className="bg-white mt-1">
-                <Table columns={manageStatus ? manage_header : detail_header} rows={manageStatus ? manage_listData : detail_listData} tableName={manageStatus ? 'dimona_overview' : 'no_action_dimona'} viewAction={viewAction}></Table>
+                <Table columns={manageStatus ? manage_header : detail_header} rows={manageStatus ? manageListData : detail_listData} tableName={manageStatus ? 'dimona_overview' : 'no_action_dimona'} viewAction={viewAction}></Table>
             </div>
         </div>
     )

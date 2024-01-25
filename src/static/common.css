@@ -1147,6 +1147,10 @@ html .ui-button.ui-state-disabled:active {
   overflow-y: auto;
 }
 
+.uurrooster_table table thead th, .uurrooster_table table tbody td {
+  text-align: center;
+}
+
 .uurrooster_table table thead {
   position: sticky;
   top: 0;
@@ -1154,6 +1158,11 @@ html .ui-button.ui-state-disabled:active {
   background-color: #61bfb5 !important;
   color: white;
   outline: 1px solid gray !important;
+}
+
+.disabled-icon {
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
 
 .margin-minus {

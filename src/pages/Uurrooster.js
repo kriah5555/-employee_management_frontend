@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import LocationIcon from "../static/icons/Location.svg";
 import CalendarIcon from "../static/icons/UurroosterCalendar.svg";
-import QrcodeIcon from "../static/icons/UurroosterQrcode.svg";
+import BreakIcon from "../static/icons/Break.svg";
+import DimonaSuccessIcon from "../static/icons/DimonaSuccess.svg";
+import DimonaFailedIcon from "../static/icons/DimonaFail.svg";
+import DimonaWarningIcon from "../static/icons/DimonaPending.svg";
 import ExportIcon from "../static/icons/Export.svg";
 import FilterIcon from "../static/icons/Filter.svg";
+import LeaveIcon from "../static/icons/addLeave.svg";
 import RedIcon from "../static/icons/RedDot.svg";
 import LeftArrowIcon from "../static/icons/LeftArrow.png";
 import RightArrowIcon from "../static/icons/RightArrow.png";
@@ -34,6 +38,7 @@ export default function Uurrooster() {
     const [selectedLoc, setSelectedLoc] = useState();
     const [qrcode, setQrcode] = useState('');
     const currentDate = new Date();
+    const [breakTime, setBreakTime] = useState('')
 
     const Months = [t("JANUARY"), t("FEBRUARY"), t("MARCH"), t("APRIL"), t("MAY"), t("JUNE"), t("JULY"), t("AUGUST"), t("SEPTEMBER"), t("OCTOBER"), t("NOVEMBER"), t("DECEMBER")]
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
@@ -45,22 +50,9 @@ export default function Uurrooster() {
             .then((res) => {
                 setLocations(getFormattedDropdownOptions(res.data, 'id', 'location_name'))
                 setSelectedLoc({ value: res.data?.[0]?.id, label: res.data?.[0]?.location_name })
-                let uurroosterData = [
-                    {
-                        'workstation_name': '',
-                        'employee_name': '',
-                        'function_name': '',
-                        'plan_start': t("PLANNING_TITLE"),
-                        'start_time': t("STARTED_TITLE"),
-                        'dimona_start': t("DIMONA"),
-                        'pause': '',
-                        'plan_end': t("PLANNING_TITLE"),
-                        'end_time': t("STOPPED_TITLE"),
-                        'dimona_end': t("DIMONA"),
-                        'cost': t("COST_TITLE")
-                    }
-                ]
-                setPlanData(uurroosterData)
+            })
+            .catch((error) => {
+                console.log(error);
             })
     }, [])
 
@@ -73,70 +65,83 @@ export default function Uurrooster() {
         AXIOS.service(UurroosterApiUrl, 'POST', data)
             .then((result) => {
                 if (result.success) {
-                    let uurroosterData = [
-                        {
-                            'workstation_name': '',
-                            'employee_name': '',
-                            'function_name': '',
-                            'plan_start': t("PLANNING_TITLE"),
-                            'start_time': t("STARTED_TITLE"),
-                            'dimona_start': t("DIMONA"),
-                            'pause': '',
-                            'plan_end': t("PLANNING_TITLE"),
-                            'end_time': t("STOPPED_TITLE"),
-                            'dimona_end': t("DIMONA"),
-                            'cost': t("COST_TITLE")
-                        }
-                    ]
                     let resp = result.data
                     setQrcode(resp.qr_token);
-                    resp.planning_data.map((val, i) => {
-                        val.plannings.map((arr_data, i) => {
-                            if (arr_data?.actual_start_timings?.length >= 1) {
-                                arr_data?.actual_start_timings.map((value, j) => {
-                                    if (j === 0) {
-                                        let extra_obj = {
-                                            'ws_name': val.workstation_name,
-                                            'workstation_name': i == 0 ? val.workstation_name : '',
-                                            'employee_name': j === 0 ? arr_data?.employee_name : '',
-                                            'function': j === 0 ? arr_data?.function_name : '',
-                                            'plan_start': j === 0 ? arr_data?.start_time : '',
-                                            'start_time': arr_data?.actual_start_timings[j],
-                                            'dimona_start': arr_data?.start_dimona_status[j],
-                                            'pause': arr_data?.break_timings[j],
-                                            'plan_end': j === 0 ? arr_data?.end_time : '',
-                                            'end_time': arr_data?.actual_end_timings[j],
-                                            'dimona_end': arr_data?.end_dimona_status[j],
-                                            'cost': j === 0 ? arr_data?.cost : '',
-                                            'count': val.plannings?.length
+                    let arr = []
+                    let data = resp.planning_data
+                    if (data.length !== 0) {
+                        data.map((val, index) => {
+                            val.plannings.map((employee, emp_index) => {
+                                for (let i = 0; i < employee.count; i++) {
+                                    if (emp_index === 0 && i === 0) {
+                                        let design = {
+                                            'workstation_name': val.workstation_name,
+                                            'count': val.count,
+                                            'employee_name': employee.employee_name,
+                                            'function_name': employee?.function_name,
+                                            'start_time': employee?.start_time,
+                                            'count_2': employee?.count,
+                                            'actual_start_time': employee?.actual_start_timings[i],
+                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
+                                            'break_time': "12:00-14:00 \n13:00-13:30",
+                                            'end_time': employee?.end_time,
+                                            'actual_end_time': employee?.actual_end_timings[i],
+                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
+                                            'cost': employee?.cost,
+                                            'leave': employee?.absence_status,
+                                            'holiday_code': employee?.absence_holiday_codes
                                         }
-                                        uurroosterData.push(extra_obj);
+                                        arr.push(design);
+                                    } else if (emp_index !== 0 && i === 0) {
+                                        let design = {
+                                            'workstation_name': "",
+                                            'count': "",
+                                            'employee_name': employee.employee_name,
+                                            'function_name': employee?.function_name,
+                                            'start_time': employee?.start_time,
+                                            'count_2': employee?.count,
+                                            'actual_start_time': employee?.actual_start_timings[i],
+                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
+                                            'break_time': '12:00-14:00',
+                                            'end_time': employee?.end_time,
+                                            'actual_end_time': employee?.actual_end_timings[i],
+                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
+                                            'cost': employee?.cost,
+                                            'leave': employee?.absence_status,
+                                            'holiday_code': employee?.absence_holiday_codes
+                                        }
+                                        arr.push(design);
+                                    } else {
+                                        let design = {
+                                            'workstation_name': "",
+                                            'count': "",
+                                            'employee_name': "",
+                                            'function_name': "",
+                                            'start_time': "",
+                                            'count_2': "",
+                                            'actual_start_time': employee?.actual_start_timings[i],
+                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
+                                            'break_time': '',
+                                            'end_time': "",
+                                            'actual_end_time': employee?.actual_end_timings[i],
+                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
+                                            'cost': "",
+                                            'leave': employee?.absence_status,
+                                            'holiday_code': employee?.absence_holiday_codes
+                                        }
+                                        arr.push(design);
                                     }
-                                })
-                            } else {
-                                let extra_obj = {
-                                    'ws_name': val.workstation_name,
-                                    'workstation_name': val.workstation_name,
-                                    'employee_name': arr_data?.employee_name,
-                                    'function_name': arr_data?.function_name,
-                                    'plan_start': '',
-                                    'start_time': '',
-                                    'dimona_start': '',
-                                    'pause': '',
-                                    'plan_end': '',
-                                    'end_time': '',
-                                    'dimona_end': '',
-                                    'cost': '',
-                                    'count': val.plannings?.length
+
+
                                 }
-                                uurroosterData.push(extra_obj);
-
-                            }
+                            })
                         })
-
-                    })
-                    setPlanData(uurroosterData)
+                        setPlanData(arr)
+                    }
                 }
+            })
+            .catch((error) => {
+                console.log(error);
             })
     }, [dayDate, selectedLoc])
 
@@ -188,7 +193,6 @@ export default function Uurrooster() {
                         ></Dropdown>
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
                             <div className="button-style" onClick={() => setNextPrev('prev')}><img className="planning-icon pointer" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
-                            {/* <p className="monthText mx-auto my-auto">{dayData}</p> */}
                             <DateInput
                                 key={'calendar'}
                                 title={''}
@@ -202,9 +206,9 @@ export default function Uurrooster() {
                     </div>
                     <div className="col-md-3 d-flex justify-content-end">
                         <div className="float-left">
-                            <img className="mr-4 pointer" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}></img>
-                            <br></br>
-                            <img className="mr-4 mt-4 pointer" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")}></img>
+                            {/* <img className="mr-4 pointer" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")}></img> */}
+                            {/* <br></br> */}
+                            <img className="mr-4 pointer disabled-icon" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")} ></img>
                         </div>
                         <QRCode
                             size={256}
@@ -216,31 +220,40 @@ export default function Uurrooster() {
                 </div>
                 <div className="mt-3 uurrooster_table">
                     <table className="table table-bordered company-tab-width mx-auto">
-                        <thead className="button-style">
+                        <thead className="button-style uurrooster-table">
                             <tr>
-                                {head_arr.map((title, index) => {
-                                    return (
-                                        <th key={title.label} className={"text-center"} colSpan={title.colSpan}>{title.label}</th>
-                                    )
-                                })}
+                                <th rowspan="2">Workstations</th>
+                                <th rowspan="2">Name</th>
+                                <th rowspan="2">Function</th>
+                                <th colspan="3">Start work</th>
+                                <th rowspan="2">Pause</th>
+                                <th colspan="3">End work</th>
+                                <th rowspan="2">Total</th>
+                            </tr>
+                            <tr>
+                                <th>Planning</th>
+                                <th>Started</th>
+                                <th>Dimona</th>
+                                <th>Planning</th>
+                                <th>Stopped</th>
+                                <th>Dimona</th>
                             </tr>
                         </thead>
                         <tbody>
                             {planData.map((val, index) => {
                                 return (
-                                    <tr key={val.workstation_id}>
-                                        {index === 0 && <td className="text-center" >{''}</td>}
-                                        {index === 1 && <td className="text-center" rowSpan={val.count}>{val.ws_name}</td>}
-                                        <td className="text-center">{val.employee_name}</td>
-                                        <td className="text-center">{val.function_name}</td>
-                                        <td className="text-center">{val.plan_start}</td>
-                                        <td className="text-center">{val.start_time}</td>
-                                        <td className="text-center">{val.dimona_start}</td>
-                                        <td className="text-center">{val.pause}</td>
-                                        <td className="text-center">{val.plan_end}</td>
-                                        <td className="text-center">{val.end_time}</td>
-                                        <td className="text-center">{val.dimona_end}</td>
-                                        <td className="text-center">{val.cost}</td>
+                                    <tr>
+                                        {val.workstation_name && <td rowspan={val.count}>{val.workstation_name}</td>}
+                                        {val.employee_name && <td rowspan={val.count_2}>{val.employee_name}<div>{!val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
+                                        {val.function_name && <td rowspan={val.count_2}>{val.function_name}</td>}
+                                        {val.start_time && <td rowspan={val.count_2}>{val.start_time}</td>}
+                                        {<td>{val.actual_start_time}</td>}
+                                        {<td>{![null, undefined].includes(val.dimona_start?.status) && <img title={val.dimona_start?.message} src={val.dimona_start?.status === 'success' ? DimonaSuccessIcon : val.dimona_start?.status === 'warning' ? DimonaWarningIcon : val.dimona_start?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
+                                        {val.break_time && <td rowspan={val.count_2}><img src={BreakIcon} title={val.break_time}></img></td>}
+                                        {val.end_time && <td rowspan={val.count_2}>{val.end_time}</td>}
+                                        {<td>{val.actual_end_time}</td>}
+                                        {<td>{![null, undefined].includes(val.dimona_end?.status) && <img title={val.dimona_end?.message} src={val.dimona_end?.status === 'success' ? DimonaSuccessIcon : val.dimona_end?.status === 'warning' ? DimonaWarningIcon : val.dimona_end?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
+                                        {val.cost && <td rowspan={val.count_2}>{val.cost}</td>}
                                     </tr>
                                 )
                             })}
@@ -248,6 +261,6 @@ export default function Uurrooster() {
                     </table>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
