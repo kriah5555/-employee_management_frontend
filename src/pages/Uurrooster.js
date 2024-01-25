@@ -19,6 +19,7 @@ import { GetFormattedDate, getFormattedDropdownOptions } from "../utilities/Comm
 import QRCode from "react-qr-code";
 import { t } from "../translations/Translation";
 import DateInput from "../components/atoms/formFields/DateInput";
+import EmployeeType_icon from "../static/icons/EmployeeType_icon";
 
 export default function Uurrooster() {
 
@@ -83,7 +84,7 @@ export default function Uurrooster() {
                                             'count_2': employee?.count,
                                             'actual_start_time': employee?.actual_start_timings[i],
                                             'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
-                                            'break_time': "12:00-14:00 \n13:00-13:30",
+                                            'break_time': employee?.break_timings[0],
                                             'end_time': employee?.end_time,
                                             'actual_end_time': employee?.actual_end_timings[i],
                                             'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
@@ -102,7 +103,7 @@ export default function Uurrooster() {
                                             'count_2': employee?.count,
                                             'actual_start_time': employee?.actual_start_timings[i],
                                             'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
-                                            'break_time': '12:00-14:00',
+                                            'break_time': employee?.break_timings[0],
                                             'end_time': employee?.end_time,
                                             'actual_end_time': employee?.actual_end_timings[i],
                                             'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
@@ -244,12 +245,12 @@ export default function Uurrooster() {
                                 return (
                                     <tr>
                                         {val.workstation_name && <td rowspan={val.count}>{val.workstation_name}</td>}
-                                        {val.employee_name && <td rowspan={val.count_2}>{val.employee_name}<div>{!val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
+                                        {val.employee_name && <td className="text-left" rowspan={val.count_2}><span className="mr-3" title={'Dummy icon'}><EmployeeType_icon IconColour={"#61bfb5"} width="25" height="25" /></span>{val.employee_name}<div>{val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
                                         {val.function_name && <td rowspan={val.count_2}>{val.function_name}</td>}
                                         {val.start_time && <td rowspan={val.count_2}>{val.start_time}</td>}
                                         {<td>{val.actual_start_time}</td>}
                                         {<td>{![null, undefined].includes(val.dimona_start?.status) && <img title={val.dimona_start?.message} src={val.dimona_start?.status === 'success' ? DimonaSuccessIcon : val.dimona_start?.status === 'warning' ? DimonaWarningIcon : val.dimona_start?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
-                                        {val.break_time && <td rowspan={val.count_2}><img src={BreakIcon} title={val.break_time}></img></td>}
+                                        {val.break_time ? <td rowspan={val.count_2}><img src={BreakIcon} title={val.break_time}></img></td> : <td></td>}
                                         {val.end_time && <td rowspan={val.count_2}>{val.end_time}</td>}
                                         {<td>{val.actual_end_time}</td>}
                                         {<td>{![null, undefined].includes(val.dimona_end?.status) && <img title={val.dimona_end?.message} src={val.dimona_end?.status === 'success' ? DimonaSuccessIcon : val.dimona_end?.status === 'warning' ? DimonaWarningIcon : val.dimona_end?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
