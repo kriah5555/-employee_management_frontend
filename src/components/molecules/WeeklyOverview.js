@@ -450,7 +450,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             </td>}
                                             {/* Employee and plan data rows */}
                                             <td>{ws_employee.employee_id ? <a className="text-dark text-truncate plannign_overview_weekly_employee_title" href={"/manage-employees/" + ws_employee.employee_id} title={ws_employee.employee_name}>{ws_employee.employee_name}</a> : ws_employee.employee_name}
-                                                <div> {ws_employee.employee_id && Object.keys(ws_employee.employee_types).length !== 0 &&
+                                                <div> {ws_employee.employee_id && ws_employee.employee_types !==null &&ws_employee.employee_types !== undefined &&
                                                     //mapping employeetype and its colour
                                                     Object.keys(ws_employee.employee_types).map((key, index) => {
                                                         return (

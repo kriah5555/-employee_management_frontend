@@ -158,7 +158,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: 'actions',
             onClick: (event, rowData) => viewAction(rowData, 'actions'),
-            hidden: (!rowData.parentOnly && tableName === "holiday_overview") ? false : true
+            hidden: (!rowData.parentOnly && tableName === "holiday_overview" || tableName === "location") ? false : true
         }),
     ]
 
