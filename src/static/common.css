@@ -1147,7 +1147,8 @@ html .ui-button.ui-state-disabled:active {
   overflow-y: auto;
 }
 
-.uurrooster_table table thead th, .uurrooster_table table tbody td {
+.uurrooster_table table thead th,
+.uurrooster_table table tbody td {
   text-align: center;
 }
 
@@ -1382,3 +1383,10 @@ tr th:last-child {
   overflow: unset !important;
 }
 
+.table-fixed {
+  table-layout: fixed;
+}
+
+.w-12 {
+  width: 12%;
+}

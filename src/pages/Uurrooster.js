@@ -220,12 +220,12 @@ export default function Uurrooster() {
                     </div>
                 </div>
                 <div className="mt-3 uurrooster_table">
-                    <table className="table table-bordered company-tab-width mx-auto">
+                    <table className="table table-bordered company-tab-width mx-auto table-fixed ">
                         <thead className="button-style uurrooster-table">
                             <tr>
-                                <th rowspan="2">Workstations</th>
-                                <th rowspan="2">Name</th>
-                                <th rowspan="2">Function</th>
+                                <th rowspan="2" className="w-12">Workstations</th>
+                                <th rowspan="2" className="w-12">Name</th>
+                                <th rowspan="2" className="w-12">Function</th>
                                 <th colspan="3">Start work</th>
                                 <th rowspan="2">Pause</th>
                                 <th colspan="3">End work</th>
@@ -244,9 +244,9 @@ export default function Uurrooster() {
                             {planData.map((val, index) => {
                                 return (
                                     <tr>
-                                        {val.workstation_name && <td rowspan={val.count}>{val.workstation_name}</td>}
-                                        {val.employee_name && <td className="text-left" rowspan={val.count_2}><span className="mr-3" title={'Dummy icon'}><EmployeeType_icon IconColour={"#61bfb5"} width="25" height="25" /></span>{val.employee_name}<div>{val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
-                                        {val.function_name && <td rowspan={val.count_2}>{val.function_name}</td>}
+                                        {val.workstation_name && <td rowspan={val.count} className="text-truncate" title={val.workstation_name}>{val.workstation_name}</td>}
+                                        {val.employee_name && <td className="text-left text-truncate" rowspan={val.count_2}><span className="mr-3" title={'Dummy icon'}><EmployeeType_icon IconColour={"#61bfb5"} width="25" height="25" /></span><span title={val.employee_name}>{val.employee_name}</span><div className="text-center">{val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
+                                        {val.function_name && <td rowspan={val.count_2} className="text-truncate" title={val.function_name}>{val.function_name}</td>}
                                         {val.start_time && <td rowspan={val.count_2}>{val.start_time}</td>}
                                         {<td>{val.actual_start_time}</td>}
                                         {<td>{![null, undefined].includes(val.dimona_start?.status) && <img title={val.dimona_start?.message} src={val.dimona_start?.status === 'success' ? DimonaSuccessIcon : val.dimona_start?.status === 'warning' ? DimonaWarningIcon : val.dimona_start?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
