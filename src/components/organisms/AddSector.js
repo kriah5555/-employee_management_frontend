@@ -599,7 +599,7 @@ export default function AddSector() {
                                                                 name={'dimona_code'}
                                                                 CustomStyle={"col-md-4 float-left"}
                                                                 required={false}
-                                                                value={dimonaData[val.value]}
+                                                                value={dimonaData[val?.value]}
                                                                 setValue={(e) => SetValues(e, 'dimona', val.value)}
                                                                 error={''}
                                                             ></TextInput>

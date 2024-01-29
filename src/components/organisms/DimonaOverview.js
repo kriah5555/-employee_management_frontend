@@ -15,6 +15,7 @@ export default function DimonaOverview() {
     const [manageStatus, setManageStatus] = useState(true);
     const [manageListData, setManageListData] = useState([]);
     const [detailsListData, setDetailsListData] = useState({});
+    const [detailsRows, setDetailsRows] = useState([]);
 
     let date_obj = new Date()
     let currentDate = GetFormattedDate(date_obj, date_obj.getFullYear())
@@ -119,12 +120,12 @@ export default function DimonaOverview() {
         AXIOS.service(GetDimonaApiUrl, 'POST', formattedData)
             .then((result) => {
                 if (result?.status || result?.success) {
-                    let arr = []
-                    result.data.map((val, i) => {
-                        val['id'] = i
-                        arr.push(val)
-                    })
-                    setManageListData(arr);
+                    // let arr = []
+                    // result.data.map((val, i) => {
+                    //     val['id'] = i
+                    //     arr.push(val)
+                    // })
+                    setManageListData(result.data);
                 }
             })
             .catch((error) => {
@@ -168,13 +169,12 @@ export default function DimonaOverview() {
             .then((result) => {
                 if (result?.status || result?.success) {
                     let arr = []
-                    result.data.map((val, i) => {
-                        if (val?.employee_name) {
-                            val['id'] = i
-                            arr.push(val)
-                        }
+                    result.data?.declarations.map((val, i) => {
+                        val['id'] = i
+                        arr.push(val)
                     })
-                    setDetailsListData(arr);
+                    setDetailsRows(arr);
+                    setDetailsListData(result.data);
                 }
             })
             .catch((error) => {
@@ -217,7 +217,7 @@ export default function DimonaOverview() {
                 </div>}
             </div>
             <div className="bg-white mt-1">
-                <Table columns={manageStatus ? manage_header : detail_header} rows={manageStatus ? manageListData : detailsListData.declarations ? detailsListData?.declarations : []} tableName={manageStatus ? 'dimona_overview' : 'no_action_dimona'} viewAction={viewAction}></Table>
+                <Table columns={manageStatus ? manage_header : detail_header} rows={manageStatus ? manageListData : detailsRows} tableName={manageStatus ? 'dimona_overview' : 'no_action_dimona'} viewAction={viewAction}></Table>
             </div>
         </div>
     )
