@@ -111,7 +111,7 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
                 data={rows}
                 isLoading={rows ? false : true}
                 options={options}
-                editable={tableName === 'translation' || tableName === 'rules' || tableName === 'salary_coefficient' ? {
+                editable={tableName === 'translation' || tableName === 'rules' || tableName === 'salary_coefficient' || tableName === 'dimona_error_codes' ? {
                     onRowUpdate: (newData, oldData) =>
                         new Promise((resolve, reject) => {
                             setTimeout(() => {

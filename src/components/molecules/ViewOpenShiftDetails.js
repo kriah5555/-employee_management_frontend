@@ -97,7 +97,7 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
         <div className="right-creation-container ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
-                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-plannings')} src={BackIcon}></img>
+                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-plannings#open_shift')} src={BackIcon}></img>
                     {t("SHIFT_DETAILS")}
                 </h4>
             </div>

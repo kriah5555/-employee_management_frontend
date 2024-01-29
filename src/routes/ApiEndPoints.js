@@ -128,8 +128,10 @@ export const GetParametersOptionsApiUrl = BASE_URL + '/masterdata/get-manage-par
 // Dimona api urls
 export const EmployeeTypeDimonaConfigurationApiUrl = BASE_URL + "/masterdata/employee-type-dimona-config"
 export const GetDimonaPlansApiUrl = BASE_URL + "/masterdata/get-plans-to-send-dimona"
-export const SendDimonaApiUrl = BASE_URL + "/masterdata/send-dimona"
+export const SendDimonaApiUrl = BASE_URL + "/masterdata/send-dimona-by-plan"
 export const GetDimonaApiUrl = BASE_URL + "/masterdata/dimona-overview"
+export const GetDimonaDetailsApiUrl = BASE_URL + "/masterdata/dimona-details/"
+export const DimonaErrorCodesApiUrl = BASE_URL + "/masterdata/dimona-error-codes"
 
 // Social secretary Configuration api urls
 export const TaxesApiUrl = BASE_URL + "/masterdata/taxes"

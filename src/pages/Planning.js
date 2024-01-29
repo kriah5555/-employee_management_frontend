@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { ToastContainer } from "react-toastify";
 import { t } from "../translations/Translation";
@@ -14,7 +14,19 @@ export default function Planning({ setHeaderCompanyDropdown }) {
 
     const [tabIndex, setTabIndex] = useState(0);
     const [showDetails, setShowDetails] = useState(false);
-    
+
+    useEffect(() => {
+        let hash = window.location.hash
+        if (hash === '#dimona') {
+            setTabIndex(5)
+        } else if (hash === '#holiday') {
+            setTabIndex(2)
+        } else if (hash === '#open_shift') {
+            setTabIndex(4)
+        }
+        window.location.hash = ''
+    })
+
     // Planning tabs list data
     const TabsData = [
         { tabHeading: t("OVERVIEW"), tabName: 'company' },
@@ -66,7 +78,7 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     </TabPanel>
 
                     <TabPanel className="open_shift_Main react-tabs__tab-panel">
-                        <div className="tablescroll h-100">< OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
+                        <div className="tablescroll h-100"><OpenShiftOverview setHeaderCompanyDropdown={setHeaderCompanyDropdown}></OpenShiftOverview></div>
                     </TabPanel>
 
                     <TabPanel>

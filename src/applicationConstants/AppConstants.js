@@ -635,7 +635,7 @@ export const GET_CONSTANTS = {
     'PLANNED_PERIOD': 'Planned period',
     'DETAILED_OVERVIEW': 'Detailed overview',
     'DIMONA_TYPE': 'Dimona type',
-    'DIMONA_PERIOD_ID':' dimona period id',
+    'DIMONA_PERIOD_ID':'Dimona period id',
     'START_DATE_TIME': 'Start date/time',
     'IN_TIME':'In time',
     'OUT_TIME': 'Out time',
@@ -643,6 +643,7 @@ export const GET_CONSTANTS = {
     'ERROR_CODE': 'Error code',
     'SEND_DIMONA':'Send dimona',
     'PLAN_TIMINGS': 'Plan timings',
+    'DIMONA_ERROR_CODES':'Dimona error codes',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE':'Activate on this device',

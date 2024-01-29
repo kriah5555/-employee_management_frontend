@@ -115,20 +115,20 @@ export function getFormattedRadioOptions(options, value_key = 'id', label_key = 
 function isLeapYear(year) {
     // Check if the year is evenly divisible by 4
     if (year % 4 === 0) {
-      // If it is divisible by 100 and not divisible by 400, it's not a leap year
-      if (year % 100 === 0 && year % 400 !== 0) {
-        return false;
-      }
-      // Otherwise, it is a leap year
-      return true;
+        // If it is divisible by 100 and not divisible by 400, it's not a leap year
+        if (year % 100 === 0 && year % 400 !== 0) {
+            return false;
+        }
+        // Otherwise, it is a leap year
+        return true;
     }
     // If not divisible by 4, it's not a leap year
     return false;
-  }
+}
 
 export function getDatesForWeek(weekNumber, year) {
-    let index = isLeapYear(year) ? 1:2
-    
+    let index = isLeapYear(year) ? 1 : 2
+
     const startDate = new Date(year, 0, index + (weekNumber - 1) * 7);
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6); // 6 days later is the end of the week
@@ -147,13 +147,12 @@ export function getDatesForWeek(weekNumber, year) {
 
 
 export function getCurrentWeek() {
-    let currentDate = new Date();
-    let startDate = new Date(currentDate.getFullYear(), 0, 1);
-    let days = Math.floor((currentDate - startDate) /
-        (24 * 60 * 60 * 1000));
+    const currentDate = new Date();
+    const firstDayOfYear = new Date(currentDate.getFullYear(), 0, 1);
+    const daysSinceFirstDay = Math.ceil((currentDate - firstDayOfYear) / (24 * 60 * 60 * 1000));
+    const currentWeekNumber = Math.ceil((daysSinceFirstDay + firstDayOfYear.getDay() + 1) / 7);
 
-    let weekNumber = Math.ceil(days / 7);
-    return weekNumber;
+    return currentWeekNumber;
 }
 
 export function getNewAccessToken() {

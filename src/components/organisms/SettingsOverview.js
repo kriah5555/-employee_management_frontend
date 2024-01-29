@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomTable from "../../components/atoms/CustomTable";
 import { ToastContainer, toast } from 'react-toastify';
-import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl, CommuteTypesApiUrl } from "../../routes/ApiEndPoints";
+import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl, CommuteTypesApiUrl, DimonaErrorCodesApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { t } from "../../translations/Translation";
 
@@ -42,6 +42,21 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         },
     ]
 
+    const dimona_headers = [
+        {
+            title: t("ERROR_CODE"),
+            field: 'error_code',
+            size: 200,
+            editable: 'never',
+        },
+        {
+            title: t("DESCRIPTION"),
+            field: 'description',
+            size: 200,
+            editable: 'onUpdate',
+        },
+    ];
+
     useEffect(() => {
         // Api to get list of genders and marital status
         let apiUrl;
@@ -51,8 +66,10 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = MaritalStatusApiUrl
         } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl
-        } else {
+        } else if (overviewContent === 'commute_types') {
             apiUrl = CommuteTypesApiUrl
+        } else {
+            apiUrl = DimonaErrorCodesApiUrl
         }
         AXIOS.service(apiUrl, 'GET')
             .then((result) => {
@@ -75,7 +92,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl
             newData['amount'] = newData.amount_formatted
-        } else {
+        } else if (overviewContent === 'commute_types') {
             apiUrl = CommuteTypesApiUrl
         }
 
@@ -112,8 +129,10 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
         } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl + '/' + newData.id
             newData['amount'] = newData.amount_formatted
-        } else {
+        } else if (overviewContent === 'commute_types') {
             apiUrl = CommuteTypesApiUrl + '/' + newData.id
+        } else {
+            apiUrl = DimonaErrorCodesApiUrl + '/' + newData.id
         }
 
         AXIOS.service(apiUrl, 'PUT', newData)
@@ -148,7 +167,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
             apiUrl = MaritalStatusApiUrl + '/' + newData.id
         } else if (overviewContent === 'meal_vouchers') {
             apiUrl = MealVoucherApiUrl + '/' + newData.id
-        } else {
+        } else if (overviewContent === 'commute_types') {
             apiUrl = CommuteTypesApiUrl + '/' + newData.id
         }
 
@@ -177,7 +196,7 @@ export default function SettingsOverview({ overviewContent, type, title, setErro
 
     return (
         <>
-            {type !== 'notification' && <CustomTable title={title} columns={overviewContent === 'meal_vouchers' ? meal_voucher_headers : headers} rows={listData} setRows={setListData} tableName={'function'} height={'calc(100vh - 162px)'} UpdateRow={UpdateRow} CreateRow={CreateRow} DeleteRow={DeleteRow}></CustomTable>}
+            {type !== 'notification' && <CustomTable title={title} columns={overviewContent === 'meal_vouchers' ? meal_voucher_headers : overviewContent === 'dimona_error_codes' ? dimona_headers : headers} rows={listData} setRows={setListData} tableName={overviewContent === 'dimona_error_codes' ? 'dimona_error_codes' : 'function'} height={'calc(100vh - 162px)'} UpdateRow={UpdateRow} CreateRow={CreateRow} DeleteRow={DeleteRow}></CustomTable>}
         </>
     );
 

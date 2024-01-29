@@ -5,7 +5,7 @@ import { GetFormattedDate } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png"
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { GetDimonaApiUrl } from "../../routes/ApiEndPoints";
+import { GetDimonaApiUrl, GetDimonaDetailsApiUrl } from "../../routes/ApiEndPoints";
 
 
 export default function DimonaOverview() {
@@ -13,7 +13,9 @@ export default function DimonaOverview() {
     const [typeList, setTypeList] = useState([{ value: 'plan', label: 'Plan' }, { value: 'longterm', label: 'Long term' }]);
     const [selectedType, setSelectedType] = useState({ value: 'plan', label: 'Plan' });
     const [manageStatus, setManageStatus] = useState(true);
-    const [manageListData, setManageListData] = useState([])
+    const [manageListData, setManageListData] = useState([]);
+    const [detailsListData, setDetailsListData] = useState({});
+
     let date_obj = new Date()
     let currentDate = GetFormattedDate(date_obj, date_obj.getFullYear())
     const [formattedData, setFormattedData] = useState({
@@ -30,17 +32,17 @@ export default function DimonaOverview() {
         // },
         {
             title: t("EMPLOYEE_NAME"),
-            field: "employee_name",
+            field: "name",
             status: "200",
         },
         {
             title: t("PLAN_START_TIME"),
-            field: "start_date_time",
+            field: "start",
             status: "200",
         },
         {
             title: t("PLAN_END_TIME"),
-            field: "end_date_time",
+            field: "end",
             status: "200",
         },
         {
@@ -54,6 +56,11 @@ export default function DimonaOverview() {
             status: "200",
         },
         {
+            title: t("DIMONA_PERIOD_ID"),
+            field: "dimona_period_id",
+            status: "200",
+        },
+        {
             title: t("DIMONA_STATUS"),
             field: "dimona_status",
             status: "200",
@@ -64,11 +71,6 @@ export default function DimonaOverview() {
         {
             title: t("DIMONA_TYPE"),
             field: "dimona_type",
-            status: "200",
-        },
-        {
-            title: t("DIMONA_PERIOD_ID"),
-            field: "dimona_period_id",
             status: "200",
         },
         {
@@ -102,7 +104,7 @@ export default function DimonaOverview() {
             status: "200",
         },
         {
-            title: t("STATUS_TEXT"),
+            title: t("DIMONA_STATUS"),
             field: "dimona_status",
             status: "200",
         },
@@ -119,10 +121,8 @@ export default function DimonaOverview() {
                 if (result?.status || result?.success) {
                     let arr = []
                     result.data.map((val, i) => {
-                        if (val?.employee_name) {
-                            val['id'] = i
-                            arr.push(val)
-                        }
+                        val['id'] = i
+                        arr.push(val)
                     })
                     setManageListData(arr);
                 }
@@ -160,8 +160,26 @@ export default function DimonaOverview() {
         setFormattedData(dimona_data);
     }
 
-    const viewAction = () => {
+    const viewAction = (data, action) => {
+
         setManageStatus(false)
+
+        AXIOS.service(GetDimonaDetailsApiUrl + data?.id, 'POST')
+            .then((result) => {
+                if (result?.status || result?.success) {
+                    let arr = []
+                    result.data.map((val, i) => {
+                        if (val?.employee_name) {
+                            val['id'] = i
+                            arr.push(val)
+                        }
+                    })
+                    setDetailsListData(arr);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
 
@@ -181,13 +199,13 @@ export default function DimonaOverview() {
                 {!manageStatus && <div className="col-md-12 py-3">
                     <div className="col-md-3 row m-0">
                         <label className="mb-0 font-weight-bold">{t("EMPLOYEE_NAME") + ':'}</label>
-                        <p className="pl-2 mb-0">{'Emp1'}</p>
+                        <p className="pl-2 mb-0">{detailsListData?.name}</p>
                     </div>
                     <div className="col-md-2 row mt-2 m-0">
                         <label className="mb-0 font-weight-bold">{t("WORKED_DATE") + ':'}</label>
-                        <p className="pl-2 mb-0">{'18-01-2024'}</p>
+                        <p className="pl-2 mb-0">{detailsListData?.dimona_sent_date}</p>
                     </div>
-
+                    {/* 
                     <div className="col-md-2 row mt-2 m-0">
                         <label className="mb-0 font-weight-bold">{t("PLANNED_DATE") + ':'}</label>
                         <p className="pl-2 mb-0">{'18-01-2024'}</p>
@@ -195,11 +213,11 @@ export default function DimonaOverview() {
                     <div className="col-md-3 row mt-2 m-0">
                         <label className="mb-0 font-weight-bold">{t("PLANNED_PERIOD") + ':'}</label>
                         <p className="pl-2 mb-0">{'10:30 to 16:00'}</p>
-                    </div>
+                    </div> */}
                 </div>}
             </div>
             <div className="bg-white mt-1">
-                <Table columns={manageStatus ? manage_header : detail_header} rows={manageStatus ? manageListData : detail_listData} tableName={manageStatus ? 'dimona_overview' : 'no_action_dimona'} viewAction={viewAction}></Table>
+                <Table columns={manageStatus ? manage_header : detail_header} rows={manageStatus ? manageListData : detailsListData.declarations ? detailsListData?.declarations : []} tableName={manageStatus ? 'dimona_overview' : 'no_action_dimona'} viewAction={viewAction}></Table>
             </div>
         </div>
     )

@@ -100,7 +100,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                     result.data.workstation_data.map((val, i) => {
                         if (val.employee.length === 0) {
                             val.employee = [{
-                                employee_name: <Dropdown options={employees} onSelectFunction={(e) => setEmployee(val.workstation_id, 0, e.value)}></Dropdown>,
+                                employee_name: <Dropdown options={result.data.employee_list} onSelectFunction={(e) => setEmployee(val.workstation_id, 0, e.value)}></Dropdown>,
                                 status: true,
                                 total: '',
                                 plans: [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }]

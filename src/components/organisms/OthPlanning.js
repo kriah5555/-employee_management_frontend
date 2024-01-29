@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import Table from "../atoms/Table";
 import ModalPopup from "../../utilities/popup/Popup";
+import AddOthPlans from "./AddOthPlans";
 
 
 
@@ -22,7 +23,7 @@ export default function OthPlanning() {
     const [deleteUrl, setDeleteUrl] = useState('');
     const [warningMessage, setWarningMessage] = useState('');
     const [dataRefresh, setDataRefresh] = useState(false);
-
+    const [createstate, setCreatestate] = useState(false);
 
 
     useEffect(() => {
@@ -102,34 +103,38 @@ export default function OthPlanning() {
 
 
     return (
-        <div className="right-container">
-            <div className="company-tab-width mt-3">
-                <ToastContainer
-                    position="top-center"
-                    autoClose={2000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                />
-                {warningMessage && <ModalPopup
-                    title={t("WARNING_TITLE")}
-                    body={(warningMessage)}
-                    onConfirm={DeleteApiCall}
-                    onHide={() => setWarningMessage('')}
-                    close={true}
-                ></ModalPopup>}
-                <div className="d-flex justify-content-between bg-white">
-                    <h4 className="py-2 px-3 bg-white"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>
-                        {t('OTH_TITLE')}</h4>
-                    <a className="my-auto px-3 bg-white mb-0" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>
+        <>
+            {!createstate && <div className={params?.eid ? "right-container" : "col-md-12 p-0"}>
+                <div className={params?.eid ? "company-tab-width mt-3" : "col-md-12 p-0 mt-1"}>
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                    />
+                    {warningMessage && <ModalPopup
+                        title={t("WARNING_TITLE")}
+                        body={(warningMessage)}
+                        onConfirm={DeleteApiCall}
+                        onHide={() => setWarningMessage('')}
+                        close={true}
+                    ></ModalPopup>}
+                    <div className="d-flex justify-content-between bg-white">
+                        <h4 className="py-2 px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.id)} src={BackIcon}></img>}
+                            {t('OTH_TITLE')}</h4>
+                        {params?.eid && <a className="my-auto px-3 bg-white mb-0" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
+                        {params?.eid === undefined && <p className="my-auto px-3 bg-white mb-0" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</p>}
+                    </div>
+                    <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
                 </div>
-                <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
-            </div>
-        </div >
+            </div >}
+            {createstate && <AddOthPlans></AddOthPlans>}
+        </>
     )
 }

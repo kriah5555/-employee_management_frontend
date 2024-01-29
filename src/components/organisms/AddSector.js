@@ -33,6 +33,8 @@ export default function AddSector() {
     const [experience, setExperience] = useState([{ 'level': 0, 'from': '', 'to': '' }]);
     const [age, setAge] = useState([{ 'age': '', 'percentage': '', 'max_time_to_work': '' }])
 
+    const [dimonaData, setDimonaData] = useState({});
+
     const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
@@ -65,11 +67,17 @@ export default function AddSector() {
         { title: t("ACTIONS"), style: 'col-md-3 text-right pr-5' },
     ]
 
+    const DimonaHeader = [
+        { title: t("EMPLOYEE_TYPE"), style: 'col-md-6' },
+        { title: t("DIMONA_CODE"), style: 'col-md-6' },
+    ]
+
     // Sectors tabs
     const TabsData = [
         { tabHeading: t("INFORMATION"), tabName: 'information' },
         { tabHeading: t("EXPERIENCE"), tabName: 'experience' },
         { tabHeading: t("AGE"), tabName: 'age' },
+        { tabHeading: t("DIMONA_CODE"), tabName: 'dimona_code' }
     ]
 
     const [ageRow, setAgeRow] = useState([1]);
@@ -140,6 +148,7 @@ export default function AddSector() {
                         setAgeRow(result.data.sector_age_salary);
                         setNightHourStartTime(result.data.night_hour_start_time)
                         setNightHourEndTime(result.data.night_hour_end_time)
+                        setDimonaData(result.data.dimona_codes)
 
                         if (result.data.status) { setActive(true) } else { setInactive(true); setActive(false) }
                     } else {
@@ -235,6 +244,7 @@ export default function AddSector() {
             setParitairCommittee(value);
         } else if (type === 3) {
             setEmployeeType(value);
+
         } else if (type === 4) {
             setCategoryNumber(value);
         } else if (type === 'from') {
@@ -262,8 +272,11 @@ export default function AddSector() {
             setNightHourStartTime(value)
         } else if (type === 'night_hour_end_time') {
             setNightHourEndTime(value)
-        }
-        else {
+        } else if (type === 'dimona') {
+            let dimona_data = {...dimonaData}
+            dimona_data[index] = value
+            setDimonaData(dimona_data)
+        } else {
             setDescription(value);
         }
     }
@@ -301,7 +314,8 @@ export default function AddSector() {
                 'night_hour_end_time': nightHourEndTime,
                 'status': status,
                 'experience': experience,
-                'age': age_arr
+                'age': age_arr,
+                'dimona_codes': dimonaData
             }
 
             // Creation url and method
@@ -559,6 +573,46 @@ export default function AddSector() {
                                 </div>
                             </TabPanel>
 
+                            <TabPanel>
+                                <div className="d-flex">
+                                    <div className="col-md-12 px-0 border pb-5">
+                                        <div className="row col-md-12 table-head-bg p-2 m-0">
+                                            {DimonaHeader.map((head, i) => {
+                                                return (
+                                                    <div className={head.style} key={head.title}>
+                                                        <p className="mb-0 font-weight-bold">{head.title}</p>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+
+                                        {employeeType.map((val, index) => {
+                                            return (
+                                                <div className="row col-md-12 p-3 m-0 border-bottom" key={val.value}>
+                                                    <div className="col-md-6 pl-3">
+                                                        <p className="mb-0">{val.label}</p>
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        <div className="row m-0 justify-content-start">
+                                                            <TextInput
+                                                                title={''}
+                                                                name={'dimona_code'}
+                                                                CustomStyle={"col-md-4 float-left"}
+                                                                required={false}
+                                                                value={dimonaData[val.value]}
+                                                                setValue={(e) => SetValues(e, 'dimona', val.value)}
+                                                                error={''}
+                                                            ></TextInput>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            </TabPanel>
+
                             {/* <TabPanel>
                         {ageData.map((ageData, index) => {
                             return (
@@ -585,8 +639,8 @@ export default function AddSector() {
                             </div>
                             <div className="text-right">
                                 {selectedTab !== 0 && <CustomButton buttonName={t("PREV_LINK")} ActionFunction={() => handlePrevious()} CustomStyle="mr-3"></CustomButton>}
-                                {selectedTab !== 2 && <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
-                                {(params.id !== undefined || (params.id === undefined && selectedTab === 2)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
+                                {selectedTab !== 3 && <CustomButton buttonName={t("NEXT_LINK")} ActionFunction={() => handleNext()} CustomStyle="mr-3"></CustomButton>}
+                                {(params.id !== undefined || (params.id === undefined && selectedTab === 3)) && <CustomButton buttonName={t("SAVE")} ActionFunction={() => OnSave()} CustomStyle=""></CustomButton>}
                             </div>
                         </div>
                     </div>
