@@ -190,6 +190,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
     const OnHides = () => {
         setShiftId("");
         setOpenPopup(false)
+        setRefresh(!refresh)
     }
 
 

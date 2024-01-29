@@ -79,6 +79,8 @@ export default function Uurrooster() {
                                             'workstation_name': val.workstation_name,
                                             'count': val.count,
                                             'employee_name': employee.employee_name,
+                                            'employee_type': employee.employee_type,
+                                            'employee_type_color': employee.employee_type_color,
                                             'function_name': employee?.function_name,
                                             'start_time': employee?.start_time,
                                             'count_2': employee?.count,
@@ -98,6 +100,8 @@ export default function Uurrooster() {
                                             'workstation_name': "",
                                             'count': "",
                                             'employee_name': employee.employee_name,
+                                            'employee_type': employee.employee_type,
+                                            'employee_type_color': employee.employee_type_color,
                                             'function_name': employee?.function_name,
                                             'start_time': employee?.start_time,
                                             'count_2': employee?.count,
@@ -117,6 +121,8 @@ export default function Uurrooster() {
                                             'workstation_name': "",
                                             'count': "",
                                             'employee_name': "",
+                                            'employee_type': "",
+                                            'employee_type_color': "",
                                             'function_name': "",
                                             'start_time': "",
                                             'count_2': "",
@@ -245,7 +251,7 @@ export default function Uurrooster() {
                                 return (
                                     <tr>
                                         {val.workstation_name && <td rowspan={val.count}>{val.workstation_name}</td>}
-                                        {val.employee_name && <td className="text-left" rowspan={val.count_2}><span className="mr-3" title={'Dummy icon'}><EmployeeType_icon IconColour={"#61bfb5"} width="25" height="25" /></span>{val.employee_name}<div>{val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
+                                        {val.employee_name && <td className="text-left" rowspan={val.count_2}><span className="mr-3" title={val.employee_type}><EmployeeType_icon IconColour={val.employee_type_color} width="25" height="25" /></span>{val.employee_name}<div>{val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
                                         {val.function_name && <td rowspan={val.count_2}>{val.function_name}</td>}
                                         {val.start_time && <td rowspan={val.count_2}>{val.start_time}</td>}
                                         {<td>{val.actual_start_time}</td>}
