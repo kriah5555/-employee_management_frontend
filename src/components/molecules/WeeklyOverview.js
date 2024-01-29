@@ -124,6 +124,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             'location': locId,
             'workstations': wsIds,
             'employee_types': EmpTypeIds,
+            'workstation_id': ws,
             'week': weekNumber,
             'year': year,
             'employee_profile_id': eid
@@ -162,7 +163,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                         }
                     })
                     setWeekData(week_data);
-                    setTotalData(result.data.total)
+                    setTotalData(result.data.day_total)
                 }
             })
             .catch((error) => {
