@@ -25,7 +25,7 @@ export default function Planning({ setHeaderCompanyDropdown }) {
             setTabIndex(4)
         }
         window.location.hash = ''
-    })
+    }, [])
 
     // Planning tabs list data
     const TabsData = [

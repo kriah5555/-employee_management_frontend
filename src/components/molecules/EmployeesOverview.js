@@ -9,7 +9,7 @@ import { t } from "../../translations/Translation";
 import ModalPopup from "../../utilities/popup/Popup";
 
 
-export default function EmployeesOverview({ setShowDetails, showDetails, eid, setEid }) {
+export default function EmployeesOverview({ setShowDetails, showDetails, eid, setEid, setFirstEmployeeId }) {
 
     const [parentId, setParentId] = useState('');
     // const [eid, setEid] = useState('');
@@ -122,6 +122,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
         AXIOS.service(ApiUrl, Method)
             .then((result) => {
                 if (result?.success) {
+                    setFirstEmployeeId(result.data[0]?.employees[0]?.id)
                     let arr = []
                     result.data.map((val, index) => {
                         let group_id = "group" + index;
@@ -134,6 +135,7 @@ export default function EmployeesOverview({ setShowDetails, showDetails, eid, se
                         }
                         arr.push(data)
                         val.employees.map((emp, i) => {
+                            // if (i===0){setFirstEmployeeId(emp.id)}
                             let employee = {
                                 // employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name, val.employee_type),
                                 employee: getEmployeeWithIcon(emp.user.user_basic_details.first_name + " " + emp.user.user_basic_details.last_name, emp.user.username, emp.id),

@@ -23,16 +23,6 @@ import EmployeeType_icon from "../static/icons/EmployeeType_icon";
 
 export default function Uurrooster() {
 
-    const head_arr = [
-        { label: t("WS_TITLE"), colSpan: 0 },
-        { label: t("EMPLOYEE_TITLE"), colSpan: 0 },
-        { label: t("FUNCTION_TITLE"), colSpan: 0 },
-        { label: t("START_WORK_TITLE"), colSpan: 3 },
-        { label: t("PAUSE_TITLE"), colSpan: 0 },
-        { label: t("END_WORK_TITLE"), colSpan: 3 },
-        { label: t("TOTAL_TITLE"), colSpan: 0 },
-    ]
-
     const [planData, setPlanData] = useState([]);
 
     const [locations, setLocations] = useState([]);
@@ -229,21 +219,21 @@ export default function Uurrooster() {
                     <table className="table table-bordered company-tab-width mx-auto table-fixed ">
                         <thead className="button-style uurrooster-table">
                             <tr>
-                                <th rowspan="2" className="w-12">Workstations</th>
-                                <th rowspan="2" className="w-12">Name</th>
-                                <th rowspan="2" className="w-12">Function</th>
-                                <th colspan="3">Start work</th>
-                                <th rowspan="2">Pause</th>
-                                <th colspan="3">End work</th>
-                                <th rowspan="2">Total</th>
+                                <th rowspan="2" className="w-12">{t('WORKSTATION')}</th>
+                                <th rowspan="2" className="w-12">{t('EMPLOYEE_TITLE')}</th>
+                                <th rowspan="2" className="w-12">{t('FUNCTION_TITLE')}</th>
+                                <th colspan="3">{t('START_WORK_TITLE')}</th>
+                                <th rowspan="2">{t('PAUSE_TITLE')}</th>
+                                <th colspan="3">{t('END_WORK_TITLE')}</th>
+                                <th rowspan="2">{t('TOTAL_TITLE')}</th>
                             </tr>
                             <tr>
-                                <th>Planning</th>
-                                <th>Started</th>
-                                <th>Dimona</th>
-                                <th>Planning</th>
-                                <th>Stopped</th>
-                                <th>Dimona</th>
+                                <th>{t('PLANNING_TITLE')}</th>
+                                <th>{t('STARTED_TITLE')}</th>
+                                <th>{t('Dimona')}</th>
+                                <th>{t('PLANNING_TITLE')}</th>
+                                <th>{t('STOPPED_TITLE')}</th>
+                                <th>{t('DIMONA')}</th>
                             </tr>
                         </thead>
                         <tbody>

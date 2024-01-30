@@ -37,12 +37,12 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     let employementTypeArray = getFormattedRadioOptions(employeeContractOptions.employment_types, 'key', 'value')
     let functionData = data.employee_function_details
     let functionListArray = getFormattedDropdownOptions(employeeContractOptions.functions, "id", "name")
-    let longtermEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options.employee_types[1], "key", "name")
-    let dayContractEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options.employee_types[2], "key", "name")
+    let longtermEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options?.employee_types[1], "key", "name")
+    let dayContractEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options?.employee_types[2], "key", "name")
     let subTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.sub_types, "key", "value")
 
     let commonData = [
-        { label: t("EMPLOYEE_TYPE"), value: data.employee_type },
+        { label: t("EMPLOYEE_TYPE"), value: data?.employee_type },
         { label: t("SUB_TYPE"), value: data.sub_type },
         { label: t("START_DATE"), value: data.start_date },
         { label: t("END_DATE"), value: data.end_date },
@@ -57,7 +57,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             setEmployeeTypeList(longtermEmployeeTypeListArray)
             setSubTypeList(subTypeListArray)
             longtermEmployeeTypeListArray.map((val) => {
-                if (val.label == data.employee_type) {
+                if (val.label == data?.employee_type) {
                     setEmployeeType(val)
                 }
             })
@@ -70,7 +70,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         } else {
             setEmployeeTypeList(dayContractEmployeeTypeListArray)
             dayContractEmployeeTypeListArray.map((val) => {
-                if (val.label == data.employee_type) {
+                if (val.label == data?.employee_type) {
                     setEmployeeType(val)
                 }
             })

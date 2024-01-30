@@ -572,6 +572,7 @@ export const GET_CONSTANTS = {
     'CHANGE_COMPANY': 'Change company',
     'ADD_EMPLOYEE': 'Add employee',
     'ADD_HOLIDAYS': 'Add holidays',
+    'MANAGE_HOLIDAYS':'Manage holidays',
     'SEND_INVOICES': 'Send invoices',
     'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company',
 

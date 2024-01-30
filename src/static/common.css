@@ -1026,6 +1026,12 @@ html .ui-button.ui-state-disabled:active {
   color: #003f54 !important;
 }
 
+.rmdp-today span:not(.highlight){
+  background-color: #003f54 !important;
+  box-shadow: 0 0 3px #61bfb5;
+  color: #fff !important;
+}
+
 .underline {
   text-decoration: underline;
 }

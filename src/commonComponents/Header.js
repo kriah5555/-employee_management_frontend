@@ -146,11 +146,11 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     ]
 
     const shortcutData = [
-        { title: t("ADD_PLANNING"), icon: <Uurrooster />, url: '/add-planning' },
+        { title: t("ADD_PLANNING"), icon: <Uurrooster />, url: '/manage-plannings' },
         { title: t("ADD_EMPLOYEE"), icon: <AddEmployee/>, url: '/add-employees' },
-        { title: t("ADD_HOLIDAYS"), icon: <ManageHoliday/>, url: '/add-holidays' },
+        { title: t("MANAGE_HOLIDAYS"), icon: <ManageHoliday/>, url: '/manage-plannings#holiday' },
         { title: t("SEND_INVOICES"), icon: <Uurrooster />, url: '/send-incoices' },
-        { title: t("ADD_LOCATION"), icon: <AddLocation/>, url: '/add-location' },
+        { title: t("ADD_LOCATION"), icon: <AddLocation/>, url: '/manage-companies/location/0' },
     ]
 
     const NotificationData = [
@@ -187,7 +187,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     //List of nav icons
     const IconsList = [
         { icon: SearchIcon, url: '#', type: '' },
-        { icon: DimonaIcon, url: '/dimona', type: '' },
+        { icon: DimonaIcon, url: "/manage-plannings#dimona", type: '' },
         { icon: QuickAccessIcon, url: '#', type: 'shortcut' },
         { icon: CalendarIcon, url: '/uurrooster', type: '' },
         { icon: FAQIcon, url: '/faq', type: '' },

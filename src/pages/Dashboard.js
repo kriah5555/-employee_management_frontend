@@ -32,7 +32,7 @@ export default function Dashboard() {
     const dashboardTabs = [
         { title: t('PLANNING'), icon: <PlanningWhite />, styleClass: mainTabStyle, actionLink: "/manage-plannings" },
         { title: t('TIME_TABLE'), icon: <Uurrooster />, styleClass: subTabStyle, actionLink: "/uurrooster" },
-        { title: t('AVAILABILITY'), icon:<EmployeeAvailability/>, styleClass: subTabStyle, actionLink: "" },
+        { title: t('AVAILABILITY'), icon:<EmployeeAvailability/>, styleClass: subTabStyle, actionLink: "/manage-employees#employee_availability" },
         { title: t('NEW_EMPLOYEE'), icon: <AddEmployeeWhite/>, styleClass: mainTabStyle, actionLink: "/add-employees" },
         { title: t('QRCODE'), icon: <QRCode/>, styleClass: subTabStyle, actionLink: "" },
         { title: t('HOLIDAY'), icon: <ManageHoliday/>, styleClass: subTabStyle, actionLink: "/manage-plannings#holiday" },

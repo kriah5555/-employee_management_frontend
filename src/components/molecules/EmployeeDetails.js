@@ -24,6 +24,8 @@ import HolidyCountersOverview from "../organisms/HolidyCountersOverview";
 export default function EmployeeDetails({ eid }) {
 
     const navigate = useNavigate()
+    const [tabIndex, setTabIndex] = useState(0);
+
     const [editStatus, setEditStatus] = useState(false);
     const [toggleOpen, setToggleOpen] = useState(false);
     const [popupOpen, setOpenPopup] = useState(false);
@@ -95,6 +97,13 @@ export default function EmployeeDetails({ eid }) {
         // { counter_type: "Leave", type: "leave" },    
     ]
 
+    useEffect(() => {
+        let hash = window.location.hash
+        if (hash === '#employee_availability') {
+            setTabIndex(4);
+        }
+        window.location.hash = ''
+    }, [])
 
     useEffect(() => {
         AXIOS.service(EmployeeContractApiUrl + '/create', 'GET')
@@ -118,6 +127,7 @@ export default function EmployeeDetails({ eid }) {
                         email: result.data.email,
                         rsz: result.data.social_security_number
                     }
+
                     setBasicDetails(basic_details)
                     setResponse(result.data)
                     let data_left = [
@@ -259,7 +269,7 @@ export default function EmployeeDetails({ eid }) {
                 </div>
             </div>
             <div className="col-md-12 p-0 employee-detail">
-                <Tabs onSelect={() => setEditStatus(false)}>
+                <Tabs selectedIndex={tabIndex} onSelect={(index) => {setTabIndex(index); setEditStatus(false)}}>
                     <TabList>
                         {TabsData.map((val) => {
                             return (
