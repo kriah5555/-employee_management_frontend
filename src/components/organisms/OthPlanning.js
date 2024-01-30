@@ -43,9 +43,14 @@ export default function OthPlanning() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [dataRefresh])
+    }, [dataRefresh, createstate])
 
     const headers = [
+        {
+            title: t("EMPLOYEE_TITLE"),
+            field: 'employee_name',
+            size: 200,
+        },
         {
             title: t("LOCATION_TITLE"),
             field: 'location.label',
@@ -136,10 +141,10 @@ export default function OthPlanning() {
                         close={true}
                     ></ModalPopup>}
                     <div className="d-flex justify-content-between bg-white">
-                        <h4 className="py-2 px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.id)} src={BackIcon}></img>}
+                        <h4 className="py-2 px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>}
                             {t('OTH_TITLE')}</h4>
-                        {params?.eid && <a className="my-auto px-3 bg-white mb-0" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
-                        {params?.eid === undefined && <p className="my-auto px-3 bg-white mb-0" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</p>}
+                        {params?.eid && <a className="my-auto px-3 bg-white mb-0 text-color" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
+                        {params?.eid === undefined && <p className="my-auto px-3 bg-white mb-0 text-color pointer" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</p>}
                     </div>
                     <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
                 </div>

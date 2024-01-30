@@ -104,6 +104,8 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                 .then((result) => {
                     if (result?.success) {
                         let oth = { ...othPlanData }
+                        oth['employee_id'] = result.data.employee_profile_id
+                        setSelectedEmployees({ value: result.data.employee_profile_id, label: result.data.employee_name })
                         oth['start_date'] = result.data.start_date
                         oth['end_date'] = result.data.end_date
                         oth['location_id'] = result.data.location?.value
@@ -245,7 +247,7 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ] : [
-        { title: t('EMPLOYEES_TITLE'), name: 'employee_id', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
+        { title: t('EMPLOYEES_TITLE'), name: 'employee_id', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: false, type: 'dropdown', style: "col-md-2 float-left", isDisabled: object_id ? true : false  },
         { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },

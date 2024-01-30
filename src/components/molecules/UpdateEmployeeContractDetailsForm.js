@@ -56,7 +56,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         if (isLongTermContract) {
             setEmployeeTypeList(longtermEmployeeTypeListArray)
             setSubTypeList(subTypeListArray)
-            longtermEmployeeTypeListArray.map((val) => {
+            longtermEmployeeTypeListArray?.map((val) => {
                 if (val.label == data?.employee_type) {
                     setEmployeeType(val)
                 }

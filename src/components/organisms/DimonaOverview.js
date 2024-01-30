@@ -46,11 +46,11 @@ export default function DimonaOverview() {
             field: "end",
             status: "200",
         },
-        {
-            title: t("WORKING_TOO_LONG") + ' ?',
-            field: "overtime",
-            status: "200",
-        },
+        // {
+        //     title: t("WORKING_TOO_LONG") + ' ?',
+        //     field: "overtime",
+        //     status: "200",
+        // },
         {
             title: t("EMPLOYEE_TYPE"),
             field: "employee_type",
@@ -61,11 +61,11 @@ export default function DimonaOverview() {
             field: "dimona_period_id",
             status: "200",
         },
-        {
-            title: t("DIMONA_STATUS"),
-            field: "dimona_status",
-            status: "200",
-        },
+        // {
+        //     title: t("DIMONA_STATUS"),
+        //     field: "dimona_status",
+        //     status: "200",
+        // },
     ]
 
     const detail_header = [
@@ -75,30 +75,30 @@ export default function DimonaOverview() {
             status: "200",
         },
         {
-            title: t("START_DATE_TIME"),
-            field: "start_date_time",
+            title: t("START_TEXT"),
+            field: "start",
+            status: "200",
+        },
+        // {
+        //     title: t("EMPLOYEE_TYPE"),
+        //     field: "employee_type",
+        //     status: "200",
+        // },
+        {
+            title: t("STOP_TEXT"),
+            field: "stop",
             status: "200",
         },
         {
-            title: t("EMPLOYEE_TYPE"),
-            field: "employee_type",
+            title: t("HOURS"),
+            field: "hours",
             status: "200",
         },
-        {
-            title: t("IN_TIME"),
-            field: "in_time",
-            status: "200",
-        },
-        {
-            title: t("OUT_TIME"),
-            field: "out_time",
-            status: "200",
-        },
-        {
-            title: t("SHORT_BREAK"),
-            field: "short_break",
-            status: "200",
-        },
+        // {
+        //     title: t("SHORT_BREAK"),
+        //     field: "short_break",
+        //     status: "200",
+        // },
         {
             title: t("ERROR_CODE"),
             field: "error_code",
@@ -109,11 +109,11 @@ export default function DimonaOverview() {
             field: "dimona_status",
             status: "200",
         },
-        {
-            title: t("REASON"),
-            field: "reason",
-            status: "200",
-        },
+        // {
+        //     title: t("REASON"),
+        //     field: "reason",
+        //     status: "200",
+        // },
     ]
 
     useEffect(() => {
