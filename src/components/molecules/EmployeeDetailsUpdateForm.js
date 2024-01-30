@@ -329,7 +329,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 OnSave={onSave} mealVoucherList
                 setRefId={setRefId}
             ></FormsNew>}
-            <div className="col-md-12 mb-3 text-right pr-5">
+            <div className="col-md-12 mb-2 fixed-bottom position-absolute  text-right pr-5">
                 <CustomButton buttonName={t("SAVE")} ActionFunction={() => { onSave() }} CustomStyle=""></CustomButton>
                 <CustomButton buttonName={t("CANCEL")} ActionFunction={() => { setShowAddress(false); setShowDetails(false); setShowExtraBenefits(false) }} CustomStyle="mr-3"></CustomButton>
             </div>

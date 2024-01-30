@@ -460,7 +460,7 @@ li,
 /* React Tabs css*/
 .react-tabs__tab-list {
   margin: 0px !important;
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .company-tab-width {
@@ -1395,4 +1395,7 @@ tr th:last-child {
 
 .w-12 {
   width: 12%;
+}
+table th{
+  padding:16px !important;
 }
