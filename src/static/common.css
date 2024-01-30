@@ -802,7 +802,8 @@ textarea {
 
 .time-picker {
   position: absolute;
-  bottom: 70%;
+  top: 100%;
+  z-index: 9999;
   background-color: white;
 }
 
@@ -920,7 +921,6 @@ html .ui-button.ui-state-disabled:active {
   padding: 0.2em 0.3em 0.2em 0.5em;
   width: 2.2em;
   cursor: pointer;
-  text-align: right;
   text-decoration: none;
 }
 
@@ -1147,7 +1147,8 @@ html .ui-button.ui-state-disabled:active {
   overflow-y: auto;
 }
 
-.uurrooster_table table thead th, .uurrooster_table table tbody td {
+.uurrooster_table table thead th,
+.uurrooster_table table tbody td {
   text-align: center;
 }
 
@@ -1381,4 +1382,3 @@ tr th:last-child {
 .add_leave_popup > div > div:nth-child(1) {
   overflow: unset !important;
 }
-
