@@ -1,18 +1,54 @@
 import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import RadioInput from "../atoms/formFields/RadioInput";
-import { getFormattedRadioOptions } from "../../utilities/CommonFunctions";
+import { getFormattedRadioOptions, GetReversedDate } from "../../utilities/CommonFunctions";
 import { t } from "../../translations/Translation";
 
-export default function AddEmployeeContractTypes({ options, employeeContracts, setEmployeeContracts, selectedEmpTypeCategory, setSelectedEmpTypeCategory, displaySubType, setDisplaySubType }) {
+export default function AddEmployeeContractTypes({ options, employeeContracts, setEmployeeContracts, selectedEmpTypeCategory, setSelectedEmpTypeCategory, displaySubType, setDisplaySubType, }) {
+
+    const [longTermDimona, setLongTermDimona] = useState(false)
+    const [startDateWarning, setStartDateWarning] = useState("")
+
+    const startdateWarning = (date) => {
+        if (date !== null) {
+            let reverseDate = GetReversedDate(date)
+            let modifiedDate = new Date(reverseDate)
+            let currentDate = new Date();
+            if (modifiedDate < currentDate) {
+                setStartDateWarning(t("YOU_ARE_ENTERING_PAST_DATE"))
+            } else if (modifiedDate >= currentDate) {
+                setStartDateWarning("")
+            }
+        }
+    }
+
+    const checkboxList = [
+        {
+            key: "long_term_dimona",
+            name: t("DO_YOU_WANT_TO_SEND_LONGTERM_DIMONA"),
+        }
+    ]
+
+    const changeCheckbox = (type) => {
+        setLongTermDimona(!longTermDimona)
+        let newData = { ...employeeContracts }
+        newData.long_term_dimona = !longTermDimona
+        setEmployeeContracts(newData)
+        if (!longTermDimona && employeeContracts.start_date !== "") {
+            startdateWarning(employeeContracts.start_date)
+        } else {
+            setStartDateWarning("")
+        }
+    }
 
     const contractFields = [
         { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", required: true, type: "text", style: "col-md-6 pl-0 float-left" },
         { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", required: true, type: "text", style: "col-md-6 float-left" },
+        { title: "", required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, checked: longTermDimona, style: 'col-md-6 mt-4 pl-0 float-left' },
     ]
 
     const ContractDateFields = [
-        { title: t("CONTRACT_START_DATE"), name: "start_date", required: true, type: "date", style: "col-md-6 pl-0 mt-4 float-left" },
+        { title: t("CONTRACT_START_DATE"), name: "start_date", required: true, type: "date", style: startDateWarning ? "col-md-12 pl-0 mt-4 float-left" : "col-md-6 pl-0 mt-4 float-left", warning: startDateWarning },
         { title: t("CONTRACTS_END_DATE"), name: "end_date", required: false, type: "date", style: "col-md-6 mt-4 float-left" },
     ]
 
@@ -22,6 +58,9 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
         const employeeContractsData = { ...employeeContracts };
         if (field !== 'dropdown') {
             employeeContractsData[name] = value
+            if (name === 'start_date' && longTermDimona) {
+                startdateWarning(value)
+            }
         }
         setEmployeeContracts(employeeContractsData);
     }
