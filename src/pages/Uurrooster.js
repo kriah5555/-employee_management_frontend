@@ -241,7 +241,7 @@ export default function Uurrooster() {
                                 return (
                                     <tr>
                                         {val.workstation_name && <td rowspan={val.count} className="text-truncate" title={val.workstation_name}>{val.workstation_name}</td>}
-                                        {val.employee_name && <td className="text-left text-truncate" rowspan={val.count_2}><span className="mr-3" title={val.employee_type}><EmployeeType_icon IconColour={val.employee_type_color} width="25" height="25" /></span><span title={val.employee_name}>{val.employee_name}</span><div className="text-center">{val.absence_status && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
+                                        {val.employee_name && <td className="text-left text-truncate" rowspan={val.count_2}><span className="mr-3" title={val.employee_type}><EmployeeType_icon IconColour={val.employee_type_color} width="25" height="25" /></span><span title={val.employee_name}>{val.employee_name}</span><div className="text-center">{val.leave && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
                                         {val.function_name && <td rowspan={val.count_2} className="text-truncate" title={val.function_name}>{val.function_name}</td>}
                                         {val.start_time && <td rowspan={val.count_2}>{val.start_time}</td>}
                                         {<td>{val.actual_start_time}</td>}

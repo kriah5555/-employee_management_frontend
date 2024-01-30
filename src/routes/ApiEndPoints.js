@@ -96,6 +96,7 @@ export const CreateShiftPlanApiUrl = BASE_URL + '/masterdata/create-shift-plan'
 // Oth planning api urls
 export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
 export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
+export const GetAllOthPlansApiUrl = BASE_URL + '/masterdata/get-all-long-term-plannings'
 export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
 
 // My account api urls

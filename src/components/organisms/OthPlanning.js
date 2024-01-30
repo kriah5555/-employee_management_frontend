@@ -6,7 +6,7 @@ import Switch from "../atoms/Switch";
 import BackIcon from "../../static/icons/BackIcon.png"
 import OthPlanForm from "../molecules/OthPlanForm";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { CreateOthPlanApiUrl, GetOthPlansApiUrl } from "../../routes/ApiEndPoints";
+import { CreateOthPlanApiUrl, GetAllOthPlansApiUrl, GetOthPlansApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import Table from "../atoms/Table";
@@ -24,10 +24,15 @@ export default function OthPlanning() {
     const [warningMessage, setWarningMessage] = useState('');
     const [dataRefresh, setDataRefresh] = useState(false);
     const [createstate, setCreatestate] = useState(false);
+    const [objectId, setObjectId] = useState('');
 
 
     useEffect(() => {
-        AXIOS.service(GetOthPlansApiUrl + params.eid, 'GET')
+        let ApiUrl = GetAllOthPlansApiUrl
+        if (params.eid) {
+            ApiUrl = GetOthPlansApiUrl + params.eid
+        }
+        AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
                     // setDataRefresh(!dataRefresh);
@@ -94,7 +99,12 @@ export default function OthPlanning() {
 
     const viewAction = (data, action) => {
         if (action === 'edit') {
-            navigate('/update-oth-plans/' + params.eid + '/' + data.id)
+            if (params?.eid === undefined) {
+                setCreatestate(true)
+                setObjectId(data.id)
+            } else {
+                navigate('/update-oth-plans/' + params.eid + '/' + data.id)
+            }
         } else {
             setDeleteUrl(CreateOthPlanApiUrl + '/' + data.id)
             setWarningMessage(t('DELETE_OTH_WARNING'))
@@ -134,7 +144,7 @@ export default function OthPlanning() {
                     <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
                 </div>
             </div >}
-            {createstate && <AddOthPlans></AddOthPlans>}
+            {createstate && <AddOthPlans setCreatestate={setCreatestate} objectId={objectId}></AddOthPlans>}
         </>
     )
 }

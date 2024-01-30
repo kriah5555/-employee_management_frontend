@@ -12,10 +12,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 
-export default function AddOthPlans() {
+export default function AddOthPlans({ setCreatestate, objectId }) {
 
     let params = useParams();
     const navigate = useNavigate();
+    let object_id = params.id ? params.id : objectId
 
 
     const [othPlanData, setOthPlanData] = useState({
@@ -56,6 +57,11 @@ export default function AddOthPlans() {
         AXIOS.service(GetEmployeesApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
+                    // if (object_id) {
+                    //     result.data?.map((val, i) => {
+                    //         if (val.value === )
+                    //     })
+                    // }
                     setEmployeeList(result.data)
                 } else {
                     setErrors(result.message)
@@ -93,8 +99,8 @@ export default function AddOthPlans() {
     }, [])
 
     useEffect(() => {
-        if (params.id) {
-            AXIOS.service(CreateOthPlanApiUrl + '/' + params.id, 'GET')
+        if (object_id) {
+            AXIOS.service(CreateOthPlanApiUrl + '/' + object_id, 'GET')
                 .then((result) => {
                     if (result?.success) {
                         let oth = { ...othPlanData }
@@ -262,8 +268,8 @@ export default function AddOthPlans() {
     ]
 
     const OnSave = () => {
-        let method = params.id ? 'PUT' : 'POST'
-        let url = params.id ? CreateOthPlanApiUrl + '/' + params.id : CreateOthPlanApiUrl
+        let method = object_id ? 'PUT' : 'POST'
+        let url = object_id ? CreateOthPlanApiUrl + '/' + object_id : CreateOthPlanApiUrl
         AXIOS.service(url, method, othPlanData)
             .then((result) => {
                 if (result?.success) {
@@ -282,20 +288,21 @@ export default function AddOthPlans() {
                     if (params.eid) {
                         navigate('/oth-planning/' + params.eid)
                     } else {
-                        setOthPlanData({
-                            "employee_id": params.eid,
-                            "start_date": "",
-                            "end_date": "",
-                            "workstation_id": '',
-                            "location_id": '',
-                            "repeating_week": 1,
-                            "auto_renew": false,
-                            "plannings": []
-                        });
-                        setSelectedEmployees('')
-                        setSelectedLocation('');
-                        setSelectedWorkstation('');
-                        setSelectedRepeatation({ value: 1, label: '1' });
+                        // setOthPlanData({
+                        //     "employee_id": params.eid,
+                        //     "start_date": "",
+                        //     "end_date": "",
+                        //     "workstation_id": '',
+                        //     "location_id": '',
+                        //     "repeating_week": 1,
+                        //     "auto_renew": false,
+                        //     "plannings": []
+                        // });
+                        // setSelectedEmployees('')
+                        // setSelectedLocation('');
+                        // setSelectedWorkstation('');
+                        // setSelectedRepeatation({ value: 1, label: '1' });
+                        setCreatestate(false)
                     }
                 } else {
                     setErrors(result.message)
@@ -318,6 +325,7 @@ export default function AddOthPlans() {
                 <div className="d-flex justify-content-between bg-white">
                     <h4 className="py-2 px-3 bg-white">
                         {params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>}
+                        {params?.eid === undefined && <img className="shortcut-icon mr-2 mb-1" onClick={() => setCreatestate(false)} src={BackIcon}></img>}
                         {t('ADD_OTH')}</h4>
                     <Switch label={t("RENEW_OTH")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setAutoOn(!autoOn)} checked={autoOn} />
                 </div>
