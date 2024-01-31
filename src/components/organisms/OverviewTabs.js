@@ -26,7 +26,8 @@ export default function OverviewTabs({ setCompany }) {
     const [TabsData, setTabsData] = useState([{ tabHeading: t("COMPANY"), tabName: 'company' }])
 
     const [companySelected, setCompanySelected] = useState(false);
-    const [isArchived, setIsArchived] = useState(false)
+    const [isArchived, setIsArchived] = useState(false);
+    const [showAllCompanies, setShowAllCompanies] = useState(false);
 
     useEffect(() => {
         if (window.location.hash !== '' && window.location.hash !== '#') {
@@ -152,7 +153,8 @@ export default function OverviewTabs({ setCompany }) {
 
                     {addIcon && <div className=" border-0  add_company_block">
                         <div className="d-flex justify-content-end mx-3">
-                            {addTitle === t("ADD_COMPANY") && <div><Switch label={"Archived"} id="switch3" lableClick={true} styleClass="text-nowrap mb-0 pr-3 " onChange={getArchived} ></Switch></div>}
+                            {addTitle === t("ADD_COMPANY") && !isArchived && <div><Switch label={"Show all the companies"} id="switch4" lableClick={true} styleClass="text-nowrap mb-0 pr-3 " checked={showAllCompanies} onChange={() => setShowAllCompanies(!showAllCompanies)} ></Switch></div>}
+                            {addTitle === t("ADD_COMPANY") && <div><Switch label={"Archived"} id="switch3" lableClick={true} styleClass="text-nowrap mb-0 px-3 " onChange={() => setIsArchived(!isArchived)} checked={isArchived}></Switch></div>}
                             {addTitle !== t("ADD_COMPANY") && <div><p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p></div>}
                             {<div className="align-self-center"><a href={addUrl}><span className="mb-0 text-nowrap mt-5 add_btn">{addIcon}<span>{addTitle}</span></span></a></div>}
                             {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
@@ -166,7 +168,7 @@ export default function OverviewTabs({ setCompany }) {
 
             <div>
                 {!companySelected && <TabPanel>
-                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected} isArchived={isArchived}></CompanyOverviews></div>
+                    <div className="tablescroll"><CompanyOverviews setCompany={setCompany} overviewContent={'company'} setCompanySelected={setCompanySelected} isArchived={isArchived} showAllCompanies={showAllCompanies}></CompanyOverviews></div>
                 </TabPanel>}
 
                 <TabPanel>

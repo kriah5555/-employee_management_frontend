@@ -455,6 +455,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                         <Dropdown
                                                             CustomStyle="col-md-8 p-0"
                                                             options={getFormattedDropdownOptions(ws.shifts, 'id', 'time')}
+                                                            selectedOptions={shiftId}
                                                             onSelectFunction={(e) => setShiftId(e)}
                                                         ></Dropdown>
                                                         <img className="shortcut-icon ml-2" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
