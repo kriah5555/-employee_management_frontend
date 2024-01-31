@@ -77,6 +77,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             'week': weekNumber,
             'year': year
         }
+        setWeekData([])
 
         AXIOS.service(GetWeeklyPlanningApiUrl, 'POST', requestData)
             .then((result) => {
@@ -106,7 +107,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
             })
     }, [dataRefresh, weekNumber, locId])
 
-    const GetEmployeePlans = (eid, ws) => {
+    const GetEmployeePlans = (eid, ws, index) => {
         let requestData = {
             'location': locId,
             'workstations': wsIds,
@@ -127,8 +128,10 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                             let employees = [...val.employee]
                             let addStatus = false
                             if (employees?.length === 0) {
-                                employees.push(result.data)
+                                employees[0] = result.data
                                 val.employee = employees
+                                week_data[i] = val
+
                             } else {
                                 employees.map((empData, j) => {
                                     if (empData.employee_id !== undefined) {
@@ -136,16 +139,21 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             addStatus = true
                                             employees[j] = result.data
                                             val.employee = employees
+                                            week_data[i] = val
                                         }
+
                                     } else {
-                                        if (j === createIndex && !addStatus) {
+                                        if ((j === createIndex || j === index) && !addStatus) {
                                             employees[j] = result.data
                                             val.employee = employees
+                                            week_data[i] = val
                                         }
                                         if (j === createIndex && addStatus) {
                                             employees.splice(j, 1)
                                             val.employee = employees
+                                            week_data[i] = val
                                         }
+
                                     }
                                 })
                             }
@@ -287,7 +295,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                             if (result?.success) {
                                 if (result.plan_created) {
                                     // setDataRefresh(!dataRefresh);
-                                    GetEmployeePlans(eid, ws)
+                                    GetEmployeePlans(eid, ws, ws_emp_index)
                                     toast.success(result.message[0], {
                                         position: "top-center",
                                         autoClose: 2000,
@@ -310,6 +318,17 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                     }
                                     setPlanningDetails(planData[date]['planning'])
                                 }
+                            } else {
+                                toast.error(result.message[0], {
+                                    position: "top-center",
+                                    autoClose: 2000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "colored",
+                                });
                             }
                         })
                         .catch((error) => {
