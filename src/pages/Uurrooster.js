@@ -230,7 +230,7 @@ export default function Uurrooster() {
                             <tr>
                                 <th>{t('PLANNING_TITLE')}</th>
                                 <th>{t('STARTED_TITLE')}</th>
-                                <th>{t('Dimona')}</th>
+                                <th>{t('DIMONA')}</th>
                                 <th>{t('PLANNING_TITLE')}</th>
                                 <th>{t('STOPPED_TITLE')}</th>
                                 <th>{t('DIMONA')}</th>

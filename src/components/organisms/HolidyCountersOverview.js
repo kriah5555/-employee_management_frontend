@@ -91,7 +91,7 @@ export default function CountersOverview({ type, eid }) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [dataRefresh])
+    }, [dataRefresh, eid])
 
     const setValue = (index, value, name) => {
         let newData = [...formData]
