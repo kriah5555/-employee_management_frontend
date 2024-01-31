@@ -208,7 +208,7 @@ export const GET_CONSTANTS = {
     'REPETATION': 'Repetation',
     'OTH_PLANNING': 'Oth planning',
 
-    // Manage employees 
+    // Manage employees
     'EMPLOYEES_TITLE': 'Employees',
     'CREATE_EMPLOYEE': 'Create employee',
     'EMAIL_FORWARD': 'Forward email',
@@ -645,6 +645,9 @@ export const GET_CONSTANTS = {
     'SEND_DIMONA':'Send dimona',
     'PLAN_TIMINGS': 'Plan timings',
     'DIMONA_ERROR_CODES':'Dimona error codes',
+    'DIMONA_START': 'Dimona start',
+    'DIMONA_END':'Dimona end',
+    'DECLARATION_TYPE': 'Declaration type',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE':'Activate on this device',

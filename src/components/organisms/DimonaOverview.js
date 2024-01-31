@@ -10,8 +10,8 @@ import { GetDimonaApiUrl, GetDimonaDetailsApiUrl } from "../../routes/ApiEndPoin
 
 export default function DimonaOverview() {
 
-    const [typeList, setTypeList] = useState([{ value: 'plan', label: 'Plan' }, { value: 'longterm', label: 'Long term' }]);
-    const [selectedType, setSelectedType] = useState({ value: 'plan', label: 'Plan' });
+    const [typeList, setTypeList] = useState([{ value: 'all', label: 'All' }, { value: 'plan', label: 'Plan' }, { value: 'long_term', label: 'Long term' }]);
+    const [selectedType, setSelectedType] = useState({ value: 'all', label: 'All' });
     const [manageStatus, setManageStatus] = useState(true);
     const [manageListData, setManageListData] = useState([]);
     const [detailsListData, setDetailsListData] = useState({});
@@ -22,7 +22,7 @@ export default function DimonaOverview() {
     const [formattedData, setFormattedData] = useState({
         "from_date": currentDate,
         "to_date": currentDate,
-        "type": 'plan'
+        "type": 'all'
     })
 
     const manage_header = [
@@ -37,12 +37,17 @@ export default function DimonaOverview() {
             status: "200",
         },
         {
-            title: t("PLAN_START_TIME"),
+            title: t("DIMONA_TYPE"),
+            field: "type",
+            status: "200",
+        },
+        {
+            title: t("DIMONA_START"),
             field: "start",
             status: "200",
         },
         {
-            title: t("PLAN_END_TIME"),
+            title: t("DIMONA_END"),
             field: "end",
             status: "200",
         },
@@ -70,8 +75,8 @@ export default function DimonaOverview() {
 
     const detail_header = [
         {
-            title: t("DIMONA_TYPE"),
-            field: "dimona_type",
+            title: t("DECLARATION_TYPE"),
+            field: "declaration_type",
             status: "200",
         },
         {
@@ -205,7 +210,7 @@ export default function DimonaOverview() {
                         <label className="mb-0 font-weight-bold">{t("WORKED_DATE") + ':'}</label>
                         <p className="pl-2 mb-0">{detailsListData?.dimona_sent_date}</p>
                     </div>
-                    {/* 
+                    {/*
                     <div className="col-md-2 row mt-2 m-0">
                         <label className="mb-0 font-weight-bold">{t("PLANNED_DATE") + ':'}</label>
                         <p className="pl-2 mb-0">{'18-01-2024'}</p>
