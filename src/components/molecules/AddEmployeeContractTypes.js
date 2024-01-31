@@ -14,9 +14,9 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
             let reverseDate = GetReversedDate(date)
             let modifiedDate = new Date(reverseDate)
             let currentDate = new Date();
-            if (modifiedDate < currentDate) {
+            if (modifiedDate.getDate() < currentDate.getDate()) {
                 setStartDateWarning(t("YOU_ARE_ENTERING_PAST_DATE"))
-            } else if (modifiedDate >= currentDate) {
+            } else if (modifiedDate.getDate() >= currentDate.getDate()) {
                 setStartDateWarning("")
             }
         }
