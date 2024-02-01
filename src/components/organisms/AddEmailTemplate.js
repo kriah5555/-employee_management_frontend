@@ -166,7 +166,7 @@ export default function AddEmailTemplate() {
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white ">
+            <div className="company-tab-width company_creation mt-2 mb-3 mx-auto border bg-white add_contracts_body ">
                 <FormsNew
                     formTitle="email_template"
                     view='email template'

@@ -29,7 +29,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         value={field1.value}
                         setValue={(e) => SetValues(e, 1)}
                         error={error1}
-                        styleMargin={error1 ? '' : (view === 'group_function' ? 'my-2' : 'mt-2 mb-1')}
+                        styleMargin={error1 ? '' : (view === 'group_function' ? '' : '')}
                     ></TextInput>
 
                     {view !== 'employee_types' && view !== 'group_function' && view !== 'contract_type' &&
@@ -41,7 +41,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                             value={field2.value}
                             setValue={(e) => SetValues(e, 2)}
                             error={error2}
-                            styleMargin={error2 ? 'mt-2 mb-1' : 'my-2'}
+                            styleMargin={error2 ? '' : ''}
                         ></TextInput>
                     }
                     {<Dropdown
@@ -53,7 +53,7 @@ export default function Forms({ formTitle, redirectURL, changeCheckbox, checkbox
                         required={field3.required}
                         isMulti={field3.isMulti}
                         error={error3}
-                        styleMargin={error2 ? '' : 'my-2'}
+                        styleMargin={error2 ? '' : ''}
                     ></Dropdown>}
 
                     {view !== 'functions' && view !== 'contract_type' && <Dropdown

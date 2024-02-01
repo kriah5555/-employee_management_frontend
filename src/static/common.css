@@ -268,6 +268,7 @@ li,
   background-color: #61bfb5;
   border: #61bfb5;
   text-transform: capitalize;
+  
 }
 
 /* for add-company form */
@@ -460,7 +461,7 @@ li,
 /* React Tabs css*/
 .react-tabs__tab-list {
   margin: 0px !important;
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .company-tab-width {
@@ -480,8 +481,9 @@ li,
   bottom: 1px;
   padding: 12px 12px;
   text-align: center;
-  width: 11% !important;
+  width: max-content !important;
   background-color: white;
+  min-width: 11%;
 }
 
 .react-tabs__tab-panel--selected {
@@ -973,6 +975,9 @@ html .ui-button.ui-state-disabled:active {
   background-color: #e8f8f3;
   color: #003f54 !important;
 }
+.custom-calendar + div ,.custom-calendar {
+  z-index: 9999999 !important;
+}
 
 .rmdp-container .custom-calendar.ep-arrow[direction="bottom"] {
   border-top: 1px solid bisque;
@@ -1002,7 +1007,7 @@ html .ui-button.ui-state-disabled:active {
   border-color: #003f54 !important;
 }
 
-.rmdp-input {
+.rmdp-input{
   /* border: 1px solid #61bfb5 !important;
     background-color: #E8F8F3 !important; */
   border-radius: 5px;
@@ -1026,7 +1031,7 @@ html .ui-button.ui-state-disabled:active {
   color: #003f54 !important;
 }
 
-.rmdp-today span:not(.highlight){
+.rmdp-today span:not(.highlight) {
   background-color: #003f54 !important;
   box-shadow: 0 0 3px #61bfb5;
   color: #fff !important;
@@ -1116,7 +1121,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .planning_body {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 170px);
   display: flex;
   flex-direction: column;
 }
@@ -1186,12 +1191,22 @@ html .ui-button.ui-state-disabled:active {
   overflow: auto;
 }
 
+.oth_form_planning{
+  height: 58vh;
+  overflow-y: auto;
+}
+
 @media (max-width: 1400px) {
   body,
   html {
     font-size: 14px !important;
   }
 
+  .oth_form_planning{
+    height: 54vh;
+    overflow-y: auto;
+  }
+  
   .dashboard-icon {
     width: 3.5rem;
     height: 6rem;
@@ -1264,6 +1279,12 @@ html .ui-button.ui-state-disabled:active {
   .shortcut-menu {
     right: 46%;
   }
+
+  .oth_form_planning{
+    height: 52vh;
+    overflow-y: auto;
+  }
+  
 }
 
 @media (max-width: 1718px) {
@@ -1395,4 +1416,8 @@ tr th:last-child {
 
 .w-12 {
   width: 12%;
+}
+
+.form-control{
+  min-height: 38px;
 }

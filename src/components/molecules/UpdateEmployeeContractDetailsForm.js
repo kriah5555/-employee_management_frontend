@@ -198,7 +198,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
 
     let commonDataFieldsArray = [
         { title: t("EMPLOYEE_TYPE"), name: "employee_type", type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, required: true, isDisabled: true, style: "col-md-6 float-left" },
-        { title: t("SUB_TYPE"), name: "sub_type", type: "dropdown", options: subTypeList, selectedOptions: subType, required: true, isDisabled: true, style: "col-md-6 float-left mt-2" },
+        { title: t("SUB_TYPE"), name: "sub_type", type: "dropdown", options: subTypeList, selectedOptions: subType, required: true, isDisabled: true, style: "col-md-6 float-left " },
         { title: t("START_DATE"), name: "start_date", type: "date", disabled: true, style: "col-md-6 float-left  mt-2" },
         { title: t("END_DATE"), name: "end_date", type: "date", disabled: (data.end_date) ? true : false, style: "col-md-6 float-left mt-2" },
         { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },

@@ -124,7 +124,7 @@ export default function AddInterimAgency() {
     const interimAgencyFields = [
         // Interim agency fields
         { title: t("NAME_TEXT"), name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: t("COMPANIES_TEXT"), name: 'companies', required: false, options: companiesList, selectedOptions: companies, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("COMPANIES_TEXT"), name: 'companies', required: false, options: companiesList, selectedOptions: companies, isMulti: true, type: 'dropdown', style: "col-md-6 mt-4 float-left" },
         { title: t("EMAIL"), name: 'email', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
         { title: t("EMPLOYER_ID"), name: 'employer_id', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },
         { title: t("SENDER_NUMBER"), name: 'sender_number', required: false, type: 'text', style: "col-md-6 mt-4 float-left" },

@@ -150,8 +150,8 @@ export default function DimonaOverview() {
 
     const filterData = [
         { title: t("TYPE"), name: 'type', required: false, options: typeList, selectedOptions: selectedType, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
-        { title: t("FROM_DATE"), name: 'from_date', required: false, type: 'date', style: "col-md-3 mt-3 float-left" },
-        { title: t("TO_DATE"), name: 'to_date', required: false, type: 'date', style: "col-md-3 mt-3 float-left" },
+        { title: t("FROM_DATE"), name: 'from_date', required: false, type: 'date', style: "col-md-3 float-left" },
+        { title: t("TO_DATE"), name: 'to_date', required: false, type: 'date', style: "col-md-3 float-left" },
     ]
 
     const setValues = (index, name, value, field) => {

@@ -17,6 +17,7 @@ export default function DateInput({ title, name, required, CustomStyle, value, s
                     weekStartDayIndex={1}
                     placeholder={placeholder}
                     onOpenPickNewDate={false}
+                    portal={true} // Using portal to render calendar outside of the current DOM hierarchy
                 />
             </div>
         </div>
