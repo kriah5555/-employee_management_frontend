@@ -38,7 +38,7 @@ import EmployeeBasicDetails from '../components/organisms/EmployeeBasicDetails';
 import SocialSecretaryAndReportingConfigurationOverview from "../components/organisms/SocialSecretaryAndReportingConfigurationOverview"
 import AddTaxes from "../components/molecules/AddTaxes"
 import AddSalaryCoefficient from '../components/molecules/AddSalaryCoefficient';
-import FileUploadTest from '../components/molecules/FileUploadTest'
+import ImportStatusOverView from '../components/molecules/ImportStatusOverView'
 
 const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
@@ -113,11 +113,11 @@ const BaseRouter = ({ setAuth, setCompany }) => (
         <Route exact path='/add-public-holiday/:id' element={<AddPublicHoliday></AddPublicHoliday>} />
 
         <Route exact path='/manage-social-secretary-and-reporting-configurations/:type' element={<SocialSecretaryAndReportingConfigurationOverview></SocialSecretaryAndReportingConfigurationOverview>} />
-        <Route exact path= '/add-taxes' element={<AddTaxes></AddTaxes>}/>
-        <Route exact path= '/add-taxes/:id' element={<AddTaxes></AddTaxes>}/>
-        <Route exact path= '/add-salary-coefficient' element={<AddSalaryCoefficient></AddSalaryCoefficient>}/>
-        <Route exact path= '/add-salary-coefficient/:id' element={<AddSalaryCoefficient></AddSalaryCoefficient>}/>
-        <Route exact path= '/file-upload' element={<FileUploadTest></FileUploadTest>}/>
+        <Route exact path='/add-taxes' element={<AddTaxes></AddTaxes>} />
+        <Route exact path='/add-taxes/:id' element={<AddTaxes></AddTaxes>} />
+        <Route exact path='/add-salary-coefficient' element={<AddSalaryCoefficient></AddSalaryCoefficient>} />
+        <Route exact path='/add-salary-coefficient/:id' element={<AddSalaryCoefficient></AddSalaryCoefficient>} />
+        <Route exact path='/import-employees' element={<ImportStatusOverView></ImportStatusOverView>} />
 
     </Routes>
 );
