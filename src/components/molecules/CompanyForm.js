@@ -62,7 +62,7 @@ export default function CompanyForm({ view, data1, data2, data3, title1, title2,
                                     options={field.options}
                                     selectedOptions={!field.isMulti || view === "multi" ? field.selectedOptions[index] : field.selectedOptions}
                                     onSelectFunction={(e) => SetValues(index, field.name, e, field.type)}
-                                    CustomStyle="col-md-6 mt-2 float-left"
+                                    CustomStyle="col-md-6 mt-4 float-left"
                                     title={field.title}
                                     required={field.required}
                                     isMulti={field.isMulti}
@@ -122,7 +122,7 @@ export default function CompanyForm({ view, data1, data2, data3, title1, title2,
                                     options={field.options}
                                     selectedOptions={field.selectedOptions[index]}
                                     onSelectFunction={(e) => SetValues(index, field.name, e, field.type)}
-                                    CustomStyle="col-md-6 mt-2 float-left"
+                                    CustomStyle="col-md-6 mt-4 float-left"
                                     title={field.title}
                                     required={field.required}
                                     isMulti={field.isMulti}
@@ -159,7 +159,7 @@ export default function CompanyForm({ view, data1, data2, data3, title1, title2,
                                     options={field.options}
                                     selectedOptions={field.selectedOptions}
                                     onSelectFunction={(e) => SetValues(index, field.name, e, field.type)}
-                                    CustomStyle="col-md-6 mt-2 float-left"
+                                    CustomStyle="col-md-6 mt-4 float-left"
                                     title={field.title}
                                     required={field.required}
                                     isMulti={field.isMulti}

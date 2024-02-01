@@ -195,7 +195,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
     ]
 
     return (
-        <section>
+        <section className="position-sticky fixed-top">
             {isCompanyIdEmpty && <Popup
                 body={
                     // companyList.length !== 0 ?

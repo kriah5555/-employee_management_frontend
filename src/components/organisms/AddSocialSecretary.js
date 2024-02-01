@@ -128,7 +128,7 @@ export default function AddSocialSecretary() {
         }
     }
     return (
-        <div className="right-container">
+        <div className="right-container add_public_holidays">
             {/* {successMessage && <ModalPopup
             title={('SUCCESS')}
             body={(successMessage)}
