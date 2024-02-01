@@ -39,7 +39,7 @@ export default function EmployeeDocumentsOverview({ eid }) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [])
+    }, [eid])
 
 
     const viewAction = (data, action) => {

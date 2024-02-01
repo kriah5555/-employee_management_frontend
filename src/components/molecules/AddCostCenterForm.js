@@ -103,7 +103,7 @@ export default function AddCostCenterForm() {
                         });
                         setEmployees(response?.employees || [])
                         let selected_employees = []
-                        response.employees_value?.map((val, i) => {
+                        response.employees?.map((val, i) => {
                             selected_employees.push(val.value)
                         })
                         let data = [{

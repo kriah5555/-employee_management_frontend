@@ -63,7 +63,7 @@ export default function PlanningOverview() {
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
-    const [showlocationPopup, setLocationPopup] = useState(true)
+    const [showlocationPopup, setLocationPopup] = useState(false)
 
     // Planning overview tab list data
     const TabsData = [
@@ -79,6 +79,10 @@ export default function PlanningOverview() {
                     setSelectedLocation(result.data.locations?.length === 1 ? result.data.locations[0] : '');
                     monthlyData['location'] = result.data.locations?.length === 1 ? result.data.locations[0].value : ''
                     setLocationArr(result.data.locations);
+                    if (result.data.locations.length >=1) {
+                        setLocationPopup(true)
+                    }
+
                     setWorkstationArr(result.data.workstations)
                     setEmployeeTypeArr(result.data.employee_types);
                 }

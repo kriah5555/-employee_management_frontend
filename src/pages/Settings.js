@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import GenderIcon from "../static/icons/Gender.svg";
 import MaritalStatusIcon from "../static/icons/MaritalStatus.svg";
 import MealVoucherIcon from "../static/icons/MealVoucher.svg";
+import CommuteTypeIcon from "../static/icons/commute.png";
+import DimonaErrorCodeIcon from "../static/icons/DimonaErrorCode.svg";
 import { t } from "../translations/Translation";
 import { ToastContainer } from 'react-toastify';
 import ErrorPopup from "../utilities/popup/ErrorPopup";
@@ -28,7 +30,8 @@ export default function Settings() {
         { title: t('GENDER'), icon: GenderIcon, styleClass: subTabStyle, url: '', type: 'gender' },
         { title: t('MARITAL_STATUS'), icon: MaritalStatusIcon, styleClass: subTabStyle, url: '', type: 'marital_status' },
         { title: t('MEAL_VOUCHERS'), icon: MealVoucherIcon, styleClass: subTabStyle, url: '', type: 'meal_vouchers' },
-        { title: t('COMMUTE_TYPES'), icon: MealVoucherIcon, styleClass: subTabStyle, url: '', type: 'commute_types' },
+        { title: t('COMMUTE_TYPES'), icon: CommuteTypeIcon, styleClass: subTabStyle, url: '', type: 'commute_types' },
+        { title: t('DIMONA_ERROR_CODES'), icon: DimonaErrorCodeIcon, styleClass: subTabStyle, url: '', type: 'dimona_error_codes' },
     ]
 
     const handleTabClick = (val) => {

@@ -24,6 +24,8 @@ import HolidyCountersOverview from "../organisms/HolidyCountersOverview";
 export default function EmployeeDetails({ eid }) {
 
     const navigate = useNavigate()
+    const [tabIndex, setTabIndex] = useState(0);
+
     const [editStatus, setEditStatus] = useState(false);
     const [toggleOpen, setToggleOpen] = useState(false);
     const [popupOpen, setOpenPopup] = useState(false);
@@ -92,9 +94,16 @@ export default function EmployeeDetails({ eid }) {
     ]
     const countersTypeArray = [
         { counter_type: t("HOLIDAY_COUNTER"), type: "holiday" },
-        // { counter_type: "Leave", type: "leave" },    
+        // { counter_type: "Leave", type: "leave" },
     ]
 
+    useEffect(() => {
+        let hash = window.location.hash
+        if (hash === '#employee_availability') {
+            setTabIndex(4);
+        }
+        window.location.hash = ''
+    }, [])
 
     useEffect(() => {
         AXIOS.service(EmployeeContractApiUrl + '/create', 'GET')
@@ -118,6 +127,7 @@ export default function EmployeeDetails({ eid }) {
                         email: result.data.email,
                         rsz: result.data.social_security_number
                     }
+
                     setBasicDetails(basic_details)
                     setResponse(result.data)
                     let data_left = [
@@ -184,7 +194,7 @@ export default function EmployeeDetails({ eid }) {
                     ]
 
                     let data_left = [
-                        { label: t("SSN"), value: result.data.social_secretary_number },
+                        { label: t("SOCIAL_SECRETARY_NUMBER"), value: result.data.social_secretary_number },
                         { label: t("CONTRACT_NUMBER"), value: result.data.contract_number },
                         { label: t("COMPANY_CAR"), value: benefits?.company_car ? "Yes" : "No" },
                         { label: t("COMPANY_FUEL_CARD"), value: benefits?.fuel_card ? "Yes" : "No" },
@@ -259,7 +269,7 @@ export default function EmployeeDetails({ eid }) {
                 </div>
             </div>
             <div className="col-md-12 p-0 employee-detail">
-                <Tabs onSelect={() => setEditStatus(false)}>
+                <Tabs selectedIndex={tabIndex} onSelect={(index) => {setTabIndex(index); setEditStatus(false)}}>
                     <TabList>
                         {TabsData.map((val) => {
                             return (

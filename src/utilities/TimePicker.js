@@ -13,12 +13,12 @@ export default function TimePicker(props) {
     }, [])
 
     const onHourClick = (formattedHour) => {
-        props.setHourMin(formattedHour + ':' + selectedMinute, props.type, props.index, 1);
+        props.setHourMin(formattedHour + ':' + selectedMinute, props.type, props.index, 99999);
         setSelectedHour(formattedHour);
     }
 
     const onMinuteClick = (formattedMinute) => {
-        props.setHourMin(selectedHour + ':' + formattedMinute, props.type, props.index, 2);
+        props.setHourMin(selectedHour + ':' + formattedMinute, props.type, props.index, 99999);
         setSelectedMinute(formattedMinute)
     }
     return (
@@ -49,14 +49,14 @@ export default function TimePicker(props) {
                     </td>
                     <td className="ui-timepicker-minutes">
                         <div className="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">Minute</div>
-                        <table className="ui-timepicker">
+                        <table className="ui-timepicker w-100 text-center">
                             <tbody>
                                 {[0, 15, 30, 45].map((minute) => {
                                     const formattedMinute = minute < 10 ? `0${minute}` : `${minute}`;
                                     return (
                                         <tr>
                                             <td key={minute} onClick={() => onMinuteClick(formattedMinute)}>
-                                                <a className={props.minute !== formattedMinute ? "ui-state-default" : "ui-state-active"}>{formattedMinute}</a>
+                                                <a className={props.minute !== formattedMinute ? "ui-state-default w-100" : "ui-state-active w-100"}>{formattedMinute}</a>
                                             </td>
                                         </tr>
                                     );

@@ -6,11 +6,12 @@ import Switch from "../atoms/Switch";
 import BackIcon from "../../static/icons/BackIcon.png"
 import OthPlanForm from "../molecules/OthPlanForm";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { CreateOthPlanApiUrl, GetOthPlansApiUrl } from "../../routes/ApiEndPoints";
+import { CreateOthPlanApiUrl, GetAllOthPlansApiUrl, GetOthPlansApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import Table from "../atoms/Table";
 import ModalPopup from "../../utilities/popup/Popup";
+import AddOthPlans from "./AddOthPlans";
 
 
 
@@ -22,11 +23,16 @@ export default function OthPlanning() {
     const [deleteUrl, setDeleteUrl] = useState('');
     const [warningMessage, setWarningMessage] = useState('');
     const [dataRefresh, setDataRefresh] = useState(false);
-
+    const [createstate, setCreatestate] = useState(false);
+    const [objectId, setObjectId] = useState('');
 
 
     useEffect(() => {
-        AXIOS.service(GetOthPlansApiUrl + params.eid, 'GET')
+        let ApiUrl = GetAllOthPlansApiUrl
+        if (params.eid) {
+            ApiUrl = GetOthPlansApiUrl + params.eid
+        }
+        AXIOS.service(ApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
                     // setDataRefresh(!dataRefresh);
@@ -37,9 +43,14 @@ export default function OthPlanning() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [dataRefresh])
+    }, [dataRefresh, createstate])
 
     const headers = [
+        {
+            title: t("EMPLOYEE_TITLE"),
+            field: 'employee_name',
+            size: 200,
+        },
         {
             title: t("LOCATION_TITLE"),
             field: 'location.label',
@@ -93,7 +104,12 @@ export default function OthPlanning() {
 
     const viewAction = (data, action) => {
         if (action === 'edit') {
-            navigate('/update-oth-plans/' + params.eid + '/' + data.id)
+            if (params?.eid === undefined) {
+                setCreatestate(true)
+                setObjectId(data.id)
+            } else {
+                navigate('/update-oth-plans/' + params.eid + '/' + data.id)
+            }
         } else {
             setDeleteUrl(CreateOthPlanApiUrl + '/' + data.id)
             setWarningMessage(t('DELETE_OTH_WARNING'))
@@ -102,34 +118,38 @@ export default function OthPlanning() {
 
 
     return (
-        <div className="right-container">
-            <div className="company-tab-width mt-3">
-                <ToastContainer
-                    position="top-center"
-                    autoClose={2000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                />
-                {warningMessage && <ModalPopup
-                    title={t("WARNING_TITLE")}
-                    body={(warningMessage)}
-                    onConfirm={DeleteApiCall}
-                    onHide={() => setWarningMessage('')}
-                    close={true}
-                ></ModalPopup>}
-                <div className="d-flex justify-content-between bg-white">
-                    <h4 className="py-2 px-3 bg-white"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>
-                        {t('OTH_TITLE')}</h4>
-                    <a className="my-auto px-3 bg-white mb-0" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>
+        <>
+            {!createstate && <div className={params?.eid ? "right-container" : "col-md-12 p-0"}>
+                <div className={params?.eid ? "company-tab-width mt-3" : "col-md-12 p-0 mt-1"}>
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                    />
+                    {warningMessage && <ModalPopup
+                        title={t("WARNING_TITLE")}
+                        body={(warningMessage)}
+                        onConfirm={DeleteApiCall}
+                        onHide={() => setWarningMessage('')}
+                        close={true}
+                    ></ModalPopup>}
+                    <div className="d-flex justify-content-between bg-white">
+                        <h4 className="py-2 px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>}
+                            {t('OTH_TITLE')}</h4>
+                        {params?.eid && <a className="my-auto px-3 bg-white mb-0 text-color" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
+                        {params?.eid === undefined && <p className="my-auto px-3 bg-white mb-0 text-color pointer" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</p>}
+                    </div>
+                    <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
                 </div>
-                <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
-            </div>
-        </div >
+            </div >}
+            {createstate && <AddOthPlans setCreatestate={setCreatestate} objectId={objectId}></AddOthPlans>}
+        </>
     )
 }

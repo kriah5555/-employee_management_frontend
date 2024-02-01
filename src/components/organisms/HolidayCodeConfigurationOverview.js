@@ -110,7 +110,7 @@ export default function HolidayCodeConfigurationOverview() {
             .then((result) => {
                 if (result?.success) {
                     if (overviewContent === "holiday_code_configuration") {
-                        setCompanyList(getFormattedDropdownOptions(result.data, "id", "company_name"))
+                        setCompanyList(getFormattedDropdownOptions(result.data?.active, "id", "company_name"))
                     } else {
                         setListData(result.data);
                     }

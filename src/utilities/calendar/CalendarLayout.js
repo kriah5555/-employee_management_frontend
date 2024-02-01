@@ -43,7 +43,7 @@ export default function CalendarLayout({ view, planningDates, ChangeTab, setYear
       "period": padTo2Digits(value.getMonth() + 1) + "-" + value.getFullYear()
     }
     getAvailability(data)
-  }, [])
+  }, [eid])
 
 
 
