@@ -94,7 +94,7 @@ export default function EmployeeDetails({ eid }) {
     ]
     const countersTypeArray = [
         { counter_type: t("HOLIDAY_COUNTER"), type: "holiday" },
-        // { counter_type: "Leave", type: "leave" },    
+        // { counter_type: "Leave", type: "leave" },
     ]
 
     useEffect(() => {
