@@ -650,12 +650,15 @@ export const GET_CONSTANTS = {
     'PLAN_TIMINGS': 'Plan timings',
     'DIMONA_ERROR_CODES': 'Dimona error codes',
     'DIMONA_START': 'Dimona start',
-    'DIMONA_END':'Dimona end',
+    'DIMONA_END': 'Dimona end',
     'DECLARATION_TYPE': 'Declaration type',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE': 'Activate on this device',
     'DE_ACTIVATE_ON_THIS_DEVICE': 'De-activate on this device',
     'DE_ACTIVATE_ON_ALL_DEVICES': 'De-activate on all devices',
+    'LOCATION_ACTIVATED_MESSAGE': 'Location activated successfully',
+    'LOCATION_DEACTIVATED_MESSAGE': 'Location deactivated successfully',
+    'LOCATION_DEACTIVATED_ON_ALL_DEVICE': 'Location deactivated on all devices'
 
 };

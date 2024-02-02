@@ -6,13 +6,13 @@ import LinkIcon from "../../static/icons/LinkingSocialSecretaryToHolidayCode.svg
 import MoreIcon from "../../static/icons/menu.png"
 import AcceptIcon from "../../static/icons/Available.svg"
 import RejectIcon from "../../static/icons/Notavailable.svg"
-import MaterialTable from "material-table";
+import MaterialTable, { MTableToolbar } from "material-table";
 import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear } from "@material-ui/icons";
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 import { t } from "../../translations/Translation";
 import HamburgerIcon from "../../static/icons/Hamburger.svg"
-
+// import CustomButton from "./CustomButton";
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose, setDimonaData, isArchived }) {
     // const [rowData, setRowData] = useState(rows);
@@ -158,7 +158,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
             icon: () => getDetailIcon(),
             tooltip: 'actions',
             onClick: (event, rowData) => viewAction(rowData, 'actions'),
-            hidden: (!rowData.parentOnly && tableName === "holiday_overview") ? false : true
+            hidden: (!rowData.parentOnly && tableName === "holiday_overview" || tableName === "location") ? false : true
         }),
     ]
 
@@ -219,8 +219,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                     },
                     toolbar: {
                         nRowsSelected: '', // `${`0`} ${t("ROW")}(s) selected` ,
-                        searchPlaceholder: t("SEARCH_TEXT")
-
+                        searchPlaceholder: t("SEARCH_TEXT"),
                     },
                     header: {
                         actions: t("ACTIONS")

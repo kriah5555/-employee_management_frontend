@@ -153,3 +153,7 @@ export const EmployeeRegistrationApiUrl = BASE_URL + '/masterdata/employee-regis
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 export const fetchTranslations = BASE_URL + '/masterdata/translate';
 export const fetchAllTranslations = BASE_URL + '/masterdata/translations';
+
+export const ValidateLocationDashboardAccessTokenForLocation = BASE_URL + '/masterdata/validate-location-dashboard-access-key';
+export const GetDashboardAccessTokenForLocation = BASE_URL + '/masterdata/get-dashboard-access-key-for-location';
+export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key'
