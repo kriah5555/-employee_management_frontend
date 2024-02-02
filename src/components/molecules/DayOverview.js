@@ -18,7 +18,7 @@ import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
 
 export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
 
-    const times = [t("EMPLOYEE_TITLE"), '', '', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
+    const times = ['02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
     // const times = ['Employee', "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22"];
     let current_time = new Date().toLocaleTimeString("sv", { timeZone: "Europe/Paris", hour: '2-digit', minute: '2-digit' })
 
@@ -253,7 +253,40 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
             </div>
 
             <div className="panning_overview_table">
-                <table className="table table-bordered ">
+
+                {/* custom table for day overview starts */}
+                <div className="table">
+                    {/* custom tabel header starts*/}
+                    <div className="d-flex mt-2 ">
+                        <div className="w-10 border border-2 p-2 thead panning_overview_table_heading">{t("EMPLOYEE_TITLE")}</div>
+                        <div className=" d-flex  border justify-content-evenly w-90 panning_overview_times">
+                            {times.map((time, index) => {
+                                return (
+                                    <div key={time} className=" p-2" >{time}</div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    {/* custom tabel header ends*/}
+
+                    {/* custom table body starts*/}
+                    {dayData.map((employee, i) => {
+                        return (
+                            <div key={i} className="d-flex border">
+                                <div className="text-truncate  w-10 border p-2 panning_overview_table_heading" title={employee.employee_name}>{employee.employee_name}</div>
+                                {/* <div> {employee.employee_id && <span><EmployeeType_icon IconColour={employee.employee_type_colour?employee.employee_type_colour:" #61bfb5"} /></span>}</div> */}
+                                <div colSpan="13" className="p-0 w-90"><PlanChart Plans={employee.plans} dayDate={dayDate} locId={locId} EmpTypeIds={EmpTypeIds} wsIds={wsIds} year={year} setStartStopPlanPopup={setStartStopPlanPopup}></PlanChart></div>
+                            </div>
+                        )
+                    })}
+                    {/* custom table body ends*/}
+                </div>
+                {/* custom table for day overview ends */}
+
+
+
+
+                {/* <table className="table table-bordered ">
                     <thead>
                         <tr>
                             {times.map((time, index) => {
@@ -267,15 +300,15 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         {dayData.map((employee, i) => {
                             return (
                                 <tr key={i}>
-                                    <td className="text-truncate day_overview_name" title={employee.employee_name}>{employee.employee_name}</td> 
-                                    {/* <div> {employee.employee_id && <span><EmployeeType_icon IconColour={employee.employee_type_colour?employee.employee_type_colour:" #61bfb5"} /></span>}</div> */}
+                                    <td className="text-truncate day_overview_name" title={employee.employee_name}>{employee.employee_name}</td>
+                                    {/* <div> {employee.employee_id && <span><EmployeeType_icon IconColour={employee.employee_type_colour?employee.employee_type_colour:" #61bfb5"} /></span>}</div> //*
                                     <td colSpan="13" className="p-0 width-90"><PlanChart Plans={employee.plans} dayDate={dayDate} locId={locId} EmpTypeIds={EmpTypeIds} wsIds={wsIds} year={year} setStartStopPlanPopup={setStartStopPlanPopup}></PlanChart></td>
                                 </tr>
                             )
                         })}
 
                     </tbody>
-                </table>
+                </table> */}
             </div>
         </div>
     )

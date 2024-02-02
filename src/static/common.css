@@ -268,7 +268,6 @@ li,
   background-color: #61bfb5;
   border: #61bfb5;
   text-transform: capitalize;
-  
 }
 
 /* for add-company form */
@@ -975,7 +974,8 @@ html .ui-button.ui-state-disabled:active {
   background-color: #e8f8f3;
   color: #003f54 !important;
 }
-.custom-calendar + div ,.custom-calendar {
+.custom-calendar + div,
+.custom-calendar {
   z-index: 9999999 !important;
 }
 
@@ -1007,7 +1007,7 @@ html .ui-button.ui-state-disabled:active {
   border-color: #003f54 !important;
 }
 
-.rmdp-input{
+.rmdp-input {
   /* border: 1px solid #61bfb5 !important;
     background-color: #E8F8F3 !important; */
   border-radius: 5px;
@@ -1153,6 +1153,14 @@ html .ui-button.ui-state-disabled:active {
   height: calc(100vh - 400px);
 }
 
+.panning_overview_table_heading {
+  font-weight: bold;
+}
+.panning_overview_times {
+  font-weight: bold;
+  padding: 0px 28px !important;
+}
+
 .uurrooster_table {
   height: calc(100vh - 300px);
   overflow-y: auto;
@@ -1191,7 +1199,7 @@ html .ui-button.ui-state-disabled:active {
   overflow: auto;
 }
 
-.oth_form_planning{
+.oth_form_planning {
   height: 58vh;
   overflow-y: auto;
 }
@@ -1202,11 +1210,11 @@ html .ui-button.ui-state-disabled:active {
     font-size: 14px !important;
   }
 
-  .oth_form_planning{
+  .oth_form_planning {
     height: 54vh;
     overflow-y: auto;
   }
-  
+
   .dashboard-icon {
     width: 3.5rem;
     height: 6rem;
@@ -1280,11 +1288,10 @@ html .ui-button.ui-state-disabled:active {
     right: 46%;
   }
 
-  .oth_form_planning{
+  .oth_form_planning {
     height: 52vh;
     overflow-y: auto;
   }
-  
 }
 
 @media (max-width: 1718px) {
@@ -1418,6 +1425,18 @@ tr th:last-child {
   width: 12%;
 }
 
-.form-control{
+.form-control {
   min-height: 38px;
+}
+
+.justify-content-evenly {
+  justify-content: space-evenly;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-90 {
+  width: 90%;
 }
