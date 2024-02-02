@@ -232,7 +232,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                     }
                 }}
                 //Actions props
-                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' || tableName === 'no_action_dimona' || tableName === 'send_dimona' ? [] : actionIconsList}
+                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' || tableName === 'no_action_dimona' || tableName === 'send_dimona' || tableName === 'approved_candidates' || tableName === 'rejected_candidates' ? [] : actionIconsList}
             // components={tableName === 'location' ? {
             //     Toolbar: props => (
             //         <React.Fragment>
