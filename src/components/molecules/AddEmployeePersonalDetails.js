@@ -20,7 +20,7 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         { title: t("DATE_OF_BIRTH"), name: "date_of_birth", required: true, type: "date", style: "col-md-4 mt-4 float-left" },
         { title: t("PLACE_OF_BIRTH"), name: "place_of_birth", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: t("GENDER"), name: "gender_id", required: true, options: getFormattedDropdownOptions(options.genders), selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("GENDER"), name: "gender_id", required: true, options: getFormattedDropdownOptions(options.genders), selectedOptions: gender, isMulti: false, type: 'dropdown', style: "col-md-4 mt-4 float-left" },
         // { title: "Social security number", name: "social_security_number", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: t("LICENCE_EXPIRY"), name: "license_expiry_date", required: false, type: "date", style: "col-md-4 mt-4 float-left" },
 
@@ -32,11 +32,11 @@ export default function AddEmployeePersonalDetails({ options, employeeData, setE
         { title: t("NATIONALITY"), name: "nationality", required: true, type: "text", style: "col-md-4 mt-4 float-left" },
         { title: t("BANK_ACCOUNT_NUMBER"), name: "account_number", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
 
-        { title: t("LANGUAGE"), name: "language", required: true, options: getFormattedDropdownOptions(options.languages, 'key', 'value'), selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: t("MARITAL_STATUS"), name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(options.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
-        { title: t("DEPENDANT_SPOUSE"), name: "dependent_spouse", required: true, options: getFormattedDropdownOptions(options.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("LANGUAGE"), name: "language", required: true, options: getFormattedDropdownOptions(options.languages, 'key', 'value'), selectedOptions: language, isMulti: false, type: 'dropdown', style: "col-md-4 mt-4 float-left" },
+        { title: t("MARITAL_STATUS"), name: 'marital_status_id', required: true, options: getFormattedDropdownOptions(options.marital_statuses), selectedOptions: maritalStatus, isMulti: false, type: 'dropdown', style: "col-md-4 mt-4 float-left" },
+        { title: t("DEPENDANT_SPOUSE"), name: "dependent_spouse", required: true, options: getFormattedDropdownOptions(options.dependent_spouse_options, 'key', 'value'), selectedOptions: dependantSpouse, isMulti: false, type: 'dropdown', style: "col-md-4 mt-4 float-left" },
         // { title: "Children", name: "children", required: false, type: "text", style: "col-md-4 mt-4 float-left" },
-        { title: t("CHILDREN"), name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-2 float-left" },
+        { title: t("CHILDREN"), name: "children", required: false, options: childrenOptions, selectedOptions: children, isMulti: false, type: 'dropdown', style: "col-md-4 mt-4 float-left" },
     ];
 
     function formatDate(value) {

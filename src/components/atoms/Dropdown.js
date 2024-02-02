@@ -42,7 +42,7 @@ export default function Dropdown({ options, selectedOptions, onSelectFunction, s
 
     return (
         <div className={CustomStyle}>
-            {title && <div className={"d-flex justify-content-between " + (error ? '' : 'my-2')}>
+            {title && <div className={"d-flex justify-content-between " + (error ? '' : '')}>
                 <label className="font-weight-bold row mx-0 my-auto">{title} {required && <p className="text-danger my-auto">&nbsp;*</p>} </label>
                 {error && title && <p className="pt-1 pb-0 px-4 m-1 text-danger required-bg rounded font-weight-normal">
                     <img className="box mr-1 mb-1" src={RequiredIcon}></img>

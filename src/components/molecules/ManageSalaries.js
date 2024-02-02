@@ -324,8 +324,8 @@ export default function ManageSalaries() {
                 <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => incrementPage ? clearNewData() : navigate('/configurations')} src={BackIcon}></img>{title}</h4>
             </div>
 
-            <div className="col-md-12 mb-2 d-flex justify-content-between">
-                <div className={incrementPage ? "col-md-10 px-0 row m-0" : "col-md-8 px-0 row m-0"}>
+            <div className="col-md-12 mb-2 d-flex justify-content-between ">
+                <div className={incrementPage ? "col-md-10 px-0 row m-0 align-items-end" : "col-md-8 px-0 row m-0 align-items-end "}>
                     <Dropdown
                         options={sectors}
                         selectedOptions={selectedSector}
@@ -344,24 +344,24 @@ export default function ManageSalaries() {
                         required={true}
                         isMulti={false}
                     ></Dropdown>
-                    {incrementPage && <div className="col-md-4 px-0 row m-0">
+                    {incrementPage && <div className="col-md-4 px-0 row m-0 align-items-end">
                         <TextInput
                             title={t("INCREMENT_COEFFICIENT")}
                             name={'increment_coef'}
-                            CustomStyle={"col-md-8 mt-4"}
+                            CustomStyle={"col-md-8 my-2"}
                             required={true}
                             value={coefficient}
                             setValue={(e) => setCoefficient(e)}
                             age={true}
                         ></TextInput>
-                        <CustomButton buttonName={t("CHECK_TEXT")} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>
+                        <CustomButton buttonName={t("CHECK_TEXT")} ActionFunction={() => getSalaries()} CustomStyle="my-2"></CustomButton>
                     </div>}
-                    {!incrementPage && <CustomButton buttonName={t("GET_SALARIES")} ActionFunction={() => getSalaries()} CustomStyle="mt-5 mb-3"></CustomButton>}
+                    {!incrementPage && <CustomButton buttonName={t("GET_SALARIES")} ActionFunction={() => getSalaries()} CustomStyle="my-2"></CustomButton>}
                 </div>
 
-                {incrementPage && coefficient && <div className="d-flex mr-5">
-                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveSalaries(listData)} CustomStyle="mt-5 mb-3"></CustomButton>
-                    <CustomButton buttonName={t("UNDO")} ActionFunction={() => setWarningMessage(t("CONFIRMATION_SLARIES_REVERT_BACK"))} CustomStyle="mt-5 mb-3"></CustomButton>
+                {incrementPage && coefficient && <div className="d-flex mr-5 align-items-end">
+                    <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveSalaries(listData)} CustomStyle="my-2"></CustomButton>
+                    <CustomButton buttonName={t("UNDO")} ActionFunction={() => setWarningMessage(t("CONFIRMATION_SLARIES_REVERT_BACK"))} CustomStyle="my-2"></CustomButton>
                 </div>}
 
                 {noSectorMessage === '' && !incrementPage && <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => getIncrementPage(true)}>
