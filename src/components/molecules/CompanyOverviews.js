@@ -360,7 +360,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
-            {actionPopup && <ActionsOnLocation onHide={onHide} openPopUp={actionPopup} data={individualLocationData} ></ActionsOnLocation>}
+            {actionPopup && <ActionsOnLocation onHide={onHide} openPopUp={actionPopup} setOpenPopUp={setActionPopup} data={individualLocationData} ></ActionsOnLocation>}
             {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true} isArchived={isArchived}></Table>}
             {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 table border" >
                 <thead>

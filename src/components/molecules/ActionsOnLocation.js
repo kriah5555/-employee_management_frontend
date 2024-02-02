@@ -4,49 +4,102 @@ import Modal from 'react-bootstrap/Modal';
 import { t } from '../../translations/Translation';
 import "../../utilities/popup/popup.css";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
-import { UpdateHolidayStatusApiUrl } from '../../routes/ApiEndPoints';
+import { ValidateLocationDashboardAccessTokenForLocation, GetDashboardAccessTokenForLocation, DeactivateLocationOnAllDeviceApiUrl } from '../../routes/ApiEndPoints';
 import { toast } from 'react-toastify';
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import LoadingIcon from "../../utilities/LoadingIcon"
 
 export default function ActionsOnLocation(props) {
 
     const [errors, setErrors] = useState([]);
+    const [isActive, setIsActive] = useState("")
 
-    const handleAction = (locationId, key) => {
+    useEffect(() => {
+        let token = localStorage.getItem("dashboard_access_token")
+        AXIOS.service(ValidateLocationDashboardAccessTokenForLocation + "/" + token, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setIsActive(result.data?.access)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    })
+
+    const handleAction = (key) => {
         let url = ""
-        // if (key === 'activate') {   
-        //     url=""
-        //     //you have to set token in local storage
+        let method = ''
+        let message = ''
 
-        // } else if ( key === 'de_activate') {
-        //     url=""
-        // } else {
-        //     url=""
-        // }
+        if (key === 'activate') {
+            url = GetDashboardAccessTokenForLocation + "/" + props.data.id
+            method = "GET"
+            AXIOS.service(url, method)
+                .then((result) => {
+                    if (result?.success) {
+                        localStorage.setItem('dashboard_access_token', result.data.access_key)
+                        props.setOpenPopUp(false)
+                        toast.success(t('LOCATION_ACTIVATED_MESSAGE'), {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
 
-        // AXIOS.service(url , 'POST')
-        //     .then((result) => {
-        //         if (result?.success) {
-        //             props.setOpenPopUp(false)
-        //             props.setRefresh(!props.refresh)
-        //             toast.success(result.message[0], {
-        //                 position: "top-center",
-        //                 autoClose: 2000,
-        //                 hideProgressBar: false,
-        //                 closeOnClick: true,
-        //                 pauseOnHover: true,
-        //                 draggable: true,
-        //                 progress: undefined,
-        //                 theme: "colored",
-        //             });
-        //         } else {
-        //             setErrors(result.message)
-        //         }
+                    } else {
+                        setErrors(result.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } else if (key === 'de_activate') {
 
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+            localStorage.removeItem("dashboard_access_token")
+            props.setOpenPopUp(false)
+            toast.success(t("LOCATION_DEACTIVATED_MESSAGE"), {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+
+        } else {
+            url = DeactivateLocationOnAllDeviceApiUrl + '/' + localStorage.getItem('dashboard_access_token')
+            method = "DELETE"
+            AXIOS.service(url, method)
+                .then((result) => {
+                    if (result?.success) {
+                        props.setOpenPopUp(false)
+                        toast.success(t("LOCATION_DEACTIVATED_ON_ALL_DEVICE"), {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    } else {
+                        setErrors(result.message)
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
     }
 
     return (
@@ -72,9 +125,10 @@ export default function ActionsOnLocation(props) {
             <Modal.Body>
                 {/* <p>{props.body}</p> */}
                 <div className='d-flex justify-content-center '>
-                    {!(props.isActive) && <Button className='button-style float-left mt-2 mr-2 mb-2' onClick={() => handleAction(props.data.id, "activate")}>{t("ACTIVATE_ON_THIS_DEVICE")}</Button>}
-                    {props.isActive && <Button className='button-style float-left mt-2 mr-2 mb-2' onClick={() => handleAction(props.data.id, "de_activate")}>{t("DE_ACTIVATE_ON_THIS_DEVICE")}</Button>}
-                    {<Button className='button-style float-left mt-2 mr-2 mb-2' onClick={() => handleAction(props.data.id, "de_activate_on_all")}>{t("DE_ACTIVATE_ON_ALL_DEVICES")}</Button>}
+                    {isActive === "" && <LoadingIcon></LoadingIcon>}
+                    {(!isActive && isActive !== "") && <Button className='button-style float-left mt-2 mr-2 mb-2' onClick={() => handleAction("activate")}>{t("ACTIVATE_ON_THIS_DEVICE")}</Button>}
+                    {isActive && <Button className='button-style float-left mt-2 mr-2 mb-2' onClick={() => handleAction("de_activate")}>{t("DE_ACTIVATE_ON_THIS_DEVICE")}</Button>}
+                    {isActive && <Button className='button-style float-left mt-2 mr-2 mb-2' onClick={() => handleAction("de_activate_on_all")}>{t("DE_ACTIVATE_ON_ALL_DEVICES")}</Button>}
                 </div>
             </Modal.Body>
         </Modal>
