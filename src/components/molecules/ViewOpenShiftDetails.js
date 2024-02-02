@@ -76,9 +76,8 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
     }, [dataRefresh])
 
     const viewAction = (data, action) => {
-        console.log(data);
-        let applicationAction = (action === 'accept') ? 1 : 2
 
+        let applicationAction = (action === 'accept') ? 1 : 2
         let payload = {
             "id": data.application_id,
             "vacancy_id": data.vacancy_id,
