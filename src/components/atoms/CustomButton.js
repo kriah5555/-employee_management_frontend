@@ -5,10 +5,10 @@ export default function CustomButton({ buttonName, redirectURL, ActionFunction, 
 
   return (
     <>
-      {redirectURL && <a className={"btn button-style ml-2 " + CustomStyle} href={redirectURL ? redirectURL : ''} onClick={() => ActionFunction(buttonName)}>
+      {redirectURL && <a className={"btn button-style mx-2 " + CustomStyle} href={redirectURL ? redirectURL : ''} onClick={() => ActionFunction(buttonName)}>
         {(buttonName)}
       </a>}
-      {redirectURL === undefined && <a className={"btn button-style ml-2 " + CustomStyle} onClick={() => ActionFunction(buttonName)}>
+      {redirectURL === undefined && <a className={"btn button-style mx-2 " + CustomStyle} onClick={() => ActionFunction(buttonName)}>
         {(buttonName)}
       </a>}
     </>

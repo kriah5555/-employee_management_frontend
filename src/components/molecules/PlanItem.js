@@ -3,7 +3,7 @@ import TimeIcon from "../../static/icons/Time.svg";
 import CostIcon from "../../static/icons/Euro.svg";
 import ContractHoursIcon from "../../static/icons/Contract.svg";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { GetAvailabilitiesApiUrl } from "../../routes/ApiEndPoints";
+import { GetAvailabilitiesApiUrl, GetEmployeeLeavesApiUrl } from "../../routes/ApiEndPoints";
 import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
 import Dropdown from "../atoms/Dropdown";
 
@@ -39,6 +39,25 @@ export default function PlanItem({ PlansData, Dates, openCreatePlanPopup, wid, w
         }
     }, [availableSwitch, employee, weekNumber, year])
 
+    useEffect(() => {
+        let request_data = {
+            "week": weekNumber,
+            "year": year,
+        }
+        AXIOS.service(GetEmployeeLeavesApiUrl, 'POST', request_data)
+            .then((result) => {
+                if (result?.success) {
+                    // setData(result.data[ws_employee.employee_id ? ws_employee.employee_id : employee]);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        // } else {
+        //     setData([])
+
+    }, [employee, weekNumber, year])
+
 
     return (
         <>
@@ -61,14 +80,14 @@ export default function PlanItem({ PlansData, Dates, openCreatePlanPopup, wid, w
                         {PlansData[date] && <>
                             {PlansData[date]['planning'].map((plan) => {
                                 return (
-                                    <small key={plan.plan_id} className="row m-0 pb-1 px-2 border-bottom">
-                                        <img src={TimeIcon} className="plan-icon mr-2"></img>
+                                    <small key={plan.plan_id} className={plan.timings && "row m-0 pb-1 px-2 border-bottom"}>
+                                        {plan.timings && <img src={TimeIcon} className="plan-icon mr-2"></img>}
                                         {plan.timings}
                                     </small>
                                 )
                             })}
                             <div className="d-flex mt-3 justify-content-between px-2">
-                                {PlansData[date].cost !== null && <small className="cost-position">
+                                {PlansData[date].cost && <small className="cost-position">
                                     <img src={CostIcon} className="plan-icon mr-1"></img>
                                     {PlansData[date].cost}
                                 </small>}

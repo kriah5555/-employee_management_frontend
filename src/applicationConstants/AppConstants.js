@@ -222,6 +222,8 @@ export const GET_CONSTANTS = {
     'DOCUMENT_NAME': 'Document name',
     'INVITE_EMPLOYEE': 'Invite employee',
     'SEND': 'send',
+    'IMPORT': 'Import',
+    'IMPORT_EMPLOYEES': 'Import employees',
 
     // Manage companies
     'ADD_COMPANY': 'Add company',
@@ -247,6 +249,8 @@ export const GET_CONSTANTS = {
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
     'OAUTH_KEY': 'Oauth key',
+    'SHOW_ALL_COMPANIES':"Show all the companies",
+    'ARCHIVED':'Archived',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error',

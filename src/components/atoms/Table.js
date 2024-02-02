@@ -232,23 +232,7 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
                     }
                 }}
                 //Actions props
-                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' || tableName === 'no_action_dimona' || tableName === 'send_dimona' || tableName === 'approved_candidates' || tableName === 'rejected_candidates' ? [] : actionIconsList}
-            // components={tableName === 'location' ? {
-            //     Toolbar: props => (
-            //         <React.Fragment>
-            //             <div className="d-flex">
-            //                 <div className="col-6">
-            //                     <MTableToolbar {...props} nRowsSelected={""} searchPlaceholder={t("SEARCH_TEXT")} />
-            //                 </div>
-            //                 <div className=" col-6 d-flex justify-content-end mr-3 align-content-center">
-            //                     <div className="d-block text-center">
-            //                         <CustomButton buttonName={"activate dashboard"}></CustomButton>
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </React.Fragment>
-            //     ),
-            // } : {}}
+                actions={showDetails || tableName === 'min_salary' || tableName === 'tokens' || tableName === 'holiday_overview_rejected' || tableName === 'no_action_dimona' || tableName === 'send_dimona' || tableName === 'import_overview' || tableName === 'approved_candidates' || tableName === 'rejected_candidates' ? [] : actionIconsList}
             />
         </MuiThemeProvider>
 

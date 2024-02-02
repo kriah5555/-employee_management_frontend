@@ -78,12 +78,16 @@ export default function MyAccount({ setAuth }) {
     // Function to call Logout Api call 
     const Logout = () => {
         AXIOS.service(LogoutApiUrl, 'GET')
-            .then((result) => {
-                if (result.success) {
-                    localStorage.clear();
-                    localStorage.setItem('auth', false)
-                    setAuth(false);
-                    navigate('/login');
+        .then((result) => {
+            if (result.success) {
+                let lastCompanyId = localStorage.getItem('company_id')
+                let previousLang = localStorage.getItem('active_language')
+                localStorage.clear();
+                localStorage.setItem('auth', false)
+                localStorage.setItem('company_id', lastCompanyId)
+                localStorage.setItem('active_language', previousLang)
+                setAuth(false);
+                navigate('/login');
                 }
             })
     }

@@ -241,22 +241,22 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
     }
 
     const filterData = params?.eid ? [
-        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
-        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2  float-left" },
+        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2  float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ] : [
         { title: t('EMPLOYEES_TITLE'), name: 'employee_id', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: false, type: 'dropdown', style: "col-md-2 float-left", isDisabled: object_id ? true : false  },
-        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
-        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 float-left" },
+        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ]
 
     const planData = [
-        { title: t('DAY'), name: 'day', required: true, options: days, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t('DAY'), name: 'day', required: true, options: days, isMulti: false, type: 'dropdown', style: "col-md-3 mt-3 float-left" },
         { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
         { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
         { title: t('CONTRACT_HOURS'), name: 'contract_hours', required: true, type: 'text', style: "col-md-3 mt-3 float-left" },
@@ -325,7 +325,7 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}
                 <div className="d-flex justify-content-between bg-white">
-                    <h4 className="py-2 px-3 bg-white">
+                    <h4 className="py-2 mb-0 px-3 bg-white">
                         {params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>}
                         {params?.eid === undefined && <img className="shortcut-icon mr-2 mb-1" onClick={() => setCreatestate(false)} src={BackIcon}></img>}
                         {t('ADD_OTH')}</h4>
@@ -346,7 +346,7 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                     repeatData.map((val, index) => {
                         return (
                             <div key={index}>
-                                <div className="bg-white my-2">
+                                <div className="bg-white my-2 py-2 oth_form_planning">
                                     {row.map((data, i) => {
                                         return (
                                             <div className="form-container my-3 bg-white pb-3" key={i}>
@@ -363,8 +363,8 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                                             </div>
                                         )
                                     })}
+                                    <CustomButton buttonName={t('ADD_ANOTHER') + ' +'} ActionFunction={() => AddNewRow()} CustomStyle="mr-5 my-2 ml-4"></CustomButton>
                                 </div>
-                                <CustomButton buttonName={t('ADD_ANOTHER') + ' +'} ActionFunction={() => AddNewRow()} CustomStyle="mr-5 my-2"></CustomButton>
                             </div>
                         )
                     })

@@ -140,11 +140,11 @@ export default function OthPlanning() {
                         onHide={() => setWarningMessage('')}
                         close={true}
                     ></ModalPopup>}
-                    <div className="d-flex justify-content-between bg-white">
-                        <h4 className="py-2 px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>}
+                    <div className="d-flex justify-content-between bg-white my-2 py-2 align-items-center">
+                        <h4 className=" px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>}
                             {t('OTH_TITLE')}</h4>
                         {params?.eid && <a className="my-auto px-3 bg-white mb-0 text-color" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
-                        {params?.eid === undefined && <p className="my-auto px-3 bg-white mb-0 text-color pointer" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</p>}
+                        {params?.eid === undefined && <a className="btn button-style mx-2 add_btn" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</a>}
                     </div>
                     <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
                 </div>

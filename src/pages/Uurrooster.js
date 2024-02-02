@@ -15,7 +15,7 @@ import Dropdown from "../components/atoms/Dropdown";
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LocationApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
 import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
-import { GetFormattedDate, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
+import { GetFormattedDate, GetListFromArray, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
 import QRCode from "react-qr-code";
 import { t } from "../translations/Translation";
 import DateInput from "../components/atoms/formFields/DateInput";
@@ -75,11 +75,11 @@ export default function Uurrooster() {
                                             'start_time': employee?.start_time,
                                             'count_2': employee?.count,
                                             'actual_start_time': employee?.actual_start_timings[i],
-                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
+                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: GetListFromArray(employee?.start_dimona_status[i]?.message) },
                                             'break_time': employee?.break_timings[0],
                                             'end_time': employee?.end_time,
                                             'actual_end_time': employee?.actual_end_timings[i],
-                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
+                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: GetListFromArray(employee?.end_dimona_status[i]?.message) },
                                             'cost': employee?.cost,
                                             'leave': employee?.absence_status,
                                             'holiday_code': employee?.absence_holiday_codes
@@ -96,11 +96,11 @@ export default function Uurrooster() {
                                             'start_time': employee?.start_time,
                                             'count_2': employee?.count,
                                             'actual_start_time': employee?.actual_start_timings[i],
-                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
+                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: GetListFromArray(employee?.start_dimona_status[i]?.message) },
                                             'break_time': employee?.break_timings[0],
                                             'end_time': employee?.end_time,
                                             'actual_end_time': employee?.actual_end_timings[i],
-                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
+                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: GetListFromArray(employee?.end_dimona_status[i]?.message) },
                                             'cost': employee?.cost,
                                             'leave': employee?.absence_status,
                                             'holiday_code': employee?.absence_holiday_codes
@@ -117,11 +117,11 @@ export default function Uurrooster() {
                                             'start_time': "",
                                             'count_2': "",
                                             'actual_start_time': employee?.actual_start_timings[i],
-                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: employee?.start_dimona_status[i]?.message },
+                                            'dimona_start': { status: employee?.start_dimona_status[i]?.status, message: GetListFromArray(employee?.start_dimona_status[i]?.message) },
                                             'break_time': '',
                                             'end_time': "",
                                             'actual_end_time': employee?.actual_end_timings[i],
-                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: employee?.end_dimona_status[i]?.message[0] },
+                                            'dimona_end': { status: employee?.end_dimona_status[i]?.status, message: GetListFromArray(employee?.end_dimona_status[i]?.message) },
                                             'cost': "",
                                             'leave': employee?.absence_status,
                                             'holiday_code': employee?.absence_holiday_codes

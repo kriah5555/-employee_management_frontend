@@ -158,20 +158,20 @@ export default function CountersOverview({ type, eid }) {
                             <table className="mx-auto col-md-12">
                                 <tr className="table-head-bg">
                                     {holiday_counter_headers.map((value, index) => {
-                                        return (<th className={"pr-5"} key={index}>{value.title}</th>)
+                                        return (<th className={"px-3"} key={index}>{value.title}</th>)
                                     })}
                                 </tr>
                                 {listData.map((value, index) => {
                                     return (<tr className={""} key={index} >
-                                        <td className="pb-2 pt-2">
+                                        <td className="pb-2 pt-2 px-2">
                                             {value.holiday_code_name}
                                         </td>
-                                        <td className="pb-2">
+                                        <td className="pb-2 px-2">
                                             {value.count}
-                                        </td> <td className="pb-2">
+                                        </td> <td className="pb-2 px-2">
                                             {value.used_count}
                                         </td>
-                                        <td className="pb-2">
+                                        <td className="pb-2 px-2">
                                             {value.available_count}
                                         </td>
                                     </tr>)
@@ -182,15 +182,15 @@ export default function CountersOverview({ type, eid }) {
                             <table className="mx-auto col-md-12 ">
                                 <tr className="table-head-bg">
                                     {update_holiday_counter_headers.map((value, index) => {
-                                        return (<th className={"pr-5"} key={index} >{value.title}</th>)
+                                        return (<th className={"px-3"} key={index} >{value.title}</th>)
                                     })}
                                 </tr>
                                 {editData.map((value, index) => {
                                     return (<tr className={"mb-4"} key={index} >
-                                        <td className="pl-2">
+                                        <td className="pl-2 px-2">
                                             {value.holiday_code_name}
                                         </td>
-                                        <td>
+                                        <td className="px-3">
                                             {value.holiday_code_count}
                                         </td> <td className="me-4">
                                             <TextInput name={"count"} value={value.count} setValue={(e) => { setValue(index, e, "count") }}></TextInput>

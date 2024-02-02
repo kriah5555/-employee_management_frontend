@@ -91,9 +91,9 @@ export default function AddReasons() {
 
     const reasonFields = [
         // Reasons fields
-        { title: t("REASON_NAME"), name: 'name', required: true, type: 'text', style: 'col-md-12 mt-4 float-left' },
-        { title: t("CATEGORY"), name: 'category', required: true, options: dropdownOptions.categories, isMulti: false, selectedOptions: category, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
+        { title: t("REASON_NAME"), name: 'name', required: true, type: 'text', style: 'col-6 mt-4 float-left' },
+        { title: t("CATEGORY"), name: 'category', required: true, options: dropdownOptions.categories, isMulti: false, selectedOptions: category, type: 'dropdown', style: ' float-left col-6 mt-4 ' },
+        { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-6 mt-4 float-left' },
     ];
 
     // Function to set values of reasons
@@ -154,7 +154,7 @@ export default function AddReasons() {
         }
     }
     return (
-        <div className="right-container">
+        <div className="right-container add_public_holidays">
             {/* {successMessage && <ModalPopup
             title={('SUCCESS')}
             body={(successMessage)}
@@ -164,7 +164,7 @@ export default function AddReasons() {
                 title={t("VALIDATION_ERROR")+ ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
-            ></ErrorPopup>}
+            ></ErrorPopup>} 
             <FormsNew
                 view="reasons"
                 formTitle={t("ADD_REASONS")}

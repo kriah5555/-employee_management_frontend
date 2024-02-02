@@ -257,18 +257,18 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
     }
 
 
-    let optionsArray = [{ name: t("DAILY"), key: 1 }, { name: t("WEEKLY"), key: 2 }, { name: t("MONTHLY"), key: 3 }]
+    let optionsArray = [{ name: t("DAILY"), key: 1 }, { name: t("WEEKLY"), key: 2 }] //, { name: t("MONTHLY"), key: 3 }
 
     const formFieldsArray1 = [
         // { title: "Company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-6 float-left" },
-        { title: t("SHIFT_NAME"), name: "name", required: true, type: "text", style: "col-md-6 mt-4 float-left" },
-        { title: t("START_DATE"), name: "start_date", required: true, type: "date", style: "col-md-6 mt-4 float-left" },
+        { title: t("SHIFT_NAME"), name: "name", required: true, type: "text", style: "col-md-6 mt-3 float-left" },
+        { title: t("START_DATE"), name: "start_date", required: true, type: "date", style: "col-md-6 mt-3 float-left" },
         { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-6 mt-3 float-left" },
         { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-6 mt-3 float-left" },
-        { title: t("LOCATION"), name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: t("WORKSTATION"), name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList !== undefined ? workstationList[location?.value] : [], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-2 float-left' },
-        { title: t("FUNCTION_TITLE"), name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value] : [], selectedOptions: selectedFunction, style: "col-md-6 mt-2 float-left" },
-        { title: t("EMPLOYEE_TYPE"), name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-2 float-left" },
+        { title: t("LOCATION"), name: 'location', required: true, options: locationList, isMulti: false, selectedOptions: location, type: 'dropdown', style: 'col-md-6 mt-3 float-left' },
+        { title: t("WORKSTATION"), name: 'workstations', required: true, options: workstationList?.length > 0 ? workstationList : workstationList !== undefined ? workstationList[location?.value] : [], isMulti: false, selectedOptions: workstations, type: 'dropdown', style: 'col-md-6 mt-3 float-left' },
+        { title: t("FUNCTION_TITLE"), name: "functions", required: true, type: "dropdown", options: functionsList?.length > 0 ? functionsList : functionsList !== undefined ? functionsList[workstations?.value] : [], selectedOptions: selectedFunction, style: "col-md-6 mt-3 float-left" },
+        { title: t("EMPLOYEE_TYPE"), name: "employee_types", required: true, type: "dropdown", isMulti: true, options: employeeTypeList, selectedOptions: employeeTypes, style: "col-md-6 mt-3 float-left" },
         { title: t("VACANCIES_COUNT"), name: "vacancy_count", required: true, type: "text", style: "col-md-6 mt-3 float-left" },
 
     ]

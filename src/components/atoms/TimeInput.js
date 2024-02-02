@@ -22,7 +22,7 @@ export default function TimeInput({ setTime, index, type, value, title, customSt
         }
     })
     return (
-        <div className={"col-3 position-relative title-position font-weight-bold " + customStyle} >
+        <div className={"col-6 position-relative title-position font-weight-bold " + customStyle} >
             {/* {title && <label htmlFor="start_time" onClick={() => hideTimePopup()}  className="filter-title row m-0 mb-1">
                 {t(GET_CONSTANTS.START_TIME)}
                 <p className="text-danger mb-0 font-wieght-bold">{title}&nbsp;*</p>

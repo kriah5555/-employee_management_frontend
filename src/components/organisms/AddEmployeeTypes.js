@@ -150,14 +150,14 @@ export default function AddEmployeeTypes() {
     const employeeTypeFields = [
         // Employee type fields
         { title: t("EMPLOYEE_TYPE_NAME"), name: 'name', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: t("EMPLOYEE_TYPE_CATEGORY"), name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("EMPLOYEE_TYPE_CATEGORY"), name: 'employee_type_category_id', required: true, options: categoryList, selectedOptions: category, isMulti: false, type: 'dropdown', style: "col-md-6 mt-4 float-left" },
         { title: t("DESCRIPTION"), name: 'description', required: false, type: 'text-area', style: "col-md-12 mt-4 mb-5 float-left" },
         // Employee type configuration fields
-        { title: t("EMPLOYEE_CONTRACT_TYPES"), name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: t("DIMONA_TYPE"), name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("EMPLOYEE_CONTRACT_TYPES"), name: 'contract_types', required: false, options: contractTypeList, selectedOptions: contractType, isMulti: true, type: 'dropdown', style: "col-md-6 mt-4 float-left" },
+        { title: t("DIMONA_TYPE"), name: 'dimona_type_id', required: true, options: dimonaTypeList, selectedOptions: dimonaType, isMulti: false, type: 'dropdown', style: "col-md-6 mt-4 float-left" },
         { title: t("DIMONA_CODE"), name: 'dimona_code', required: true, type: 'text', style: "col-md-6 mt-4 float-left" },
-        { title: t("CONSECUTIVE_DAY_LIMIT"), name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
-        { title: t("SALARY_TYPE"), name: 'salary_type', required: true, options: salaryTypeList, selectedOptions: salaryType, isMulti: false, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
+        { title: t("CONSECUTIVE_DAY_LIMIT"), name: 'consecutive_days_limit', required: true, options: DaysList, selectedOptions: dayLimit, isMulti: false, type: 'dropdown', style: "col-md-6 mt-4 float-left" },
+        { title: t("SALARY_TYPE"), name: 'salary_type', required: true, options: salaryTypeList, selectedOptions: salaryType, isMulti: false, type: 'dropdown', style: "col-md-6 mt-4 float-left" },
         { title: t("START_IN_PAST"), name: 'start_in_past', required: true, type: 'switch', style: "col-md-6 d-flex mt-4 float-left" },
         // { title: 'Enable counters', name: 'counters', required: true, type: 'switch', style:"col-md-6 d-flex mt-4 float-left" },
         { title: t("CONTRACT_HOURS_SPLIT"), name: 'contract_hours_split', required: true, type: 'switch', style: "col-md-6 d-flex mt-4 float-left" },
