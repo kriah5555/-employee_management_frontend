@@ -25,6 +25,8 @@ import AddEmployee from "../static/icons/AddEmployee"
 import AddLocation from "../static/icons/AddLocation"
 import Uurrooster from "../static/icons/Uurrooster"
 import ManageHoliday from "../static/icons/ManageHoliday"
+import UurroosterIcon from "../static/icons/UurroosterDark.svg"
+
 
 export default function Header({ setAuth, selectedCompany, setSelectedCompany, onCompanySelect, companyList, setCompanyList }) {
 
@@ -189,7 +191,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
         { icon: SearchIcon, url: '#', type: '' },
         { icon: DimonaIcon, url: "/manage-plannings#dimona", type: '' },
         { icon: QuickAccessIcon, url: '#', type: 'shortcut' },
-        { icon: CalendarIcon, url: '/uurrooster', type: '' },
+        { icon: UurroosterIcon, url: '/uurrooster', type: '' },
         { icon: FAQIcon, url: '/faq', type: '' },
         { icon: NotificationIcon, url: '#', type: 'notification' },
     ]
@@ -244,7 +246,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                     {IconsList.map((val, index) => {
                         return (
                             <li key={val['icon']} className="nav-item" onClick={() => val.type !== '' ? setContentBox(val.type) : ''}>
-                                <a className="navbar-brand p-0 pt-1" href={val.url}><img alt={t("NAV_ICONS")} className="header-icon" src={val.icon}></img></a>
+                                <a className="navbar-brand p-0 pt-1" href={val.url}><img alt={t("NAV_ICONS")} className={val.url === "/uurrooster" ? "planning-icon" : "header-icon"} src={val.icon}></img></a>
                             </li>
                         )
                     })}

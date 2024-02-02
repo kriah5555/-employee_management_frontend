@@ -247,6 +247,8 @@ export const GET_CONSTANTS = {
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
     'OAUTH_KEY': 'Oauth key',
+    'SHOW_ALL_COMPANIES':"Show all the companies",
+    'ARCHIVED':'Archived',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error',

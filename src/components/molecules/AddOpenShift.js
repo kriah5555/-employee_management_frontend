@@ -257,7 +257,7 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
     }
 
 
-    let optionsArray = [{ name: t("DAILY"), key: 1 }, { name: t("WEEKLY"), key: 2 }, { name: t("MONTHLY"), key: 3 }]
+    let optionsArray = [{ name: t("DAILY"), key: 1 }, { name: t("WEEKLY"), key: 2 }] //, { name: t("MONTHLY"), key: 3 }
 
     const formFieldsArray1 = [
         // { title: "Company", name: "company_id", placeholder: "Select..", required: true, type: "dropdown", options: companyList, selectedOptions: selectedCompany, style: "col-md-6 float-left" },

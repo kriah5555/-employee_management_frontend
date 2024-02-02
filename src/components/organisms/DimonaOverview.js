@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import FormsNew from "../molecules/FormsNew";
 import { t } from "../../translations/Translation";
-import { GetFormattedDate } from "../../utilities/CommonFunctions";
+import { GetFormattedDate, GetListFromArray } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png"
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { GetDimonaApiUrl, GetDimonaDetailsApiUrl } from "../../routes/ApiEndPoints";
+import DimonaSuccessIcon from "../../static/icons/DimonaSuccess.svg";
+import DimonaFailedIcon from "../../static/icons/DimonaFail.svg";
+import DimonaWarningIcon from "../../static/icons/DimonaPending.svg";
 
 
 export default function DimonaOverview() {
@@ -104,15 +107,18 @@ export default function DimonaOverview() {
         //     field: "short_break",
         //     status: "200",
         // },
-        {
-            title: t("ERROR_CODE"),
-            field: "error_code",
-            status: "200",
-        },
+        // {
+        //     title: t("ERROR_CODE"),
+        //     field: "error_code",
+        //     status: "200",
+        // },
         {
             title: t("DIMONA_STATUS"),
             field: "dimona_status",
             status: "200",
+            render: rowData => (
+                <img title={rowData.errors.length > 1 ? GetListFromArray(rowData.errors) : rowData.errors} src={rowData.dimona_status === 'success' ? DimonaSuccessIcon : (rowData.dimona_status === 'warning' || rowData.dimona_status === 'pending') ? DimonaWarningIcon : rowData.dimona_status === 'failed' ? DimonaFailedIcon : ''}></img>
+              ),
         },
         // {
         //     title: t("REASON"),

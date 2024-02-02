@@ -142,6 +142,7 @@ export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata/salary-coefficien
 export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"
 export const GetPlansForLeavesApiUrl = BASE_URL + "/masterdata/get-plans-for-leave"
 export const GetLeaveOptionsApiUrl = BASE_URL + "/masterdata/leaves/create"
+export const GetEmployeeLeavesApiUrl = BASE_URL + "/masterdata/get-absence-details-for-week"
 
 // Invite employee api urls
 export const EmployeeInviteApiUrl = BASE_URL + '/masterdata/employee-invitations'
