@@ -84,12 +84,12 @@ export default function Login({ setAuth }) {
                     styleClass="language-dropdown"
                 ></Dropdown>
             </nav>}
-            <div className="col-md-12 d-flex full-page-height align-items-center p-0">
-                {localStorage.getItem('dashboard_access_token') === '' && <div className="col-md-6 p-0 border-right full-page-height">
+            <div className="col-md-12 d-flex login_height align-items-center p-0">
+                {localStorage.getItem('dashboard_access_token') === '' && <div className="col-md-6 p-0 border-right login_height">
                     <img className="banner-style" src={IndiiBanner}></img>
                 </div>}
                 {localStorage.getItem('dashboard_access_token') && <div className="col-md-9"><Uurrooster view="login"></Uurrooster></div>}
-                {/* <div className="col-md-5 p-0 full-page-height"> */}
+                {/* <div className="col-md-5 p-0 login_height"> */}
                 <div className={"mx-auto d-flex align-items-center justify-content-center float-right position-relative h-100 " + (localStorage.getItem('dashboard_access_token') ? 'col-md-3 p-0 border-left' : 'col-md-5')}>
                     {localStorage.getItem("dashboard_access_token") === '' && <div className="position-absolute login_lang_dropdown mt-3">
                         <ul className="navbar-nav">

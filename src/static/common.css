@@ -101,6 +101,10 @@
   height: 40px;
 }
 
+.login_height {
+  height: calc(100vh - 80px);
+}
+
 .header-icon {
   width: 23px;
   height: 23px;
@@ -603,7 +607,7 @@ textarea {
   border: 1px solid #61bfb5 !important;
 }
 
-.custom-control-input:checked~.custom-control-label::before {
+.custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #61bfb5;
   background-color: #61bfb5;
@@ -750,7 +754,7 @@ textarea {
   border-radius: 10em;
 }
 
-.custom-control-input:checked~.custom-control-label::before {
+.custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #003f54;
   background-color: #003f54;
@@ -791,7 +795,9 @@ textarea {
   width: calc(2.5rem - 20px);
 }
 
-.custom-switch.custom-switch-lg .custom-control-input:checked~.custom-control-label::after {
+.custom-switch.custom-switch-lg
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   transform: translateX(2rem);
 }
 
@@ -1084,7 +1090,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 /* Additional styling when a file is selected */
-.file-input:checked+.file-label {
+.file-input:checked + .file-label {
   background-color: greenyellow;
   border: 1px solid gray;
 }
@@ -1203,7 +1209,6 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media (max-width: 1400px) {
-
   body,
   html {
     font-size: 14px !important;
@@ -1277,7 +1282,6 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media (max-width: 1200px) {
-
   /* .add_employee_block {
     height: calc(100vh - 266px);
     overflow-y: auto;
@@ -1415,7 +1419,7 @@ tr th:last-child {
   display: block;
 }
 
-.add_leave_popup>div>div:nth-child(1) {
+.add_leave_popup > div > div:nth-child(1) {
   overflow: unset !important;
 }
 
@@ -1435,6 +1439,7 @@ tr th:last-child {
   top: 0;
   right: 0;
 }
+
 .justify-content-evenly {
   justify-content: space-evenly;
 }
