@@ -86,13 +86,13 @@ export default function Login({ setAuth }) {
                 ></Dropdown>
             </nav>}
             <div className={"col-md-12 d-flex login_height align-items-center p-0 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'login_height' : 'full-page-height')}>
-                {(localStorage.getItem('dashboard_access_token') === 'null' || localStorage.getItem('dashboard_access_token') === null) && <div className="col-md-6 p-0 border-right full-page-height">
+                {(localStorage.getItem('dashboard_access_token') === 'null' || localStorage.getItem('dashboard_access_token') === '' || localStorage.getItem('dashboard_access_token') === null) && <div className="col-md-6 p-0 border-right full-page-height">
                     <img className="banner-style" src={IndiiBanner}></img>
                 </div>}
                 {localStorage.getItem('dashboard_access_token') !== 'null' && <div className="col-md-9"><Uurrooster view="login"></Uurrooster></div>}
                 {/* <div className="col-md-5 p-0 login_height"> */}
                 <div className={"mx-auto d-flex align-items-center justify-content-center float-right position-relative h-100 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'col-md-3 p-0 border-left' : 'col-md-5')}>
-                    {(localStorage.getItem("dashboard_access_token") === 'null' || localStorage.getItem('dashboard_access_token') === null) && <div className="position-absolute login_lang_dropdown mt-3">
+                    {(localStorage.getItem("dashboard_access_token") === 'null' || localStorage.getItem('dashboard_access_token') === '' || localStorage.getItem('dashboard_access_token') === null) && <div className="position-absolute login_lang_dropdown mt-3">
                         <ul className="navbar-nav">
                             <li className="mx-3 px-2 w-max-content">
                                 <Dropdown
