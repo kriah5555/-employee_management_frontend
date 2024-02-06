@@ -68,9 +68,10 @@ export default function Login({ setAuth }) {
 
     localStorage.setItem('auth', false);
 
+
     return (
         <>
-            {localStorage.getItem('dashboard_access_token') && <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
+            {localStorage.getItem('dashboard_access_token') !== 'null' && <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
                 <div className="d-flex col-xl-3 col-lg-4">
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
@@ -84,14 +85,14 @@ export default function Login({ setAuth }) {
                     styleClass="language-dropdown"
                 ></Dropdown>
             </nav>}
-            <div className="col-md-12 d-flex login_height align-items-center p-0">
-                {localStorage.getItem('dashboard_access_token') === '' && <div className="col-md-6 p-0 border-right login_height">
+            <div className={"col-md-12 d-flex login_height align-items-center p-0 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'login_height' : 'full-page-height')}>
+                {(localStorage.getItem('dashboard_access_token') === 'null' || localStorage.getItem('dashboard_access_token') === null) && <div className="col-md-6 p-0 border-right full-page-height">
                     <img className="banner-style" src={IndiiBanner}></img>
                 </div>}
-                {localStorage.getItem('dashboard_access_token') && <div className="col-md-9"><Uurrooster view="login"></Uurrooster></div>}
+                {localStorage.getItem('dashboard_access_token') !== 'null' && <div className="col-md-9"><Uurrooster view="login"></Uurrooster></div>}
                 {/* <div className="col-md-5 p-0 login_height"> */}
-                <div className={"mx-auto d-flex align-items-center justify-content-center float-right position-relative h-100 " + (localStorage.getItem('dashboard_access_token') ? 'col-md-3 p-0 border-left' : 'col-md-5')}>
-                    {localStorage.getItem("dashboard_access_token") === '' && <div className="position-absolute login_lang_dropdown mt-3">
+                <div className={"mx-auto d-flex align-items-center justify-content-center float-right position-relative h-100 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'col-md-3 p-0 border-left' : 'col-md-5')}>
+                    {(localStorage.getItem("dashboard_access_token") === 'null' || localStorage.getItem('dashboard_access_token') === null) && <div className="position-absolute login_lang_dropdown mt-3">
                         <ul className="navbar-nav">
                             <li className="mx-3 px-2 w-max-content">
                                 <Dropdown
@@ -104,7 +105,7 @@ export default function Login({ setAuth }) {
                             </li>
                         </ul>
                     </div>}
-                    <div className={localStorage.getItem('dashboard_access_token') ? "w-100" : "w-75"}>
+                    <div className={localStorage.getItem('dashboard_access_token') !== 'null' ? "w-100" : "w-75"}>
                         <div className="mb-5 text-center">
                             <img alt={t("LOGO")} className="login-logo" src={Logo}></img>
                         </div>
