@@ -212,6 +212,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },
         { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", type: "text", style: "col-md-6 float-left mt-2" },
         { title: t("SCHEDULE_TYPE"), name: "schedule_type", type: "radio", style: "col-md-6 float-left mt-2" },
+        (data?.long_term == true ? { title: t("DIMONA_PERIOD_ID"), name: "dimona_period_id", type: "text", style: "col-md-6 float-left mt-2" }: {}),
     ]
 
     let otherDataFieldsArray = [

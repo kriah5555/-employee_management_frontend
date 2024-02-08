@@ -12,7 +12,7 @@ import CalendarLayout from "../../utilities/calendar/CalendarLayout";
 import CustomButton from "../atoms/CustomButton";
 import Switch from "../atoms/Switch";
 import AddContractPopup from "./AddContractPopup";
-import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, } from "../../routes/ApiEndPoints";
+import { EmployeeApiUrl, EmployeeBenefitsApiUrl, EmployeeContractApiUrl, SendDimonaContractApiUrl, } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import UpdateEmployeeContractDetailsForm from "./UpdateEmployeeContractDetailsForm";
 import EmployeeDetailsUpdateForm from "./EmployeeDetailsUpdateForm";
@@ -20,6 +20,9 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { t } from "../../translations/Translation";
 import HolidyCountersOverview from "../organisms/HolidyCountersOverview";
+import DimonaWhite from "../../static/icons/DimonaWhite";
+import ModalPopup from "../../utilities/popup/Popup";
+import TextInput from "../atoms/formFields/TextInput";
 
 export default function EmployeeDetails({ eid }) {
 
@@ -52,6 +55,10 @@ export default function EmployeeDetails({ eid }) {
     const [expiredContracts, setExpieredContracts] = useState([])
     const [pastContracts, setPastContracts] = useState(false)
     const [countersType, setCounterType] = useState("holiday")
+
+    const [dimonaConfirm, setDimonaConfirm] = useState(false);
+    const [hours, setHours] = useState('');
+    const [data, setData] = useState([]);
 
     const TabsData = [
         { tabHeading: t("PERSONAL_DETAILS"), tabName: 'personal' },
@@ -239,6 +246,33 @@ export default function EmployeeDetails({ eid }) {
             })
     }
 
+    const sendContractDimona = () => {
+        let req_data = {
+            "contract_id": data?.id,
+            "reserved_hours": hours
+        }
+        AXIOS.service(SendDimonaContractApiUrl, 'POST', req_data)
+        .then((result) => {
+            if (result?.success) {
+                setDataRefresh(!dataRefresh)
+                setDimonaConfirm(false)
+                toast.success(result.message[0], {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
 
     return (
         <div>
@@ -251,6 +285,15 @@ export default function EmployeeDetails({ eid }) {
                 setDataRefresh={setDataRefresh}
                 dataRefresh={dataRefresh}
             ></AddContractPopup>}
+
+            {dimonaConfirm && <ModalPopup
+                title={t("DIMONA_CONFIRM_MESSAGE")}
+                body={
+                    data?.student ? <TextInput title={t('HOURS')} name={"hours"} setValue={setHours} placeholder={""} CustomStyle={"col-md-12 p-0 mx-auto"} required={true}></TextInput>
+                        : ''}
+                onConfirm={() => sendContractDimona(false)}
+                onHide={() => setDimonaConfirm(false)}
+            ></ModalPopup>}
 
             <div className="col-md-12 row m-0 pb-1 pt-4 px-4 border-bottom">
 
@@ -269,7 +312,7 @@ export default function EmployeeDetails({ eid }) {
                 </div>
             </div>
             <div className="col-md-12 p-0 employee-detail">
-                <Tabs selectedIndex={tabIndex} onSelect={(index) => {setTabIndex(index); setEditStatus(false)}}>
+                <Tabs selectedIndex={tabIndex} onSelect={(index) => { setTabIndex(index); setEditStatus(false) }}>
                     <TabList>
                         {TabsData.map((val) => {
                             return (
@@ -300,6 +343,7 @@ export default function EmployeeDetails({ eid }) {
                                         {!editStatus && toggleOpen === contract.id && <>
                                             <img className="float-right pr-5 pt-2 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")} />
                                             <img className="float-right profile-icon pr-2 pb-2 pointer" src={DeleteIcon} onClick={() => deleteContract(contract.id)} alt={t("DELETE")} title={t("DELETE")} />
+                                            {contract?.send_dimona && <span className={'planning-icon mr-2 pointer float-right'} title={t("SEND_DIMONA")} onClick={() => { setDimonaConfirm(true); setData(contract) }}><DimonaWhite color={"#000"} /></span>}
                                         </>}
                                         {/* {toggleOpen === contract.id && <EmployeeUpdate tab="tab2" edit={editStatus} setEditStatus={setEditStatus} dataLeft={tab2Data} dataRight={[]} setDataLeft={setDataLeft} setDataRight={setDataRight} ></EmployeeUpdate>} */}
                                         {toggleOpen === contract.id && <UpdateEmployeeContractDetailsForm eid={eid} edit={editStatus} setEditStatus={setEditStatus} data={contract} employeeContractOptions={employeeContractOptions} setToggleOpen={setToggleOpen} toggleOpen={toggleOpen} dataRefresh={dataRefresh} setDataRefresh={setDataRefresh} ></UpdateEmployeeContractDetailsForm>}
