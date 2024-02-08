@@ -20,6 +20,9 @@ import QRCode from "../static/icons/QRCode";
 import ManageHoliday from "../static/icons/ManageHoliday";
 import DimonaWhite from "../static/icons/DimonaWhite";
 import DeviceActivate from "../static/icons/DeviceActivate";
+import InviteEmployee from "../static/icons/InviteEmployee"
+import InviteEmployeePopup from "../components/molecules/InviteEmployeePopup";
+import { ToastContainer } from "react-toastify";
 
 
 export default function Dashboard() {
@@ -38,6 +41,7 @@ export default function Dashboard() {
         { title: t('HOLIDAY'), icon: <ManageHoliday/>, styleClass: subTabStyle, actionLink: "/manage-plannings#holiday" },
         { title: t('DIMONA'), icon: <DimonaWhite color={"#fff"}/>, styleClass: mainTabStyle, actionLink: "/manage-plannings#dimona" },
         { title: t('DEVICE_ACTIVATE'), icon: <DeviceActivate/>, styleClass: subTabStyle, actionLink: "" },
+        { title: t('INVITE_EMPLOYEE'), icon: <InviteEmployee color="#073763" />, styleClass: subTabStyle, actionLink: "#invite" },
     ]
 
     // Messages to display in message board (API will be called to fetch this data)
@@ -55,6 +59,19 @@ export default function Dashboard() {
 
     return (
         <div className="right-container bg-white">
+            {window.location.hash === '#invite' && <InviteEmployeePopup onHide={() => window.location.hash = ''}></InviteEmployeePopup>}
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <div className="col-md-9 d-inline-flex mb-0 mt-2 pt-1 flex-wrap dashboard_height">  {/* mb-5 */}
                 {
                     dashboardTabs.map((val, index) => {

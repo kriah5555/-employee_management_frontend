@@ -5,15 +5,16 @@ import { t } from '../../translations/Translation';
 import "../../utilities/popup/popup.css";
 import FormsNew from './FormsNew';
 import { APICALL as AXIOS } from '../../services/AxiosServices';
-import { AddLeaveApiUrl, GetLeaveOptionsApiUrl, GetPlansForLeavesApiUrl } from "../../routes/ApiEndPoints";
+import { AddLeaveApiUrl, GetLeaveOptionsApiUrl, AddShiftLeaveApiUrl } from "../../routes/ApiEndPoints";
 import { getFormattedDropdownOptions } from '../../utilities/CommonFunctions';
 import ErrorPopup from '../../utilities/popup/ErrorPopup';
+import { toast } from "react-toastify"
 
 const AddLeaveForPlanPopup = (props) => {
     const [holidayCode, setHolidayCode] = useState([]);
     const [holidayCodeList, setHolidayCodeList] = useState([])
     const [formData, setFormData] = useState({
-        "planning_id": props.planIdForLeave,
+        "plan_id": props.planIdForLeave,
         "reason": "",
         "holiday_code_id": ''
     })
@@ -49,17 +50,25 @@ const AddLeaveForPlanPopup = (props) => {
         props.setPlanPopup(true)
     }
     const onSave = () => {
-        
-        // AXIOS.service(AddLeaveApiUrl, 'POST', formData)
-        //     .then((result) => {
-        //         if (result?.success) {
-        //             // console.log(result.data)
-        //  props.setDataRefresh(!dataRefresh)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+
+        AXIOS.service(AddShiftLeaveApiUrl, 'POST', formData)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         props.setLeavePopup(false)
         // props.setPlanPopup(true)
     }

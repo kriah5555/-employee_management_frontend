@@ -10,6 +10,7 @@ import { CreateOthPlanApiUrl, GetEmployeesApiUrl, GetOthOptionsApiUrl } from "..
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import { GetTimeDifference } from "../../utilities/CommonFunctions";
 
 
 export default function AddOthPlans({ setCreatestate, objectId }) {
@@ -187,6 +188,7 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                     PlanData['plannings'][index] = []
                     PlanData['plannings'][index][i] = {}
                     PlanData['plannings'][index][i][name] = value
+                    
                 } else {
                     if (PlanData['plannings'][index][i]) {
                         PlanData['plannings'][index][i][name] = value
@@ -194,6 +196,11 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                         PlanData['plannings'][index][i] = {}
                         PlanData['plannings'][index][i][name] = value
                     }
+                }
+                if (name === 'start_time' && PlanData['plannings'][index][i]?.end_time) {
+                    PlanData['plannings'][index][i]['contract_hours'] = GetTimeDifference(value, PlanData['plannings'][index][i]['end_time'])
+                } else if (name === 'end_time' && PlanData['plannings'][index][i]?.start_time) {
+                    PlanData['plannings'][index][i]['contract_hours'] = GetTimeDifference(PlanData['plannings'][index][i]['start_time'], value)
                 }
                 setOthPlanData(PlanData)
             } else {

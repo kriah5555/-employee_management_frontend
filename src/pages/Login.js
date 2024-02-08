@@ -9,12 +9,16 @@ import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LoginApiUrl } from "../routes/ApiEndPoints";
 import Dropdown from "../components/atoms/Dropdown";
 import Uurrooster from "./Uurrooster";
+import LoginIcon from "../static/icons/login.png";
+import UurroosterIcon from "../static/icons/UurroosterActive.svg";
 
 export default function Login({ setAuth }) {
 
     const navigate = useNavigate();
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+
+    const [uurroosterStatus, setUurroosterStatus] = useState(false)
 
     const [message, setMessage] = useState(t("FORGOT_PASSWORD_INSTRUCTION"));
     const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language') == null ? "nl" : localStorage.getItem('active_language'), label: (localStorage.getItem('active_language') == null ? "nl" : localStorage.getItem('active_language'))?.toUpperCase() })
@@ -71,27 +75,42 @@ export default function Login({ setAuth }) {
 
     return (
         <>
-            {localStorage.getItem('dashboard_access_token') !== 'null' && <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
-                <div className="d-flex col-xl-3 col-lg-4">
-                    <div className=" align-items-center">
-                        <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
+            {localStorage.getItem('dashboard_access_token') !== 'null' &&
+                <nav className="navbar navbar-expand-sm bg-white navbar-light px-4 mx-auto shadow-sm border-bottom py-3 justify-content-between">
+                    <div className="d-flex col-xl-3 col-lg-4">
+                        <div className=" align-items-center">
+                            <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
+                        </div>
                     </div>
-                </div>
-                <Dropdown
-                    key={"login_page"}
-                    options={LanguageOptions}
-                    selectedOptions={activeLanguage}
-                    onSelectFunction={(e) => { setActiveLanguage(e); localStorage.setItem('active_language', e?.value); window.location.reload(); }}
-                    styleClass="language-dropdown"
-                ></Dropdown>
-            </nav>}
+                    <div className="d-flex my-auto">
+                        {uurroosterStatus ? <img src={LoginIcon} className="shortcut-icon mt-1 mr-2" onClick={() => setUurroosterStatus(false)}></img> : <img src={UurroosterIcon} className="shortcut-icon mt-1 mr-2" onClick={() => setUurroosterStatus(true)}></img>}
+                        <Dropdown
+                            key={"login_page"}
+                            options={LanguageOptions}
+                            selectedOptions={activeLanguage}
+                            onSelectFunction={(e) => { setActiveLanguage(e); localStorage.setItem('active_language', e?.value); window.location.reload(); }}
+                            styleClass="language-dropdown my-auto"
+                        ></Dropdown>
+                    </div>
+                </nav>
+            }
             <div className={"col-md-12 d-flex login_height align-items-center p-0 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'login_height' : 'full-page-height')}>
-                {(localStorage.getItem('dashboard_access_token') === 'null' || localStorage.getItem('dashboard_access_token') === '' || localStorage.getItem('dashboard_access_token') === null) && <div className="col-md-6 p-0 border-right full-page-height">
-                    <img className="banner-style" src={IndiiBanner}></img>
-                </div>}
-                {localStorage.getItem('dashboard_access_token') !== 'null' && <div className="col-md-9"><Uurrooster view="login"></Uurrooster></div>}
+                {(localStorage.getItem('dashboard_access_token') === 'null' || localStorage.getItem('dashboard_access_token') === '' || localStorage.getItem('dashboard_access_token') === null) ?
+                    <div className="col-md-6 p-0 border-right full-page-height">
+                        <img className="banner-style" src={IndiiBanner}></img>
+                    </div>
+                    :
+                    (!uurroosterStatus && <div className="col-md-6 p-0 border-right login_height d-flex justify-content-center bg-qrcode">
+                        <Uurrooster view="login" showData="qrcode"></Uurrooster>
+                    </div>)
+                }
+
+                {localStorage.getItem('dashboard_access_token') !== 'null' && uurroosterStatus &&
+                    <div className="col-md-12 p-0"> <Uurrooster view="login"></Uurrooster></div>
+                }
+
                 {/* <div className="col-md-5 p-0 login_height"> */}
-                <div className={"mx-auto d-flex align-items-center justify-content-center float-right position-relative h-100 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'col-md-3 p-0 border-left' : 'col-md-5')}>
+                {!uurroosterStatus && <div className={"mx-auto d-flex align-items-center justify-content-center float-right position-relative h-100 col-md-5"}>
                     {(localStorage.getItem("dashboard_access_token") === 'null' || localStorage.getItem('dashboard_access_token') === '' || localStorage.getItem('dashboard_access_token') === null) && <div className="position-absolute login_lang_dropdown mt-3">
                         <ul className="navbar-nav">
                             <li className="mx-3 px-2 w-max-content">
@@ -140,7 +159,7 @@ export default function Login({ setAuth }) {
                     </div>
 
                     {/* RESET PASSWORD */}
-                </div>
+                </div>}
                 {/* </div> */}
             </div>
         </>
