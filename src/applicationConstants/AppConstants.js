@@ -249,8 +249,8 @@ export const GET_CONSTANTS = {
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
     'OAUTH_KEY': 'Oauth key',
-    'SHOW_ALL_COMPANIES':"Show all the companies",
-    'ARCHIVED':'Archived',
+    'SHOW_ALL_COMPANIES': "Show all the companies",
+    'ARCHIVED': 'Archived',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error',
@@ -294,10 +294,10 @@ export const GET_CONSTANTS = {
     'USED_TITLE': 'Used',
     'REMAINING_TITLE': 'Remaining',
     'STREET_HOUSE': 'Street+house no',
-    'CREATE_EMPLOYEE_SUCCESS_MESSAGE':'Employee created successfully',
-    'DIMONA_PERIOD_ID':'Dimona period id',
-    'DO_YOU_WANT_TO_SEND_LONGTERM_DIMONA':'Do you want to send long term dimona ?',
-    'YOU_ARE_ENTERING_PAST_DATE':'You are entering past date',
+    'CREATE_EMPLOYEE_SUCCESS_MESSAGE': 'Employee created successfully',
+    'DIMONA_PERIOD_ID': 'Dimona period id',
+    'DO_YOU_WANT_TO_SEND_LONGTERM_DIMONA': 'Do you want to send long term dimona ?',
+    'YOU_ARE_ENTERING_PAST_DATE': 'You are entering past date',
 
     // Employee contract types
     'WEEKLY_CONTRACT_HOURS': 'Weekly contract hours',
@@ -308,6 +308,7 @@ export const GET_CONSTANTS = {
     'SCHEDULE_TYPE': 'Schedule type',
     'EMPLOYEEMENT_TYPE': 'Employement type',
     'EXPERIENCE_IN_MONTHS': 'Experience in months',
+    'RESERVED_HOURS': 'Reserved hours',
 
     // Function salaries
     'EXPERIENCE': 'Experience',
