@@ -41,28 +41,29 @@ export default function Configurations() {
         { title: t('REASONS'), icon: <Reasons />, styleClass: subTabStyle, type: 'reasons' },
         { title: t('SOCIAL_SECRETARY'), icon: <SocialSecretary />, styleClass: subTabStyle, type: 'social_secretary' },
         { title: t('INTERIM_AGENCIES'), icon: <SocialSecretary />, styleClass: subTabStyle, type: 'interim-agencies' },
-        { title: t('DEFAULT_PARAMETER'), icon: <ParameterIcon/>, styleClass: subTabStyle, type: 'default_param' },
-        { title: t('PARAMETER'), icon: <ParameterIcon/>, styleClass: subTabStyle, type: 'parameters' },
+        { title: t('DEFAULT_PARAMETER'), icon: <ParameterIcon />, styleClass: subTabStyle, type: 'default_param' },
+        { title: t('PARAMETER'), icon: <ParameterIcon />, styleClass: subTabStyle, type: 'parameters' },
+        { title: t('DIMONA_NAMESPACE'), icon: <ParameterIcon />, styleClass: subTabStyle, type: 'dimona_namespace' },
 
     ]
 
     const HolidayConfigurationTabs = [
-        { title: t("HOLIDAY_CODES"), icon: <HolidayCode/>, styleClass: subTabStyle, type: 'holiday_code' },
-        { title: t("HOLIDAY_CODE_CONFIGURATION"), icon: <HolidayCode/>, styleClass: subTabStyle, type: 'holiday_code_configuration' },
-        { title: t("PUBLIC_HOLIDAY_CONFIGURATION"), icon: <HolidayCode/>, styleClass: subTabStyle, type: 'public_holiday_configuration' },
+        { title: t("HOLIDAY_CODES"), icon: <HolidayCode />, styleClass: subTabStyle, type: 'holiday_code' },
+        { title: t("HOLIDAY_CODE_CONFIGURATION"), icon: <HolidayCode />, styleClass: subTabStyle, type: 'holiday_code_configuration' },
+        { title: t("PUBLIC_HOLIDAY_CONFIGURATION"), icon: <HolidayCode />, styleClass: subTabStyle, type: 'public_holiday_configuration' },
     ]
 
     const CommunicationTabs = [
-        { title: t("EMAIL_TEMPLATES"), icon: <EmailTemplate/>, styleClass: subTabStyle, type: 'email' },
-        { title: t("TRANSLATIONS"), icon: <Translate/>, styleClass: subTabStyle, type: 'translation' },
+        { title: t("EMAIL_TEMPLATES"), icon: <EmailTemplate />, styleClass: subTabStyle, type: 'email' },
+        { title: t("TRANSLATIONS"), icon: <Translate />, styleClass: subTabStyle, type: 'translation' },
         // { title: ('Message '), icon: Email, styleClass: subTabStyle, type: 'message' },
         { title: t("CONTRACT_TEMPLATES"), icon: <ContractType />, styleClass: subTabStyle, type: 'contracts_template' },
     ]
 
     const SocialSecretaryAndConfigurationTabs = [
-        { title: t("TAXES"), icon:<SocialSecretary />, styleClass: subTabStyle, type: 'taxes' },
-        { title: t("SALARY_COEFFICIENT"), icon:<Salaries />, styleClass: subTabStyle, type: 'salary_coefficient' },
-        { title: t("EXPORT_CONFIGURATION"), icon:<ExportIcon/>, styleClass: subTabStyle, type: 'export_configuration' },
+        { title: t("TAXES"), icon: <SocialSecretary />, styleClass: subTabStyle, type: 'taxes' },
+        { title: t("SALARY_COEFFICIENT"), icon: <Salaries />, styleClass: subTabStyle, type: 'salary_coefficient' },
+        { title: t("EXPORT_CONFIGURATION"), icon: <ExportIcon />, styleClass: subTabStyle, type: 'export_configuration' },
     ]
     return (
         <div className="right-container">

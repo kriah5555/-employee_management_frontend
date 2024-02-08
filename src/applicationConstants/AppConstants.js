@@ -249,8 +249,8 @@ export const GET_CONSTANTS = {
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
     'OAUTH_KEY': 'Oauth key',
-    'SHOW_ALL_COMPANIES':"Show all the companies",
-    'ARCHIVED':'Archived',
+    'SHOW_ALL_COMPANIES': "Show all the companies",
+    'ARCHIVED': 'Archived',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error',
@@ -652,6 +652,9 @@ export const GET_CONSTANTS = {
     'DIMONA_START': 'Dimona start',
     'DIMONA_END': 'Dimona end',
     'DECLARATION_TYPE': 'Declaration type',
+    'DIMONA_NAMESPACE': 'Dimona namespace',
+    'MANAGE_DIMONA_NAMESPACE': 'Manage dimona namespace',
+    'ADD_DIMONA_NAMESPACE': 'Add dimona namespace',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE': 'Activate on this device',

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 // import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl, InterimAgencyApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeTypeApiUrl, SectorApiUrl, FunctionApiUrl, GroupFunctionApiUrl, ContractTypeApiUrl, ReasonsApiUrl, SocialSecretaryApiUrl, InterimAgencyApiUrl, DimonaNamespaceApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import ManageSalaries from "../molecules/ManageSalaries";
@@ -109,6 +109,25 @@ export default function ConfigurationOverviews() {
         }
     ]
 
+    //Headers for dimona namespace
+    const dimona_namespace_headers = [
+        {
+            title: t("DIMONA_NAMESPACE"),
+            field: 'namespace',
+            size: 200,
+        },
+        {
+            title: t("FROM_DATE"),
+            field: 'from_date',
+            size: 200,
+        },
+        {
+            title: t("TO_DATE"),
+            field: 'to_date',
+            size: 200,
+        }
+    ]
+
     const [headers, setHeaders] = useState(emp_type_sector_headers);
     const [listData, setListData] = useState([]);
     const [title, setTitle] = useState(t("MANAGE_EMPLOYEE_TYPES"));
@@ -151,19 +170,22 @@ export default function ConfigurationOverviews() {
         } else if (overviewContent === 'interim-agencies') {
             apiUrl = InterimAgencyApiUrl
             setHeaders(interim_agencies_headers); setTitle(t("MANAGE_INTERIM_AGENCIES")); setAddTitle(t("ADD_INTERIM_AGENCIES")); setAddUrl('/add-interim-agency');
+        } else if (overviewContent === 'dimona_namespace') {
+            apiUrl = DimonaNamespaceApiUrl
+            setHeaders(dimona_namespace_headers); setTitle(t("MANAGE_DIMONA_NAMESPACE")); setAddTitle(t("ADD_DIMONA_NAMESPACE")); setAddUrl('/add-dimona-namespace');
         }
 
         // Api call to get list data
         if (overviewContent !== 'default_param' && overviewContent !== 'parameters')
-        AXIOS.service(apiUrl, 'GET')
-            .then((result) => {
-                if (result?.success) {
-                    setListData(result.data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+            AXIOS.service(apiUrl, 'GET')
+                .then((result) => {
+                    if (result?.success) {
+                        setListData(result.data);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
 
     }, [overviewContent, dataRefresh])
 
@@ -248,10 +270,16 @@ export default function ConfigurationOverviews() {
             } else {
                 setDeleteUrl(InterimAgencyApiUrl + '/' + data.id)
             }
+        } else if (overviewContent === 'dimona_namespace') {
+            if (action === 'edit') {
+                navigate('/add-dimona-namespace/' + data.id)
+            } else {
+                setDeleteUrl(DimonaNamespaceApiUrl + '/' + data.id)
+            }
         }
     }
 
-    
+
     return (
         <div className="right-container">
             <ToastContainer
@@ -273,7 +301,7 @@ export default function ConfigurationOverviews() {
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
             {/* All configurations */}
-            {overviewContent !== 'min_salary' &&  overviewContent !== 'default_param' && overviewContent !== 'parameters' && <div className="company-tab-width d-flex flex-column mt-3 border bg-white">
+            {overviewContent !== 'min_salary' && overviewContent !== 'default_param' && overviewContent !== 'parameters' && <div className="company-tab-width d-flex flex-column mt-3 border bg-white">
                 <div className={"d-flex justify-content-between p-2 border-thick align-items-center"}>
                     <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
                     <div className="row m-0">
@@ -284,7 +312,7 @@ export default function ConfigurationOverviews() {
                 </div>
 
                 <div className="tablescroll flex-1">
-                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' :'function'} viewAction={viewAction} height={'100%'} ></Table>
+                    <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === 'social_secretary' ? 'social_secretary' : 'function'} viewAction={viewAction} height={'100%'} ></Table>
                 </div>
             </div>}
             {/* Minimum salary configurations */}

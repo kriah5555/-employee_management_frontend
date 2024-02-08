@@ -38,7 +38,8 @@ import EmployeeBasicDetails from '../components/organisms/EmployeeBasicDetails';
 import SocialSecretaryAndReportingConfigurationOverview from "../components/organisms/SocialSecretaryAndReportingConfigurationOverview"
 import AddTaxes from "../components/molecules/AddTaxes"
 import AddSalaryCoefficient from '../components/molecules/AddSalaryCoefficient';
-import ImportStatusOverView from '../components/molecules/ImportStatusOverView'
+import ImportStatusOverView from '../components/molecules/ImportStatusOverView';
+import AddDimonaNamespace from '../components/molecules/AddDimonaNamespace';
 
 const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
@@ -118,6 +119,9 @@ const BaseRouter = ({ setAuth, setCompany }) => (
         <Route exact path='/add-salary-coefficient' element={<AddSalaryCoefficient></AddSalaryCoefficient>} />
         <Route exact path='/add-salary-coefficient/:id' element={<AddSalaryCoefficient></AddSalaryCoefficient>} />
         <Route exact path='/import-employees' element={<ImportStatusOverView></ImportStatusOverView>} />
+
+        <Route exact path='/add-dimona-namespace' element={<AddDimonaNamespace></AddDimonaNamespace>} />
+        <Route exact path='/add-dimona-namespace/:id' element={<AddDimonaNamespace></AddDimonaNamespace>} />
 
     </Routes>
 );

@@ -143,6 +143,7 @@ export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"
 export const GetPlansForLeavesApiUrl = BASE_URL + "/masterdata/get-plans-for-leave"
 export const GetLeaveOptionsApiUrl = BASE_URL + "/masterdata/leaves/create"
 export const GetEmployeeLeavesApiUrl = BASE_URL + "/masterdata/get-absence-details-for-week"
+export const AddShiftLeaveApiUrl = BASE_URL + "/masterdata/shift-leave"
 
 // Invite employee api urls
 export const EmployeeInviteApiUrl = BASE_URL + '/masterdata/employee-invitations'
@@ -156,4 +157,5 @@ export const fetchAllTranslations = BASE_URL + '/masterdata/translations';
 
 export const ValidateLocationDashboardAccessTokenForLocation = BASE_URL + '/masterdata/validate-location-dashboard-access-key';
 export const GetDashboardAccessTokenForLocation = BASE_URL + '/masterdata/get-dashboard-access-key-for-location';
-export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key'
+export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key';
+export const DimonaNamespaceApiUrl = BASE_URL + '/masterdata/dimona-namespace';
