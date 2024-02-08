@@ -655,6 +655,7 @@ export const GET_CONSTANTS = {
     'DIMONA_START': 'Dimona start',
     'DIMONA_END': 'Dimona end',
     'DECLARATION_TYPE': 'Declaration type',
+    'DIMONA_CONFIRM_MESSAGE':'Are you sure, you want to send Dimona?',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE': 'Activate on this device',
