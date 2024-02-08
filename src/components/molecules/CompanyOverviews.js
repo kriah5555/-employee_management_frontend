@@ -8,8 +8,9 @@ import ModalPopup from "../../utilities/popup/Popup";
 import { t } from "../../translations/Translation";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
 import CustomButton from "../atoms/CustomButton";
+import ActionsOnLocation from "./ActionsOnLocation";
 
-export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany, isArchived }) {
+export default function CompanyOverviews({ overviewContent, setCompanySelected, setCompany, isArchived, showAllCompanies }) {
 
     const navigate = useNavigate();
     const [listData, setListData] = useState([]);
@@ -21,6 +22,9 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     const [dimonaConfigurationData, setDimonaConfigurationData] = useState({
         "employee_type_ids": []
     })
+    const [actionPopup, setActionPopup] = useState(false)
+    const [individualLocationData, setIndividualLocationData] = useState({})
+
 
     // Header data for company overview
     const Company_headers = [
@@ -162,7 +166,15 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                             })
                             setListData(arr)
                         } else if (overviewContent === 'company') {
-                           setListData( isArchived? result.data?.archived:result.data?.active)
+                            let active_companies = result.data?.active
+                            if (result.data?.active.length > 1) {
+                                result.data?.active?.map((comp, i) => {
+                                    if (!showAllCompanies && comp.id === parseInt(localStorage.getItem('company_id'))) {
+                                        active_companies = [comp]
+                                    }
+                                })
+                            }
+                            setListData(isArchived ? result.data?.archived : showAllCompanies ? result.data?.active : active_companies)
                         } else {
                             setListData(result.data)
                         }
@@ -202,7 +214,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             .catch((error) => {
                 console.log(error);
             })
-    }, [overviewContent, dataRefresh, isArchived])
+    }, [overviewContent, dataRefresh, isArchived, showAllCompanies])
 
     // Api call to delete item from table
     const DeleteApiCall = () => {
@@ -249,6 +261,9 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
         } else if (overviewContent === 'location') {
             if (action === 'edit') {
                 navigate('/manage-companies/location/' + data.id)
+            } else if (action === 'actions') {
+                setActionPopup(true)
+                setIndividualLocationData(data)
             } else {
                 setDeleteUrl(LocationApiUrl + '/' + data.id)
             }
@@ -333,6 +348,10 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
 
     }
 
+    const onHide = () => {
+        setActionPopup(false)
+    }
+
     return (
         <>
             {warningMessage && <ModalPopup
@@ -341,6 +360,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                 onConfirm={DeleteApiCall}
                 onHide={() => setWarningMessage('')}
             ></ModalPopup>}
+            {actionPopup && <ActionsOnLocation onHide={onHide} openPopUp={actionPopup} setOpenPopUp={setActionPopup} data={individualLocationData} ></ActionsOnLocation>}
             {overviewContent !== 'dimona' && <Table columns={headers} rows={listData} tableName={overviewContent} viewAction={viewAction} multiPurpose={true} isArchived={isArchived}></Table>}
             {overviewContent === 'dimona' && <> <div className="col-md-12 p-0"> <table className="col-md-12 table border" >
                 <thead>

@@ -79,6 +79,7 @@ export default function Sidebar() {
         setActiveIcon(title);
         setSidebardOpen(false)
         localStorage.setItem('activeIcon', title)
+        if (url === '/manage-companies') {window.location.reload();}
     }
 
     return (

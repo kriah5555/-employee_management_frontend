@@ -10,12 +10,14 @@ import { CreateOthPlanApiUrl, GetEmployeesApiUrl, GetOthOptionsApiUrl } from "..
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
+import { GetTimeDifference } from "../../utilities/CommonFunctions";
 
 
-export default function AddOthPlans() {
+export default function AddOthPlans({ setCreatestate, objectId }) {
 
     let params = useParams();
     const navigate = useNavigate();
+    let object_id = params.id ? params.id : objectId
 
 
     const [othPlanData, setOthPlanData] = useState({
@@ -56,6 +58,11 @@ export default function AddOthPlans() {
         AXIOS.service(GetEmployeesApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
+                    // if (object_id) {
+                    //     result.data?.map((val, i) => {
+                    //         if (val.value === )
+                    //     })
+                    // }
                     setEmployeeList(result.data)
                 } else {
                     setErrors(result.message)
@@ -93,11 +100,13 @@ export default function AddOthPlans() {
     }, [])
 
     useEffect(() => {
-        if (params.id) {
-            AXIOS.service(CreateOthPlanApiUrl + '/' + params.id, 'GET')
+        if (object_id) {
+            AXIOS.service(CreateOthPlanApiUrl + '/' + object_id, 'GET')
                 .then((result) => {
                     if (result?.success) {
                         let oth = { ...othPlanData }
+                        oth['employee_id'] = result.data.employee_profile_id
+                        setSelectedEmployees({ value: result.data.employee_profile_id, label: result.data.employee_name })
                         oth['start_date'] = result.data.start_date
                         oth['end_date'] = result.data.end_date
                         oth['location_id'] = result.data.location?.value
@@ -179,6 +188,7 @@ export default function AddOthPlans() {
                     PlanData['plannings'][index] = []
                     PlanData['plannings'][index][i] = {}
                     PlanData['plannings'][index][i][name] = value
+                    
                 } else {
                     if (PlanData['plannings'][index][i]) {
                         PlanData['plannings'][index][i][name] = value
@@ -186,6 +196,11 @@ export default function AddOthPlans() {
                         PlanData['plannings'][index][i] = {}
                         PlanData['plannings'][index][i][name] = value
                     }
+                }
+                if (name === 'start_time' && PlanData['plannings'][index][i]?.end_time) {
+                    PlanData['plannings'][index][i]['contract_hours'] = GetTimeDifference(value, PlanData['plannings'][index][i]['end_time'])
+                } else if (name === 'end_time' && PlanData['plannings'][index][i]?.start_time) {
+                    PlanData['plannings'][index][i]['contract_hours'] = GetTimeDifference(PlanData['plannings'][index][i]['start_time'], value)
                 }
                 setOthPlanData(PlanData)
             } else {
@@ -233,22 +248,22 @@ export default function AddOthPlans() {
     }
 
     const filterData = params?.eid ? [
-        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
-        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2  float-left" },
+        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2  float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ] : [
-        { title: t('EMPLOYEES_TITLE'), name: 'employee_id', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
-        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 mt-3 float-left" },
-        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 mt-3 float-left" },
+        { title: t('EMPLOYEES_TITLE'), name: 'employee_id', required: true, options: employeeList, selectedOptions: selectedEmployees, isMulti: false, type: 'dropdown', style: "col-md-2 float-left", isDisabled: object_id ? true : false  },
+        { title: t('START_DATE'), name: 'start_date', required: true, type: 'date', style: "col-md-2 float-left" },
+        { title: t('END_DATE'), name: 'end_date', required: false, type: 'date', style: "col-md-2 float-left" },
         { title: t('LOCATION_TITLE'), name: 'location_id', required: true, options: locationList, selectedOptions: selectedLocation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
         { title: t('WORK_STATION'), name: 'workstation_id', required: true, options: workstationList?.length > 0 ? workstationList : workstationList[selectedLocation?.value], selectedOptions: selectedWorkstation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
         { title: t('REPETATION'), name: 'repeating_week', required: true, options: repeatationList, selectedOptions: selectedRepeatation, isMulti: false, type: 'dropdown', style: "col-md-2 float-left" },
     ]
 
     const planData = [
-        { title: t('DAY'), name: 'day', required: true, options: days, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
+        { title: t('DAY'), name: 'day', required: true, options: days, isMulti: false, type: 'dropdown', style: "col-md-3 mt-3 float-left" },
         { title: t("START_TIME"), name: "start_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
         { title: t("END_TIME"), name: "end_time", required: true, type: "time", style: "col-md-3 mt-3 float-left" },
         { title: t('CONTRACT_HOURS'), name: 'contract_hours', required: true, type: 'text', style: "col-md-3 mt-3 float-left" },
@@ -262,8 +277,8 @@ export default function AddOthPlans() {
     ]
 
     const OnSave = () => {
-        let method = params.id ? 'PUT' : 'POST'
-        let url = params.id ? CreateOthPlanApiUrl + '/' + params.id : CreateOthPlanApiUrl
+        let method = object_id ? 'PUT' : 'POST'
+        let url = object_id ? CreateOthPlanApiUrl + '/' + object_id : CreateOthPlanApiUrl
         AXIOS.service(url, method, othPlanData)
             .then((result) => {
                 if (result?.success) {
@@ -282,20 +297,21 @@ export default function AddOthPlans() {
                     if (params.eid) {
                         navigate('/oth-planning/' + params.eid)
                     } else {
-                        setOthPlanData({
-                            "employee_id": params.eid,
-                            "start_date": "",
-                            "end_date": "",
-                            "workstation_id": '',
-                            "location_id": '',
-                            "repeating_week": 1,
-                            "auto_renew": false,
-                            "plannings": []
-                        });
-                        setSelectedEmployees('')
-                        setSelectedLocation('');
-                        setSelectedWorkstation('');
-                        setSelectedRepeatation({ value: 1, label: '1' });
+                        // setOthPlanData({
+                        //     "employee_id": params.eid,
+                        //     "start_date": "",
+                        //     "end_date": "",
+                        //     "workstation_id": '',
+                        //     "location_id": '',
+                        //     "repeating_week": 1,
+                        //     "auto_renew": false,
+                        //     "plannings": []
+                        // });
+                        // setSelectedEmployees('')
+                        // setSelectedLocation('');
+                        // setSelectedWorkstation('');
+                        // setSelectedRepeatation({ value: 1, label: '1' });
+                        setCreatestate(false)
                     }
                 } else {
                     setErrors(result.message)
@@ -316,8 +332,9 @@ export default function AddOthPlans() {
                     onHide={() => setErrors([])}
                 ></ErrorPopup>}
                 <div className="d-flex justify-content-between bg-white">
-                    <h4 className="py-2 px-3 bg-white">
+                    <h4 className="py-2 mb-0 px-3 bg-white">
                         {params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>}
+                        {params?.eid === undefined && <img className="shortcut-icon mr-2 mb-1" onClick={() => setCreatestate(false)} src={BackIcon}></img>}
                         {t('ADD_OTH')}</h4>
                     <Switch label={t("RENEW_OTH")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setAutoOn(!autoOn)} checked={autoOn} />
                 </div>
@@ -336,7 +353,7 @@ export default function AddOthPlans() {
                     repeatData.map((val, index) => {
                         return (
                             <div key={index}>
-                                <div className="bg-white my-2">
+                                <div className="bg-white my-2 py-2 oth_form_planning">
                                     {row.map((data, i) => {
                                         return (
                                             <div className="form-container my-3 bg-white pb-3" key={i}>
@@ -353,8 +370,8 @@ export default function AddOthPlans() {
                                             </div>
                                         )
                                     })}
+                                    <CustomButton buttonName={t('ADD_ANOTHER') + ' +'} ActionFunction={() => AddNewRow()} CustomStyle="mr-5 my-2 ml-4"></CustomButton>
                                 </div>
-                                <CustomButton buttonName={t('ADD_ANOTHER') + ' +'} ActionFunction={() => AddNewRow()} CustomStyle="mr-5 my-2"></CustomButton>
                             </div>
                         )
                     })

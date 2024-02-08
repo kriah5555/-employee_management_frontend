@@ -94,7 +94,7 @@ export default function EmployeeDetails({ eid }) {
     ]
     const countersTypeArray = [
         { counter_type: t("HOLIDAY_COUNTER"), type: "holiday" },
-        // { counter_type: "Leave", type: "leave" },    
+        // { counter_type: "Leave", type: "leave" },
     ]
 
     useEffect(() => {
@@ -194,7 +194,7 @@ export default function EmployeeDetails({ eid }) {
                     ]
 
                     let data_left = [
-                        { label: t("SSN"), value: result.data.social_secretary_number },
+                        { label: t("SOCIAL_SECRETARY_NUMBER"), value: result.data.social_secretary_number },
                         { label: t("CONTRACT_NUMBER"), value: result.data.contract_number },
                         { label: t("COMPANY_CAR"), value: benefits?.company_car ? "Yes" : "No" },
                         { label: t("COMPANY_FUEL_CARD"), value: benefits?.fuel_card ? "Yes" : "No" },

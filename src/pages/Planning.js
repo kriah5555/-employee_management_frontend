@@ -9,6 +9,7 @@ import OpenShiftListWithDetails from "../components/organisms/OpenShiftListWithD
 import BackIcon from "../static/icons/BackIcon.png"
 import AddOthPlans from "../components/organisms/AddOthPlans";
 import DimonaOverview from "../components/organisms/DimonaOverview";
+import OthPlanning from "../components/organisms/OthPlanning";
 
 export default function Planning({ setHeaderCompanyDropdown }) {
 
@@ -86,7 +87,7 @@ export default function Planning({ setHeaderCompanyDropdown }) {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="tablescroll h-100"><AddOthPlans></AddOthPlans></div>
+                        <div className="tablescroll h-100"><OthPlanning></OthPlanning></div>
                     </TabPanel>
                 </Tabs>
             </div>

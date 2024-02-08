@@ -33,7 +33,7 @@ export default function InviteEmployeePopup(props) {
         AXIOS.service(EmployeeInviteApiUrl, "POST", inviteData)
             .then((result) => {
                 if (result?.success) {
-                    props.setOpenPopup(false)
+                    props.onHide()
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,

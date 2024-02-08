@@ -141,9 +141,15 @@ export default function ActionsPopup(props) {
                     {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon}></img><p className='mr-5'>{t("CHANGE_MANAGER")}</p></>}
                     {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "request_cancel")} src={RequestCancelIcon}></img><p className='mr-5'>{t("REQUEST_CANCEL")}</p></>}
                 </div>
-                {showDropDown && <div className='text-center d-flex border-top mt-2'>
-                    <div className='col-md-8'><FormsNew data={formFields} formattedData={formData} SetValues={setValues}></FormsNew></div><div className='col-md-4'><Button className='button-style float-left mt-5' onClick={() => saveManager()}>{t("SAVE")}</Button></div>
-                </div>}
+                {showDropDown &&
+                    <div className='text-center row border-top mt-2'>
+                        <div className='col-md-8'>
+                            <FormsNew data={formFields} formattedData={formData} view="contracts" SetValues={setValues}></FormsNew>
+                        </div>
+                        <div className='col-md-4 pt-2'>
+                            <Button className='button-style float-left mt-5 pt-2' onClick={() => saveManager()}>{t("SAVE")}</Button>
+                        </div>
+                    </div>}
             </Modal.Body>
         </Modal>
     );

@@ -101,6 +101,10 @@
   height: 40px;
 }
 
+.login_height {
+  height: calc(100vh - 80px);
+}
+
 .header-icon {
   width: 23px;
   height: 23px;
@@ -460,7 +464,7 @@ li,
 /* React Tabs css*/
 .react-tabs__tab-list {
   margin: 0px !important;
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .company-tab-width {
@@ -480,8 +484,9 @@ li,
   bottom: 1px;
   padding: 12px 12px;
   text-align: center;
-  width: 11% !important;
+  width: max-content !important;
   background-color: white;
+  min-width: 11%;
 }
 
 .react-tabs__tab-panel--selected {
@@ -944,6 +949,12 @@ html .ui-button.ui-state-disabled:active {
   bottom: 6px;
 }
 
+.leave-position {
+  position: absolute;
+  bottom: 6px;
+  right: 45%;
+}
+
 .add_contracts_body {
   height: calc(100vh - 175px);
   overflow-y: auto;
@@ -972,6 +983,10 @@ html .ui-button.ui-state-disabled:active {
 .rmdp-container .custom-calendar.ep-arrow::after {
   background-color: #e8f8f3;
   color: #003f54 !important;
+}
+.custom-calendar + div,
+.custom-calendar {
+  z-index: 9999999 !important;
 }
 
 .rmdp-container .custom-calendar.ep-arrow[direction="bottom"] {
@@ -1026,7 +1041,7 @@ html .ui-button.ui-state-disabled:active {
   color: #003f54 !important;
 }
 
-.rmdp-today span:not(.highlight){
+.rmdp-today span:not(.highlight) {
   background-color: #003f54 !important;
   box-shadow: 0 0 3px #61bfb5;
   color: #fff !important;
@@ -1116,7 +1131,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .planning_body {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 170px);
   display: flex;
   flex-direction: column;
 }
@@ -1146,6 +1161,14 @@ html .ui-button.ui-state-disabled:active {
 .panning_overview_table {
   overflow: auto;
   height: calc(100vh - 400px);
+}
+
+.panning_overview_table_heading {
+  font-weight: bold;
+}
+.panning_overview_times {
+  font-weight: bold;
+  padding: 0px 28px !important;
 }
 
 .uurrooster_table {
@@ -1186,10 +1209,20 @@ html .ui-button.ui-state-disabled:active {
   overflow: auto;
 }
 
+.oth_form_planning {
+  height: 58vh;
+  overflow-y: auto;
+}
+
 @media (max-width: 1400px) {
   body,
   html {
     font-size: 14px !important;
+  }
+
+  .oth_form_planning {
+    height: 54vh;
+    overflow-y: auto;
   }
 
   .dashboard-icon {
@@ -1248,6 +1281,7 @@ html .ui-button.ui-state-disabled:active {
   .notification-menu {
     right: 25%;
   }
+
   .shortcut-menu {
     right: 35%;
   }
@@ -1261,8 +1295,14 @@ html .ui-button.ui-state-disabled:active {
   .notification-menu {
     right: 33%;
   }
+
   .shortcut-menu {
     right: 46%;
+  }
+
+  .oth_form_planning {
+    height: 52vh;
+    overflow-y: auto;
   }
 }
 
@@ -1395,4 +1435,29 @@ tr th:last-child {
 
 .w-12 {
   width: 12%;
+}
+
+.form-control {
+  min-height: 38px;
+}
+
+.login_lang_dropdown {
+  top: 0;
+  right: 0;
+}
+
+.justify-content-evenly {
+  justify-content: space-evenly;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.bg-qrcode {
+  background-color: #61bfb517;
 }

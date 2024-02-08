@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
-import EmailForwardersIcon from "../static/icons/EmailForwarders.svg"
 import FilterIcon from "../static/icons/Filter.svg"
 import ExportIcon from "../static/icons/Export.svg"
 import EmployeeListWithDetails from "../components/organisms/EmployeeListWithDetails";
@@ -9,6 +8,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { t } from "../translations/Translation";
 import InviteEmployeePopup from "../components/molecules/InviteEmployeePopup"
 import AddEmployee from "../static/icons/AddEmployee";
+import ImportIcon from "../static/icons/Import.svg"
+import InviteEmployee from "../static/icons/InviteEmployee"
+
 
 export default function Employees() {
 
@@ -32,7 +34,6 @@ export default function Employees() {
                         <div className="col-md-6 float-left">
                             <h4 className="d-flex align-items-center">{showDetails && <img className="shortcut-icon mr-2 pointer" onClick={() => { setShowDetails(false); navigate('/manage-employees') }} src={BackIcon}></img>}{t("EMPLOYEES_TITLE")}</h4>
                         </div>
-
                         <div className="col-md-6 float-right">
                             <ul className="float-right">
                                 {!showDetails &&
@@ -40,7 +41,9 @@ export default function Employees() {
                                         <AddEmployee />
                                         <span className="">{t("CREATE_EMPLOYEE")}</span>
                                     </li>}
-                                <li className="list-group d-inline ml-5" onClick={() => handleInvite()}><img className="header-icon" src={EmailForwardersIcon} alt={t("EMAIL_FORWARD")} title={t("EMAIL_FORWARD")} /></li>
+                                {/* <li className="list-group d-inline ml-5"><img className="header-icon" src={ImportIcon} alt={t("IMPORT")} title={t("IMPORT_EMPLOYEES")} onClick={() => navigate("/import-employees")} /></li> */}
+                                <li className="list-group d-inline ml-3 p-0" onClick={() => handleInvite()} title={t("INVITE_EMPLOYEE")}><InviteEmployee color="#292929" /></li>
+                                    {/* <img className="header-icon" src={EmailForwardersIcon} alt={t("INVITE_EMPLOYEE")} title={t("INVITE_EMPLOYEE")} /></li> */}
                                 {/* <li className="list-group d-inline ml-3"><img className="header-icon" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")} /></li> */}
                                 <li className="list-group d-inline ml-3"><img className="header-icon" src={ExportIcon} alt={t("EXPORT")} title={t("EXPORT")} /></li>
                             </ul>

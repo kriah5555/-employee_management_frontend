@@ -58,6 +58,7 @@ export const UploadIdCardApiUrl = BASE_URL + '/masterdata/employee-id-card'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
+export const UnAuthUurroosterApiUrl = BASE_URL + '/masterdata/open-uurrooster'
 
 // Setting api urls
 export const MealVoucherApiUrl = BASE_URL + '/masterdata/meal-vouchers'
@@ -96,6 +97,7 @@ export const CreateShiftPlanApiUrl = BASE_URL + '/masterdata/create-shift-plan'
 // Oth planning api urls
 export const CreateOthPlanApiUrl = BASE_URL + '/masterdata/long-term-planning'
 export const GetOthPlansApiUrl = BASE_URL + '/masterdata/employee-long-term-plannings/'
+export const GetAllOthPlansApiUrl = BASE_URL + '/masterdata/get-all-long-term-plannings'
 export const GetOthOptionsApiUrl = BASE_URL + '/masterdata/long-term-planning/create'
 
 // My account api urls
@@ -141,6 +143,8 @@ export const SalaryCoefficientApiUrl = BASE_URL + "/masterdata/salary-coefficien
 export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"
 export const GetPlansForLeavesApiUrl = BASE_URL + "/masterdata/get-plans-for-leave"
 export const GetLeaveOptionsApiUrl = BASE_URL + "/masterdata/leaves/create"
+export const GetEmployeeLeavesApiUrl = BASE_URL + "/masterdata/get-absence-details-for-week"
+export const AddShiftLeaveApiUrl = BASE_URL + "/masterdata/shift-leave"
 
 // Invite employee api urls
 export const EmployeeInviteApiUrl = BASE_URL + '/masterdata/employee-invitations'
@@ -151,3 +155,7 @@ export const EmployeeRegistrationApiUrl = BASE_URL + '/masterdata/employee-regis
 // export const getLangaugeList = BASE_URL + 'translations/get-all-languages';
 export const fetchTranslations = BASE_URL + '/masterdata/translate';
 export const fetchAllTranslations = BASE_URL + '/masterdata/translations';
+
+export const ValidateLocationDashboardAccessTokenForLocation = BASE_URL + '/masterdata/validate-location-dashboard-access-key';
+export const GetDashboardAccessTokenForLocation = BASE_URL + '/masterdata/get-dashboard-access-key-for-location';
+export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key'

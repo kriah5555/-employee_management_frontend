@@ -91,7 +91,7 @@ export const GET_CONSTANTS = {
     'CLEAR': 'Clear',
     'NORMAL': 'normal',
     'TESTER': 'Tester',
-    'PLEASE_SELECT_LOCATION':'Please select location',
+    'PLEASE_SELECT_LOCATION': 'Please select location',
 
 
     // Days constants
@@ -208,7 +208,7 @@ export const GET_CONSTANTS = {
     'REPETATION': 'Repetation',
     'OTH_PLANNING': 'Oth planning',
 
-    // Manage employees 
+    // Manage employees
     'EMPLOYEES_TITLE': 'Employees',
     'CREATE_EMPLOYEE': 'Create employee',
     'EMAIL_FORWARD': 'Forward email',
@@ -222,6 +222,8 @@ export const GET_CONSTANTS = {
     'DOCUMENT_NAME': 'Document name',
     'INVITE_EMPLOYEE': 'Invite employee',
     'SEND': 'send',
+    'IMPORT': 'Import',
+    'IMPORT_EMPLOYEES': 'Import employees',
 
     // Manage companies
     'ADD_COMPANY': 'Add company',
@@ -247,6 +249,8 @@ export const GET_CONSTANTS = {
     'DELETE': 'Delete',
     'HOLIDAY_CODE': 'Holiday code',
     'OAUTH_KEY': 'Oauth key',
+    'SHOW_ALL_COMPANIES':"Show all the companies",
+    'ARCHIVED':'Archived',
 
     // Employee creation
     'VALIDATION_ERROR': 'Validation error',
@@ -435,17 +439,17 @@ export const GET_CONSTANTS = {
     //SALARY COEFFICIENT
     'MANAGE_COEFFICIENT': 'Manage coefficient',
     'SALARY_COEFFICIENT': 'Salary coefficient',
-    'ADD_COEFFICIENT':'Add salary coefficient',
-    'ADD_SALARY_COEFFICIENT':'Add salary coefficient',
+    'ADD_COEFFICIENT': 'Add salary coefficient',
+    'ADD_SALARY_COEFFICIENT': 'Add salary coefficient',
     //EXPORT CONFIGURATION
     'EXPORT_CONFIGURATION': 'Export configuration',
-    'START_TIME_TYPE':'Start time type',
-    'END_TIME_TYPE':'End time type',
-    'WORK_TIME':'Work time',
-    'DEFAULT_BREAK_TIME':'Default break time',
-    'MEASURED_BREAK_TIME':'Measured break time',
-    'NIGHT_WORKED_HOURS':'Night worked hours',
-    'MANAGE_EXPORT_CONFIGURATION':'Managage export configuration',
+    'START_TIME_TYPE': 'Start time type',
+    'END_TIME_TYPE': 'End time type',
+    'WORK_TIME': 'Work time',
+    'DEFAULT_BREAK_TIME': 'Default break time',
+    'MEASURED_BREAK_TIME': 'Measured break time',
+    'NIGHT_WORKED_HOURS': 'Night worked hours',
+    'MANAGE_EXPORT_CONFIGURATION': 'Managage export configuration',
 
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',
@@ -575,7 +579,7 @@ export const GET_CONSTANTS = {
     'CHANGE_COMPANY': 'Change company',
     'ADD_EMPLOYEE': 'Add employee',
     'ADD_HOLIDAYS': 'Add holidays',
-    'MANAGE_HOLIDAYS':'Manage holidays',
+    'MANAGE_HOLIDAYS': 'Manage holidays',
     'SEND_INVOICES': 'Send invoices',
     'PLEASE_SELECT_RESPONSIBLE_COMPANY': 'Please select responsible company',
 
@@ -631,27 +635,33 @@ export const GET_CONSTANTS = {
     'DIMONA_OVERVIEW': 'Dimona overview',
     'PLAN_DATE': 'Plan date',
     'PLAN_START_TIME': 'Start date time',
-    'PLAN_END_TIME':'End date time',
+    'PLAN_END_TIME': 'End date time',
     'WORKING_TOO_LONG': 'Working too long',
-    'DIMONA_STATUS':'Dimona status',
+    'DIMONA_STATUS': 'Dimona status',
     'WORKED_DATE': 'Worked date',
     'PLANNED_DATE': 'Planned date',
     'PLANNED_PERIOD': 'Planned period',
     'DETAILED_OVERVIEW': 'Detailed overview',
     'DIMONA_TYPE': 'Dimona type',
-    'DIMONA_PERIOD_ID':'Dimona period id',
+    'DIMONA_PERIOD_ID': 'Dimona period id',
     'START_DATE_TIME': 'Start date/time',
-    'IN_TIME':'In time',
+    'IN_TIME': 'In time',
     'OUT_TIME': 'Out time',
     'SHORT_BREAK': 'Short break',
     'ERROR_CODE': 'Error code',
-    'SEND_DIMONA':'Send dimona',
+    'SEND_DIMONA': 'Send dimona',
     'PLAN_TIMINGS': 'Plan timings',
-    'DIMONA_ERROR_CODES':'Dimona error codes',
+    'DIMONA_ERROR_CODES': 'Dimona error codes',
+    'DIMONA_START': 'Dimona start',
+    'DIMONA_END': 'Dimona end',
+    'DECLARATION_TYPE': 'Declaration type',
 
     //Activate and deactivate location
-    'ACTIVATE_ON_THIS_DEVICE':'Activate on this device',
-    'DE_ACTIVATE_ON_THIS_DEVICE':'De-activate on this device',
-    'DE_ACTIVATE_ON_ALL_DEVICES':'De-activate on all devices',
+    'ACTIVATE_ON_THIS_DEVICE': 'Activate on this device',
+    'DE_ACTIVATE_ON_THIS_DEVICE': 'De-activate on this device',
+    'DE_ACTIVATE_ON_ALL_DEVICES': 'De-activate on all devices',
+    'LOCATION_ACTIVATED_MESSAGE': 'Location activated successfully',
+    'LOCATION_DEACTIVATED_MESSAGE': 'Location deactivated successfully',
+    'LOCATION_DEACTIVATED_ON_ALL_DEVICE': 'Location deactivated on all devices'
 
 };

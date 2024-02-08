@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import FormsNew from "../molecules/FormsNew";
 import { t } from "../../translations/Translation";
-import { GetFormattedDate } from "../../utilities/CommonFunctions";
+import { GetFormattedDate, GetListFromArray } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png"
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { GetDimonaApiUrl, GetDimonaDetailsApiUrl } from "../../routes/ApiEndPoints";
+import DimonaSuccessIcon from "../../static/icons/DimonaSuccess.svg";
+import DimonaFailedIcon from "../../static/icons/DimonaFail.svg";
+import DimonaWarningIcon from "../../static/icons/DimonaPending.svg";
 
 
 export default function DimonaOverview() {
 
-    const [typeList, setTypeList] = useState([{ value: 'plan', label: 'Plan' }, { value: 'longterm', label: 'Long term' }]);
-    const [selectedType, setSelectedType] = useState({ value: 'plan', label: 'Plan' });
+    const [typeList, setTypeList] = useState([{ value: 'all', label: 'All' }, { value: 'plan', label: 'Plan' }, { value: 'long_term', label: 'Long term' }]);
+    const [selectedType, setSelectedType] = useState({ value: 'all', label: 'All' });
     const [manageStatus, setManageStatus] = useState(true);
     const [manageListData, setManageListData] = useState([]);
     const [detailsListData, setDetailsListData] = useState({});
@@ -22,7 +25,7 @@ export default function DimonaOverview() {
     const [formattedData, setFormattedData] = useState({
         "from_date": currentDate,
         "to_date": currentDate,
-        "type": 'plan'
+        "type": 'all'
     })
 
     const manage_header = [
@@ -37,20 +40,25 @@ export default function DimonaOverview() {
             status: "200",
         },
         {
-            title: t("PLAN_START_TIME"),
+            title: t("DIMONA_TYPE"),
+            field: "type",
+            status: "200",
+        },
+        {
+            title: t("DIMONA_START"),
             field: "start",
             status: "200",
         },
         {
-            title: t("PLAN_END_TIME"),
+            title: t("DIMONA_END"),
             field: "end",
             status: "200",
         },
-        {
-            title: t("WORKING_TOO_LONG") + ' ?',
-            field: "overtime",
-            status: "200",
-        },
+        // {
+        //     title: t("WORKING_TOO_LONG") + ' ?',
+        //     field: "overtime",
+        //     status: "200",
+        // },
         {
             title: t("EMPLOYEE_TYPE"),
             field: "employee_type",
@@ -61,59 +69,62 @@ export default function DimonaOverview() {
             field: "dimona_period_id",
             status: "200",
         },
-        {
-            title: t("DIMONA_STATUS"),
-            field: "dimona_status",
-            status: "200",
-        },
+        // {
+        //     title: t("DIMONA_STATUS"),
+        //     field: "dimona_status",
+        //     status: "200",
+        // },
     ]
 
     const detail_header = [
         {
-            title: t("DIMONA_TYPE"),
-            field: "dimona_type",
+            title: t("DECLARATION_TYPE"),
+            field: "declaration_type",
             status: "200",
         },
         {
-            title: t("START_DATE_TIME"),
-            field: "start_date_time",
+            title: t("START_TEXT"),
+            field: "start",
+            status: "200",
+        },
+        // {
+        //     title: t("EMPLOYEE_TYPE"),
+        //     field: "employee_type",
+        //     status: "200",
+        // },
+        {
+            title: t("STOP_TEXT"),
+            field: "stop",
             status: "200",
         },
         {
-            title: t("EMPLOYEE_TYPE"),
-            field: "employee_type",
+            title: t("HOURS"),
+            field: "hours",
             status: "200",
         },
-        {
-            title: t("IN_TIME"),
-            field: "in_time",
-            status: "200",
-        },
-        {
-            title: t("OUT_TIME"),
-            field: "out_time",
-            status: "200",
-        },
-        {
-            title: t("SHORT_BREAK"),
-            field: "short_break",
-            status: "200",
-        },
-        {
-            title: t("ERROR_CODE"),
-            field: "error_code",
-            status: "200",
-        },
+        // {
+        //     title: t("SHORT_BREAK"),
+        //     field: "short_break",
+        //     status: "200",
+        // },
+        // {
+        //     title: t("ERROR_CODE"),
+        //     field: "error_code",
+        //     status: "200",
+        // },
         {
             title: t("DIMONA_STATUS"),
             field: "dimona_status",
             status: "200",
+            render: rowData => (
+                <img title={rowData.errors.length > 1 ? GetListFromArray(rowData.errors) : rowData.errors} src={rowData.dimona_status === 'success' ? DimonaSuccessIcon : (rowData.dimona_status === 'warning' || rowData.dimona_status === 'pending') ? DimonaWarningIcon : rowData.dimona_status === 'failed' ? DimonaFailedIcon : ''}></img>
+              ),
         },
-        {
-            title: t("REASON"),
-            field: "reason",
-            status: "200",
-        },
+        // {
+        //     title: t("REASON"),
+        //     field: "reason",
+        //     status: "200",
+        // },
     ]
 
     useEffect(() => {
@@ -145,8 +156,8 @@ export default function DimonaOverview() {
 
     const filterData = [
         { title: t("TYPE"), name: 'type', required: false, options: typeList, selectedOptions: selectedType, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
-        { title: t("FROM_DATE"), name: 'from_date', required: false, type: 'date', style: "col-md-3 mt-3 float-left" },
-        { title: t("TO_DATE"), name: 'to_date', required: false, type: 'date', style: "col-md-3 mt-3 float-left" },
+        { title: t("FROM_DATE"), name: 'from_date', required: false, type: 'date', style: "col-md-3 float-left" },
+        { title: t("TO_DATE"), name: 'to_date', required: false, type: 'date', style: "col-md-3 float-left" },
     ]
 
     const setValues = (index, name, value, field) => {
@@ -205,7 +216,7 @@ export default function DimonaOverview() {
                         <label className="mb-0 font-weight-bold">{t("WORKED_DATE") + ':'}</label>
                         <p className="pl-2 mb-0">{detailsListData?.dimona_sent_date}</p>
                     </div>
-                    {/* 
+                    {/*
                     <div className="col-md-2 row mt-2 m-0">
                         <label className="mb-0 font-weight-bold">{t("PLANNED_DATE") + ':'}</label>
                         <p className="pl-2 mb-0">{'18-01-2024'}</p>

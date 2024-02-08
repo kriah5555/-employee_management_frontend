@@ -37,6 +37,7 @@ export default function Rules({ overviewContent }) {
         { value: 5, label: t("LOCATION") }
     ]
     const [defaultValueStatus, setDefaultValueStatus] = useState(false);
+    const [dataRefresh, setDataRefresh] = useState(false);
     // let count = 1
     // const max_type = overviewContent === 'parameters' ? 3 : 5
     // while (count <= max_type) {
@@ -127,7 +128,7 @@ export default function Rules({ overviewContent }) {
                     console.log(error);
                 })
         }
-    }, [selectedType, selectedId, selectedSectorId])
+    }, [selectedType, selectedId, selectedSectorId, dataRefresh])
 
 
     const UpdateRow = (newData) => {
@@ -145,7 +146,7 @@ export default function Rules({ overviewContent }) {
         AXIOS.service(apiUrl + '/' + newData.id, 'PUT', req_data)
             .then((result) => {
                 if (result?.success) {
-                    if (overviewContent === 'rules') { setPopupOpen(false) }
+                    if (overviewContent === 'rules') { setDataRefresh(!dataRefresh); setPopupOpen(false) }
                     toast.success(result.message[0], {
                         position: "top-center",
                         autoClose: 2000,

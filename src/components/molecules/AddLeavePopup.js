@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 const AddLeavePopup = (props) => {
+
     const [employee, setEmployee] = useState();
     const [employeeList, setEmployeeList] = useState([]);
     const [holidayCode, setHolidayCode] = useState([]);
@@ -39,6 +40,24 @@ const AddLeavePopup = (props) => {
             checked: multipleDays,
         },
     ]
+
+    useEffect(() => {
+        if (props.updateLeaveData) {
+            let data = props.updateLeaveData
+            let leave_data = {
+                "employee_profile_id": data?.employee?.value,
+                "duration_type": data?.duration_type,
+                "dates": data?.dates,
+                "reason": data?.reason,
+                "holiday_code_id": data?.holiday_code_counts[0]?.holiday_code_id,
+                "plan_ids": data?.plan_ids
+            }
+            setEmployee(data?.employee);
+            PlanCheckboxChange(data?.plan_timings[0])
+            setHolidayCode({ value: data?.holiday_code_counts[0]?.holiday_code_id, label: data?.holiday_code_counts[0]?.holiday_code_name });
+            setFormData(leave_data)
+        }
+    }, [])
 
 
     useEffect(() => {
@@ -135,7 +154,7 @@ const AddLeavePopup = (props) => {
                             {
                                 name: item.plan_time,
                                 key: item.plan_id,
-                                checked: multipleDays,
+                                checked: props.updateLeaveData.plan_timings.includes(item.plan_id) ? true : false,
                             }
                         )
                     })
@@ -205,26 +224,26 @@ const AddLeavePopup = (props) => {
             .catch((error) => {
                 console.log(error);
             })
-       
+
     }
 
     const multipleDaysArrayField = [
         { title: t("EMPLOYEE_TITLE"), name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, isMulti: false, style: " col-md-4 mt-2" },
-        { title: t("FROM_DATE"), name: "from_date", required: true, type: "date", style: " col-md-4 mt-4 float-left" },
-        { title: t("TO_DATE"), name: "to_date", required: true, type: "date", style: " col-md-4 mt-4 float-left" },
+        { title: t("FROM_DATE"), name: "from_date", required: true, type: "date", style: " col-md-4 mt-2 float-left" },
+        { title: t("TO_DATE"), name: "to_date", required: true, type: "date", style: " col-md-4 mt-2 float-left" },
         { title: t("HOLIDAY_CODE"), name: "holiday_code_id", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: " col-md-4 mt-2 float-left" },
         { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: ' col-md-12 mt-4 float-left' },
-        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: ' col-md-12 mt-4 float-left' },
-        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: " col-md-12 mt-4 float-left" },
+        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: ' col-md-12 mt-2 float-left' },
+        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: " col-md-12 mt-2 float-left" },
     ]
 
     const defaultFieldsArray = [
         { title: t("EMPLOYEE_TITLE"), name: "employee", required: true, type: "dropdown", options: employeeList, selectedOptions: employee, isMulti: false, style: " col-md-4 mt-2" },
-        { title: t("MULTIPLE_DATES"), name: "dates", required: true, type: "date", style: " col-md-4 mt-4 float-left", isMulti: true },
+        { title: t("MULTIPLE_DATES"), name: "dates", required: true, type: "date", style: " col-md-4 mt-2 float-left", isMulti: true },
         { title: t("HOLIDAY_CODE"), name: "holiday_code_id", required: true, type: "dropdown", options: holidayCodeList, selectedOptions: holidayCode, style: " col-md-4 mt-2 float-left" },
-        { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: ' col-md-12 mt-4 float-left' },
-        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: ' col-md-12 mt-4 float-left' },
-        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: " col-md-12 mt-4 float-left" },
+        (!props.updateLeaveData ? { title: '', required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: ' col-md-12 mt-4 float-left' } : {}),
+        { title: 'Select shifts to add leave', required: false, type: 'checkbox', checkboxList: PlanCheckboxList, changeCheckbox: PlanCheckboxChange, style: ' col-md-12 mt-2 float-left' },
+        { title: t("REASON"), name: "reason", required: false, type: "text-area", style: " col-md-12 mt-2 float-left" },
     ]
 
 
@@ -242,11 +261,11 @@ const AddLeavePopup = (props) => {
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" className='container' >
                     <div className="row">
-                    {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                    title={t("VALIDATION_ERROR") + ("!")}
-                    body={(errors)}
-                    onHide={() => setErrors([])}
-                ></ErrorPopup>}
+                        {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                            title={t("VALIDATION_ERROR") + ("!")}
+                            body={(errors)}
+                            onHide={() => setErrors([])}
+                        ></ErrorPopup>}
                         <div className='col-md-12 text-center'>
                             {t("ADD_LEAVE")}
                         </div>

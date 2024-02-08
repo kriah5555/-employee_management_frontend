@@ -204,3 +204,13 @@ export function getMonthAndYearFromWeek(weekNumber, year) {
         year: resultYear
     };
 }
+
+export function GetListFromArray(errors) {
+    if (errors?.length !== 0) {
+        errors?.map((val, i) => {
+            val = val + "\n"
+            errors[i] = val
+        })
+    }
+    return errors
+}
