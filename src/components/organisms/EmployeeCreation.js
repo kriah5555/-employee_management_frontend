@@ -46,7 +46,8 @@ export default function EmployeeCreation() {
             "end_date": "",
             "weekly_contract_hours": "",
             "work_days_per_week": '',
-            "long_term_dimona":"",
+            "send_dimona": "",
+            'reserved_hours': ""
         }
     )
 

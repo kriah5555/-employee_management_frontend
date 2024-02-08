@@ -6,8 +6,19 @@ import { t } from "../../translations/Translation";
 
 export default function AddEmployeeContractTypes({ options, employeeContracts, setEmployeeContracts, selectedEmpTypeCategory, setSelectedEmpTypeCategory, displaySubType, setDisplaySubType, }) {
 
-    const [longTermDimona, setLongTermDimona] = useState(false)
+    const [longTermDimona, setLongTermDimona] = useState(employeeContracts.send_dimona === "" ? false : employeeContracts.send_dimona)
     const [startDateWarning, setStartDateWarning] = useState("")
+    const [showReservedHours, setShowReservedHours] = useState(false)
+
+    //to retain the reserved hours field when movet to next tab
+    useEffect(() => {
+        let listOptions = options?.employee_contract_options?.employee_types[selectedEmpTypeCategory]
+        listOptions && listOptions.map((item) => {
+            if (item.key === employeeContracts.employee_type_id) {
+                setShowReservedHours(item.reserved_hours);
+            }
+        })
+    }, [])
 
     const startdateWarning = (date) => {
         if (date !== null) {
@@ -24,7 +35,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
 
     const checkboxList = [
         {
-            key: "long_term_dimona",
+            key: "send_dimona",
             name: t("DO_YOU_WANT_TO_SEND_LONGTERM_DIMONA"),
         }
     ]
@@ -32,7 +43,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
     const changeCheckbox = (type) => {
         setLongTermDimona(!longTermDimona)
         let newData = { ...employeeContracts }
-        newData.long_term_dimona = !longTermDimona
+        newData.send_dimona = !longTermDimona
         setEmployeeContracts(newData)
         if (!longTermDimona && employeeContracts.start_date !== "") {
             startdateWarning(employeeContracts.start_date)
@@ -44,7 +55,9 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
     const contractFields = [
         { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", required: true, type: "text", style: "col-md-6 pl-0 float-left" },
         { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", required: true, type: "text", style: "col-md-6 float-left" },
-        { title: "", required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, checked: longTermDimona, style: 'col-md-6 mt-4 pl-0 float-left' },
+        { title: "", required: false, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, checked: longTermDimona, style: 'col-md-12 mt-4 pl-0 float-left' },
+        (!longTermDimona) ? { title: t("DIMONA_PERIOD_ID"), name: "dimona_period_id", required: true, type: "text", style: "col-md-6  mt-4 pl-0 float-left" } : {},
+        (longTermDimona && showReservedHours) ? { title: t("RESERVED_HOURS"), name: "reserved_hours", required: true, type: "text", style: "col-md-6  mt-4 pl-0 float-left" } : {}
     ]
 
     const ContractDateFields = [
@@ -65,15 +78,24 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
         setEmployeeContracts(employeeContractsData);
     }
 
-    const onRadioSelect = (type, key) => {
+    const onRadioSelect = (type, key, reservedHours) => {
         if (type === 'emp_type_cat') {
-
             setSelectedEmpTypeCategory(key);
             if (key === 1) {
                 setDisplaySubType(true)
             } else {
                 setDisplaySubType(false)
             }
+        } else if (type === 'employee_type_id') {
+            let listOptions = options?.employee_contract_options?.employee_types[selectedEmpTypeCategory]
+            listOptions.map((item) => {
+                if (item.key === key) {
+                    setShowReservedHours(item.reserved_hours);
+                }
+            })
+            const employeeContractsData = { ...employeeContracts };
+            employeeContractsData[type] = key
+            setEmployeeContracts(employeeContractsData)
         } else {
             const employeeContractsData = { ...employeeContracts };
             employeeContractsData[type] = key
@@ -81,6 +103,7 @@ export default function AddEmployeeContractTypes({ options, employeeContracts, s
             // console.log(employeeContractsData);
         }
     }
+
 
 
 
