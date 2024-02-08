@@ -124,8 +124,8 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
     //contract headers
     const contracts_template_headers = [
         {
-            title: t("EMPLOYEE_TYPE"),
-            field: 'employee_type.name',
+            title: t("CONTRACT_TYPE"),
+            field: 'contract_type.name',
             size: '200',
         },
     ]

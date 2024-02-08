@@ -60,8 +60,8 @@ export default function CommunicationConfigurationOverview() {
     //Header data for contract templates
     const contracts_template_headers = [
         {
-            title: t("EMPLOYEE_TYPE"),
-            field: 'employee_type.name',
+            title: t("CONTRACT_TYPE"),
+            field: 'contract_type.name',
             size: '200',
         },
     ]
@@ -109,7 +109,7 @@ export default function CommunicationConfigurationOverview() {
             .then((result) => {
                 if (result?.success) {
                     let data = result.data
-                    //filtering data for given company and also for null 
+                    //filtering data for given company and also for null
                     data.forEach(element => {
                         if (element.language) {
                             element.language = element.language.toUpperCase();

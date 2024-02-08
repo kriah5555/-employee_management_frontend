@@ -19,7 +19,7 @@ export default function AddContractsTemplate() {
     const [formattedData, setFormattedData] = useState({});
     const [formData, setFormdata] = useState({
         "status": "",
-        "employee_type_id": "",
+        "contract_type_id": "",
         "social_secretary": params.addType == 'company' ? [] : []
     })
     const [body, setBody] = useState({
@@ -27,8 +27,8 @@ export default function AddContractsTemplate() {
         "nl": "",
         "fr": ""
     })
-    const [employeeType, setEmployeeType] = useState("");
-    const [employeeTypeList, setEmployeeTypeList] = useState([]);
+    const [contractType, setContractType] = useState("");
+    const [contractTypeList, setContractTypeList] = useState([]);
     const [socialSecretary, setSocialSecretary] = useState([]);
     const [socialSecretaryList, setSocialSecretaryList] = useState([])
     const [tokensList, setTokensList] = useState([])
@@ -81,7 +81,7 @@ export default function AddContractsTemplate() {
             .then((result) => {
                 if (result.data) {
                     let response = result.data
-                    setEmployeeTypeList(getFormattedDropdownOptions(response.employee_types))
+                    setContractTypeList(getFormattedDropdownOptions(response.contract_types))
                     setSocialSecretaryList(getFormattedDropdownOptions(response.social_secretaries))
                     //converting tokens object to array of object of tokens
                     const data = Object.keys(response.tokens).map((key, i) => ({
@@ -121,9 +121,8 @@ export default function AddContractsTemplate() {
                 .then((result) => {
                     if (result.data) {
                         let response = result.data
-                        setLanguage(response.language)
                         setBody(response.body)
-                        setEmployeeType(getFormattedDropdownOptions(response.employee_type))
+                        setContractType(getFormattedDropdownOptions(response.contract_type))
 
                         if (params.addType == 'template') {
 
@@ -137,12 +136,12 @@ export default function AddContractsTemplate() {
 
                         setFormdata({
                             "status": response.status ? 1 : 0,
-                            "employee_type_id": response.employee_type_id,
+                            "contract_type_id": response.contract_type_id,
                             "social_secretary": arr
                         })
                         setFormattedData({
                             "body": response.body.en,
-                            "employee_type_id": response.employee_type_id,
+                            "contract_type_id": response.contract_type_id,
                             "social_secretary": arr,
                             "company_id": response.company_id ? response.company_id : "",
                         })
@@ -163,8 +162,8 @@ export default function AddContractsTemplate() {
 
         } else {
 
-            if (name == 'employee_type_id') {
-                setEmployeeType(value)
+            if (name == 'contract_type_id') {
+                setContractType(value)
                 setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
             } else if (name == 'social_secretary') {
                 let arr = []
@@ -184,12 +183,12 @@ export default function AddContractsTemplate() {
 
     //form fields array
     const fieldData = (params.addType === 'company') ? [
-        { title: t("EMPLOYEE_TYPE"), name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
+        { title: t("CONTRACT_TYPE"), name: "contract_type_id", required: true, type: "dropdown", options: contractTypeList, selectedOptions: contractType, style: "col-md-6 mt-2 float-left" },
         // { title: "Upload file", name: "file", required: true, type: "file", style: "col-md-12 mt-2 float-left" },
         { title: t("PREVIEW_TEXT"), name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
         { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
     ] : [
-        { title: t("EMPLOYEE_TYPE"), name: "employee_type_id", required: true, type: "dropdown", options: employeeTypeList, selectedOptions: employeeType, style: "col-md-6 mt-2 float-left" },
+        { title: t("CONTRACT_TYPE"), name: "contract_type_id", required: true, type: "dropdown", options: contractTypeList, selectedOptions: contractType, style: "col-md-6 mt-2 float-left" },
         { title: t("SOCIAL_SECRETARY"), name: 'social_secretary', required: false, options: socialSecretaryList, selectedOptions: socialSecretary, isMulti: true, type: 'dropdown', style: "col-md-6 mt-2 float-left" },
         { title: t("PREVIEW_TEXT"), name: "body", required: true, type: "editor", style: "col-md-12 mt-4 float-left" },
         { title: t("STATUS_TEXT"), required: true, type: 'checkbox', checkboxList: checkboxList, changeCheckbox: changeCheckbox, style: 'col-md-12 mt-4 float-left' },
@@ -213,7 +212,7 @@ export default function AddContractsTemplate() {
 
     //function to save data
     const OnSave = () => {
-        if (formData.employee_type_id !== "") {
+        if (formData.contract_type_id !== "") {
             let status = 1
             if (inactive) { status = 0 }
 
