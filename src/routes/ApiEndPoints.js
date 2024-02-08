@@ -159,4 +159,5 @@ export const fetchAllTranslations = BASE_URL + '/masterdata/translations';
 
 export const ValidateLocationDashboardAccessTokenForLocation = BASE_URL + '/masterdata/validate-location-dashboard-access-key';
 export const GetDashboardAccessTokenForLocation = BASE_URL + '/masterdata/get-dashboard-access-key-for-location';
-export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key'
+export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key';
+export const DimonaNamespaceApiUrl = BASE_URL + '/masterdata/dimona-namespace';

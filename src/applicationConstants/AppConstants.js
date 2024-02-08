@@ -657,6 +657,9 @@ export const GET_CONSTANTS = {
     'DIMONA_END': 'Dimona end',
     'DECLARATION_TYPE': 'Declaration type',
     'DIMONA_CONFIRM_MESSAGE':'Are you sure, you want to send Dimona?',
+    'DIMONA_NAMESPACE': 'Dimona namespace',
+    'MANAGE_DIMONA_NAMESPACE': 'Manage dimona namespace',
+    'ADD_DIMONA_NAMESPACE': 'Add dimona namespace',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE': 'Activate on this device',
