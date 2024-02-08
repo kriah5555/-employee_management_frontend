@@ -131,10 +131,12 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                 if (result.success) {
                     let lastCompanyId = localStorage.getItem('company_id')
                     let previousLang = localStorage.getItem('active_language')
+                    let dashboard_access_token = localStorage.getItem('dashboard_access_token')
                     localStorage.clear();
                     localStorage.setItem('auth', false)
                     localStorage.setItem('company_id', lastCompanyId)
                     localStorage.setItem('active_language', previousLang)
+                    localStorage.setItem('dashboard_access_token', dashboard_access_token)
                     setAuth(false);
                     navigate('/login');
                 }

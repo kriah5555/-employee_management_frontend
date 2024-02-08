@@ -41,13 +41,21 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     let dayContractEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options?.employee_types[2], "key", "name")
     let subTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.sub_types, "key", "value")
 
-    let commonData = [
+    let commonData = data?.long_term == true ? [
         { label: t("EMPLOYEE_TYPE"), value: data?.employee_type },
         { label: t("SUB_TYPE"), value: data.sub_type },
         { label: t("START_DATE"), value: data.start_date },
         { label: t("END_DATE"), value: data.end_date },
         { label: t("WEEKLY_CONTRACT_HOURS"), value: data.weekly_contract_hours },
-        { label: t("WORK_DAYS_PER_WEEK"), value: data.work_days_per_week }
+        { label: t("WORK_DAYS_PER_WEEK"), value: data.work_days_per_week },
+        { label: t("DIMONA_PERIOD_ID"), value: data?.dimona_period_id }
+    ] : [
+        { label: t("EMPLOYEE_TYPE"), value: data?.employee_type },
+        { label: t("SUB_TYPE"), value: data.sub_type },
+        { label: t("START_DATE"), value: data.start_date },
+        { label: t("END_DATE"), value: data.end_date },
+        { label: t("WEEKLY_CONTRACT_HOURS"), value: data.weekly_contract_hours },
+        { label: t("WORK_DAYS_PER_WEEK"), value: data.work_days_per_week },
     ]
 
 
@@ -204,6 +212,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },
         { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", type: "text", style: "col-md-6 float-left mt-2" },
         { title: t("SCHEDULE_TYPE"), name: "schedule_type", type: "radio", style: "col-md-6 float-left mt-2" },
+        (data?.long_term == true ? { title: t("DIMONA_PERIOD_ID"), name: "dimona_period_id", type: "text", style: "col-md-6 float-left mt-2" }: {}),
     ]
 
     let otherDataFieldsArray = [

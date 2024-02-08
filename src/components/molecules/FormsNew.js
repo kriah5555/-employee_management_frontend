@@ -56,7 +56,7 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
             {view !== 'sectors' && view !== 'holiday codes' && view !== 'email template' && view !== 'contracts template' && formTitle && <h2 id="text-indii-blue" className=" px-4 pt-4 mb-0 ml-2 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate(redirectURL)} src={BackIcon}></img>{formTitle}</h2>}
             {data && <div className={view === 'filters' ? "d-flex px-4" : (view === 'contracts' ? "d-flex px-4" : "d-flex px-0 px-md-4 flex-1 overflow-auto")}>
                 <form className={view === 'filters' ? " px-0 border-blue row w-100" : "col-md-12 px-0 pb-4 border-blue row mx-0"}>
-                    
+
                     {/* Text input field and dropdown based on the data given */}
                     {data.map((field, i) => {
                         if (field.type === "text") {
@@ -133,30 +133,51 @@ export default function FormsNew({ view, data, formTitle, SetValues, formattedDa
                             )
                         } else if (field.type === 'checkbox') {
                             if (field.checkboxList?.length !== 0)
-                            return (
-                                <CustomCheckBox
-                                    key={field.name}
-                                    title={field.title}
-                                    checkboxList={field.checkboxList}
-                                    changeCheckbox={field.changeCheckbox}
-                                    required={field.required}
-                                    CustomStyle={field.style}
-                                ></CustomCheckBox>
-                            )
+                                return (
+                                    <CustomCheckBox
+                                        key={field.name}
+                                        title={field.title}
+                                        checkboxList={field.checkboxList}
+                                        changeCheckbox={field.changeCheckbox}
+                                        required={field.required}
+                                        CustomStyle={field.style}
+                                        checked={field.checked}
+                                    ></CustomCheckBox>
+                                )
                         } else if (field.type === 'date') {
                             return (
-                                <DateInput
-                                    key={field.name}
-                                    title={field.title}
-                                    name={field.name}
-                                    CustomStyle={field.style}
-                                    required={field.required}
-                                    value={formattedData !== undefined ? formattedData[field.name] : ''}
-                                    setValue={(e) => SetValues(i, field.name, e)}
-                                    placeholder={field.placeholder}
-                                    isMulti={field.isMulti}
-                                    disabled={field.disabled}
-                                ></DateInput>
+                                field.warning ?
+                                    <div className="d-block">
+                                        <div className="clearfix">
+                                            <DateInput
+                                                key={field.name}
+                                                title={field.title}
+                                                name={field.name}
+                                                CustomStyle={field.style}
+                                                required={field.required}
+                                                value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                                setValue={(e) => SetValues(i, field.name, e)}
+                                                placeholder={field.placeholder}
+                                                isMulti={field.isMulti}
+                                                disabled={field.disabled}
+                                            ></DateInput>
+                                        </div>
+                                        <div className="row">
+                                            <p className="text-danger col-md-12">{field.warning}</p>
+                                        </div>
+                                    </div> :
+                                    <DateInput
+                                        key={field.name}
+                                        title={field.title}
+                                        name={field.name}
+                                        CustomStyle={field.style}
+                                        required={field.required}
+                                        value={formattedData !== undefined ? formattedData[field.name] : ''}
+                                        setValue={(e) => SetValues(i, field.name, e)}
+                                        placeholder={field.placeholder}
+                                        isMulti={field.isMulti}
+                                        disabled={field.disabled}
+                                    ></DateInput>
                             )
                         } else if (field.type === 'phone_input') {
                             return (

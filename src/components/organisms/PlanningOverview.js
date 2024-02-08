@@ -82,7 +82,6 @@ export default function PlanningOverview() {
                     if (result.data.locations.length >=1) {
                         setLocationPopup(true)
                     }
-
                     setWorkstationArr(result.data.workstations)
                     setEmployeeTypeArr(result.data.employee_types);
                 }

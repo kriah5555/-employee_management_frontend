@@ -45,7 +45,8 @@ export default function EmployeeCreation() {
             "start_date": "",
             "end_date": "",
             "weekly_contract_hours": "",
-            "work_days_per_week": ''
+            "work_days_per_week": '',
+            "long_term_dimona":"",
         }
     )
 

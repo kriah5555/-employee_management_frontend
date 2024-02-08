@@ -146,7 +146,7 @@ export default function OthPlanning() {
                         {params?.eid && <a className="my-auto px-3 bg-white mb-0 text-color" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
                         {params?.eid === undefined && <a className="btn button-style mx-2 add_btn" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</a>}
                     </div>
-                    <Table columns={headers} rows={listData} tableName={'location'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
+                    <Table columns={headers} rows={listData} tableName={'workstation'} viewAction={viewAction} height={'calc(100vh - 150px)'}></Table>
                 </div>
             </div >}
             {createstate && <AddOthPlans setCreatestate={setCreatestate} objectId={objectId}></AddOthPlans>}

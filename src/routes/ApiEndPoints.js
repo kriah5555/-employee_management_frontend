@@ -55,9 +55,11 @@ export const EmployeeBenefitsApiUrl = BASE_URL + '/masterdata/employee-benefits'
 export const GetEmployeeDocumentsApiUrl = BASE_URL + "/masterdata/get-employee-documents"
 export const GetEmployeesApiUrl = BASE_URL + '/masterdata/get-company-employees'
 export const UploadIdCardApiUrl = BASE_URL + '/masterdata/employee-id-card'
+export const SendDimonaContractApiUrl = BASE_URL + '/masterdata/send-long-term-dimona'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
+export const UnAuthUurroosterApiUrl = BASE_URL + '/masterdata/open-uurrooster'
 
 // Setting api urls
 export const MealVoucherApiUrl = BASE_URL + '/masterdata/meal-vouchers'
@@ -143,6 +145,7 @@ export const AddLeaveApiUrl = BASE_URL + "/masterdata/add-leave"
 export const GetPlansForLeavesApiUrl = BASE_URL + "/masterdata/get-plans-for-leave"
 export const GetLeaveOptionsApiUrl = BASE_URL + "/masterdata/leaves/create"
 export const GetEmployeeLeavesApiUrl = BASE_URL + "/masterdata/get-absence-details-for-week"
+export const AddShiftLeaveApiUrl = BASE_URL + "/masterdata/shift-leave"
 
 // Invite employee api urls
 export const EmployeeInviteApiUrl = BASE_URL + '/masterdata/employee-invitations'

@@ -36,6 +36,9 @@ function App() {
       if (!localStorage.getItem('active_language')) {
          localStorage.setItem('active_language', 'nl')
       }
+      if (!localStorage.getItem('dashboard_access_token')) {
+         localStorage.setItem('dashboard_access_token', 'null')
+      }
    }, [])
 
 

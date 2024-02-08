@@ -294,7 +294,10 @@ export const GET_CONSTANTS = {
     'USED_TITLE': 'Used',
     'REMAINING_TITLE': 'Remaining',
     'STREET_HOUSE': 'Street+house no',
-    'CREATE_EMPLOYEE_SUCCESS_MESSAGE': 'Employee created successfully',
+    'CREATE_EMPLOYEE_SUCCESS_MESSAGE':'Employee created successfully',
+    'DIMONA_PERIOD_ID':'Dimona period id',
+    'DO_YOU_WANT_TO_SEND_LONGTERM_DIMONA':'Do you want to send long term dimona ?',
+    'YOU_ARE_ENTERING_PAST_DATE':'You are entering past date',
 
     // Employee contract types
     'WEEKLY_CONTRACT_HOURS': 'Weekly contract hours',
@@ -652,6 +655,7 @@ export const GET_CONSTANTS = {
     'DIMONA_START': 'Dimona start',
     'DIMONA_END': 'Dimona end',
     'DECLARATION_TYPE': 'Declaration type',
+    'DIMONA_CONFIRM_MESSAGE':'Are you sure, you want to send Dimona?',
 
     //Activate and deactivate location
     'ACTIVATE_ON_THIS_DEVICE': 'Activate on this device',
