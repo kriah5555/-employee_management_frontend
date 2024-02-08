@@ -58,6 +58,7 @@ export const UploadIdCardApiUrl = BASE_URL + '/masterdata/employee-id-card'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
+export const UnAuthUurroosterApiUrl = BASE_URL + '/masterdata/open-uurrooster'
 
 // Setting api urls
 export const MealVoucherApiUrl = BASE_URL + '/masterdata/meal-vouchers'

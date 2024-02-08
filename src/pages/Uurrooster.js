@@ -13,7 +13,7 @@ import LeftArrowIcon from "../static/icons/LeftArrow.png";
 import RightArrowIcon from "../static/icons/RightArrow.png";
 import Dropdown from "../components/atoms/Dropdown";
 import { APICALL as AXIOS } from "../services/AxiosServices";
-import { LocationApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
+import { LocationApiUrl, UnAuthUurroosterApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
 import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
 import { GetFormattedDate, GetListFromArray, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
 import QRCode from "react-qr-code";
@@ -21,7 +21,7 @@ import { t } from "../translations/Translation";
 import DateInput from "../components/atoms/formFields/DateInput";
 import EmployeeType_icon from "../static/icons/EmployeeType_icon";
 
-export default function Uurrooster() {
+export default function Uurrooster({ view }) {
 
     const [planData, setPlanData] = useState([]);
 
@@ -35,16 +35,20 @@ export default function Uurrooster() {
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
     const [date, setDate] = useState(new Date());
     const [dayDate, setDayDate] = useState(GetFormattedDate(currentDate, currentDate.getFullYear()));
+    const [defaultLocationName, setDefaultLocationName] = useState('');
+    const [locationStatus, setLocationStatus] = useState(true);
 
     useEffect(() => {
-        AXIOS.service(LocationApiUrl, 'GET')
-            .then((res) => {
-                setLocations(getFormattedDropdownOptions(res.data, 'id', 'location_name'))
-                setSelectedLoc({ value: res.data?.[0]?.id, label: res.data?.[0]?.location_name })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (view !== 'login') {
+            AXIOS.service(LocationApiUrl, 'GET')
+                .then((res) => {
+                    setLocations(getFormattedDropdownOptions(res.data, 'id', 'location_name'))
+                    setSelectedLoc({ value: res.data?.[0]?.id, label: res.data?.[0]?.location_name })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }, [])
 
     useEffect(() => {
@@ -52,12 +56,24 @@ export default function Uurrooster() {
             "location_id": selectedLoc?.value,
             "date": dayDate
         }
+        let ApiUrl = UurroosterApiUrl
+        if (view === 'login') {
+            data = {
+                "location_id": selectedLoc?.value,
+                "date": dayDate,
+                "access_key": localStorage.getItem('dashboard_access_token')
+            }
+            ApiUrl = UnAuthUurroosterApiUrl
+        }
 
-        AXIOS.service(UurroosterApiUrl, 'POST', data)
+        AXIOS.service(ApiUrl, 'POST', data)
             .then((result) => {
                 if (result.success) {
                     let resp = result.data
                     setQrcode(resp.qr_token);
+                    setDefaultLocationName(resp?.location_name)
+                    setLocationStatus(resp?.location_selection)
+                    console.log(defaultLocationName);
                     let arr = []
                     let data = resp.planning_data
                     if (data.length !== 0) {
@@ -171,23 +187,25 @@ export default function Uurrooster() {
     }, [dayDate])
 
 
+    console.log(defaultLocationName);
     return (
-        <div className="right-container">
-            <div className="company-tab-width mt-3 border bg-white">
+        <div className={view === "login" ? "w-100" : "right-container"}>
+            <div className={"border bg-white " + (view === 'login' ? "w-100" : "company-tab-width mt-3")}>
                 <div className="col-md-12 d-flex mt-4">
                     <div className="col-md-3">
-                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon} alt={t("LOCATION_TITLE")}></img>{selectedLoc?.label}</p>
+                        <p className=""><img className="mr-2 planning-icon" src={LocationIcon} alt={t("LOCATION_TITLE")}></img>{selectedLoc ? selectedLoc?.label : defaultLocationName}</p>
                         <p className=""><img className="mr-2 planning-icon" src={CalendarIcon} alt={t("CALENDAR")}></img>{dayData}</p>
                         <img className="" src={RedIcon} alt={t("ICON")}></img>
                     </div>
                     <div className="col-md-6">
-                        <p className="text-center mb-0 font-weight-bold">{t("SELECT_LOCATION")}</p>
-                        <Dropdown
+                        {locationStatus && <p className="text-center mb-0 font-weight-bold">{t("SELECT_LOCATION")}</p>}
+                        {locationStatus && <Dropdown
                             options={locations}
                             selectedOptions={selectedLoc}
                             onSelectFunction={(e) => setSelectedLoc(e)}
                             CustomStyle="col-md-8 my-2 px-0 mx-auto pointer"
-                        ></Dropdown>
+                        ></Dropdown>}
+                        {!locationStatus && <p className="text-center mb-0 font-weight-bold">{t("SELECT_DATE")}</p>}
                         <div className="d-flex mt-1 border col-md-8 p-0 mx-auto">
                             <div className="button-style" onClick={() => setNextPrev('prev')}><img className="planning-icon pointer" src={LeftArrowIcon} alt={t("PREV_ARROW")}></img></div>
                             <DateInput
