@@ -172,7 +172,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
             })
     }
 
-    // Function for onclick of actions in the overview tables
+    // Function for onclick actions in the overview tables
     const viewAction = (data, action) => {
         if (action === 'edit') {
             setShiftId(data.id)
