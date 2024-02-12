@@ -3,12 +3,11 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useNavigate, useParams } from "react-router-dom";
 import { OpenShiftApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import indii from "../../static/icons/logo-temp.png"
 import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png";
-import FunctionIcon from "../../static/icons/Settings.svg"
-import LocationIcon from "../../static/icons/Location.svg"
 import { t } from "../../translations/Translation";
+import { toast } from 'react-toastify';
+
 export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
 
     const navigate = useNavigate();
@@ -22,17 +21,16 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
         { tabHeading: t("REJECTED"), tabName: 'rejected' },
         // { tabHeading: ("Drafts"), tabName: 'drafts' },
     ]
-
+    const [approvedEmployees, setApprovedEmployees] = useState([])
+    const [rejectEmployees, setRejectedEmployees] = useState([])
+    const [requestedEmployees, setRequestedEmployees] = useState([])
+    const [dataRefresh, setDataRefresh] = useState(false)
     const requestedHeaders = [
         {
             title: t("EMPLOYEE_NAME"),
             field: "employee_name",
             status: "200",
         },
-    ]
-
-    const requestedCandidatesList = [
-
     ]
 
     const createEmployeeTypeString = (employeeType) => {
@@ -52,6 +50,22 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
                 if (result?.success) {
                     setShiftData(result.data)
                     setEmployeeTypeString(createEmployeeTypeString(result.data?.employee_types))
+                    let requestedEmployees = []
+                    let rejectedEmployees = []
+                    let approvedEmployees = []
+                    result.data?.employees.map((item, index) => {
+                        item.id = item.employee_id
+                        if (item.status == "0") { // 0 ==> status for requested
+                            requestedEmployees.push(item)
+                        } else if (item.status == "1") {  // 1 ==> status for approved
+                            approvedEmployees.push(item)
+                        } else if (item.status == "2") { // 2 ==> status for rejected
+                            rejectedEmployees.push(item)
+                        }
+                    })
+                    setRequestedEmployees(requestedEmployees)
+                    setApprovedEmployees(approvedEmployees)
+                    setRejectedEmployees(rejectedEmployees)
                 }
             })
             .catch((error) => {
@@ -59,37 +73,40 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
             })
 
 
-    }, [])
-    //dummy data
-    const data = [{ id: 1, employee_name: "employee 01" }]
+    }, [dataRefresh])
 
     const viewAction = (data, action) => {
 
-        if (action === 'accept') {
-
-            let data = {
-                "id": data.id,
-                "vacancy_id": data.vacancy_id,
-                "user_id": data.user_id,
-                "request_status": "1",
-                "vacancy_date": data.start_date,
-                "responded_by": "1",
-            }
-            AXIOS.service(OpenShiftApiUrl + "/respond-to-vacancy", 'POST', data)
-                .then((result) => {
-                    if (result?.success) {
-                        setShiftData(result.data)
-                        setEmployeeTypeString(createEmployeeTypeString(result.data?.employee_types))
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-
-        } else if (action === 'reject') {
-
+        let applicationAction = (action === 'accept') ? 1 : 2
+        let payload = {
+            "id": data.application_id,
+            "vacancy_id": data.vacancy_id,
+            "user_id": data.employee_id,
+            "request_status": applicationAction,
+            "vacancy_date": data.vacancy_date,
+            "responded_by": localStorage.getItem('userId'),
+            'company_id': localStorage.getItem('company_id')
         }
 
+        AXIOS.service(OpenShiftApiUrl + "/respond-to-vacancy", 'POST', payload)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result?.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    setDataRefresh(!dataRefresh)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }
 
@@ -114,7 +131,7 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
                     </div>
                     <div className="width-22 px-3 mt-2 text-truncate">
                         <p className="mb-1 font-22 d-flex">{t("START_DATE") + (":")}&nbsp;<p className="text-secondary font-18">{shiftData?.start_date}</p></p>
-                        <p className="font-22 d-flex">{t("END_DATE")+(":")} &nbsp;<p className="text-secondary font-18">{shiftData?.end_date}</p></p>
+                        <p className="font-22 d-flex">{t("END_DATE") + (":")} &nbsp;<p className="text-secondary font-18">{shiftData?.end_date}</p></p>
                     </div>
                     <div className="width-22 px-3 mt-2 text-truncate">
                         <p className="font-22 d-flex">{t("EMPLOYEE_TYPE") + (":")}<p className="text-secondary font-18">{employeeTypeString}</p></p>
@@ -130,13 +147,13 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
                             })}
                         </TabList>
                         <TabPanel>
-                            <Table columns={requestedHeaders} rows={data} tableName={"applied_candidates"} viewAction={viewAction}></Table>
+                            <Table columns={requestedHeaders} rows={requestedEmployees} tableName={"applied_candidates"} viewAction={viewAction}></Table>
                         </TabPanel>
                         <TabPanel>
-                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} ></Table>
+                            <Table columns={requestedHeaders} rows={approvedEmployees} tableName={"approved_candidates"} ></Table>
                         </TabPanel>
                         <TabPanel>
-                            <Table columns={requestedHeaders} rows={requestedCandidatesList} tableName={"open_shifts_overview"} ></Table>
+                            <Table columns={requestedHeaders} rows={rejectEmployees} tableName={"rejected_candidates"} ></Table>
                         </TabPanel>
                     </Tabs>
                 </div>

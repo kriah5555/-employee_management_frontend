@@ -53,6 +53,7 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
         "approval_type": "1",
         "extra_info": "",
         "status": "",
+        'vacancy_id': shiftId,
 
     }]);
 
@@ -166,8 +167,9 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
 
     const onConfirm = () => {
         if (formData[0].name) {
-            let url = (shiftId !== 0 && shiftId !== "") ? OpenShiftApiUrl + "/" + shiftId : OpenShiftApiUrl
-            let method = (shiftId !== 0 && shiftId !== "") ? "PUT" : "POST"
+            // let url = (shiftId !== 0 && shiftId !== "") ? OpenShiftApiUrl + "/" + shiftId : OpenShiftApiUrl
+            let url = (shiftId !== 0 && shiftId !== "") ? OpenShiftApiUrl + "/update" : OpenShiftApiUrl
+            let method = (shiftId !== 0 && shiftId !== "") ? "POST" : "POST"
             let data = [...formData]
             data[0].status = 1
             AXIOS.service(url, method, data[0])
