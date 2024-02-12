@@ -102,6 +102,17 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
                         theme: "colored",
                     });
                     setDataRefresh(!dataRefresh)
+                } else {
+                    toast.error(result?.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
                 }
             })
             .catch((error) => {
