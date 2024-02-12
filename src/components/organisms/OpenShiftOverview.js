@@ -125,7 +125,8 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                     result.data.map((item, i) => {
                         if (item.status == 1) {
                             item.id = item.vacancy_id
-                            item.filled_position = item.responded + "/" + item.vacancy_count
+                            item.filled_position = item.accepted + "/" + item.vacancy_count
+                            item.applied = item.not_responded + item.responded
                             active.push(item)
                         } else if (item.status == 2) {
                             item.id = item.vacancy_id
