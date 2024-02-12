@@ -115,6 +115,7 @@ export const GET_CONSTANTS = {
     'BACK_LINK': 'Back',
     'FORGOT_PASSWORD_INSTRUCTION': 'Enter username below to get reset password link',
     'FORGOT_PASSWORD_SUCCESS_MESSAGE': 'Mail sent successfully. Please check your mail for reset password link',
+    'SCAN_TEXT': 'Scan to start/stop plan',
 
     // Popup constants
     'RESPONSIBLE_COMPANY': 'Responsible company',

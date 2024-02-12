@@ -648,6 +648,11 @@ textarea {
   top: 20px;
 }
 
+.scan-text {
+  position: absolute;
+  top: 20%;
+}
+
 /* Custom scroll css */
 .customscroll,
 .tablescroll div div div div {

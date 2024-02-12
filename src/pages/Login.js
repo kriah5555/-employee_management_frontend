@@ -19,6 +19,7 @@ export default function Login({ setAuth }) {
     const [password, setPassword] = useState('');
 
     const [uurroosterStatus, setUurroosterStatus] = useState(false)
+    const [errorMessage, setErrorMessage] = useState([]);
 
     const [message, setMessage] = useState(t("FORGOT_PASSWORD_INSTRUCTION"));
     const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language') == null ? "nl" : localStorage.getItem('active_language'), label: (localStorage.getItem('active_language') == null ? "nl" : localStorage.getItem('active_language'))?.toUpperCase() })
@@ -40,6 +41,7 @@ export default function Login({ setAuth }) {
             .then((result) => {
                 if (result.success) {
                     let response = result.data
+                    setErrorMessage('')
                     localStorage.setItem('token', 'Bearer ' + response.token.access_token);
                     localStorage.setItem('refresh_token', response.token.refresh_token);
                     localStorage.setItem('userId', response.uid);
@@ -48,6 +50,8 @@ export default function Login({ setAuth }) {
                     setAuth(true)
                     localStorage.setItem('auth', true)
                     navigate('/');
+                } else {
+                    setErrorMessage(result.message)
                 }
             })
     }
@@ -101,6 +105,8 @@ export default function Login({ setAuth }) {
                     </div>
                     :
                     (!uurroosterStatus && <div className="col-md-6 p-0 border-right login_height d-flex justify-content-center bg-qrcode">
+                        <h4 className="text-center scan-text" id="text-indii-dark-blue">{t('SCAN_TEXT')}</h4>
+                        <br></br>
                         <Uurrooster view="login" showData="qrcode"></Uurrooster>
                     </div>)
                 }
@@ -131,6 +137,11 @@ export default function Login({ setAuth }) {
                         <br></br>
 
                         {/* LOGIN */}
+                        {errorMessage && errorMessage.map((error, i) => {
+                            return (
+                                <p class="text-danger mb-1 text-center">{error}</p>
+                            )
+                        })}
                         {window.location.hash === '' && <>
                             <TextInput title={t('USERNAME')} name={"username"} setValue={setUserName} placeholder={""} CustomStyle={"col-md-8 mx-auto"} required={true}></TextInput>
                             <br></br>
