@@ -83,7 +83,13 @@ export default function ActionsPopup(props) {
 
     const handleAction = (holidayId, status) => {
 
-        AXIOS.service(UpdateHolidayStatusApiUrl + "/" + holidayId + "/" + status, 'POST')
+        let data = {
+            'holiday_id': holidayId,
+            'status': status,
+            'reason': "",
+        }
+
+        AXIOS.service(UpdateHolidayStatusApiUrl, 'POST', data)
             .then((result) => {
                 if (result?.success) {
                     props.setOpenPopUp(false)
@@ -135,11 +141,11 @@ export default function ActionsPopup(props) {
             <Modal.Body>
                 {/* <p>{props.body}</p> */}
                 <div className='d-flex justify-content-center '>
-                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "approve")} src={AcceptIcon}></img><p className='mr-5'>{t("APPROVE")}</p></>}
-                    {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "reject")} src={RejectIcon}></img><p className='mr-5'>{t("REJECT")}</p></>}
-                    {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "cancel")} src={RejectIcon}></img><p className='mr-5'>{t("CANCEL")}</p></>}
+                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "2")} src={AcceptIcon}></img><p className='mr-5'>{t("APPROVE")}</p></>} {/* 'APPROVE'=> 2, 'REJECT'=> 3, 'CANCEL' => 4, 'REQUEST_CANCEL' => 5,*/}
+                    {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "3")} src={RejectIcon}></img><p className='mr-5'>{t("REJECT")}</p></>}
+                    {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "4")} src={RejectIcon}></img><p className='mr-5'>{t("CANCEL")}</p></>}
                     {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon}></img><p className='mr-5'>{t("CHANGE_MANAGER")}</p></>}
-                    {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "request_cancel")} src={RequestCancelIcon}></img><p className='mr-5'>{t("REQUEST_CANCEL")}</p></>}
+                    {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "5")} src={RequestCancelIcon}></img><p className='mr-5'>{t("REQUEST_CANCEL")}</p></>}
                 </div>
                 {showDropDown &&
                     <div className='text-center row border-top mt-2'>
