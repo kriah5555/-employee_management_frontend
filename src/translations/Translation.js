@@ -33,7 +33,7 @@ export async function GetTranslatedConstants() {
   let result = await translate(GET_CONSTANTS);
 
   Object.keys(GET_CONSTANTS)?.map(async (key, index) => {
-    if (GET_CONSTANTS[key] === result[index]['key']) {
+    if (GET_CONSTANTS[key] === result?.[index]?.['key']) {
       translations['en'][key] = result[index]['en'];
       translations['nl'][key] = result[index]['nl'];
       translations['fr'][key] = result[index]['fr'];

@@ -41,7 +41,7 @@ export default function Employees() {
                                         <AddEmployee />
                                         <span className="">{t("CREATE_EMPLOYEE")}</span>
                                     </li>}
-                                {/* <li className="list-group d-inline ml-5"><img className="header-icon" src={ImportIcon} alt={t("IMPORT")} title={t("IMPORT_EMPLOYEES")} onClick={() => navigate("/import-employees")} /></li> */}
+                                <li className="list-group d-inline ml-5"><img className="header-icon" src={ImportIcon} alt={t("IMPORT")} title={t("IMPORT_EMPLOYEES")} onClick={() => navigate("/import-employees")} /></li>
                                 <li className="list-group d-inline ml-3 p-0" onClick={() => handleInvite()} title={t("INVITE_EMPLOYEE")}><InviteEmployee color="#292929" /></li>
                                     {/* <img className="header-icon" src={EmailForwardersIcon} alt={t("INVITE_EMPLOYEE")} title={t("INVITE_EMPLOYEE")} /></li> */}
                                 {/* <li className="list-group d-inline ml-3"><img className="header-icon" src={FilterIcon} alt={t("FILTER")} title={t("FILTER")} /></li> */}
