@@ -41,7 +41,6 @@ export default function ImportStatusOverView() {
         if (validateFileType(value)) {
             setFormData(newData)
         }
-        console.log(newData);
     }
 
 
@@ -74,8 +73,6 @@ export default function ImportStatusOverView() {
 
 
     useEffect(() => {
-        let ApiUrl = GetImportedEmployeesApiUrl
-        let Method = 'GET'
 
         AXIOS.service(GetImportedEmployeesApiUrl, 'GET')
             .then((result) => {
@@ -93,7 +90,6 @@ export default function ImportStatusOverView() {
 
 
     const onConfirm = () => {
-        console.log(formData);
         const fileData = new FormData();
         fileData.append("file", formData['file'])
 
@@ -110,6 +106,7 @@ export default function ImportStatusOverView() {
                         progress: undefined,
                         theme: "colored",
                     });
+                    setDataRefresh(!dataRefresh);
                     onHide();
                 } else {
                     // setErrors(result.message)
