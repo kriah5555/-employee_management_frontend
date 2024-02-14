@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackIcon from "../../static/icons/BackIcon.png"
 import Popup from "../../utilities/popup/Popup"
 import FileInput from "../atoms/FileInput";
-import { GetImportedEmployeesApiUrl, UploadEmployeeFileApiUrl } from "../../routes/ApiEndPoints";
+import { GetImportedEmployeesApiUrl, GetSampleExcelFileApiUrl, UploadEmployeeFileApiUrl } from "../../routes/ApiEndPoints";
 
 export default function ImportStatusOverView() {
 
@@ -78,6 +78,18 @@ export default function ImportStatusOverView() {
             .then((result) => {
                 if (result?.success) {
                     setListData(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        AXIOS.service(GetSampleExcelFileApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    // setListData(result.data)
                 } else {
                     // setErrors(result.message)
                 }

@@ -201,6 +201,7 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                 onHide={() => OnHides()}
                 shiftId={shiftId}
                 createData={createData}
+                showDrafts={showDrafts}
             ></AddOpenShift>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ('!')}

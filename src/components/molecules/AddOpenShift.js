@@ -16,7 +16,7 @@ import BackIcon from "../../static/icons/BackIcon.png"
 
 import { t } from "../../translations/Translation";
 
-export default function AddOpenShift({ shiftId, onHide, createData }) {
+export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }) {
 
     const [selectedCompany, setSelectedCompany] = useState("");
 
@@ -330,9 +330,9 @@ export default function AddOpenShift({ shiftId, onHide, createData }) {
                     <Button className='mr-3 mb-2 button-style float-right' onClick={() => onConfirm()}>
                         {t("SAVE")}
                     </Button>
-                    <Button className='mr-3 mb-2 button-style float-right' onClick={() => saveAsDraft()}>
+                    {!showDrafts && <Button className='mr-3 mb-2 button-style float-right' onClick={() => saveAsDraft()}>
                         {t("SAVE_AS_DRAFT")}
-                    </Button>
+                    </Button>}
                     <Button className='ml-3 mb-2 button-style' onClick={() => onHide()}>
                         {t("BACK_LINK")}
                     </Button>

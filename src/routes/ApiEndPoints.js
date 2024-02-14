@@ -58,6 +58,7 @@ export const UploadIdCardApiUrl = BASE_URL + '/masterdata/employee-id-card'
 export const SendDimonaContractApiUrl = BASE_URL + '/masterdata/send-long-term-dimona'
 export const UploadEmployeeFileApiUrl = BASE_URL + '/masterdata/upload-import-employee-file'
 export const GetImportedEmployeesApiUrl = BASE_URL + '/masterdata/get-import-employee-files'
+export const GetSampleExcelFileApiUrl = BASE_URL + '/masterdata/import-employee-sample-file'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
