@@ -18,6 +18,7 @@ export default function ImportStatusOverView() {
     const [formData, setFormData] = useState({ "file": "" })
     const [message, setMessage] = useState("")
     const [dataRefresh, setDataRefresh] = useState(false);
+    const [sampleFile, setSampleFile] = useState('')
 
     //dummy data
     const [listData, setListData] = useState([]);
@@ -49,7 +50,7 @@ export default function ImportStatusOverView() {
         {
             title: "File",
             field: 'file_url',
-            render: rows => <a href={rows.file_url} download={true}>{rows.file_url}</a>,
+            render: rows => <a href={rows.file_url} download={true}>{rows.file_url ? rows?.file?.file_name : ''}</a>,
             sorting: false  // onclick file should download
         },
         {
@@ -65,7 +66,7 @@ export default function ImportStatusOverView() {
         {
             title: "RESULT",
             field: 'feedback_file_url',
-            render: rows => <a href={rows.feedback_file_url} download={true}>{rows.feedback_file_url}</a>,
+            render: rows => <a href={rows.feedback_file_url} download={true}>{rows.feedback_file_url ? rows?.feedback_file?.file_name : ''}</a>,
             sorting: false // onclick file should download
         },
     ];
@@ -89,7 +90,7 @@ export default function ImportStatusOverView() {
         AXIOS.service(GetSampleExcelFileApiUrl, 'GET')
             .then((result) => {
                 if (result?.success) {
-                    // setListData(result.data)
+                    setSampleFile(result.data)
                 } else {
                     // setErrors(result.message)
                 }
@@ -160,7 +161,7 @@ export default function ImportStatusOverView() {
             <div className="right-container">
                 {openPopup && <Popup title={t("IMPORT_EMPLOYEES")} onConfirm={onConfirm} size={"lg"} onHide={onHide} startplanButton={"Upload"} body={
                     <div className="company-tab-width">
-                        <a className="mr-3 d-flex justify-content-end" href="/images/myw3schoolsimage.jpg" download>Download sample file</a>
+                        <a className="mr-3 d-flex justify-content-end" href={sampleFile} download>Download sample file</a>
                         <FileInput
                             key={"File"}
                             name={'file'}
