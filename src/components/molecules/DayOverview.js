@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Legend from "../atoms/Legend";
 import { t } from "../../translations/Translation";
 import PlanChart from "./PlanChart";
-import { GetDayPlans, GetPlanDetails, GetStartPlanReasonsApiUrl, GetStopPlanReasonsApiUrl, SignContractApiUrl, StartPlanApiUrl, StopPlanApiUrl } from "../../routes/ApiEndPoints";
+import { GetDayPlans, GetPlanDetails, GetStartPlanReasonsApiUrl, GetStopPlanReasonsApiUrl, SignContractApiUrl, StartBreakApiUrl, StartPlanApiUrl, StopBreakApiUrl, StopPlanApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import ModalPopup from "../../utilities/popup/Popup";
 import { Button } from "react-bootstrap";
@@ -33,6 +33,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     const [type, setType] = useState('');
     const [refresh, setRefresh] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
+    const [breakTimeStatus, setBreakTimeStatus] = useState(false);
 
     useEffect(() => {
         setStartStopPlanPopup('')
@@ -74,6 +75,11 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
             })
     }
 
+    const StartStopBreakPopup = (type) => {
+        setType(type)
+        setBreakTimeStatus(true);
+        setReasonStatus(true)
+    }
 
     const sendSignatureData = (data) => {
         let req_data = {
@@ -166,6 +172,9 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                                 {(resp.start_plan || resp.stop_plan) && <Button className='col-md-4 px-auto text-center button-style' onClick={() => StartStopPopup(resp.start_plan)}>
                                     {resp.start_plan ? t("START_PLAN") : t("STOP_PLAN")}
                                 </Button>}
+                                {(resp.start_break || resp.stop_break) && <Button className='col-md-4 ml-2 px-auto text-center button-style' onClick={() => StartStopBreakPopup(resp.start_break)}>
+                                    {resp.start_break ? t("START_BREAK") : t("STOP_BREAK")}
+                                </Button>}
                             </div>
                         </div>
                         setPlanDetails(design)
@@ -180,11 +189,12 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
 
     // Function to start and stop plans
     const StartStopApiCall = () => {
-        let ApiUrl = type ? StartPlanApiUrl : StopPlanApiUrl
+        let ApiUrl = type ? (breakTimeStatus ? StartBreakApiUrl : StartPlanApiUrl) : (breakTimeStatus ? StopBreakApiUrl : StopPlanApiUrl)
         let requestData = {
             "plan_id": startStopPlanPopup,
             "start_time": startTime,
             "stop_time": stopTime,
+            "end_time": stopTime,
             "reason_id": selectedReason,
         }
         AXIOS.service(ApiUrl, 'POST', requestData)
@@ -200,7 +210,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         progress: undefined,
                         theme: "colored",
                     });
-                    setStartStopPlanPopup(''); setPlanDetails(''); setReasonStatus(false);
+                    setStartStopPlanPopup(''); setPlanDetails(''); setReasonStatus(false); setBreakTimeStatus(false);
                 } else {
                     setErrorMessages(result.message)
                 }
@@ -220,7 +230,7 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
             ></ErrorPopup>}
             {startStopPlanPopup !== '' && <ModalPopup
                 size="lg"
-                title={!reasonStatus ? t("PLAN_DETAILS") : type ? t("START_PLAN") : t("STOP_PLAN")}
+                title={!reasonStatus ? t("PLAN_DETAILS") : type ? (breakTimeStatus ? t("START_BREAK") : t("START_PLAN")) : (breakTimeStatus ? t("STOP_BREAK") : t("STOP_PLAN"))}
                 body={!reasonStatus ? planDetails : <div>
                     <TimeInput
                         key={'time'}
@@ -232,14 +242,14 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
                         required={true}
                         customStyle={'col-md-4 pl-4'}
                     ></TimeInput>
-                    <RadioInput
+                    {!breakTimeStatus && <RadioInput
                         title={t("REASON")}
                         radiobuttonsList={getFormattedRadioOptions(reasons, 'id', 'name')}
                         changeCheckbox={onRadioSelect}
                         CustomStyle={'mt-3'}
                         selectedOption={selectedReason}
                         type={'reason'}
-                    ></RadioInput>
+                    ></RadioInput>}
                 </div>}
                 onConfirm={reasonStatus && StartStopApiCall}
                 startplanButton={type ? t("START_TEXT") : t("STOP_TEXT")}

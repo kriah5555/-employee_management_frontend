@@ -101,6 +101,10 @@ export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }
                         if (result.data.length !== 0) {
                             let response = result.data
                             let data = [...formData]
+                            let arr = []
+                            response?.employee_types?.map((val, i) => {
+                                arr.push(val.value)
+                            })
                             data[0]["name"] = response.name
                             data[0]["start_date"] = response.start_date
                             data[0]["start_time"] = response.start_time
@@ -111,7 +115,7 @@ export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }
                             data[0]["functions"] = response.function_id
                             data[0]["vacancy_count"] = response.vacancy_count
                             data[0]["repeat_type"] = response.repeat_type
-                            data[0]["employee_types"] = response.employee_types
+                            data[0]["employee_types"] = arr
                             data[0]["approval_type"] = "1"
                             data[0]["extra_info"] = response.extra_info
                             data[0]["status"] = response.status
@@ -169,7 +173,7 @@ export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }
         if (formData[0].name) {
             // let url = (shiftId !== 0 && shiftId !== "") ? OpenShiftApiUrl + "/" + shiftId : OpenShiftApiUrl
             let url = (shiftId !== 0 && shiftId !== "") ? OpenShiftApiUrl + "/update" : OpenShiftApiUrl
-            let method = (shiftId !== 0 && shiftId !== "") ? "POST" : "POST"
+            let method = "POST"
             let data = [...formData]
             data[0].status = 1
             AXIOS.service(url, method, data[0])
@@ -202,9 +206,15 @@ export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }
 
     const saveAsDraft = () => {
         let data = [...formData]
-        data[0].status = 2
 
-        AXIOS.service(OpenShiftApiUrl, 'POST', data[0])
+        let ApiUrl = OpenShiftApiUrl
+        if (data[0].status === 2) {
+            ApiUrl = OpenShiftApiUrl + '/update'
+        } else {
+            data[0].status = 2
+        }
+
+        AXIOS.service(ApiUrl, 'POST', data[0])
             .then((result) => {
                 if (result?.success) {
                     toast.success(result.message[0], {
@@ -330,7 +340,7 @@ export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }
                     <Button className='mr-3 mb-2 button-style float-right' onClick={() => onConfirm()}>
                         {t("SAVE")}
                     </Button>
-                    {!showDrafts && <Button className='mr-3 mb-2 button-style float-right' onClick={() => saveAsDraft()}>
+                    {formData[0].status !== 1 && <Button className='mr-3 mb-2 button-style float-right' onClick={() => saveAsDraft()}>
                         {t("SAVE_AS_DRAFT")}
                     </Button>}
                     <Button className='ml-3 mb-2 button-style' onClick={() => onHide()}>
