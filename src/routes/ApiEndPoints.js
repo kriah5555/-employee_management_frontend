@@ -56,6 +56,9 @@ export const GetEmployeeDocumentsApiUrl = BASE_URL + "/masterdata/get-employee-d
 export const GetEmployeesApiUrl = BASE_URL + '/masterdata/get-company-employees'
 export const UploadIdCardApiUrl = BASE_URL + '/masterdata/employee-id-card'
 export const SendDimonaContractApiUrl = BASE_URL + '/masterdata/send-long-term-dimona'
+export const UploadEmployeeFileApiUrl = BASE_URL + '/masterdata/upload-import-employee-file'
+export const GetImportedEmployeesApiUrl = BASE_URL + '/masterdata/get-import-employee-files'
+export const GetSampleExcelFileApiUrl = BASE_URL + '/masterdata/import-employee-sample-file'
 
 // UUrrooster api urls
 export const UurroosterApiUrl = BASE_URL + '/masterdata/uurrooster'
@@ -90,6 +93,8 @@ export const GetStopPlanReasonsApiUrl = BASE_URL + '/masterdata/stop-plan-reason
 export const StartPlanApiUrl = BASE_URL + '/masterdata/start-plan-by-manager'
 export const StopPlanApiUrl = BASE_URL + '/masterdata/stop-plan-by-manager'
 export const ClonePlanningApiUrl = BASE_URL + '/masterdata/clone-planning'
+export const StartBreakApiUrl = BASE_URL + '/masterdata/start-break'
+export const StopBreakApiUrl = BASE_URL + '/masterdata/stop-break'
 
 // Open shift api urls
 export const OpenShiftApiUrl = BASE_URL + '/masterdata/vacancy'

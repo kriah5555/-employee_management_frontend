@@ -362,6 +362,8 @@ export const GET_CONSTANTS = {
     'ICON': 'Icon',
     'PREV_ARROW': 'Prev icon',
     'NEXT_ARROW': 'Next icon',
+    'START_BREAK': 'Start break',
+    'STOP_BREAK': 'Stop break',
 
     // Add company
     'VAT_NUMBER': 'VAT number',

@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackIcon from "../../static/icons/BackIcon.png"
 import Popup from "../../utilities/popup/Popup"
 import FileInput from "../atoms/FileInput";
+import { GetImportedEmployeesApiUrl, GetSampleExcelFileApiUrl, UploadEmployeeFileApiUrl } from "../../routes/ApiEndPoints";
 
 export default function ImportStatusOverView() {
 
@@ -17,14 +18,10 @@ export default function ImportStatusOverView() {
     const [formData, setFormData] = useState({ "file": "" })
     const [message, setMessage] = useState("")
     const [dataRefresh, setDataRefresh] = useState(false);
+    const [sampleFile, setSampleFile] = useState('')
 
     //dummy data
-    const [listData, setListData] = useState([
-        { id: 1, file: "/images/myw3schoolsimage.jpg", date: "11/01/2024", status: false, result: "/images/myw3schoolsimage.jpg" },
-        { id: 2, file: "/images/myw3schoolsimage.jpg", date: "11/01/2024", status: false, result: "/images/myw3schoolsimage.jpg" },
-        { id: 3, file: "/images/myw3schoolsimage.jpg", date: "11/01/2024", status: false, result: "/images/myw3schoolsimage.jpg" },
-        { id: 4, file: "/images/myw3schoolsimage.jpg", date: "11/01/2024", status: false, result: "/images/myw3schoolsimage.jpg" },
-    ]);
+    const [listData, setListData] = useState([]);
 
     //function to validate file type
     const validateFileType = (file) => {
@@ -52,24 +49,24 @@ export default function ImportStatusOverView() {
     const importOverviewHeaders = [
         {
             title: "File",
-            field: 'file',
-            render: rows => <a href={rows.file} download={true}>{rows.file}</a>,
+            field: 'file_url',
+            render: rows => <a href={rows.file_url} download={true}>{rows.file_url ? rows?.file?.file_name : ''}</a>,
             sorting: false  // onclick file should download
         },
         {
             title: "IMPORTED_DATE",
-            field: 'date',
+            field: 'imported_date',
             sorting: true
         },
         {
             title: "STATUS",
-            field: 'status',
+            field: 'import_status',
             sorting: false
         },
         {
             title: "RESULT",
-            field: 'Result',
-            render: rows => <a href={rows.result} download={true}>{rows.result}</a>,
+            field: 'feedback_file_url',
+            render: rows => <a href={rows.feedback_file_url} download={true}>{rows.feedback_file_url ? rows?.feedback_file?.file_name : ''}</a>,
             sorting: false // onclick file should download
         },
     ];
@@ -77,24 +74,60 @@ export default function ImportStatusOverView() {
 
 
     useEffect(() => {
-        let ApiUrl = ""
-        let Method = 'GET'
 
-        // AXIOS.service(ApiUrl, Method)
-        //     .then((result) => {
-        //         if (result?.success) {
-        //         } else {
-        //             // setErrors(result.message)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+        AXIOS.service(GetImportedEmployeesApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setListData(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        AXIOS.service(GetSampleExcelFileApiUrl, 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    setSampleFile(result.data)
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     }, [dataRefresh])
 
+
     const onConfirm = () => {
-        console.log(formData);
+        const fileData = new FormData();
+        fileData.append("file", formData['file'])
+
+        AXIOS.service(UploadEmployeeFileApiUrl, 'POST', fileData, true)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    setDataRefresh(!dataRefresh);
+                    onHide();
+                } else {
+                    // setErrors(result.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const onHide = () => {
@@ -128,7 +161,7 @@ export default function ImportStatusOverView() {
             <div className="right-container">
                 {openPopup && <Popup title={t("IMPORT_EMPLOYEES")} onConfirm={onConfirm} size={"lg"} onHide={onHide} startplanButton={"Upload"} body={
                     <div className="company-tab-width">
-                        <a className="mr-3 d-flex justify-content-end" href="/images/myw3schoolsimage.jpg" download>Download sample file</a>
+                        <a className="mr-3 d-flex justify-content-end" href={sampleFile} download>Download sample file</a>
                         <FileInput
                             key={"File"}
                             name={'file'}

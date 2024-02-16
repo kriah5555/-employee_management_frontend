@@ -6,7 +6,7 @@ import { APICALL as AXIOS } from "../../services/AxiosServices"
 import Table from "../atoms/Table";
 import BackIcon from "../../static/icons/BackIcon.png";
 import { t } from "../../translations/Translation";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
 
@@ -123,6 +123,18 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
 
     return (
         <div className="right-creation-container ">
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
                     <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-plannings#open_shift')} src={BackIcon}></img>
