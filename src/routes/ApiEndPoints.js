@@ -89,6 +89,7 @@ export const GetStartPlanReasonsApiUrl = BASE_URL + '/masterdata/start-plan-reas
 export const GetStopPlanReasonsApiUrl = BASE_URL + '/masterdata/stop-plan-reasons'
 export const StartPlanApiUrl = BASE_URL + '/masterdata/start-plan-by-manager'
 export const StopPlanApiUrl = BASE_URL + '/masterdata/stop-plan-by-manager'
+export const ClonePlanningApiUrl = BASE_URL + '/masterdata/clone-planning'
 
 // Open shift api urls
 export const OpenShiftApiUrl = BASE_URL + '/masterdata/vacancy'

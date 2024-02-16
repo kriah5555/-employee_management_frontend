@@ -347,6 +347,7 @@ export const GET_CONSTANTS = {
     'EMPLOYEE_NAMES': 'Employee names',
     'CURRENT_WEEK': 'Current week',
     'WEEK_PLANNINGS_DELETE': 'Are you sure, you want to delete complete week plans?',
+    'SELECT_ALL_EMPLOYEES': 'Select all employees',
 
     'START_TIME': 'Start time',
     'END_TIME': 'End time',
@@ -657,7 +658,7 @@ export const GET_CONSTANTS = {
     'DIMONA_START': 'Dimona start',
     'DIMONA_END': 'Dimona end',
     'DECLARATION_TYPE': 'Declaration type',
-    'DIMONA_CONFIRM_MESSAGE':'Are you sure, you want to send Dimona?',
+    'DIMONA_CONFIRM_MESSAGE': 'Are you sure, you want to send Dimona?',
     'DIMONA_NAMESPACE': 'Dimona namespace',
     'MANAGE_DIMONA_NAMESPACE': 'Manage dimona namespace',
     'ADD_DIMONA_NAMESPACE': 'Add dimona namespace',

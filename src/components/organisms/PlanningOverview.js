@@ -79,7 +79,7 @@ export default function PlanningOverview() {
                     setSelectedLocation(result.data.locations?.length === 1 ? result.data.locations[0] : '');
                     monthlyData['location'] = result.data.locations?.length === 1 ? result.data.locations[0].value : ''
                     setLocationArr(result.data.locations);
-                    if (result.data.locations.length >=1) {
+                    if (result.data.locations.length >= 1) {
                         setLocationPopup(true)
                     }
                     setWorkstationArr(result.data.workstations)
@@ -208,6 +208,10 @@ export default function PlanningOverview() {
         }
     }
 
+    const handleClone = (e) => {
+        if (!selectedLocation) { e.preventDefault(); setLocationPopup(true); }
+    }
+
 
     return (
         <div className="planning_body">
@@ -266,7 +270,7 @@ export default function PlanningOverview() {
                                 <span className={'planning-icon mr-4 pointer'} title={t("SEND_DIMONA")} onClick={() => setDimonaStatus(true)}><DimonaWhite color={"#000"} /></span>
                                 <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={AddLeaveIcon} onClick={() => setAddLeave(true)}></img>
                                 <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={ImportIcon}></img>
-                                <a href="/clone-plannings"><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon}></img></a>
+                                <a href={`/clone-plannings/${selectedLocation.value}`} onClick={(e) => handleClone(e)}><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon}></img></a>
                             </div>
                         </div>
                     </TabList>
@@ -284,6 +288,6 @@ export default function PlanningOverview() {
                     </TabPanel>
                 </Tabs>
             </div>
-        </div>
+        </div >
     )
 }

@@ -94,7 +94,7 @@ const BaseRouter = ({ setAuth, setCompany }) => (
 
         <Route exact path="/manage-plannings" element={<Planning setHeaderCompanyDropdown={setCompany}></Planning>} />
         <Route exact path="/manage-plannings/:type/:id" element={<ViewOpenShiftDetails></ViewOpenShiftDetails>} />
-        <Route exact path="/clone-plannings" element={<ClonePlanning></ClonePlanning>} />
+        <Route exact path="/clone-plannings/:id" element={<ClonePlanning></ClonePlanning>} />
 
         <Route exact path='/add-email-template' element={<AddEmailTemplate></AddEmailTemplate>} />
         <Route exact path='/add-email-template/:id' element={<AddEmailTemplate></AddEmailTemplate>} />
