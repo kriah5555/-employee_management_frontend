@@ -363,13 +363,14 @@ export default function ManageSalaries() {
                     <CustomButton buttonName={t("SAVE")} ActionFunction={() => SaveSalaries(listData)} CustomStyle="my-2"></CustomButton>
                     <CustomButton buttonName={t("UNDO")} ActionFunction={() => setWarningMessage(t("CONFIRMATION_SLARIES_REVERT_BACK"))} CustomStyle="my-2"></CustomButton>
                 </div>}
-
-                <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => navigate('/add-flex-salary')}>
-                    <u>{t("FLEX_SALARY")}</u>
-                </p>
-                {noSectorMessage === '' && !incrementPage && <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => getIncrementPage(true)}>
-                    <u>{t("INCREMENT_SALARIES")}</u>
-                </p>}
+                <div className="d-flex">
+                    {noSectorMessage === '' && !incrementPage && <p className="text-color pointer mt-5 mr-3 mb-3" onClick={() => getIncrementPage(true)}>
+                        <u>{t("INCREMENT_SALARIES")}</u>
+                    </p>}
+                    <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => navigate('/add-flex-salary')}>
+                        <u>{t("FLEX_SALARY")}</u>
+                    </p>
+                </div>
             </div>
 
             <div className="tablescroll">
