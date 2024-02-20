@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
 import { useNavigate } from "react-router-dom";
-import { SectorApiUrl, MonthlyMinimumSalariesApiurl, HourlyMinimumSalariesApiurl, getIncrementedSalariesApiUrl } from "../../routes/ApiEndPoints";
+import { SectorApiUrl, MonthlyMinimumSalariesApiurl, HourlyMinimumSalariesApiurl, getIncrementedSalariesApiUrl, FlexSalaryCreateOrUpdateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -161,7 +161,7 @@ export default function ManageSalaries() {
 
 
     // Function to get incremented salaries
-    const   getSalaries = () => {
+    const getSalaries = () => {
         if (selectedSector && salaryType) {
             if (!incrementPage) {
                 setNoSectorMessage('')
@@ -172,7 +172,7 @@ export default function ManageSalaries() {
             if (coefficient) {
                 // let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
                 let reqData = {
-                    "sector_id":selectedSector?.value,
+                    "sector_id": selectedSector?.value,
                     "coefficient": coefficient,
                     "type": salaryType?.value
                 }
@@ -316,7 +316,7 @@ export default function ManageSalaries() {
                 theme="colored"
             />
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
-                title={t("VALIDATION_ERROR")  + ("!")}
+                title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
@@ -364,6 +364,9 @@ export default function ManageSalaries() {
                     <CustomButton buttonName={t("UNDO")} ActionFunction={() => setWarningMessage(t("CONFIRMATION_SLARIES_REVERT_BACK"))} CustomStyle="my-2"></CustomButton>
                 </div>}
 
+                <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => navigate('/add-flex-salary')}>
+                    <u>{t("FLEX_SALARY")}</u>
+                </p>
                 {noSectorMessage === '' && !incrementPage && <p className="text-color pointer mt-5 mr-5 mb-3" onClick={() => getIncrementPage(true)}>
                     <u>{t("INCREMENT_SALARIES")}</u>
                 </p>}

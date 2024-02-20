@@ -167,3 +167,6 @@ export const ValidateLocationDashboardAccessTokenForLocation = BASE_URL + '/mast
 export const GetDashboardAccessTokenForLocation = BASE_URL + '/masterdata/get-dashboard-access-key-for-location';
 export const DeactivateLocationOnAllDeviceApiUrl = BASE_URL + '/masterdata/revoke-dashboard-access-key';
 export const DimonaNamespaceApiUrl = BASE_URL + '/masterdata/dimona-namespace';
+
+//flex salary
+export const FlexSalaryCreateOrUpdateApiUrl = BASE_URL + '/masterdata/flex-salary';

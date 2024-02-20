@@ -40,6 +40,7 @@ import AddTaxes from "../components/molecules/AddTaxes"
 import AddSalaryCoefficient from '../components/molecules/AddSalaryCoefficient';
 import ImportStatusOverView from '../components/molecules/ImportStatusOverView';
 import AddDimonaNamespace from '../components/molecules/AddDimonaNamespace';
+import AddFlexSalary from '../components/molecules/AddFlexSalary';
 
 const BaseRouter = ({ setAuth, setCompany }) => (
     <Routes>
@@ -122,6 +123,7 @@ const BaseRouter = ({ setAuth, setCompany }) => (
 
         <Route exact path='/add-dimona-namespace' element={<AddDimonaNamespace></AddDimonaNamespace>} />
         <Route exact path='/add-dimona-namespace/:id' element={<AddDimonaNamespace></AddDimonaNamespace>} />
+        <Route exact path='/add-flex-salary' element={<AddFlexSalary></AddFlexSalary>} />
 
     </Routes>
 );
