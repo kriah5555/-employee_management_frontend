@@ -155,7 +155,7 @@ export default function ResponsiblePersonForm({ customers, setCustomers, selecte
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'responsible-person-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {index == customers.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => AddNewCustomer()} CustomStyle="mr-5"></CustomButton>}
+                            {index === customers.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => AddNewCustomer()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

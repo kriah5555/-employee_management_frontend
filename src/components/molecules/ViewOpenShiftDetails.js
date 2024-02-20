@@ -37,7 +37,7 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
         let resultString = '';
 
         employeeType.map((val, index) => {
-            index == employeeType.length - 1 ? resultString += val.label : resultString += val.label + ", ";
+            index === employeeType.length - 1 ? resultString += val.label : resultString += val.label + ", ";
         })
         return resultString;
     }
@@ -55,11 +55,11 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
                     let approvedEmployees = []
                     result.data?.employees.map((item, index) => {
                         item.id = item.employee_id
-                        if (item.status == "0") { // 0 ==> status for requested
+                        if (item.status === "0") { // 0 ==> status for requested
                             requestedEmployees.push(item)
-                        } else if (item.status == "1") {  // 1 ==> status for approved
+                        } else if (item.status === "1") {  // 1 ==> status for approved
                             approvedEmployees.push(item)
-                        } else if (item.status == "2") { // 2 ==> status for rejected
+                        } else if (item.status === "2") { // 2 ==> status for rejected
                             rejectedEmployees.push(item)
                         }
                     })
@@ -137,7 +137,7 @@ export default function ViewOpenShiftDetails({ shiftId, setShowDetails }) {
             />
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color">
-                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-plannings#open_shift')} src={BackIcon}></img>
+                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-plannings#open_shift')} src={BackIcon} alt="Back"></img>
                     {t("SHIFT_DETAILS")}
                 </h4>
             </div>

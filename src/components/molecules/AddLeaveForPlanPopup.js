@@ -5,7 +5,7 @@ import { t } from '../../translations/Translation';
 import "../../utilities/popup/popup.css";
 import FormsNew from './FormsNew';
 import { APICALL as AXIOS } from '../../services/AxiosServices';
-import { AddLeaveApiUrl, GetLeaveOptionsApiUrl, AddShiftLeaveApiUrl } from "../../routes/ApiEndPoints";
+import { GetLeaveOptionsApiUrl, AddShiftLeaveApiUrl } from "../../routes/ApiEndPoints";
 import { getFormattedDropdownOptions } from '../../utilities/CommonFunctions';
 import ErrorPopup from '../../utilities/popup/ErrorPopup';
 import { toast } from "react-toastify"

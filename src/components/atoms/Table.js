@@ -6,12 +6,11 @@ import LinkIcon from "../../static/icons/LinkingSocialSecretaryToHolidayCode.svg
 import MoreIcon from "../../static/icons/menu.png"
 import AcceptIcon from "../../static/icons/Available.svg"
 import RejectIcon from "../../static/icons/Notavailable.svg"
-import MaterialTable, { MTableToolbar } from "material-table";
+import MaterialTable from "material-table";
 import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear } from "@material-ui/icons";
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
 import { t } from "../../translations/Translation";
-import HamburgerIcon from "../../static/icons/Hamburger.svg"
 // import CustomButton from "./CustomButton";
 
 export default function Table({ columns, rows, tableName, showDetails, viewAction, empId, parentId, height, setRows, SaveSalaries, multiPurpose, setDimonaData, isArchived }) {
@@ -101,13 +100,13 @@ export default function Table({ columns, rows, tableName, showDetails, viewActio
     }
 
 
-    const getViewIcon = () => { return (<img className="shortcut-icon" src={EyeIcon}></img>) }
-    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
-    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
-    const getLinkIcon = () => { return (<img className="planning-icon " src={LinkIcon}></img>) }
-    const getDetailIcon = () => { return (<img className="planning-icon" src={MoreIcon}></img>) }
-    const getAcceptIcon = () => { return (<img className="planning-icon" src={AcceptIcon}></img>) }
-    const getRejectIcon = () => { return (<img className="planning-icon" src={RejectIcon}></img>) }
+    const getViewIcon = () => { return (<img className="shortcut-icon" src={EyeIcon} alt="view"></img>) }
+    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon} alt="edit"></img>) }
+    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon} alt="delete"></img>) }
+    const getLinkIcon = () => { return (<img className="planning-icon " src={LinkIcon} alt="link"></img>) }
+    const getDetailIcon = () => { return (<img className="planning-icon" src={MoreIcon} alt="detail"></img>) }
+    const getAcceptIcon = () => { return (<img className="planning-icon" src={AcceptIcon} alt="accept"></img>) }
+    const getRejectIcon = () => { return (<img className="planning-icon" src={RejectIcon} alt="reject"></img>) }
 
 
     //Define actions based on requirement (Below actions are for view and edit)

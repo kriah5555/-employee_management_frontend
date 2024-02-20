@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CompanyForm from "./CompanyForm";
 import CustomButton from "../atoms/CustomButton";
-import { FunctionApiUrl, GetSectorFunctionsApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
+import { GetSectorFunctionsApiUrl, WorkstationApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import { t } from "../../translations/Translation";
@@ -161,7 +161,7 @@ export default function WorkstationForm({ workstations, setWorkstations, locatio
                             SetValues={setValues}
                         ></CompanyForm>
                         {view !== 'workstation-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {i == workstations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => AddNewWorkstation()} CustomStyle="mr-5"></CustomButton>}
+                            {i === workstations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => AddNewWorkstation()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

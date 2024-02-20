@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import FormsNew from "./FormsNew";
-import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { EmployeeApiUrl } from "../../routes/ApiEndPoints";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import { t } from "../../translations/Translation";
 

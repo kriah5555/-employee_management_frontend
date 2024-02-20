@@ -6,7 +6,6 @@ import DimonaSuccessIcon from "../static/icons/DimonaSuccess.svg";
 import DimonaFailedIcon from "../static/icons/DimonaFail.svg";
 import DimonaWarningIcon from "../static/icons/DimonaPending.svg";
 import ExportIcon from "../static/icons/Export.svg";
-import FilterIcon from "../static/icons/Filter.svg";
 import LeaveIcon from "../static/icons/addLeave.svg";
 import RedIcon from "../static/icons/RedDot.svg";
 import LeftArrowIcon from "../static/icons/LeftArrow.png";
@@ -14,7 +13,6 @@ import RightArrowIcon from "../static/icons/RightArrow.png";
 import Dropdown from "../components/atoms/Dropdown";
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LocationApiUrl, UnAuthUurroosterApiUrl, UurroosterApiUrl } from "../routes/ApiEndPoints";
-import { getDropdownMenuPlacement } from "react-bootstrap/esm/DropdownMenu";
 import { GetFormattedDate, GetListFromArray, getFormattedDropdownOptions } from "../utilities/CommonFunctions";
 import QRCode from "react-qr-code";
 import { t } from "../translations/Translation";
@@ -29,7 +27,6 @@ export default function Uurrooster({ view, showData }) {
     const [selectedLoc, setSelectedLoc] = useState();
     const [qrcode, setQrcode] = useState('');
     const currentDate = new Date();
-    const [breakTime, setBreakTime] = useState('')
 
     const Months = [t("JANUARY"), t("FEBRUARY"), t("MARCH"), t("APRIL"), t("MAY"), t("JUNE"), t("JULY"), t("AUGUST"), t("SEPTEMBER"), t("OCTOBER"), t("NOVEMBER"), t("DECEMBER")]
     const [dayData, setDayData] = useState(currentDate.getDate() + ' ' + Months[currentDate.getMonth()] + ', ' + currentDate.getFullYear());
@@ -49,7 +46,7 @@ export default function Uurrooster({ view, showData }) {
                     console.log(error);
                 })
         }
-    }, [])
+    }, [view])
 
     useEffect(() => {
         let data = {
@@ -156,7 +153,7 @@ export default function Uurrooster({ view, showData }) {
             .catch((error) => {
                 console.log(error);
             })
-    }, [dayDate, selectedLoc])
+    }, [dayDate, selectedLoc, defaultLocationName, view])
 
 
     // Next or previous arrow action
@@ -187,7 +184,6 @@ export default function Uurrooster({ view, showData }) {
     }, [dayDate])
 
 
-    console.log(defaultLocationName);
     return (
         showData === 'qrcode' ?
             <QRCode
@@ -267,15 +263,15 @@ export default function Uurrooster({ view, showData }) {
                                     return (
                                         <tr>
                                             {val.workstation_name && <td rowspan={val.count} className="text-truncate" title={val.workstation_name}>{val.workstation_name}</td>}
-                                            {val.employee_name && <td className="text-left text-truncate" rowspan={val.count_2}><span className="mr-3" title={val.employee_type}><EmployeeType_icon IconColour={val.employee_type_color} width="25" height="25" /></span><span title={val.employee_name}>{val.employee_name}</span><div className="text-center">{val.leave && <img className="mt-1" title={val.holiday_code} src={LeaveIcon}></img>}</div></td>}
+                                            {val.employee_name && <td className="text-left text-truncate" rowspan={val.count_2}><span className="mr-3" title={val.employee_type}><EmployeeType_icon IconColour={val.employee_type_color} width="25" height="25" /></span><span title={val.employee_name}>{val.employee_name}</span><div className="text-center">{val.leave && <img className="mt-1" title={val.holiday_code} src={LeaveIcon} alt="leave"></img>}</div></td>}
                                             {val.function_name && <td rowspan={val.count_2} className="text-truncate" title={val.function_name}>{val.function_name}</td>}
                                             {val.start_time && <td rowspan={val.count_2}>{val.start_time}</td>}
                                             {<td>{val.actual_start_time}</td>}
-                                            {<td>{![null, undefined].includes(val.dimona_start?.status) && <img title={val.dimona_start?.message} src={val.dimona_start?.status === 'success' ? DimonaSuccessIcon : val.dimona_start?.status === 'warning' ? DimonaWarningIcon : val.dimona_start?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
-                                            {val.break_time ? <td rowspan={val.count_2}><img src={BreakIcon} title={val.break_time}></img></td> : <td></td>}
+                                            {<td>{![null, undefined].includes(val.dimona_start?.status) && <img title={val.dimona_start?.message} src={val.dimona_start?.status === 'success' ? DimonaSuccessIcon : val.dimona_start?.status === 'warning' ? DimonaWarningIcon : val.dimona_start?.status === 'failed' ? DimonaFailedIcon : ''} alt="dimona start"></img>}</td>}
+                                            {val.break_time ? <td rowspan={val.count_2}><img src={BreakIcon} title={val.break_time} alt="break time"></img></td> : <td></td>}
                                             {val.end_time && <td rowspan={val.count_2}>{val.end_time}</td>}
                                             {<td>{val.actual_end_time}</td>}
-                                            {<td>{![null, undefined].includes(val.dimona_end?.status) && <img title={val.dimona_end?.message} src={val.dimona_end?.status === 'success' ? DimonaSuccessIcon : val.dimona_end?.status === 'warning' ? DimonaWarningIcon : val.dimona_end?.status === 'failed' ? DimonaFailedIcon : ''}></img>}</td>}
+                                            {<td>{![null, undefined].includes(val.dimona_end?.status) && <img title={val.dimona_end?.message} src={val.dimona_end?.status === 'success' ? DimonaSuccessIcon : val.dimona_end?.status === 'warning' ? DimonaWarningIcon : val.dimona_end?.status === 'failed' ? DimonaFailedIcon : ''} alt="dimona end"></img>}</td>}
                                             {val.cost && <td rowspan={val.count_2}>{val.cost}</td>}
                                         </tr>
                                     )

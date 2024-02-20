@@ -11,7 +11,6 @@ import Card from "../components/atoms/Card";
 import Messageboard from "../components/molecules/Messageboard";
 import { t } from "../translations/Translation";
 // import Uurrooster from "./Uurrooster";
-import { useNavigate } from "react-router-dom";
 import PlanningWhite from "../static/icons/PlanningWhite";
 import Uurrooster from "../static/icons/Uurrooster";
 import EmployeeAvailability from "../static/icons/EmployeeAvailability";
@@ -27,7 +26,6 @@ import { ToastContainer } from "react-toastify";
 
 export default function Dashboard() {
 
-    const navigate = useNavigate();
     const mainTabStyle = "col-md-4 my-3 mx-3 background-indii-blue text-center text-white";
     const subTabStyle = "col-md-3 my-3 mx-3 shadow text-center border-0";
 

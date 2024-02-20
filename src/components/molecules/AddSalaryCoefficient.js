@@ -4,7 +4,7 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { SalaryCoefficientApiUrl, TaxesApiUrl } from "../../routes/ApiEndPoints"
+import { SalaryCoefficientApiUrl } from "../../routes/ApiEndPoints"
 import { t } from "../../translations/Translation";
 
 export default function AddSalaryCoefficient() {

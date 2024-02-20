@@ -359,7 +359,7 @@ export default function EmployeeDetails({ eid }) {
                                 return (
                                     <div className="border mx-3 px-2">
                                         <div className={"d-flex mx-4 my-1 mb-0 justify-content-between"}><h4 className="pt-2">{item.counter_type}</h4><img className="profile-icon" src={DownArrow} onClick={() => { setCounterType(item.type); setToggleOpen(!toggleOpen); setEditStatus(false); }} alt={t("ICON")} /></div>
-                                        {!editStatus && countersType === 'holiday' && index == 0 && toggleOpen && <HolidyCountersOverview type={item.type} eid={eid}></HolidyCountersOverview>}
+                                        {!editStatus && countersType === 'holiday' && index === 0 && toggleOpen && <HolidyCountersOverview type={item.type} eid={eid}></HolidyCountersOverview>}
                                     </div>
                                 )
                             })}

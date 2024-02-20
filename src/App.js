@@ -8,8 +8,6 @@ import Header from './commonComponents/Header';
 import Sidebar from './commonComponents/Sidebar';
 import Login from './pages/Login';
 import { GetTranslatedConstants } from './translations/Translation';
-import { useParams } from 'react-router-dom';
-import { Route, Routes } from 'react-router-dom';
 
 function App() {
 
@@ -19,7 +17,6 @@ function App() {
 
    const [company, setCompany] = useState('');
    const [path, setPath] = useState(window.location.pathname)
-   const params = useParams()
 
    useEffect(() => {
       if (localStorage.getItem('auth') === null) {

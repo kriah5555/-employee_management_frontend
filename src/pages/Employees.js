@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // import AddEmployeeIcon from "../static/icons/AddEmployee.svg"
-import FilterIcon from "../static/icons/Filter.svg"
 import ExportIcon from "../static/icons/Export.svg"
 import EmployeeListWithDetails from "../components/organisms/EmployeeListWithDetails";
 import BackIcon from "../static/icons/BackIcon.png"
@@ -32,7 +31,7 @@ export default function Employees() {
                 <div className="company-tab-width mt-3 border bg-white">
                     <div className="col-md-12 row mt-3 mx-0 px-0 ">
                         <div className="col-md-6 float-left">
-                            <h4 className="d-flex align-items-center">{showDetails && <img className="shortcut-icon mr-2 pointer" onClick={() => { setShowDetails(false); navigate('/manage-employees') }} src={BackIcon}></img>}{t("EMPLOYEES_TITLE")}</h4>
+                            <h4 className="d-flex align-items-center">{showDetails && <img className="shortcut-icon mr-2 pointer" onClick={() => { setShowDetails(false); navigate('/manage-employees') }} src={BackIcon} alt="Back"></img>}{t("EMPLOYEES_TITLE")}</h4>
                         </div>
                         <div className="col-md-6 float-right">
                             <ul className="float-right">

@@ -117,7 +117,7 @@ export default function DimonaOverview() {
             field: "dimona_status",
             status: "200",
             render: rowData => (
-                <img title={rowData.errors.length > 1 ? GetListFromArray(rowData.errors) : rowData.errors} src={rowData.dimona_status === 'success' ? DimonaSuccessIcon : (rowData.dimona_status === 'warning' || rowData.dimona_status === 'pending') ? DimonaWarningIcon : rowData.dimona_status === 'failed' ? DimonaFailedIcon : ''}></img>
+                <img alt={t("DIMONA_STATUS")} title={rowData.errors.length > 1 ? GetListFromArray(rowData.errors) : rowData.errors} src={rowData.dimona_status === 'success' ? DimonaSuccessIcon : (rowData.dimona_status === 'warning' || rowData.dimona_status === 'pending') ? DimonaWarningIcon : rowData.dimona_status === 'failed' ? DimonaFailedIcon : ''}></img>
               ),
         },
         // {
@@ -144,15 +144,6 @@ export default function DimonaOverview() {
             })
     }, [formattedData])
 
-    const manage_listData = [
-        { id: 1, employee_name: 'Emp1', start_date_time: '18-01-2023 10:30', end_date_time: '18-01-2023 14:30', overtime: '', employee_type: 'Normal employee', dimona_status: 'green' },
-        { id: 2, employee_name: 'Emp2', start_date_time: '18-01-2023 14:30', end_date_time: '18-01-2023 16:30', overtime: '', employee_type: 'Occasional employee', dimona_status: 'green' }
-    ]
-
-    const detail_listData = [
-        { id: 1, dimona_type: 'DIMONA IN', dimona_period_id: '576467678', start_date_time: '18-01-2023 10:30', in_time: '10:25', out_time: '16:00', employee_type: 'Normal employee', short_break: '', error_code: '', dimona_status: 'green', reason: '' },
-        { id: 2, dimona_type: 'DIMONA OUT', dimona_period_id: '8734556577', start_date_time: '18-01-2023 14:30', in_time: '14:35', out_time: '16:00', employee_type: 'Normal employee', short_break: '', error_code: '', dimona_status: 'green', reason: '' }
-    ]
 
     const filterData = [
         { title: t("TYPE"), name: 'type', required: false, options: typeList, selectedOptions: selectedType, isMulti: false, type: 'dropdown', style: "col-md-3 float-left" },
@@ -196,7 +187,7 @@ export default function DimonaOverview() {
 
     return (
         <div className="planning_body">
-            {!manageStatus && <h4 className="pt-2 mb-0 px-2 bg-white"><img className="shortcut-icon mr-2 mb-1" onClick={() => setManageStatus(true)} src={BackIcon}></img>
+            {!manageStatus && <h4 className="pt-2 mb-0 px-2 bg-white"><img className="shortcut-icon mr-2 mb-1" onClick={() => setManageStatus(true)} src={BackIcon} alt="Back"></img>
                 {t('DETAILED_OVERVIEW')}</h4>}
             <div className="bg-white my-1">
                 {manageStatus && <FormsNew

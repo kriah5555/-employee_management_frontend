@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ModalPopup from "../../utilities/popup/Popup";
 import { t } from "../../translations/Translation";
-import Dropdown from "../atoms/Dropdown";
 import DateInput from "../atoms/formFields/DateInput";
 import Table from "../atoms/Table";
 import { APICALL as AXIOS } from "../../services/AxiosServices";

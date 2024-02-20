@@ -1,6 +1,4 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import { t } from "../../translations/Translation";
 import "../../static/common.css";
 
 //allows toggle if clicked on label aso

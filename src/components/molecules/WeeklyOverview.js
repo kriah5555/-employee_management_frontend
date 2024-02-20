@@ -260,7 +260,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
         return (
             <td key={data?.cost} className={index === 7 ? " border-0" : "px-2"}>
                 <div className="d-flex justify-content-between">
-                    <small>{data?.cost && <img src={CostIcon} alt="cost" className="plan-icon mr-1"></img>}{data?.cost}</small>
+                    <small>{data?.cost && <img src={CostIcon} alt={t("COST_TITLE")} className="plan-icon mr-1"></img>}{data?.cost}</small>
                     <small>{data?.contract_hours && <img src={ContractHoursIcon} alt={t("CONTRACT_HOURS")} className="plan-icon mr-1"></img>}{data?.contract_hours}</small>
                 </div>
             </td>
@@ -458,7 +458,7 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                                             selectedOptions={shiftId}
                                                             onSelectFunction={(e) => setShiftId(e)}
                                                         ></Dropdown>
-                                                        <img className="shortcut-icon ml-2" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
+                                                        <img className="shortcut-icon ml-2" alt="Add shift" onClick={() => { setShiftPopupOpen(true); shiftData['workstation_id'] = ws.workstation_id; shiftData['location_id'] = locId; shiftData['shifts'] = ws.shifts }} src={EditShiftIcon}></img>
                                                     </div>}
                                                 </div>
                                             </td>}
@@ -476,11 +476,11 @@ export default function WeeklyOverview({ enableShifts, weekNumber, year, locId, 
                                             <td>
                                                 <div className="d-flex mt-3 justify-content-between">
                                                     {ws_employee.total?.cost && <small>
-                                                        <img src={CostIcon} className="plan-icon mr-1"></img>
+                                                        <img src={CostIcon} className="plan-icon mr-1" alt={t('COST_TITLE')}></img>
                                                         {ws_employee.total.cost}
                                                     </small>}
                                                     {ws_employee.total.contract_hours && <small>
-                                                        <img src={ContractHoursIcon} className="plan-icon mr-1"></img>
+                                                        <img src={ContractHoursIcon} className="plan-icon mr-1" alt={t("CONTRACT_HOURS")}></img>
                                                         {ws_employee.total.contract_hours}
                                                     </small>}
                                                 </div>

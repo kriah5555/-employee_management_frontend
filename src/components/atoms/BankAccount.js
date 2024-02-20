@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextInput from "./formFields/TextInput";
 import CustomButton from "./CustomButton";
 import EmployeeIcon from "../../static/icons/Profile1.jpeg"
@@ -44,7 +44,7 @@ export default function BankAccount({ edit, setEditStatus }) {
             </div>}
             <div className='col-md-10  m-5'>
                 <label className="col-md-3 mb-4 mb-1 pr-0 text-secondary font-weight-bold d-block">{t("PHOTO_OF_BANK_ACCOUNT") + (":")}</label>
-                <img className="photo-icon mx-2" src={files.length > 0 ? URL.createObjectURL(files[0].file) : EmployeeIcon}></img>
+                <img className="photo-icon mx-2" src={files.length > 0 ? URL.createObjectURL(files[0].file) : EmployeeIcon} alt={t("PHOTO_OF_BANK_ACCOUNT")}></img>
             </div>
             {edit && <div className="float-right col-md-12 text-right mt-3">
                 <CustomButton buttonName={t("SAVE")} ActionFunction={() => setEditStatus(false)}></CustomButton>

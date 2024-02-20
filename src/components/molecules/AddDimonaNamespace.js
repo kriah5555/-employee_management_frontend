@@ -15,7 +15,6 @@ export default function AddDimonaNamespace() {
         to_date: "",
     });
 
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
@@ -79,7 +78,6 @@ export default function AddDimonaNamespace() {
             AXIOS.service(url, method, formData)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
                         navigate('/manage-configurations/dimona_namespace');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -104,11 +102,6 @@ export default function AddDimonaNamespace() {
     }
     return (
         <div className="right-container add_public_holidays">
-            {/* {successMessage && <ModalPopup
-            title={('SUCCESS')}
-            body={(successMessage)}
-            onHide={() => navigate('/manage-configurations/social_secretary')}
-        ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}

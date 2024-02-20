@@ -5,7 +5,7 @@ import CustomButton from "../atoms/CustomButton";
 import { getFormattedDropdownOptions, getFormattedRadioOptions } from "../../utilities/CommonFunctions";
 import RadioInput from "../atoms/formFields/RadioInput";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { EmployeeContractApiUrl, LogoutApiUrl } from "../../routes/ApiEndPoints";
+import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
 import { toast } from 'react-toastify';
 import { t } from "../../translations/Translation";
 
@@ -41,7 +41,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     let dayContractEmployeeTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.employee_contract_options?.employee_types[2], "key", "name")
     let subTypeListArray = getFormattedDropdownOptions(employeeContractOptions?.sub_types, "key", "value")
 
-    let commonData = data?.long_term == true ? [
+    let commonData = data?.long_term === true ? [
         { label: t("EMPLOYEE_TYPE"), value: data?.employee_type },
         { label: t("SUB_TYPE"), value: data.sub_type },
         { label: t("START_DATE"), value: data.start_date },
@@ -65,20 +65,20 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             setEmployeeTypeList(longtermEmployeeTypeListArray)
             setSubTypeList(subTypeListArray)
             longtermEmployeeTypeListArray?.map((val) => {
-                if (val.label == data?.employee_type) {
+                if (val.label === data?.employee_type) {
                     setEmployeeType(val)
                 }
             })
 
             subTypeListArray.map((val) => {
-                if (val.label == data.sub_type) {
+                if (val.label === data.sub_type) {
                     setSubType(val)
                 }
             })
         } else {
             setEmployeeTypeList(dayContractEmployeeTypeListArray)
             dayContractEmployeeTypeListArray.map((val) => {
-                if (val.label == data?.employee_type) {
+                if (val.label === data?.employee_type) {
                     setEmployeeType(val)
                 }
             })
@@ -88,8 +88,8 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         setFunctionList(functionListArray)
         //setting schedule type and sub type from response
         if (response.schedule_type !== undefined && response.schedule_type !== null && response.employment_type !== undefined && response.employment_type !== null) {
-            response.schedule_type == "part_time" ? setSelectedScheduleType(scheduleTypeArray[0].key) : setSelectedScheduleType(scheduleTypeArray[1].key)
-            response.employment_type == 'fixed' ? setSelectedEmploymentType(employementTypeArray[0].key) : setSelectedEmploymentType(employementTypeArray[1].key)
+            response.schedule_type === "part_time" ? setSelectedScheduleType(scheduleTypeArray[0].key) : setSelectedScheduleType(scheduleTypeArray[1].key)
+            response.employment_type === 'fixed' ? setSelectedEmploymentType(employementTypeArray[0].key) : setSelectedEmploymentType(employementTypeArray[1].key)
         }
 
         setEditStatus(false)
@@ -99,7 +99,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
     useEffect(() => {
         // set function when loaded
         functionListArray.map((val) => {
-            if (val.value == response.employee_function_details[functionIndex]?.function_id) {
+            if (val.value === response.employee_function_details[functionIndex]?.function_id) {
                 setFunctionName(val)
             }
         })
@@ -139,7 +139,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
             }
 
         } else {
-            if (name == "function_id") {
+            if (name === "function_id") {
                 newData['employee_function_details'][functionIndex][name] = value.value
                 setFunctionName(value)
             }
@@ -212,7 +212,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         { title: t("WEEKLY_CONTRACT_HOURS"), name: "weekly_contract_hours", type: "text", style: "col-md-6 float-left mt-2" },
         { title: t("WORK_DAYS_PER_WEEK"), name: "work_days_per_week", type: "text", style: "col-md-6 float-left mt-2" },
         { title: t("SCHEDULE_TYPE"), name: "schedule_type", type: "radio", style: "col-md-6 float-left mt-2" },
-        (data?.long_term == true ? { title: t("DIMONA_PERIOD_ID"), name: "dimona_period_id", type: "text", style: "col-md-6 float-left mt-2" }: {}),
+        (data?.long_term === true ? { title: t("DIMONA_PERIOD_ID"), name: "dimona_period_id", type: "text", style: "col-md-6 float-left mt-2" }: {}),
     ]
 
     let otherDataFieldsArray = [
@@ -220,6 +220,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
         { title: t("SALARY"), name: "salary_european", type: "text", style: "col-md-12 p-0 float-right mt-2" },
         { title: t("EXPERIENCE_IN_MONTHS"), name: "experience", type: "text", style: "col-md-12 p-0 float-right mt-2" },
     ]
+
     return (
         <div>
             {!edit && commonData?.map((val) => {
@@ -276,7 +277,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                                     </div>
                                 )
                             })}
-                            {cardNumber == index && editFunction && <>
+                            {cardNumber === index && editFunction && <>
                                 {/* <div key={data.label} className={"font-weight-bold col-md-12 p-0 row m-0 mb-2 mt-2"}>
                                     <label className="col-md-6 mb-1 p-0 text-secondary">{t("MINIMUM_SALARY")}</label>
                                     <p className="mb-0 col-md-6 p-0" style={{ overflow: 'hidden', textOverflow: 'ellipsis', }}>{val.minimum_salary.minimumSalary}</p>
@@ -296,7 +297,7 @@ export default function UpdateEmployeeContractDetailsForm({ data, eid, edit, emp
                                 </FormsNew>
                             </>
                             }
-                            {cardNumber == index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
+                            {cardNumber === index && editFunction && <div className="float-right col-md-12 mb-1 text-right">
                                 <CustomButton buttonName={t("OK")} ActionFunction={() => handleOk(index)}></CustomButton>
                                 <CustomButton buttonName={t("CANCEL")} ActionFunction={() => reset(index)}></CustomButton>
                             </div>}

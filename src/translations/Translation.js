@@ -4,8 +4,7 @@ import { GET_CONSTANTS } from '../applicationConstants/AppConstants';
 // statics handler
 
 function translate(key) {
-  let lang = localStorage.getItem('active_language') || 'en'
-  const arrayFromObject = Object.values(key);
+    const arrayFromObject = Object.values(key);
   return new Promise(function (resolve, reject) {
     let postData = {
       keys: arrayFromObject
@@ -29,7 +28,6 @@ export function t(key) {
 
 export async function GetTranslatedConstants() {
   let translations = localStorage.getItem('translations') ? JSON.parse(localStorage.getItem('translations')) : { 'en': {}, 'nl': {}, 'fr': {} }
-  let lang = localStorage.getItem('active_language') || 'en'
   let result = await translate(GET_CONSTANTS);
 
   Object.keys(GET_CONSTANTS)?.map(async (key, index) => {

@@ -193,7 +193,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                     } else if (overviewContent === 'contracts') {
                         let data = result.data
                         //filtering data for given company and also for null
-                        const filteredData = data.filter(item => item.company_id == null || item.company_id == 1);
+                        const filteredData = data.filter(item => item.company_id === null || item.company_id === 1);
                         filteredData.forEach(element => {
                             if (element.language) {
                                 element.language = element.language.toUpperCase();
@@ -201,7 +201,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                         });
 
                         setListData(filteredData)
-                    } else if (overviewContent == 'dimona') {
+                    } else if (overviewContent === 'dimona') {
 
                         let data = result.data
                         setTemp(data)
@@ -312,7 +312,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
             let arr1 = []
             arr.map((val) => {
 
-                if (val.status == true) {
+                if (val.status === true) {
                     arr1.push(val.employee_type_id)
                 }
             })
@@ -373,7 +373,7 @@ export default function CompanyOverviews({ overviewContent, setCompanySelected, 
                     return (
                         <tr key={val.id} className="my-2">
                             <td className="col-md-6 "><h6 className="my-auto text-center pl-5">{val.employee_type_name}</h6></td>
-                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key: val.employee_type_id, value: val.employee_type_name }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status == true ? true : false}></CustomCheckBox> </td>
+                            <td className="col-md-6 "> <CustomCheckBox key={val.id} checkboxList={[{ key: val.employee_type_id, value: val.employee_type_name }]} changeCheckbox={() => handleCheckBox(val)} checked={val.status === true ? true : false}></CustomCheckBox> </td>
                         </tr>)
                 })}
             </table >

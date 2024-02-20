@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import EmployeesOverview from "../molecules/EmployeesOverview";
-import EmployeeDetails from "../molecules/EmployeeDetails";
+import React from "react";
 import ViewOpenShiftDetails from "../molecules/ViewOpenShiftDetails";
 import OpenShiftOverview from "./OpenShiftOverview";
 

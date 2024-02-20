@@ -14,7 +14,6 @@ export default function AddEmailTemplate() {
     const navigate = useNavigate();
     const params = useParams();
     const [errors, setErrors] = useState("")
-    const [successMessage, setSuccessMessage] = useState('');
     const [formattedData, setFormattedData] = useState({})
     const [subject, setSubject] = useState({
         "en": "",
@@ -29,6 +28,7 @@ export default function AddEmailTemplate() {
     const [langauge, setLanguage] = useState('en');
     const [tokensList, setTokensList] = useState([])
     const [templateType, setTemplateType] = useState("")
+    
     //api call to get email template details
     useEffect(() => {
         if (params.id) {
@@ -121,7 +121,6 @@ export default function AddEmailTemplate() {
             AXIOS.service(apiUrl, "PUT", data)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
                         navigate('/manage-communication-configurations/email');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -149,13 +148,13 @@ export default function AddEmailTemplate() {
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color d-flex ">
                     <div className="col-md-6 float-left d-flex align-items-center">
-                        <img className="shortcut-icon mr-2 pointer " onClick={() => navigate('/manage-communication-configurations/email')} src={BackIcon}></img>
+                        <img className="shortcut-icon mr-2 pointer " onClick={() => navigate('/manage-communication-configurations/email')} src={BackIcon} alt="Back"></img>
                         {t("ADD_EMAIL_TEMPLATE")}
                     </div>
                     <div className="col-md-6 float-right">
                         <ul className="d-flex float-right mr-5">
                             {langaugeArray.map((lang) => (
-                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " font-weight-bolder underline" : "")} id={(langauge == lang.value) ? "text-indii-blue" : ""} onClick={() => onLangaugeSelect(lang.value)}>{lang.label}</li>
+                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge === lang.value) ? " font-weight-bolder underline" : "")} id={(langauge === lang.value) ? "text-indii-blue" : ""} onClick={() => onLangaugeSelect(lang.value)}>{lang.label}</li>
                             ))}
                         </ul>
                     </div>

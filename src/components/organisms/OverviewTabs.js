@@ -5,8 +5,6 @@ import CompanyOverviews from "../molecules/CompanyOverviews";
 import 'react-tabs/style/react-tabs.css';
 
 import BackIcon from "../../static/icons/BackIcon.png"
-import FilterIcon from "../../static/icons/Filter.svg";
-import ExportIcon from "../../static/icons/Export.svg";
 
 import { ToastContainer } from 'react-toastify';
 import Rules from "../molecules/Rules";
@@ -121,11 +119,6 @@ export default function OverviewTabs({ setCompany }) {
         }
     }, [companySelected])
 
-    const getArchived = () => {
-        setIsArchived(!isArchived)
-
-    }
-
 
     return (
         <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
@@ -155,7 +148,7 @@ export default function OverviewTabs({ setCompany }) {
                         <div className="d-flex justify-content-end mx-3">
                             {addTitle === t("ADD_COMPANY") && !isArchived && <div><Switch label={t("SHOW_ALL_COMPANIES")} id="switch4" lableClick={true} styleClass="text-nowrap mb-0 pr-3 " checked={showAllCompanies} onChange={() => setShowAllCompanies(!showAllCompanies)} ></Switch></div>}
                             {addTitle === t("ADD_COMPANY") && <div><Switch label={t("ARCHIVED")} id="switch3" lableClick={true} styleClass="text-nowrap mb-0 px-3 " onChange={() => setIsArchived(!isArchived)} checked={isArchived}></Switch></div>}
-                            {addTitle !== t("ADD_COMPANY") && <div><p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon}></img>{t("COMPANY_OVERVIEW")}</p></div>}
+                            {addTitle !== t("ADD_COMPANY") && <div><p className="mb-0 text-dark text-nowrap pr-3" onClick={() => setCompanySelected(false)}><img className="header-icon mr-2 pointer" src={BackIcon} alt="Back"></img>{t("COMPANY_OVERVIEW")}</p></div>}
                             {<div className="align-self-center"><a href={addUrl}><span className="mb-0 text-nowrap mt-5 add_btn">{addIcon}<span>{addTitle}</span></span></a></div>}
                             {/* {addTitle !== 'Add company' &&<p className="mb-0 mr-3 text-dark"><img className="header-icon mr-2" src={addIcon}></img>{addTitle}</p>} */}
                             {/* <img src={FilterIcon} className="header-icon ml-2"></img>

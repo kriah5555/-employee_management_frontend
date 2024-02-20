@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import FormsNew from "../molecules/FormsNew";
 import Table from "../atoms/Table";
-import CustomButton from "../atoms/CustomButton";
 import { t } from "../../translations/Translation";
 import { GetHolidaysByStatusApiUrl } from "../../routes/ApiEndPoints";
-import { Navigate, useNavigate } from "react-router-dom";
 import ActionsPopup from "../molecules/ActionsPopup";
 
 export default function HolidayOverview() {
 
-    const navigate = useNavigate();
     const [tabIndex, setTabIndex] = useState(0);
     const [holidayList, setHolidayList] = useState([])
     const [openPopUp, setOpenPopUp] = useState(false)
     const [actionList, setActionList] = useState([])
-    const [popupBody, setPopupBody] = useState()
     const [individualHolidayData, setIndividualHolidayData] = useState({})
     const [refresh, setRefresh] = useState("")
 
@@ -87,17 +82,10 @@ export default function HolidayOverview() {
             })
     }, [tabIndex, refresh])
 
-    //dummy row data
-    const row = [
-        { title: "Requested on 13th", applied_date: "07-11-2023", applied_by: "sunil", reporting_manager: "vishal", leave_date: "13-11-2023", id: 1, role: "employee" },
-        { title: "Requested on", applied_date: "08-11-2023", applied_by: "laxmi", reporting_manager: "deepa", leave_date: "14-11-2023", id: 2, role: "employee" },
-        { title: "Requested on", applied_date: "06-11-2023", applied_by: "hemant", reporting_manager: "shyam", leave_date: "14-11-2023", id: 3, role: "employee" }
-    ]
-
 
     //function to filter
     const viewAction = (data, action) => {
-        if (action == "actions") {
+        if (action === "actions") {
             setActionList(data.actions, openPopUp)
             setOpenPopUp(true)
             setIndividualHolidayData(data)

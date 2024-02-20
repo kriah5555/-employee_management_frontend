@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EmployeeTypeApiUrl, EmployeeTypeOptionsApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
 import FormsNew from "../molecules/FormsNew";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
@@ -19,7 +18,6 @@ export default function AddEmployeeTypes() {
     const [salaryType, setSalaryType] = useState('');
     const [category, setCategory] = useState('');
 
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const [contractTypeList, setContractTypeList] = useState([]);
@@ -219,7 +217,6 @@ export default function AddEmployeeTypes() {
             AXIOS.service(url, method, employeeTypeData)
                 .then((result) => {
                     if (result?.success) {
-                        // setSuccessMessage(result.message);
                         navigate('/manage-configurations/employee_type');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -245,11 +242,6 @@ export default function AddEmployeeTypes() {
 
     return (
         <div className="right-container">
-            {/* {successMessage && <ModalPopup
-                title={('SUCCESS')}
-                body={(successMessage)}
-                onHide={() => navigate('/manage-configurations/employee_type')}
-            ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}

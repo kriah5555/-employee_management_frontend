@@ -1,7 +1,7 @@
 import React from "react";
 // import ReactFlagsSelect from "react-flags-select";
-import RequiredIcon from "../../static/icons/exclamation-mark1.png"
-import { t } from "../../translations/Translation";
+// import RequiredIcon from "../../static/icons/exclamation-mark1.png"
+// import { t } from "../../translations/Translation";
 
 export default function FlagDropdown({ options, selectedOptions, onSelectFunction, styleClass, CustomStyle, title, required, isMulti, error, isDisabled, placeholder }) {
     return (

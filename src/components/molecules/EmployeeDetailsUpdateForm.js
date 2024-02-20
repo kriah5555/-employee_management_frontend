@@ -38,7 +38,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
 
     useEffect(() => {
 
-        if (tab == "tab6") {
+        if (tab === "tab6") {
 
             AXIOS.service(EmployeeBenefitsApiUrl + "/create", "GET")
                 .then((result) => {
@@ -61,10 +61,10 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         setFormData(benefitsdata)
                         setMealVoucher(getFormattedDropdownOptions(response.benefits.meal_voucher))
                         YesNoOptions.map((val) => {
-                            if (val.value == response.benefits.company_car) {
+                            if (val.value === response.benefits.company_car) {
                                 setCompanyCar(val)
                             }
-                            if (val.value == response.benefits.fuel_card) {
+                            if (val.value === response.benefits.fuel_card) {
                                 setFuelCard(val)
                             }
 
@@ -96,8 +96,8 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                         userData["gender_id"] = response.gender?.id
                         userData["dependent_spouse"] = response.dependent_spouse?.id
                         userData["language"] = response.language?.id
-                        userData["place_of_birth"] = response.place_of_birth == null ? "" : response.place_of_birth
-                        userData["license_expiry_date"] = response.license_expiry_date == null ? "" : response.license_expiry_date
+                        userData["place_of_birth"] = response.place_of_birth === null ? "" : response.place_of_birth
+                        userData["license_expiry_date"] = response.license_expiry_date === null ? "" : response.license_expiry_date
                         setFormData(userData)
                     }
                 })
@@ -128,7 +128,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
 
         let option = data.filter((obj) => {
 
-            if (obj.value == id) {
+            if (obj.value === id) {
                 return obj
             }
         })
@@ -197,7 +197,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
     }
     const onSave = () => {
 
-        if (tab == "tab6") {
+        if (tab === "tab6") {
             let url = EmployeeBenefitsApiUrl + "/" + eid
             AXIOS.service(url, "PUT", formData)
                 .then((result) => {
@@ -297,7 +297,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 body={(errors)}
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
-            {tab == "tab1" && <FormsNew
+            {tab === "tab1" && <FormsNew
                 data={detailsArray}
                 SetValues={setValues}
                 formattedData={formData}
@@ -321,7 +321,7 @@ export default function EmployeeDetailsUpdateForm({ data, eid, refId, setRefId, 
                 actionButtons={false}
                 setRefId={setRefId}
             ></FormsNew></div>}
-            {showExtraBenifits && tab == "tab6" && <FormsNew
+            {showExtraBenifits && tab === "tab6" && <FormsNew
                 data={extraBenefitsArray}
                 SetValues={setExtraBenefitsValue}
                 formattedData={formData}

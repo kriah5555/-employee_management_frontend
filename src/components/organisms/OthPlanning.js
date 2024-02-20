@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import FormsNew from "../molecules/FormsNew";
 import { t } from "../../translations/Translation";
-import CustomButton from "../atoms/CustomButton";
-import Switch from "../atoms/Switch";
 import BackIcon from "../../static/icons/BackIcon.png"
-import OthPlanForm from "../molecules/OthPlanForm";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { CreateOthPlanApiUrl, GetAllOthPlansApiUrl, GetOthPlansApiUrl } from "../../routes/ApiEndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,7 +39,7 @@ export default function OthPlanning() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [dataRefresh, createstate])
+    }, [dataRefresh, createstate, params.eid])
 
     const headers = [
         {
@@ -141,7 +137,7 @@ export default function OthPlanning() {
                         close={true}
                     ></ModalPopup>}
                     <div className="d-flex justify-content-between bg-white my-2 py-2 align-items-center">
-                        <h4 className=" px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon}></img>}
+                        <h4 className=" px-3 bg-white">{params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/manage-employees/' + params.eid)} src={BackIcon} alt="Back"></img>}
                             {t('OTH_TITLE')}</h4>
                         {params?.eid && <a className="my-auto px-3 bg-white mb-0 text-color" href={"/create-oth-plans/" + params.eid}>{t('CREATE_OTH')}</a>}
                         {params?.eid === undefined && <a className="btn button-style mx-2 add_btn" onClick={() => setCreatestate(true)}>{t('CREATE_OTH')}</a>}

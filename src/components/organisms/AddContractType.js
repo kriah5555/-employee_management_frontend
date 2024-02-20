@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
 import { ContractTypeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import ModalPopup from "../../utilities/popup/Popup";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -19,7 +18,6 @@ export default function AddContractType() {
     const [contractRenewal, setContractRenewal] = useState('');
     const [description, setDescription] = useState('');
 
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const [renewalList, setRenewalList] = useState([])
@@ -160,7 +158,6 @@ export default function AddContractType() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        // setSuccessMessage(result.message);
                         navigate('/manage-configurations/contract_type');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -186,11 +183,6 @@ export default function AddContractType() {
 
     return (
         <div className="right-container">
-            {/* {successMessage && <ModalPopup
-                title={('SUCCESS')}
-                body={(successMessage)}
-                onHide={() => navigate('/manage-configurations/contract_type')}
-            ></ModalPopup>} */}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}

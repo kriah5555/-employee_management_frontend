@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { TaxesApiUrl, SalaryCoefficientApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
-import CustomButton from "../atoms/CustomButton";
-import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import { t } from "../../translations/Translation";
 import Add from "../../static/icons/Add";
-import CustomTable from "../atoms/CustomTable";
-import FormsNew from "../molecules/FormsNew";
 import ExportConfiguration from "../molecules/ExportConfiguration"
 
 export default function SocialSecretaryAndReportingConfigurationOverview() {
@@ -23,8 +18,6 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
     const [dataRefresh, setDataRefresh] = useState(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [deleteUrl, setDeleteUrl] = useState('');
-
-    const [formData, setFormData] = useState();
 
 
     // Header data for Holiday code
@@ -209,7 +202,7 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
             {/* All configurations */}
             <div className="company-tab-width mt-3 border bg-white d-flex flex-column">
                 <div className={"d-flex px-3 justify-content-between py-2 border-thick align-items-center"}>
-                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
+                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon} alt="Back"></img>{title}</h4>
                     <div className="row m-0">
                         {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
                             <Add />
@@ -219,14 +212,9 @@ export default function SocialSecretaryAndReportingConfigurationOverview() {
                 </div>
                 <div className="tablescroll flex-1 d-flex flex-column">
                     <div className="flex-1">
-                        {(overviewContent === 'taxes' || overviewContent === 'salary_coefficient') && <Table columns={headers} rows={listData} setRows={setListData} tableName={"taxes"} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>}
-                        {/* {overviewContent === 'salary_coefficient' && <CustomTable columns={headers} rows={listData} setRows={setListData} UpdateRow={UpdateRow} tableName={'salary_coefficient'}></CustomTable>} */}
+                        {(overviewContent === 'taxes' || overviewContent === 'salary_coefficient') && <Table columns={headers} rows={listData} setRows={setListData} tableName={"taxes"} viewAction={viewAction} height={overviewContent === "holiday_code_configuration" ? '100%' : '100%'} ></Table>}
                         {overviewContent === 'export_configuration' && <ExportConfiguration></ExportConfiguration>}
                     </div>
-                    {/* {overviewContent === "salary-coefficient"&& <div className={" mb-3 text-right pr-3 mt-2"}>
-                        <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>
-                        <CustomButton buttonName={t("BACK_LINK")} ActionFunction={() => navigate("/configurations")} CustomStyle="mr-3"></CustomButton>
-                    </div>} */}
                 </div>
             </div>
         </div>

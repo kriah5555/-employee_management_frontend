@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import Table from "../atoms/Table";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
-import ModalPopup from "../../utilities/popup/Popup";
 import CustomButton from "../atoms/CustomButton";
 import { t } from "../../translations/Translation";
-import Add from "../../static/icons/Add";
 import { EmployeeHolidayCountsOverViewApiUrl, EmployeeHolidayCountsApiUrl } from "../../routes/ApiEndPoints";
 import EditIcon from "../../static/icons/edit-dark.svg"
 import TextInput from "../atoms/formFields/TextInput";
@@ -16,19 +11,11 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 
 export default function CountersOverview({ type, eid }) {
 
-    const params = useParams()
-    const navigate = useNavigate()
     let countersType = type
     let employeeId = eid
     const [dataRefresh, setDataRefresh] = useState(false);
-    const [warningMessage, setWarningMessage] = useState('');
-    const [deleteUrl, setDeleteUrl] = useState('');
 
-    const [headers, setHeaders] = useState([]);
     const [listData, setListData] = useState([]);
-    const [title, setTitle] = useState('');
-    const [addTitle, setAddTitle] = useState('');
-    const [addUrl, setAddUrl] = useState('');
     const [editStatus, setEditStatus] = useState(false);
     const [editData, setEditData] = useState([])
     const [formData, setFormData] = useState([]);
@@ -54,10 +41,6 @@ export default function CountersOverview({ type, eid }) {
             .then((result) => {
                 if (result?.success) {
                     if (countersType === "holiday") {
-                        let data = [
-                            { count: "4", holiday_code_name: "wqer", used_count: "7", available_count: "5" },
-                            { count: "4", holsetDataRefreshliday_code_name: "wqer", used_count: "7", available_count: "5" },
-                        ]
                         setListData(result.data?.employee_holiday_counts);
                         // setListData(data)
 
@@ -75,17 +58,8 @@ export default function CountersOverview({ type, eid }) {
         AXIOS.service(EmployeeHolidayCountsApiUrl + "/" + employeeId + "/edit", 'GET')
             .then((result) => {
                 if (result?.success) {
-                    let data = [
-                        { count: "4", holiday_code_name: "wqer", used_count: "7", available_count: "5" },
-                        { count: "4", holiday_code_name: "wqer", used_count: "7", available_count: "5" },
-                        { count: "4", holiday_code_name: "wqer", used_count: "7", available_count: "5" },
-                        { count: "4", holiday_code_name: "wqer", used_count: "7", available_count: "5" },
-                        { count: "4", holiday_code_name: "wqer", used_count: "7", available_count: "5" },
-                    ]
                     setEditData(result.data?.employee_holiday_counts);
                     setFormData(result.data?.employee_holiday_counts);
-                    // setEditData(data)
-                    // setFormData(data)
                 }
             })
             .catch((error) => {
@@ -192,7 +166,7 @@ export default function CountersOverview({ type, eid }) {
                                         </td>
                                         <td className="px-3">
                                             {value.holiday_code_count}
-                                        </td> <td className="me-4">
+                                        </td> <td className="pr-4">
                                             <TextInput name={"count"} value={value.count} setValue={(e) => { setValue(index, e, "count") }}></TextInput>
                                         </td>
                                         <td>

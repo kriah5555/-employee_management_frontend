@@ -3,14 +3,14 @@ import ProfileImage from "../components/atoms/ProfileImage";
 import CustomButton from "../components/atoms/CustomButton";
 import MenuContent from "../components/atoms/MenuContent";
 import BackIcon from "../static/icons/BackIcon.png";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ResetPassword from "../components/molecules/ResetPassword";
 import ProfileData from "../components/molecules/ProfileData";
 import EditIcon from "../static/icons/edit-dark.svg";
 import BankAccount from "../components/atoms/BankAccount";
 import EnableNotification from "../components/atoms/EnableNotification";
 import { APICALL as AXIOS } from "../services/AxiosServices";
-import { LogoutApiUrl, EmployeeSignApiUrl, UserDetailsApiUrl } from "../routes/ApiEndPoints";
+import { LogoutApiUrl, EmployeeSignApiUrl } from "../routes/ApiEndPoints";
 import { t } from '../translations/Translation';
 import SignaturePad from '../components/atoms/SignaturePad'
 import { toast } from 'react-toastify';
@@ -51,7 +51,7 @@ export default function MyAccount({ setAuth }) {
         }
         setSign(false)
 
-    }, [window.location.hash])
+    }, [])
 
     const sendSignatureData = (signatureData) => {
 
@@ -98,7 +98,7 @@ export default function MyAccount({ setAuth }) {
             <div className="col-md-3 mt-3 border bg-white text-center">
                 <ProfileImage />
                 <h4 className="text-center mx-auto mb-3 text-color" >{userName}</h4>
-                <a href="/" className="text-decoration-none p-2 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/")} src={BackIcon}></img><u>{t("BACK_TO_DASHBOARD")}</u></a>
+                <a href="/" className="text-decoration-none p-2 text-color"><img className="shortcut-icon mr-2 mb-1" onClick={() => navigate("/")} src={BackIcon} alt={t("BACK_TO_DASHBOARD")}></img><u>{t("BACK_TO_DASHBOARD")}</u></a>
                 <div className="m-3 m-xl-4 m-xxl-5">
                     <MenuContent className="bg-primary" content={MenuData} type="myAccountMenu" />
                 </div>
@@ -106,12 +106,12 @@ export default function MyAccount({ setAuth }) {
             </div>
             <div className="col-md-8 mt-3 ml-4 border bg-white">
                 {(window.location.hash !== "#changePassword" && window.location.hash !== "#enableNotification" && window.location.hash !== "#signatureDetails") && !editStatus && <img className="float-right  pt-2 mt-4 mr-3 pointer" src={EditIcon} onClick={() => setEditStatus(true)} alt={t("EDIT")} title={t("EDIT")}></img>}
-                {(window.location.hash == "#myProfile" || window.location.hash == "") && <ProfileData title={t("MY_PROFILE")} edit={editStatus} setEditStatus={setEditStatus} />}
-                {window.location.hash == "#address" && <ProfileData title={t("MY_ADDRESS")} edit={editStatus} setEditStatus={setEditStatus} type="address" />}
-                {window.location.hash == "#changePassword" && <ResetPassword />}
-                {window.location.hash == "#bankAccountDetails" && <BankAccount edit={editStatus} setEditStatus={setEditStatus} />}
-                {window.location.hash == "#enableNotification" && <EnableNotification edit={editStatus} setEditStatus={setEditStatus} />}
-                {window.location.hash == "#signatureDetails" && <div className="mt-3"><SignaturePad view={'myAccount'} sendSignatureData={sendSignatureData} signData={signData} sign={sign} setSign={setSign} /></div>}
+                {(window.location.hash === "#myProfile" || window.location.hash === "") && <ProfileData title={t("MY_PROFILE")} edit={editStatus} setEditStatus={setEditStatus} />}
+                {window.location.hash === "#address" && <ProfileData title={t("MY_ADDRESS")} edit={editStatus} setEditStatus={setEditStatus} type="address" />}
+                {window.location.hash === "#changePassword" && <ResetPassword />}
+                {window.location.hash === "#bankAccountDetails" && <BankAccount edit={editStatus} setEditStatus={setEditStatus} />}
+                {window.location.hash === "#enableNotification" && <EnableNotification edit={editStatus} setEditStatus={setEditStatus} />}
+                {window.location.hash === "#signatureDetails" && <div className="mt-3"><SignaturePad view={'myAccount'} sendSignatureData={sendSignatureData} signData={signData} sign={sign} setSign={setSign} /></div>}
             </div>
         </div>
     );

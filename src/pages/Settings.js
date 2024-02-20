@@ -54,7 +54,7 @@ export default function Settings() {
                                     className="list-group-item border-bottom-only"
                                     id={overviewContent === val.type ? "text-indii-dark-blue" : ''}
                                     onClick={() => handleTabClick(val)}>
-                                    <img className="shortcut-icon mr-3" src={val.icon}></img>
+                                    <img className="shortcut-icon mr-3" src={val.icon} alt={val.title}></img>
                                     {val.title}
                                 </li>
                             )

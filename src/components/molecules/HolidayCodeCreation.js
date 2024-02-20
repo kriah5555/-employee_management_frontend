@@ -159,7 +159,7 @@ export default function HolidayCodeCreation() {
         { title: t("EMPLOYEE_CONTRACT_TYPES"), name: "contract_type", required: true, options: dropdownOptions.contract_type, isMulti: false, selectedOptions: contractType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: t("ICON_TYPE"), name: "icon_type", required: true, options: dropdownOptions.icon_type, isMulti: false, selectedOptions: iconType, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: t("TYPE"), name: "type", required: true, options: dropdownOptions.type, isMulti: false, selectedOptions: type, type: "dropdown", style: "col-md-6 mt-2 float-left" },
-        { title: t("COUNT"), name: "count", required: type.value == 1 ? true : false, type: "text", style: "col-md-6 mt-4 float-left" },
+        { title: t("COUNT"), name: "count", required: type.value === 1 ? true : false, type: "text", style: "col-md-6 mt-4 float-left" },
         // { title: "Consider the plan hours in weekly hours ?", name: "consider_plan_hours_in_week_hours", options: dropdownOptions.consider_plan_hours_in_week_hours, isMulti: false, selectedOptions: weeklyHours, type: "dropdown", style: "col-md-6 mt-2 float-left" },
         { title: t("DESCRIPTION"), name: "description", type: "text-area", style: "col-md-12 mt-4 mb-5 float-left" },
         { title: t("PLAN_HOURS_IN_WEEKLY_HOURS") + ("?"), name: 'consider_plan_hours_in_week_hours', type: 'switch', style: "col-md-12 d-flex mt-4 float-left" },
@@ -182,7 +182,7 @@ export default function HolidayCodeCreation() {
         }
     ]
 
-    const companies_options = dropdownOptions.companies != undefined ? getFormattedDropdownOptions(dropdownOptions.companies, 'id', 'company_name') : [];
+    const companies_options = dropdownOptions.companies !== undefined ? getFormattedDropdownOptions(dropdownOptions.companies, 'id', 'company_name') : [];
     const companiesTabFields = [
         { title: t("LINK_COMPANIES"), name: "link_companies", required: true, options: link_companies_options, isMulti: false, selectedOptions: linkCompanies, type: "dropdown", style: "col-md-12 mt-2 float-left" },
         { title: t("COMPANIES_TEXT"), name: "companies", required: true, options: companies_options, isMulti: true, selectedOptions: companies, type: "dropdown", style: "col-md-12 mt-2 float-left" },

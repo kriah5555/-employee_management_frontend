@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import TimePicker from "../../utilities/TimePicker";
-import { t } from "../../translations/Translation.js";
-import { GET_CONSTANTS } from "../../applicationConstants/AppConstants";
 import RequiredIcon from "../../static/icons/exclamation-mark1.png"
 
 
@@ -30,7 +28,7 @@ export default function TimeInput({ setTime, index, type, value, title, customSt
             <div className={"d-flex justify-content-between " + (error ? '' : styleMargin)} >
                 <label className="row mx-0 my-auto">{title} {required && <p className="text-danger my-auto">&nbsp;*</p>}</label>
                 {error && <p className="pt-1 pb-0 px-4 m-1 text-danger required-bg rounded font-weight-normal">
-                    <img className="box mr-1 mb-1" src={RequiredIcon}></img>
+                    <img className="box mr-1 mb-1" src={RequiredIcon} alt="Required"></img>
                     {error}
                 </p>}
             </div>

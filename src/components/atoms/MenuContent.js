@@ -9,7 +9,7 @@ export default function MenuContent({ content, MenuName, setMenuclose, IdName, t
     //Menu content displaying with given content and style
     return (
         <div>
-            <ul className={type == "myAccountMenu" ? "list-group border-bottom" : "list-group shadow"} id={IdName}>
+            <ul className={type === "myAccountMenu" ? "list-group border-bottom" : "list-group shadow"} id={IdName}>
                 {MenuName &&
                     <li className="list-group-item d-flex justify-content-between text-dark">
                         <h4 className="my-1">{MenuName} </h4>
@@ -25,7 +25,7 @@ export default function MenuContent({ content, MenuName, setMenuclose, IdName, t
                             {!type && val.url && <a key={val.title} className="list-group-item text-decoration-none border-bottom-0 text-dark" href={val.url} >
                                 {val.icon ? <span className="pr-3">{val.icon}</span> : ''}{val.title}
                             </a>}
-                            {type == "myAccountMenu" && <a key={val.title} className={window.location.hash == (val.url) ? "text-decoration-none active-my-account-menu my-account-menu mb-2 shadow" : "text-decoration-none my-account-menu mb-2"} href={val.url} >
+                            {type === "myAccountMenu" && <a key={val.title} className={window.location.hash === (val.url) ? "text-decoration-none active-my-account-menu my-account-menu mb-2 shadow" : "text-decoration-none my-account-menu mb-2"} href={val.url} >
                                 {val.icon ? <span className="pr-3">{val.icon}</span> : ''}{val.title}
                             </a>}
                         </>

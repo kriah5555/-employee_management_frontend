@@ -5,7 +5,6 @@ import { t } from '../../translations/Translation';
 import "../../utilities/popup/popup.css";
 import FormsNew from './FormsNew';
 import { APICALL as AXIOS } from '../../services/AxiosServices';
-import BackIcon from "../../static/icons/BackIcon.png";
 import AcceptIcon from "../../static/icons/Available.svg"
 import RejectIcon from "../../static/icons/Notavailable.svg"
 import RequestCancelIcon from "../../static/icons/RequestCancel.svg"
@@ -141,11 +140,11 @@ export default function ActionsPopup(props) {
             <Modal.Body>
                 {/* <p>{props.body}</p> */}
                 <div className='d-flex justify-content-center '>
-                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "2")} src={AcceptIcon}></img><p className='mr-5'>{t("APPROVE")}</p></>} {/* 'APPROVE'=> 2, 'REJECT'=> 3, 'CANCEL' => 4, 'REQUEST_CANCEL' => 5,*/}
-                    {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "3")} src={RejectIcon}></img><p className='mr-5'>{t("REJECT")}</p></>}
-                    {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "4")} src={RejectIcon}></img><p className='mr-5'>{t("CANCEL")}</p></>}
-                    {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon}></img><p className='mr-5'>{t("CHANGE_MANAGER")}</p></>}
-                    {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "5")} src={RequestCancelIcon}></img><p className='mr-5'>{t("REQUEST_CANCEL")}</p></>}
+                    {props.actions?.approve && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "2")} src={AcceptIcon} alt={t("APPROVE")}></img><p className='mr-5'>{t("APPROVE")}</p></>} {/* 'APPROVE'=> 2, 'REJECT'=> 3, 'CANCEL' => 4, 'REQUEST_CANCEL' => 5,*/}
+                    {props.actions?.reject && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "3")} src={RejectIcon} alt={t("REJECT")}></img><p className='mr-5'>{t("REJECT")}</p></>}
+                    {props.actions?.cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "4")} src={RejectIcon} alt={t("CANCEL")}></img><p className='mr-5'>{t("CANCEL")}</p></>}
+                    {props.actions?.change_manager && <><img className="shortcut-icon mr-2" onClick={() => handleChangeManager()} src={ChangeReportingManagerIcon} alt={t("CHANGE_MANAGER")}></img><p className='mr-5'>{t("CHANGE_MANAGER")}</p></>}
+                    {props.actions?.request_cancel && <><img className="shortcut-icon mr-2" onClick={() => handleAction(props.data?.id, "5")} src={RequestCancelIcon} alt={t("REQUEST_CANCEL")}></img><p className='mr-5'>{t("REQUEST_CANCEL")}</p></>}
                 </div>
                 {showDropDown &&
                     <div className='text-center row border-top mt-2'>

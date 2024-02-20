@@ -16,7 +16,7 @@ export default function ProfileImage() {
 
     return (
         <div className='photo-update-container m-4 mx-auto'>
-            <img className="photo-icon rounded-circle mx-auto" src={files.length > 0 ? URL.createObjectURL(files[0].file) : EmployeeIcon}></img>
+            <img className="photo-icon rounded-circle mx-auto" src={files.length > 0 ? URL.createObjectURL(files[0].file) : EmployeeIcon} alt='image'></img>
             <FilePond
                 className="hide"
                 files={files}
@@ -29,7 +29,7 @@ export default function ProfileImage() {
                 acceptedFileTypes={['image/png', 'image/jpeg']}
                 ref={fileInput}
             />
-            <img className="photo-update-icon" src={EditIcon} onClick={() => { fileInput.current.browse(); }}></img>
+            <img className="photo-update-icon" src={EditIcon} onClick={() => { fileInput.current.browse(); }} alt='update'></img>
         </div>
     );
 

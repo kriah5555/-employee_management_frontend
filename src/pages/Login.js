@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TextInput from "../components/atoms/formFields/TextInput";
 import { t } from "../translations/Translation";
 import Logo from "../static/icons/Logo.png"
@@ -22,7 +22,7 @@ export default function Login({ setAuth }) {
     const [errorMessage, setErrorMessage] = useState([]);
 
     const [message, setMessage] = useState(t("FORGOT_PASSWORD_INSTRUCTION"));
-    const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language') == null ? "nl" : localStorage.getItem('active_language'), label: (localStorage.getItem('active_language') == null ? "nl" : localStorage.getItem('active_language'))?.toUpperCase() })
+    const [activeLanguage, setActiveLanguage] = useState({ value: localStorage.getItem('active_language') === null ? "nl" : localStorage.getItem('active_language'), label: (localStorage.getItem('active_language') === null ? "nl" : localStorage.getItem('active_language'))?.toUpperCase() })
     //Language options
     const LanguageOptions = [
         { value: 'en', label: 'EN' },
@@ -87,7 +87,7 @@ export default function Login({ setAuth }) {
                         </div>
                     </div>
                     <div className="d-flex my-auto">
-                        {uurroosterStatus ? <img src={LoginIcon} className="shortcut-icon mt-1 mr-2" onClick={() => setUurroosterStatus(false)}></img> : <img src={UurroosterIcon} className="shortcut-icon mt-1 mr-2" onClick={() => setUurroosterStatus(true)}></img>}
+                        {uurroosterStatus ? <img src={LoginIcon} className="shortcut-icon mt-1 mr-2" onClick={() => setUurroosterStatus(false)} alt="Login"></img> : <img src={UurroosterIcon} className="shortcut-icon mt-1 mr-2" onClick={() => setUurroosterStatus(true)} alt="Uurrooster"></img>}
                         <Dropdown
                             key={"login_page"}
                             options={LanguageOptions}
@@ -101,7 +101,7 @@ export default function Login({ setAuth }) {
             <div className={"col-md-12 d-flex login_height align-items-center p-0 " + (localStorage.getItem('dashboard_access_token') !== 'null' ? 'login_height' : 'full-page-height')}>
                 {(localStorage.getItem('dashboard_access_token') === 'null' || localStorage.getItem('dashboard_access_token') === '' || localStorage.getItem('dashboard_access_token') === null) ?
                     <div className="col-md-6 p-0 border-right full-page-height">
-                        <img className="banner-style" src={IndiiBanner}></img>
+                        <img className="banner-style" src={IndiiBanner} alt="Indii banner"></img>
                     </div>
                     :
                     (!uurroosterStatus && <div className="col-md-6 p-0 border-right login_height d-flex justify-content-center bg-qrcode">

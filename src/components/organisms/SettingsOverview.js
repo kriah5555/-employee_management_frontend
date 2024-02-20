@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CustomTable from "../../components/atoms/CustomTable";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { GenderApiUrl, MaritalStatusApiUrl, MealVoucherApiUrl, CommuteTypesApiUrl, DimonaErrorCodesApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { t } from "../../translations/Translation";

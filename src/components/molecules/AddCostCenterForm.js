@@ -30,7 +30,6 @@ export default function AddCostCenterForm() {
 
     const [active, setActive] = useState(true);
     const [inactive, setInactive] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
@@ -87,7 +86,7 @@ export default function AddCostCenterForm() {
 
     // Fetch data of cost center for update
     useEffect(() => {
-        if (params.id && params.id != 0) {
+        if (params.id && params.id !== 0) {
             let editApiUrl = CostCenterApiUrl + '/' + params.id
             // Api call to get details from data
             AXIOS.service(editApiUrl, 'GET')
@@ -174,7 +173,7 @@ export default function AddCostCenterForm() {
             let method = 'POST'
 
             // Updation url and method
-            if (params.id !== undefined && params.id != 0) {
+            if (params.id !== undefined && params.id !== 0) {
                 url = CostCenterApiUrl + '/' + params.id
                 method = 'PUT'
             }
@@ -183,7 +182,6 @@ export default function AddCostCenterForm() {
             AXIOS.service(url, method, costCenterData[0])
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
                         navigate('/manage-companies#' + 'cost_center');
                         toast.success(result.message[0], {
                             position: "top-center",

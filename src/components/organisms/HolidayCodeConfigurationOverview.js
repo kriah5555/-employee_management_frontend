@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { HolidayCodeApiUrl, CompanyApiUrl, HolidayCodeConfigurationApiUrl, PublicHolidayCodeApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
-import ManageSalaries from "../molecules/ManageSalaries";
 import { ToastContainer, toast } from 'react-toastify';
 import ModalPopup from "../../utilities/popup/Popup";
 import FormsNew from "../molecules/FormsNew";
@@ -176,7 +174,7 @@ export default function HolidayCodeConfigurationOverview() {
                     setTemp(result.data);
                     let arr = []
                     result.data.map((val, index) => {
-                        arr.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox key={index} checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
+                        arr.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox key={index} checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status === true ? true : false}></CustomCheckBox> })
                     });
                     setListData(arr);
                 }
@@ -201,14 +199,14 @@ export default function HolidayCodeConfigurationOverview() {
             // Rest of your code to update the listData and setCompany...
             let formattedArray = []
             arr.map((val, index) => {
-                formattedArray.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox key={index} checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status == true ? true : false}></CustomCheckBox> })
+                formattedArray.push({ "holiday_code_name": val.holiday_code_name, "holiday_code_id": val.holiday_code_id, "id": index, "checkbox": <CustomCheckBox key={index} checkboxList={[{ key: val.holiday_code_id, value: val.holiday_code_id }]} changeCheckbox={handleCheckBox} checked={val.status === true ? true : false}></CustomCheckBox> })
             })
             setListData(formattedArray);
             //setting holiday code ids array for payload
             let arr1 = []
             arr.map((val) => {
 
-                if (val.status == true) {
+                if (val.status === true) {
                     arr1.push(val.holiday_code_id)
                 }
             })
@@ -245,7 +243,6 @@ export default function HolidayCodeConfigurationOverview() {
             .catch((error) => {
                 console.log(error)
             })
-
     }
 
     //
@@ -276,7 +273,7 @@ export default function HolidayCodeConfigurationOverview() {
             {/* All configurations */}
             <div className="company-tab-width mt-3 border bg-white d-flex flex-column">
                 <div className={"d-flex px-3 justify-content-between py-2 border-thick align-items-center"}>
-                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
+                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon} alt="Back"></img>{title}</h4>
                     <div className="row m-0">
                         {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
                             <Add />
@@ -302,7 +299,7 @@ export default function HolidayCodeConfigurationOverview() {
                         </div>
                     </div>}
                     <div className="flex-1">
-                        <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent == "holiday_code_configuration" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent == "holiday_code_configuration" ? '100%' : '100%'} ></Table>
+                        <Table columns={headers} rows={listData} setRows={setListData} tableName={overviewContent === "holiday_code_configuration" ? "tokens" : 'function'} viewAction={viewAction} height={overviewContent === "holiday_code_configuration" ? '100%' : '100%'} ></Table>
                     </div>
                     {overviewContent === "holiday_code_configuration" && <div className={" mb-3 text-right pr-3 mt-2"}>
                         <CustomButton buttonName={t("SAVE")} ActionFunction={() => onSave()} CustomStyle=""></CustomButton>

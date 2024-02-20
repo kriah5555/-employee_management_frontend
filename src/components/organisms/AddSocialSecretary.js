@@ -16,7 +16,6 @@ export default function AddSocialSecretary() {
 
     const [active, setActive] = useState(true);
     const [inactive, setInactive] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
@@ -104,7 +103,6 @@ export default function AddSocialSecretary() {
             AXIOS.service(url, method, socialSecretaryData)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
                         navigate('/manage-configurations/social_secretary');
                         toast.success(result.message[0], {
                             position: "top-center",

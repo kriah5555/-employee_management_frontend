@@ -5,16 +5,12 @@ import { t } from "../translations/Translation";
 import PlanningOverview from "../components/organisms/PlanningOverview";
 import HolidayOverview from "../components/organisms/HolidayOverview"
 import OpenShiftOverview from "../components/organisms/OpenShiftOverview"
-import OpenShiftListWithDetails from "../components/organisms/OpenShiftListWithDetails";
-import BackIcon from "../static/icons/BackIcon.png"
-import AddOthPlans from "../components/organisms/AddOthPlans";
 import DimonaOverview from "../components/organisms/DimonaOverview";
 import OthPlanning from "../components/organisms/OthPlanning";
 
 export default function Planning({ setHeaderCompanyDropdown }) {
 
     const [tabIndex, setTabIndex] = useState(0);
-    const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
         let hash = window.location.hash

@@ -103,7 +103,7 @@ export default function EmployeeUpdate({ tab, edit, setEditStatus, dataLeft, dat
                         </div>
                     )
                 })}
-                {/* {tab == "tab2" && <UpdateEmployeeContractDetailsForm data={dataLeft} edit={edit} />} */}
+                {/* {tab === "tab2" && <UpdateEmployeeContractDetailsForm data={dataLeft} edit={edit} />} */}
             </div>
             <div className="col-md-6 font-details">
                 {tab !== 'tab4' && dataRight.map((val, index) => {

@@ -3,7 +3,6 @@ import Logo from "../static/icons/Logo.png"
 import SearchIcon from "../static/icons/Search.svg"
 import DimonaIcon from "../static/icons/Dimona.svg"
 import QuickAccessIcon from "../static/icons/QuickAccess.svg"
-import CalendarIcon from "../static/icons/Calendar.svg"
 import FAQIcon from "../static/icons/FAQ.svg"
 import NotificationIcon from "../static/icons/Notification.svg"
 import DummyIcon from "../static/icons/Profile.png"
@@ -14,7 +13,7 @@ import Dropdown from "../components/atoms/Dropdown"
 // import AddHolidayIcon from "../static/icons/ManageHoliday.svg"
 // import AddLocation from "../static/icons/AddLocation.svg"
 import DownArrowIcon from "../static/icons/arrow.png"
-import { GetTranslatedConstants, t } from "../translations/Translation"
+import { t } from "../translations/Translation"
 
 import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LogoutApiUrl, ResponsibleCompaniesApiUrl } from "../routes/ApiEndPoints";
@@ -72,10 +71,10 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                             return obj.value == lastCompanyId;
                         })
                         //if only one company then select it without showing popup
-                        if (data.length == 1) {
+                        if (data.length === 1) {
                             setSelectedCompany(data[0])
                             //setting last selected company if it is present
-                        } else if (lastCompany.length != 0) {
+                        } else if (lastCompany.length !== 0) {
                             setSelectedCompany(lastCompany)
                         } else {
                             //message popup if last company not matching  in company list
@@ -232,7 +231,7 @@ export default function Header({ setAuth, selectedCompany, setSelectedCompany, o
                     <div className=" align-items-center">
                         <a className="navbar-brand p-0" href="/"><img alt={t("LOGO")} className="logo" src={Logo}></img></a>
                     </div>
-                    {companyList.length == 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany ? selectedCompany.label : companyList[0].label}</h4>}
+                    {companyList.length === 1 && <h4 className="align-items-center pt-1 pl-5 mb-0 text-color">{selectedCompany ? selectedCompany.label : companyList[0].label}</h4>}
                     {companyList.length > 1 && <div className="d-flex  col-lg-8 col-xl-12">
                         <Dropdown
                             options={companyList}

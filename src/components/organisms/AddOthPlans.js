@@ -7,7 +7,7 @@ import BackIcon from "../../static/icons/BackIcon.png"
 import OthPlanForm from "../molecules/OthPlanForm";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
 import { CreateOthPlanApiUrl, GetEmployeesApiUrl, GetOthOptionsApiUrl } from "../../routes/ApiEndPoints";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { GetTimeDifference } from "../../utilities/CommonFunctions";
@@ -333,8 +333,8 @@ export default function AddOthPlans({ setCreatestate, objectId }) {
                 ></ErrorPopup>}
                 <div className="d-flex justify-content-between bg-white">
                     <h4 className="py-2 mb-0 px-3 bg-white">
-                        {params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon}></img>}
-                        {params?.eid === undefined && <img className="shortcut-icon mr-2 mb-1" onClick={() => setCreatestate(false)} src={BackIcon}></img>}
+                        {params?.eid && <img className="shortcut-icon mr-2 mb-1" onClick={() => navigate('/oth-planning/' + params.eid)} src={BackIcon} alt="Back"></img>}
+                        {params?.eid === undefined && <img className="shortcut-icon mr-2 mb-1" onClick={() => setCreatestate(false)} src={BackIcon} alt="Back"></img>}
                         {t('ADD_OTH')}</h4>
                     <Switch label={t("RENEW_OTH")} id="switch4" styleClass="px-3" lableClick={true} onChange={() => setAutoOn(!autoOn)} checked={autoOn} />
                 </div>

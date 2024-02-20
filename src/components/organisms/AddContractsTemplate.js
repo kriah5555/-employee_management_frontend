@@ -4,7 +4,7 @@ import BackIcon from "../../static/icons/BackIcon.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 import FormsNew from "../molecules/FormsNew";
-import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl, BASE_URL } from "../../routes/ApiEndPoints";
+import { ContractTemplateApiUrl, CompanyContractTemplateApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from '../../services/AxiosServices';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import Table from "../atoms/Table";
@@ -20,7 +20,7 @@ export default function AddContractsTemplate() {
     const [formData, setFormdata] = useState({
         "status": "",
         "contract_type_id": "",
-        "social_secretary": params.addType == 'company' ? [] : []
+        "social_secretary": params.addType === 'company' ? [] : []
     })
     const [body, setBody] = useState({
         "en": "",
@@ -36,7 +36,6 @@ export default function AddContractsTemplate() {
     const [active, setActive] = useState(true);
     const [inactive, setInactive] = useState(false);
 
-    const [successMessage, setSuccessMessage] = useState('');
 
     // Checkbox status data
     const changeCheckbox = (type) => {
@@ -124,7 +123,7 @@ export default function AddContractsTemplate() {
                         setBody(response.body)
                         setContractType(getFormattedDropdownOptions(response.contract_type))
 
-                        if (params.addType == 'template') {
+                        if (params.addType === 'template') {
 
                             setSocialSecretary(getFormattedDropdownOptions(response.social_secretary ? response.social_secretary : []))
                         }
@@ -162,10 +161,10 @@ export default function AddContractsTemplate() {
 
         } else {
 
-            if (name == 'contract_type_id') {
+            if (name === 'contract_type_id') {
                 setContractType(value)
                 setFormdata((prevData) => ({ ...prevData, [name]: value.value }))
-            } else if (name == 'social_secretary') {
+            } else if (name === 'social_secretary') {
                 let arr = []
                 value.map((val, i) => {
                     arr.push(val.value)
@@ -208,7 +207,7 @@ export default function AddContractsTemplate() {
         }
     ]
 
-    let navigateUrl = params.addType == 'template' ? "/manage-communication-configurations/contracts_template" : "/manage-companies"
+    let navigateUrl = params.addType === 'template' ? "/manage-communication-configurations/contracts_template" : "/manage-companies"
 
     //function to save data
     const OnSave = () => {
@@ -219,12 +218,12 @@ export default function AddContractsTemplate() {
             formData['status'] = status
 
             // Creation url and method
-            let url = params.addType == 'template' ? ContractTemplateApiUrl : CompanyContractTemplateApiUrl
+            let url = params.addType === 'template' ? ContractTemplateApiUrl : CompanyContractTemplateApiUrl
             let method = 'POST'
 
             // Updation url and method
             if (params.id !== undefined) {
-                url = params.addType == 'template' ? ContractTemplateApiUrl + '/' + params.id : CompanyContractTemplateApiUrl + '/' + params.id
+                url = params.addType === 'template' ? ContractTemplateApiUrl + '/' + params.id : CompanyContractTemplateApiUrl + '/' + params.id
                 method = 'PUT'
             }
 
@@ -236,7 +235,6 @@ export default function AddContractsTemplate() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
                         toast.success(result.message[0], {
                             position: "top-center",
                             autoClose: 2000,
@@ -267,13 +265,13 @@ export default function AddContractsTemplate() {
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color d-flex ">
                     <div className="col-md-6 float-left">
-                        <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate(navigateUrl)} src={BackIcon}></img>
+                        <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate(navigateUrl)} src={BackIcon} alt="Back"></img>
                         {t("ADD_CONTRACT_TEMPLATE")}
                     </div>
                     <div className="col-md-6 float-right">
                         <ul className="d-flex float-right mr-5">
                             {langaugeArray.map((lang) => (
-                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge == lang.value) ? " font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)} id={(langauge == lang.value) ? "text-indii-blue" : ""}>{lang.label}</li>
+                                <li key={lang.value} className={"nav nav-item mx-2 " + ((langauge === lang.value) ? " font-weight-bolder underline" : "")} onClick={() => onLangaugeSelect(lang.value)} id={(langauge === lang.value) ? "text-indii-blue" : ""}>{lang.label}</li>
                             ))}
                         </ul>
                     </div>

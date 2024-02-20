@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import AddEmployeeContractTypes from "./AddEmployeeContractTypes";
 import AddEmployeeFunctionSalaries from "./AddEmployeeFunctionSalaries";
 import { EmployeeContractApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { useNavigate, useParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { t } from "../../translations/Translation";
-import CustomButton from "../atoms/CustomButton";
 import { toast } from 'react-toastify';
+
+
 export default function AddContractPopup(props) {
 
     const [displaySubType, setDisplaySubType] = useState(false);

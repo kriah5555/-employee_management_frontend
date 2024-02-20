@@ -77,7 +77,7 @@ export default function ManageSalaries() {
     useEffect(() => {
         if (selectedSector && salaryType && !incrementPage) {
             // Initial API call to fetch salaries and levels
-            let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+            let ApiUrl = salaryType.value === 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
             AXIOS.service(ApiUrl + '/' + selectedSector.value + '/get')
                 .then((result) => {
                     if (result.data.levels) {
@@ -170,7 +170,7 @@ export default function ManageSalaries() {
             }
             let incremented_salary = []
             if (coefficient) {
-                // let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+                // let ApiUrl = salaryType.value === 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
                 let reqData = {
                     "sector_id":selectedSector?.value,
                     "coefficient": coefficient,
@@ -232,7 +232,7 @@ export default function ManageSalaries() {
         });
 
         // API call to save updated salaries
-        let ApiUrl = salaryType.value == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+        let ApiUrl = salaryType.value === 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
         AXIOS.service(ApiUrl + '/' + selectedSector.value + '/update', 'POST', requestData)
             .then((result) => {
                 if (result?.success) {
@@ -258,7 +258,7 @@ export default function ManageSalaries() {
 
     // Function to revert back to saved salaries
     const undoSalaries = () => {
-        let ApiUrl = salaryType == 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
+        let ApiUrl = salaryType === 1 ? MonthlyMinimumSalariesApiurl : HourlyMinimumSalariesApiurl
         AXIOS.service(ApiUrl + '/' + selectedSector.value + '/undo', 'POST')
             .then((result) => {
                 if (result?.success) {

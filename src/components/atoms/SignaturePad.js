@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import CustomButton from './CustomButton';
 import { t } from '../../translations/Translation';

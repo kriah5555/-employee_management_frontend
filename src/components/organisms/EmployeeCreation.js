@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { t } from "../../translations/Translation";
@@ -16,7 +16,6 @@ import AddEmployeeAdditionalInfo from "../molecules/AddEmployeeAdditionalInfo";
 export default function EmployeeCreation() {
 
     const navigate = useNavigate();
-    const params = useParams();
     const [tabIndex, setTabIndex] = useState(0);
 
     const [gender, setGender] = useState()
@@ -52,8 +51,6 @@ export default function EmployeeCreation() {
     )
 
     const [errors, setErrors] = useState([]);
-
-    const [options, setOptions] = useState([]);
 
     const [employeeCreateOptions, setEmployeeCreateOptions] = useState([]);
     const [employeeContractOptions, setEmployeeContractOptions] = useState([]);
@@ -219,7 +216,7 @@ export default function EmployeeCreation() {
         <div className="right-creation-container ">
             <div className="company-tab-width mt-3 mb-1 mx-auto pt-2 pl-2 border bg-white">
                 <h4 className="mb-0 text-color d-flex align-items-center">
-                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-employees')} src={BackIcon}></img>
+                    <img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/manage-employees')} src={BackIcon} alt="Back"></img>
                     {/* {(params.id !== '' ? 'Edit ' : 'Create ') + "employees"} */}
                     {t("CREATE_EMPLOYEE")}
                 </h4>

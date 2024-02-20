@@ -25,12 +25,11 @@ export default function ActionsOnLocation(props) {
             .catch((error) => {
                 console.log(error);
             })
-    })
+    }, [])
 
     const handleAction = (key) => {
         let url = ""
         let method = ''
-        let message = ''
 
         if (key === 'activate') {
             url = GetDashboardAccessTokenForLocation + "/" + props.data.id

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
 import { GroupFunctionApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
 import { t } from "../../translations/Translation";
+
 export default function AddGroupFunction() {
 
     const [active, setActive] = useState(true);
@@ -17,7 +17,6 @@ export default function AddGroupFunction() {
     const [description, setDescription] = useState('');
     const [functionCategory, setFunctionCategory] = useState('');
     const [groupName, setGroupName] = useState('')
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const [sectorList, setSectorList] = useState([])
@@ -205,7 +204,6 @@ export default function AddGroupFunction() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        // setSuccessMessage(result.message);
                         navigate('/manage-configurations/group_functions');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -231,11 +229,6 @@ export default function AddGroupFunction() {
 
     return (
         <div className="right-container">
-            {successMessage && <ModalPopup
-                title={t("SUCCESS")}
-                body={(successMessage)}
-                onHide={() => navigate('/manage-configurations/group_functions')}
-            ></ModalPopup>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}

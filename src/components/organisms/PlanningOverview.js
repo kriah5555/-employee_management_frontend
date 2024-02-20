@@ -10,10 +10,9 @@ import Switch from "../atoms/Switch";
 import DayOverview from "../molecules/DayOverview";
 import AddLeavePopup from "../molecules/AddLeavePopup";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import { FilterOptionsApiUrl, GetMonthlyPlanningApiUrl, GetWeeklyPlanningApiUrl } from "../../routes/ApiEndPoints";
+import { FilterOptionsApiUrl, GetMonthlyPlanningApiUrl } from "../../routes/ApiEndPoints";
 import { GetFormattedDate, getWeekNumberByDate, getCurrentWeek } from '../../utilities/CommonFunctions';
 import { t } from "../../translations/Translation";
-import DimonaIcon from "../../static/icons/Dimona.svg";
 import DimonaWhite from "../../static/icons/DimonaWhite";
 import SendDimonaPopup from "../molecules/SendDimonaPopup";
 import Popup from "../../utilities/popup/Popup"
@@ -268,9 +267,9 @@ export default function PlanningOverview() {
                         <div className="react-tabs__tab border-0 pt-0 float-right">
                             <div className="d-flex justify-content-end">
                                 <span className={'planning-icon mr-4 pointer'} title={t("SEND_DIMONA")} onClick={() => setDimonaStatus(true)}><DimonaWhite color={"#000"} /></span>
-                                <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={AddLeaveIcon} onClick={() => setAddLeave(true)}></img>
-                                <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={ImportIcon}></img>
-                                <a href={`/clone-plannings/${selectedLocation.value}`} onClick={(e) => handleClone(e)}><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon}></img></a>
+                                <img className="planning-icon mr-4 mt-1 pointer" title={t("ADD_LEAVE")} src={AddLeaveIcon} onClick={() => setAddLeave(true)} alt={t("ADD_LEAVE")}></img>
+                                <img className="planning-icon mr-4 mt-1 pointer" title={t("IMPORT_PLANNING")} src={ImportIcon} alt={t("IMPORT_PLANNING")}></img>
+                                <a href={`/clone-plannings/${selectedLocation.value}`} onClick={(e) => handleClone(e)}><img className="planning-icon mr-2 mt-1 pointer" title={t("CLONE_PLANNING")} src={CloneIcon} alt={t("CLONE_PLANNING")}></img></a>
                             </div>
                         </div>
                     </TabList>
@@ -284,7 +283,7 @@ export default function PlanningOverview() {
                     </TabPanel>
 
                     <TabPanel>
-                        <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']}></DayOverview></div>
+                        <div className="px-3 pb-3"><DayOverview dayDate={dayDate} year={year} locId={selectedLocation.value} EmpTypeIds={monthlyData['employee_types']} wsIds={monthlyData['workstations']} dimonaStatus={dimonaStatus}></DayOverview></div>
                     </TabPanel>
                 </Tabs>
             </div>

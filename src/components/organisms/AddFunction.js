@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
 import { FunctionApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import { toast } from 'react-toastify';
@@ -19,7 +18,6 @@ export default function AddFunction() {
     const [functionDesc, setFunctionDesc] = useState('');
     const [functionCategory, setFunctionCategory] = useState('');
 
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
@@ -175,7 +173,6 @@ export default function AddFunction() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        // setSuccessMessage(result.message);
                         navigate('/manage-configurations/functions');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -202,11 +199,6 @@ export default function AddFunction() {
 
     return (
         <div className="right-container">
-            {successMessage && <ModalPopup
-                title={t('SUCCESS')}
-                body={(successMessage)}
-                onHide={() => navigate('/manage-configurations/functions')}
-            ></ModalPopup>}
             {errors !== undefined && errors.length !== 0 && <ErrorPopup
                 title={t("VALIDATION_ERROR") + ("!")}
                 body={(errors)}

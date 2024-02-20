@@ -65,7 +65,7 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
                     setFormData(data)
                     setInitialData(data)
                     genderArrays = genderArrays.filter((item) => {
-                        if (result.data?.gender_id == item.value) {
+                        if (result.data?.gender_id === item.value) {
                             return item;
                         }
                     })
@@ -97,9 +97,9 @@ export default function ProfileData({ title, edit, setEditStatus, type }) {
         { label: t("COUNTRY"), value: initialData.country },
     ]
 
-    let fieldData = (type == "address") ? address : profile
+    let fieldData = (type === "address") ? address : profile
 
-    let fieldsArray = (type == "address") ? [
+    let fieldsArray = (type === "address") ? [
         { title: t("STREET_HOUSE"), name: "street_house_no", type: "text", required: true, style: "col-md-12 float-left mt-3" },
         { title: t("CITY"), name: "city", type: "text", required: true, style: "col-md-6 float-left mt-3" },
         { title: t("COUNTRY"), name: "country", type: "text", required: true, style: "col-md-6 float-left mt-3" },

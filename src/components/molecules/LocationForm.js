@@ -178,7 +178,7 @@ export default function Addlocation({ locations, setLocations, customerArray, ge
                             addressValues={addressCheckbox}
                         ></CompanyForm>
                         {view !== 'location-single' && <div className="d-flex mb-3 pos-relative justify-content-end">
-                            {i == locations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
+                            {i === locations.length - 1 && <CustomButton buttonName={t("ADD_ANOTHER") + (" + ")} ActionFunction={() => handleAddAnotherLocation()} CustomStyle="mr-5"></CustomButton>}
                         </div>}
                     </div>
                 );

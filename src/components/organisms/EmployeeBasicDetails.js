@@ -14,7 +14,6 @@ export default function EmployeeBasicDetails() {
 
     const navigate = useNavigate();
     const params = useParams();
-    const [tabIndex, setTabIndex] = useState(0);
 
     const [employeeCreateOptions, setEmployeeCreateOptions] = useState([]);
     const [gender, setGender] = useState()

@@ -83,7 +83,7 @@ export function getWeekNumberByDate(date) {
 }
 
 export function getFormattedDropdownOptions(options, value_key = 'id', label_key = 'name') {
-    if (options != undefined) {
+    if (options !== undefined) {
         if (Array.isArray(options)) {
             let formattedData = []
             options.map((value) => {
@@ -98,7 +98,7 @@ export function getFormattedDropdownOptions(options, value_key = 'id', label_key
 }
 
 export function getFormattedRadioOptions(options, value_key = 'id', label_key = 'name') {
-    if (options != undefined) {
+    if (options !== undefined) {
         if (Array.isArray(options)) {
             let formattedData = []
             options.map((value) => {

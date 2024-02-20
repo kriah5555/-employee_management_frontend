@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Forms from "../molecules/Forms";
 import { EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import ModalPopup from "../../utilities/popup/Popup";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TextInput from "../atoms/formFields/TextInput";
@@ -35,7 +34,6 @@ export default function AddSector() {
 
     const [dimonaData, setDimonaData] = useState({});
 
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const [emp_type_state, setEmpTypeState] = useState(true);
@@ -332,7 +330,6 @@ export default function AddSector() {
             AXIOS.service(url, method, data)
                 .then((result) => {
                     if (result?.success) {
-                        // setSuccessMessage(result.message);
                         navigate('/manage-configurations/sectors');
                         toast.success(result.message[0], {
                             position: "top-center",
@@ -420,7 +417,7 @@ export default function AddSector() {
                 onHide={() => setErrors([])}
             ></ErrorPopup>}
             <div className="form-container mt-3 mb-2 border bg-white d-flex flex-column ">
-                <h2 id="text-indii-blue" className="p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon}></img>{t("ADD_SECTORS")}</h2>
+                <h2 id="text-indii-blue" className="p-3 mb-0 ml-2"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate("/manage-configurations/sectors")} src={BackIcon} alt="Back"></img>{t("ADD_SECTORS")}</h2>
 
                 <div className="d-flex flex-column flex-1">
                     <div className="flex-1">

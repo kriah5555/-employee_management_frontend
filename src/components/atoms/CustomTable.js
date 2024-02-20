@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 import MaterialTable from "material-table";
-import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, Edit, Done, Clear, AddBox, Delete } from "@material-ui/icons";
+import { ArrowUpward, ChevronRight, NavigateNextRounded, NavigateBeforeRounded, RotateLeft, Search, AddBox } from "@material-ui/icons";
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
@@ -25,10 +25,10 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
         }
     })
 
-    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon}></img>) }
-    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon}></img>) }
-    const getDoneIcon = () => { return (<img className="header-icon " src={DoneIcon}></img>) }
-    const getCancelIcon = () => { return (<img className="header-icon " src={CancelIcon}></img>) }
+    const getEditIcon = () => { return (<img className="header-icon " src={EditIcon} alt="Edit"></img>) }
+    const getDeleteIcon = () => { return (<img className="header-icon " src={DeleteIcon} alt="Delete"></img>) }
+    const getDoneIcon = () => { return (<img className="header-icon " src={DoneIcon} alt="Done"></img>) }
+    const getCancelIcon = () => { return (<img className="header-icon " src={CancelIcon} alt="Cancel"></img>) }
 
     //All the icons used in the table are defined below
     const tableIcon = {
@@ -159,7 +159,6 @@ export default function CustomTable({ columns, rows, tableName, UpdateRow, Creat
                                 resolve()
                             }, 1000)
                         }),
-
                 }}
             />
         </MuiThemeProvider>

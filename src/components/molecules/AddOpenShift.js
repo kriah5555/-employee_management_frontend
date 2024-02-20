@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from "react";
 import FormsNew from "./FormsNew";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
-import { ResponsibleCompaniesApiUrl, OpenShiftApiUrl } from "../../routes/ApiEndPoints";
-import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
-import { Button, Modal } from "react-bootstrap";
+import { OpenShiftApiUrl } from "../../routes/ApiEndPoints";
+import { Button } from "react-bootstrap";
 import RadioInput from "../atoms/formFields/RadioInput";
 import Switch from "../atoms/Switch";
 import { toast } from 'react-toastify';
 import ErrorPopup from "../../utilities/popup/ErrorPopup";
-import DateInput from "../atoms/formFields/DateInput";
-import TextArea from "../atoms/formFields/TextArea";
-import { set } from "date-fns";
-import ModalPopup from "../../utilities/popup/Popup";
 import BackIcon from "../../static/icons/BackIcon.png"
 
 import { t } from "../../translations/Translation";
 
 export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }) {
-
-    const [selectedCompany, setSelectedCompany] = useState("");
 
     const [location, setLocation] = useState('');
     const [locationList, setlocationList] = useState([]);
@@ -147,16 +140,16 @@ export default function AddOpenShift({ shiftId, onHide, createData, showDrafts }
         if (type !== "dropdown") {
             newData[0][name] = value
         } else {
-            if (name == "location") {
+            if (name === "location") {
                 newData[0][name] = value.value
                 setLocation(value)
-            } else if (name == "workstations") {
+            } else if (name === "workstations") {
                 newData[0][name] = value.value
                 setWorkstations(value)
-            } else if (name == "functions") {
+            } else if (name === "functions") {
                 newData[0][name] = value.value
                 setSelectedFunction(value)
-            } else if (name == "employee_types") {
+            } else if (name === "employee_types") {
                 setEmployeeTypes(value)
                 let arr = []
                 value.map((val, i) => {

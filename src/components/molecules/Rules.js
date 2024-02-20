@@ -10,8 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import Table from "../atoms/Table";
 import ModalPopup from "../../utilities/popup/Popup";
 import CustomCheckBox from "../atoms/formFields/CustomCheckBox";
-import TextInput from "../atoms/formFields/TextInput";
-
 
 
 export default function Rules({ overviewContent }) {
@@ -133,7 +131,6 @@ export default function Rules({ overviewContent }) {
 
     const UpdateRow = (newData) => {
         let req_data = { ...newData }
-        let id = newData.id
         req_data['type'] = selectedType?.value
         req_data['id'] = selectedId?.value
         req_data['sector_id'] = selectedSectorId?.value
@@ -235,7 +232,7 @@ export default function Rules({ overviewContent }) {
             ></ModalPopup>}
 
             {overviewContent !== 'rules' && <div className="d-flex col-md-12 justify-content-between py-3 border-thick">
-                <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/configurations')} src={BackIcon}></img>{t(overviewContent === 'parameters' ? 'MANAGE_PARAM' : 'MANAGE_DEFAULT_PARAM')}</h4>
+                <h4 className="text-color mb-0"><img className="shortcut-icon mr-2 mb-1 pointer" onClick={() => navigate('/configurations')} src={BackIcon} alt="Back"></img>{t(overviewContent === 'parameters' ? 'MANAGE_PARAM' : 'MANAGE_DEFAULT_PARAM')}</h4>
             </div>}
             <div className="col-md-12 px-0 mb-2 justify-content-between">
                 <div className="d-flex">

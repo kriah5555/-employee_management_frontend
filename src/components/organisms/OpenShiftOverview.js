@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { APICALL as AXIOS } from "../../services/AxiosServices";
-import FormsNew from "../molecules/FormsNew";
 import Table from "../atoms/Table";
 import CustomButton from "../atoms/CustomButton";
 import AddOpenShift from "../molecules/AddOpenShift";
@@ -123,15 +121,15 @@ export default function OpenShiftOverview({ setHeaderCompanyDropdown }) {
                     let active = []
                     let deleted = []
                     result.data.map((item, i) => {
-                        if (item.status == 1) {
+                        if (item.status === 1) {
                             item.id = item.vacancy_id
                             item.filled_position = item.accepted + "/" + item.vacancy_count
                             item.applied = item.not_responded + item.responded
                             active.push(item)
-                        } else if (item.status == 2) {
+                        } else if (item.status === 2) {
                             item.id = item.vacancy_id
                             drafts.push(item)
-                        } else if (item.status == 0) {
+                        } else if (item.status === 0) {
                             item.id = item.vacancy_id
                             deleted.push(item)
                         }

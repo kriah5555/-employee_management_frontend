@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../atoms/Table";
-import AddIcon from "../../static/icons/add.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmailTemplateApiUrl, ContractTemplateApiUrl, fetchAllTranslations, fetchTranslations } from "../../routes/ApiEndPoints";
+import { EmailTemplateApiUrl, ContractTemplateApiUrl, fetchAllTranslations } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import BackIcon from "../../static/icons/BackIcon.png";
 import { ToastContainer, toast } from 'react-toastify';
@@ -93,10 +92,10 @@ export default function CommunicationConfigurationOverview() {
     useEffect(() => {
         let apiUrl;
         // Header data for Function overview
-        if (overviewContent == 'email') {
+        if (overviewContent === 'email') {
             apiUrl = EmailTemplateApiUrl
             setHeaders(communication_headers); setTitle(t("MANAGE_EMAIL_TEMPLATE")); setAddTitle(''); setAddUrl('/add-email-template'); setTableName("email_template");
-        } else if (overviewContent == 'contracts_template') {
+        } else if (overviewContent === 'contracts_template') {
             apiUrl = ContractTemplateApiUrl
             setHeaders(contracts_template_headers); setTitle(t("MANAGE_CONTRACTS_TEMPLATE")); setAddTitle(t("CREATE_CONTRACTS_TEMPLATE")); setAddUrl('/add-contracts-template/template'); setTableName("contract_template");
         } else {
@@ -218,7 +217,7 @@ export default function CommunicationConfigurationOverview() {
             {/* All configurations */}
             <div className="company-tab-width mt-3 border bg-white d-flex flex-column">
                 <div className={"d-flex px-3 justify-content-between py-3 border-thick align-items-center"}>
-                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon}></img>{title}</h4>
+                    <h4 className="text-color mb-0 d-flex align-items-center"><img className="shortcut-icon mr-2 pointer" onClick={() => navigate("/configurations")} src={BackIcon} alt="Back"></img>{title}</h4>
                     <div className="row m-0">
                         {addTitle && <p className="text-color mb-0 pointer d-flex align-items-center add_btn" onClick={() => navigate(addUrl)}>
                             <Add/><span>{addTitle}</span>

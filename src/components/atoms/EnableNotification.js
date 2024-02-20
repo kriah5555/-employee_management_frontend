@@ -1,6 +1,4 @@
 import React from "react";
-import Form from 'react-bootstrap/Form';
-import FormCheck from 'react-bootstrap/FormCheck';
 import { t } from "../../translations/Translation";
 import Switch from "./Switch";
 

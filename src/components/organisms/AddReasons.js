@@ -18,7 +18,6 @@ export default function AddReasons() {
     const [dropdownOptions, setDropdownOptions] = useState({});
     const [active, setActive] = useState(true);
     const [inactive, setInactive] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
     const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
@@ -130,7 +129,6 @@ export default function AddReasons() {
             AXIOS.service(url, method, reasonsData)
                 .then((result) => {
                     if (result?.success) {
-                        setSuccessMessage(result.message);
                         navigate('/manage-configurations/reasons');
                         toast.success(result.message[0], {
                             position: "top-center",

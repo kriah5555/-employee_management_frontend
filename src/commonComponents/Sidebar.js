@@ -34,20 +34,20 @@ export default function Sidebar() {
     //Constant data for sidebard
     const sideBarFullData = [
 
-        { title: t('DASHBOARD'), icon: (location.pathname === '/' || activeIcon == t('DASHBOARD') ? ActiveDashboardIcon : DashboardIcon), url: '/' },
-        { title: t('UURROOSTER'), icon: (location.pathname === '/uurrooster' || activeIcon == t('UURROOSTER') ? ActiveUurrosterIcon : UurroosterIcon), url: '/uurrooster' },
-        { title: t('MANAGE_PLANNINGS'), icon: (location.pathname === '/manage-plannings' || activeIcon == t('MANAGE_PLANNINGS') ? ActivePlanningIcon : PlanningIcon), url: '/manage-plannings' },
-        { title: t('EMPLOYEES'), icon: (location.pathname === '/manage-employees' || activeIcon == t('EMPLOYEES') ? ActiveEmployeesIcon : EmployeesIcon), url: '/manage-employees' },
-        { title: t('COMPANIES'), icon: (location.pathname === '/manage-companies' || activeIcon == t('COMPANIES') ? ActiveCompaniesIcon : CompaniesIcon), url: '/manage-companies' },
-        { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' || activeIcon == t('CONFIGURATIONS') ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
-        { title: t('SETTINGS'), icon: (location.pathname === '/settings' || activeIcon == t('SETTINGS') ? ActiveSettingIcon : SettingIcon), url: '/settings' },
+        { title: t('DASHBOARD'), icon: (location.pathname === '/' || activeIcon === t('DASHBOARD') ? ActiveDashboardIcon : DashboardIcon), url: '/' },
+        { title: t('UURROOSTER'), icon: (location.pathname === '/uurrooster' || activeIcon === t('UURROOSTER') ? ActiveUurrosterIcon : UurroosterIcon), url: '/uurrooster' },
+        { title: t('MANAGE_PLANNINGS'), icon: (location.pathname === '/manage-plannings' || activeIcon === t('MANAGE_PLANNINGS') ? ActivePlanningIcon : PlanningIcon), url: '/manage-plannings' },
+        { title: t('EMPLOYEES'), icon: (location.pathname === '/manage-employees' || activeIcon === t('EMPLOYEES') ? ActiveEmployeesIcon : EmployeesIcon), url: '/manage-employees' },
+        { title: t('COMPANIES'), icon: (location.pathname === '/manage-companies' || activeIcon === t('COMPANIES') ? ActiveCompaniesIcon : CompaniesIcon), url: '/manage-companies' },
+        { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' || activeIcon === t('CONFIGURATIONS') ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
+        { title: t('SETTINGS'), icon: (location.pathname === '/settings' || activeIcon === t('SETTINGS') ? ActiveSettingIcon : SettingIcon), url: '/settings' },
         { title: t('REPORTING'), icon: ReportingIcon, url: '/reporting' },
     ]
     const noCompanySideBar = [
-        { title: t('DASHBOARD'), icon: (location.pathname === '/' || activeIcon == t('DASHBOARD') ? ActiveDashboardIcon : DashboardIcon), url: '/' },
-        { title: t('COMPANIES'), icon: (location.pathname === '/manage-companies' || activeIcon == t('COMPANIES') ? ActiveCompaniesIcon : CompaniesIcon), url: '/manage-companies' },
-        { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' || activeIcon == t('CONFIGURATIONS') ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
-        { title: t('SETTINGS'), icon: (location.pathname === '/settings' || activeIcon == t('SETTINGS') ? ActiveSettingIcon : SettingIcon), url: '/settings' },
+        { title: t('DASHBOARD'), icon: (location.pathname === '/' || activeIcon === t('DASHBOARD') ? ActiveDashboardIcon : DashboardIcon), url: '/' },
+        { title: t('COMPANIES'), icon: (location.pathname === '/manage-companies' || activeIcon === t('COMPANIES') ? ActiveCompaniesIcon : CompaniesIcon), url: '/manage-companies' },
+        { title: t('CONFIGURATIONS'), icon: (location.pathname === '/configurations' || activeIcon === t('CONFIGURATIONS') ? ActiveConfigurationIcon : ConfigurationIcon), url: '/configurations' },
+        { title: t('SETTINGS'), icon: (location.pathname === '/settings' || activeIcon === t('SETTINGS') ? ActiveSettingIcon : SettingIcon), url: '/settings' },
         { title: t('REPORTING'), icon: ReportingIcon, url: '/reporting' },
     ]
 
@@ -86,12 +86,12 @@ export default function Sidebar() {
         <div className={"side-bar shadow border-right" + (displaySidebar ? " side-bar-open" : " d-flex justify-content-center")} > {/* onMouseLeave={() => setSidebardOpen(false)} onMouseEnter={() => setSidebardOpen(true)} */}
             <ul className={displaySidebar ? "side-bar shadow" : "no-padd"}>
                 <li className="d-flex py-4" onClick={() => setSidebardOpen(!displaySidebar)}>
-                    <img className="shortcut-icon sidebar-icon" src={HamburgerIcon}></img>
+                    <img className="shortcut-icon sidebar-icon" src={HamburgerIcon} alt="Hamburger icon"></img>
                 </li>
                 {sideBarData.map((val, index) => {
                     return (
                         <li key={val.title} title={val.title} className="d-flex my-4" onClick={() => handleClick(val.url, val.title)}>
-                            <img className="shortcut-icon sidebar-icon" src={val.icon}></img>
+                            <img className="shortcut-icon sidebar-icon" src={val.icon} alt="Sidebar icon"></img>
                             {displaySidebar &&
                                 <h6 className="mb-0 align-self-center pl-3 pr-2 sidebar-title" id={location.pathname === val.url ? "text-indii-blue" : ''} >{val.title}</h6>
                             }

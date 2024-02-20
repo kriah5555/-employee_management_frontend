@@ -16,7 +16,7 @@ import ErrorPopup from "../../utilities/popup/ErrorPopup";
 import EmployeeType_icon from "../../static/icons/EmployeeType_icon";
 
 
-export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds }) {
+export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds, dimonaStatus }) {
 
     const times = ['02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00']
     // const times = ['Employee', "0", "2", "4", "6", "8", "10", "12", "14", "16", "18", "20", "22"];
@@ -36,24 +36,26 @@ export default function DayOverview({ dayDate, year, locId, EmpTypeIds, wsIds })
     const [breakTimeStatus, setBreakTimeStatus] = useState(false);
 
     useEffect(() => {
-        setStartStopPlanPopup('')
-        setDayData([]);
-        let requestData = {
-            "location": locId,
-            "workstations": wsIds,
-            "employee_types": EmpTypeIds,
-            "date": dayDate,
-            "year": year
+        if (!dimonaStatus) {
+            setStartStopPlanPopup('')
+            setDayData([]);
+            let requestData = {
+                "location": locId,
+                "workstations": wsIds,
+                "employee_types": EmpTypeIds,
+                "date": dayDate,
+                "year": year
+            }
+            AXIOS.service(GetDayPlans, 'POST', requestData)
+                .then((result) => {
+                    if (result?.success) {
+                        setDayData(result.data)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
-        AXIOS.service(GetDayPlans, 'POST', requestData)
-            .then((result) => {
-                if (result?.success) {
-                    setDayData(result.data)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }, [dayDate, locId])
 
 

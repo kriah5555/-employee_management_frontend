@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { CompanyApiUrl, SocialSecretaryApiUrl } from "../../routes/ApiEndPoints";
+import { CompanyApiUrl } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import CompanyForm from "./CompanyForm";
 import { getFormattedDropdownOptions } from "../../utilities/CommonFunctions";
@@ -11,7 +10,6 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
     const [sectorList, setSectorList] = useState([])
     const [socialSecretaryList, setSocialSecretaryList] = useState([])
     const [interimAgencyList, setInterimAgencyList] = useState([])
-    const navigate = useNavigate();
 
     // const [companyData, setCompanyData] = useState([{
     //     company_name: "",
@@ -50,7 +48,7 @@ export default function AddCompanyForm({ companyData, setCompanyData, view, upda
 
 
     useEffect(() => {
-        if (update_id !== '0' && update_id != undefined) {
+        if (update_id !== '0' && update_id !== undefined) {
             let editApiUrl = CompanyApiUrl + '/' + update_id
             // Api call to get detail data
             AXIOS.service(editApiUrl, 'GET')

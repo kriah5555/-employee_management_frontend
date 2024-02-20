@@ -67,7 +67,7 @@ export default function CompanyView() {
         let resultString = '';
 
         sectors.map((val, index) => {
-            index == sectors.length - 1 ? resultString += val.name : resultString += val.name + ", ";
+            index === sectors.length - 1 ? resultString += val.name : resultString += val.name + ", ";
         })
         return resultString;
     }

@@ -230,7 +230,7 @@ export default function ClonePlanning() {
             ></ErrorPopup>}
             <div className="col-md-12 my-3 ">
                 <h2 id="text-indii-blue" className=" px-3 py-3 bg-white mb-0 d-flex align-items-center">
-                    <img className="shortcut-icon mr-2 pointer" onClick={() => navigate('/manage-plannings')} src={BackIcon} />
+                    <img className="shortcut-icon mr-2 pointer" onClick={() => navigate('/manage-plannings')} src={BackIcon} alt="Back" />
                     {t("CLONE_PLANNINGS")}
                 </h2>
                 <div className="mt-3 py-3 bg-white">

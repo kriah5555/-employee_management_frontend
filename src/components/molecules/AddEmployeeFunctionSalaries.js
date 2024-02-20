@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DeleteIcon from "../../static/icons/Delete.svg"
 import AddIcon from "../../static/icons/AddPlusIcon.png";
-import { BASE_URL, EmployeeTypeApiUrl, SectorApiUrl } from "../../routes/ApiEndPoints";
+import { BASE_URL } from "../../routes/ApiEndPoints";
 import { APICALL as AXIOS } from "../../services/AxiosServices"
 import TextInput from "../atoms/formFields/TextInput";
 import Dropdown from "../atoms/Dropdown";
@@ -100,7 +100,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
             })
     }
     useEffect(() => {
-        if (employeeContracts !== undefined && employeeContracts["employee_type_id"] != "" && employeeContracts["sub_type"] != "" && tabIndex === 2) {
+        if (employeeContracts !== undefined && employeeContracts["employee_type_id"] !== "" && employeeContracts["sub_type"] !== "" && tabIndex === 2) {
             functionSalaries.map((obj, index) => {
 
                 fetchMinSalary(obj["function_id"], obj["experience"], index)
@@ -183,7 +183,7 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                                     styleMargin={''}
                                 ></Dropdown>
                             </div>
-                            {tabIndex == 2 && <div className="col-md-2">
+                            {tabIndex === 2 && <div className="col-md-2">
                                 <div className="row m-0 justify-content-center">
                                     <TextInput
                                         key={'experience' + val}
@@ -257,8 +257,8 @@ export default function AddEmployeeFunctionSalaries({ tabIndex, options, functio
                             </div>}
                             
                             {index === rows.length - 1 && <div className={tabIndex === 3 ? "col-md-3 text-right pr-4" : "col-md-2 text-right pr-4"}>
-                                {<img className="header-icon mr-4 pointer" title={t("ADD_TEXT")} src={AddIcon} onClick={() => AddNewRow()}></img>}
-                                {rows.length > 1 && <img className="header-icon pointer" title={t("DELETE")} src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
+                                {<img className="header-icon mr-4 pointer" title={t("ADD_TEXT")} alt={t("ADD_TEXT")} src={AddIcon} onClick={() => AddNewRow()}></img>}
+                                {rows.length > 1 && <img className="header-icon pointer" title={t("DELETE")} alt={t("DELETE")} src={DeleteIcon} onClick={() => DeleteRow(index)}></img>}
                             </div>}
                         </div>
                     )

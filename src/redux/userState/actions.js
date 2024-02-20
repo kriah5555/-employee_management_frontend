@@ -90,7 +90,7 @@ import * as actionTypes from './actionTypes';
             dispatch(updateActiveLanguage(language));
             let path = window.location.pathname;
             let replaced_path = "";
-            if(path == "/"){
+            if(path === "/"){
                 replaced_path = language;
             }else{
                 let regex = /(en\/|nl\/|fr\/)/g;

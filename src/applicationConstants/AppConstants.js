@@ -296,7 +296,6 @@ export const GET_CONSTANTS = {
     'REMAINING_TITLE': 'Remaining',
     'STREET_HOUSE': 'Street+house no',
     'CREATE_EMPLOYEE_SUCCESS_MESSAGE': 'Employee created successfully',
-    'DIMONA_PERIOD_ID': 'Dimona period id',
     'DO_YOU_WANT_TO_SEND_LONGTERM_DIMONA': 'Do you want to send long term dimona ?',
     'YOU_ARE_ENTERING_PAST_DATE': 'You are entering past date',
 
@@ -422,7 +421,6 @@ export const GET_CONSTANTS = {
     'DATE': 'date',
     'MANAGE_DEFAULT_PARAM': 'Manage default parameter',
     'MANAGE_PARAM': 'Manage parameters',
-    'TYPE': 'Type',
     'VALUE': 'Value',
     'DEFAULT_VALUE': 'Default value',
     'UPDATE_RULE': 'Update rule',
@@ -459,7 +457,6 @@ export const GET_CONSTANTS = {
     // Add employee type
     'EMPLOYEE_TYPE_NAME': 'Employee type name',
     'EMPLOYEE_TYPE_CATEGORY': 'Employee type category',
-    'DIMONA_TYPE': 'Dimona type',
     'DIMONA_CODE': 'Dimona Code',
     'CONSECUTIVE_DAY_LIMIT': 'Consecutive days limit',
     'SALARY_TYPE': 'Salary type',
