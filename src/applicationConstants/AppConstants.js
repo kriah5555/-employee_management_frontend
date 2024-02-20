@@ -668,6 +668,10 @@ export const GET_CONSTANTS = {
     'DE_ACTIVATE_ON_ALL_DEVICES': 'De-activate on all devices',
     'LOCATION_ACTIVATED_MESSAGE': 'Location activated successfully',
     'LOCATION_DEACTIVATED_MESSAGE': 'Location deactivated successfully',
-    'LOCATION_DEACTIVATED_ON_ALL_DEVICE': 'Location deactivated on all devices'
+    'LOCATION_DEACTIVATED_ON_ALL_DEVICE': 'Location deactivated on all devices',
+
+    //flex salary
+    'ADD_FLEX_SALARY': 'Add flex salary',
+    'FLEX_SALARY': 'Flex salary',
 
 };
