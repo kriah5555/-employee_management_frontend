@@ -13,7 +13,9 @@ import { APICALL as AXIOS } from "../services/AxiosServices";
 import { LogoutApiUrl, EmployeeSignApiUrl, UserDetailsApiUrl } from "../routes/ApiEndPoints";
 import { t } from '../translations/Translation';
 import SignaturePad from '../components/atoms/SignaturePad'
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import ErrorPopup from "../utilities/popup/ErrorPopup";
+
 
 export default function MyAccount({ setAuth }) {
 
@@ -23,6 +25,7 @@ export default function MyAccount({ setAuth }) {
     const [myProfileURL, setMyProfileURL] = useState("");
     const [sign, setSign] = useState(false);
     const [signData, setSignData] = useState("");
+    const [errors, setErrors] = useState([]);
 
     const MenuData = [
         { title: t("MY_PROFILE"), icon: '', url: myProfileURL },
@@ -69,6 +72,8 @@ export default function MyAccount({ setAuth }) {
                         theme: "colored",
                     });
                     setSign(false)
+                } else {
+                    setErrors(result.message);
                 }
             })
             .catch((error) => {
@@ -78,16 +83,16 @@ export default function MyAccount({ setAuth }) {
     // Function to call Logout Api call 
     const Logout = () => {
         AXIOS.service(LogoutApiUrl, 'GET')
-        .then((result) => {
-            if (result.success) {
-                let lastCompanyId = localStorage.getItem('company_id')
-                let previousLang = localStorage.getItem('active_language')
-                localStorage.clear();
-                localStorage.setItem('auth', false)
-                localStorage.setItem('company_id', lastCompanyId)
-                localStorage.setItem('active_language', previousLang)
-                setAuth(false);
-                navigate('/login');
+            .then((result) => {
+                if (result.success) {
+                    let lastCompanyId = localStorage.getItem('company_id')
+                    let previousLang = localStorage.getItem('active_language')
+                    localStorage.clear();
+                    localStorage.setItem('auth', false)
+                    localStorage.setItem('company_id', lastCompanyId)
+                    localStorage.setItem('active_language', previousLang)
+                    setAuth(false);
+                    navigate('/login');
                 }
             })
     }
@@ -95,6 +100,23 @@ export default function MyAccount({ setAuth }) {
 
     return (
         <div className="right-container">
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
+            {errors !== undefined && errors.length !== 0 && <ErrorPopup
+                title={t("VALIDATION_ERROR") + ("!")}
+                body={(errors)}
+                onHide={() => setErrors([])}
+            ></ErrorPopup>}
             <div className="col-md-3 mt-3 border bg-white text-center">
                 <ProfileImage />
                 <h4 className="text-center mx-auto mb-3 text-color" >{userName}</h4>
