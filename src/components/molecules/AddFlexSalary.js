@@ -13,15 +13,15 @@ export default function AddFlexSalary() {
     });
     const [errors, setErrors] = useState([]);
 
-    // useEffect(() => {
-    //     AXIOS.service(FlexSalaryCreateOrUpdateApiUrl + '/flex_min_salary', 'GET')
-    //         .then((result) => {
-    //             if (result?.success) {
-    //                 let data = { "value": result?.data?.europian_format }
-    //                 setFormData(data)
-    //             }
-    //         });
-    // }, [])
+    useEffect(() => {
+        AXIOS.service(FlexSalaryCreateOrUpdateApiUrl + '/flex_min_salary', 'GET')
+            .then((result) => {
+                if (result?.success) {
+                    let data = { "value": result?.data?.europian_format }
+                    setFormData(data)
+                }
+            });
+    }, [])
 
     const setValues = (index, name, value, field) => {
         let newData = { ...formData }
@@ -35,26 +35,26 @@ export default function AddFlexSalary() {
 
     const onSave = () => {
 
-        // AXIOS.service(FlexSalaryCreateOrUpdateApiUrl, 'POST', formData)
-        //     .then((result) => {
-        //         if (result?.success) {
-        //             toast.success(result.message[0], {
-        //                 position: "top-center",
-        //                 autoClose: 2000,
-        //                 hideProgressBar: false,
-        //                 closeOnClick: true,
-        //                 pauseOnHover: true,
-        //                 draggable: true,
-        //                 progress: undefined,
-        //                 theme: "colored",
-        //             });
-        //         } else {
-        //             setErrors(result.message);
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+        AXIOS.service(FlexSalaryCreateOrUpdateApiUrl, 'POST', formData)
+            .then((result) => {
+                if (result?.success) {
+                    toast.success(result.message[0], {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                } else {
+                    setErrors(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (
